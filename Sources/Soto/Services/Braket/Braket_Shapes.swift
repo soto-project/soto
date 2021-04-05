@@ -77,8 +77,10 @@ extension Braket {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.quantumTaskArn.forEach {}
             try self.validate(self.quantumTaskArn, name: "quantumTaskArn", parent: name, max: 256)
             try self.validate(self.quantumTaskArn, name: "quantumTaskArn", parent: name, min: 1)
         }
@@ -135,16 +137,22 @@ extension Braket {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.deviceArn.forEach {}
             try self.validate(self.deviceArn, name: "deviceArn", parent: name, max: 256)
             try self.validate(self.deviceArn, name: "deviceArn", parent: name, min: 1)
+            try self.deviceParameters?.forEach {}
             try self.validate(self.deviceParameters, name: "deviceParameters", parent: name, max: 2048)
             try self.validate(self.deviceParameters, name: "deviceParameters", parent: name, min: 1)
+            try self.outputS3Bucket.forEach {}
             try self.validate(self.outputS3Bucket, name: "outputS3Bucket", parent: name, max: 63)
             try self.validate(self.outputS3Bucket, name: "outputS3Bucket", parent: name, min: 3)
+            try self.outputS3KeyPrefix.forEach {}
             try self.validate(self.outputS3KeyPrefix, name: "outputS3KeyPrefix", parent: name, max: 1024)
             try self.validate(self.outputS3KeyPrefix, name: "outputS3KeyPrefix", parent: name, min: 1)
+            try self.shots.forEach {}
             try self.validate(self.shots, name: "shots", parent: name, min: 0)
         }
 
@@ -215,6 +223,7 @@ extension Braket {
         }
 
         public func validate(name: String) throws {
+            try self.deviceArn.forEach {}
             try self.validate(self.deviceArn, name: "deviceArn", parent: name, max: 256)
             try self.validate(self.deviceArn, name: "deviceArn", parent: name, min: 1)
         }
@@ -268,6 +277,7 @@ extension Braket {
         }
 
         public func validate(name: String) throws {
+            try self.quantumTaskArn.forEach {}
             try self.validate(self.quantumTaskArn, name: "quantumTaskArn", parent: name, max: 256)
             try self.validate(self.quantumTaskArn, name: "quantumTaskArn", parent: name, min: 1)
         }
@@ -417,12 +427,14 @@ extension Braket {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 256)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
+            try self.values.forEach {}
             try self.validate(self.values, name: "values", parent: name, max: 10)
             try self.validate(self.values, name: "values", parent: name, min: 1)
         }
@@ -451,8 +463,10 @@ extension Braket {
             try self.filters.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 10)
             try self.validate(self.filters, name: "filters", parent: name, min: 0)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -496,12 +510,14 @@ extension Braket {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 256)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
+            try self.values.forEach {}
             try self.validate(self.values, name: "values", parent: name, max: 10)
             try self.validate(self.values, name: "values", parent: name, min: 1)
         }
@@ -531,8 +547,10 @@ extension Braket {
             try self.filters.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 10)
             try self.validate(self.filters, name: "filters", parent: name, min: 0)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }

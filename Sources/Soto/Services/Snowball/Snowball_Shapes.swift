@@ -146,20 +146,33 @@ extension Snowball {
         }
 
         public func validate(name: String) throws {
+            try self.addressId?.forEach {}
             try self.validate(self.addressId, name: "addressId", parent: name, max: 40)
             try self.validate(self.addressId, name: "addressId", parent: name, min: 40)
             try self.validate(self.addressId, name: "addressId", parent: name, pattern: "ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try self.city?.forEach {}
             try self.validate(self.city, name: "city", parent: name, min: 1)
+            try self.company?.forEach {}
             try self.validate(self.company, name: "company", parent: name, min: 1)
+            try self.country?.forEach {}
             try self.validate(self.country, name: "country", parent: name, min: 1)
+            try self.landmark?.forEach {}
             try self.validate(self.landmark, name: "landmark", parent: name, min: 1)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.phoneNumber?.forEach {}
             try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, min: 1)
+            try self.postalCode?.forEach {}
             try self.validate(self.postalCode, name: "postalCode", parent: name, min: 1)
+            try self.prefectureOrDistrict?.forEach {}
             try self.validate(self.prefectureOrDistrict, name: "prefectureOrDistrict", parent: name, min: 1)
+            try self.stateOrProvince?.forEach {}
             try self.validate(self.stateOrProvince, name: "stateOrProvince", parent: name, min: 1)
+            try self.street1?.forEach {}
             try self.validate(self.street1, name: "street1", parent: name, min: 1)
+            try self.street2?.forEach {}
             try self.validate(self.street2, name: "street2", parent: name, min: 1)
+            try self.street3?.forEach {}
             try self.validate(self.street3, name: "street3", parent: name, min: 1)
         }
 
@@ -190,6 +203,7 @@ extension Snowball {
         }
 
         public func validate(name: String) throws {
+            try self.clusterId.forEach {}
             try self.validate(self.clusterId, name: "clusterId", parent: name, max: 39)
             try self.validate(self.clusterId, name: "clusterId", parent: name, min: 39)
             try self.validate(self.clusterId, name: "clusterId", parent: name, pattern: "CID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
@@ -213,6 +227,7 @@ extension Snowball {
         }
 
         public func validate(name: String) throws {
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 39)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 39)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "(M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
@@ -344,6 +359,7 @@ extension Snowball {
 
         public func validate(name: String) throws {
             try self.address.validate(name: "\(name).address")
+            try self.address.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -403,20 +419,28 @@ extension Snowball {
         }
 
         public func validate(name: String) throws {
+            try self.addressId.forEach {}
             try self.validate(self.addressId, name: "addressId", parent: name, max: 40)
             try self.validate(self.addressId, name: "addressId", parent: name, min: 40)
             try self.validate(self.addressId, name: "addressId", parent: name, pattern: "ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.forwardingAddressId?.forEach {}
             try self.validate(self.forwardingAddressId, name: "forwardingAddressId", parent: name, max: 40)
             try self.validate(self.forwardingAddressId, name: "forwardingAddressId", parent: name, min: 40)
             try self.validate(self.forwardingAddressId, name: "forwardingAddressId", parent: name, pattern: "ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try self.kmsKeyARN?.forEach {}
             try self.validate(self.kmsKeyARN, name: "kmsKeyARN", parent: name, max: 255)
             try self.validate(self.kmsKeyARN, name: "kmsKeyARN", parent: name, pattern: "arn:aws.*:kms:.*:[0-9]{12}:key/.*")
             try self.notification?.validate(name: "\(name).notification")
+            try self.notification?.forEach {}
             try self.resources.validate(name: "\(name).resources")
+            try self.resources.forEach {}
+            try self.roleARN.forEach {}
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 255)
             try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "arn:aws.*:iam::[0-9]{12}:role/.*")
             try self.taxDocuments?.validate(name: "\(name).taxDocuments")
+            try self.taxDocuments?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -495,23 +519,32 @@ extension Snowball {
         }
 
         public func validate(name: String) throws {
+            try self.addressId?.forEach {}
             try self.validate(self.addressId, name: "addressId", parent: name, max: 40)
             try self.validate(self.addressId, name: "addressId", parent: name, min: 40)
             try self.validate(self.addressId, name: "addressId", parent: name, pattern: "ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try self.clusterId?.forEach {}
             try self.validate(self.clusterId, name: "clusterId", parent: name, max: 39)
             try self.validate(self.clusterId, name: "clusterId", parent: name, min: 39)
             try self.validate(self.clusterId, name: "clusterId", parent: name, pattern: "CID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.forwardingAddressId?.forEach {}
             try self.validate(self.forwardingAddressId, name: "forwardingAddressId", parent: name, max: 40)
             try self.validate(self.forwardingAddressId, name: "forwardingAddressId", parent: name, min: 40)
             try self.validate(self.forwardingAddressId, name: "forwardingAddressId", parent: name, pattern: "ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try self.kmsKeyARN?.forEach {}
             try self.validate(self.kmsKeyARN, name: "kmsKeyARN", parent: name, max: 255)
             try self.validate(self.kmsKeyARN, name: "kmsKeyARN", parent: name, pattern: "arn:aws.*:kms:.*:[0-9]{12}:key/.*")
             try self.notification?.validate(name: "\(name).notification")
+            try self.notification?.forEach {}
             try self.resources?.validate(name: "\(name).resources")
+            try self.resources?.forEach {}
+            try self.roleARN?.forEach {}
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 255)
             try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "arn:aws.*:iam::[0-9]{12}:role/.*")
             try self.taxDocuments?.validate(name: "\(name).taxDocuments")
+            try self.taxDocuments?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -557,6 +590,7 @@ extension Snowball {
         }
 
         public func validate(name: String) throws {
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 39)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 39)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "(M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
@@ -615,6 +649,7 @@ extension Snowball {
         }
 
         public func validate(name: String) throws {
+            try self.addressId.forEach {}
             try self.validate(self.addressId, name: "addressId", parent: name, max: 40)
             try self.validate(self.addressId, name: "addressId", parent: name, min: 40)
             try self.validate(self.addressId, name: "addressId", parent: name, pattern: "ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
@@ -650,8 +685,10 @@ extension Snowball {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -687,6 +724,7 @@ extension Snowball {
         }
 
         public func validate(name: String) throws {
+            try self.clusterId.forEach {}
             try self.validate(self.clusterId, name: "clusterId", parent: name, max: 39)
             try self.validate(self.clusterId, name: "clusterId", parent: name, min: 39)
             try self.validate(self.clusterId, name: "clusterId", parent: name, pattern: "CID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
@@ -719,6 +757,7 @@ extension Snowball {
         }
 
         public func validate(name: String) throws {
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 39)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 39)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "(M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
@@ -755,6 +794,7 @@ extension Snowball {
         }
 
         public func validate(name: String) throws {
+            try self.jobId?.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 39)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 39)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "(M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
@@ -807,9 +847,11 @@ extension Snowball {
         }
 
         public func validate(name: String) throws {
+            try self.amiId.forEach {}
             try self.validate(self.amiId, name: "amiId", parent: name, max: 21)
             try self.validate(self.amiId, name: "amiId", parent: name, min: 12)
             try self.validate(self.amiId, name: "amiId", parent: name, pattern: "(ami-[0-9a-f]{8})|(ami-[0-9a-f]{17})")
+            try self.snowballAmiId?.forEach {}
             try self.validate(self.snowballAmiId, name: "snowballAmiId", parent: name, min: 1)
         }
 
@@ -828,6 +870,7 @@ extension Snowball {
         }
 
         public func validate(name: String) throws {
+            try self.eventResourceARN?.forEach {}
             try self.validate(self.eventResourceARN, name: "eventResourceARN", parent: name, max: 255)
         }
 
@@ -845,6 +888,7 @@ extension Snowball {
         }
 
         public func validate(name: String) throws {
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 39)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 39)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "(M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
@@ -877,6 +921,7 @@ extension Snowball {
         }
 
         public func validate(name: String) throws {
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 39)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 39)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "(M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
@@ -930,6 +975,7 @@ extension Snowball {
         }
 
         public func validate(name: String) throws {
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 39)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 39)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "(M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
@@ -962,6 +1008,7 @@ extension Snowball {
         }
 
         public func validate(name: String) throws {
+            try self.gstin?.forEach {}
             try self.validate(self.gstin, name: "gstin", parent: name, pattern: "\\d{2}[A-Z]{5}\\d{4}[A-Z]{1}[A-Z\\d]{1}[Z]{1}[A-Z\\d]{1}")
         }
 
@@ -1130,12 +1177,15 @@ extension Snowball {
             try self.ec2AmiResources?.forEach {
                 try $0.validate(name: "\(name).ec2AmiResources[]")
             }
+            try self.ec2AmiResources?.forEach {}
             try self.lambdaResources?.forEach {
                 try $0.validate(name: "\(name).lambdaResources[]")
             }
+            try self.lambdaResources?.forEach {}
             try self.s3Resources?.forEach {
                 try $0.validate(name: "\(name).s3Resources[]")
             }
+            try self.s3Resources?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1157,7 +1207,9 @@ extension Snowball {
         }
 
         public func validate(name: String) throws {
+            try self.beginMarker?.forEach {}
             try self.validate(self.beginMarker, name: "beginMarker", parent: name, min: 1)
+            try self.endMarker?.forEach {}
             try self.validate(self.endMarker, name: "endMarker", parent: name, min: 1)
         }
 
@@ -1182,6 +1234,8 @@ extension Snowball {
             try self.eventTriggers?.forEach {
                 try $0.validate(name: "\(name).eventTriggers[]")
             }
+            try self.eventTriggers?.forEach {}
+            try self.lambdaArn?.forEach {}
             try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, max: 255)
         }
 
@@ -1206,11 +1260,14 @@ extension Snowball {
         }
 
         public func validate(name: String) throws {
+            try self.clusterId.forEach {}
             try self.validate(self.clusterId, name: "clusterId", parent: name, max: 39)
             try self.validate(self.clusterId, name: "clusterId", parent: name, min: 39)
             try self.validate(self.clusterId, name: "clusterId", parent: name, pattern: "CID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -1250,8 +1307,10 @@ extension Snowball {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -1290,8 +1349,10 @@ extension Snowball {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -1330,8 +1391,10 @@ extension Snowball {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -1373,6 +1436,7 @@ extension Snowball {
         }
 
         public func validate(name: String) throws {
+            try self.snsTopicARN?.forEach {}
             try self.validate(self.snsTopicARN, name: "snsTopicARN", parent: name, max: 255)
             try self.validate(self.snsTopicARN, name: "snsTopicARN", parent: name, pattern: "arn:aws.*:sns:.*:[0-9]{12}:.*")
         }
@@ -1396,8 +1460,10 @@ extension Snowball {
         }
 
         public func validate(name: String) throws {
+            try self.bucketArn?.forEach {}
             try self.validate(self.bucketArn, name: "bucketArn", parent: name, max: 255)
             try self.keyRange?.validate(name: "\(name).keyRange")
+            try self.keyRange?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1466,6 +1532,7 @@ extension Snowball {
 
         public func validate(name: String) throws {
             try self.ind?.validate(name: "\(name).ind")
+            try self.ind?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1503,18 +1570,25 @@ extension Snowball {
         }
 
         public func validate(name: String) throws {
+            try self.addressId?.forEach {}
             try self.validate(self.addressId, name: "addressId", parent: name, max: 40)
             try self.validate(self.addressId, name: "addressId", parent: name, min: 40)
             try self.validate(self.addressId, name: "addressId", parent: name, pattern: "ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try self.clusterId.forEach {}
             try self.validate(self.clusterId, name: "clusterId", parent: name, max: 39)
             try self.validate(self.clusterId, name: "clusterId", parent: name, min: 39)
             try self.validate(self.clusterId, name: "clusterId", parent: name, pattern: "CID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.forwardingAddressId?.forEach {}
             try self.validate(self.forwardingAddressId, name: "forwardingAddressId", parent: name, max: 40)
             try self.validate(self.forwardingAddressId, name: "forwardingAddressId", parent: name, min: 40)
             try self.validate(self.forwardingAddressId, name: "forwardingAddressId", parent: name, pattern: "ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
             try self.notification?.validate(name: "\(name).notification")
+            try self.notification?.forEach {}
             try self.resources?.validate(name: "\(name).resources")
+            try self.resources?.forEach {}
+            try self.roleARN?.forEach {}
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 255)
             try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "arn:aws.*:iam::[0-9]{12}:role/.*")
         }
@@ -1568,18 +1642,25 @@ extension Snowball {
         }
 
         public func validate(name: String) throws {
+            try self.addressId?.forEach {}
             try self.validate(self.addressId, name: "addressId", parent: name, max: 40)
             try self.validate(self.addressId, name: "addressId", parent: name, min: 40)
             try self.validate(self.addressId, name: "addressId", parent: name, pattern: "ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.forwardingAddressId?.forEach {}
             try self.validate(self.forwardingAddressId, name: "forwardingAddressId", parent: name, max: 40)
             try self.validate(self.forwardingAddressId, name: "forwardingAddressId", parent: name, min: 40)
             try self.validate(self.forwardingAddressId, name: "forwardingAddressId", parent: name, pattern: "ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 39)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 39)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "(M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
             try self.notification?.validate(name: "\(name).notification")
+            try self.notification?.forEach {}
             try self.resources?.validate(name: "\(name).resources")
+            try self.resources?.forEach {}
+            try self.roleARN?.forEach {}
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 255)
             try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "arn:aws.*:iam::[0-9]{12}:role/.*")
         }
@@ -1613,6 +1694,7 @@ extension Snowball {
         }
 
         public func validate(name: String) throws {
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 39)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 39)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "(M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")

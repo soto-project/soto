@@ -582,6 +582,7 @@ extension ServerlessApplicationRepository {
         }
 
         public func validate(name: String) throws {
+            try self.maxItems?.forEach {}
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 100)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
         }
@@ -622,6 +623,7 @@ extension ServerlessApplicationRepository {
         }
 
         public func validate(name: String) throws {
+            try self.maxItems?.forEach {}
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 100)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
         }
@@ -659,6 +661,7 @@ extension ServerlessApplicationRepository {
         }
 
         public func validate(name: String) throws {
+            try self.maxItems?.forEach {}
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 100)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
         }

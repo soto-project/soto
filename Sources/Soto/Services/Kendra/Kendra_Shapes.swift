@@ -270,6 +270,12 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
+    public enum ServiceNowAuthenticationType: String, CustomStringConvertible, Codable {
+        case httpBasic = "HTTP_BASIC"
+        case oauth2 = "OAUTH2"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ServiceNowBuildVersionType: String, CustomStringConvertible, Codable {
         case london = "LONDON"
         case others = "OTHERS"
@@ -314,6 +320,7 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.keyPath?.forEach {}
             try self.validate(self.keyPath, name: "keyPath", parent: name, max: 1024)
             try self.validate(self.keyPath, name: "keyPath", parent: name, min: 1)
         }
@@ -332,6 +339,7 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.allowedGroupsColumnName.forEach {}
             try self.validate(self.allowedGroupsColumnName, name: "allowedGroupsColumnName", parent: name, max: 100)
             try self.validate(self.allowedGroupsColumnName, name: "allowedGroupsColumnName", parent: name, min: 1)
             try self.validate(self.allowedGroupsColumnName, name: "allowedGroupsColumnName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
@@ -415,17 +423,27 @@ extension Kendra {
             try self.andAllFilters?.forEach {
                 try $0.validate(name: "\(name).andAllFilters[]")
             }
+            try self.andAllFilters?.forEach {}
             try self.containsAll?.validate(name: "\(name).containsAll")
+            try self.containsAll?.forEach {}
             try self.containsAny?.validate(name: "\(name).containsAny")
+            try self.containsAny?.forEach {}
             try self.equalsTo?.validate(name: "\(name).equalsTo")
+            try self.equalsTo?.forEach {}
             try self.greaterThan?.validate(name: "\(name).greaterThan")
+            try self.greaterThan?.forEach {}
             try self.greaterThanOrEquals?.validate(name: "\(name).greaterThanOrEquals")
+            try self.greaterThanOrEquals?.forEach {}
             try self.lessThan?.validate(name: "\(name).lessThan")
+            try self.lessThan?.forEach {}
             try self.lessThanOrEquals?.validate(name: "\(name).lessThanOrEquals")
+            try self.lessThanOrEquals?.forEach {}
             try self.notFilter?.validate(name: "\(name).notFilter")
+            try self.notFilter?.forEach {}
             try self.orAllFilters?.forEach {
                 try $0.validate(name: "\(name).orAllFilters[]")
             }
+            try self.orAllFilters?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -457,12 +475,15 @@ extension Kendra {
 
         public func validate(name: String) throws {
             try self.dataSourceSyncJobMetricTarget?.validate(name: "\(name).dataSourceSyncJobMetricTarget")
+            try self.dataSourceSyncJobMetricTarget?.forEach {}
             try self.documentIdList.forEach {
                 try validate($0, name: "documentIdList[]", parent: name, max: 2048)
                 try validate($0, name: "documentIdList[]", parent: name, min: 1)
             }
+            try self.documentIdList.forEach {}
             try self.validate(self.documentIdList, name: "documentIdList", parent: name, max: 10)
             try self.validate(self.documentIdList, name: "documentIdList", parent: name, min: 1)
+            try self.indexId.forEach {}
             try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
@@ -527,11 +548,14 @@ extension Kendra {
             try self.documents.forEach {
                 try $0.validate(name: "\(name).documents[]")
             }
+            try self.documents.forEach {}
             try self.validate(self.documents, name: "documents", parent: name, max: 10)
             try self.validate(self.documents, name: "documents", parent: name, min: 1)
+            try self.indexId.forEach {}
             try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+            try self.roleArn?.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
@@ -590,7 +614,9 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.queryCapacityUnits.forEach {}
             try self.validate(self.queryCapacityUnits, name: "queryCapacityUnits", parent: name, min: 0)
+            try self.storageCapacityUnits.forEach {}
             try self.validate(self.storageCapacityUnits, name: "storageCapacityUnits", parent: name, min: 0)
         }
 
@@ -612,6 +638,7 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.resultId.forEach {}
             try self.validate(self.resultId, name: "resultId", parent: name, max: 73)
             try self.validate(self.resultId, name: "resultId", parent: name, min: 1)
         }
@@ -648,20 +675,25 @@ extension Kendra {
                 try validate($0, name: "changeDetectingColumns[]", parent: name, min: 1)
                 try validate($0, name: "changeDetectingColumns[]", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
             }
+            try self.changeDetectingColumns.forEach {}
             try self.validate(self.changeDetectingColumns, name: "changeDetectingColumns", parent: name, max: 5)
             try self.validate(self.changeDetectingColumns, name: "changeDetectingColumns", parent: name, min: 1)
+            try self.documentDataColumnName.forEach {}
             try self.validate(self.documentDataColumnName, name: "documentDataColumnName", parent: name, max: 100)
             try self.validate(self.documentDataColumnName, name: "documentDataColumnName", parent: name, min: 1)
             try self.validate(self.documentDataColumnName, name: "documentDataColumnName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+            try self.documentIdColumnName.forEach {}
             try self.validate(self.documentIdColumnName, name: "documentIdColumnName", parent: name, max: 100)
             try self.validate(self.documentIdColumnName, name: "documentIdColumnName", parent: name, min: 1)
             try self.validate(self.documentIdColumnName, name: "documentIdColumnName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+            try self.documentTitleColumnName?.forEach {}
             try self.validate(self.documentTitleColumnName, name: "documentTitleColumnName", parent: name, max: 100)
             try self.validate(self.documentTitleColumnName, name: "documentTitleColumnName", parent: name, min: 1)
             try self.validate(self.documentTitleColumnName, name: "documentTitleColumnName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
             try self.fieldMappings?.forEach {
                 try $0.validate(name: "\(name).fieldMappings[]")
             }
+            try self.fieldMappings?.forEach {}
             try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, max: 100)
             try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, min: 1)
         }
@@ -690,6 +722,7 @@ extension Kendra {
             try self.attachmentFieldMappings?.forEach {
                 try $0.validate(name: "\(name).attachmentFieldMappings[]")
             }
+            try self.attachmentFieldMappings?.forEach {}
             try self.validate(self.attachmentFieldMappings, name: "attachmentFieldMappings", parent: name, max: 11)
             try self.validate(self.attachmentFieldMappings, name: "attachmentFieldMappings", parent: name, min: 1)
         }
@@ -701,7 +734,7 @@ extension Kendra {
     }
 
     public struct ConfluenceAttachmentToIndexFieldMapping: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the field in the data source.  You must first create the index field using the operation.
+        /// The name of the field in the data source.  You must first create the index field using the UpdateIndex operation.
         public let dataSourceFieldName: ConfluenceAttachmentFieldName?
         /// The format for date fields in the data source. If the field specified in DataSourceFieldName is a date field you must specify the date format. If the field is not a date field, an exception is thrown.
         public let dateFieldFormat: String?
@@ -715,9 +748,11 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.dateFieldFormat?.forEach {}
             try self.validate(self.dateFieldFormat, name: "dateFieldFormat", parent: name, max: 40)
             try self.validate(self.dateFieldFormat, name: "dateFieldFormat", parent: name, min: 4)
             try self.validate(self.dateFieldFormat, name: "dateFieldFormat", parent: name, pattern: "^(?!\\s).*(?<!\\s)$")
+            try self.indexFieldName?.forEach {}
             try self.validate(self.indexFieldName, name: "indexFieldName", parent: name, max: 30)
             try self.validate(self.indexFieldName, name: "indexFieldName", parent: name, min: 1)
             try self.validate(self.indexFieldName, name: "indexFieldName", parent: name, pattern: "^\\P{C}*$")
@@ -742,6 +777,7 @@ extension Kendra {
             try self.blogFieldMappings?.forEach {
                 try $0.validate(name: "\(name).blogFieldMappings[]")
             }
+            try self.blogFieldMappings?.forEach {}
             try self.validate(self.blogFieldMappings, name: "blogFieldMappings", parent: name, max: 9)
             try self.validate(self.blogFieldMappings, name: "blogFieldMappings", parent: name, min: 1)
         }
@@ -766,9 +802,11 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.dateFieldFormat?.forEach {}
             try self.validate(self.dateFieldFormat, name: "dateFieldFormat", parent: name, max: 40)
             try self.validate(self.dateFieldFormat, name: "dateFieldFormat", parent: name, min: 4)
             try self.validate(self.dateFieldFormat, name: "dateFieldFormat", parent: name, pattern: "^(?!\\s).*(?<!\\s)$")
+            try self.indexFieldName?.forEach {}
             try self.validate(self.indexFieldName, name: "indexFieldName", parent: name, max: 30)
             try self.validate(self.indexFieldName, name: "indexFieldName", parent: name, min: 1)
             try self.validate(self.indexFieldName, name: "indexFieldName", parent: name, pattern: "^\\P{C}*$")
@@ -818,28 +856,37 @@ extension Kendra {
 
         public func validate(name: String) throws {
             try self.attachmentConfiguration?.validate(name: "\(name).attachmentConfiguration")
+            try self.attachmentConfiguration?.forEach {}
             try self.blogConfiguration?.validate(name: "\(name).blogConfiguration")
+            try self.blogConfiguration?.forEach {}
             try self.exclusionPatterns?.forEach {
                 try validate($0, name: "exclusionPatterns[]", parent: name, max: 150)
                 try validate($0, name: "exclusionPatterns[]", parent: name, min: 1)
             }
+            try self.exclusionPatterns?.forEach {}
             try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 100)
             try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, min: 0)
             try self.inclusionPatterns?.forEach {
                 try validate($0, name: "inclusionPatterns[]", parent: name, max: 150)
                 try validate($0, name: "inclusionPatterns[]", parent: name, min: 1)
             }
+            try self.inclusionPatterns?.forEach {}
             try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 100)
             try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, min: 0)
             try self.pageConfiguration?.validate(name: "\(name).pageConfiguration")
+            try self.pageConfiguration?.forEach {}
+            try self.secretArn.forEach {}
             try self.validate(self.secretArn, name: "secretArn", parent: name, max: 1284)
             try self.validate(self.secretArn, name: "secretArn", parent: name, min: 1)
             try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.serverUrl.forEach {}
             try self.validate(self.serverUrl, name: "serverUrl", parent: name, max: 2048)
             try self.validate(self.serverUrl, name: "serverUrl", parent: name, min: 1)
             try self.validate(self.serverUrl, name: "serverUrl", parent: name, pattern: "^(https?|ftp|file):\\/\\/([^\\s]*)")
             try self.spaceConfiguration?.validate(name: "\(name).spaceConfiguration")
+            try self.spaceConfiguration?.forEach {}
             try self.vpcConfiguration?.validate(name: "\(name).vpcConfiguration")
+            try self.vpcConfiguration?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -868,6 +915,7 @@ extension Kendra {
             try self.pageFieldMappings?.forEach {
                 try $0.validate(name: "\(name).pageFieldMappings[]")
             }
+            try self.pageFieldMappings?.forEach {}
             try self.validate(self.pageFieldMappings, name: "pageFieldMappings", parent: name, max: 12)
             try self.validate(self.pageFieldMappings, name: "pageFieldMappings", parent: name, min: 1)
         }
@@ -892,9 +940,11 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.dateFieldFormat?.forEach {}
             try self.validate(self.dateFieldFormat, name: "dateFieldFormat", parent: name, max: 40)
             try self.validate(self.dateFieldFormat, name: "dateFieldFormat", parent: name, min: 4)
             try self.validate(self.dateFieldFormat, name: "dateFieldFormat", parent: name, pattern: "^(?!\\s).*(?<!\\s)$")
+            try self.indexFieldName?.forEach {}
             try self.validate(self.indexFieldName, name: "indexFieldName", parent: name, max: 30)
             try self.validate(self.indexFieldName, name: "indexFieldName", parent: name, min: 1)
             try self.validate(self.indexFieldName, name: "indexFieldName", parent: name, pattern: "^\\P{C}*$")
@@ -933,16 +983,19 @@ extension Kendra {
                 try validate($0, name: "excludeSpaces[]", parent: name, min: 1)
                 try validate($0, name: "excludeSpaces[]", parent: name, pattern: "^\\P{C}*$")
             }
+            try self.excludeSpaces?.forEach {}
             try self.validate(self.excludeSpaces, name: "excludeSpaces", parent: name, min: 1)
             try self.includeSpaces?.forEach {
                 try validate($0, name: "includeSpaces[]", parent: name, max: 255)
                 try validate($0, name: "includeSpaces[]", parent: name, min: 1)
                 try validate($0, name: "includeSpaces[]", parent: name, pattern: "^\\P{C}*$")
             }
+            try self.includeSpaces?.forEach {}
             try self.validate(self.includeSpaces, name: "includeSpaces", parent: name, min: 1)
             try self.spaceFieldMappings?.forEach {
                 try $0.validate(name: "\(name).spaceFieldMappings[]")
             }
+            try self.spaceFieldMappings?.forEach {}
             try self.validate(self.spaceFieldMappings, name: "spaceFieldMappings", parent: name, max: 4)
             try self.validate(self.spaceFieldMappings, name: "spaceFieldMappings", parent: name, min: 1)
         }
@@ -971,9 +1024,11 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.dateFieldFormat?.forEach {}
             try self.validate(self.dateFieldFormat, name: "dateFieldFormat", parent: name, max: 40)
             try self.validate(self.dateFieldFormat, name: "dateFieldFormat", parent: name, min: 4)
             try self.validate(self.dateFieldFormat, name: "dateFieldFormat", parent: name, pattern: "^(?!\\s).*(?<!\\s)$")
+            try self.indexFieldName?.forEach {}
             try self.validate(self.indexFieldName, name: "indexFieldName", parent: name, max: 30)
             try self.validate(self.indexFieldName, name: "indexFieldName", parent: name, min: 1)
             try self.validate(self.indexFieldName, name: "indexFieldName", parent: name, pattern: "^\\P{C}*$")
@@ -1007,16 +1062,21 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.databaseHost.forEach {}
             try self.validate(self.databaseHost, name: "databaseHost", parent: name, max: 253)
             try self.validate(self.databaseHost, name: "databaseHost", parent: name, min: 1)
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 100)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+            try self.databasePort.forEach {}
             try self.validate(self.databasePort, name: "databasePort", parent: name, max: 65535)
             try self.validate(self.databasePort, name: "databasePort", parent: name, min: 1)
+            try self.secretArn.forEach {}
             try self.validate(self.secretArn, name: "secretArn", parent: name, max: 1284)
             try self.validate(self.secretArn, name: "secretArn", parent: name, min: 1)
             try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.tableName.forEach {}
             try self.validate(self.tableName, name: "tableName", parent: name, max: 100)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
@@ -1064,24 +1124,31 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.configuration?.validate(name: "\(name).configuration")
+            try self.configuration?.forEach {}
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, pattern: "^\\P{C}*$")
+            try self.indexId.forEach {}
             try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1000)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.roleArn?.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -1142,24 +1209,31 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, pattern: "^\\P{C}*$")
+            try self.indexId.forEach {}
             try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try self.s3Path.validate(name: "\(name).s3Path")
+            try self.s3Path.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -1222,26 +1296,33 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, pattern: "^\\P{C}*$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1000)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try self.serverSideEncryptionConfiguration?.validate(name: "\(name).serverSideEncryptionConfiguration")
+            try self.serverSideEncryptionConfiguration?.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
             try self.userTokenConfigurations?.forEach {
                 try $0.validate(name: "\(name).userTokenConfigurations[]")
             }
+            try self.userTokenConfigurations?.forEach {}
             try self.validate(self.userTokenConfigurations, name: "userTokenConfigurations", parent: name, max: 1)
         }
 
@@ -1298,24 +1379,31 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, pattern: "^\\P{C}*$")
+            try self.indexId.forEach {}
             try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try self.sourceS3Path.validate(name: "\(name).sourceS3Path")
+            try self.sourceS3Path.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -1375,13 +1463,21 @@ extension Kendra {
 
         public func validate(name: String) throws {
             try self.confluenceConfiguration?.validate(name: "\(name).confluenceConfiguration")
+            try self.confluenceConfiguration?.forEach {}
             try self.databaseConfiguration?.validate(name: "\(name).databaseConfiguration")
+            try self.databaseConfiguration?.forEach {}
             try self.googleDriveConfiguration?.validate(name: "\(name).googleDriveConfiguration")
+            try self.googleDriveConfiguration?.forEach {}
             try self.oneDriveConfiguration?.validate(name: "\(name).oneDriveConfiguration")
+            try self.oneDriveConfiguration?.forEach {}
             try self.s3Configuration?.validate(name: "\(name).s3Configuration")
+            try self.s3Configuration?.forEach {}
             try self.salesforceConfiguration?.validate(name: "\(name).salesforceConfiguration")
+            try self.salesforceConfiguration?.forEach {}
             try self.serviceNowConfiguration?.validate(name: "\(name).serviceNowConfiguration")
+            try self.serviceNowConfiguration?.forEach {}
             try self.sharePointConfiguration?.validate(name: "\(name).sharePointConfiguration")
+            try self.sharePointConfiguration?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1403,7 +1499,7 @@ extension Kendra {
         public let id: String?
         /// The name of the data source.
         public let name: String?
-        /// The status of the data source. When the status is ATIVE the data source is ready to use.
+        /// The status of the data source. When the status is ACTIVE the data source is ready to use.
         public let status: DataSourceStatus?
         /// The type of the data source.
         public let type: DataSourceType?
@@ -1482,9 +1578,11 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.dataSourceId.forEach {}
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, max: 100)
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, min: 1)
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.dataSourceSyncJobId.forEach {}
             try self.validate(self.dataSourceSyncJobId, name: "dataSourceSyncJobId", parent: name, max: 100)
             try self.validate(self.dataSourceSyncJobId, name: "dataSourceSyncJobId", parent: name, min: 1)
             try self.validate(self.dataSourceSyncJobId, name: "dataSourceSyncJobId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
@@ -1540,12 +1638,15 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.dataSourceFieldName.forEach {}
             try self.validate(self.dataSourceFieldName, name: "dataSourceFieldName", parent: name, max: 100)
             try self.validate(self.dataSourceFieldName, name: "dataSourceFieldName", parent: name, min: 1)
             try self.validate(self.dataSourceFieldName, name: "dataSourceFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
+            try self.dateFieldFormat?.forEach {}
             try self.validate(self.dateFieldFormat, name: "dateFieldFormat", parent: name, max: 40)
             try self.validate(self.dateFieldFormat, name: "dateFieldFormat", parent: name, min: 4)
             try self.validate(self.dateFieldFormat, name: "dateFieldFormat", parent: name, pattern: "^(?!\\s).*(?<!\\s)$")
+            try self.indexFieldName.forEach {}
             try self.validate(self.indexFieldName, name: "indexFieldName", parent: name, max: 30)
             try self.validate(self.indexFieldName, name: "indexFieldName", parent: name, min: 1)
             try self.validate(self.indexFieldName, name: "indexFieldName", parent: name, pattern: "^\\P{C}*$")
@@ -1575,6 +1676,7 @@ extension Kendra {
                 try validate($0, name: "securityGroupIds[]", parent: name, min: 1)
                 try validate($0, name: "securityGroupIds[]", parent: name, pattern: "[-0-9a-zA-Z]+")
             }
+            try self.securityGroupIds.forEach {}
             try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 10)
             try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, min: 1)
             try self.subnetIds.forEach {
@@ -1582,6 +1684,7 @@ extension Kendra {
                 try validate($0, name: "subnetIds[]", parent: name, min: 1)
                 try validate($0, name: "subnetIds[]", parent: name, pattern: "[\\-0-9a-zA-Z]+")
             }
+            try self.subnetIds.forEach {}
             try self.validate(self.subnetIds, name: "subnetIds", parent: name, max: 6)
             try self.validate(self.subnetIds, name: "subnetIds", parent: name, min: 1)
         }
@@ -1616,9 +1719,13 @@ extension Kendra {
 
         public func validate(name: String) throws {
             try self.aclConfiguration?.validate(name: "\(name).aclConfiguration")
+            try self.aclConfiguration?.forEach {}
             try self.columnConfiguration.validate(name: "\(name).columnConfiguration")
+            try self.columnConfiguration.forEach {}
             try self.connectionConfiguration.validate(name: "\(name).connectionConfiguration")
+            try self.connectionConfiguration.forEach {}
             try self.vpcConfiguration?.validate(name: "\(name).vpcConfiguration")
+            try self.vpcConfiguration?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1643,9 +1750,11 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.indexId.forEach {}
             try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
@@ -1669,9 +1778,11 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.indexId.forEach {}
             try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
@@ -1692,6 +1803,7 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 36)
             try self.validate(self.id, name: "id", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
@@ -1714,9 +1826,11 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.indexId.forEach {}
             try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
@@ -1740,9 +1854,11 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.indexId.forEach {}
             try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
@@ -1823,9 +1939,11 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.indexId.forEach {}
             try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
@@ -1898,6 +2016,7 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 36)
             try self.validate(self.id, name: "id", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
@@ -1909,7 +2028,7 @@ extension Kendra {
     }
 
     public struct DescribeIndexResponse: AWSDecodableShape {
-        /// For enterprise edtion indexes, you can choose to use additional capacity to meet the needs of your application. This contains the capacity units used for the index. A 0 for the query capacity or the storage capacity indicates that the index is using the default capacity for the index.
+        /// For Enterprise edition indexes, you can choose to use additional capacity to meet the needs of your application. This contains the capacity units used for the index. A 0 for the query capacity or the storage capacity indicates that the index is using the default capacity for the index.
         public let capacityUnits: CapacityUnitsConfiguration?
         /// The Unix datetime that the index was created.
         public let createdAt: Date?
@@ -1989,9 +2108,11 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.indexId.forEach {}
             try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
@@ -2092,12 +2213,16 @@ extension Kendra {
             try self.accessControlList?.forEach {
                 try $0.validate(name: "\(name).accessControlList[]")
             }
+            try self.accessControlList?.forEach {}
             try self.attributes?.forEach {
                 try $0.validate(name: "\(name).attributes[]")
             }
+            try self.attributes?.forEach {}
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 2048)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.s3Path?.validate(name: "\(name).s3Path")
+            try self.s3Path?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2123,10 +2248,12 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 200)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "[a-zA-Z0-9_][a-zA-Z0-9_-]*")
             try self.value.validate(name: "\(name).value")
+            try self.value.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2157,6 +2284,8 @@ extension Kendra {
                 try validate($0, name: "stringListValue[]", parent: name, max: 2048)
                 try validate($0, name: "stringListValue[]", parent: name, min: 1)
             }
+            try self.stringListValue?.forEach {}
+            try self.stringValue?.forEach {}
             try self.validate(self.stringValue, name: "stringValue", parent: name, max: 2048)
             try self.validate(self.stringValue, name: "stringValue", parent: name, min: 1)
         }
@@ -2204,9 +2333,11 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 30)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.relevance?.validate(name: "\(name).relevance")
+            try self.relevance?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2226,6 +2357,7 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.s3Prefix?.forEach {}
             try self.validate(self.s3Prefix, name: "s3Prefix", parent: name, max: 1024)
             try self.validate(self.s3Prefix, name: "s3Prefix", parent: name, min: 1)
         }
@@ -2244,6 +2376,7 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.documentAttributeKey?.forEach {}
             try self.validate(self.documentAttributeKey, name: "documentAttributeKey", parent: name, max: 200)
             try self.validate(self.documentAttributeKey, name: "documentAttributeKey", parent: name, min: 1)
             try self.validate(self.documentAttributeKey, name: "documentAttributeKey", parent: name, pattern: "[a-zA-Z0-9_][a-zA-Z0-9_-]*")
@@ -2353,6 +2486,7 @@ extension Kendra {
                 try validate($0, name: "excludeMimeTypes[]", parent: name, min: 1)
                 try validate($0, name: "excludeMimeTypes[]", parent: name, pattern: "^\\P{C}*$")
             }
+            try self.excludeMimeTypes?.forEach {}
             try self.validate(self.excludeMimeTypes, name: "excludeMimeTypes", parent: name, max: 30)
             try self.validate(self.excludeMimeTypes, name: "excludeMimeTypes", parent: name, min: 0)
             try self.excludeSharedDrives?.forEach {
@@ -2360,6 +2494,7 @@ extension Kendra {
                 try validate($0, name: "excludeSharedDrives[]", parent: name, min: 1)
                 try validate($0, name: "excludeSharedDrives[]", parent: name, pattern: "^\\P{C}*$")
             }
+            try self.excludeSharedDrives?.forEach {}
             try self.validate(self.excludeSharedDrives, name: "excludeSharedDrives", parent: name, max: 100)
             try self.validate(self.excludeSharedDrives, name: "excludeSharedDrives", parent: name, min: 0)
             try self.excludeUserAccounts?.forEach {
@@ -2367,25 +2502,30 @@ extension Kendra {
                 try validate($0, name: "excludeUserAccounts[]", parent: name, min: 1)
                 try validate($0, name: "excludeUserAccounts[]", parent: name, pattern: "^\\P{C}*$")
             }
+            try self.excludeUserAccounts?.forEach {}
             try self.validate(self.excludeUserAccounts, name: "excludeUserAccounts", parent: name, max: 100)
             try self.validate(self.excludeUserAccounts, name: "excludeUserAccounts", parent: name, min: 0)
             try self.exclusionPatterns?.forEach {
                 try validate($0, name: "exclusionPatterns[]", parent: name, max: 150)
                 try validate($0, name: "exclusionPatterns[]", parent: name, min: 1)
             }
+            try self.exclusionPatterns?.forEach {}
             try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 100)
             try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, min: 0)
             try self.fieldMappings?.forEach {
                 try $0.validate(name: "\(name).fieldMappings[]")
             }
+            try self.fieldMappings?.forEach {}
             try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, max: 100)
             try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, min: 1)
             try self.inclusionPatterns?.forEach {
                 try validate($0, name: "inclusionPatterns[]", parent: name, max: 150)
                 try validate($0, name: "inclusionPatterns[]", parent: name, min: 1)
             }
+            try self.inclusionPatterns?.forEach {}
             try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 100)
             try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, min: 0)
+            try self.secretArn.forEach {}
             try self.validate(self.secretArn, name: "secretArn", parent: name, max: 1284)
             try self.validate(self.secretArn, name: "secretArn", parent: name, min: 1)
             try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
@@ -2489,8 +2629,10 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.groupAttributeField.forEach {}
             try self.validate(self.groupAttributeField, name: "groupAttributeField", parent: name, max: 2048)
             try self.validate(self.groupAttributeField, name: "groupAttributeField", parent: name, min: 1)
+            try self.userNameAttributeField.forEach {}
             try self.validate(self.userNameAttributeField, name: "userNameAttributeField", parent: name, max: 2048)
             try self.validate(self.userNameAttributeField, name: "userNameAttributeField", parent: name, min: 1)
         }
@@ -2528,21 +2670,27 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.claimRegex?.forEach {}
             try self.validate(self.claimRegex, name: "claimRegex", parent: name, max: 100)
             try self.validate(self.claimRegex, name: "claimRegex", parent: name, min: 1)
             try self.validate(self.claimRegex, name: "claimRegex", parent: name, pattern: "^\\P{C}*$")
+            try self.groupAttributeField?.forEach {}
             try self.validate(self.groupAttributeField, name: "groupAttributeField", parent: name, max: 100)
             try self.validate(self.groupAttributeField, name: "groupAttributeField", parent: name, min: 1)
             try self.validate(self.groupAttributeField, name: "groupAttributeField", parent: name, pattern: "^\\P{C}*$")
+            try self.issuer?.forEach {}
             try self.validate(self.issuer, name: "issuer", parent: name, max: 65)
             try self.validate(self.issuer, name: "issuer", parent: name, min: 1)
             try self.validate(self.issuer, name: "issuer", parent: name, pattern: "^\\P{C}*$")
+            try self.secretManagerArn?.forEach {}
             try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, max: 1284)
             try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, min: 1)
             try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.url?.forEach {}
             try self.validate(self.url, name: "url", parent: name, max: 2048)
             try self.validate(self.url, name: "url", parent: name, min: 1)
             try self.validate(self.url, name: "url", parent: name, pattern: "^(https?|ftp|file):\\/\\/([^\\s]*)")
+            try self.userNameAttributeField?.forEach {}
             try self.validate(self.userNameAttributeField, name: "userNameAttributeField", parent: name, max: 100)
             try self.validate(self.userNameAttributeField, name: "userNameAttributeField", parent: name, min: 1)
             try self.validate(self.userNameAttributeField, name: "userNameAttributeField", parent: name, pattern: "^\\P{C}*$")
@@ -2583,14 +2731,18 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.indexId.forEach {}
             try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 800)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2637,11 +2789,14 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.indexId.forEach {}
             try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 800)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2685,11 +2840,14 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.indexId.forEach {}
             try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 800)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2730,8 +2888,10 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 800)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2768,6 +2928,7 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
         }
@@ -2805,11 +2966,14 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.indexId.forEach {}
             try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 800)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2869,23 +3033,29 @@ extension Kendra {
                 try validate($0, name: "exclusionPatterns[]", parent: name, max: 150)
                 try validate($0, name: "exclusionPatterns[]", parent: name, min: 1)
             }
+            try self.exclusionPatterns?.forEach {}
             try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 100)
             try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, min: 0)
             try self.fieldMappings?.forEach {
                 try $0.validate(name: "\(name).fieldMappings[]")
             }
+            try self.fieldMappings?.forEach {}
             try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, max: 100)
             try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, min: 1)
             try self.inclusionPatterns?.forEach {
                 try validate($0, name: "inclusionPatterns[]", parent: name, max: 150)
                 try validate($0, name: "inclusionPatterns[]", parent: name, min: 1)
             }
+            try self.inclusionPatterns?.forEach {}
             try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 100)
             try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, min: 0)
             try self.oneDriveUsers.validate(name: "\(name).oneDriveUsers")
+            try self.oneDriveUsers.forEach {}
+            try self.secretArn.forEach {}
             try self.validate(self.secretArn, name: "secretArn", parent: name, max: 1284)
             try self.validate(self.secretArn, name: "secretArn", parent: name, min: 1)
             try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.tenantDomain.forEach {}
             try self.validate(self.tenantDomain, name: "tenantDomain", parent: name, max: 256)
             try self.validate(self.tenantDomain, name: "tenantDomain", parent: name, min: 1)
             try self.validate(self.tenantDomain, name: "tenantDomain", parent: name, pattern: "^([a-zA-Z0-9]+(-[a-zA-Z0-9]+)*\\.)+[a-z]{2,}$")
@@ -2919,9 +3089,11 @@ extension Kendra {
                 try validate($0, name: "oneDriveUserList[]", parent: name, min: 1)
                 try validate($0, name: "oneDriveUserList[]", parent: name, pattern: "^(?!\\s).+@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$")
             }
+            try self.oneDriveUserList?.forEach {}
             try self.validate(self.oneDriveUserList, name: "oneDriveUserList", parent: name, max: 100)
             try self.validate(self.oneDriveUserList, name: "oneDriveUserList", parent: name, min: 1)
             try self.oneDriveUserS3Path?.validate(name: "\(name).oneDriveUserS3Path")
+            try self.oneDriveUserS3Path?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2945,6 +3117,7 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 200)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^\\P{C}*$")
@@ -2962,7 +3135,7 @@ extension Kendra {
         public let attributeFilter: AttributeFilter?
         /// An array of documents attributes. Amazon Kendra returns a count for each attribute key specified. You can use this information to help narrow the search for your user.
         public let facets: [Facet]?
-        /// The unique identifier of the index to search. The identifier is returned in the response from the operation.
+        /// The unique identifier of the index to search. The identifier is returned in the response from the CreateIndex operation.
         public let indexId: String
         /// Query results are returned in pages the size of the PageSize parameter. By default, Amazon Kendra returns the first page of results. Use this parameter to get result pages after the first one.
         public let pageNumber: Int?
@@ -2997,12 +3170,16 @@ extension Kendra {
 
         public func validate(name: String) throws {
             try self.attributeFilter?.validate(name: "\(name).attributeFilter")
+            try self.attributeFilter?.forEach {}
             try self.facets?.forEach {
                 try $0.validate(name: "\(name).facets[]")
             }
+            try self.facets?.forEach {}
+            try self.indexId.forEach {}
             try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+            try self.queryText.forEach {}
             try self.validate(self.queryText, name: "queryText", parent: name, max: 1000)
             try self.validate(self.queryText, name: "queryText", parent: name, min: 1)
             try self.validate(self.queryText, name: "queryText", parent: name, pattern: "^\\P{C}*$")
@@ -3011,10 +3188,14 @@ extension Kendra {
                 try validate($0, name: "requestedDocumentAttributes[]", parent: name, min: 1)
                 try validate($0, name: "requestedDocumentAttributes[]", parent: name, pattern: "[a-zA-Z0-9_][a-zA-Z0-9_-]*")
             }
+            try self.requestedDocumentAttributes?.forEach {}
             try self.validate(self.requestedDocumentAttributes, name: "requestedDocumentAttributes", parent: name, max: 100)
             try self.validate(self.requestedDocumentAttributes, name: "requestedDocumentAttributes", parent: name, min: 1)
             try self.sortingConfiguration?.validate(name: "\(name).sortingConfiguration")
+            try self.sortingConfiguration?.forEach {}
             try self.userContext?.validate(name: "\(name).userContext")
+            try self.userContext?.forEach {}
+            try self.visitorId?.forEach {}
             try self.validate(self.visitorId, name: "visitorId", parent: name, max: 256)
             try self.validate(self.visitorId, name: "visitorId", parent: name, min: 1)
             try self.validate(self.visitorId, name: "visitorId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
@@ -3130,9 +3311,11 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.duration?.forEach {}
             try self.validate(self.duration, name: "duration", parent: name, max: 10)
             try self.validate(self.duration, name: "duration", parent: name, min: 1)
             try self.validate(self.duration, name: "duration", parent: name, pattern: "[0-9]+[s]")
+            try self.importance?.forEach {}
             try self.validate(self.importance, name: "importance", parent: name, max: 10)
             try self.validate(self.importance, name: "importance", parent: name, min: 1)
             try self.valueImportanceMap?.forEach {
@@ -3164,6 +3347,7 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.resultId.forEach {}
             try self.validate(self.resultId, name: "resultId", parent: name, max: 73)
             try self.validate(self.resultId, name: "resultId", parent: name, min: 1)
         }
@@ -3198,26 +3382,32 @@ extension Kendra {
 
         public func validate(name: String) throws {
             try self.accessControlListConfiguration?.validate(name: "\(name).accessControlListConfiguration")
+            try self.accessControlListConfiguration?.forEach {}
+            try self.bucketName.forEach {}
             try self.validate(self.bucketName, name: "bucketName", parent: name, max: 63)
             try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
             try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]")
             try self.documentsMetadataConfiguration?.validate(name: "\(name).documentsMetadataConfiguration")
+            try self.documentsMetadataConfiguration?.forEach {}
             try self.exclusionPatterns?.forEach {
                 try validate($0, name: "exclusionPatterns[]", parent: name, max: 150)
                 try validate($0, name: "exclusionPatterns[]", parent: name, min: 1)
             }
+            try self.exclusionPatterns?.forEach {}
             try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 100)
             try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, min: 0)
             try self.inclusionPatterns?.forEach {
                 try validate($0, name: "inclusionPatterns[]", parent: name, max: 150)
                 try validate($0, name: "inclusionPatterns[]", parent: name, min: 1)
             }
+            try self.inclusionPatterns?.forEach {}
             try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 100)
             try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, min: 0)
             try self.inclusionPrefixes?.forEach {
                 try validate($0, name: "inclusionPrefixes[]", parent: name, max: 150)
                 try validate($0, name: "inclusionPrefixes[]", parent: name, min: 1)
             }
+            try self.inclusionPrefixes?.forEach {}
             try self.validate(self.inclusionPrefixes, name: "inclusionPrefixes", parent: name, max: 100)
             try self.validate(self.inclusionPrefixes, name: "inclusionPrefixes", parent: name, min: 0)
         }
@@ -3244,9 +3434,11 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.bucket.forEach {}
             try self.validate(self.bucket, name: "bucket", parent: name, max: 63)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
             try self.validate(self.bucket, name: "bucket", parent: name, pattern: "[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]")
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 1024)
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
@@ -3275,17 +3467,21 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.documentDataFieldName.forEach {}
             try self.validate(self.documentDataFieldName, name: "documentDataFieldName", parent: name, max: 100)
             try self.validate(self.documentDataFieldName, name: "documentDataFieldName", parent: name, min: 1)
             try self.validate(self.documentDataFieldName, name: "documentDataFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
+            try self.documentTitleFieldName?.forEach {}
             try self.validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, max: 100)
             try self.validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, min: 1)
             try self.validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
             try self.fieldMappings?.forEach {
                 try $0.validate(name: "\(name).fieldMappings[]")
             }
+            try self.fieldMappings?.forEach {}
             try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, max: 100)
             try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, min: 1)
+            try self.includeFilterTypes?.forEach {}
             try self.validate(self.includeFilterTypes, name: "includeFilterTypes", parent: name, max: 2)
             try self.validate(self.includeFilterTypes, name: "includeFilterTypes", parent: name, min: 1)
         }
@@ -3307,7 +3503,7 @@ extension Kendra {
         public let excludeAttachmentFilePatterns: [String]?
         /// A list of regular expression patterns. Documents that match the patterns are included in the index. Documents that don't match the patterns are excluded from the index. If a document matches both an inclusion pattern and an exclusion pattern, the document is not included in the index. The regex is applied to the name of the attached file.
         public let includeAttachmentFilePatterns: [String]?
-        /// Specifies configuration information for the knowlege article types that Amazon Kendra indexes. Amazon Kendra indexes standard knowledge articles and the standard fields of knowledge articles, or the custom fields of custom knowledge articles, but not both.
+        /// Specifies configuration information for the knowledge article types that Amazon Kendra indexes. Amazon Kendra indexes standard knowledge articles and the standard fields of knowledge articles, or the custom fields of custom knowledge articles, but not both.
         public let knowledgeArticleConfiguration: SalesforceKnowledgeArticleConfiguration?
         /// The Amazon Resource Name (ARN) of an AWS Secrets Manager secret that contains the key/value pairs required to connect to your Salesforce instance. The secret must contain a JSON structure with the following keys:   authenticationUrl - The OAUTH endpoint that Amazon Kendra connects to get an OAUTH token.    consumerKey - The application public key generated when you created your Salesforce application.   consumerSecret - The application private key generated when you created your Salesforce application.   password - The password associated with the user logging in to the Salesforce instance.   securityToken - The token associated with the user account logging in to the Salesforce instance.   username - The user name of the user logging in to the Salesforce instance.
         public let secretArn: String
@@ -3332,29 +3528,37 @@ extension Kendra {
 
         public func validate(name: String) throws {
             try self.chatterFeedConfiguration?.validate(name: "\(name).chatterFeedConfiguration")
+            try self.chatterFeedConfiguration?.forEach {}
             try self.excludeAttachmentFilePatterns?.forEach {
                 try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, max: 150)
                 try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, min: 1)
             }
+            try self.excludeAttachmentFilePatterns?.forEach {}
             try self.validate(self.excludeAttachmentFilePatterns, name: "excludeAttachmentFilePatterns", parent: name, max: 100)
             try self.validate(self.excludeAttachmentFilePatterns, name: "excludeAttachmentFilePatterns", parent: name, min: 0)
             try self.includeAttachmentFilePatterns?.forEach {
                 try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, max: 150)
                 try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, min: 1)
             }
+            try self.includeAttachmentFilePatterns?.forEach {}
             try self.validate(self.includeAttachmentFilePatterns, name: "includeAttachmentFilePatterns", parent: name, max: 100)
             try self.validate(self.includeAttachmentFilePatterns, name: "includeAttachmentFilePatterns", parent: name, min: 0)
             try self.knowledgeArticleConfiguration?.validate(name: "\(name).knowledgeArticleConfiguration")
+            try self.knowledgeArticleConfiguration?.forEach {}
+            try self.secretArn.forEach {}
             try self.validate(self.secretArn, name: "secretArn", parent: name, max: 1284)
             try self.validate(self.secretArn, name: "secretArn", parent: name, min: 1)
             try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.serverUrl.forEach {}
             try self.validate(self.serverUrl, name: "serverUrl", parent: name, max: 2048)
             try self.validate(self.serverUrl, name: "serverUrl", parent: name, min: 1)
             try self.validate(self.serverUrl, name: "serverUrl", parent: name, pattern: "^(https?|ftp|file):\\/\\/([^\\s]*)")
             try self.standardObjectAttachmentConfiguration?.validate(name: "\(name).standardObjectAttachmentConfiguration")
+            try self.standardObjectAttachmentConfiguration?.forEach {}
             try self.standardObjectConfigurations?.forEach {
                 try $0.validate(name: "\(name).standardObjectConfigurations[]")
             }
+            try self.standardObjectConfigurations?.forEach {}
             try self.validate(self.standardObjectConfigurations, name: "standardObjectConfigurations", parent: name, max: 17)
             try self.validate(self.standardObjectConfigurations, name: "standardObjectConfigurations", parent: name, min: 1)
         }
@@ -3390,17 +3594,21 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.documentDataFieldName.forEach {}
             try self.validate(self.documentDataFieldName, name: "documentDataFieldName", parent: name, max: 100)
             try self.validate(self.documentDataFieldName, name: "documentDataFieldName", parent: name, min: 1)
             try self.validate(self.documentDataFieldName, name: "documentDataFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
+            try self.documentTitleFieldName?.forEach {}
             try self.validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, max: 100)
             try self.validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, min: 1)
             try self.validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
             try self.fieldMappings?.forEach {
                 try $0.validate(name: "\(name).fieldMappings[]")
             }
+            try self.fieldMappings?.forEach {}
             try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, max: 100)
             try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
@@ -3432,11 +3640,14 @@ extension Kendra {
             try self.customKnowledgeArticleTypeConfigurations?.forEach {
                 try $0.validate(name: "\(name).customKnowledgeArticleTypeConfigurations[]")
             }
+            try self.customKnowledgeArticleTypeConfigurations?.forEach {}
             try self.validate(self.customKnowledgeArticleTypeConfigurations, name: "customKnowledgeArticleTypeConfigurations", parent: name, max: 10)
             try self.validate(self.customKnowledgeArticleTypeConfigurations, name: "customKnowledgeArticleTypeConfigurations", parent: name, min: 1)
+            try self.includedStates.forEach {}
             try self.validate(self.includedStates, name: "includedStates", parent: name, max: 3)
             try self.validate(self.includedStates, name: "includedStates", parent: name, min: 1)
             try self.standardKnowledgeArticleTypeConfiguration?.validate(name: "\(name).standardKnowledgeArticleTypeConfiguration")
+            try self.standardKnowledgeArticleTypeConfiguration?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3461,15 +3672,18 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.documentDataFieldName.forEach {}
             try self.validate(self.documentDataFieldName, name: "documentDataFieldName", parent: name, max: 100)
             try self.validate(self.documentDataFieldName, name: "documentDataFieldName", parent: name, min: 1)
             try self.validate(self.documentDataFieldName, name: "documentDataFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
+            try self.documentTitleFieldName?.forEach {}
             try self.validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, max: 100)
             try self.validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, min: 1)
             try self.validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
             try self.fieldMappings?.forEach {
                 try $0.validate(name: "\(name).fieldMappings[]")
             }
+            try self.fieldMappings?.forEach {}
             try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, max: 100)
             try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, min: 1)
         }
@@ -3493,12 +3707,14 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.documentTitleFieldName?.forEach {}
             try self.validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, max: 100)
             try self.validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, min: 1)
             try self.validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
             try self.fieldMappings?.forEach {
                 try $0.validate(name: "\(name).fieldMappings[]")
             }
+            try self.fieldMappings?.forEach {}
             try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, max: 100)
             try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, min: 1)
         }
@@ -3512,7 +3728,7 @@ extension Kendra {
     public struct SalesforceStandardObjectConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The name of the field in the standard object table that contains the document contents.
         public let documentDataFieldName: String
-        /// The name of the field in the standard object table that contains the document titleB.
+        /// The name of the field in the standard object table that contains the document title.
         public let documentTitleFieldName: String?
         /// One or more objects that map fields in the standard object to Amazon Kendra index fields. The index field must exist before you can map a Salesforce field to it.
         public let fieldMappings: [DataSourceToIndexFieldMapping]?
@@ -3527,15 +3743,18 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.documentDataFieldName.forEach {}
             try self.validate(self.documentDataFieldName, name: "documentDataFieldName", parent: name, max: 100)
             try self.validate(self.documentDataFieldName, name: "documentDataFieldName", parent: name, min: 1)
             try self.validate(self.documentDataFieldName, name: "documentDataFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
+            try self.documentTitleFieldName?.forEach {}
             try self.validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, max: 100)
             try self.validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, min: 1)
             try self.validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
             try self.fieldMappings?.forEach {
                 try $0.validate(name: "\(name).fieldMappings[]")
             }
+            try self.fieldMappings?.forEach {}
             try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, max: 100)
             try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, min: 1)
         }
@@ -3595,6 +3814,7 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.kmsKeyId?.forEach {}
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
         }
@@ -3605,6 +3825,8 @@ extension Kendra {
     }
 
     public struct ServiceNowConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Determines the type of authentication used to connect to the ServiceNow instance. If you choose HTTP_BASIC, Amazon Kendra is authenticated using the user name and password provided in the AWS Secrets Manager secret in the SecretArn field. When you choose OAUTH2, Amazon Kendra is authenticated using the OAuth token and secret provided in the Secrets Manager secret, and the user name and password are used to determine which information Amazon Kendra has access to. When you use OAUTH2 authentication, you must generate a token and a client secret using the ServiceNow console. For more information, see Using a ServiceNow data source.
+        public let authenticationType: ServiceNowAuthenticationType?
         /// The ServiceNow instance that the data source connects to. The host endpoint should look like the following: {instance}.service-now.com.
         public let hostUrl: String
         /// Provides configuration information for crawling knowledge articles in the ServiceNow site.
@@ -3616,7 +3838,8 @@ extension Kendra {
         /// The identifier of the release that the ServiceNow host is running. If the host is not running the LONDON release, use OTHERS.
         public let serviceNowBuildVersion: ServiceNowBuildVersionType
 
-        public init(hostUrl: String, knowledgeArticleConfiguration: ServiceNowKnowledgeArticleConfiguration? = nil, secretArn: String, serviceCatalogConfiguration: ServiceNowServiceCatalogConfiguration? = nil, serviceNowBuildVersion: ServiceNowBuildVersionType) {
+        public init(authenticationType: ServiceNowAuthenticationType? = nil, hostUrl: String, knowledgeArticleConfiguration: ServiceNowKnowledgeArticleConfiguration? = nil, secretArn: String, serviceCatalogConfiguration: ServiceNowServiceCatalogConfiguration? = nil, serviceNowBuildVersion: ServiceNowBuildVersionType) {
+            self.authenticationType = authenticationType
             self.hostUrl = hostUrl
             self.knowledgeArticleConfiguration = knowledgeArticleConfiguration
             self.secretArn = secretArn
@@ -3625,17 +3848,22 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.hostUrl.forEach {}
             try self.validate(self.hostUrl, name: "hostUrl", parent: name, max: 2048)
             try self.validate(self.hostUrl, name: "hostUrl", parent: name, min: 1)
             try self.validate(self.hostUrl, name: "hostUrl", parent: name, pattern: "^(?!(^(https?|ftp|file):\\/\\/))[a-z0-9-]+(\\.service-now\\.com)$")
             try self.knowledgeArticleConfiguration?.validate(name: "\(name).knowledgeArticleConfiguration")
+            try self.knowledgeArticleConfiguration?.forEach {}
+            try self.secretArn.forEach {}
             try self.validate(self.secretArn, name: "secretArn", parent: name, max: 1284)
             try self.validate(self.secretArn, name: "secretArn", parent: name, min: 1)
             try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try self.serviceCatalogConfiguration?.validate(name: "\(name).serviceCatalogConfiguration")
+            try self.serviceCatalogConfiguration?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
+            case authenticationType = "AuthenticationType"
             case hostUrl = "HostUrl"
             case knowledgeArticleConfiguration = "KnowledgeArticleConfiguration"
             case secretArn = "SecretArn"
@@ -3655,22 +3883,27 @@ extension Kendra {
         public let excludeAttachmentFilePatterns: [String]?
         /// Mapping between ServiceNow fields and Amazon Kendra index fields. You must create the index field before you map the field.
         public let fieldMappings: [DataSourceToIndexFieldMapping]?
+        /// A query that selects the knowledge articles to index. The query can return articles from multiple knowledge bases, and the knowledge bases can be public or private. The query string must be one generated by the ServiceNow console. For more information, see Specifying documents to index with a query.
+        public let filterQuery: String?
         /// List of regular expressions applied to knowledge articles. Items that don't match the inclusion pattern are not indexed. The regex is applied to the field specified in the PatternTargetField.
         public let includeAttachmentFilePatterns: [String]?
 
-        public init(crawlAttachments: Bool? = nil, documentDataFieldName: String, documentTitleFieldName: String? = nil, excludeAttachmentFilePatterns: [String]? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, includeAttachmentFilePatterns: [String]? = nil) {
+        public init(crawlAttachments: Bool? = nil, documentDataFieldName: String, documentTitleFieldName: String? = nil, excludeAttachmentFilePatterns: [String]? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, filterQuery: String? = nil, includeAttachmentFilePatterns: [String]? = nil) {
             self.crawlAttachments = crawlAttachments
             self.documentDataFieldName = documentDataFieldName
             self.documentTitleFieldName = documentTitleFieldName
             self.excludeAttachmentFilePatterns = excludeAttachmentFilePatterns
             self.fieldMappings = fieldMappings
+            self.filterQuery = filterQuery
             self.includeAttachmentFilePatterns = includeAttachmentFilePatterns
         }
 
         public func validate(name: String) throws {
+            try self.documentDataFieldName.forEach {}
             try self.validate(self.documentDataFieldName, name: "documentDataFieldName", parent: name, max: 100)
             try self.validate(self.documentDataFieldName, name: "documentDataFieldName", parent: name, min: 1)
             try self.validate(self.documentDataFieldName, name: "documentDataFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
+            try self.documentTitleFieldName?.forEach {}
             try self.validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, max: 100)
             try self.validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, min: 1)
             try self.validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
@@ -3678,17 +3911,24 @@ extension Kendra {
                 try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, max: 150)
                 try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, min: 1)
             }
+            try self.excludeAttachmentFilePatterns?.forEach {}
             try self.validate(self.excludeAttachmentFilePatterns, name: "excludeAttachmentFilePatterns", parent: name, max: 100)
             try self.validate(self.excludeAttachmentFilePatterns, name: "excludeAttachmentFilePatterns", parent: name, min: 0)
             try self.fieldMappings?.forEach {
                 try $0.validate(name: "\(name).fieldMappings[]")
             }
+            try self.fieldMappings?.forEach {}
             try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, max: 100)
             try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, min: 1)
+            try self.filterQuery?.forEach {}
+            try self.validate(self.filterQuery, name: "filterQuery", parent: name, max: 2048)
+            try self.validate(self.filterQuery, name: "filterQuery", parent: name, min: 1)
+            try self.validate(self.filterQuery, name: "filterQuery", parent: name, pattern: "^\\P{C}*$")
             try self.includeAttachmentFilePatterns?.forEach {
                 try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, max: 150)
                 try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, min: 1)
             }
+            try self.includeAttachmentFilePatterns?.forEach {}
             try self.validate(self.includeAttachmentFilePatterns, name: "includeAttachmentFilePatterns", parent: name, max: 100)
             try self.validate(self.includeAttachmentFilePatterns, name: "includeAttachmentFilePatterns", parent: name, min: 0)
         }
@@ -3699,6 +3939,7 @@ extension Kendra {
             case documentTitleFieldName = "DocumentTitleFieldName"
             case excludeAttachmentFilePatterns = "ExcludeAttachmentFilePatterns"
             case fieldMappings = "FieldMappings"
+            case filterQuery = "FilterQuery"
             case includeAttachmentFilePatterns = "IncludeAttachmentFilePatterns"
         }
     }
@@ -3710,11 +3951,11 @@ extension Kendra {
         public let documentDataFieldName: String
         /// The name of the ServiceNow field that is mapped to the index document title field.
         public let documentTitleFieldName: String?
-        /// Determines the types of file attachments that are excluded from the index.
+        /// A list of regular expression patterns. Documents that match the patterns are excluded from the index. Documents that don't match the patterns are included in the index. If a document matches both an exclusion pattern and an inclusion pattern, the document is not included in the index. The regex is applied to the file name of the attachment.
         public let excludeAttachmentFilePatterns: [String]?
         /// Mapping between ServiceNow fields and Amazon Kendra index fields. You must create the index field before you map the field.
         public let fieldMappings: [DataSourceToIndexFieldMapping]?
-        /// Determines the types of file attachments that are included in the index.
+        /// A list of regular expression patterns. Documents that match the patterns are included in the index. Documents that don't match the patterns are excluded from the index. If a document matches both an exclusion pattern and an inclusion pattern, the document is not included in the index. The regex is applied to the file name of the attachment.
         public let includeAttachmentFilePatterns: [String]?
 
         public init(crawlAttachments: Bool? = nil, documentDataFieldName: String, documentTitleFieldName: String? = nil, excludeAttachmentFilePatterns: [String]? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, includeAttachmentFilePatterns: [String]? = nil) {
@@ -3727,9 +3968,11 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.documentDataFieldName.forEach {}
             try self.validate(self.documentDataFieldName, name: "documentDataFieldName", parent: name, max: 100)
             try self.validate(self.documentDataFieldName, name: "documentDataFieldName", parent: name, min: 1)
             try self.validate(self.documentDataFieldName, name: "documentDataFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
+            try self.documentTitleFieldName?.forEach {}
             try self.validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, max: 100)
             try self.validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, min: 1)
             try self.validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
@@ -3737,17 +3980,20 @@ extension Kendra {
                 try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, max: 150)
                 try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, min: 1)
             }
+            try self.excludeAttachmentFilePatterns?.forEach {}
             try self.validate(self.excludeAttachmentFilePatterns, name: "excludeAttachmentFilePatterns", parent: name, max: 100)
             try self.validate(self.excludeAttachmentFilePatterns, name: "excludeAttachmentFilePatterns", parent: name, min: 0)
             try self.fieldMappings?.forEach {
                 try $0.validate(name: "\(name).fieldMappings[]")
             }
+            try self.fieldMappings?.forEach {}
             try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, max: 100)
             try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, min: 1)
             try self.includeAttachmentFilePatterns?.forEach {
                 try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, max: 150)
                 try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, min: 1)
             }
+            try self.includeAttachmentFilePatterns?.forEach {}
             try self.validate(self.includeAttachmentFilePatterns, name: "includeAttachmentFilePatterns", parent: name, max: 100)
             try self.validate(self.includeAttachmentFilePatterns, name: "includeAttachmentFilePatterns", parent: name, min: 0)
         }
@@ -3771,7 +4017,7 @@ extension Kendra {
         public let documentTitleFieldName: String?
         /// A list of regular expression patterns. Documents that match the patterns are excluded from the index. Documents that don't match the patterns are included in the index. If a document matches both an exclusion pattern and an inclusion pattern, the document is not included in the index. The regex is applied to the display URL of the SharePoint document.
         public let exclusionPatterns: [String]?
-        /// A list of DataSourceToIndexFieldMapping objects that map Microsoft SharePoint attributes to custom fields in the Amazon Kendra index. You must first create the index fields using the operation before you map SharePoint attributes. For more information, see Mapping Data Source Fields.
+        /// A list of DataSourceToIndexFieldMapping objects that map Microsoft SharePoint attributes to custom fields in the Amazon Kendra index. You must first create the index fields using the UpdateIndex operation before you map SharePoint attributes. For more information, see Mapping Data Source Fields.
         public let fieldMappings: [DataSourceToIndexFieldMapping]?
         /// A list of regular expression patterns. Documents that match the patterns are included in the index. Documents that don't match the patterns are excluded from the index. If a document matches both an inclusion pattern and an exclusion pattern, the document is not included in the index. The regex is applied to the display URL of the SharePoint document.
         public let inclusionPatterns: [String]?
@@ -3800,6 +4046,7 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.documentTitleFieldName?.forEach {}
             try self.validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, max: 100)
             try self.validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, min: 1)
             try self.validate(self.documentTitleFieldName, name: "documentTitleFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
@@ -3807,19 +4054,23 @@ extension Kendra {
                 try validate($0, name: "exclusionPatterns[]", parent: name, max: 150)
                 try validate($0, name: "exclusionPatterns[]", parent: name, min: 1)
             }
+            try self.exclusionPatterns?.forEach {}
             try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 100)
             try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, min: 0)
             try self.fieldMappings?.forEach {
                 try $0.validate(name: "\(name).fieldMappings[]")
             }
+            try self.fieldMappings?.forEach {}
             try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, max: 100)
             try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, min: 1)
             try self.inclusionPatterns?.forEach {
                 try validate($0, name: "inclusionPatterns[]", parent: name, max: 150)
                 try validate($0, name: "inclusionPatterns[]", parent: name, min: 1)
             }
+            try self.inclusionPatterns?.forEach {}
             try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 100)
             try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, min: 0)
+            try self.secretArn.forEach {}
             try self.validate(self.secretArn, name: "secretArn", parent: name, max: 1284)
             try self.validate(self.secretArn, name: "secretArn", parent: name, min: 1)
             try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
@@ -3828,9 +4079,11 @@ extension Kendra {
                 try validate($0, name: "urls[]", parent: name, min: 1)
                 try validate($0, name: "urls[]", parent: name, pattern: "^(https?|ftp|file):\\/\\/([^\\s]*)")
             }
+            try self.urls.forEach {}
             try self.validate(self.urls, name: "urls", parent: name, max: 100)
             try self.validate(self.urls, name: "urls", parent: name, min: 1)
             try self.vpcConfiguration?.validate(name: "\(name).vpcConfiguration")
+            try self.vpcConfiguration?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3860,6 +4113,7 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.documentAttributeKey.forEach {}
             try self.validate(self.documentAttributeKey, name: "documentAttributeKey", parent: name, max: 200)
             try self.validate(self.documentAttributeKey, name: "documentAttributeKey", parent: name, min: 1)
             try self.validate(self.documentAttributeKey, name: "documentAttributeKey", parent: name, pattern: "[a-zA-Z0-9_][a-zA-Z0-9_-]*")
@@ -3896,9 +4150,11 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.indexId.forEach {}
             try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
@@ -3935,9 +4191,11 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.indexId.forEach {}
             try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
@@ -3954,7 +4212,7 @@ extension Kendra {
         public let clickFeedbackItems: [ClickFeedback]?
         /// The identifier of the index that was queried.
         public let indexId: String
-        /// The identifier of the specific query for which you are submitting feedback. The query ID is returned in the response to the operation.
+        /// The identifier of the specific query for which you are submitting feedback. The query ID is returned in the response to the Query operation.
         public let queryId: String
         /// Provides Amazon Kendra with relevant or not relevant feedback for whether a particular item was relevant to the search.
         public let relevanceFeedbackItems: [RelevanceFeedback]?
@@ -3970,15 +4228,19 @@ extension Kendra {
             try self.clickFeedbackItems?.forEach {
                 try $0.validate(name: "\(name).clickFeedbackItems[]")
             }
+            try self.clickFeedbackItems?.forEach {}
+            try self.indexId.forEach {}
             try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+            try self.queryId.forEach {}
             try self.validate(self.queryId, name: "queryId", parent: name, max: 36)
             try self.validate(self.queryId, name: "queryId", parent: name, min: 1)
             try self.validate(self.queryId, name: "queryId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
             try self.relevanceFeedbackItems?.forEach {
                 try $0.validate(name: "\(name).relevanceFeedbackItems[]")
             }
+            try self.relevanceFeedbackItems?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4001,8 +4263,10 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
         }
@@ -4025,11 +4289,13 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -4136,12 +4402,14 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
         }
@@ -4183,18 +4451,24 @@ extension Kendra {
 
         public func validate(name: String) throws {
             try self.configuration?.validate(name: "\(name).configuration")
+            try self.configuration?.forEach {}
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, pattern: "^\\P{C}*$")
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.indexId.forEach {}
             try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1000)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.roleArn?.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
@@ -4212,7 +4486,7 @@ extension Kendra {
     }
 
     public struct UpdateIndexRequest: AWSEncodableShape {
-        /// Sets the number of addtional storage and query capacity units that should be used by the index. You can change the capacity of the index up to 5 times per day. If you are using extra storage units, you can't reduce the storage capacity below that required to meet the storage needs for your index.
+        /// Sets the number of additional storage and query capacity units that should be used by the index. You can change the capacity of the index up to 5 times per day. If you are using extra storage units, you can't reduce the storage capacity below that required to meet the storage needs for your index.
         public let capacityUnits: CapacityUnitsConfiguration?
         /// A new description for the index.
         public let description: String?
@@ -4242,26 +4516,33 @@ extension Kendra {
 
         public func validate(name: String) throws {
             try self.capacityUnits?.validate(name: "\(name).capacityUnits")
+            try self.capacityUnits?.forEach {}
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, pattern: "^\\P{C}*$")
             try self.documentMetadataConfigurationUpdates?.forEach {
                 try $0.validate(name: "\(name).documentMetadataConfigurationUpdates[]")
             }
+            try self.documentMetadataConfigurationUpdates?.forEach {}
             try self.validate(self.documentMetadataConfigurationUpdates, name: "documentMetadataConfigurationUpdates", parent: name, max: 500)
             try self.validate(self.documentMetadataConfigurationUpdates, name: "documentMetadataConfigurationUpdates", parent: name, min: 0)
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 36)
             try self.validate(self.id, name: "id", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1000)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.roleArn?.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try self.userTokenConfigurations?.forEach {
                 try $0.validate(name: "\(name).userTokenConfigurations[]")
             }
+            try self.userTokenConfigurations?.forEach {}
             try self.validate(self.userTokenConfigurations, name: "userTokenConfigurations", parent: name, max: 1)
         }
 
@@ -4300,22 +4581,28 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, pattern: "^\\P{C}*$")
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.indexId.forEach {}
             try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.roleArn?.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try self.sourceS3Path?.validate(name: "\(name).sourceS3Path")
+            try self.sourceS3Path?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4337,6 +4624,7 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.token?.forEach {}
             try self.validate(self.token, name: "token", parent: name, max: 100_000)
             try self.validate(self.token, name: "token", parent: name, min: 1)
             try self.validate(self.token, name: "token", parent: name, pattern: "^\\P{C}*$")
@@ -4360,7 +4648,9 @@ extension Kendra {
 
         public func validate(name: String) throws {
             try self.jsonTokenTypeConfiguration?.validate(name: "\(name).jsonTokenTypeConfiguration")
+            try self.jsonTokenTypeConfiguration?.forEach {}
             try self.jwtTokenTypeConfiguration?.validate(name: "\(name).jwtTokenTypeConfiguration")
+            try self.jwtTokenTypeConfiguration?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {

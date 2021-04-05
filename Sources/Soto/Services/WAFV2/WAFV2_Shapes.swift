@@ -20,6 +20,13 @@ import SotoCore
 extension WAFV2 {
     // MARK: Enums
 
+    public enum ActionValue: String, CustomStringConvertible, Codable {
+        case allow = "ALLOW"
+        case block = "BLOCK"
+        case count = "COUNT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BodyParsingFallbackBehavior: String, CustomStringConvertible, Codable {
         case evaluateAsString = "EVALUATE_AS_STRING"
         case match = "MATCH"
@@ -296,6 +303,18 @@ extension WAFV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum FilterBehavior: String, CustomStringConvertible, Codable {
+        case drop = "DROP"
+        case keep = "KEEP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FilterRequirement: String, CustomStringConvertible, Codable {
+        case meetsAll = "MEETS_ALL"
+        case meetsAny = "MEETS_ANY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ForwardedIPPosition: String, CustomStringConvertible, Codable {
         case any = "ANY"
         case first = "FIRST"
@@ -313,6 +332,12 @@ extension WAFV2 {
         case all = "ALL"
         case key = "KEY"
         case value = "VALUE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LabelMatchScope: String, CustomStringConvertible, Codable {
+        case label = "LABEL"
+        case namespace = "NAMESPACE"
         public var description: String { return self.rawValue }
     }
 
@@ -338,6 +363,13 @@ extension WAFV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResponseContentType: String, CustomStringConvertible, Codable {
+        case applicationJson = "APPLICATION_JSON"
+        case textHtml = "TEXT_HTML"
+        case textPlain = "TEXT_PLAIN"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Scope: String, CustomStringConvertible, Codable {
         case cloudfront = "CLOUDFRONT"
         case regional = "REGIONAL"
@@ -356,6 +388,19 @@ extension WAFV2 {
 
     // MARK: Shapes
 
+    public struct ActionCondition: AWSEncodableShape & AWSDecodableShape {
+        /// The action setting that a log record must contain in order to meet the condition.
+        public let action: ActionValue
+
+        public init(action: ActionValue) {
+            self.action = action
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+        }
+    }
+
     public struct All: AWSEncodableShape & AWSDecodableShape {
         public init() {}
     }
@@ -365,7 +410,21 @@ extension WAFV2 {
     }
 
     public struct AllowAction: AWSEncodableShape & AWSDecodableShape {
-        public init() {}
+        /// Defines custom handling for the web request. For information about customizing web requests and responses, see Customizing web requests and responses in AWS WAF in the AWS WAF Developer Guide.
+        public let customRequestHandling: CustomRequestHandling?
+
+        public init(customRequestHandling: CustomRequestHandling? = nil) {
+            self.customRequestHandling = customRequestHandling
+        }
+
+        public func validate(name: String) throws {
+            try self.customRequestHandling?.validate(name: "\(name).customRequestHandling")
+            try self.customRequestHandling?.forEach {}
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customRequestHandling = "CustomRequestHandling"
+        }
     }
 
     public struct AndStatement: AWSEncodableShape & AWSDecodableShape {
@@ -380,6 +439,7 @@ extension WAFV2 {
             try self.statements.forEach {
                 try $0.validate(name: "\(name).statements[]")
             }
+            try self.statements.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -399,9 +459,11 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: ".*\\S.*")
+            try self.webACLArn.forEach {}
             try self.validate(self.webACLArn, name: "webACLArn", parent: name, max: 2048)
             try self.validate(self.webACLArn, name: "webACLArn", parent: name, min: 20)
             try self.validate(self.webACLArn, name: "webACLArn", parent: name, pattern: ".*\\S.*")
@@ -418,7 +480,21 @@ extension WAFV2 {
     }
 
     public struct BlockAction: AWSEncodableShape & AWSDecodableShape {
-        public init() {}
+        /// Defines a custom response for the web request. For information about customizing web requests and responses, see Customizing web requests and responses in AWS WAF in the AWS WAF Developer Guide.
+        public let customResponse: CustomResponse?
+
+        public init(customResponse: CustomResponse? = nil) {
+            self.customResponse = customResponse
+        }
+
+        public func validate(name: String) throws {
+            try self.customResponse?.validate(name: "\(name).customResponse")
+            try self.customResponse?.forEach {}
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customResponse = "CustomResponse"
+        }
     }
 
     public struct Body: AWSEncodableShape & AWSDecodableShape {
@@ -444,9 +520,11 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.fieldToMatch.validate(name: "\(name).fieldToMatch")
+            try self.fieldToMatch.forEach {}
             try self.textTransformations.forEach {
                 try $0.validate(name: "\(name).textTransformations[]")
             }
+            try self.textTransformations.forEach {}
             try self.validate(self.textTransformations, name: "textTransformations", parent: name, min: 1)
         }
 
@@ -473,6 +551,7 @@ extension WAFV2 {
             try self.rules.forEach {
                 try $0.validate(name: "\(name).rules[]")
             }
+            try self.rules.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -494,12 +573,48 @@ extension WAFV2 {
         }
     }
 
+    public struct Condition: AWSEncodableShape & AWSDecodableShape {
+        /// A single action condition.
+        public let actionCondition: ActionCondition?
+        /// A single label name condition.
+        public let labelNameCondition: LabelNameCondition?
+
+        public init(actionCondition: ActionCondition? = nil, labelNameCondition: LabelNameCondition? = nil) {
+            self.actionCondition = actionCondition
+            self.labelNameCondition = labelNameCondition
+        }
+
+        public func validate(name: String) throws {
+            try self.labelNameCondition?.validate(name: "\(name).labelNameCondition")
+            try self.labelNameCondition?.forEach {}
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionCondition = "ActionCondition"
+            case labelNameCondition = "LabelNameCondition"
+        }
+    }
+
     public struct CountAction: AWSEncodableShape & AWSDecodableShape {
-        public init() {}
+        /// Defines custom handling for the web request. For information about customizing web requests and responses, see Customizing web requests and responses in AWS WAF in the AWS WAF Developer Guide.
+        public let customRequestHandling: CustomRequestHandling?
+
+        public init(customRequestHandling: CustomRequestHandling? = nil) {
+            self.customRequestHandling = customRequestHandling
+        }
+
+        public func validate(name: String) throws {
+            try self.customRequestHandling?.validate(name: "\(name).customRequestHandling")
+            try self.customRequestHandling?.forEach {}
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customRequestHandling = "CustomRequestHandling"
+        }
     }
 
     public struct CreateIPSetRequest: AWSEncodableShape {
-        /// Contains an array of strings that specify one or more IP addresses or blocks of IP addresses in Classless Inter-Domain Routing (CIDR) notation. AWS WAF supports all address ranges for IP versions IPv4 and IPv6.  Examples:    To configure AWS WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   To configure AWS WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.
+        /// Contains an array of strings that specify one or more IP addresses or blocks of IP addresses in Classless Inter-Domain Routing (CIDR) notation. AWS WAF supports all IPv4 and IPv6 CIDR ranges except for /0.  Examples:    To configure AWS WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   To configure AWS WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.
         public let addresses: [String]
         /// A description of the IP set that helps with identification.
         public let description: String?
@@ -527,15 +642,19 @@ extension WAFV2 {
                 try validate($0, name: "addresses[]", parent: name, min: 1)
                 try validate($0, name: "addresses[]", parent: name, pattern: ".*\\S.*")
             }
+            try self.addresses.forEach {}
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\w+=:#@/\\-,\\.][\\w+=:#@/\\-,\\.\\s]+[\\w+=:#@/\\-,\\.]$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
@@ -583,18 +702,22 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\w+=:#@/\\-,\\.][\\w+=:#@/\\-,\\.\\s]+[\\w+=:#@/\\-,\\.]$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
             try self.regularExpressionList.forEach {
                 try $0.validate(name: "\(name).regularExpressionList[]")
             }
+            try self.regularExpressionList.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
@@ -623,6 +746,8 @@ extension WAFV2 {
     public struct CreateRuleGroupRequest: AWSEncodableShape {
         /// The web ACL capacity units (WCUs) required for this rule group. When you create your own rule group, you define this, and you cannot change it after creation. When you add or modify the rules in a rule group, AWS WAF enforces this limit. You can check the capacity for a set of rules using CheckCapacity. AWS WAF uses WCUs to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. AWS WAF calculates capacity differently for each rule type, to reflect the relative cost of each rule. Simple rules that cost little to run use fewer WCUs than more complex rules that use more processing power. Rule group capacity is fixed at creation, which helps users plan their web ACL WCU usage when they use a rule group. The WCU limit for web ACLs is 1,500.
         public let capacity: Int64
+        /// A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the rule group, and then use them in the rules that you define in the rule group.  For information about customizing web requests and responses, see Customizing web requests and responses in AWS WAF in the AWS WAF Developer Guide.  For information about the limits on count and size for custom request and response settings, see AWS WAF quotas in the AWS WAF Developer Guide.
+        public let customResponseBodies: [String: CustomResponseBody]?
         /// A description of the rule group that helps with identification.
         public let description: String?
         /// The name of the rule group. You cannot change the name of a rule group after you create it.
@@ -636,8 +761,9 @@ extension WAFV2 {
         /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
         public let visibilityConfig: VisibilityConfig
 
-        public init(capacity: Int64, description: String? = nil, name: String, rules: [Rule]? = nil, scope: Scope, tags: [Tag]? = nil, visibilityConfig: VisibilityConfig) {
+        public init(capacity: Int64, customResponseBodies: [String: CustomResponseBody]? = nil, description: String? = nil, name: String, rules: [Rule]? = nil, scope: Scope, tags: [Tag]? = nil, visibilityConfig: VisibilityConfig) {
             self.capacity = capacity
+            self.customResponseBodies = customResponseBodies
             self.description = description
             self.name = name
             self.rules = rules
@@ -647,25 +773,38 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.capacity.forEach {}
             try self.validate(self.capacity, name: "capacity", parent: name, min: 1)
+            try self.customResponseBodies?.forEach {
+                try validate($0.key, name: "customResponseBodies.key", parent: name, max: 128)
+                try validate($0.key, name: "customResponseBodies.key", parent: name, min: 1)
+                try validate($0.key, name: "customResponseBodies.key", parent: name, pattern: "^[\\w\\-]+$")
+                try $0.value.validate(name: "\(name).customResponseBodies[\"\($0.key)\"]")
+            }
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\w+=:#@/\\-,\\.][\\w+=:#@/\\-,\\.\\s]+[\\w+=:#@/\\-,\\.]$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
             try self.rules?.forEach {
                 try $0.validate(name: "\(name).rules[]")
             }
+            try self.rules?.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
             try self.visibilityConfig.validate(name: "\(name).visibilityConfig")
+            try self.visibilityConfig.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
             case capacity = "Capacity"
+            case customResponseBodies = "CustomResponseBodies"
             case description = "Description"
             case name = "Name"
             case rules = "Rules"
@@ -689,6 +828,8 @@ extension WAFV2 {
     }
 
     public struct CreateWebACLRequest: AWSEncodableShape {
+        /// A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the web ACL, and then use them in the rules and default actions that you define in the web ACL.  For information about customizing web requests and responses, see Customizing web requests and responses in AWS WAF in the AWS WAF Developer Guide.  For information about the limits on count and size for custom request and response settings, see AWS WAF quotas in the AWS WAF Developer Guide.
+        public let customResponseBodies: [String: CustomResponseBody]?
         /// The action to perform if none of the Rules contained in the WebACL match.
         public let defaultAction: DefaultAction
         /// A description of the Web ACL that helps with identification.
@@ -704,7 +845,8 @@ extension WAFV2 {
         /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
         public let visibilityConfig: VisibilityConfig
 
-        public init(defaultAction: DefaultAction, description: String? = nil, name: String, rules: [Rule]? = nil, scope: Scope, tags: [Tag]? = nil, visibilityConfig: VisibilityConfig) {
+        public init(customResponseBodies: [String: CustomResponseBody]? = nil, defaultAction: DefaultAction, description: String? = nil, name: String, rules: [Rule]? = nil, scope: Scope, tags: [Tag]? = nil, visibilityConfig: VisibilityConfig) {
+            self.customResponseBodies = customResponseBodies
             self.defaultAction = defaultAction
             self.description = description
             self.name = name
@@ -715,23 +857,37 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.customResponseBodies?.forEach {
+                try validate($0.key, name: "customResponseBodies.key", parent: name, max: 128)
+                try validate($0.key, name: "customResponseBodies.key", parent: name, min: 1)
+                try validate($0.key, name: "customResponseBodies.key", parent: name, pattern: "^[\\w\\-]+$")
+                try $0.value.validate(name: "\(name).customResponseBodies[\"\($0.key)\"]")
+            }
+            try self.defaultAction.validate(name: "\(name).defaultAction")
+            try self.defaultAction.forEach {}
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\w+=:#@/\\-,\\.][\\w+=:#@/\\-,\\.\\s]+[\\w+=:#@/\\-,\\.]$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
             try self.rules?.forEach {
                 try $0.validate(name: "\(name).rules[]")
             }
+            try self.rules?.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
             try self.visibilityConfig.validate(name: "\(name).visibilityConfig")
+            try self.visibilityConfig.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customResponseBodies = "CustomResponseBodies"
             case defaultAction = "DefaultAction"
             case description = "Description"
             case name = "Name"
@@ -755,6 +911,115 @@ extension WAFV2 {
         }
     }
 
+    public struct CustomHTTPHeader: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the custom header.  For custom request header insertion, when AWS WAF inserts the header into the request, it prefixes this name x-amzn-waf-, to avoid confusion with the headers that are already in the request. For example, for the header name sample, AWS WAF inserts the header x-amzn-waf-sample.
+        public let name: String
+        /// The value of the custom header.
+        public let value: String
+
+        public init(name: String, value: String) {
+            self.name = name
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.name.forEach {}
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9._$-]+$")
+            try self.value.forEach {}
+            try self.validate(self.value, name: "value", parent: name, max: 255)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case value = "Value"
+        }
+    }
+
+    public struct CustomRequestHandling: AWSEncodableShape & AWSDecodableShape {
+        /// The HTTP headers to insert into the request. Duplicate header names are not allowed.  For information about the limits on count and size for custom request and response settings, see AWS WAF quotas in the AWS WAF Developer Guide.
+        public let insertHeaders: [CustomHTTPHeader]
+
+        public init(insertHeaders: [CustomHTTPHeader]) {
+            self.insertHeaders = insertHeaders
+        }
+
+        public func validate(name: String) throws {
+            try self.insertHeaders.forEach {
+                try $0.validate(name: "\(name).insertHeaders[]")
+            }
+            try self.insertHeaders.forEach {}
+            try self.validate(self.insertHeaders, name: "insertHeaders", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case insertHeaders = "InsertHeaders"
+        }
+    }
+
+    public struct CustomResponse: AWSEncodableShape & AWSDecodableShape {
+        /// References the response body that you want AWS WAF to return to the web request client. You can define a custom response for a rule action or a default web ACL action that is set to block. To do this, you first define the response body key and value in the CustomResponseBodies setting for the WebACL or RuleGroup where you want to use it. Then, in the rule action or web ACL default action BlockAction setting, you reference the response body using this key.
+        public let customResponseBodyKey: String?
+        /// The HTTP status code to return to the client.  For a list of status codes that you can use in your custom reqponses, see Supported status codes for custom response in the AWS WAF Developer Guide.
+        public let responseCode: Int
+        /// The HTTP headers to use in the response. Duplicate header names are not allowed.  For information about the limits on count and size for custom request and response settings, see AWS WAF quotas in the AWS WAF Developer Guide.
+        public let responseHeaders: [CustomHTTPHeader]?
+
+        public init(customResponseBodyKey: String? = nil, responseCode: Int, responseHeaders: [CustomHTTPHeader]? = nil) {
+            self.customResponseBodyKey = customResponseBodyKey
+            self.responseCode = responseCode
+            self.responseHeaders = responseHeaders
+        }
+
+        public func validate(name: String) throws {
+            try self.customResponseBodyKey?.forEach {}
+            try self.validate(self.customResponseBodyKey, name: "customResponseBodyKey", parent: name, max: 128)
+            try self.validate(self.customResponseBodyKey, name: "customResponseBodyKey", parent: name, min: 1)
+            try self.validate(self.customResponseBodyKey, name: "customResponseBodyKey", parent: name, pattern: "^[\\w\\-]+$")
+            try self.responseCode.forEach {}
+            try self.validate(self.responseCode, name: "responseCode", parent: name, max: 600)
+            try self.validate(self.responseCode, name: "responseCode", parent: name, min: 200)
+            try self.responseHeaders?.forEach {
+                try $0.validate(name: "\(name).responseHeaders[]")
+            }
+            try self.responseHeaders?.forEach {}
+            try self.validate(self.responseHeaders, name: "responseHeaders", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customResponseBodyKey = "CustomResponseBodyKey"
+            case responseCode = "ResponseCode"
+            case responseHeaders = "ResponseHeaders"
+        }
+    }
+
+    public struct CustomResponseBody: AWSEncodableShape & AWSDecodableShape {
+        /// The payload of the custom response.  You can use JSON escape strings in JSON content. To do this, you must specify JSON content in the ContentType setting.  For information about the limits on count and size for custom request and response settings, see AWS WAF quotas in the AWS WAF Developer Guide.
+        public let content: String
+        /// The type of content in the payload that you are defining in the Content string.
+        public let contentType: ResponseContentType
+
+        public init(content: String, contentType: ResponseContentType) {
+            self.content = content
+            self.contentType = contentType
+        }
+
+        public func validate(name: String) throws {
+            try self.content.forEach {}
+            try self.validate(self.content, name: "content", parent: name, max: 10240)
+            try self.validate(self.content, name: "content", parent: name, min: 1)
+            try self.validate(self.content, name: "content", parent: name, pattern: "[\\s\\S]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+            case contentType = "ContentType"
+        }
+    }
+
     public struct DefaultAction: AWSEncodableShape & AWSDecodableShape {
         /// Specifies that AWS WAF should allow requests by default.
         public let allow: AllowAction?
@@ -764,6 +1029,13 @@ extension WAFV2 {
         public init(allow: AllowAction? = nil, block: BlockAction? = nil) {
             self.allow = allow
             self.block = block
+        }
+
+        public func validate(name: String) throws {
+            try self.allow?.validate(name: "\(name).allow")
+            try self.allow?.forEach {}
+            try self.block?.validate(name: "\(name).block")
+            try self.block?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -784,9 +1056,11 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.webACLArn.forEach {}
             try self.validate(self.webACLArn, name: "webACLArn", parent: name, max: 2048)
             try self.validate(self.webACLArn, name: "webACLArn", parent: name, min: 20)
             try self.validate(self.webACLArn, name: "webACLArn", parent: name, pattern: ".*\\S.*")
+            try self.webACLLockToken.forEach {}
             try self.validate(self.webACLLockToken, name: "webACLLockToken", parent: name, max: 36)
             try self.validate(self.webACLLockToken, name: "webACLLockToken", parent: name, min: 1)
             try self.validate(self.webACLLockToken, name: "webACLLockToken", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
@@ -829,12 +1103,15 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
+            try self.lockToken.forEach {}
             try self.validate(self.lockToken, name: "lockToken", parent: name, max: 36)
             try self.validate(self.lockToken, name: "lockToken", parent: name, min: 1)
             try self.validate(self.lockToken, name: "lockToken", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
@@ -861,6 +1138,7 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: ".*\\S.*")
@@ -884,6 +1162,7 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: ".*\\S.*")
@@ -916,12 +1195,15 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
+            try self.lockToken.forEach {}
             try self.validate(self.lockToken, name: "lockToken", parent: name, max: 36)
             try self.validate(self.lockToken, name: "lockToken", parent: name, min: 1)
             try self.validate(self.lockToken, name: "lockToken", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
@@ -957,12 +1239,15 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
+            try self.lockToken.forEach {}
             try self.validate(self.lockToken, name: "lockToken", parent: name, max: 36)
             try self.validate(self.lockToken, name: "lockToken", parent: name, min: 1)
             try self.validate(self.lockToken, name: "lockToken", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
@@ -998,12 +1283,15 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
+            try self.lockToken.forEach {}
             try self.validate(self.lockToken, name: "lockToken", parent: name, max: 36)
             try self.validate(self.lockToken, name: "lockToken", parent: name, min: 1)
             try self.validate(self.lockToken, name: "lockToken", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
@@ -1036,9 +1324,11 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
+            try self.vendorName.forEach {}
             try self.validate(self.vendorName, name: "vendorName", parent: name, max: 128)
             try self.validate(self.vendorName, name: "vendorName", parent: name, min: 1)
             try self.validate(self.vendorName, name: "vendorName", parent: name, pattern: ".*\\S.*")
@@ -1052,17 +1342,29 @@ extension WAFV2 {
     }
 
     public struct DescribeManagedRuleGroupResponse: AWSDecodableShape {
+        /// The labels that one or more rules in this rule group add to matching web ACLs. These labels are defined in the RuleLabels for a Rule.
+        public let availableLabels: [LabelSummary]?
         /// The web ACL capacity units (WCUs) required for this rule group. AWS WAF uses web ACL capacity units (WCU) to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. AWS WAF calculates capacity differently for each rule type, to reflect each rule's relative cost. Rule group capacity is fixed at creation, so users can plan their web ACL WCU usage when they use a rule group. The WCU limit for web ACLs is 1,500.
         public let capacity: Int64?
+        /// The labels that one or more rules in this rule group match against in label match statements. These labels are defined in a LabelMatchStatement specification, in the Statement definition of a rule.
+        public let consumedLabels: [LabelSummary]?
+        /// The label namespace prefix for this rule group. All labels added by rules in this rule group have this prefix.    The syntax for the label namespace prefix for a managed rule group is the following:   awswaf:managed:&lt;vendor&gt;:&lt;rule group name&gt;:   When a rule with a label matches a web request, AWS WAF adds the fully qualified label to the request. A fully qualified label is made up of the label namespace from the rule group or web ACL where the rule is defined and the label from the rule, separated by a colon:   &lt;label namespace&gt;:&lt;label from rule&gt;
+        public let labelNamespace: String?
         public let rules: [RuleSummary]?
 
-        public init(capacity: Int64? = nil, rules: [RuleSummary]? = nil) {
+        public init(availableLabels: [LabelSummary]? = nil, capacity: Int64? = nil, consumedLabels: [LabelSummary]? = nil, labelNamespace: String? = nil, rules: [RuleSummary]? = nil) {
+            self.availableLabels = availableLabels
             self.capacity = capacity
+            self.consumedLabels = consumedLabels
+            self.labelNamespace = labelNamespace
             self.rules = rules
         }
 
         private enum CodingKeys: String, CodingKey {
+            case availableLabels = "AvailableLabels"
             case capacity = "Capacity"
+            case consumedLabels = "ConsumedLabels"
+            case labelNamespace = "LabelNamespace"
             case rules = "Rules"
         }
     }
@@ -1076,6 +1378,7 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: ".*\\S.*")
@@ -1099,6 +1402,7 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
@@ -1120,9 +1424,9 @@ extension WAFV2 {
         public let method: Method?
         /// Inspect the query string. This is the part of a URL that appears after a ? character, if any.
         public let queryString: QueryString?
-        /// Inspect a single header. Provide the name of the header to inspect, for example, User-Agent or Referer. This setting isn't case sensitive.
+        /// Inspect a single header. Provide the name of the header to inspect, for example, User-Agent or Referer. This setting isn't case sensitive. Example JSON: "SingleHeader": { "Name": "haystack" }
         public let singleHeader: SingleHeader?
-        /// Inspect a single query argument. Provide the name of the query argument to inspect, such as UserName or SalesRegion. The name can be up to 30 characters long and isn't case sensitive.  This is used only to indicate the web request component for AWS WAF to inspect, in the FieldToMatch specification.
+        /// Inspect a single query argument. Provide the name of the query argument to inspect, such as UserName or SalesRegion. The name can be up to 30 characters long and isn't case sensitive.  This is used only to indicate the web request component for AWS WAF to inspect, in the FieldToMatch specification.  Example JSON: "SingleQueryArgument": { "Name": "myArgument" }
         public let singleQueryArgument: SingleQueryArgument?
         /// Inspect the request URI path. This is the part of a web request that identifies a resource, for example, /images/daily-ad.jpg.
         public let uriPath: UriPath?
@@ -1140,8 +1444,11 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.jsonBody?.validate(name: "\(name).jsonBody")
+            try self.jsonBody?.forEach {}
             try self.singleHeader?.validate(name: "\(name).singleHeader")
+            try self.singleHeader?.forEach {}
             try self.singleQueryArgument?.validate(name: "\(name).singleQueryArgument")
+            try self.singleQueryArgument?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1153,6 +1460,35 @@ extension WAFV2 {
             case singleHeader = "SingleHeader"
             case singleQueryArgument = "SingleQueryArgument"
             case uriPath = "UriPath"
+        }
+    }
+
+    public struct Filter: AWSEncodableShape & AWSDecodableShape {
+        /// How to handle logs that satisfy the filter's conditions and requirement.
+        public let behavior: FilterBehavior
+        /// Match conditions for the filter.
+        public let conditions: [Condition]
+        /// Logic to apply to the filtering conditions. You can specify that, in order to satisfy the filter, a log must match all conditions or must match at least one condition.
+        public let requirement: FilterRequirement
+
+        public init(behavior: FilterBehavior, conditions: [Condition], requirement: FilterRequirement) {
+            self.behavior = behavior
+            self.conditions = conditions
+            self.requirement = requirement
+        }
+
+        public func validate(name: String) throws {
+            try self.conditions.forEach {
+                try $0.validate(name: "\(name).conditions[]")
+            }
+            try self.conditions.forEach {}
+            try self.validate(self.conditions, name: "conditions", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case behavior = "Behavior"
+            case conditions = "Conditions"
+            case requirement = "Requirement"
         }
     }
 
@@ -1210,6 +1546,7 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.headerName.forEach {}
             try self.validate(self.headerName, name: "headerName", parent: name, max: 255)
             try self.validate(self.headerName, name: "headerName", parent: name, min: 1)
             try self.validate(self.headerName, name: "headerName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
@@ -1233,8 +1570,10 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.countryCodes?.forEach {}
             try self.validate(self.countryCodes, name: "countryCodes", parent: name, min: 1)
             try self.forwardedIPConfig?.validate(name: "\(name).forwardedIPConfig")
+            try self.forwardedIPConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1258,9 +1597,11 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
@@ -1298,6 +1639,7 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: ".*\\S.*")
@@ -1330,6 +1672,7 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: ".*\\S.*")
@@ -1371,12 +1714,15 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.ruleName.forEach {}
             try self.validate(self.ruleName, name: "ruleName", parent: name, max: 128)
             try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
             try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "^[\\w\\-]+$")
+            try self.webACLId.forEach {}
             try self.validate(self.webACLId, name: "webACLId", parent: name, max: 36)
             try self.validate(self.webACLId, name: "webACLId", parent: name, min: 1)
             try self.validate(self.webACLId, name: "webACLId", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
+            try self.webACLName.forEach {}
             try self.validate(self.webACLName, name: "webACLName", parent: name, max: 128)
             try self.validate(self.webACLName, name: "webACLName", parent: name, min: 1)
             try self.validate(self.webACLName, name: "webACLName", parent: name, pattern: "^[\\w\\-]+$")
@@ -1422,9 +1768,11 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
@@ -1468,9 +1816,11 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
@@ -1520,11 +1870,14 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.maxItems.forEach {}
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 500)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
+            try self.ruleMetricName.forEach {}
             try self.validate(self.ruleMetricName, name: "ruleMetricName", parent: name, max: 255)
             try self.validate(self.ruleMetricName, name: "ruleMetricName", parent: name, min: 1)
             try self.validate(self.ruleMetricName, name: "ruleMetricName", parent: name, pattern: "^[\\w#:\\.\\-/]+$")
+            try self.webAclArn.forEach {}
             try self.validate(self.webAclArn, name: "webAclArn", parent: name, max: 2048)
             try self.validate(self.webAclArn, name: "webAclArn", parent: name, min: 20)
             try self.validate(self.webAclArn, name: "webAclArn", parent: name, pattern: ".*\\S.*")
@@ -1569,6 +1922,7 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: ".*\\S.*")
@@ -1607,9 +1961,11 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
@@ -1690,7 +2046,7 @@ extension WAFV2 {
     }
 
     public struct IPSet: AWSDecodableShape {
-        /// Contains an array of strings that specify one or more IP addresses or blocks of IP addresses in Classless Inter-Domain Routing (CIDR) notation. AWS WAF supports all address ranges for IP versions IPv4 and IPv6.  Examples:    To configure AWS WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   To configure AWS WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.
+        /// Contains an array of strings that specify one or more IP addresses or blocks of IP addresses in Classless Inter-Domain Routing (CIDR) notation. AWS WAF supports all IPv4 and IPv6 CIDR ranges except for /0.  Examples:    To configure AWS WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   To configure AWS WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.
         public let addresses: [String]
         /// The Amazon Resource Name (ARN) of the entity.
         public let arn: String
@@ -1737,6 +2093,7 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.headerName.forEach {}
             try self.validate(self.headerName, name: "headerName", parent: name, max: 255)
             try self.validate(self.headerName, name: "headerName", parent: name, min: 1)
             try self.validate(self.headerName, name: "headerName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
@@ -1761,10 +2118,12 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 2048)
             try self.validate(self.arn, name: "arn", parent: name, min: 20)
             try self.validate(self.arn, name: "arn", parent: name, pattern: ".*\\S.*")
             try self.iPSetForwardedIPConfig?.validate(name: "\(name).iPSetForwardedIPConfig")
+            try self.iPSetForwardedIPConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1803,7 +2162,7 @@ extension WAFV2 {
     }
 
     public struct JsonBody: AWSEncodableShape & AWSDecodableShape {
-        /// The inspection behavior to fall back to if the JSON in the request body is invalid. For AWS WAF, invalid JSON is any content that isn't complete syntactical JSON, content whose root node isn't an object or an array, and duplicate keys in the content.  You can specify the following fallback behaviors:    MATCH - Treat the web request as matching the rule statement. AWS WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.    EVALUATE_AS_STRING - Inspect the body as plain text. This option applies the text transformations and inspection criteria that you defined for the JSON inspection to the body text string.    If you don't provide this setting, when AWS WAF encounters invalid JSON, it parses and inspects what it can, up to the first invalid JSON that it encounters.
+        /// What AWS WAF should do if it fails to completely parse the JSON body. The options are the following:    EVALUATE_AS_STRING - Inspect the body as plain text. AWS WAF applies the text transformations and inspection criteria that you defined for the JSON inspection to the body text string.    MATCH - Treat the web request as matching the rule statement. AWS WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.   If you don't provide this setting, AWS WAF parses and evaluates the content only up to the first parsing failure that it encounters.  AWS WAF does its best to parse the entire JSON body, but might be forced to stop for reasons such as invalid characters, duplicate keys, truncation, and any content whose root node isn't an object or an array.  AWS WAF parses the JSON in the following examples as two valid key, value pairs:    Missing comma: {"key1":"value1""key2":"value2"}    Missing colon: {"key1":"value1","key2""value2"}    Extra colons: {"key1"::"value1","key2""value2"}
         public let invalidFallbackBehavior: BodyParsingFallbackBehavior?
         /// The patterns to look for in the JSON body. AWS WAF inspects the results of these pattern matches against the rule inspection criteria.
         public let matchPattern: JsonMatchPattern
@@ -1818,6 +2177,7 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.matchPattern.validate(name: "\(name).matchPattern")
+            try self.matchPattern.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1844,12 +2204,90 @@ extension WAFV2 {
                 try validate($0, name: "includedPaths[]", parent: name, min: 1)
                 try validate($0, name: "includedPaths[]", parent: name, pattern: "([/])|([/](([^~])|(~[01]))+)")
             }
+            try self.includedPaths?.forEach {}
             try self.validate(self.includedPaths, name: "includedPaths", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case all = "All"
             case includedPaths = "IncludedPaths"
+        }
+    }
+
+    public struct Label: AWSEncodableShape & AWSDecodableShape {
+        /// The label string.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.name.forEach {}
+            try self.validate(self.name, name: "name", parent: name, max: 1024)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9A-Za-z_\\-:]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct LabelMatchStatement: AWSEncodableShape & AWSDecodableShape {
+        /// The string to match against. The setting you provide for this depends on the match statement's Scope settings:    If the Scope indicates LABEL, then this specification must include the name and can include any number of preceding namespace specifications and prefix up to providing the fully qualified label name.    If the Scope indicates NAMESPACE, then this specification can include any number of contiguous namespace strings, and can include the entire label namespace prefix from the rule group or web ACL where the label originates.   Labels are case sensitive and components of a label must be separated by colon, for example NS1:NS2:name.
+        public let key: String
+        /// Specify whether you want to match using the label name or just the namespace.
+        public let scope: LabelMatchScope
+
+        public init(key: String, scope: LabelMatchScope) {
+            self.key = key
+            self.scope = scope
+        }
+
+        public func validate(name: String) throws {
+            try self.key.forEach {}
+            try self.validate(self.key, name: "key", parent: name, max: 1024)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^[0-9A-Za-z_\\-:]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case scope = "Scope"
+        }
+    }
+
+    public struct LabelNameCondition: AWSEncodableShape & AWSDecodableShape {
+        /// The label name that a log record must contain in order to meet the condition. This must be a fully qualified label name. Fully qualified labels have a prefix, optional namespaces, and label name. The prefix identifies the rule group or web ACL context of the rule that added the label.
+        public let labelName: String
+
+        public init(labelName: String) {
+            self.labelName = labelName
+        }
+
+        public func validate(name: String) throws {
+            try self.labelName.forEach {}
+            try self.validate(self.labelName, name: "labelName", parent: name, max: 1024)
+            try self.validate(self.labelName, name: "labelName", parent: name, min: 1)
+            try self.validate(self.labelName, name: "labelName", parent: name, pattern: "^[0-9A-Za-z_\\-:]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case labelName = "LabelName"
+        }
+    }
+
+    public struct LabelSummary: AWSDecodableShape {
+        /// An individual label specification.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
@@ -1868,8 +2306,10 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.nextMarker?.forEach {}
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 256)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
@@ -1913,8 +2353,10 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.nextMarker?.forEach {}
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 256)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
@@ -1959,8 +2401,10 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.nextMarker?.forEach {}
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 256)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
@@ -2004,8 +2448,10 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.nextMarker?.forEach {}
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 256)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
@@ -2046,6 +2492,7 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.webACLArn.forEach {}
             try self.validate(self.webACLArn, name: "webACLArn", parent: name, max: 2048)
             try self.validate(self.webACLArn, name: "webACLArn", parent: name, min: 20)
             try self.validate(self.webACLArn, name: "webACLArn", parent: name, pattern: ".*\\S.*")
@@ -2085,8 +2532,10 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.nextMarker?.forEach {}
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 256)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
@@ -2130,11 +2579,14 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.nextMarker?.forEach {}
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 256)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 2048)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 20)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: ".*\\S.*")
@@ -2179,8 +2631,10 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.nextMarker?.forEach {}
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 256)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
@@ -2212,6 +2666,8 @@ extension WAFV2 {
     public struct LoggingConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Kinesis Data Firehose Amazon Resource Name (ARNs) that you want to associate with the web ACL.
         public let logDestinationConfigs: [String]
+        /// Filtering that specifies which web requests are kept in the logs and which are dropped. You can filter on the rule action and on the web request labels that were applied by matching rules during web ACL evaluation.
+        public let loggingFilter: LoggingFilter?
         /// Indicates whether the logging configuration was created by AWS Firewall Manager, as part of an AWS WAF policy configuration. If true, only Firewall Manager can modify or delete the configuration.
         public let managedByFirewallManager: Bool?
         /// The parts of the request that you want to keep out of the logs. For example, if you redact the HEADER field, the HEADER field in the firehose will be xxx.   You must use one of the following values: URI, QUERY_STRING, HEADER, or METHOD.
@@ -2219,8 +2675,9 @@ extension WAFV2 {
         /// The Amazon Resource Name (ARN) of the web ACL that you want to associate with LogDestinationConfigs.
         public let resourceArn: String
 
-        public init(logDestinationConfigs: [String], managedByFirewallManager: Bool? = nil, redactedFields: [FieldToMatch]? = nil, resourceArn: String) {
+        public init(logDestinationConfigs: [String], loggingFilter: LoggingFilter? = nil, managedByFirewallManager: Bool? = nil, redactedFields: [FieldToMatch]? = nil, resourceArn: String) {
             self.logDestinationConfigs = logDestinationConfigs
+            self.loggingFilter = loggingFilter
             self.managedByFirewallManager = managedByFirewallManager
             self.redactedFields = redactedFields
             self.resourceArn = resourceArn
@@ -2232,12 +2689,17 @@ extension WAFV2 {
                 try validate($0, name: "logDestinationConfigs[]", parent: name, min: 20)
                 try validate($0, name: "logDestinationConfigs[]", parent: name, pattern: ".*\\S.*")
             }
+            try self.logDestinationConfigs.forEach {}
             try self.validate(self.logDestinationConfigs, name: "logDestinationConfigs", parent: name, max: 100)
             try self.validate(self.logDestinationConfigs, name: "logDestinationConfigs", parent: name, min: 1)
+            try self.loggingFilter?.validate(name: "\(name).loggingFilter")
+            try self.loggingFilter?.forEach {}
             try self.redactedFields?.forEach {
                 try $0.validate(name: "\(name).redactedFields[]")
             }
+            try self.redactedFields?.forEach {}
             try self.validate(self.redactedFields, name: "redactedFields", parent: name, max: 100)
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: ".*\\S.*")
@@ -2245,23 +2707,51 @@ extension WAFV2 {
 
         private enum CodingKeys: String, CodingKey {
             case logDestinationConfigs = "LogDestinationConfigs"
+            case loggingFilter = "LoggingFilter"
             case managedByFirewallManager = "ManagedByFirewallManager"
             case redactedFields = "RedactedFields"
             case resourceArn = "ResourceArn"
         }
     }
 
-    public struct ManagedRuleGroupStatement: AWSEncodableShape & AWSDecodableShape {
+    public struct LoggingFilter: AWSEncodableShape & AWSDecodableShape {
+        /// Default handling for logs that don't match any of the specified filtering conditions.
+        public let defaultBehavior: FilterBehavior
+        /// The filters that you want to apply to the logs.
+        public let filters: [Filter]
+
+        public init(defaultBehavior: FilterBehavior, filters: [Filter]) {
+            self.defaultBehavior = defaultBehavior
+            self.filters = filters
+        }
+
+        public func validate(name: String) throws {
+            try self.filters.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.filters.forEach {}
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultBehavior = "DefaultBehavior"
+            case filters = "Filters"
+        }
+    }
+
+    public class ManagedRuleGroupStatement: AWSEncodableShape & AWSDecodableShape {
         /// The rules whose actions are set to COUNT by the web ACL, regardless of the action that is set on the rule. This effectively excludes the rule from acting on web requests.
         public let excludedRules: [ExcludedRule]?
         /// The name of the managed rule group. You use this, along with the vendor name, to identify the rule group.
         public let name: String
+        public let scopeDownStatement: Statement?
         /// The name of the managed rule group vendor. You use this, along with the rule group name, to identify the rule group.
         public let vendorName: String
 
-        public init(excludedRules: [ExcludedRule]? = nil, name: String, vendorName: String) {
+        public init(excludedRules: [ExcludedRule]? = nil, name: String, scopeDownStatement: Statement? = nil, vendorName: String) {
             self.excludedRules = excludedRules
             self.name = name
+            self.scopeDownStatement = scopeDownStatement
             self.vendorName = vendorName
         }
 
@@ -2269,9 +2759,14 @@ extension WAFV2 {
             try self.excludedRules?.forEach {
                 try $0.validate(name: "\(name).excludedRules[]")
             }
+            try self.excludedRules?.forEach {}
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
+            try self.scopeDownStatement?.validate(name: "\(name).scopeDownStatement")
+            try self.scopeDownStatement?.forEach {}
+            try self.vendorName.forEach {}
             try self.validate(self.vendorName, name: "vendorName", parent: name, max: 128)
             try self.validate(self.vendorName, name: "vendorName", parent: name, min: 1)
             try self.validate(self.vendorName, name: "vendorName", parent: name, pattern: ".*\\S.*")
@@ -2280,6 +2775,7 @@ extension WAFV2 {
         private enum CodingKeys: String, CodingKey {
             case excludedRules = "ExcludedRules"
             case name = "Name"
+            case scopeDownStatement = "ScopeDownStatement"
             case vendorName = "VendorName"
         }
     }
@@ -2323,6 +2819,7 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.statement.validate(name: "\(name).statement")
+            try self.statement.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2342,6 +2839,7 @@ extension WAFV2 {
             try self.statements.forEach {
                 try $0.validate(name: "\(name).statements[]")
             }
+            try self.statements.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2360,6 +2858,11 @@ extension WAFV2 {
             self.none = none
         }
 
+        public func validate(name: String) throws {
+            try self.count?.validate(name: "\(name).count")
+            try self.count?.forEach {}
+        }
+
         private enum CodingKeys: String, CodingKey {
             case count = "Count"
             case none = "None"
@@ -2375,6 +2878,7 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.loggingConfiguration.validate(name: "\(name).loggingConfiguration")
+            try self.loggingConfiguration.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2406,9 +2910,11 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.policy.forEach {}
             try self.validate(self.policy, name: "policy", parent: name, max: 395_000)
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
             try self.validate(self.policy, name: "policy", parent: name, pattern: ".*\\S.*")
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: ".*\\S.*")
@@ -2447,9 +2953,12 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.forwardedIPConfig?.validate(name: "\(name).forwardedIPConfig")
+            try self.forwardedIPConfig?.forEach {}
+            try self.limit.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 2_000_000_000)
             try self.validate(self.limit, name: "limit", parent: name, min: 100)
             try self.scopeDownStatement?.validate(name: "\(name).scopeDownStatement")
+            try self.scopeDownStatement?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2485,6 +2994,7 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.regexString?.forEach {}
             try self.validate(self.regexString, name: "regexString", parent: name, max: 512)
             try self.validate(self.regexString, name: "regexString", parent: name, min: 1)
             try self.validate(self.regexString, name: "regexString", parent: name, pattern: ".*")
@@ -2539,13 +3049,16 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 2048)
             try self.validate(self.arn, name: "arn", parent: name, min: 20)
             try self.validate(self.arn, name: "arn", parent: name, pattern: ".*\\S.*")
             try self.fieldToMatch.validate(name: "\(name).fieldToMatch")
+            try self.fieldToMatch.forEach {}
             try self.textTransformations.forEach {
                 try $0.validate(name: "\(name).textTransformations[]")
             }
+            try self.textTransformations.forEach {}
             try self.validate(self.textTransformations, name: "textTransformations", parent: name, min: 1)
         }
 
@@ -2594,27 +3107,42 @@ extension WAFV2 {
         public let overrideAction: OverrideAction?
         /// If you define more than one Rule in a WebACL, AWS WAF evaluates each request against the Rules in order based on the value of Priority. AWS WAF processes rules with lower priority first. The priorities don't need to be consecutive, but they must all be different.
         public let priority: Int
+        /// Labels to apply to web requests that match the rule match statement. AWS WAF applies fully qualified labels to matching web requests. A fully qualified label is the concatenation of a label namespace and a rule label. The rule's rule group or web ACL defines the label namespace.  Rules that run after this rule in the web ACL can match against these labels using a LabelMatchStatement. For each label, provide a case-sensitive string containing optional namespaces and a label name, according to the following guidelines:   Separate each component of the label with a colon.    Each namespace or name can have up to 128 characters.   You can specify up to 5 namespaces in a label.   Don't use the following reserved words in your label specification: aws, waf, managed, rulegroup, webacl, regexpatternset, or ipset.   For example, myLabelName or nameSpace1:nameSpace2:myLabelName.
+        public let ruleLabels: [Label]?
         /// The AWS WAF processing statement for the rule, for example ByteMatchStatement or SizeConstraintStatement.
         public let statement: Statement
         /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
         public let visibilityConfig: VisibilityConfig
 
-        public init(action: RuleAction? = nil, name: String, overrideAction: OverrideAction? = nil, priority: Int, statement: Statement, visibilityConfig: VisibilityConfig) {
+        public init(action: RuleAction? = nil, name: String, overrideAction: OverrideAction? = nil, priority: Int, ruleLabels: [Label]? = nil, statement: Statement, visibilityConfig: VisibilityConfig) {
             self.action = action
             self.name = name
             self.overrideAction = overrideAction
             self.priority = priority
+            self.ruleLabels = ruleLabels
             self.statement = statement
             self.visibilityConfig = visibilityConfig
         }
 
         public func validate(name: String) throws {
+            try self.action?.validate(name: "\(name).action")
+            try self.action?.forEach {}
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
+            try self.overrideAction?.validate(name: "\(name).overrideAction")
+            try self.overrideAction?.forEach {}
+            try self.priority.forEach {}
             try self.validate(self.priority, name: "priority", parent: name, min: 0)
+            try self.ruleLabels?.forEach {
+                try $0.validate(name: "\(name).ruleLabels[]")
+            }
+            try self.ruleLabels?.forEach {}
             try self.statement.validate(name: "\(name).statement")
+            try self.statement.forEach {}
             try self.visibilityConfig.validate(name: "\(name).visibilityConfig")
+            try self.visibilityConfig.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2622,6 +3150,7 @@ extension WAFV2 {
             case name = "Name"
             case overrideAction = "OverrideAction"
             case priority = "Priority"
+            case ruleLabels = "RuleLabels"
             case statement = "Statement"
             case visibilityConfig = "VisibilityConfig"
         }
@@ -2641,6 +3170,15 @@ extension WAFV2 {
             self.count = count
         }
 
+        public func validate(name: String) throws {
+            try self.allow?.validate(name: "\(name).allow")
+            try self.allow?.forEach {}
+            try self.block?.validate(name: "\(name).block")
+            try self.block?.forEach {}
+            try self.count?.validate(name: "\(name).count")
+            try self.count?.forEach {}
+        }
+
         private enum CodingKeys: String, CodingKey {
             case allow = "Allow"
             case block = "Block"
@@ -2651,12 +3189,20 @@ extension WAFV2 {
     public struct RuleGroup: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the entity.
         public let arn: String
+        /// The labels that one or more rules in this rule group add to matching web ACLs. These labels are defined in the RuleLabels for a Rule.
+        public let availableLabels: [LabelSummary]?
         /// The web ACL capacity units (WCUs) required for this rule group. When you create your own rule group, you define this, and you cannot change it after creation. When you add or modify the rules in a rule group, AWS WAF enforces this limit. You can check the capacity for a set of rules using CheckCapacity. AWS WAF uses WCUs to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. AWS WAF calculates capacity differently for each rule type, to reflect the relative cost of each rule. Simple rules that cost little to run use fewer WCUs than more complex rules that use more processing power. Rule group capacity is fixed at creation, which helps users plan their web ACL WCU usage when they use a rule group. The WCU limit for web ACLs is 1,500.
         public let capacity: Int64
+        /// The labels that one or more rules in this rule group match against in label match statements. These labels are defined in a LabelMatchStatement specification, in the Statement definition of a rule.
+        public let consumedLabels: [LabelSummary]?
+        /// A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the rule group, and then use them in the rules that you define in the rule group.  For information about customizing web requests and responses, see Customizing web requests and responses in AWS WAF in the AWS WAF Developer Guide.  For information about the limits on count and size for custom request and response settings, see AWS WAF quotas in the AWS WAF Developer Guide.
+        public let customResponseBodies: [String: CustomResponseBody]?
         /// A description of the rule group that helps with identification.
         public let description: String?
         /// A unique identifier for the rule group. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
         public let id: String
+        /// The label namespace prefix for this rule group. All labels added by rules in this rule group have this prefix.    The syntax for the label namespace prefix for your rule groups is the following:   awswaf:&lt;account ID&gt;:rulegroup:&lt;rule group name&gt;:    When a rule with a label matches a web request, AWS WAF adds the fully qualified label to the request. A fully qualified label is made up of the label namespace from the rule group or web ACL where the rule is defined and the label from the rule, separated by a colon:   &lt;label namespace&gt;:&lt;label from rule&gt;
+        public let labelNamespace: String?
         /// The name of the rule group. You cannot change the name of a rule group after you create it.
         public let name: String
         /// The Rule statements used to identify the web requests that you want to allow, block, or count. Each rule includes one top-level statement that AWS WAF uses to identify matching web requests, and parameters that govern how AWS WAF handles them.
@@ -2664,11 +3210,15 @@ extension WAFV2 {
         /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
         public let visibilityConfig: VisibilityConfig
 
-        public init(arn: String, capacity: Int64, description: String? = nil, id: String, name: String, rules: [Rule]? = nil, visibilityConfig: VisibilityConfig) {
+        public init(arn: String, availableLabels: [LabelSummary]? = nil, capacity: Int64, consumedLabels: [LabelSummary]? = nil, customResponseBodies: [String: CustomResponseBody]? = nil, description: String? = nil, id: String, labelNamespace: String? = nil, name: String, rules: [Rule]? = nil, visibilityConfig: VisibilityConfig) {
             self.arn = arn
+            self.availableLabels = availableLabels
             self.capacity = capacity
+            self.consumedLabels = consumedLabels
+            self.customResponseBodies = customResponseBodies
             self.description = description
             self.id = id
+            self.labelNamespace = labelNamespace
             self.name = name
             self.rules = rules
             self.visibilityConfig = visibilityConfig
@@ -2676,9 +3226,13 @@ extension WAFV2 {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "ARN"
+            case availableLabels = "AvailableLabels"
             case capacity = "Capacity"
+            case consumedLabels = "ConsumedLabels"
+            case customResponseBodies = "CustomResponseBodies"
             case description = "Description"
             case id = "Id"
+            case labelNamespace = "LabelNamespace"
             case name = "Name"
             case rules = "Rules"
             case visibilityConfig = "VisibilityConfig"
@@ -2697,12 +3251,14 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 2048)
             try self.validate(self.arn, name: "arn", parent: name, min: 20)
             try self.validate(self.arn, name: "arn", parent: name, pattern: ".*\\S.*")
             try self.excludedRules?.forEach {
                 try $0.validate(name: "\(name).excludedRules[]")
             }
+            try self.excludedRules?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2759,8 +3315,14 @@ extension WAFV2 {
     public struct SampledHTTPRequest: AWSDecodableShape {
         /// The action for the Rule that the request matched: ALLOW, BLOCK, or COUNT.
         public let action: String?
+        /// Labels applied to the web request by matching rules. AWS WAF applies fully qualified labels to matching web requests. A fully qualified label is the concatenation of a label namespace and a rule label. The rule's rule group or web ACL defines the label namespace.  For example, awswaf:111122223333:myRuleGroup:testRules:testNS1:testNS2:labelNameA or awswaf:managed:aws:managed-rule-set:header:encoding:utf8.
+        public let labels: [Label]?
         /// A complex type that contains detailed information about the request.
         public let request: HTTPRequest
+        /// Custom request headers inserted by AWS WAF into the request, according to the custom request configuration for the matching rule action.
+        public let requestHeadersInserted: [HTTPHeader]?
+        /// The response code that was sent for the request.
+        public let responseCodeSent: Int?
         /// The name of the Rule that the request matched. For managed rule groups, the format for this name is &lt;vendor name&gt;#&lt;managed rule group name&gt;#&lt;rule name&gt;. For your own rule groups, the format for this name is &lt;rule group name&gt;#&lt;rule name&gt;. If the rule is not in a rule group, this field is absent.
         public let ruleNameWithinRuleGroup: String?
         /// The time at which AWS WAF received the request from your AWS resource, in Unix time format (in seconds).
@@ -2768,9 +3330,12 @@ extension WAFV2 {
         /// A value that indicates how one result in the response relates proportionally to other results in the response. For example, a result that has a weight of 2 represents roughly twice as many web requests as a result that has a weight of 1.
         public let weight: Int64
 
-        public init(action: String? = nil, request: HTTPRequest, ruleNameWithinRuleGroup: String? = nil, timestamp: Date? = nil, weight: Int64) {
+        public init(action: String? = nil, labels: [Label]? = nil, request: HTTPRequest, requestHeadersInserted: [HTTPHeader]? = nil, responseCodeSent: Int? = nil, ruleNameWithinRuleGroup: String? = nil, timestamp: Date? = nil, weight: Int64) {
             self.action = action
+            self.labels = labels
             self.request = request
+            self.requestHeadersInserted = requestHeadersInserted
+            self.responseCodeSent = responseCodeSent
             self.ruleNameWithinRuleGroup = ruleNameWithinRuleGroup
             self.timestamp = timestamp
             self.weight = weight
@@ -2778,7 +3343,10 @@ extension WAFV2 {
 
         private enum CodingKeys: String, CodingKey {
             case action = "Action"
+            case labels = "Labels"
             case request = "Request"
+            case requestHeadersInserted = "RequestHeadersInserted"
+            case responseCodeSent = "ResponseCodeSent"
             case ruleNameWithinRuleGroup = "RuleNameWithinRuleGroup"
             case timestamp = "Timestamp"
             case weight = "Weight"
@@ -2794,6 +3362,7 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
@@ -2813,6 +3382,7 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
@@ -2842,11 +3412,14 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.fieldToMatch.validate(name: "\(name).fieldToMatch")
+            try self.fieldToMatch.forEach {}
+            try self.size.forEach {}
             try self.validate(self.size, name: "size", parent: name, max: 21_474_836_480)
             try self.validate(self.size, name: "size", parent: name, min: 0)
             try self.textTransformations.forEach {
                 try $0.validate(name: "\(name).textTransformations[]")
             }
+            try self.textTransformations.forEach {}
             try self.validate(self.textTransformations, name: "textTransformations", parent: name, min: 1)
         }
 
@@ -2871,9 +3444,11 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.fieldToMatch.validate(name: "\(name).fieldToMatch")
+            try self.fieldToMatch.forEach {}
             try self.textTransformations.forEach {
                 try $0.validate(name: "\(name).textTransformations[]")
             }
+            try self.textTransformations.forEach {}
             try self.validate(self.textTransformations, name: "textTransformations", parent: name, min: 1)
         }
 
@@ -2892,6 +3467,8 @@ extension WAFV2 {
         public let geoMatchStatement: GeoMatchStatement?
         /// A rule statement used to detect web requests coming from particular IP addresses or address ranges. To use this, create an IPSet that specifies the addresses you want to detect, then use the ARN of that set in this statement. To create an IP set, see CreateIPSet. Each IP set rule statement references an IP set. You create and maintain the set independent of your rules. This allows you to use the single set in multiple rules. When you update the referenced set, AWS WAF automatically updates all rules that reference it.
         public let iPSetReferenceStatement: IPSetReferenceStatement?
+        /// A rule statement that defines a string match search against labels that have been added to the web request by rules that have already run in the web ACL.  The label match statement provides the label or namespace string to search for. The label string can represent a part or all of the fully qualified label name that had been added to the web request. Fully qualified labels have a prefix, optional namespaces, and label name. The prefix identifies the rule group or web ACL context of the rule that added the label. If you do not provide the fully qualified name in your label match string, AWS WAF performs the search for labels that were added in the same context as the label match statement.
+        public let labelMatchStatement: LabelMatchStatement?
         /// A rule statement used to run the rules that are defined in a managed rule group. To use this, provide the vendor name and the name of the rule group in this statement. You can retrieve the required names by calling ListAvailableManagedRuleGroups. You can't nest a ManagedRuleGroupStatement, for example for use inside a NotStatement or OrStatement. It can only be referenced as a top-level statement within a rule.
         public let managedRuleGroupStatement: ManagedRuleGroupStatement?
         /// A logical rule statement used to negate the results of another rule statement. You provide one Statement within the NotStatement.
@@ -2911,11 +3488,12 @@ extension WAFV2 {
         /// A rule statement that defines a cross-site scripting (XSS) match search for AWS WAF to apply to web requests. XSS attacks are those where the attacker uses vulnerabilities in a benign website as a vehicle to inject malicious client-site scripts into other legitimate web browsers. The XSS match statement provides the location in requests that you want AWS WAF to search and text transformations to use on the search area before AWS WAF searches for character sequences that are likely to be malicious strings.
         public let xssMatchStatement: XssMatchStatement?
 
-        public init(andStatement: AndStatement? = nil, byteMatchStatement: ByteMatchStatement? = nil, geoMatchStatement: GeoMatchStatement? = nil, iPSetReferenceStatement: IPSetReferenceStatement? = nil, managedRuleGroupStatement: ManagedRuleGroupStatement? = nil, notStatement: NotStatement? = nil, orStatement: OrStatement? = nil, rateBasedStatement: RateBasedStatement? = nil, regexPatternSetReferenceStatement: RegexPatternSetReferenceStatement? = nil, ruleGroupReferenceStatement: RuleGroupReferenceStatement? = nil, sizeConstraintStatement: SizeConstraintStatement? = nil, sqliMatchStatement: SqliMatchStatement? = nil, xssMatchStatement: XssMatchStatement? = nil) {
+        public init(andStatement: AndStatement? = nil, byteMatchStatement: ByteMatchStatement? = nil, geoMatchStatement: GeoMatchStatement? = nil, iPSetReferenceStatement: IPSetReferenceStatement? = nil, labelMatchStatement: LabelMatchStatement? = nil, managedRuleGroupStatement: ManagedRuleGroupStatement? = nil, notStatement: NotStatement? = nil, orStatement: OrStatement? = nil, rateBasedStatement: RateBasedStatement? = nil, regexPatternSetReferenceStatement: RegexPatternSetReferenceStatement? = nil, ruleGroupReferenceStatement: RuleGroupReferenceStatement? = nil, sizeConstraintStatement: SizeConstraintStatement? = nil, sqliMatchStatement: SqliMatchStatement? = nil, xssMatchStatement: XssMatchStatement? = nil) {
             self.andStatement = andStatement
             self.byteMatchStatement = byteMatchStatement
             self.geoMatchStatement = geoMatchStatement
             self.iPSetReferenceStatement = iPSetReferenceStatement
+            self.labelMatchStatement = labelMatchStatement
             self.managedRuleGroupStatement = managedRuleGroupStatement
             self.notStatement = notStatement
             self.orStatement = orStatement
@@ -2929,18 +3507,33 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.andStatement?.validate(name: "\(name).andStatement")
+            try self.andStatement?.forEach {}
             try self.byteMatchStatement?.validate(name: "\(name).byteMatchStatement")
+            try self.byteMatchStatement?.forEach {}
             try self.geoMatchStatement?.validate(name: "\(name).geoMatchStatement")
+            try self.geoMatchStatement?.forEach {}
             try self.iPSetReferenceStatement?.validate(name: "\(name).iPSetReferenceStatement")
+            try self.iPSetReferenceStatement?.forEach {}
+            try self.labelMatchStatement?.validate(name: "\(name).labelMatchStatement")
+            try self.labelMatchStatement?.forEach {}
             try self.managedRuleGroupStatement?.validate(name: "\(name).managedRuleGroupStatement")
+            try self.managedRuleGroupStatement?.forEach {}
             try self.notStatement?.validate(name: "\(name).notStatement")
+            try self.notStatement?.forEach {}
             try self.orStatement?.validate(name: "\(name).orStatement")
+            try self.orStatement?.forEach {}
             try self.rateBasedStatement?.validate(name: "\(name).rateBasedStatement")
+            try self.rateBasedStatement?.forEach {}
             try self.regexPatternSetReferenceStatement?.validate(name: "\(name).regexPatternSetReferenceStatement")
+            try self.regexPatternSetReferenceStatement?.forEach {}
             try self.ruleGroupReferenceStatement?.validate(name: "\(name).ruleGroupReferenceStatement")
+            try self.ruleGroupReferenceStatement?.forEach {}
             try self.sizeConstraintStatement?.validate(name: "\(name).sizeConstraintStatement")
+            try self.sizeConstraintStatement?.forEach {}
             try self.sqliMatchStatement?.validate(name: "\(name).sqliMatchStatement")
+            try self.sqliMatchStatement?.forEach {}
             try self.xssMatchStatement?.validate(name: "\(name).xssMatchStatement")
+            try self.xssMatchStatement?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2948,6 +3541,7 @@ extension WAFV2 {
             case byteMatchStatement = "ByteMatchStatement"
             case geoMatchStatement = "GeoMatchStatement"
             case iPSetReferenceStatement = "IPSetReferenceStatement"
+            case labelMatchStatement = "LabelMatchStatement"
             case managedRuleGroupStatement = "ManagedRuleGroupStatement"
             case notStatement = "NotStatement"
             case orStatement = "OrStatement"
@@ -2972,9 +3566,11 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
             try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -3015,12 +3611,14 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 2048)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 20)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: ".*\\S.*")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
@@ -3046,6 +3644,7 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.priority.forEach {}
             try self.validate(self.priority, name: "priority", parent: name, min: 0)
         }
 
@@ -3084,6 +3683,7 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 2048)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 20)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: ".*\\S.*")
@@ -3092,6 +3692,7 @@ extension WAFV2 {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
 
@@ -3106,7 +3707,7 @@ extension WAFV2 {
     }
 
     public struct UpdateIPSetRequest: AWSEncodableShape {
-        /// Contains an array of strings that specify one or more IP addresses or blocks of IP addresses in Classless Inter-Domain Routing (CIDR) notation. AWS WAF supports all address ranges for IP versions IPv4 and IPv6.  Examples:    To configure AWS WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   To configure AWS WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.
+        /// Contains an array of strings that specify one or more IP addresses or blocks of IP addresses in Classless Inter-Domain Routing (CIDR) notation. AWS WAF supports all IPv4 and IPv6 CIDR ranges except for /0.  Examples:    To configure AWS WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   To configure AWS WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.
         public let addresses: [String]
         /// A description of the IP set that helps with identification.
         public let description: String?
@@ -3134,15 +3735,20 @@ extension WAFV2 {
                 try validate($0, name: "addresses[]", parent: name, min: 1)
                 try validate($0, name: "addresses[]", parent: name, pattern: ".*\\S.*")
             }
+            try self.addresses.forEach {}
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\w+=:#@/\\-,\\.][\\w+=:#@/\\-,\\.\\s]+[\\w+=:#@/\\-,\\.]$")
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
+            try self.lockToken.forEach {}
             try self.validate(self.lockToken, name: "lockToken", parent: name, max: 36)
             try self.validate(self.lockToken, name: "lockToken", parent: name, min: 1)
             try self.validate(self.lockToken, name: "lockToken", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
@@ -3194,21 +3800,26 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\w+=:#@/\\-,\\.][\\w+=:#@/\\-,\\.\\s]+[\\w+=:#@/\\-,\\.]$")
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
+            try self.lockToken.forEach {}
             try self.validate(self.lockToken, name: "lockToken", parent: name, max: 36)
             try self.validate(self.lockToken, name: "lockToken", parent: name, min: 1)
             try self.validate(self.lockToken, name: "lockToken", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
             try self.regularExpressionList.forEach {
                 try $0.validate(name: "\(name).regularExpressionList[]")
             }
+            try self.regularExpressionList.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3235,6 +3846,8 @@ extension WAFV2 {
     }
 
     public struct UpdateRuleGroupRequest: AWSEncodableShape {
+        /// A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the rule group, and then use them in the rules that you define in the rule group.  For information about customizing web requests and responses, see Customizing web requests and responses in AWS WAF in the AWS WAF Developer Guide.  For information about the limits on count and size for custom request and response settings, see AWS WAF quotas in the AWS WAF Developer Guide.
+        public let customResponseBodies: [String: CustomResponseBody]?
         /// A description of the rule group that helps with identification.
         public let description: String?
         /// A unique identifier for the rule group. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
@@ -3250,7 +3863,8 @@ extension WAFV2 {
         /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
         public let visibilityConfig: VisibilityConfig
 
-        public init(description: String? = nil, id: String, lockToken: String, name: String, rules: [Rule]? = nil, scope: Scope, visibilityConfig: VisibilityConfig) {
+        public init(customResponseBodies: [String: CustomResponseBody]? = nil, description: String? = nil, id: String, lockToken: String, name: String, rules: [Rule]? = nil, scope: Scope, visibilityConfig: VisibilityConfig) {
+            self.customResponseBodies = customResponseBodies
             self.description = description
             self.id = id
             self.lockToken = lockToken
@@ -3261,25 +3875,38 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.customResponseBodies?.forEach {
+                try validate($0.key, name: "customResponseBodies.key", parent: name, max: 128)
+                try validate($0.key, name: "customResponseBodies.key", parent: name, min: 1)
+                try validate($0.key, name: "customResponseBodies.key", parent: name, pattern: "^[\\w\\-]+$")
+                try $0.value.validate(name: "\(name).customResponseBodies[\"\($0.key)\"]")
+            }
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\w+=:#@/\\-,\\.][\\w+=:#@/\\-,\\.\\s]+[\\w+=:#@/\\-,\\.]$")
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
+            try self.lockToken.forEach {}
             try self.validate(self.lockToken, name: "lockToken", parent: name, max: 36)
             try self.validate(self.lockToken, name: "lockToken", parent: name, min: 1)
             try self.validate(self.lockToken, name: "lockToken", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
             try self.rules?.forEach {
                 try $0.validate(name: "\(name).rules[]")
             }
+            try self.rules?.forEach {}
             try self.visibilityConfig.validate(name: "\(name).visibilityConfig")
+            try self.visibilityConfig.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customResponseBodies = "CustomResponseBodies"
             case description = "Description"
             case id = "Id"
             case lockToken = "LockToken"
@@ -3304,6 +3931,8 @@ extension WAFV2 {
     }
 
     public struct UpdateWebACLRequest: AWSEncodableShape {
+        /// A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the web ACL, and then use them in the rules and default actions that you define in the web ACL.  For information about customizing web requests and responses, see Customizing web requests and responses in AWS WAF in the AWS WAF Developer Guide.  For information about the limits on count and size for custom request and response settings, see AWS WAF quotas in the AWS WAF Developer Guide.
+        public let customResponseBodies: [String: CustomResponseBody]?
         /// The action to perform if none of the Rules contained in the WebACL match.
         public let defaultAction: DefaultAction
         /// A description of the Web ACL that helps with identification.
@@ -3321,7 +3950,8 @@ extension WAFV2 {
         /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
         public let visibilityConfig: VisibilityConfig
 
-        public init(defaultAction: DefaultAction, description: String? = nil, id: String, lockToken: String, name: String, rules: [Rule]? = nil, scope: Scope, visibilityConfig: VisibilityConfig) {
+        public init(customResponseBodies: [String: CustomResponseBody]? = nil, defaultAction: DefaultAction, description: String? = nil, id: String, lockToken: String, name: String, rules: [Rule]? = nil, scope: Scope, visibilityConfig: VisibilityConfig) {
+            self.customResponseBodies = customResponseBodies
             self.defaultAction = defaultAction
             self.description = description
             self.id = id
@@ -3333,25 +3963,40 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.customResponseBodies?.forEach {
+                try validate($0.key, name: "customResponseBodies.key", parent: name, max: 128)
+                try validate($0.key, name: "customResponseBodies.key", parent: name, min: 1)
+                try validate($0.key, name: "customResponseBodies.key", parent: name, pattern: "^[\\w\\-]+$")
+                try $0.value.validate(name: "\(name).customResponseBodies[\"\($0.key)\"]")
+            }
+            try self.defaultAction.validate(name: "\(name).defaultAction")
+            try self.defaultAction.forEach {}
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\w+=:#@/\\-,\\.][\\w+=:#@/\\-,\\.\\s]+[\\w+=:#@/\\-,\\.]$")
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
+            try self.lockToken.forEach {}
             try self.validate(self.lockToken, name: "lockToken", parent: name, max: 36)
             try self.validate(self.lockToken, name: "lockToken", parent: name, min: 1)
             try self.validate(self.lockToken, name: "lockToken", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
             try self.rules?.forEach {
                 try $0.validate(name: "\(name).rules[]")
             }
+            try self.rules?.forEach {}
             try self.visibilityConfig.validate(name: "\(name).visibilityConfig")
+            try self.visibilityConfig.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customResponseBodies = "CustomResponseBodies"
             case defaultAction = "DefaultAction"
             case description = "Description"
             case id = "Id"
@@ -3395,6 +4040,7 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.metricName.forEach {}
             try self.validate(self.metricName, name: "metricName", parent: name, max: 255)
             try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
             try self.validate(self.metricName, name: "metricName", parent: name, pattern: "^[\\w#:\\.\\-/]+$")
@@ -3412,12 +4058,16 @@ extension WAFV2 {
         public let arn: String
         /// The web ACL capacity units (WCUs) currently being used by this web ACL.  AWS WAF uses WCUs to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. AWS WAF calculates capacity differently for each rule type, to reflect the relative cost of each rule. Simple rules that cost little to run use fewer WCUs than more complex rules that use more processing power. Rule group capacity is fixed at creation, which helps users plan their web ACL WCU usage when they use a rule group. The WCU limit for web ACLs is 1,500.
         public let capacity: Int64?
+        /// A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the web ACL, and then use them in the rules and default actions that you define in the web ACL.  For information about customizing web requests and responses, see Customizing web requests and responses in AWS WAF in the AWS WAF Developer Guide.  For information about the limits on count and size for custom request and response settings, see AWS WAF quotas in the AWS WAF Developer Guide.
+        public let customResponseBodies: [String: CustomResponseBody]?
         /// The action to perform if none of the Rules contained in the WebACL match.
         public let defaultAction: DefaultAction
         /// A description of the Web ACL that helps with identification.
         public let description: String?
         /// A unique identifier for the WebACL. This ID is returned in the responses to create and list commands. You use this ID to do things like get, update, and delete a WebACL.
         public let id: String
+        /// The label namespace prefix for this web ACL. All labels added by rules in this web ACL have this prefix.    The syntax for the label namespace prefix for a web ACL is the following:   awswaf:&lt;account ID&gt;:webacl:&lt;web ACL name&gt;:    When a rule with a label matches a web request, AWS WAF adds the fully qualified label to the request. A fully qualified label is made up of the label namespace from the rule group or web ACL where the rule is defined and the label from the rule, separated by a colon:   &lt;label namespace&gt;:&lt;label from rule&gt;
+        public let labelNamespace: String?
         /// Indicates whether this web ACL is managed by AWS Firewall Manager. If true, then only AWS Firewall Manager can delete the web ACL or any Firewall Manager rule groups in the web ACL.
         public let managedByFirewallManager: Bool?
         /// The name of the Web ACL. You cannot change the name of a Web ACL after you create it.
@@ -3431,12 +4081,14 @@ extension WAFV2 {
         /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
         public let visibilityConfig: VisibilityConfig
 
-        public init(arn: String, capacity: Int64? = nil, defaultAction: DefaultAction, description: String? = nil, id: String, managedByFirewallManager: Bool? = nil, name: String, postProcessFirewallManagerRuleGroups: [FirewallManagerRuleGroup]? = nil, preProcessFirewallManagerRuleGroups: [FirewallManagerRuleGroup]? = nil, rules: [Rule]? = nil, visibilityConfig: VisibilityConfig) {
+        public init(arn: String, capacity: Int64? = nil, customResponseBodies: [String: CustomResponseBody]? = nil, defaultAction: DefaultAction, description: String? = nil, id: String, labelNamespace: String? = nil, managedByFirewallManager: Bool? = nil, name: String, postProcessFirewallManagerRuleGroups: [FirewallManagerRuleGroup]? = nil, preProcessFirewallManagerRuleGroups: [FirewallManagerRuleGroup]? = nil, rules: [Rule]? = nil, visibilityConfig: VisibilityConfig) {
             self.arn = arn
             self.capacity = capacity
+            self.customResponseBodies = customResponseBodies
             self.defaultAction = defaultAction
             self.description = description
             self.id = id
+            self.labelNamespace = labelNamespace
             self.managedByFirewallManager = managedByFirewallManager
             self.name = name
             self.postProcessFirewallManagerRuleGroups = postProcessFirewallManagerRuleGroups
@@ -3448,9 +4100,11 @@ extension WAFV2 {
         private enum CodingKeys: String, CodingKey {
             case arn = "ARN"
             case capacity = "Capacity"
+            case customResponseBodies = "CustomResponseBodies"
             case defaultAction = "DefaultAction"
             case description = "Description"
             case id = "Id"
+            case labelNamespace = "LabelNamespace"
             case managedByFirewallManager = "ManagedByFirewallManager"
             case name = "Name"
             case postProcessFirewallManagerRuleGroups = "PostProcessFirewallManagerRuleGroups"
@@ -3502,9 +4156,11 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.fieldToMatch.validate(name: "\(name).fieldToMatch")
+            try self.fieldToMatch.forEach {}
             try self.textTransformations.forEach {
                 try $0.validate(name: "\(name).textTransformations[]")
             }
+            try self.textTransformations.forEach {}
             try self.validate(self.textTransformations, name: "textTransformations", parent: name, min: 1)
         }
 

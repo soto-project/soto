@@ -288,10 +288,13 @@ extension SMS {
         }
 
         public func validate(name: String) throws {
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\S]+$")
             try self.ssmValidationParameters?.validate(name: "\(name).ssmValidationParameters")
+            try self.ssmValidationParameters?.forEach {}
+            try self.validationId?.forEach {}
             try self.validate(self.validationId, name: "validationId", parent: name, pattern: "^val-[0-9a-f]{17}$")
         }
 
@@ -549,6 +552,7 @@ extension SMS {
         }
 
         public func validate(name: String) throws {
+            try self.appId.forEach {}
             try self.validate(self.appId, name: "appId", parent: name, pattern: "^app-[0-9a-f]{17}$")
         }
 
@@ -770,6 +774,7 @@ extension SMS {
         }
 
         public func validate(name: String) throws {
+            try self.appId.forEach {}
             try self.validate(self.appId, name: "appId", parent: name, pattern: "^app-[0-9a-f]{17}$")
         }
 
@@ -804,6 +809,7 @@ extension SMS {
         }
 
         public func validate(name: String) throws {
+            try self.appId.forEach {}
             try self.validate(self.appId, name: "appId", parent: name, pattern: "^app-[0-9a-f]{17}$")
         }
 
@@ -1101,7 +1107,9 @@ extension SMS {
         }
 
         public func validate(name: String) throws {
+            try self.statusMessage?.forEach {}
             try self.validate(self.statusMessage, name: "statusMessage", parent: name, max: 2500)
+            try self.validationId?.forEach {}
             try self.validate(self.validationId, name: "validationId", parent: name, pattern: "^val-[0-9a-f]{17}$")
         }
 
@@ -1124,8 +1132,10 @@ extension SMS {
         }
 
         public func validate(name: String) throws {
+            try self.appId.forEach {}
             try self.validate(self.appId, name: "appId", parent: name, pattern: "^app-[0-9a-f]{17}$")
             try self.notificationContext?.validate(name: "\(name).notificationContext")
+            try self.notificationContext?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1159,6 +1169,7 @@ extension SMS {
             try self.serverGroupLaunchConfigurations?.forEach {
                 try $0.validate(name: "\(name).serverGroupLaunchConfigurations[]")
             }
+            try self.serverGroupLaunchConfigurations?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1209,13 +1220,16 @@ extension SMS {
         }
 
         public func validate(name: String) throws {
+            try self.appId.forEach {}
             try self.validate(self.appId, name: "appId", parent: name, pattern: "^app-[0-9a-f]{17}$")
             try self.appValidationConfigurations?.forEach {
                 try $0.validate(name: "\(name).appValidationConfigurations[]")
             }
+            try self.appValidationConfigurations?.forEach {}
             try self.serverGroupValidationConfigurations?.forEach {
                 try $0.validate(name: "\(name).serverGroupValidationConfigurations[]")
             }
+            try self.serverGroupValidationConfigurations?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1392,8 +1406,10 @@ extension SMS {
         }
 
         public func validate(name: String) throws {
+            try self.bucket?.forEach {}
             try self.validate(self.bucket, name: "bucket", parent: name, max: 63)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
+            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 1024)
         }
 
@@ -1439,12 +1455,16 @@ extension SMS {
         }
 
         public func validate(name: String) throws {
+            try self.command?.forEach {}
             try self.validate(self.command, name: "command", parent: name, max: 64000)
             try self.validate(self.command, name: "command", parent: name, min: 1)
+            try self.executionTimeoutSeconds?.forEach {}
             try self.validate(self.executionTimeoutSeconds, name: "executionTimeoutSeconds", parent: name, max: 28800)
             try self.validate(self.executionTimeoutSeconds, name: "executionTimeoutSeconds", parent: name, min: 60)
+            try self.instanceId?.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
             try self.source?.validate(name: "\(name).source")
+            try self.source?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1525,6 +1545,7 @@ extension SMS {
             try self.serverLaunchConfigurations?.forEach {
                 try $0.validate(name: "\(name).serverLaunchConfigurations[]")
             }
+            try self.serverLaunchConfigurations?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1566,6 +1587,7 @@ extension SMS {
             try self.serverValidationConfigurations?.forEach {
                 try $0.validate(name: "\(name).serverValidationConfigurations[]")
             }
+            try self.serverValidationConfigurations?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1616,7 +1638,9 @@ extension SMS {
 
         public func validate(name: String) throws {
             try self.configureScript?.validate(name: "\(name).configureScript")
+            try self.configureScript?.forEach {}
             try self.userData?.validate(name: "\(name).userData")
+            try self.userData?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1709,10 +1733,13 @@ extension SMS {
         }
 
         public func validate(name: String) throws {
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\S]+$")
             try self.userDataValidationParameters?.validate(name: "\(name).userDataValidationParameters")
+            try self.userDataValidationParameters?.forEach {}
+            try self.validationId?.forEach {}
             try self.validate(self.validationId, name: "validationId", parent: name, pattern: "^val-[0-9a-f]{17}$")
         }
 
@@ -1746,6 +1773,7 @@ extension SMS {
 
         public func validate(name: String) throws {
             try self.s3Location?.validate(name: "\(name).s3Location")
+            try self.s3Location?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1985,6 +2013,7 @@ extension SMS {
 
         public func validate(name: String) throws {
             try self.s3Location?.validate(name: "\(name).s3Location")
+            try self.s3Location?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2005,6 +2034,7 @@ extension SMS {
 
         public func validate(name: String) throws {
             try self.source?.validate(name: "\(name).source")
+            try self.source?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -197,6 +197,7 @@ extension LicenseManager {
         }
 
         public func validate(name: String) throws {
+            try self.grantArn.forEach {}
             try self.validate(self.grantArn, name: "grantArn", parent: name, max: 2048)
             try self.validate(self.grantArn, name: "grantArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
         }
@@ -302,8 +303,10 @@ extension LicenseManager {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[a-zA-Z0-9]*")
+            try self.licenseArn.forEach {}
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, max: 2048)
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
         }
@@ -386,6 +389,7 @@ extension LicenseManager {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[a-zA-Z0-9]*")
         }
@@ -500,14 +504,17 @@ extension LicenseManager {
         }
 
         public func validate(name: String) throws {
+            try self.allowedOperations.forEach {}
             try self.validate(self.allowedOperations, name: "allowedOperations", parent: name, max: 7)
             try self.validate(self.allowedOperations, name: "allowedOperations", parent: name, min: 1)
+            try self.licenseArn.forEach {}
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, max: 2048)
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             try self.principals.forEach {
                 try validate($0, name: "principals[]", parent: name, max: 2048)
                 try validate($0, name: "principals[]", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             }
+            try self.principals.forEach {}
             try self.validate(self.principals, name: "principals", parent: name, max: 1)
             try self.validate(self.principals, name: "principals", parent: name, min: 1)
         }
@@ -567,8 +574,10 @@ extension LicenseManager {
         }
 
         public func validate(name: String) throws {
+            try self.allowedOperations?.forEach {}
             try self.validate(self.allowedOperations, name: "allowedOperations", parent: name, max: 7)
             try self.validate(self.allowedOperations, name: "allowedOperations", parent: name, min: 1)
+            try self.grantArn.forEach {}
             try self.validate(self.grantArn, name: "grantArn", parent: name, max: 2048)
             try self.validate(self.grantArn, name: "grantArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
         }
@@ -702,6 +711,7 @@ extension LicenseManager {
 
         public func validate(name: String) throws {
             try self.validity.validate(name: "\(name).validity")
+            try self.validity.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -782,9 +792,11 @@ extension LicenseManager {
         }
 
         public func validate(name: String) throws {
+            try self.licenseArn.forEach {}
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, max: 2048)
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             try self.validity.validate(name: "\(name).validity")
+            try self.validity.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -845,14 +857,18 @@ extension LicenseManager {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 60)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S+")
+            try self.licenseArn.forEach {}
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, max: 2048)
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             try self.roleArns?.forEach {
                 try validate($0, name: "roleArns[]", parent: name, max: 2048)
                 try validate($0, name: "roleArns[]", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             }
+            try self.roleArns?.forEach {}
+            try self.tokenProperties?.forEach {}
             try self.validate(self.tokenProperties, name: "tokenProperties", parent: name, max: 3)
         }
 
@@ -898,8 +914,10 @@ extension LicenseManager {
         }
 
         public func validate(name: String) throws {
+            try self.begin.forEach {}
             try self.validate(self.begin, name: "begin", parent: name, max: 50)
             try self.validate(self.begin, name: "begin", parent: name, pattern: "^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[0-1]|0[1-9]|[1-2][0-9])T(2[0-3]|[0-1][0-9]):([0-5][0-9]):([0-5][0-9])(\\.[0-9]+)?(Z|[+-](?:2[ 0-3]|[0-1][0-9]):[0-5][0-9])+$")
+            try self.end?.forEach {}
             try self.validate(self.end, name: "end", parent: name, max: 50)
             try self.validate(self.end, name: "end", parent: name, pattern: "^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[0-1]|0[1-9]|[1-2][0-9])T(2[0-3]|[0-1][0-9]):([0-5][0-9]):([0-5][0-9])(\\.[0-9]+)?(Z|[+-](?:2[ 0-3]|[0-1][0-9]):[0-5][0-9])+$")
         }
@@ -922,6 +940,7 @@ extension LicenseManager {
         }
 
         public func validate(name: String) throws {
+            try self.grantArn.forEach {}
             try self.validate(self.grantArn, name: "grantArn", parent: name, max: 2048)
             try self.validate(self.grantArn, name: "grantArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
         }
@@ -982,6 +1001,7 @@ extension LicenseManager {
         }
 
         public func validate(name: String) throws {
+            try self.licenseArn.forEach {}
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, max: 2048)
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
         }
@@ -1168,8 +1188,10 @@ extension LicenseManager {
         }
 
         public func validate(name: String) throws {
+            try self.token.forEach {}
             try self.validate(self.token, name: "token", parent: name, max: 4096)
             try self.validate(self.token, name: "token", parent: name, pattern: "\\S+")
+            try self.tokenProperties?.forEach {}
             try self.validate(self.tokenProperties, name: "tokenProperties", parent: name, max: 3)
         }
 
@@ -1204,6 +1226,7 @@ extension LicenseManager {
         }
 
         public func validate(name: String) throws {
+            try self.grantArn.forEach {}
             try self.validate(self.grantArn, name: "grantArn", parent: name, max: 2048)
             try self.validate(self.grantArn, name: "grantArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
         }
@@ -1329,6 +1352,7 @@ extension LicenseManager {
         }
 
         public func validate(name: String) throws {
+            try self.licenseArn.forEach {}
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, max: 2048)
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
         }
@@ -1361,6 +1385,7 @@ extension LicenseManager {
         }
 
         public func validate(name: String) throws {
+            try self.licenseArn.forEach {}
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, max: 2048)
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
         }
@@ -1924,6 +1949,8 @@ extension LicenseManager {
                 try validate($0, name: "grantArns[]", parent: name, max: 2048)
                 try validate($0, name: "grantArns[]", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             }
+            try self.grantArns?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2086,8 +2113,10 @@ extension LicenseManager {
         }
 
         public func validate(name: String) throws {
+            try self.licenseArn.forEach {}
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, max: 2048)
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2138,6 +2167,8 @@ extension LicenseManager {
                 try validate($0, name: "licenseArns[]", parent: name, max: 2048)
                 try validate($0, name: "licenseArns[]", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             }
+            try self.licenseArns?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2189,6 +2220,8 @@ extension LicenseManager {
                 try validate($0, name: "grantArns[]", parent: name, max: 2048)
                 try validate($0, name: "grantArns[]", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             }
+            try self.grantArns?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2240,6 +2273,8 @@ extension LicenseManager {
                 try validate($0, name: "licenseArns[]", parent: name, max: 2048)
                 try validate($0, name: "licenseArns[]", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             }
+            try self.licenseArns?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2351,6 +2386,7 @@ extension LicenseManager {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2492,9 +2528,9 @@ extension LicenseManager {
         /// Filter name.
         public let productInformationFilterName: String
         /// Filter value.
-        public let productInformationFilterValue: [String]
+        public let productInformationFilterValue: [String]?
 
-        public init(productInformationFilterComparator: String, productInformationFilterName: String, productInformationFilterValue: [String]) {
+        public init(productInformationFilterComparator: String, productInformationFilterName: String, productInformationFilterValue: [String]? = nil) {
             self.productInformationFilterComparator = productInformationFilterComparator
             self.productInformationFilterName = productInformationFilterName
             self.productInformationFilterValue = productInformationFilterValue
@@ -2546,6 +2582,7 @@ extension LicenseManager {
         }
 
         public func validate(name: String) throws {
+            try self.grantArn.forEach {}
             try self.validate(self.grantArn, name: "grantArn", parent: name, max: 2048)
             try self.validate(self.grantArn, name: "grantArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
         }

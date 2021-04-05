@@ -290,6 +290,7 @@ extension PinpointEmail {
 
         public func validate(name: String) throws {
             try self.content.validate(name: "\(name).content")
+            try self.content.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -704,6 +705,7 @@ extension PinpointEmail {
 
         public func validate(name: String) throws {
             try self.template?.validate(name: "\(name).template")
+            try self.template?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1928,6 +1930,7 @@ extension PinpointEmail {
 
         public func validate(name: String) throws {
             try self.content.validate(name: "\(name).content")
+            try self.content.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2051,6 +2054,7 @@ extension PinpointEmail {
         }
 
         public func validate(name: String) throws {
+            try self.templateData?.forEach {}
             try self.validate(self.templateData, name: "templateData", parent: name, max: 262_144)
         }
 

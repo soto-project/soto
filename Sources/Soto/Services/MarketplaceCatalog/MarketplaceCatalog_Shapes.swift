@@ -60,9 +60,11 @@ extension MarketplaceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.catalog.forEach {}
             try self.validate(self.catalog, name: "catalog", parent: name, max: 64)
             try self.validate(self.catalog, name: "catalog", parent: name, min: 1)
             try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z]+$")
+            try self.changeSetId.forEach {}
             try self.validate(self.changeSetId, name: "changeSetId", parent: name, max: 255)
             try self.validate(self.changeSetId, name: "changeSetId", parent: name, min: 1)
             try self.validate(self.changeSetId, name: "changeSetId", parent: name, pattern: "^[\\w\\-]+$")
@@ -103,13 +105,16 @@ extension MarketplaceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.changeType.forEach {}
             try self.validate(self.changeType, name: "changeType", parent: name, max: 255)
             try self.validate(self.changeType, name: "changeType", parent: name, min: 1)
             try self.validate(self.changeType, name: "changeType", parent: name, pattern: "^[A-Z][\\w]*$")
+            try self.details.forEach {}
             try self.validate(self.details, name: "details", parent: name, max: 16384)
             try self.validate(self.details, name: "details", parent: name, min: 2)
             try self.validate(self.details, name: "details", parent: name, pattern: "^[\\s]*\\{[\\s\\S]*\\}[\\s]*$")
             try self.entity.validate(name: "\(name).entity")
+            try self.entity.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -202,9 +207,11 @@ extension MarketplaceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.catalog.forEach {}
             try self.validate(self.catalog, name: "catalog", parent: name, max: 64)
             try self.validate(self.catalog, name: "catalog", parent: name, min: 1)
             try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z]+$")
+            try self.changeSetId.forEach {}
             try self.validate(self.changeSetId, name: "changeSetId", parent: name, max: 255)
             try self.validate(self.changeSetId, name: "changeSetId", parent: name, min: 1)
             try self.validate(self.changeSetId, name: "changeSetId", parent: name, pattern: "^[\\w\\-]+$")
@@ -275,9 +282,11 @@ extension MarketplaceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.catalog.forEach {}
             try self.validate(self.catalog, name: "catalog", parent: name, max: 64)
             try self.validate(self.catalog, name: "catalog", parent: name, min: 1)
             try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z]+$")
+            try self.entityId.forEach {}
             try self.validate(self.entityId, name: "entityId", parent: name, max: 255)
             try self.validate(self.entityId, name: "entityId", parent: name, min: 1)
             try self.validate(self.entityId, name: "entityId", parent: name, pattern: "^[\\w\\-]+$")
@@ -327,9 +336,11 @@ extension MarketplaceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.identifier?.forEach {}
             try self.validate(self.identifier, name: "identifier", parent: name, max: 255)
             try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
             try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[\\w\\-@]+$")
+            try self.type.forEach {}
             try self.validate(self.type, name: "type", parent: name, max: 255)
             try self.validate(self.type, name: "type", parent: name, min: 1)
             try self.validate(self.type, name: "type", parent: name, pattern: "^[a-zA-Z]+$")
@@ -403,9 +414,11 @@ extension MarketplaceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z]+$")
+            try self.valueList?.forEach {}
             try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
             try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
         }
@@ -437,20 +450,25 @@ extension MarketplaceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.catalog.forEach {}
             try self.validate(self.catalog, name: "catalog", parent: name, max: 64)
             try self.validate(self.catalog, name: "catalog", parent: name, min: 1)
             try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z]+$")
             try self.filterList?.forEach {
                 try $0.validate(name: "\(name).filterList[]")
             }
+            try self.filterList?.forEach {}
             try self.validate(self.filterList, name: "filterList", parent: name, max: 8)
             try self.validate(self.filterList, name: "filterList", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w+=.:@\\-\\/]$")
             try self.sort?.validate(name: "\(name).sort")
+            try self.sort?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -503,23 +521,29 @@ extension MarketplaceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.catalog.forEach {}
             try self.validate(self.catalog, name: "catalog", parent: name, max: 64)
             try self.validate(self.catalog, name: "catalog", parent: name, min: 1)
             try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z]+$")
+            try self.entityType.forEach {}
             try self.validate(self.entityType, name: "entityType", parent: name, max: 255)
             try self.validate(self.entityType, name: "entityType", parent: name, min: 1)
             try self.validate(self.entityType, name: "entityType", parent: name, pattern: "^[a-zA-Z]+$")
             try self.filterList?.forEach {
                 try $0.validate(name: "\(name).filterList[]")
             }
+            try self.filterList?.forEach {}
             try self.validate(self.filterList, name: "filterList", parent: name, max: 8)
             try self.validate(self.filterList, name: "filterList", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w+=.:@\\-\\/]$")
             try self.sort?.validate(name: "\(name).sort")
+            try self.sort?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -561,6 +585,7 @@ extension MarketplaceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.sortBy?.forEach {}
             try self.validate(self.sortBy, name: "sortBy", parent: name, max: 255)
             try self.validate(self.sortBy, name: "sortBy", parent: name, min: 1)
             try self.validate(self.sortBy, name: "sortBy", parent: name, pattern: "^[a-zA-Z]+$")
@@ -590,17 +615,21 @@ extension MarketplaceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.catalog.forEach {}
             try self.validate(self.catalog, name: "catalog", parent: name, max: 64)
             try self.validate(self.catalog, name: "catalog", parent: name, min: 1)
             try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z]+$")
             try self.changeSet.forEach {
                 try $0.validate(name: "\(name).changeSet[]")
             }
+            try self.changeSet.forEach {}
             try self.validate(self.changeSet, name: "changeSet", parent: name, max: 20)
             try self.validate(self.changeSet, name: "changeSet", parent: name, min: 1)
+            try self.changeSetName?.forEach {}
             try self.validate(self.changeSetName, name: "changeSetName", parent: name, max: 100)
             try self.validate(self.changeSetName, name: "changeSetName", parent: name, min: 1)
             try self.validate(self.changeSetName, name: "changeSetName", parent: name, pattern: "^[\\w\\s+=.:@-]+$")
+            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 36)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[\\w\\-]+$")

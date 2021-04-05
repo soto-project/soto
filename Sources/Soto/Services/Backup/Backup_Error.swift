@@ -23,6 +23,7 @@ public struct BackupErrorType: AWSErrorType {
         case dependencyFailureException = "DependencyFailureException"
         case invalidParameterValueException = "InvalidParameterValueException"
         case invalidRequestException = "InvalidRequestException"
+        case invalidResourceStateException = "InvalidResourceStateException"
         case limitExceededException = "LimitExceededException"
         case missingParameterValueException = "MissingParameterValueException"
         case resourceNotFoundException = "ResourceNotFoundException"
@@ -55,6 +56,8 @@ public struct BackupErrorType: AWSErrorType {
     public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
     /// Indicates that something is wrong with the input to the request. For example, a parameter is of the wrong type.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    /// AWS Backup is already performing an action on this recovery point. It can't perform the action you requested until the first action finishes. Try again later.
+    public static var invalidResourceStateException: Self { .init(.invalidResourceStateException) }
     /// A limit in the request has been exceeded; for example, a maximum number of items allowed in a request.
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// Indicates that a required parameter is missing.

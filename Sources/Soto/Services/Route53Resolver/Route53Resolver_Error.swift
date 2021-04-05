@@ -20,6 +20,7 @@ import SotoCore
 public struct Route53ResolverErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
+        case conflictException = "ConflictException"
         case internalServiceErrorException = "InternalServiceErrorException"
         case invalidNextTokenException = "InvalidNextTokenException"
         case invalidParameterException = "InvalidParameterException"
@@ -33,6 +34,7 @@ public struct Route53ResolverErrorType: AWSErrorType {
         case resourceUnavailableException = "ResourceUnavailableException"
         case throttlingException = "ThrottlingException"
         case unknownResourceException = "UnknownResourceException"
+        case validationException = "ValidationException"
     }
 
     private let error: Code
@@ -55,6 +57,7 @@ public struct Route53ResolverErrorType: AWSErrorType {
 
     /// The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    public static var conflictException: Self { .init(.conflictException) }
     /// We encountered an unknown error. Try again in a few minutes.
     public static var internalServiceErrorException: Self { .init(.internalServiceErrorException) }
     /// The value that you specified for NextToken in a List request isn't valid.
@@ -81,6 +84,7 @@ public struct Route53ResolverErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The specified resource doesn't exist.
     public static var unknownResourceException: Self { .init(.unknownResourceException) }
+    public static var validationException: Self { .init(.validationException) }
 }
 
 extension Route53ResolverErrorType: Equatable {

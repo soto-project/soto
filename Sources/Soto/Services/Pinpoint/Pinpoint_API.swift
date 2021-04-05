@@ -579,7 +579,7 @@ public struct Pinpoint: AWSService {
         return self.client.execute(operation: "UpdateJourney", path: "/v1/apps/{application-id}/journeys/{journey-id}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Cancels (stops) an active journey.
+    /// Pause, resume or cancels (stops) a journey.
     public func updateJourneyState(_ input: UpdateJourneyStateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateJourneyStateResponse> {
         return self.client.execute(operation: "UpdateJourneyState", path: "/v1/apps/{application-id}/journeys/{journey-id}/state", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

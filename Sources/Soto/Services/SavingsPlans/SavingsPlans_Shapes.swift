@@ -209,8 +209,10 @@ extension SavingsPlans {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9/=\\+]+$")
         }
@@ -283,21 +285,27 @@ extension SavingsPlans {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9/=\\+]+$")
             try self.operations?.forEach {
                 try validate($0, name: "operations[]", parent: name, max: 255)
                 try validate($0, name: "operations[]", parent: name, pattern: "^[a-zA-Z0-9_ \\/.:-]*$")
             }
+            try self.operations?.forEach {}
             try self.savingsPlanOfferingIds?.forEach {
                 try validate($0, name: "savingsPlanOfferingIds[]", parent: name, pattern: "^(([0-9a-f]+)(-?))+$")
             }
+            try self.savingsPlanOfferingIds?.forEach {}
             try self.usageTypes?.forEach {
                 try validate($0, name: "usageTypes[]", parent: name, max: 255)
                 try validate($0, name: "usageTypes[]", parent: name, pattern: "^[a-zA-Z0-9_ \\/.:-]+$")
             }
+            try self.usageTypes?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -379,31 +387,40 @@ extension SavingsPlans {
             try self.descriptions?.forEach {
                 try validate($0, name: "descriptions[]", parent: name, pattern: "^[a-zA-Z0-9_\\- ]+$")
             }
+            try self.descriptions?.forEach {}
             try self.durations?.forEach {
                 try validate($0, name: "durations[]", parent: name, min: 0)
             }
+            try self.durations?.forEach {}
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9/=\\+]+$")
             try self.offeringIds?.forEach {
                 try validate($0, name: "offeringIds[]", parent: name, pattern: "^(([0-9a-f]+)(-?))+$")
             }
+            try self.offeringIds?.forEach {}
             try self.operations?.forEach {
                 try validate($0, name: "operations[]", parent: name, max: 255)
                 try validate($0, name: "operations[]", parent: name, pattern: "^[a-zA-Z0-9_ \\/.:-]*$")
             }
+            try self.operations?.forEach {}
             try self.serviceCodes?.forEach {
                 try validate($0, name: "serviceCodes[]", parent: name, max: 255)
                 try validate($0, name: "serviceCodes[]", parent: name, pattern: "^[a-zA-Z]+$")
             }
+            try self.serviceCodes?.forEach {}
             try self.usageTypes?.forEach {
                 try validate($0, name: "usageTypes[]", parent: name, max: 255)
                 try validate($0, name: "usageTypes[]", parent: name, pattern: "^[a-zA-Z0-9_ \\/.:-]+$")
             }
+            try self.usageTypes?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -464,13 +481,16 @@ extension SavingsPlans {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9/=\\+]+$")
             try self.savingsPlanArns?.forEach {
                 try validate($0, name: "savingsPlanArns[]", parent: name, pattern: "arn:aws:[a-z]+:([a-z]{2}-[a-z]+-\\d{1}|):(\\d{12}):savingsplan\\/([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$")
             }
+            try self.savingsPlanArns?.forEach {}
             try self.validate(self.savingsPlanArns, name: "savingsPlanArns", parent: name, max: 100)
         }
 
@@ -510,6 +530,7 @@ extension SavingsPlans {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws:[a-z]+:([a-z]{2}-[a-z]+-\\d{1}|):(\\d{12}):savingsplan\\/([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$")
         }
 
@@ -730,6 +751,7 @@ extension SavingsPlans {
             try self.values?.forEach {
                 try validate($0, name: "values[]", parent: name, pattern: "^[a-zA-Z0-9_ \\/.\\:\\-\\(\\)]+$")
             }
+            try self.values?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -811,6 +833,7 @@ extension SavingsPlans {
             try self.values?.forEach {
                 try validate($0, name: "values[]", parent: name, pattern: "^[a-zA-Z0-9_ \\/.\\:\\-\\(\\)]+$")
             }
+            try self.values?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -923,6 +946,7 @@ extension SavingsPlans {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws:[a-z]+:([a-z]{2}-[a-z]+-\\d{1}|):(\\d{12}):savingsplan\\/([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$")
         }
 
@@ -948,6 +972,7 @@ extension SavingsPlans {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws:[a-z]+:([a-z]{2}-[a-z]+-\\d{1}|):(\\d{12}):savingsplan\\/([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$")
         }
 

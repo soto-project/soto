@@ -55,6 +55,7 @@ extension CodeDeploy {
         case cloudformation = "CloudFormation"
         case cloudformationrollback = "CloudFormationRollback"
         case codedeploy = "CodeDeploy"
+        case codedeployautoupdate = "CodeDeployAutoUpdate"
         case codedeployrollback = "codeDeployRollback"
         case user
         public var description: String { return self.rawValue }
@@ -215,6 +216,12 @@ extension CodeDeploy {
     public enum MinimumHealthyHostsType: String, CustomStringConvertible, Codable {
         case fleetPercent = "FLEET_PERCENT"
         case hostCount = "HOST_COUNT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OutdatedInstancesStrategy: String, CustomStringConvertible, Codable {
+        case ignore = "IGNORE"
+        case update = "UPDATE"
         public var description: String { return self.rawValue }
     }
 
@@ -444,6 +451,7 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
+            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
         }
@@ -488,6 +496,7 @@ extension CodeDeploy {
                 try validate($0, name: "applicationNames[]", parent: name, max: 100)
                 try validate($0, name: "applicationNames[]", parent: name, min: 1)
             }
+            try self.applicationNames.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -520,12 +529,14 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
+            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
             try self.deploymentGroupNames.forEach {
                 try validate($0, name: "deploymentGroupNames[]", parent: name, max: 100)
                 try validate($0, name: "deploymentGroupNames[]", parent: name, min: 1)
             }
+            try self.deploymentGroupNames.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -774,6 +785,7 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
+            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
         }
@@ -816,6 +828,7 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
+            try self.deploymentConfigName.forEach {}
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, max: 100)
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, min: 1)
         }
@@ -870,6 +883,8 @@ extension CodeDeploy {
         public let onPremisesInstanceTagFilters: [TagFilter]?
         /// Information about groups of tags applied to on-premises instances. The deployment group includes only on-premises instances identified by all of the tag groups. Cannot be used in the same call as onPremisesInstanceTagFilters.
         public let onPremisesTagSet: OnPremisesTagSet?
+        /// Indicates what happens when new EC2 instances are launched mid-deployment and do not receive the deployed application revision. If this option is set to UPDATE or is unspecified, CodeDeploy initiates one or more 'auto-update outdated instances' deployments to apply the deployed application revision to the new EC2 instances. If this option is set to IGNORE, CodeDeploy does not initiate a deployment to update the new EC2 instances. This may result in instances having different revisions.
+        public let outdatedInstancesStrategy: OutdatedInstancesStrategy?
         /// A service role Amazon Resource Name (ARN) that allows AWS CodeDeploy to act on the user's behalf when interacting with AWS services.
         public let serviceRoleArn: String
         ///  The metadata that you apply to CodeDeploy deployment groups to help you organize and categorize them. Each tag consists of a key and an optional value, both of which you define.
@@ -877,7 +892,7 @@ extension CodeDeploy {
         /// Information about triggers to create when the deployment group is created. For examples, see Create a Trigger for an AWS CodeDeploy Event in the AWS CodeDeploy User Guide.
         public let triggerConfigurations: [TriggerConfig]?
 
-        public init(alarmConfiguration: AlarmConfiguration? = nil, applicationName: String, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, autoScalingGroups: [String]? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, deploymentConfigName: String? = nil, deploymentGroupName: String, deploymentStyle: DeploymentStyle? = nil, ec2TagFilters: [EC2TagFilter]? = nil, ec2TagSet: EC2TagSet? = nil, ecsServices: [ECSService]? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, onPremisesInstanceTagFilters: [TagFilter]? = nil, onPremisesTagSet: OnPremisesTagSet? = nil, serviceRoleArn: String, tags: [Tag]? = nil, triggerConfigurations: [TriggerConfig]? = nil) {
+        public init(alarmConfiguration: AlarmConfiguration? = nil, applicationName: String, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, autoScalingGroups: [String]? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, deploymentConfigName: String? = nil, deploymentGroupName: String, deploymentStyle: DeploymentStyle? = nil, ec2TagFilters: [EC2TagFilter]? = nil, ec2TagSet: EC2TagSet? = nil, ecsServices: [ECSService]? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, onPremisesInstanceTagFilters: [TagFilter]? = nil, onPremisesTagSet: OnPremisesTagSet? = nil, outdatedInstancesStrategy: OutdatedInstancesStrategy? = nil, serviceRoleArn: String, tags: [Tag]? = nil, triggerConfigurations: [TriggerConfig]? = nil) {
             self.alarmConfiguration = alarmConfiguration
             self.applicationName = applicationName
             self.autoRollbackConfiguration = autoRollbackConfiguration
@@ -892,16 +907,20 @@ extension CodeDeploy {
             self.loadBalancerInfo = loadBalancerInfo
             self.onPremisesInstanceTagFilters = onPremisesInstanceTagFilters
             self.onPremisesTagSet = onPremisesTagSet
+            self.outdatedInstancesStrategy = outdatedInstancesStrategy
             self.serviceRoleArn = serviceRoleArn
             self.tags = tags
             self.triggerConfigurations = triggerConfigurations
         }
 
         public func validate(name: String) throws {
+            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.deploymentConfigName?.forEach {}
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, max: 100)
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, min: 1)
+            try self.deploymentGroupName.forEach {}
             try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, max: 100)
             try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, min: 1)
         }
@@ -921,6 +940,7 @@ extension CodeDeploy {
             case loadBalancerInfo
             case onPremisesInstanceTagFilters
             case onPremisesTagSet
+            case outdatedInstancesStrategy
             case serviceRoleArn
             case tags
             case triggerConfigurations
@@ -976,10 +996,13 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
+            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.deploymentConfigName?.forEach {}
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, max: 100)
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, min: 1)
+            try self.deploymentGroupName?.forEach {}
             try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, max: 100)
             try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, min: 1)
         }
@@ -1020,6 +1043,7 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
+            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
         }
@@ -1038,6 +1062,7 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
+            try self.deploymentConfigName.forEach {}
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, max: 100)
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, min: 1)
         }
@@ -1059,8 +1084,10 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
+            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.deploymentGroupName.forEach {}
             try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, max: 100)
             try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, min: 1)
         }
@@ -1197,6 +1224,8 @@ extension CodeDeploy {
         public let onPremisesInstanceTagFilters: [TagFilter]?
         /// Information about groups of tags applied to an on-premises instance. The deployment group includes only on-premises instances identified by all the tag groups. Cannot be used in the same call as onPremisesInstanceTagFilters.
         public let onPremisesTagSet: OnPremisesTagSet?
+        /// Indicates what happens when new EC2 instances are launched mid-deployment and do not receive the deployed application revision. If this option is set to UPDATE or is unspecified, CodeDeploy initiates one or more 'auto-update outdated instances' deployments to apply the deployed application revision to the new EC2 instances. If this option is set to IGNORE, CodeDeploy does not initiate a deployment to update the new EC2 instances. This may result in instances having different revisions.
+        public let outdatedInstancesStrategy: OutdatedInstancesStrategy?
         /// A service role Amazon Resource Name (ARN) that grants CodeDeploy permission to make calls to AWS services on your behalf. For more information, see Create a Service Role for AWS CodeDeploy in the AWS CodeDeploy User Guide.
         public let serviceRoleArn: String?
         /// Information about the deployment group's target revision, including type and location.
@@ -1204,7 +1233,7 @@ extension CodeDeploy {
         /// Information about triggers associated with the deployment group.
         public let triggerConfigurations: [TriggerConfig]?
 
-        public init(alarmConfiguration: AlarmConfiguration? = nil, applicationName: String? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, autoScalingGroups: [AutoScalingGroup]? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, computePlatform: ComputePlatform? = nil, deploymentConfigName: String? = nil, deploymentGroupId: String? = nil, deploymentGroupName: String? = nil, deploymentStyle: DeploymentStyle? = nil, ec2TagFilters: [EC2TagFilter]? = nil, ec2TagSet: EC2TagSet? = nil, ecsServices: [ECSService]? = nil, lastAttemptedDeployment: LastDeploymentInfo? = nil, lastSuccessfulDeployment: LastDeploymentInfo? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, onPremisesInstanceTagFilters: [TagFilter]? = nil, onPremisesTagSet: OnPremisesTagSet? = nil, serviceRoleArn: String? = nil, targetRevision: RevisionLocation? = nil, triggerConfigurations: [TriggerConfig]? = nil) {
+        public init(alarmConfiguration: AlarmConfiguration? = nil, applicationName: String? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, autoScalingGroups: [AutoScalingGroup]? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, computePlatform: ComputePlatform? = nil, deploymentConfigName: String? = nil, deploymentGroupId: String? = nil, deploymentGroupName: String? = nil, deploymentStyle: DeploymentStyle? = nil, ec2TagFilters: [EC2TagFilter]? = nil, ec2TagSet: EC2TagSet? = nil, ecsServices: [ECSService]? = nil, lastAttemptedDeployment: LastDeploymentInfo? = nil, lastSuccessfulDeployment: LastDeploymentInfo? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, onPremisesInstanceTagFilters: [TagFilter]? = nil, onPremisesTagSet: OnPremisesTagSet? = nil, outdatedInstancesStrategy: OutdatedInstancesStrategy? = nil, serviceRoleArn: String? = nil, targetRevision: RevisionLocation? = nil, triggerConfigurations: [TriggerConfig]? = nil) {
             self.alarmConfiguration = alarmConfiguration
             self.applicationName = applicationName
             self.autoRollbackConfiguration = autoRollbackConfiguration
@@ -1223,6 +1252,7 @@ extension CodeDeploy {
             self.loadBalancerInfo = loadBalancerInfo
             self.onPremisesInstanceTagFilters = onPremisesInstanceTagFilters
             self.onPremisesTagSet = onPremisesTagSet
+            self.outdatedInstancesStrategy = outdatedInstancesStrategy
             self.serviceRoleArn = serviceRoleArn
             self.targetRevision = targetRevision
             self.triggerConfigurations = triggerConfigurations
@@ -1247,6 +1277,7 @@ extension CodeDeploy {
             case loadBalancerInfo
             case onPremisesInstanceTagFilters
             case onPremisesTagSet
+            case outdatedInstancesStrategy
             case serviceRoleArn
             case targetRevision
             case triggerConfigurations
@@ -1268,7 +1299,7 @@ extension CodeDeploy {
         public let computePlatform: ComputePlatform?
         /// A timestamp that indicates when the deployment was created.
         public let createTime: Date?
-        /// The means by which the deployment was created:    user: A user created the deployment.    autoscaling: Amazon EC2 Auto Scaling created the deployment.    codeDeployRollback: A rollback process created the deployment.
+        /// The means by which the deployment was created:    user: A user created the deployment.    autoscaling: Amazon EC2 Auto Scaling created the deployment.    codeDeployRollback: A rollback process created the deployment.    CodeDeployAutoUpdate: An auto-update process created the deployment when it detected outdated EC2 instances.
         public let creator: DeploymentCreator?
         ///  The deployment configuration name.
         public let deploymentConfigName: String?
@@ -1298,6 +1329,7 @@ extension CodeDeploy {
         public let loadBalancerInfo: LoadBalancerInfo?
         /// Information about the application revision that was deployed to the deployment group before the most recent successful deployment.
         public let previousRevision: RevisionLocation?
+        public let relatedDeployments: RelatedDeployments?
         /// Information about the location of stored application artifacts and the service from which to retrieve them.
         public let revision: RevisionLocation?
         /// Information about a deployment rollback.
@@ -1311,7 +1343,7 @@ extension CodeDeploy {
         /// Indicates whether only instances that are not running the latest application revision are to be deployed to.
         public let updateOutdatedInstancesOnly: Bool?
 
-        public init(additionalDeploymentStatusInfo: String? = nil, applicationName: String? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, completeTime: Date? = nil, computePlatform: ComputePlatform? = nil, createTime: Date? = nil, creator: DeploymentCreator? = nil, deploymentConfigName: String? = nil, deploymentGroupName: String? = nil, deploymentId: String? = nil, deploymentOverview: DeploymentOverview? = nil, deploymentStatusMessages: [String]? = nil, deploymentStyle: DeploymentStyle? = nil, description: String? = nil, errorInformation: ErrorInformation? = nil, externalId: String? = nil, fileExistsBehavior: FileExistsBehavior? = nil, ignoreApplicationStopFailures: Bool? = nil, instanceTerminationWaitTimeStarted: Bool? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, previousRevision: RevisionLocation? = nil, revision: RevisionLocation? = nil, rollbackInfo: RollbackInfo? = nil, startTime: Date? = nil, status: DeploymentStatus? = nil, targetInstances: TargetInstances? = nil, updateOutdatedInstancesOnly: Bool? = nil) {
+        public init(additionalDeploymentStatusInfo: String? = nil, applicationName: String? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, completeTime: Date? = nil, computePlatform: ComputePlatform? = nil, createTime: Date? = nil, creator: DeploymentCreator? = nil, deploymentConfigName: String? = nil, deploymentGroupName: String? = nil, deploymentId: String? = nil, deploymentOverview: DeploymentOverview? = nil, deploymentStatusMessages: [String]? = nil, deploymentStyle: DeploymentStyle? = nil, description: String? = nil, errorInformation: ErrorInformation? = nil, externalId: String? = nil, fileExistsBehavior: FileExistsBehavior? = nil, ignoreApplicationStopFailures: Bool? = nil, instanceTerminationWaitTimeStarted: Bool? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, previousRevision: RevisionLocation? = nil, relatedDeployments: RelatedDeployments? = nil, revision: RevisionLocation? = nil, rollbackInfo: RollbackInfo? = nil, startTime: Date? = nil, status: DeploymentStatus? = nil, targetInstances: TargetInstances? = nil, updateOutdatedInstancesOnly: Bool? = nil) {
             self.additionalDeploymentStatusInfo = additionalDeploymentStatusInfo
             self.applicationName = applicationName
             self.autoRollbackConfiguration = autoRollbackConfiguration
@@ -1334,6 +1366,7 @@ extension CodeDeploy {
             self.instanceTerminationWaitTimeStarted = instanceTerminationWaitTimeStarted
             self.loadBalancerInfo = loadBalancerInfo
             self.previousRevision = previousRevision
+            self.relatedDeployments = relatedDeployments
             self.revision = revision
             self.rollbackInfo = rollbackInfo
             self.startTime = startTime
@@ -1365,6 +1398,7 @@ extension CodeDeploy {
             case instanceTerminationWaitTimeStarted
             case loadBalancerInfo
             case previousRevision
+            case relatedDeployments
             case revision
             case rollbackInfo
             case startTime
@@ -1704,6 +1738,7 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
+            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
         }
@@ -1738,6 +1773,7 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
+            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
         }
@@ -1778,6 +1814,7 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
+            try self.deploymentConfigName.forEach {}
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, max: 100)
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, min: 1)
         }
@@ -1812,8 +1849,10 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
+            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.deploymentGroupName.forEach {}
             try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, max: 100)
             try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, min: 1)
         }
@@ -2233,6 +2272,7 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
+            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
         }
@@ -2337,6 +2377,7 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
+            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
         }
@@ -2472,8 +2513,10 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
+            try self.applicationName?.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.deploymentGroupName?.forEach {}
             try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, max: 100)
             try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, min: 1)
         }
@@ -2585,6 +2628,7 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
         }
@@ -2668,7 +2712,7 @@ extension CodeDeploy {
         public let deploymentId: String?
         ///  The execution ID of a deployment's lifecycle hook. A deployment lifecycle hook is specified in the hooks section of the AppSpec file.
         public let lifecycleEventHookExecutionId: String?
-        /// The result of a Lambda function that validates a deployment lifecycle event (Succeeded or Failed).
+        /// The result of a Lambda function that validates a deployment lifecycle event. Succeeded and Failed are the only valid values for status.
         public let status: LifecycleEventStatus?
 
         public init(deploymentId: String? = nil, lifecycleEventHookExecutionId: String? = nil, status: LifecycleEventStatus? = nil) {
@@ -2729,6 +2773,7 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
+            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
         }
@@ -2758,6 +2803,23 @@ extension CodeDeploy {
             case iamSessionArn
             case iamUserArn
             case instanceName
+        }
+    }
+
+    public struct RelatedDeployments: AWSDecodableShape {
+        /// The deployment IDs of 'auto-update outdated instances' deployments triggered by this deployment.
+        public let autoUpdateOutdatedInstancesDeploymentIds: [String]?
+        /// The deployment ID of the root deployment that triggered this deployment.
+        public let autoUpdateOutdatedInstancesRootDeploymentId: String?
+
+        public init(autoUpdateOutdatedInstancesDeploymentIds: [String]? = nil, autoUpdateOutdatedInstancesRootDeploymentId: String? = nil) {
+            self.autoUpdateOutdatedInstancesDeploymentIds = autoUpdateOutdatedInstancesDeploymentIds
+            self.autoUpdateOutdatedInstancesRootDeploymentId = autoUpdateOutdatedInstancesRootDeploymentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoUpdateOutdatedInstancesDeploymentIds
+            case autoUpdateOutdatedInstancesRootDeploymentId
         }
     }
 
@@ -2971,6 +3033,7 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
         }
@@ -3158,6 +3221,7 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
         }
@@ -3184,8 +3248,10 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
+            try self.applicationName?.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.newApplicationName?.forEach {}
             try self.validate(self.newApplicationName, name: "newApplicationName", parent: name, max: 100)
             try self.validate(self.newApplicationName, name: "newApplicationName", parent: name, min: 1)
         }
@@ -3227,12 +3293,14 @@ extension CodeDeploy {
         public let onPremisesInstanceTagFilters: [TagFilter]?
         /// Information about an on-premises instance tag set. The deployment group includes only on-premises instances identified by all the tag groups.
         public let onPremisesTagSet: OnPremisesTagSet?
+        /// Indicates what happens when new EC2 instances are launched mid-deployment and do not receive the deployed application revision. If this option is set to UPDATE or is unspecified, CodeDeploy initiates one or more 'auto-update outdated instances' deployments to apply the deployed application revision to the new EC2 instances. If this option is set to IGNORE, CodeDeploy does not initiate a deployment to update the new EC2 instances. This may result in instances having different revisions.
+        public let outdatedInstancesStrategy: OutdatedInstancesStrategy?
         /// A replacement ARN for the service role, if you want to change it.
         public let serviceRoleArn: String?
         /// Information about triggers to change when the deployment group is updated. For examples, see Edit a Trigger in a CodeDeploy Deployment Group in the AWS CodeDeploy User Guide.
         public let triggerConfigurations: [TriggerConfig]?
 
-        public init(alarmConfiguration: AlarmConfiguration? = nil, applicationName: String, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, autoScalingGroups: [String]? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, currentDeploymentGroupName: String, deploymentConfigName: String? = nil, deploymentStyle: DeploymentStyle? = nil, ec2TagFilters: [EC2TagFilter]? = nil, ec2TagSet: EC2TagSet? = nil, ecsServices: [ECSService]? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, newDeploymentGroupName: String? = nil, onPremisesInstanceTagFilters: [TagFilter]? = nil, onPremisesTagSet: OnPremisesTagSet? = nil, serviceRoleArn: String? = nil, triggerConfigurations: [TriggerConfig]? = nil) {
+        public init(alarmConfiguration: AlarmConfiguration? = nil, applicationName: String, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, autoScalingGroups: [String]? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, currentDeploymentGroupName: String, deploymentConfigName: String? = nil, deploymentStyle: DeploymentStyle? = nil, ec2TagFilters: [EC2TagFilter]? = nil, ec2TagSet: EC2TagSet? = nil, ecsServices: [ECSService]? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, newDeploymentGroupName: String? = nil, onPremisesInstanceTagFilters: [TagFilter]? = nil, onPremisesTagSet: OnPremisesTagSet? = nil, outdatedInstancesStrategy: OutdatedInstancesStrategy? = nil, serviceRoleArn: String? = nil, triggerConfigurations: [TriggerConfig]? = nil) {
             self.alarmConfiguration = alarmConfiguration
             self.applicationName = applicationName
             self.autoRollbackConfiguration = autoRollbackConfiguration
@@ -3248,17 +3316,22 @@ extension CodeDeploy {
             self.newDeploymentGroupName = newDeploymentGroupName
             self.onPremisesInstanceTagFilters = onPremisesInstanceTagFilters
             self.onPremisesTagSet = onPremisesTagSet
+            self.outdatedInstancesStrategy = outdatedInstancesStrategy
             self.serviceRoleArn = serviceRoleArn
             self.triggerConfigurations = triggerConfigurations
         }
 
         public func validate(name: String) throws {
+            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.currentDeploymentGroupName.forEach {}
             try self.validate(self.currentDeploymentGroupName, name: "currentDeploymentGroupName", parent: name, max: 100)
             try self.validate(self.currentDeploymentGroupName, name: "currentDeploymentGroupName", parent: name, min: 1)
+            try self.deploymentConfigName?.forEach {}
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, max: 100)
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, min: 1)
+            try self.newDeploymentGroupName?.forEach {}
             try self.validate(self.newDeploymentGroupName, name: "newDeploymentGroupName", parent: name, max: 100)
             try self.validate(self.newDeploymentGroupName, name: "newDeploymentGroupName", parent: name, min: 1)
         }
@@ -3279,6 +3352,7 @@ extension CodeDeploy {
             case newDeploymentGroupName
             case onPremisesInstanceTagFilters
             case onPremisesTagSet
+            case outdatedInstancesStrategy
             case serviceRoleArn
             case triggerConfigurations
         }

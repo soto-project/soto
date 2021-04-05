@@ -224,15 +224,18 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.opsItemSNSTopicArn?.forEach {}
             try self.validate(self.opsItemSNSTopicArn, name: "opsItemSNSTopicArn", parent: name, max: 300)
             try self.validate(self.opsItemSNSTopicArn, name: "opsItemSNSTopicArn", parent: name, min: 20)
             try self.validate(self.opsItemSNSTopicArn, name: "opsItemSNSTopicArn", parent: name, pattern: "^arn:aws(-\\w+)*:[\\w\\d-]+:([\\w\\d-]*)?:[\\w\\d_-]*([:/].+)*$")
+            try self.resourceGroupName.forEach {}
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -274,9 +277,11 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.componentName.forEach {}
             try self.validate(self.componentName, name: "componentName", parent: name, max: 128)
             try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
             try self.validate(self.componentName, name: "componentName", parent: name, pattern: "^[\\d\\w\\-_\\.+]*$")
+            try self.resourceGroupName.forEach {}
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
@@ -285,6 +290,7 @@ extension ApplicationInsights {
                 try validate($0, name: "resourceList[]", parent: name, min: 1)
                 try validate($0, name: "resourceList[]", parent: name, pattern: "^arn:aws(-\\w+)*:[\\w\\d-]+:([\\w\\d-]*)?:[\\w\\d_-]*([:/].+)*$")
             }
+            try self.resourceList.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -319,15 +325,19 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.pattern.forEach {}
             try self.validate(self.pattern, name: "pattern", parent: name, max: 50)
             try self.validate(self.pattern, name: "pattern", parent: name, min: 1)
             try self.validate(self.pattern, name: "pattern", parent: name, pattern: "[\\S\\s]+")
+            try self.patternName.forEach {}
             try self.validate(self.patternName, name: "patternName", parent: name, max: 50)
             try self.validate(self.patternName, name: "patternName", parent: name, min: 1)
             try self.validate(self.patternName, name: "patternName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
+            try self.patternSetName.forEach {}
             try self.validate(self.patternSetName, name: "patternSetName", parent: name, max: 30)
             try self.validate(self.patternSetName, name: "patternSetName", parent: name, min: 1)
             try self.validate(self.patternSetName, name: "patternSetName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
+            try self.resourceGroupName.forEach {}
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
@@ -368,6 +378,7 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.resourceGroupName.forEach {}
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
@@ -394,9 +405,11 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.componentName.forEach {}
             try self.validate(self.componentName, name: "componentName", parent: name, max: 128)
             try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
             try self.validate(self.componentName, name: "componentName", parent: name, pattern: "^[\\d\\w\\-_\\.+]*$")
+            try self.resourceGroupName.forEach {}
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
@@ -427,12 +440,15 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.patternName.forEach {}
             try self.validate(self.patternName, name: "patternName", parent: name, max: 50)
             try self.validate(self.patternName, name: "patternName", parent: name, min: 1)
             try self.validate(self.patternName, name: "patternName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
+            try self.patternSetName.forEach {}
             try self.validate(self.patternSetName, name: "patternSetName", parent: name, max: 30)
             try self.validate(self.patternSetName, name: "patternSetName", parent: name, min: 1)
             try self.validate(self.patternSetName, name: "patternSetName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
+            try self.resourceGroupName.forEach {}
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
@@ -458,6 +474,7 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.resourceGroupName.forEach {}
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
@@ -496,9 +513,11 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.componentName.forEach {}
             try self.validate(self.componentName, name: "componentName", parent: name, max: 1011)
             try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
             try self.validate(self.componentName, name: "componentName", parent: name, pattern: "(?:^[\\d\\w\\-_\\.+]*$)|(?:^arn:aws(-\\w+)*:[\\w\\d-]+:([\\w\\d-]*)?:[\\w\\d_-]*([:/].+)*$)")
+            try self.resourceGroupName.forEach {}
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
@@ -536,9 +555,11 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.componentName.forEach {}
             try self.validate(self.componentName, name: "componentName", parent: name, max: 1011)
             try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
             try self.validate(self.componentName, name: "componentName", parent: name, pattern: "(?:^[\\d\\w\\-_\\.+]*$)|(?:^arn:aws(-\\w+)*:[\\w\\d-]+:([\\w\\d-]*)?:[\\w\\d_-]*([:/].+)*$)")
+            try self.resourceGroupName.forEach {}
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
@@ -583,9 +604,11 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.componentName.forEach {}
             try self.validate(self.componentName, name: "componentName", parent: name, max: 1011)
             try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
             try self.validate(self.componentName, name: "componentName", parent: name, pattern: "(?:^[\\d\\w\\-_\\.+]*$)|(?:^arn:aws(-\\w+)*:[\\w\\d-]+:([\\w\\d-]*)?:[\\w\\d_-]*([:/].+)*$)")
+            try self.resourceGroupName.forEach {}
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
@@ -628,12 +651,15 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.patternName.forEach {}
             try self.validate(self.patternName, name: "patternName", parent: name, max: 50)
             try self.validate(self.patternName, name: "patternName", parent: name, min: 1)
             try self.validate(self.patternName, name: "patternName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
+            try self.patternSetName.forEach {}
             try self.validate(self.patternSetName, name: "patternSetName", parent: name, max: 30)
             try self.validate(self.patternSetName, name: "patternSetName", parent: name, min: 1)
             try self.validate(self.patternSetName, name: "patternSetName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
+            try self.resourceGroupName.forEach {}
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
@@ -672,6 +698,7 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.observationId.forEach {}
             try self.validate(self.observationId, name: "observationId", parent: name, max: 38)
             try self.validate(self.observationId, name: "observationId", parent: name, min: 38)
             try self.validate(self.observationId, name: "observationId", parent: name, pattern: "o-[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}")
@@ -704,6 +731,7 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.problemId.forEach {}
             try self.validate(self.problemId, name: "problemId", parent: name, max: 38)
             try self.validate(self.problemId, name: "problemId", parent: name, min: 38)
             try self.validate(self.problemId, name: "problemId", parent: name, pattern: "p-[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}")
@@ -736,6 +764,7 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.problemId.forEach {}
             try self.validate(self.problemId, name: "problemId", parent: name, max: 38)
             try self.validate(self.problemId, name: "problemId", parent: name, min: 38)
             try self.validate(self.problemId, name: "problemId", parent: name, pattern: "p-[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}")
@@ -771,8 +800,10 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 40)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".+")
@@ -816,11 +847,14 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 40)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".+")
+            try self.resourceGroupName.forEach {}
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
@@ -874,11 +908,14 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 40)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".+")
+            try self.resourceGroupName?.forEach {}
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
@@ -926,11 +963,14 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 40)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".+")
+            try self.resourceGroupName.forEach {}
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
@@ -982,14 +1022,18 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 40)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".+")
+            try self.patternSetName?.forEach {}
             try self.validate(self.patternSetName, name: "patternSetName", parent: name, max: 30)
             try self.validate(self.patternSetName, name: "patternSetName", parent: name, min: 1)
             try self.validate(self.patternSetName, name: "patternSetName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
+            try self.resourceGroupName.forEach {}
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
@@ -1045,11 +1089,14 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 40)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".+")
+            try self.resourceGroupName?.forEach {}
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
@@ -1090,6 +1137,7 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws(-\\w+)*:[\\w\\d-]+:([\\w\\d-]*)?:[\\w\\d_-]*([:/].+)*$")
@@ -1401,9 +1449,11 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
             try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -1427,12 +1477,14 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws(-\\w+)*:[\\w\\d-]+:([\\w\\d-]*)?:[\\w\\d_-]*([:/].+)*$")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -1459,6 +1511,7 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws(-\\w+)*:[\\w\\d-]+:([\\w\\d-]*)?:[\\w\\d_-]*([:/].+)*$")
@@ -1467,6 +1520,7 @@ extension ApplicationInsights {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
         }
@@ -1502,9 +1556,11 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.opsItemSNSTopicArn?.forEach {}
             try self.validate(self.opsItemSNSTopicArn, name: "opsItemSNSTopicArn", parent: name, max: 300)
             try self.validate(self.opsItemSNSTopicArn, name: "opsItemSNSTopicArn", parent: name, min: 20)
             try self.validate(self.opsItemSNSTopicArn, name: "opsItemSNSTopicArn", parent: name, pattern: "^arn:aws(-\\w+)*:[\\w\\d-]+:([\\w\\d-]*)?:[\\w\\d_-]*([:/].+)*$")
+            try self.resourceGroupName.forEach {}
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
@@ -1553,12 +1609,15 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.componentConfiguration?.forEach {}
             try self.validate(self.componentConfiguration, name: "componentConfiguration", parent: name, max: 10000)
             try self.validate(self.componentConfiguration, name: "componentConfiguration", parent: name, min: 1)
             try self.validate(self.componentConfiguration, name: "componentConfiguration", parent: name, pattern: "[\\S\\s]+")
+            try self.componentName.forEach {}
             try self.validate(self.componentName, name: "componentName", parent: name, max: 1011)
             try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
             try self.validate(self.componentName, name: "componentName", parent: name, pattern: "(?:^[\\d\\w\\-_\\.+]*$)|(?:^arn:aws(-\\w+)*:[\\w\\d-]+:([\\w\\d-]*)?:[\\w\\d_-]*([:/].+)*$)")
+            try self.resourceGroupName.forEach {}
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
@@ -1595,12 +1654,15 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.componentName.forEach {}
             try self.validate(self.componentName, name: "componentName", parent: name, max: 128)
             try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
             try self.validate(self.componentName, name: "componentName", parent: name, pattern: "^[\\d\\w\\-_\\.+]*$")
+            try self.newComponentName?.forEach {}
             try self.validate(self.newComponentName, name: "newComponentName", parent: name, max: 128)
             try self.validate(self.newComponentName, name: "newComponentName", parent: name, min: 1)
             try self.validate(self.newComponentName, name: "newComponentName", parent: name, pattern: "^[\\d\\w\\-_\\.+]*$")
+            try self.resourceGroupName.forEach {}
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
@@ -1609,6 +1671,7 @@ extension ApplicationInsights {
                 try validate($0, name: "resourceList[]", parent: name, min: 1)
                 try validate($0, name: "resourceList[]", parent: name, pattern: "^arn:aws(-\\w+)*:[\\w\\d-]+:([\\w\\d-]*)?:[\\w\\d_-]*([:/].+)*$")
             }
+            try self.resourceList?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1644,15 +1707,19 @@ extension ApplicationInsights {
         }
 
         public func validate(name: String) throws {
+            try self.pattern?.forEach {}
             try self.validate(self.pattern, name: "pattern", parent: name, max: 50)
             try self.validate(self.pattern, name: "pattern", parent: name, min: 1)
             try self.validate(self.pattern, name: "pattern", parent: name, pattern: "[\\S\\s]+")
+            try self.patternName.forEach {}
             try self.validate(self.patternName, name: "patternName", parent: name, max: 50)
             try self.validate(self.patternName, name: "patternName", parent: name, min: 1)
             try self.validate(self.patternName, name: "patternName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
+            try self.patternSetName.forEach {}
             try self.validate(self.patternSetName, name: "patternSetName", parent: name, max: 30)
             try self.validate(self.patternSetName, name: "patternSetName", parent: name, min: 1)
             try self.validate(self.patternSetName, name: "patternSetName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")
+            try self.resourceGroupName.forEach {}
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, max: 256)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, min: 1)
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "[a-zA-Z0-9\\.\\-_]*")

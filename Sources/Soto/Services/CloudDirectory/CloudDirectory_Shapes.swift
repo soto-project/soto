@@ -130,7 +130,9 @@ extension CloudDirectory {
             try self.objectAttributeList?.forEach {
                 try $0.validate(name: "\(name).objectAttributeList[]")
             }
+            try self.objectAttributeList?.forEach {}
             try self.schemaFacet.validate(name: "\(name).schemaFacet")
+            try self.schemaFacet.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -203,6 +205,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.linkName.forEach {}
             try self.validate(self.linkName, name: "linkName", parent: name, max: 64)
             try self.validate(self.linkName, name: "linkName", parent: name, min: 1)
             try self.validate(self.linkName, name: "linkName", parent: name, pattern: "[^\\/\\[\\]\\(\\):\\{\\}#@!?\\s\\\\;]+")
@@ -321,7 +324,9 @@ extension CloudDirectory {
             try self.attributes.forEach {
                 try $0.validate(name: "\(name).attributes[]")
             }
+            try self.attributes.forEach {}
             try self.typedLinkFacet.validate(name: "\(name).typedLinkFacet")
+            try self.typedLinkFacet.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -360,9 +365,11 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.facetName.forEach {}
             try self.validate(self.facetName, name: "facetName", parent: name, max: 64)
             try self.validate(self.facetName, name: "facetName", parent: name, min: 1)
             try self.validate(self.facetName, name: "facetName", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 230)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9._:-]*$")
@@ -388,6 +395,7 @@ extension CloudDirectory {
 
         public func validate(name: String) throws {
             try self.key.validate(name: "\(name).key")
+            try self.key.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -408,6 +416,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.attributeName.forEach {}
             try self.validate(self.attributeName, name: "attributeName", parent: name, max: 230)
             try self.validate(self.attributeName, name: "attributeName", parent: name, min: 1)
             try self.validate(self.attributeName, name: "attributeName", parent: name, pattern: "^[a-zA-Z0-9._:-]*$")
@@ -437,7 +446,9 @@ extension CloudDirectory {
             try self.objectAttributeList.forEach {
                 try $0.validate(name: "\(name).objectAttributeList[]")
             }
+            try self.objectAttributeList.forEach {}
             try self.schemaFacet.validate(name: "\(name).schemaFacet")
+            try self.schemaFacet.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -466,6 +477,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.linkName.forEach {}
             try self.validate(self.linkName, name: "linkName", parent: name, max: 64)
             try self.validate(self.linkName, name: "linkName", parent: name, min: 1)
             try self.validate(self.linkName, name: "linkName", parent: name, pattern: "[^\\/\\[\\]\\(\\):\\{\\}#@!?\\s\\\\;]+")
@@ -563,7 +575,9 @@ extension CloudDirectory {
             try self.attributes.forEach {
                 try $0.validate(name: "\(name).attributes[]")
             }
+            try self.attributes.forEach {}
             try self.typedLinkFacet.validate(name: "\(name).typedLinkFacet")
+            try self.typedLinkFacet.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -608,12 +622,14 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.linkName?.forEach {}
             try self.validate(self.linkName, name: "linkName", parent: name, max: 64)
             try self.validate(self.linkName, name: "linkName", parent: name, min: 1)
             try self.validate(self.linkName, name: "linkName", parent: name, pattern: "[^\\/\\[\\]\\(\\):\\{\\}#@!?\\s\\\\;]+")
             try self.orderedIndexedAttributeList.forEach {
                 try $0.validate(name: "\(name).orderedIndexedAttributeList[]")
             }
+            try self.orderedIndexedAttributeList.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -659,15 +675,18 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.linkName?.forEach {}
             try self.validate(self.linkName, name: "linkName", parent: name, max: 64)
             try self.validate(self.linkName, name: "linkName", parent: name, min: 1)
             try self.validate(self.linkName, name: "linkName", parent: name, pattern: "[^\\/\\[\\]\\(\\):\\{\\}#@!?\\s\\\\;]+")
             try self.objectAttributeList.forEach {
                 try $0.validate(name: "\(name).objectAttributeList[]")
             }
+            try self.objectAttributeList.forEach {}
             try self.schemaFacet.forEach {
                 try $0.validate(name: "\(name).schemaFacet[]")
             }
+            try self.schemaFacet.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -754,6 +773,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.linkName.forEach {}
             try self.validate(self.linkName, name: "linkName", parent: name, max: 64)
             try self.validate(self.linkName, name: "linkName", parent: name, min: 1)
             try self.validate(self.linkName, name: "linkName", parent: name, pattern: "[^\\/\\[\\]\\(\\):\\{\\}#@!?\\s\\\\;]+")
@@ -810,6 +830,7 @@ extension CloudDirectory {
 
         public func validate(name: String) throws {
             try self.typedLinkSpecifier.validate(name: "\(name).typedLinkSpecifier")
+            try self.typedLinkSpecifier.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -838,7 +859,9 @@ extension CloudDirectory {
                 try validate($0, name: "attributeNames[]", parent: name, min: 1)
                 try validate($0, name: "attributeNames[]", parent: name, pattern: "^[a-zA-Z0-9._:-]*$")
             }
+            try self.attributeNames.forEach {}
             try self.typedLinkSpecifier.validate(name: "\(name).typedLinkSpecifier")
+            try self.typedLinkSpecifier.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -880,7 +903,9 @@ extension CloudDirectory {
                 try validate($0, name: "attributeNames[]", parent: name, min: 1)
                 try validate($0, name: "attributeNames[]", parent: name, pattern: "^[a-zA-Z0-9._:-]*$")
             }
+            try self.attributeNames.forEach {}
             try self.schemaFacet.validate(name: "\(name).schemaFacet")
+            try self.schemaFacet.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -948,6 +973,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -999,7 +1025,10 @@ extension CloudDirectory {
             try self.filterAttributeRanges?.forEach {
                 try $0.validate(name: "\(name).filterAttributeRanges[]")
             }
+            try self.filterAttributeRanges?.forEach {}
             try self.filterTypedLink?.validate(name: "\(name).filterTypedLink")
+            try self.filterTypedLink?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -1047,10 +1076,12 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.rangesOnIndexedValues?.forEach {
                 try $0.validate(name: "\(name).rangesOnIndexedValues[]")
             }
+            try self.rangesOnIndexedValues?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1097,6 +1128,8 @@ extension CloudDirectory {
 
         public func validate(name: String) throws {
             try self.facetFilter?.validate(name: "\(name).facetFilter")
+            try self.facetFilter?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -1140,6 +1173,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -1182,6 +1216,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -1221,6 +1256,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -1261,6 +1297,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -1312,7 +1349,10 @@ extension CloudDirectory {
             try self.filterAttributeRanges?.forEach {
                 try $0.validate(name: "\(name).filterAttributeRanges[]")
             }
+            try self.filterAttributeRanges?.forEach {}
             try self.filterTypedLink?.validate(name: "\(name).filterTypedLink")
+            try self.filterTypedLink?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -1357,6 +1397,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -1399,6 +1440,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -1491,18 +1533,31 @@ extension CloudDirectory {
 
         public func validate(name: String) throws {
             try self.getLinkAttributes?.validate(name: "\(name).getLinkAttributes")
+            try self.getLinkAttributes?.forEach {}
             try self.getObjectAttributes?.validate(name: "\(name).getObjectAttributes")
+            try self.getObjectAttributes?.forEach {}
             try self.listAttachedIndices?.validate(name: "\(name).listAttachedIndices")
+            try self.listAttachedIndices?.forEach {}
             try self.listIncomingTypedLinks?.validate(name: "\(name).listIncomingTypedLinks")
+            try self.listIncomingTypedLinks?.forEach {}
             try self.listIndex?.validate(name: "\(name).listIndex")
+            try self.listIndex?.forEach {}
             try self.listObjectAttributes?.validate(name: "\(name).listObjectAttributes")
+            try self.listObjectAttributes?.forEach {}
             try self.listObjectChildren?.validate(name: "\(name).listObjectChildren")
+            try self.listObjectChildren?.forEach {}
             try self.listObjectParentPaths?.validate(name: "\(name).listObjectParentPaths")
+            try self.listObjectParentPaths?.forEach {}
             try self.listObjectParents?.validate(name: "\(name).listObjectParents")
+            try self.listObjectParents?.forEach {}
             try self.listObjectPolicies?.validate(name: "\(name).listObjectPolicies")
+            try self.listObjectPolicies?.forEach {}
             try self.listOutgoingTypedLinks?.validate(name: "\(name).listOutgoingTypedLinks")
+            try self.listOutgoingTypedLinks?.forEach {}
             try self.listPolicyAttachments?.validate(name: "\(name).listPolicyAttachments")
+            try self.listPolicyAttachments?.forEach {}
             try self.lookupPolicy?.validate(name: "\(name).lookupPolicy")
+            try self.lookupPolicy?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1563,6 +1618,7 @@ extension CloudDirectory {
             try self.operations.forEach {
                 try $0.validate(name: "\(name).operations[]")
             }
+            try self.operations.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1660,6 +1716,7 @@ extension CloudDirectory {
 
         public func validate(name: String) throws {
             try self.schemaFacet.validate(name: "\(name).schemaFacet")
+            try self.schemaFacet.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1687,7 +1744,9 @@ extension CloudDirectory {
             try self.attributeUpdates.forEach {
                 try $0.validate(name: "\(name).attributeUpdates[]")
             }
+            try self.attributeUpdates.forEach {}
             try self.typedLinkSpecifier.validate(name: "\(name).typedLinkSpecifier")
+            try self.typedLinkSpecifier.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1715,6 +1774,7 @@ extension CloudDirectory {
             try self.attributeUpdates.forEach {
                 try $0.validate(name: "\(name).attributeUpdates[]")
             }
+            try self.attributeUpdates.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1788,15 +1848,25 @@ extension CloudDirectory {
 
         public func validate(name: String) throws {
             try self.addFacetToObject?.validate(name: "\(name).addFacetToObject")
+            try self.addFacetToObject?.forEach {}
             try self.attachObject?.validate(name: "\(name).attachObject")
+            try self.attachObject?.forEach {}
             try self.attachTypedLink?.validate(name: "\(name).attachTypedLink")
+            try self.attachTypedLink?.forEach {}
             try self.createIndex?.validate(name: "\(name).createIndex")
+            try self.createIndex?.forEach {}
             try self.createObject?.validate(name: "\(name).createObject")
+            try self.createObject?.forEach {}
             try self.detachObject?.validate(name: "\(name).detachObject")
+            try self.detachObject?.forEach {}
             try self.detachTypedLink?.validate(name: "\(name).detachTypedLink")
+            try self.detachTypedLink?.forEach {}
             try self.removeFacetFromObject?.validate(name: "\(name).removeFacetFromObject")
+            try self.removeFacetFromObject?.forEach {}
             try self.updateLinkAttributes?.validate(name: "\(name).updateLinkAttributes")
+            try self.updateLinkAttributes?.forEach {}
             try self.updateObjectAttributes?.validate(name: "\(name).updateObjectAttributes")
+            try self.updateObjectAttributes?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1906,6 +1976,7 @@ extension CloudDirectory {
             try self.operations.forEach {
                 try $0.validate(name: "\(name).operations[]")
             }
+            try self.operations.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1942,6 +2013,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
@@ -2005,6 +2077,8 @@ extension CloudDirectory {
             try self.attributes?.forEach {
                 try $0.validate(name: "\(name).attributes[]")
             }
+            try self.attributes?.forEach {}
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
@@ -2047,12 +2121,14 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.linkName?.forEach {}
             try self.validate(self.linkName, name: "linkName", parent: name, max: 64)
             try self.validate(self.linkName, name: "linkName", parent: name, min: 1)
             try self.validate(self.linkName, name: "linkName", parent: name, pattern: "[^\\/\\[\\]\\(\\):\\{\\}#@!?\\s\\\\;]+")
             try self.orderedIndexedAttributeList.forEach {
                 try $0.validate(name: "\(name).orderedIndexedAttributeList[]")
             }
+            try self.orderedIndexedAttributeList.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2101,15 +2177,18 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.linkName?.forEach {}
             try self.validate(self.linkName, name: "linkName", parent: name, max: 64)
             try self.validate(self.linkName, name: "linkName", parent: name, min: 1)
             try self.validate(self.linkName, name: "linkName", parent: name, pattern: "[^\\/\\[\\]\\(\\):\\{\\}#@!?\\s\\\\;]+")
             try self.objectAttributeList?.forEach {
                 try $0.validate(name: "\(name).objectAttributeList[]")
             }
+            try self.objectAttributeList?.forEach {}
             try self.schemaFacets.forEach {
                 try $0.validate(name: "\(name).schemaFacets[]")
             }
+            try self.schemaFacets.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2142,6 +2221,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 32)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
@@ -2182,6 +2262,7 @@ extension CloudDirectory {
 
         public func validate(name: String) throws {
             try self.facet.validate(name: "\(name).facet")
+            try self.facet.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2237,6 +2318,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
@@ -2319,6 +2401,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
@@ -2387,6 +2470,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.linkName.forEach {}
             try self.validate(self.linkName, name: "linkName", parent: name, max: 64)
             try self.validate(self.linkName, name: "linkName", parent: name, min: 1)
             try self.validate(self.linkName, name: "linkName", parent: name, pattern: "[^\\/\\[\\]\\(\\):\\{\\}#@!?\\s\\\\;]+")
@@ -2456,6 +2540,7 @@ extension CloudDirectory {
 
         public func validate(name: String) throws {
             try self.typedLinkSpecifier.validate(name: "\(name).typedLinkSpecifier")
+            try self.typedLinkSpecifier.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2584,7 +2669,10 @@ extension CloudDirectory {
 
         public func validate(name: String) throws {
             try self.attributeDefinition?.validate(name: "\(name).attributeDefinition")
+            try self.attributeDefinition?.forEach {}
             try self.attributeReference?.validate(name: "\(name).attributeReference")
+            try self.attributeReference?.forEach {}
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 230)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9._:-]*$")
@@ -2643,9 +2731,11 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.targetAttributeName.forEach {}
             try self.validate(self.targetAttributeName, name: "targetAttributeName", parent: name, max: 230)
             try self.validate(self.targetAttributeName, name: "targetAttributeName", parent: name, min: 1)
             try self.validate(self.targetAttributeName, name: "targetAttributeName", parent: name, pattern: "^[a-zA-Z0-9._:-]*$")
+            try self.targetFacetName.forEach {}
             try self.validate(self.targetFacetName, name: "targetFacetName", parent: name, max: 64)
             try self.validate(self.targetFacetName, name: "targetFacetName", parent: name, min: 1)
             try self.validate(self.targetFacetName, name: "targetFacetName", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
@@ -2670,6 +2760,7 @@ extension CloudDirectory {
 
         public func validate(name: String) throws {
             try self.attribute?.validate(name: "\(name).attribute")
+            try self.attribute?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2748,6 +2839,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
@@ -2798,7 +2890,9 @@ extension CloudDirectory {
                 try validate($0, name: "attributeNames[]", parent: name, min: 1)
                 try validate($0, name: "attributeNames[]", parent: name, pattern: "^[a-zA-Z0-9._:-]*$")
             }
+            try self.attributeNames.forEach {}
             try self.typedLinkSpecifier.validate(name: "\(name).typedLinkSpecifier")
+            try self.typedLinkSpecifier.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2852,7 +2946,9 @@ extension CloudDirectory {
                 try validate($0, name: "attributeNames[]", parent: name, min: 1)
                 try validate($0, name: "attributeNames[]", parent: name, pattern: "^[a-zA-Z0-9._:-]*$")
             }
+            try self.attributeNames.forEach {}
             try self.schemaFacet.validate(name: "\(name).schemaFacet")
+            try self.schemaFacet.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2964,6 +3060,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
@@ -3032,6 +3129,7 @@ extension CloudDirectory {
 
         public func validate(name: String) throws {
             try self.attributeKey?.validate(name: "\(name).attributeKey")
+            try self.attributeKey?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3058,6 +3156,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -3112,6 +3211,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -3151,6 +3251,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -3192,6 +3293,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -3241,7 +3343,9 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
@@ -3290,6 +3394,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -3350,7 +3455,10 @@ extension CloudDirectory {
             try self.filterAttributeRanges?.forEach {
                 try $0.validate(name: "\(name).filterAttributeRanges[]")
             }
+            try self.filterAttributeRanges?.forEach {}
             try self.filterTypedLink?.validate(name: "\(name).filterTypedLink")
+            try self.filterTypedLink?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -3410,10 +3518,12 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.rangesOnIndexedValues?.forEach {
                 try $0.validate(name: "\(name).rangesOnIndexedValues[]")
             }
+            try self.rangesOnIndexedValues?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3456,6 +3566,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -3513,6 +3624,8 @@ extension CloudDirectory {
 
         public func validate(name: String) throws {
             try self.facetFilter?.validate(name: "\(name).facetFilter")
+            try self.facetFilter?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -3567,6 +3680,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -3616,6 +3730,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -3672,6 +3787,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -3730,6 +3846,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -3791,7 +3908,10 @@ extension CloudDirectory {
             try self.filterAttributeRanges?.forEach {
                 try $0.validate(name: "\(name).filterAttributeRanges[]")
             }
+            try self.filterAttributeRanges?.forEach {}
             try self.filterTypedLink?.validate(name: "\(name).filterTypedLink")
+            try self.filterTypedLink?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -3848,6 +3968,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -3890,6 +4011,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -3932,6 +4054,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 50)
         }
 
@@ -3981,7 +4104,9 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
@@ -4028,6 +4153,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -4076,6 +4202,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -4133,6 +4260,7 @@ extension CloudDirectory {
 
         public func validate(name: String) throws {
             try self.attributeKey?.validate(name: "\(name).attributeKey")
+            try self.attributeKey?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4154,6 +4282,7 @@ extension CloudDirectory {
 
         public func validate(name: String) throws {
             try self.objectAttributeKey?.validate(name: "\(name).objectAttributeKey")
+            try self.objectAttributeKey?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4269,12 +4398,15 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.minorVersion?.forEach {}
             try self.validate(self.minorVersion, name: "minorVersion", parent: name, max: 10)
             try self.validate(self.minorVersion, name: "minorVersion", parent: name, min: 1)
             try self.validate(self.minorVersion, name: "minorVersion", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 32)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+            try self.version.forEach {}
             try self.validate(self.version, name: "version", parent: name, max: 10)
             try self.validate(self.version, name: "version", parent: name, min: 1)
             try self.validate(self.version, name: "version", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
@@ -4353,6 +4485,7 @@ extension CloudDirectory {
 
         public func validate(name: String) throws {
             try self.schemaFacet.validate(name: "\(name).schemaFacet")
+            try self.schemaFacet.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4394,6 +4527,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.facetName?.forEach {}
             try self.validate(self.facetName, name: "facetName", parent: name, max: 64)
             try self.validate(self.facetName, name: "facetName", parent: name, min: 1)
             try self.validate(self.facetName, name: "facetName", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
@@ -4521,6 +4655,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 230)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9._:-]*$")
@@ -4553,6 +4688,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.attributeName?.forEach {}
             try self.validate(self.attributeName, name: "attributeName", parent: name, max: 230)
             try self.validate(self.attributeName, name: "attributeName", parent: name, min: 1)
             try self.validate(self.attributeName, name: "attributeName", parent: name, pattern: "^[a-zA-Z0-9._:-]*$")
@@ -4582,11 +4718,14 @@ extension CloudDirectory {
             try self.attributes.forEach {
                 try $0.validate(name: "\(name).attributes[]")
             }
+            try self.attributes.forEach {}
             try self.identityAttributeOrder.forEach {
                 try validate($0, name: "identityAttributeOrder[]", parent: name, max: 230)
                 try validate($0, name: "identityAttributeOrder[]", parent: name, min: 1)
                 try validate($0, name: "identityAttributeOrder[]", parent: name, pattern: "^[a-zA-Z0-9._:-]*$")
             }
+            try self.identityAttributeOrder.forEach {}
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
@@ -4610,6 +4749,7 @@ extension CloudDirectory {
 
         public func validate(name: String) throws {
             try self.attribute.validate(name: "\(name).attribute")
+            try self.attribute.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4630,6 +4770,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.typedLinkName.forEach {}
             try self.validate(self.typedLinkName, name: "typedLinkName", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
@@ -4660,7 +4801,9 @@ extension CloudDirectory {
             try self.identityAttributeValues.forEach {
                 try $0.validate(name: "\(name).identityAttributeValues[]")
             }
+            try self.identityAttributeValues.forEach {}
             try self.typedLinkFacet.validate(name: "\(name).typedLinkFacet")
+            try self.typedLinkFacet.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4717,6 +4860,8 @@ extension CloudDirectory {
             try self.attributeUpdates?.forEach {
                 try $0.validate(name: "\(name).attributeUpdates[]")
             }
+            try self.attributeUpdates?.forEach {}
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
@@ -4755,7 +4900,9 @@ extension CloudDirectory {
             try self.attributeUpdates.forEach {
                 try $0.validate(name: "\(name).attributeUpdates[]")
             }
+            try self.attributeUpdates.forEach {}
             try self.typedLinkSpecifier.validate(name: "\(name).typedLinkSpecifier")
+            try self.typedLinkSpecifier.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4790,6 +4937,7 @@ extension CloudDirectory {
             try self.attributeUpdates.forEach {
                 try $0.validate(name: "\(name).attributeUpdates[]")
             }
+            try self.attributeUpdates.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4827,6 +4975,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 32)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
@@ -4875,11 +5024,14 @@ extension CloudDirectory {
             try self.attributeUpdates.forEach {
                 try $0.validate(name: "\(name).attributeUpdates[]")
             }
+            try self.attributeUpdates.forEach {}
             try self.identityAttributeOrder.forEach {
                 try validate($0, name: "identityAttributeOrder[]", parent: name, max: 230)
                 try validate($0, name: "identityAttributeOrder[]", parent: name, min: 1)
                 try validate($0, name: "identityAttributeOrder[]", parent: name, pattern: "^[a-zA-Z0-9._:-]*$")
             }
+            try self.identityAttributeOrder.forEach {}
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
@@ -4950,6 +5102,7 @@ extension CloudDirectory {
         }
 
         public func validate(name: String) throws {
+            try self.minorVersion.forEach {}
             try self.validate(self.minorVersion, name: "minorVersion", parent: name, max: 10)
             try self.validate(self.minorVersion, name: "minorVersion", parent: name, min: 1)
             try self.validate(self.minorVersion, name: "minorVersion", parent: name, pattern: "^[a-zA-Z0-9._-]*$")

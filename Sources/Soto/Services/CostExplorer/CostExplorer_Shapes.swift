@@ -47,6 +47,18 @@ extension CostExplorer {
         public var description: String { return self.rawValue }
     }
 
+    public enum CostCategoryInheritedValueDimensionName: String, CustomStringConvertible, Codable {
+        case linkedAccountName = "LINKED_ACCOUNT_NAME"
+        case tag = "TAG"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CostCategoryRuleType: String, CustomStringConvertible, Codable {
+        case inheritedValue = "INHERITED_VALUE"
+        case regular = "REGULAR"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CostCategoryRuleVersion: String, CustomStringConvertible, Codable {
         case costcategoryexpressionV1 = "CostCategoryExpression.v1"
         public var description: String { return self.rawValue }
@@ -287,9 +299,11 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try self.endDate?.forEach {}
             try self.validate(self.endDate, name: "endDate", parent: name, max: 40)
             try self.validate(self.endDate, name: "endDate", parent: name, min: 0)
             try self.validate(self.endDate, name: "endDate", parent: name, pattern: "(\\d{4}-\\d{2}-\\d{2})(T\\d{2}:\\d{2}:\\d{2}Z)?")
+            try self.startDate.forEach {}
             try self.validate(self.startDate, name: "startDate", parent: name, max: 40)
             try self.validate(self.startDate, name: "startDate", parent: name, min: 0)
             try self.validate(self.startDate, name: "startDate", parent: name, pattern: "(\\d{4}-\\d{2}-\\d{2})(T\\d{2}:\\d{2}:\\d{2}Z)?")
@@ -333,23 +347,30 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try self.creationDate?.forEach {}
             try self.validate(self.creationDate, name: "creationDate", parent: name, max: 40)
             try self.validate(self.creationDate, name: "creationDate", parent: name, min: 0)
             try self.validate(self.creationDate, name: "creationDate", parent: name, pattern: "(\\d{4}-\\d{2}-\\d{2})(T\\d{2}:\\d{2}:\\d{2}Z)?")
+            try self.dimensionalValueCount?.forEach {}
             try self.validate(self.dimensionalValueCount, name: "dimensionalValueCount", parent: name, min: 0)
+            try self.lastEvaluatedDate?.forEach {}
             try self.validate(self.lastEvaluatedDate, name: "lastEvaluatedDate", parent: name, max: 40)
             try self.validate(self.lastEvaluatedDate, name: "lastEvaluatedDate", parent: name, min: 0)
             try self.validate(self.lastEvaluatedDate, name: "lastEvaluatedDate", parent: name, pattern: "(\\d{4}-\\d{2}-\\d{2})(T\\d{2}:\\d{2}:\\d{2}Z)?")
+            try self.lastUpdatedDate?.forEach {}
             try self.validate(self.lastUpdatedDate, name: "lastUpdatedDate", parent: name, max: 40)
             try self.validate(self.lastUpdatedDate, name: "lastUpdatedDate", parent: name, min: 0)
             try self.validate(self.lastUpdatedDate, name: "lastUpdatedDate", parent: name, pattern: "(\\d{4}-\\d{2}-\\d{2})(T\\d{2}:\\d{2}:\\d{2}Z)?")
+            try self.monitorArn?.forEach {}
             try self.validate(self.monitorArn, name: "monitorArn", parent: name, max: 1024)
             try self.validate(self.monitorArn, name: "monitorArn", parent: name, min: 0)
             try self.validate(self.monitorArn, name: "monitorArn", parent: name, pattern: "[\\S\\s]*")
+            try self.monitorName.forEach {}
             try self.validate(self.monitorName, name: "monitorName", parent: name, max: 1024)
             try self.validate(self.monitorName, name: "monitorName", parent: name, min: 0)
             try self.validate(self.monitorName, name: "monitorName", parent: name, pattern: "[\\S\\s]*")
             try self.monitorSpecification?.validate(name: "\(name).monitorSpecification")
+            try self.monitorSpecification?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -409,6 +430,7 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try self.accountId?.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 1024)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 0)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "[\\S\\s]*")
@@ -417,15 +439,20 @@ extension CostExplorer {
                 try validate($0, name: "monitorArnList[]", parent: name, min: 20)
                 try validate($0, name: "monitorArnList[]", parent: name, pattern: "arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+")
             }
+            try self.monitorArnList.forEach {}
             try self.subscribers.forEach {
                 try $0.validate(name: "\(name).subscribers[]")
             }
+            try self.subscribers.forEach {}
+            try self.subscriptionArn?.forEach {}
             try self.validate(self.subscriptionArn, name: "subscriptionArn", parent: name, max: 1024)
             try self.validate(self.subscriptionArn, name: "subscriptionArn", parent: name, min: 0)
             try self.validate(self.subscriptionArn, name: "subscriptionArn", parent: name, pattern: "[\\S\\s]*")
+            try self.subscriptionName.forEach {}
             try self.validate(self.subscriptionName, name: "subscriptionName", parent: name, max: 1024)
             try self.validate(self.subscriptionName, name: "subscriptionName", parent: name, min: 0)
             try self.validate(self.subscriptionName, name: "subscriptionName", parent: name, pattern: "[\\S\\s]*")
+            try self.threshold.forEach {}
             try self.validate(self.threshold, name: "threshold", parent: name, min: 0)
         }
 
@@ -443,6 +470,7 @@ extension CostExplorer {
     public struct CostCategory: AWSDecodableShape {
         ///  The unique identifier for your Cost Category.
         public let costCategoryArn: String
+        public let defaultValue: String?
         ///  The Cost Category's effective end date.
         public let effectiveEnd: String?
         ///  The Cost Category's effective start date.
@@ -454,8 +482,9 @@ extension CostExplorer {
         public let rules: [CostCategoryRule]
         public let ruleVersion: CostCategoryRuleVersion
 
-        public init(costCategoryArn: String, effectiveEnd: String? = nil, effectiveStart: String, name: String, processingStatus: [CostCategoryProcessingStatus]? = nil, rules: [CostCategoryRule], ruleVersion: CostCategoryRuleVersion) {
+        public init(costCategoryArn: String, defaultValue: String? = nil, effectiveEnd: String? = nil, effectiveStart: String, name: String, processingStatus: [CostCategoryProcessingStatus]? = nil, rules: [CostCategoryRule], ruleVersion: CostCategoryRuleVersion) {
             self.costCategoryArn = costCategoryArn
+            self.defaultValue = defaultValue
             self.effectiveEnd = effectiveEnd
             self.effectiveStart = effectiveStart
             self.name = name
@@ -466,12 +495,37 @@ extension CostExplorer {
 
         private enum CodingKeys: String, CodingKey {
             case costCategoryArn = "CostCategoryArn"
+            case defaultValue = "DefaultValue"
             case effectiveEnd = "EffectiveEnd"
             case effectiveStart = "EffectiveStart"
             case name = "Name"
             case processingStatus = "ProcessingStatus"
             case rules = "Rules"
             case ruleVersion = "RuleVersion"
+        }
+    }
+
+    public struct CostCategoryInheritedValueDimension: AWSEncodableShape & AWSDecodableShape {
+        /// The key to extract cost category values.
+        public let dimensionKey: String?
+        /// The name of dimension for which to group costs. If you specify LINKED_ACCOUNT_NAME, the cost category value will be based on account name. If you specify TAG, the cost category value will be based on the value of the specified tag key.
+        public let dimensionName: CostCategoryInheritedValueDimensionName?
+
+        public init(dimensionKey: String? = nil, dimensionName: CostCategoryInheritedValueDimensionName? = nil) {
+            self.dimensionKey = dimensionKey
+            self.dimensionName = dimensionName
+        }
+
+        public func validate(name: String) throws {
+            try self.dimensionKey?.forEach {}
+            try self.validate(self.dimensionKey, name: "dimensionKey", parent: name, max: 1024)
+            try self.validate(self.dimensionKey, name: "dimensionKey", parent: name, min: 0)
+            try self.validate(self.dimensionKey, name: "dimensionKey", parent: name, pattern: "[\\S\\s]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensionKey = "DimensionKey"
+            case dimensionName = "DimensionName"
         }
     }
 
@@ -495,6 +549,7 @@ extension CostExplorer {
     public struct CostCategoryReference: AWSDecodableShape {
         ///  The unique identifier for your Cost Category.
         public let costCategoryArn: String?
+        public let defaultValue: String?
         ///  The Cost Category's effective end date.
         public let effectiveEnd: String?
         ///  The Cost Category's effective start date.
@@ -507,8 +562,9 @@ extension CostExplorer {
         ///  A list of unique cost category values in a specific cost category.
         public let values: [String]?
 
-        public init(costCategoryArn: String? = nil, effectiveEnd: String? = nil, effectiveStart: String? = nil, name: String? = nil, numberOfRules: Int? = nil, processingStatus: [CostCategoryProcessingStatus]? = nil, values: [String]? = nil) {
+        public init(costCategoryArn: String? = nil, defaultValue: String? = nil, effectiveEnd: String? = nil, effectiveStart: String? = nil, name: String? = nil, numberOfRules: Int? = nil, processingStatus: [CostCategoryProcessingStatus]? = nil, values: [String]? = nil) {
             self.costCategoryArn = costCategoryArn
+            self.defaultValue = defaultValue
             self.effectiveEnd = effectiveEnd
             self.effectiveStart = effectiveStart
             self.name = name
@@ -519,6 +575,7 @@ extension CostExplorer {
 
         private enum CodingKeys: String, CodingKey {
             case costCategoryArn = "CostCategoryArn"
+            case defaultValue = "DefaultValue"
             case effectiveEnd = "EffectiveEnd"
             case effectiveStart = "EffectiveStart"
             case name = "Name"
@@ -529,24 +586,36 @@ extension CostExplorer {
     }
 
     public struct CostCategoryRule: AWSEncodableShape & AWSDecodableShape {
+        /// The value the line item will be categorized as, if the line item contains the matched dimension.
+        public let inheritedValue: CostCategoryInheritedValueDimension?
         /// An Expression object used to categorize costs. This supports dimensions, tags, and nested expressions. Currently the only dimensions supported are LINKED_ACCOUNT, SERVICE_CODE, RECORD_TYPE, and LINKED_ACCOUNT_NAME. Root level OR is not supported. We recommend that you create a separate rule instead.  RECORD_TYPE is a dimension used for Cost Explorer APIs, and is also supported for Cost Category expressions. This dimension uses different terms, depending on whether you're using the console or API/JSON editor. For a detailed comparison, see Term Comparisons in the AWS Billing and Cost Management User Guide.
-        public let rule: Expression
-        public let value: String
+        public let rule: Expression?
+        /// You can define the CostCategoryRule rule type as either REGULAR or INHERITED_VALUE. The INHERITED_VALUE rule type adds the flexibility of defining a rule that dynamically inherits the cost category value from the dimension value defined by CostCategoryInheritedValueDimension. For example, if you wanted to dynamically group costs based on the value of a specific tag key, you would first choose an inherited value rule type, then choose the tag dimension and specify the tag key to use.
+        public let type: CostCategoryRuleType?
+        public let value: String?
 
-        public init(rule: Expression, value: String) {
+        public init(inheritedValue: CostCategoryInheritedValueDimension? = nil, rule: Expression? = nil, type: CostCategoryRuleType? = nil, value: String? = nil) {
+            self.inheritedValue = inheritedValue
             self.rule = rule
+            self.type = type
             self.value = value
         }
 
         public func validate(name: String) throws {
-            try self.rule.validate(name: "\(name).rule")
-            try self.validate(self.value, name: "value", parent: name, max: 255)
+            try self.inheritedValue?.validate(name: "\(name).inheritedValue")
+            try self.inheritedValue?.forEach {}
+            try self.rule?.validate(name: "\(name).rule")
+            try self.rule?.forEach {}
+            try self.value?.forEach {}
+            try self.validate(self.value, name: "value", parent: name, max: 50)
             try self.validate(self.value, name: "value", parent: name, min: 1)
             try self.validate(self.value, name: "value", parent: name, pattern: "^(?! )[\\p{L}\\p{N}\\p{Z}-_]*(?<! )$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case inheritedValue = "InheritedValue"
             case rule = "Rule"
+            case type = "Type"
             case value = "Value"
         }
     }
@@ -565,7 +634,8 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.key, name: "key", parent: name, max: 255)
+            try self.key?.forEach {}
+            try self.validate(self.key, name: "key", parent: name, max: 50)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^(?! )[\\p{L}\\p{N}\\p{Z}-_]*(?<! )$")
             try self.values?.forEach {
@@ -573,6 +643,7 @@ extension CostExplorer {
                 try validate($0, name: "values[]", parent: name, min: 0)
                 try validate($0, name: "values[]", parent: name, pattern: "[\\S\\s]*")
             }
+            try self.values?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -697,6 +768,7 @@ extension CostExplorer {
 
         public func validate(name: String) throws {
             try self.anomalyMonitor.validate(name: "\(name).anomalyMonitor")
+            try self.anomalyMonitor.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -727,6 +799,7 @@ extension CostExplorer {
 
         public func validate(name: String) throws {
             try self.anomalySubscription.validate(name: "\(name).anomalySubscription")
+            try self.anomalySubscription.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -748,29 +821,38 @@ extension CostExplorer {
     }
 
     public struct CreateCostCategoryDefinitionRequest: AWSEncodableShape {
+        public let defaultValue: String?
         public let name: String
         /// The Cost Category rules used to categorize costs. For more information, see CostCategoryRule.
         public let rules: [CostCategoryRule]
         public let ruleVersion: CostCategoryRuleVersion
 
-        public init(name: String, rules: [CostCategoryRule], ruleVersion: CostCategoryRuleVersion) {
+        public init(defaultValue: String? = nil, name: String, rules: [CostCategoryRule], ruleVersion: CostCategoryRuleVersion) {
+            self.defaultValue = defaultValue
             self.name = name
             self.rules = rules
             self.ruleVersion = ruleVersion
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.defaultValue?.forEach {}
+            try self.validate(self.defaultValue, name: "defaultValue", parent: name, max: 50)
+            try self.validate(self.defaultValue, name: "defaultValue", parent: name, min: 1)
+            try self.validate(self.defaultValue, name: "defaultValue", parent: name, pattern: "^(?! )[\\p{L}\\p{N}\\p{Z}-_]*(?<! )$")
+            try self.name.forEach {}
+            try self.validate(self.name, name: "name", parent: name, max: 50)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^(?! )[\\p{L}\\p{N}\\p{Z}-_]*(?<! )$")
             try self.rules.forEach {
                 try $0.validate(name: "\(name).rules[]")
             }
+            try self.rules.forEach {}
             try self.validate(self.rules, name: "rules", parent: name, max: 500)
             try self.validate(self.rules, name: "rules", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case defaultValue = "DefaultValue"
             case name = "Name"
             case rules = "Rules"
             case ruleVersion = "RuleVersion"
@@ -859,9 +941,11 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try self.end.forEach {}
             try self.validate(self.end, name: "end", parent: name, max: 40)
             try self.validate(self.end, name: "end", parent: name, min: 0)
             try self.validate(self.end, name: "end", parent: name, pattern: "(\\d{4}-\\d{2}-\\d{2})(T\\d{2}:\\d{2}:\\d{2}Z)?")
+            try self.start.forEach {}
             try self.validate(self.start, name: "start", parent: name, max: 40)
             try self.validate(self.start, name: "start", parent: name, min: 0)
             try self.validate(self.start, name: "start", parent: name, pattern: "(\\d{4}-\\d{2}-\\d{2})(T\\d{2}:\\d{2}:\\d{2}Z)?")
@@ -882,6 +966,7 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try self.monitorArn.forEach {}
             try self.validate(self.monitorArn, name: "monitorArn", parent: name, max: 1024)
             try self.validate(self.monitorArn, name: "monitorArn", parent: name, min: 0)
             try self.validate(self.monitorArn, name: "monitorArn", parent: name, pattern: "[\\S\\s]*")
@@ -905,6 +990,7 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try self.subscriptionArn.forEach {}
             try self.validate(self.subscriptionArn, name: "subscriptionArn", parent: name, max: 1024)
             try self.validate(self.subscriptionArn, name: "subscriptionArn", parent: name, min: 0)
             try self.validate(self.subscriptionArn, name: "subscriptionArn", parent: name, pattern: "[\\S\\s]*")
@@ -928,6 +1014,7 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try self.costCategoryArn.forEach {}
             try self.validate(self.costCategoryArn, name: "costCategoryArn", parent: name, max: 2048)
             try self.validate(self.costCategoryArn, name: "costCategoryArn", parent: name, min: 20)
             try self.validate(self.costCategoryArn, name: "costCategoryArn", parent: name, pattern: "arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+")
@@ -967,9 +1054,11 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try self.costCategoryArn.forEach {}
             try self.validate(self.costCategoryArn, name: "costCategoryArn", parent: name, max: 2048)
             try self.validate(self.costCategoryArn, name: "costCategoryArn", parent: name, min: 20)
             try self.validate(self.costCategoryArn, name: "costCategoryArn", parent: name, pattern: "arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+")
+            try self.effectiveOn?.forEach {}
             try self.validate(self.effectiveOn, name: "effectiveOn", parent: name, max: 25)
             try self.validate(self.effectiveOn, name: "effectiveOn", parent: name, min: 20)
             try self.validate(self.effectiveOn, name: "effectiveOn", parent: name, pattern: "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d(([+-]\\d\\d:\\d\\d)|Z)$")
@@ -1013,6 +1102,7 @@ extension CostExplorer {
                 try validate($0, name: "values[]", parent: name, min: 0)
                 try validate($0, name: "values[]", parent: name, pattern: "[\\S\\s]*")
             }
+            try self.values?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1277,13 +1367,19 @@ extension CostExplorer {
             try self.and?.forEach {
                 try $0.validate(name: "\(name).and[]")
             }
+            try self.and?.forEach {}
             try self.costCategories?.validate(name: "\(name).costCategories")
+            try self.costCategories?.forEach {}
             try self.dimensions?.validate(name: "\(name).dimensions")
+            try self.dimensions?.forEach {}
             try self.not?.validate(name: "\(name).not")
+            try self.not?.forEach {}
             try self.or?.forEach {
                 try $0.validate(name: "\(name).or[]")
             }
+            try self.or?.forEach {}
             try self.tags?.validate(name: "\(name).tags")
+            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1346,9 +1442,12 @@ extension CostExplorer {
 
         public func validate(name: String) throws {
             try self.dateInterval.validate(name: "\(name).dateInterval")
+            try self.dateInterval.forEach {}
+            try self.monitorArn?.forEach {}
             try self.validate(self.monitorArn, name: "monitorArn", parent: name, max: 1024)
             try self.validate(self.monitorArn, name: "monitorArn", parent: name, min: 0)
             try self.validate(self.monitorArn, name: "monitorArn", parent: name, pattern: "[\\S\\s]*")
+            try self.nextPageToken?.forEach {}
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, min: 0)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "[\\S\\s]*")
@@ -1401,6 +1500,8 @@ extension CostExplorer {
                 try validate($0, name: "monitorArnList[]", parent: name, min: 0)
                 try validate($0, name: "monitorArnList[]", parent: name, pattern: "[\\S\\s]*")
             }
+            try self.monitorArnList?.forEach {}
+            try self.nextPageToken?.forEach {}
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, min: 0)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "[\\S\\s]*")
@@ -1448,9 +1549,11 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try self.monitorArn?.forEach {}
             try self.validate(self.monitorArn, name: "monitorArn", parent: name, max: 1024)
             try self.validate(self.monitorArn, name: "monitorArn", parent: name, min: 0)
             try self.validate(self.monitorArn, name: "monitorArn", parent: name, pattern: "[\\S\\s]*")
+            try self.nextPageToken?.forEach {}
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, min: 0)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "[\\S\\s]*")
@@ -1459,6 +1562,7 @@ extension CostExplorer {
                 try validate($0, name: "subscriptionArnList[]", parent: name, min: 0)
                 try validate($0, name: "subscriptionArnList[]", parent: name, pattern: "[\\S\\s]*")
             }
+            try self.subscriptionArnList?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1511,18 +1615,23 @@ extension CostExplorer {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
+            try self.filter?.forEach {}
             try self.groupBy?.forEach {
                 try $0.validate(name: "\(name).groupBy[]")
             }
+            try self.groupBy?.forEach {}
             try self.metrics.forEach {
                 try validate($0, name: "metrics[]", parent: name, max: 1024)
                 try validate($0, name: "metrics[]", parent: name, min: 0)
                 try validate($0, name: "metrics[]", parent: name, pattern: "[\\S\\s]*")
             }
+            try self.metrics.forEach {}
+            try self.nextPageToken?.forEach {}
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, min: 0)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "[\\S\\s]*")
             try self.timePeriod.validate(name: "\(name).timePeriod")
+            try self.timePeriod.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1585,18 +1694,23 @@ extension CostExplorer {
 
         public func validate(name: String) throws {
             try self.filter.validate(name: "\(name).filter")
+            try self.filter.forEach {}
             try self.groupBy?.forEach {
                 try $0.validate(name: "\(name).groupBy[]")
             }
+            try self.groupBy?.forEach {}
             try self.metrics?.forEach {
                 try validate($0, name: "metrics[]", parent: name, max: 1024)
                 try validate($0, name: "metrics[]", parent: name, min: 0)
                 try validate($0, name: "metrics[]", parent: name, pattern: "[\\S\\s]*")
             }
+            try self.metrics?.forEach {}
+            try self.nextPageToken?.forEach {}
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, min: 0)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "[\\S\\s]*")
             try self.timePeriod.validate(name: "\(name).timePeriod")
+            try self.timePeriod.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1658,21 +1772,28 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.costCategoryName, name: "costCategoryName", parent: name, max: 255)
+            try self.costCategoryName?.forEach {}
+            try self.validate(self.costCategoryName, name: "costCategoryName", parent: name, max: 50)
             try self.validate(self.costCategoryName, name: "costCategoryName", parent: name, min: 1)
             try self.validate(self.costCategoryName, name: "costCategoryName", parent: name, pattern: "^(?! )[\\p{L}\\p{N}\\p{Z}-_]*(?<! )$")
             try self.filter?.validate(name: "\(name).filter")
+            try self.filter?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextPageToken?.forEach {}
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, min: 0)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "[\\S\\s]*")
+            try self.searchString?.forEach {}
             try self.validate(self.searchString, name: "searchString", parent: name, max: 1024)
             try self.validate(self.searchString, name: "searchString", parent: name, min: 0)
             try self.validate(self.searchString, name: "searchString", parent: name, pattern: "[\\S\\s]*")
             try self.sortBy?.forEach {
                 try $0.validate(name: "\(name).sortBy[]")
             }
+            try self.sortBy?.forEach {}
             try self.timePeriod.validate(name: "\(name).timePeriod")
+            try self.timePeriod.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1737,9 +1858,12 @@ extension CostExplorer {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
+            try self.filter?.forEach {}
+            try self.predictionIntervalLevel?.forEach {}
             try self.validate(self.predictionIntervalLevel, name: "predictionIntervalLevel", parent: name, max: 99)
             try self.validate(self.predictionIntervalLevel, name: "predictionIntervalLevel", parent: name, min: 51)
             try self.timePeriod.validate(name: "\(name).timePeriod")
+            try self.timePeriod.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1798,17 +1922,23 @@ extension CostExplorer {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
+            try self.filter?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextPageToken?.forEach {}
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, min: 0)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "[\\S\\s]*")
+            try self.searchString?.forEach {}
             try self.validate(self.searchString, name: "searchString", parent: name, max: 1024)
             try self.validate(self.searchString, name: "searchString", parent: name, min: 0)
             try self.validate(self.searchString, name: "searchString", parent: name, pattern: "[\\S\\s]*")
             try self.sortBy?.forEach {
                 try $0.validate(name: "\(name).sortBy[]")
             }
+            try self.sortBy?.forEach {}
             try self.timePeriod.validate(name: "\(name).timePeriod")
+            try self.timePeriod.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1879,20 +2009,27 @@ extension CostExplorer {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
+            try self.filter?.forEach {}
             try self.groupBy?.forEach {
                 try $0.validate(name: "\(name).groupBy[]")
             }
+            try self.groupBy?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.metrics?.forEach {
                 try validate($0, name: "metrics[]", parent: name, max: 1024)
                 try validate($0, name: "metrics[]", parent: name, min: 0)
                 try validate($0, name: "metrics[]", parent: name, pattern: "[\\S\\s]*")
             }
+            try self.metrics?.forEach {}
+            try self.nextPageToken?.forEach {}
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, min: 0)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "[\\S\\s]*")
             try self.sortBy?.validate(name: "\(name).sortBy")
+            try self.sortBy?.forEach {}
             try self.timePeriod.validate(name: "\(name).timePeriod")
+            try self.timePeriod.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1963,14 +2100,19 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try self.accountId?.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 1024)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 0)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "[\\S\\s]*")
             try self.filter?.validate(name: "\(name).filter")
+            try self.filter?.forEach {}
+            try self.nextPageToken?.forEach {}
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, min: 0)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "[\\S\\s]*")
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
+            try self.service.forEach {}
             try self.validate(self.service, name: "service", parent: name, max: 1024)
             try self.validate(self.service, name: "service", parent: name, min: 0)
             try self.validate(self.service, name: "service", parent: name, pattern: "[\\S\\s]*")
@@ -2039,15 +2181,21 @@ extension CostExplorer {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
+            try self.filter?.forEach {}
             try self.groupBy?.forEach {
                 try $0.validate(name: "\(name).groupBy[]")
             }
+            try self.groupBy?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextPageToken?.forEach {}
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, min: 0)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "[\\S\\s]*")
             try self.sortBy?.validate(name: "\(name).sortBy")
+            try self.sortBy?.forEach {}
             try self.timePeriod.validate(name: "\(name).timePeriod")
+            try self.timePeriod.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2103,10 +2251,14 @@ extension CostExplorer {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
+            try self.filter?.forEach {}
+            try self.nextPageToken?.forEach {}
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, min: 0)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "[\\S\\s]*")
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
+            try self.service.forEach {}
             try self.validate(self.service, name: "service", parent: name, max: 1024)
             try self.validate(self.service, name: "service", parent: name, min: 0)
             try self.validate(self.service, name: "service", parent: name, pattern: "[\\S\\s]*")
@@ -2181,20 +2333,27 @@ extension CostExplorer {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
+            try self.filter?.forEach {}
             try self.groupBy?.forEach {
                 try $0.validate(name: "\(name).groupBy[]")
             }
+            try self.groupBy?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.metrics?.forEach {
                 try validate($0, name: "metrics[]", parent: name, max: 1024)
                 try validate($0, name: "metrics[]", parent: name, min: 0)
                 try validate($0, name: "metrics[]", parent: name, pattern: "[\\S\\s]*")
             }
+            try self.metrics?.forEach {}
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\S\\s]*")
             try self.sortBy?.validate(name: "\(name).sortBy")
+            try self.sortBy?.forEach {}
             try self.timePeriod.validate(name: "\(name).timePeriod")
+            try self.timePeriod.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2257,9 +2416,12 @@ extension CostExplorer {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
+            try self.filter?.forEach {}
+            try self.nextPageToken?.forEach {}
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, min: 0)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "[\\S\\s]*")
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
         }
 
@@ -2321,12 +2483,17 @@ extension CostExplorer {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
+            try self.filter?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\S\\s]*")
             try self.sortBy?.validate(name: "\(name).sortBy")
+            try self.sortBy?.forEach {}
             try self.timePeriod.validate(name: "\(name).timePeriod")
+            try self.timePeriod.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2382,8 +2549,11 @@ extension CostExplorer {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
+            try self.filter?.forEach {}
             try self.sortBy?.validate(name: "\(name).sortBy")
+            try self.sortBy?.forEach {}
             try self.timePeriod.validate(name: "\(name).timePeriod")
+            try self.timePeriod.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2438,20 +2608,27 @@ extension CostExplorer {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
+            try self.filter?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextPageToken?.forEach {}
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, min: 0)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "[\\S\\s]*")
+            try self.searchString?.forEach {}
             try self.validate(self.searchString, name: "searchString", parent: name, max: 1024)
             try self.validate(self.searchString, name: "searchString", parent: name, min: 0)
             try self.validate(self.searchString, name: "searchString", parent: name, pattern: "[\\S\\s]*")
             try self.sortBy?.forEach {
                 try $0.validate(name: "\(name).sortBy[]")
             }
+            try self.sortBy?.forEach {}
+            try self.tagKey?.forEach {}
             try self.validate(self.tagKey, name: "tagKey", parent: name, max: 1024)
             try self.validate(self.tagKey, name: "tagKey", parent: name, min: 0)
             try self.validate(self.tagKey, name: "tagKey", parent: name, pattern: "[\\S\\s]*")
             try self.timePeriod.validate(name: "\(name).timePeriod")
+            try self.timePeriod.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2512,9 +2689,12 @@ extension CostExplorer {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
+            try self.filter?.forEach {}
+            try self.predictionIntervalLevel?.forEach {}
             try self.validate(self.predictionIntervalLevel, name: "predictionIntervalLevel", parent: name, max: 99)
             try self.validate(self.predictionIntervalLevel, name: "predictionIntervalLevel", parent: name, min: 51)
             try self.timePeriod.validate(name: "\(name).timePeriod")
+            try self.timePeriod.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2572,6 +2752,7 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 1024)
             try self.validate(self.key, name: "key", parent: name, min: 0)
             try self.validate(self.key, name: "key", parent: name, pattern: "[\\S\\s]*")
@@ -2644,11 +2825,14 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try self.effectiveOn?.forEach {}
             try self.validate(self.effectiveOn, name: "effectiveOn", parent: name, max: 25)
             try self.validate(self.effectiveOn, name: "effectiveOn", parent: name, min: 20)
             try self.validate(self.effectiveOn, name: "effectiveOn", parent: name, pattern: "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d(([+-]\\d\\d:\\d\\d)|Z)$")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\S\\s]*")
@@ -2720,6 +2904,7 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try self.anomalyId.forEach {}
             try self.validate(self.anomalyId, name: "anomalyId", parent: name, max: 1024)
             try self.validate(self.anomalyId, name: "anomalyId", parent: name, min: 0)
             try self.validate(self.anomalyId, name: "anomalyId", parent: name, pattern: "[\\S\\s]*")
@@ -3681,6 +3866,7 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 1024)
             try self.validate(self.key, name: "key", parent: name, min: 0)
             try self.validate(self.key, name: "key", parent: name, pattern: "[\\S\\s]*")
@@ -3707,6 +3893,7 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try self.address?.forEach {}
             try self.validate(self.address, name: "address", parent: name, max: 302)
             try self.validate(self.address, name: "address", parent: name, min: 6)
             try self.validate(self.address, name: "address", parent: name, pattern: "(^[a-zA-Z0-9.!#$%&'*+=?^_‘{|}~-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$)|(^arn:(aws[a-zA-Z-]*):sns:[a-zA-Z0-9-]+:[0-9]{12}:[a-zA-Z0-9_-]+$)")
@@ -3734,6 +3921,7 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 1024)
             try self.validate(self.key, name: "key", parent: name, min: 0)
             try self.validate(self.key, name: "key", parent: name, pattern: "[\\S\\s]*")
@@ -3742,6 +3930,7 @@ extension CostExplorer {
                 try validate($0, name: "values[]", parent: name, min: 0)
                 try validate($0, name: "values[]", parent: name, pattern: "[\\S\\s]*")
             }
+            try self.values?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3834,9 +4023,11 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try self.monitorArn.forEach {}
             try self.validate(self.monitorArn, name: "monitorArn", parent: name, max: 1024)
             try self.validate(self.monitorArn, name: "monitorArn", parent: name, min: 0)
             try self.validate(self.monitorArn, name: "monitorArn", parent: name, pattern: "[\\S\\s]*")
+            try self.monitorName?.forEach {}
             try self.validate(self.monitorName, name: "monitorName", parent: name, max: 1024)
             try self.validate(self.monitorName, name: "monitorName", parent: name, min: 0)
             try self.validate(self.monitorName, name: "monitorName", parent: name, pattern: "[\\S\\s]*")
@@ -3890,15 +4081,20 @@ extension CostExplorer {
                 try validate($0, name: "monitorArnList[]", parent: name, min: 20)
                 try validate($0, name: "monitorArnList[]", parent: name, pattern: "arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+")
             }
+            try self.monitorArnList?.forEach {}
             try self.subscribers?.forEach {
                 try $0.validate(name: "\(name).subscribers[]")
             }
+            try self.subscribers?.forEach {}
+            try self.subscriptionArn.forEach {}
             try self.validate(self.subscriptionArn, name: "subscriptionArn", parent: name, max: 1024)
             try self.validate(self.subscriptionArn, name: "subscriptionArn", parent: name, min: 0)
             try self.validate(self.subscriptionArn, name: "subscriptionArn", parent: name, pattern: "[\\S\\s]*")
+            try self.subscriptionName?.forEach {}
             try self.validate(self.subscriptionName, name: "subscriptionName", parent: name, max: 1024)
             try self.validate(self.subscriptionName, name: "subscriptionName", parent: name, min: 0)
             try self.validate(self.subscriptionName, name: "subscriptionName", parent: name, pattern: "[\\S\\s]*")
+            try self.threshold?.forEach {}
             try self.validate(self.threshold, name: "threshold", parent: name, min: 0)
         }
 
@@ -3928,29 +4124,38 @@ extension CostExplorer {
     public struct UpdateCostCategoryDefinitionRequest: AWSEncodableShape {
         /// The unique identifier for your Cost Category.
         public let costCategoryArn: String
+        public let defaultValue: String?
         /// The Expression object used to categorize costs. For more information, see CostCategoryRule .
         public let rules: [CostCategoryRule]
         public let ruleVersion: CostCategoryRuleVersion
 
-        public init(costCategoryArn: String, rules: [CostCategoryRule], ruleVersion: CostCategoryRuleVersion) {
+        public init(costCategoryArn: String, defaultValue: String? = nil, rules: [CostCategoryRule], ruleVersion: CostCategoryRuleVersion) {
             self.costCategoryArn = costCategoryArn
+            self.defaultValue = defaultValue
             self.rules = rules
             self.ruleVersion = ruleVersion
         }
 
         public func validate(name: String) throws {
+            try self.costCategoryArn.forEach {}
             try self.validate(self.costCategoryArn, name: "costCategoryArn", parent: name, max: 2048)
             try self.validate(self.costCategoryArn, name: "costCategoryArn", parent: name, min: 20)
             try self.validate(self.costCategoryArn, name: "costCategoryArn", parent: name, pattern: "arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+")
+            try self.defaultValue?.forEach {}
+            try self.validate(self.defaultValue, name: "defaultValue", parent: name, max: 50)
+            try self.validate(self.defaultValue, name: "defaultValue", parent: name, min: 1)
+            try self.validate(self.defaultValue, name: "defaultValue", parent: name, pattern: "^(?! )[\\p{L}\\p{N}\\p{Z}-_]*(?<! )$")
             try self.rules.forEach {
                 try $0.validate(name: "\(name).rules[]")
             }
+            try self.rules.forEach {}
             try self.validate(self.rules, name: "rules", parent: name, max: 500)
             try self.validate(self.rules, name: "rules", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case costCategoryArn = "CostCategoryArn"
+            case defaultValue = "DefaultValue"
             case rules = "Rules"
             case ruleVersion = "RuleVersion"
         }

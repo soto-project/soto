@@ -234,6 +234,7 @@ extension DataSync {
         }
 
         public func validate(name: String) throws {
+            try self.taskExecutionArn.forEach {}
             try self.validate(self.taskExecutionArn, name: "taskExecutionArn", parent: name, max: 128)
             try self.validate(self.taskExecutionArn, name: "taskExecutionArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]*:[0-9]{12}:task/task-[0-9a-f]{17}/execution/exec-[0-9a-f]{17}$")
         }
@@ -271,8 +272,10 @@ extension DataSync {
         }
 
         public func validate(name: String) throws {
+            try self.activationKey.forEach {}
             try self.validate(self.activationKey, name: "activationKey", parent: name, max: 29)
             try self.validate(self.activationKey, name: "activationKey", parent: name, pattern: "[A-Z0-9]{5}(-[A-Z0-9]{5}){4}")
+            try self.agentName?.forEach {}
             try self.validate(self.agentName, name: "agentName", parent: name, max: 256)
             try self.validate(self.agentName, name: "agentName", parent: name, min: 1)
             try self.validate(self.agentName, name: "agentName", parent: name, pattern: "^[a-zA-Z0-9\\s+=._:@/-]+$")
@@ -280,19 +283,23 @@ extension DataSync {
                 try validate($0, name: "securityGroupArns[]", parent: name, max: 128)
                 try validate($0, name: "securityGroupArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):ec2:[a-z\\-0-9]*:[0-9]{12}:security-group/.*$")
             }
+            try self.securityGroupArns?.forEach {}
             try self.validate(self.securityGroupArns, name: "securityGroupArns", parent: name, max: 1)
             try self.validate(self.securityGroupArns, name: "securityGroupArns", parent: name, min: 1)
             try self.subnetArns?.forEach {
                 try validate($0, name: "subnetArns[]", parent: name, max: 128)
                 try validate($0, name: "subnetArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):ec2:[a-z\\-0-9]*:[0-9]{12}:subnet/.*$")
             }
+            try self.subnetArns?.forEach {}
             try self.validate(self.subnetArns, name: "subnetArns", parent: name, max: 1)
             try self.validate(self.subnetArns, name: "subnetArns", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
+            try self.vpcEndpointId?.forEach {}
             try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, pattern: "^vpce-[0-9a-f]{17}$")
         }
 
@@ -338,13 +345,17 @@ extension DataSync {
 
         public func validate(name: String) throws {
             try self.ec2Config.validate(name: "\(name).ec2Config")
+            try self.ec2Config.forEach {}
+            try self.efsFilesystemArn.forEach {}
             try self.validate(self.efsFilesystemArn, name: "efsFilesystemArn", parent: name, max: 128)
             try self.validate(self.efsFilesystemArn, name: "efsFilesystemArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):elasticfilesystem:[a-z\\-0-9]*:[0-9]{12}:file-system/fs-.*$")
+            try self.subdirectory?.forEach {}
             try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 4096)
             try self.validate(self.subdirectory, name: "subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\p{Zs}]*$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -371,19 +382,19 @@ extension DataSync {
     }
 
     public struct CreateLocationFsxWindowsRequest: AWSEncodableShape {
-        /// The name of the Windows domain that the FSx for Windows server belongs to.
+        /// The name of the Windows domain that the FSx for Windows File Server belongs to.
         public let domain: String?
-        /// The Amazon Resource Name (ARN) for the FSx for Windows file system.
+        /// The Amazon Resource Name (ARN) for the FSx for Windows File Server file system.
         public let fsxFilesystemArn: String
-        /// The password of the user who has the permissions to access files and folders in the FSx for Windows file system.
+        /// The password of the user who has the permissions to access files and folders in the FSx for Windows File Server file system.
         public let password: String
-        /// The Amazon Resource Names (ARNs) of the security groups that are to use to configure the FSx for Windows file system.
+        /// The Amazon Resource Names (ARNs) of the security groups that are to use to configure the FSx for Windows File Server file system.
         public let securityGroupArns: [String]
-        /// A subdirectory in the location’s path. This subdirectory in the Amazon FSx for Windows file system is used to read data from the Amazon FSx for Windows source location or write data to the FSx for Windows destination.
+        /// A subdirectory in the location’s path. This subdirectory in the Amazon FSx for Windows File Server file system is used to read data from the Amazon FSx for Windows File Server source location or write data to the FSx for Windows File Server destination.
         public let subdirectory: String?
         /// The key-value pair that represents a tag that you want to add to the resource. The value can be an empty string. This value helps you manage, filter, and search for your resources. We recommend that you create a name tag for your location.
         public let tags: [TagListEntry]?
-        /// The user who has the permissions to access files and folders in the FSx for Windows file system.
+        /// The user who has the permissions to access files and folders in the FSx for Windows File Server file system.
         public let user: String
 
         public init(domain: String? = nil, fsxFilesystemArn: String, password: String, securityGroupArns: [String], subdirectory: String? = nil, tags: [TagListEntry]? = nil, user: String) {
@@ -397,25 +408,32 @@ extension DataSync {
         }
 
         public func validate(name: String) throws {
+            try self.domain?.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 253)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "^([A-Za-z0-9]+[A-Za-z0-9-.]*)*[A-Za-z0-9-]*[A-Za-z0-9]$")
+            try self.fsxFilesystemArn.forEach {}
             try self.validate(self.fsxFilesystemArn, name: "fsxFilesystemArn", parent: name, max: 128)
             try self.validate(self.fsxFilesystemArn, name: "fsxFilesystemArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):fsx:[a-z\\-0-9]*:[0-9]{12}:file-system/fs-.*$")
+            try self.password.forEach {}
             try self.validate(self.password, name: "password", parent: name, max: 104)
             try self.validate(self.password, name: "password", parent: name, pattern: "^.{0,104}$")
             try self.securityGroupArns.forEach {
                 try validate($0, name: "securityGroupArns[]", parent: name, max: 128)
                 try validate($0, name: "securityGroupArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):ec2:[a-z\\-0-9]*:[0-9]{12}:security-group/.*$")
             }
+            try self.securityGroupArns.forEach {}
             try self.validate(self.securityGroupArns, name: "securityGroupArns", parent: name, max: 5)
             try self.validate(self.securityGroupArns, name: "securityGroupArns", parent: name, min: 1)
+            try self.subdirectory?.forEach {}
             try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 4096)
             try self.validate(self.subdirectory, name: "subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\$\\p{Zs}]+$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
+            try self.user.forEach {}
             try self.validate(self.user, name: "user", parent: name, max: 104)
             try self.validate(self.user, name: "user", parent: name, pattern: "^[^\\x5B\\x5D\\\\/:;|=,+*?]{1,104}$")
         }
@@ -432,7 +450,7 @@ extension DataSync {
     }
 
     public struct CreateLocationFsxWindowsResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the FSx for Windows file system location that is created.
+        /// The Amazon Resource Name (ARN) of the FSx for Windows File Server file system location that is created.
         public let locationArn: String?
 
         public init(locationArn: String? = nil) {
@@ -466,13 +484,17 @@ extension DataSync {
 
         public func validate(name: String) throws {
             try self.onPremConfig.validate(name: "\(name).onPremConfig")
+            try self.onPremConfig.forEach {}
+            try self.serverHostname.forEach {}
             try self.validate(self.serverHostname, name: "serverHostname", parent: name, max: 255)
             try self.validate(self.serverHostname, name: "serverHostname", parent: name, pattern: "^(([a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9\\-]*[A-Za-z0-9])$")
+            try self.subdirectory.forEach {}
             try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 4096)
             try self.validate(self.subdirectory, name: "subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\p{Zs}]+$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -532,6 +554,7 @@ extension DataSync {
         }
 
         public func validate(name: String) throws {
+            try self.accessKey?.forEach {}
             try self.validate(self.accessKey, name: "accessKey", parent: name, max: 200)
             try self.validate(self.accessKey, name: "accessKey", parent: name, min: 8)
             try self.validate(self.accessKey, name: "accessKey", parent: name, pattern: "^.+$")
@@ -539,23 +562,30 @@ extension DataSync {
                 try validate($0, name: "agentArns[]", parent: name, max: 128)
                 try validate($0, name: "agentArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
             }
+            try self.agentArns.forEach {}
             try self.validate(self.agentArns, name: "agentArns", parent: name, max: 4)
             try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
+            try self.bucketName.forEach {}
             try self.validate(self.bucketName, name: "bucketName", parent: name, max: 63)
             try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
             try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\$\\p{Zs}]+$")
+            try self.secretKey?.forEach {}
             try self.validate(self.secretKey, name: "secretKey", parent: name, max: 200)
             try self.validate(self.secretKey, name: "secretKey", parent: name, min: 8)
             try self.validate(self.secretKey, name: "secretKey", parent: name, pattern: "^.+$")
+            try self.serverHostname.forEach {}
             try self.validate(self.serverHostname, name: "serverHostname", parent: name, max: 255)
             try self.validate(self.serverHostname, name: "serverHostname", parent: name, pattern: "^(([a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9\\-]*[A-Za-z0-9])$")
+            try self.serverPort?.forEach {}
             try self.validate(self.serverPort, name: "serverPort", parent: name, max: 65536)
             try self.validate(self.serverPort, name: "serverPort", parent: name, min: 1)
+            try self.subdirectory?.forEach {}
             try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 4096)
             try self.validate(self.subdirectory, name: "subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\p{Zs}]*$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -613,16 +643,21 @@ extension DataSync {
                 try validate($0, name: "agentArns[]", parent: name, max: 128)
                 try validate($0, name: "agentArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
             }
+            try self.agentArns?.forEach {}
             try self.validate(self.agentArns, name: "agentArns", parent: name, max: 4)
             try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
+            try self.s3BucketArn.forEach {}
             try self.validate(self.s3BucketArn, name: "s3BucketArn", parent: name, max: 156)
             try self.validate(self.s3BucketArn, name: "s3BucketArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):(s3|s3-outposts):[a-z\\-0-9]*:[0-9]*:.*$")
             try self.s3Config.validate(name: "\(name).s3Config")
+            try self.s3Config.forEach {}
+            try self.subdirectory?.forEach {}
             try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 4096)
             try self.validate(self.subdirectory, name: "subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\p{Zs}]*$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -684,21 +719,28 @@ extension DataSync {
                 try validate($0, name: "agentArns[]", parent: name, max: 128)
                 try validate($0, name: "agentArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
             }
+            try self.agentArns.forEach {}
             try self.validate(self.agentArns, name: "agentArns", parent: name, max: 4)
             try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
+            try self.domain?.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 253)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "^([A-Za-z0-9]+[A-Za-z0-9-.]*)*[A-Za-z0-9-]*[A-Za-z0-9]$")
+            try self.password.forEach {}
             try self.validate(self.password, name: "password", parent: name, max: 104)
             try self.validate(self.password, name: "password", parent: name, pattern: "^.{0,104}$")
+            try self.serverHostname.forEach {}
             try self.validate(self.serverHostname, name: "serverHostname", parent: name, max: 255)
             try self.validate(self.serverHostname, name: "serverHostname", parent: name, pattern: "^(([a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9\\-]*[A-Za-z0-9])$")
+            try self.subdirectory.forEach {}
             try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 4096)
             try self.validate(self.subdirectory, name: "subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\$\\p{Zs}]+$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
+            try self.user.forEach {}
             try self.validate(self.user, name: "user", parent: name, max: 104)
             try self.validate(self.user, name: "user", parent: name, pattern: "^[^\\x5B\\x5D\\\\/:;|=,+*?]{1,104}$")
         }
@@ -758,25 +800,33 @@ extension DataSync {
         }
 
         public func validate(name: String) throws {
+            try self.cloudWatchLogGroupArn?.forEach {}
             try self.validate(self.cloudWatchLogGroupArn, name: "cloudWatchLogGroupArn", parent: name, max: 562)
             try self.validate(self.cloudWatchLogGroupArn, name: "cloudWatchLogGroupArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):logs:[a-z\\-0-9]*:[0-9]{12}:log-group:([^:\\*]*)(:\\*)?$")
+            try self.destinationLocationArn.forEach {}
             try self.validate(self.destinationLocationArn, name: "destinationLocationArn", parent: name, max: 128)
             try self.validate(self.destinationLocationArn, name: "destinationLocationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
             try self.excludes?.forEach {
                 try $0.validate(name: "\(name).excludes[]")
             }
+            try self.excludes?.forEach {}
             try self.validate(self.excludes, name: "excludes", parent: name, max: 1)
             try self.validate(self.excludes, name: "excludes", parent: name, min: 0)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9\\s+=._:@/-]+$")
             try self.options?.validate(name: "\(name).options")
+            try self.options?.forEach {}
             try self.schedule?.validate(name: "\(name).schedule")
+            try self.schedule?.forEach {}
+            try self.sourceLocationArn.forEach {}
             try self.validate(self.sourceLocationArn, name: "sourceLocationArn", parent: name, max: 128)
             try self.validate(self.sourceLocationArn, name: "sourceLocationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -815,6 +865,7 @@ extension DataSync {
         }
 
         public func validate(name: String) throws {
+            try self.agentArn.forEach {}
             try self.validate(self.agentArn, name: "agentArn", parent: name, max: 128)
             try self.validate(self.agentArn, name: "agentArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
         }
@@ -837,6 +888,7 @@ extension DataSync {
         }
 
         public func validate(name: String) throws {
+            try self.locationArn.forEach {}
             try self.validate(self.locationArn, name: "locationArn", parent: name, max: 128)
             try self.validate(self.locationArn, name: "locationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
         }
@@ -859,6 +911,7 @@ extension DataSync {
         }
 
         public func validate(name: String) throws {
+            try self.taskArn.forEach {}
             try self.validate(self.taskArn, name: "taskArn", parent: name, max: 128)
             try self.validate(self.taskArn, name: "taskArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]*:[0-9]{12}:task/task-[0-9a-f]{17}$")
         }
@@ -881,6 +934,7 @@ extension DataSync {
         }
 
         public func validate(name: String) throws {
+            try self.agentArn.forEach {}
             try self.validate(self.agentArn, name: "agentArn", parent: name, max: 128)
             try self.validate(self.agentArn, name: "agentArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
         }
@@ -936,6 +990,7 @@ extension DataSync {
         }
 
         public func validate(name: String) throws {
+            try self.locationArn.forEach {}
             try self.validate(self.locationArn, name: "locationArn", parent: name, max: 128)
             try self.validate(self.locationArn, name: "locationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
         }
@@ -970,7 +1025,7 @@ extension DataSync {
     }
 
     public struct DescribeLocationFsxWindowsRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the FSx for Windows location to describe.
+        /// The Amazon Resource Name (ARN) of the FSx for Windows File Server location to describe.
         public let locationArn: String
 
         public init(locationArn: String) {
@@ -978,6 +1033,7 @@ extension DataSync {
         }
 
         public func validate(name: String) throws {
+            try self.locationArn.forEach {}
             try self.validate(self.locationArn, name: "locationArn", parent: name, max: 128)
             try self.validate(self.locationArn, name: "locationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
         }
@@ -988,17 +1044,17 @@ extension DataSync {
     }
 
     public struct DescribeLocationFsxWindowsResponse: AWSDecodableShape {
-        /// The time that the FSx for Windows location was created.
+        /// The time that the FSx for Windows File Server location was created.
         public let creationTime: Date?
-        /// The name of the Windows domain that the FSx for Windows server belongs to.
+        /// The name of the Windows domain that the FSx for Windows File Server belongs to.
         public let domain: String?
-        /// The Amazon Resource Name (ARN) of the FSx for Windows location that was described.
+        /// The Amazon Resource Name (ARN) of the FSx for Windows File Server location that was described.
         public let locationArn: String?
-        /// The URL of the FSx for Windows location that was described.
+        /// The URL of the FSx for Windows File Server location that was described.
         public let locationUri: String?
-        /// The Amazon Resource Names (ARNs) of the security groups that are configured for the FSx for Windows file system.
+        /// The Amazon Resource Names (ARNs) of the security groups that are configured for the FSx for Windows File Server file system.
         public let securityGroupArns: [String]?
-        /// The user who has the permissions to access files and folders in the FSx for Windows file system.
+        /// The user who has the permissions to access files and folders in the FSx for Windows File Server file system.
         public let user: String?
 
         public init(creationTime: Date? = nil, domain: String? = nil, locationArn: String? = nil, locationUri: String? = nil, securityGroupArns: [String]? = nil, user: String? = nil) {
@@ -1029,6 +1085,7 @@ extension DataSync {
         }
 
         public func validate(name: String) throws {
+            try self.locationArn.forEach {}
             try self.validate(self.locationArn, name: "locationArn", parent: name, max: 128)
             try self.validate(self.locationArn, name: "locationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
         }
@@ -1075,6 +1132,7 @@ extension DataSync {
         }
 
         public func validate(name: String) throws {
+            try self.locationArn.forEach {}
             try self.validate(self.locationArn, name: "locationArn", parent: name, max: 128)
             try self.validate(self.locationArn, name: "locationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
         }
@@ -1130,6 +1188,7 @@ extension DataSync {
         }
 
         public func validate(name: String) throws {
+            try self.locationArn.forEach {}
             try self.validate(self.locationArn, name: "locationArn", parent: name, max: 128)
             try self.validate(self.locationArn, name: "locationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
         }
@@ -1180,6 +1239,7 @@ extension DataSync {
         }
 
         public func validate(name: String) throws {
+            try self.locationArn.forEach {}
             try self.validate(self.locationArn, name: "locationArn", parent: name, max: 128)
             try self.validate(self.locationArn, name: "locationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
         }
@@ -1235,6 +1295,7 @@ extension DataSync {
         }
 
         public func validate(name: String) throws {
+            try self.taskExecutionArn.forEach {}
             try self.validate(self.taskExecutionArn, name: "taskExecutionArn", parent: name, max: 128)
             try self.validate(self.taskExecutionArn, name: "taskExecutionArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]*:[0-9]{12}:task/task-[0-9a-f]{17}/execution/exec-[0-9a-f]{17}$")
         }
@@ -1309,6 +1370,7 @@ extension DataSync {
         }
 
         public func validate(name: String) throws {
+            try self.taskArn.forEach {}
             try self.validate(self.taskArn, name: "taskArn", parent: name, max: 128)
             try self.validate(self.taskArn, name: "taskArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]*:[0-9]{12}:task/task-[0-9a-f]{17}$")
         }
@@ -1403,8 +1465,10 @@ extension DataSync {
                 try validate($0, name: "securityGroupArns[]", parent: name, max: 128)
                 try validate($0, name: "securityGroupArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):ec2:[a-z\\-0-9]*:[0-9]{12}:security-group/.*$")
             }
+            try self.securityGroupArns.forEach {}
             try self.validate(self.securityGroupArns, name: "securityGroupArns", parent: name, max: 5)
             try self.validate(self.securityGroupArns, name: "securityGroupArns", parent: name, min: 1)
+            try self.subnetArn.forEach {}
             try self.validate(self.subnetArn, name: "subnetArn", parent: name, max: 128)
             try self.validate(self.subnetArn, name: "subnetArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):ec2:[a-z\\-0-9]*:[0-9]{12}:subnet/.*$")
         }
@@ -1427,6 +1491,7 @@ extension DataSync {
         }
 
         public func validate(name: String) throws {
+            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 409_600)
             try self.validate(self.value, name: "value", parent: name, pattern: "^[^\\x00]+$")
         }
@@ -1449,8 +1514,10 @@ extension DataSync {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9=_-]+")
         }
@@ -1496,8 +1563,11 @@ extension DataSync {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9=_-]+")
         }
@@ -1541,10 +1611,13 @@ extension DataSync {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9=_-]+")
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 128)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:(agent|task|location)/(agent|task|loc)-[0-9a-z]{17}$")
         }
@@ -1588,10 +1661,13 @@ extension DataSync {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9=_-]+")
+            try self.taskArn?.forEach {}
             try self.validate(self.taskArn, name: "taskArn", parent: name, max: 128)
             try self.validate(self.taskArn, name: "taskArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]*:[0-9]{12}:task/task-[0-9a-f]{17}$")
         }
@@ -1638,8 +1714,11 @@ extension DataSync {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9=_-]+")
         }
@@ -1688,6 +1767,7 @@ extension DataSync {
                 try validate($0, name: "values[]", parent: name, min: 1)
                 try validate($0, name: "values[]", parent: name, pattern: "^[0-9a-zA-Z_\\ \\-\\:\\*\\.\\\\/\\?-]*$")
             }
+            try self.values.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1740,6 +1820,7 @@ extension DataSync {
                 try validate($0, name: "agentArns[]", parent: name, max: 128)
                 try validate($0, name: "agentArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
             }
+            try self.agentArns.forEach {}
             try self.validate(self.agentArns, name: "agentArns", parent: name, max: 4)
             try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
         }
@@ -1794,6 +1875,7 @@ extension DataSync {
         }
 
         public func validate(name: String) throws {
+            try self.bytesPerSecond?.forEach {}
             try self.validate(self.bytesPerSecond, name: "bytesPerSecond", parent: name, min: -1)
         }
 
@@ -1848,6 +1930,7 @@ extension DataSync {
         }
 
         public func validate(name: String) throws {
+            try self.bucketAccessRoleArn.forEach {}
             try self.validate(self.bucketAccessRoleArn, name: "bucketAccessRoleArn", parent: name, max: 2048)
             try self.validate(self.bucketAccessRoleArn, name: "bucketAccessRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):iam::[0-9]{12}:role/.*$")
         }
@@ -1887,9 +1970,12 @@ extension DataSync {
             try self.includes?.forEach {
                 try $0.validate(name: "\(name).includes[]")
             }
+            try self.includes?.forEach {}
             try self.validate(self.includes, name: "includes", parent: name, max: 1)
             try self.validate(self.includes, name: "includes", parent: name, min: 0)
             try self.overrideOptions?.validate(name: "\(name).overrideOptions")
+            try self.overrideOptions?.forEach {}
+            try self.taskArn.forEach {}
             try self.validate(self.taskArn, name: "taskArn", parent: name, max: 128)
             try self.validate(self.taskArn, name: "taskArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]*:[0-9]{12}:task/task-[0-9a-f]{17}$")
         }
@@ -1926,9 +2012,11 @@ extension DataSync {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 256)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^[a-zA-Z0-9\\s+=._:/-]+$")
+            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 1)
             try self.validate(self.value, name: "value", parent: name, pattern: "^[a-zA-Z0-9\\s+=._:@/-]+$")
@@ -1952,11 +2040,13 @@ extension DataSync {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 128)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:(agent|task|location)/(agent|task|loc)-[0-9a-z]{17}$")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -2053,6 +2143,7 @@ extension DataSync {
                 try validate($0, name: "values[]", parent: name, min: 1)
                 try validate($0, name: "values[]", parent: name, pattern: "^[0-9a-zA-Z_\\ \\-\\:\\*\\.\\\\/\\?-]*$")
             }
+            try self.values.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2092,6 +2183,7 @@ extension DataSync {
         }
 
         public func validate(name: String) throws {
+            try self.scheduleExpression.forEach {}
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, max: 256)
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, pattern: "^[a-zA-Z0-9\\ \\_\\*\\?\\,\\|\\^\\-\\/\\#\\s\\(\\)\\+]*$")
         }
@@ -2118,8 +2210,10 @@ extension DataSync {
                 try validate($0, name: "keys[]", parent: name, min: 1)
                 try validate($0, name: "keys[]", parent: name, pattern: "^[a-zA-Z0-9\\s+=._:/-]+$")
             }
+            try self.keys.forEach {}
             try self.validate(self.keys, name: "keys", parent: name, max: 50)
             try self.validate(self.keys, name: "keys", parent: name, min: 1)
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 128)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:(agent|task|location)/(agent|task|loc)-[0-9a-z]{17}$")
         }
@@ -2146,8 +2240,10 @@ extension DataSync {
         }
 
         public func validate(name: String) throws {
+            try self.agentArn.forEach {}
             try self.validate(self.agentArn, name: "agentArn", parent: name, max: 128)
             try self.validate(self.agentArn, name: "agentArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9\\s+=._:@/-]+$")
@@ -2163,6 +2259,177 @@ extension DataSync {
         public init() {}
     }
 
+    public struct UpdateLocationNfsRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the NFS location to update.
+        public let locationArn: String
+        public let mountOptions: NfsMountOptions?
+        public let onPremConfig: OnPremConfig?
+        /// The subdirectory in the NFS file system that is used to read data from the NFS source location or write data to the NFS destination. The NFS path should be a path that's exported by the NFS server, or a subdirectory of that path. The path should be such that it can be mounted by other NFS clients in your network. To see all the paths exported by your NFS server, run "showmount -e nfs-server-name" from an NFS client that has access to your server. You can specify any directory that appears in the results, and any subdirectory of that directory. Ensure that the NFS export is accessible without Kerberos authentication.  To transfer all the data in the folder that you specified, DataSync must have permissions to read all the data. To ensure this, either configure the NFS export with no_root_squash, or ensure that the files you want DataSync to access have permissions that allow read access for all users. Doing either option enables the agent to read the files. For the agent to access directories, you must additionally enable all execute access. If you are copying data to or from your AWS Snowcone device, see NFS Server on AWS Snowcone for more information. For information about NFS export configuration, see 18.7. The /etc/exports Configuration File in the Red Hat Enterprise Linux documentation.
+        public let subdirectory: String?
+
+        public init(locationArn: String, mountOptions: NfsMountOptions? = nil, onPremConfig: OnPremConfig? = nil, subdirectory: String? = nil) {
+            self.locationArn = locationArn
+            self.mountOptions = mountOptions
+            self.onPremConfig = onPremConfig
+            self.subdirectory = subdirectory
+        }
+
+        public func validate(name: String) throws {
+            try self.locationArn.forEach {}
+            try self.validate(self.locationArn, name: "locationArn", parent: name, max: 128)
+            try self.validate(self.locationArn, name: "locationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
+            try self.onPremConfig?.validate(name: "\(name).onPremConfig")
+            try self.onPremConfig?.forEach {}
+            try self.subdirectory?.forEach {}
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 4096)
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\p{Zs}]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationArn = "LocationArn"
+            case mountOptions = "MountOptions"
+            case onPremConfig = "OnPremConfig"
+            case subdirectory = "Subdirectory"
+        }
+    }
+
+    public struct UpdateLocationNfsResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateLocationObjectStorageRequest: AWSEncodableShape {
+        /// Optional. The access key is used if credentials are required to access the self-managed object storage server. If your object storage requires a user name and password to authenticate, use AccessKey and SecretKey to provide the user name and password, respectively.
+        public let accessKey: String?
+        /// The Amazon Resource Name (ARN) of the agents associated with the self-managed object storage server location.
+        public let agentArns: [String]?
+        /// The Amazon Resource Name (ARN) of the self-managed object storage server location to be updated.
+        public let locationArn: String
+        /// Optional. The secret key is used if credentials are required to access the self-managed object storage server. If your object storage requires a user name and password to authenticate, use AccessKey and SecretKey to provide the user name and password, respectively.
+        public let secretKey: String?
+        /// The port that your self-managed object storage server accepts inbound network traffic on. The server port is set by default to TCP 80 (HTTP) or TCP 443 (HTTPS). You can specify a custom port if your self-managed object storage server requires one.
+        public let serverPort: Int?
+        /// The protocol that the object storage server uses to communicate. Valid values are HTTP or HTTPS.
+        public let serverProtocol: ObjectStorageServerProtocol?
+        /// The subdirectory in the self-managed object storage server that is used to read data from.
+        public let subdirectory: String?
+
+        public init(accessKey: String? = nil, agentArns: [String]? = nil, locationArn: String, secretKey: String? = nil, serverPort: Int? = nil, serverProtocol: ObjectStorageServerProtocol? = nil, subdirectory: String? = nil) {
+            self.accessKey = accessKey
+            self.agentArns = agentArns
+            self.locationArn = locationArn
+            self.secretKey = secretKey
+            self.serverPort = serverPort
+            self.serverProtocol = serverProtocol
+            self.subdirectory = subdirectory
+        }
+
+        public func validate(name: String) throws {
+            try self.accessKey?.forEach {}
+            try self.validate(self.accessKey, name: "accessKey", parent: name, max: 200)
+            try self.validate(self.accessKey, name: "accessKey", parent: name, min: 8)
+            try self.validate(self.accessKey, name: "accessKey", parent: name, pattern: "^.+$")
+            try self.agentArns?.forEach {
+                try validate($0, name: "agentArns[]", parent: name, max: 128)
+                try validate($0, name: "agentArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
+            }
+            try self.agentArns?.forEach {}
+            try self.validate(self.agentArns, name: "agentArns", parent: name, max: 4)
+            try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
+            try self.locationArn.forEach {}
+            try self.validate(self.locationArn, name: "locationArn", parent: name, max: 128)
+            try self.validate(self.locationArn, name: "locationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
+            try self.secretKey?.forEach {}
+            try self.validate(self.secretKey, name: "secretKey", parent: name, max: 200)
+            try self.validate(self.secretKey, name: "secretKey", parent: name, min: 8)
+            try self.validate(self.secretKey, name: "secretKey", parent: name, pattern: "^.+$")
+            try self.serverPort?.forEach {}
+            try self.validate(self.serverPort, name: "serverPort", parent: name, max: 65536)
+            try self.validate(self.serverPort, name: "serverPort", parent: name, min: 1)
+            try self.subdirectory?.forEach {}
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 4096)
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\p{Zs}]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessKey = "AccessKey"
+            case agentArns = "AgentArns"
+            case locationArn = "LocationArn"
+            case secretKey = "SecretKey"
+            case serverPort = "ServerPort"
+            case serverProtocol = "ServerProtocol"
+            case subdirectory = "Subdirectory"
+        }
+    }
+
+    public struct UpdateLocationObjectStorageResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateLocationSmbRequest: AWSEncodableShape {
+        /// The Amazon Resource Names (ARNs) of agents to use for a Simple Message Block (SMB) location.
+        public let agentArns: [String]?
+        /// The name of the Windows domain that the SMB server belongs to.
+        public let domain: String?
+        /// The Amazon Resource Name (ARN) of the SMB location to update.
+        public let locationArn: String
+        public let mountOptions: SmbMountOptions?
+        /// The password of the user who can mount the share has the permissions to access files and folders in the SMB share.
+        public let password: String?
+        /// The subdirectory in the SMB file system that is used to read data from the SMB source location or write data to the SMB destination. The SMB path should be a path that's exported by the SMB server, or a subdirectory of that path. The path should be such that it can be mounted by other SMB clients in your network.   Subdirectory must be specified with forward slashes. For example, /path/to/folder.  To transfer all the data in the folder that you specified, DataSync must have permissions to mount the SMB share and to access all the data in that share. To ensure this, do either of the following:   Ensure that the user/password specified belongs to the user who can mount the share and who has the appropriate permissions for all of the files and directories that you want DataSync to access.   Use credentials of a member of the Backup Operators group to mount the share.    Doing either of these options enables the agent to access the data. For the agent to access directories, you must also enable all execute access.
+        public let subdirectory: String?
+        /// The user who can mount the share has the permissions to access files and folders in the SMB share.
+        public let user: String?
+
+        public init(agentArns: [String]? = nil, domain: String? = nil, locationArn: String, mountOptions: SmbMountOptions? = nil, password: String? = nil, subdirectory: String? = nil, user: String? = nil) {
+            self.agentArns = agentArns
+            self.domain = domain
+            self.locationArn = locationArn
+            self.mountOptions = mountOptions
+            self.password = password
+            self.subdirectory = subdirectory
+            self.user = user
+        }
+
+        public func validate(name: String) throws {
+            try self.agentArns?.forEach {
+                try validate($0, name: "agentArns[]", parent: name, max: 128)
+                try validate($0, name: "agentArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
+            }
+            try self.agentArns?.forEach {}
+            try self.validate(self.agentArns, name: "agentArns", parent: name, max: 4)
+            try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
+            try self.domain?.forEach {}
+            try self.validate(self.domain, name: "domain", parent: name, max: 253)
+            try self.validate(self.domain, name: "domain", parent: name, pattern: "^([A-Za-z0-9]+[A-Za-z0-9-.]*)*[A-Za-z0-9-]*[A-Za-z0-9]$")
+            try self.locationArn.forEach {}
+            try self.validate(self.locationArn, name: "locationArn", parent: name, max: 128)
+            try self.validate(self.locationArn, name: "locationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
+            try self.password?.forEach {}
+            try self.validate(self.password, name: "password", parent: name, max: 104)
+            try self.validate(self.password, name: "password", parent: name, pattern: "^.{0,104}$")
+            try self.subdirectory?.forEach {}
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 4096)
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\$\\p{Zs}]+$")
+            try self.user?.forEach {}
+            try self.validate(self.user, name: "user", parent: name, max: 104)
+            try self.validate(self.user, name: "user", parent: name, pattern: "^[^\\x5B\\x5D\\\\/:;|=,+*?]{1,104}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentArns = "AgentArns"
+            case domain = "Domain"
+            case locationArn = "LocationArn"
+            case mountOptions = "MountOptions"
+            case password = "Password"
+            case subdirectory = "Subdirectory"
+            case user = "User"
+        }
+    }
+
+    public struct UpdateLocationSmbResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateTaskExecutionRequest: AWSEncodableShape {
         public let options: Options
         /// The Amazon Resource Name (ARN) of the specific task execution that is being updated.
@@ -2175,6 +2442,8 @@ extension DataSync {
 
         public func validate(name: String) throws {
             try self.options.validate(name: "\(name).options")
+            try self.options.forEach {}
+            try self.taskExecutionArn.forEach {}
             try self.validate(self.taskExecutionArn, name: "taskExecutionArn", parent: name, max: 128)
             try self.validate(self.taskExecutionArn, name: "taskExecutionArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]*:[0-9]{12}:task/task-[0-9a-f]{17}/execution/exec-[0-9a-f]{17}$")
         }
@@ -2212,18 +2481,24 @@ extension DataSync {
         }
 
         public func validate(name: String) throws {
+            try self.cloudWatchLogGroupArn?.forEach {}
             try self.validate(self.cloudWatchLogGroupArn, name: "cloudWatchLogGroupArn", parent: name, max: 562)
             try self.validate(self.cloudWatchLogGroupArn, name: "cloudWatchLogGroupArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):logs:[a-z\\-0-9]*:[0-9]{12}:log-group:([^:\\*]*)(:\\*)?$")
             try self.excludes?.forEach {
                 try $0.validate(name: "\(name).excludes[]")
             }
+            try self.excludes?.forEach {}
             try self.validate(self.excludes, name: "excludes", parent: name, max: 1)
             try self.validate(self.excludes, name: "excludes", parent: name, min: 0)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9\\s+=._:@/-]+$")
             try self.options?.validate(name: "\(name).options")
+            try self.options?.forEach {}
             try self.schedule?.validate(name: "\(name).schedule")
+            try self.schedule?.forEach {}
+            try self.taskArn.forEach {}
             try self.validate(self.taskArn, name: "taskArn", parent: name, max: 128)
             try self.validate(self.taskArn, name: "taskArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]*:[0-9]{12}:task/task-[0-9a-f]{17}$")
         }

@@ -296,8 +296,10 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.approvalRuleTemplateName.forEach {}
             try self.validate(self.approvalRuleTemplateName, name: "approvalRuleTemplateName", parent: name, max: 100)
             try self.validate(self.approvalRuleTemplateName, name: "approvalRuleTemplateName", parent: name, min: 1)
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -342,6 +344,7 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.approvalRuleTemplateName.forEach {}
             try self.validate(self.approvalRuleTemplateName, name: "approvalRuleTemplateName", parent: name, max: 100)
             try self.validate(self.approvalRuleTemplateName, name: "approvalRuleTemplateName", parent: name, min: 1)
             try self.repositoryNames.forEach {
@@ -349,6 +352,7 @@ extension CodeCommit {
                 try validate($0, name: "repositoryNames[]", parent: name, min: 1)
                 try validate($0, name: "repositoryNames[]", parent: name, pattern: "[\\w\\.-]+")
             }
+            try self.repositoryNames.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -431,6 +435,7 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -516,6 +521,7 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.approvalRuleTemplateName.forEach {}
             try self.validate(self.approvalRuleTemplateName, name: "approvalRuleTemplateName", parent: name, max: 100)
             try self.validate(self.approvalRuleTemplateName, name: "approvalRuleTemplateName", parent: name, min: 1)
             try self.repositoryNames.forEach {
@@ -523,6 +529,7 @@ extension CodeCommit {
                 try validate($0, name: "repositoryNames[]", parent: name, min: 1)
                 try validate($0, name: "repositoryNames[]", parent: name, pattern: "[\\w\\.-]+")
             }
+            try self.repositoryNames.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -581,6 +588,7 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -623,6 +631,7 @@ extension CodeCommit {
                 try validate($0, name: "repositoryNames[]", parent: name, min: 1)
                 try validate($0, name: "repositoryNames[]", parent: name, pattern: "[\\w\\.-]+")
             }
+            try self.repositoryNames.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -933,6 +942,7 @@ extension CodeCommit {
             try self.replaceContents?.forEach {
                 try $0.validate(name: "\(name).replaceContents[]")
             }
+            try self.replaceContents?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -957,10 +967,13 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.approvalRuleTemplateContent.forEach {}
             try self.validate(self.approvalRuleTemplateContent, name: "approvalRuleTemplateContent", parent: name, max: 3000)
             try self.validate(self.approvalRuleTemplateContent, name: "approvalRuleTemplateContent", parent: name, min: 1)
+            try self.approvalRuleTemplateDescription?.forEach {}
             try self.validate(self.approvalRuleTemplateDescription, name: "approvalRuleTemplateDescription", parent: name, max: 1000)
             try self.validate(self.approvalRuleTemplateDescription, name: "approvalRuleTemplateDescription", parent: name, min: 0)
+            try self.approvalRuleTemplateName.forEach {}
             try self.validate(self.approvalRuleTemplateName, name: "approvalRuleTemplateName", parent: name, max: 100)
             try self.validate(self.approvalRuleTemplateName, name: "approvalRuleTemplateName", parent: name, min: 1)
         }
@@ -1000,8 +1013,10 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.branchName.forEach {}
             try self.validate(self.branchName, name: "branchName", parent: name, max: 256)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -1050,11 +1065,14 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.branchName.forEach {}
             try self.validate(self.branchName, name: "branchName", parent: name, max: 256)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
             try self.putFiles?.forEach {
                 try $0.validate(name: "\(name).putFiles[]")
             }
+            try self.putFiles?.forEach {}
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -1118,8 +1136,10 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.approvalRuleContent.forEach {}
             try self.validate(self.approvalRuleContent, name: "approvalRuleContent", parent: name, max: 3000)
             try self.validate(self.approvalRuleContent, name: "approvalRuleContent", parent: name, min: 1)
+            try self.approvalRuleName.forEach {}
             try self.validate(self.approvalRuleName, name: "approvalRuleName", parent: name, max: 100)
             try self.validate(self.approvalRuleName, name: "approvalRuleName", parent: name, min: 1)
         }
@@ -1162,10 +1182,13 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 10240)
             try self.targets.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
+            try self.targets.forEach {}
+            try self.title.forEach {}
             try self.validate(self.title, name: "title", parent: name, max: 150)
         }
 
@@ -1205,7 +1228,9 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.repositoryDescription?.forEach {}
             try self.validate(self.repositoryDescription, name: "repositoryDescription", parent: name, max: 1000)
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -1277,6 +1302,8 @@ extension CodeCommit {
 
         public func validate(name: String) throws {
             try self.conflictResolution?.validate(name: "\(name).conflictResolution")
+            try self.conflictResolution?.forEach {}
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -1323,6 +1350,7 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.approvalRuleTemplateName.forEach {}
             try self.validate(self.approvalRuleTemplateName, name: "approvalRuleTemplateName", parent: name, max: 100)
             try self.validate(self.approvalRuleTemplateName, name: "approvalRuleTemplateName", parent: name, min: 1)
         }
@@ -1357,8 +1385,10 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.branchName.forEach {}
             try self.validate(self.branchName, name: "branchName", parent: name, max: 256)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -1452,8 +1482,10 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.branchName.forEach {}
             try self.validate(self.branchName, name: "branchName", parent: name, max: 256)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -1508,6 +1540,7 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.approvalRuleName.forEach {}
             try self.validate(self.approvalRuleName, name: "approvalRuleName", parent: name, max: 100)
             try self.validate(self.approvalRuleName, name: "approvalRuleName", parent: name, min: 1)
         }
@@ -1540,6 +1573,7 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -1596,6 +1630,7 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -1726,8 +1761,10 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.approvalRuleTemplateName.forEach {}
             try self.validate(self.approvalRuleTemplateName, name: "approvalRuleTemplateName", parent: name, max: 100)
             try self.validate(self.approvalRuleTemplateName, name: "approvalRuleTemplateName", parent: name, min: 1)
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -1912,6 +1949,7 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.approvalRuleTemplateName.forEach {}
             try self.validate(self.approvalRuleTemplateName, name: "approvalRuleTemplateName", parent: name, max: 100)
             try self.validate(self.approvalRuleTemplateName, name: "approvalRuleTemplateName", parent: name, min: 1)
         }
@@ -1946,6 +1984,7 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -1982,8 +2021,10 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.branchName?.forEach {}
             try self.validate(self.branchName, name: "branchName", parent: name, max: 256)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
+            try self.repositoryName?.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -2097,6 +2138,7 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -2152,6 +2194,7 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.repositoryName?.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -2196,6 +2239,7 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -2247,6 +2291,7 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -2295,6 +2340,7 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -2355,6 +2401,7 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -2425,6 +2472,7 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -2494,6 +2542,7 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -2565,6 +2614,7 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -2703,6 +2753,7 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -2735,6 +2786,7 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -2832,6 +2884,7 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -2873,6 +2926,7 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -2922,6 +2976,7 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -2968,6 +3023,7 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.approvalRuleTemplateName.forEach {}
             try self.validate(self.approvalRuleTemplateName, name: "approvalRuleTemplateName", parent: name, max: 100)
             try self.validate(self.approvalRuleTemplateName, name: "approvalRuleTemplateName", parent: name, min: 1)
         }
@@ -3107,9 +3163,11 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.targetBranch?.forEach {}
             try self.validate(self.targetBranch, name: "targetBranch", parent: name, max: 256)
             try self.validate(self.targetBranch, name: "targetBranch", parent: name, min: 1)
         }
@@ -3179,9 +3237,12 @@ extension CodeCommit {
 
         public func validate(name: String) throws {
             try self.conflictResolution?.validate(name: "\(name).conflictResolution")
+            try self.conflictResolution?.forEach {}
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.targetBranch?.forEach {}
             try self.validate(self.targetBranch, name: "targetBranch", parent: name, max: 256)
             try self.validate(self.targetBranch, name: "targetBranch", parent: name, min: 1)
         }
@@ -3258,9 +3319,12 @@ extension CodeCommit {
 
         public func validate(name: String) throws {
             try self.conflictResolution?.validate(name: "\(name).conflictResolution")
+            try self.conflictResolution?.forEach {}
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
+            try self.targetBranch?.forEach {}
             try self.validate(self.targetBranch, name: "targetBranch", parent: name, max: 256)
             try self.validate(self.targetBranch, name: "targetBranch", parent: name, min: 1)
         }
@@ -3400,6 +3464,7 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -3462,6 +3527,8 @@ extension CodeCommit {
 
         public func validate(name: String) throws {
             try self.conflictResolution?.validate(name: "\(name).conflictResolution")
+            try self.conflictResolution?.forEach {}
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -3530,6 +3597,8 @@ extension CodeCommit {
 
         public func validate(name: String) throws {
             try self.conflictResolution?.validate(name: "\(name).conflictResolution")
+            try self.conflictResolution?.forEach {}
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -3644,6 +3713,7 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -3723,6 +3793,7 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -4076,6 +4147,7 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.fileContent?.forEach {}
             try self.validate(self.fileContent, name: "fileContent", parent: name, max: 6_291_456)
         }
 
@@ -4120,9 +4192,12 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.branchName.forEach {}
             try self.validate(self.branchName, name: "branchName", parent: name, max: 256)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
+            try self.fileContent.forEach {}
             try self.validate(self.fileContent, name: "fileContent", parent: name, max: 6_291_456)
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -4174,12 +4249,14 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
             try self.triggers.forEach {
                 try $0.validate(name: "\(name).triggers[]")
             }
+            try self.triggers.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4261,6 +4338,7 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.content?.forEach {}
             try self.validate(self.content, name: "content", parent: name, max: 6_291_456)
         }
 
@@ -4363,6 +4441,7 @@ extension CodeCommit {
                 try validate($0, name: "branches[]", parent: name, max: 256)
                 try validate($0, name: "branches[]", parent: name, min: 1)
             }
+            try self.branches?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4512,6 +4591,7 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -4536,12 +4616,14 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
             try self.triggers.forEach {
                 try $0.validate(name: "\(name).triggers[]")
             }
+            try self.triggers.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4583,6 +4665,7 @@ extension CodeCommit {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
+            try self.tagKeys.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4606,8 +4689,10 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.approvalRuleTemplateName.forEach {}
             try self.validate(self.approvalRuleTemplateName, name: "approvalRuleTemplateName", parent: name, max: 100)
             try self.validate(self.approvalRuleTemplateName, name: "approvalRuleTemplateName", parent: name, min: 1)
+            try self.newRuleContent.forEach {}
             try self.validate(self.newRuleContent, name: "newRuleContent", parent: name, max: 3000)
             try self.validate(self.newRuleContent, name: "newRuleContent", parent: name, min: 1)
         }
@@ -4643,8 +4728,10 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.approvalRuleTemplateDescription.forEach {}
             try self.validate(self.approvalRuleTemplateDescription, name: "approvalRuleTemplateDescription", parent: name, max: 1000)
             try self.validate(self.approvalRuleTemplateDescription, name: "approvalRuleTemplateDescription", parent: name, min: 0)
+            try self.approvalRuleTemplateName.forEach {}
             try self.validate(self.approvalRuleTemplateName, name: "approvalRuleTemplateName", parent: name, max: 100)
             try self.validate(self.approvalRuleTemplateName, name: "approvalRuleTemplateName", parent: name, min: 1)
         }
@@ -4680,8 +4767,10 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.newApprovalRuleTemplateName.forEach {}
             try self.validate(self.newApprovalRuleTemplateName, name: "newApprovalRuleTemplateName", parent: name, max: 100)
             try self.validate(self.newApprovalRuleTemplateName, name: "newApprovalRuleTemplateName", parent: name, min: 1)
+            try self.oldApprovalRuleTemplateName.forEach {}
             try self.validate(self.oldApprovalRuleTemplateName, name: "oldApprovalRuleTemplateName", parent: name, max: 100)
             try self.validate(self.oldApprovalRuleTemplateName, name: "oldApprovalRuleTemplateName", parent: name, min: 1)
         }
@@ -4747,8 +4836,10 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.defaultBranchName.forEach {}
             try self.validate(self.defaultBranchName, name: "defaultBranchName", parent: name, max: 256)
             try self.validate(self.defaultBranchName, name: "defaultBranchName", parent: name, min: 1)
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -4778,8 +4869,10 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.approvalRuleName.forEach {}
             try self.validate(self.approvalRuleName, name: "approvalRuleName", parent: name, max: 100)
             try self.validate(self.approvalRuleName, name: "approvalRuleName", parent: name, min: 1)
+            try self.newRuleContent.forEach {}
             try self.validate(self.newRuleContent, name: "newRuleContent", parent: name, max: 3000)
             try self.validate(self.newRuleContent, name: "newRuleContent", parent: name, min: 1)
         }
@@ -4838,6 +4931,7 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.description.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 10240)
         }
 
@@ -4902,6 +4996,7 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.title.forEach {}
             try self.validate(self.title, name: "title", parent: name, max: 150)
         }
 
@@ -4936,7 +5031,9 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.repositoryDescription?.forEach {}
             try self.validate(self.repositoryDescription, name: "repositoryDescription", parent: name, max: 1000)
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[\\w\\.-]+")
@@ -4960,9 +5057,11 @@ extension CodeCommit {
         }
 
         public func validate(name: String) throws {
+            try self.newName.forEach {}
             try self.validate(self.newName, name: "newName", parent: name, max: 100)
             try self.validate(self.newName, name: "newName", parent: name, min: 1)
             try self.validate(self.newName, name: "newName", parent: name, pattern: "[\\w\\.-]+")
+            try self.oldName.forEach {}
             try self.validate(self.oldName, name: "oldName", parent: name, max: 100)
             try self.validate(self.oldName, name: "oldName", parent: name, min: 1)
             try self.validate(self.oldName, name: "oldName", parent: name, pattern: "[\\w\\.-]+")

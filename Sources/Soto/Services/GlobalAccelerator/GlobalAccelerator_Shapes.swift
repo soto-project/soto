@@ -173,8 +173,10 @@ extension GlobalAccelerator {
             try self.endpointConfigurations.forEach {
                 try $0.validate(name: "\(name).endpointConfigurations[]")
             }
+            try self.endpointConfigurations.forEach {}
             try self.validate(self.endpointConfigurations, name: "endpointConfigurations", parent: name, max: 20)
             try self.validate(self.endpointConfigurations, name: "endpointConfigurations", parent: name, min: 1)
+            try self.endpointGroupArn.forEach {}
             try self.validate(self.endpointGroupArn, name: "endpointGroupArn", parent: name, max: 255)
         }
 
@@ -210,6 +212,7 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.cidr.forEach {}
             try self.validate(self.cidr, name: "cidr", parent: name, max: 255)
         }
 
@@ -255,13 +258,17 @@ extension GlobalAccelerator {
             try self.destinationAddresses?.forEach {
                 try validate($0, name: "destinationAddresses[]", parent: name, max: 45)
             }
+            try self.destinationAddresses?.forEach {}
             try self.validate(self.destinationAddresses, name: "destinationAddresses", parent: name, max: 100)
             try self.destinationPorts?.forEach {
                 try validate($0, name: "destinationPorts[]", parent: name, max: 65535)
                 try validate($0, name: "destinationPorts[]", parent: name, min: 1)
             }
+            try self.destinationPorts?.forEach {}
             try self.validate(self.destinationPorts, name: "destinationPorts", parent: name, max: 100)
+            try self.endpointGroupArn.forEach {}
             try self.validate(self.endpointGroupArn, name: "endpointGroupArn", parent: name, max: 255)
+            try self.endpointId.forEach {}
             try self.validate(self.endpointId, name: "endpointId", parent: name, max: 255)
         }
 
@@ -324,7 +331,9 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.message.forEach {}
             try self.validate(self.message, name: "message", parent: name, max: 255)
+            try self.signature.forEach {}
             try self.validate(self.signature, name: "signature", parent: name, max: 255)
         }
 
@@ -358,16 +367,20 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.idempotencyToken.forEach {}
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 255)
             try self.ipAddresses?.forEach {
                 try validate($0, name: "ipAddresses[]", parent: name, max: 45)
             }
+            try self.ipAddresses?.forEach {}
             try self.validate(self.ipAddresses, name: "ipAddresses", parent: name, max: 2)
             try self.validate(self.ipAddresses, name: "ipAddresses", parent: name, min: 0)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -417,16 +430,20 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.idempotencyToken.forEach {}
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 255)
             try self.ipAddresses?.forEach {
                 try validate($0, name: "ipAddresses[]", parent: name, max: 45)
             }
+            try self.ipAddresses?.forEach {}
             try self.validate(self.ipAddresses, name: "ipAddresses", parent: name, max: 2)
             try self.validate(self.ipAddresses, name: "ipAddresses", parent: name, min: 0)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -473,10 +490,14 @@ extension GlobalAccelerator {
             try self.destinationConfigurations.forEach {
                 try $0.validate(name: "\(name).destinationConfigurations[]")
             }
+            try self.destinationConfigurations.forEach {}
             try self.validate(self.destinationConfigurations, name: "destinationConfigurations", parent: name, max: 100)
             try self.validate(self.destinationConfigurations, name: "destinationConfigurations", parent: name, min: 1)
+            try self.endpointGroupRegion.forEach {}
             try self.validate(self.endpointGroupRegion, name: "endpointGroupRegion", parent: name, max: 255)
+            try self.idempotencyToken.forEach {}
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 255)
+            try self.listenerArn.forEach {}
             try self.validate(self.listenerArn, name: "listenerArn", parent: name, max: 255)
         }
 
@@ -516,11 +537,14 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.acceleratorArn.forEach {}
             try self.validate(self.acceleratorArn, name: "acceleratorArn", parent: name, max: 255)
+            try self.idempotencyToken.forEach {}
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 255)
             try self.portRanges.forEach {
                 try $0.validate(name: "\(name).portRanges[]")
             }
+            try self.portRanges.forEach {}
             try self.validate(self.portRanges, name: "portRanges", parent: name, max: 10)
             try self.validate(self.portRanges, name: "portRanges", parent: name, min: 1)
         }
@@ -587,24 +611,34 @@ extension GlobalAccelerator {
             try self.endpointConfigurations?.forEach {
                 try $0.validate(name: "\(name).endpointConfigurations[]")
             }
+            try self.endpointConfigurations?.forEach {}
             try self.validate(self.endpointConfigurations, name: "endpointConfigurations", parent: name, max: 10)
             try self.validate(self.endpointConfigurations, name: "endpointConfigurations", parent: name, min: 0)
+            try self.endpointGroupRegion.forEach {}
             try self.validate(self.endpointGroupRegion, name: "endpointGroupRegion", parent: name, max: 255)
+            try self.healthCheckIntervalSeconds?.forEach {}
             try self.validate(self.healthCheckIntervalSeconds, name: "healthCheckIntervalSeconds", parent: name, max: 30)
             try self.validate(self.healthCheckIntervalSeconds, name: "healthCheckIntervalSeconds", parent: name, min: 10)
+            try self.healthCheckPath?.forEach {}
             try self.validate(self.healthCheckPath, name: "healthCheckPath", parent: name, max: 255)
             try self.validate(self.healthCheckPath, name: "healthCheckPath", parent: name, pattern: "^/[-a-zA-Z0-9@:%_\\\\+.~#?&/=]*$")
+            try self.healthCheckPort?.forEach {}
             try self.validate(self.healthCheckPort, name: "healthCheckPort", parent: name, max: 65535)
             try self.validate(self.healthCheckPort, name: "healthCheckPort", parent: name, min: 1)
+            try self.idempotencyToken.forEach {}
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 255)
+            try self.listenerArn.forEach {}
             try self.validate(self.listenerArn, name: "listenerArn", parent: name, max: 255)
             try self.portOverrides?.forEach {
                 try $0.validate(name: "\(name).portOverrides[]")
             }
+            try self.portOverrides?.forEach {}
             try self.validate(self.portOverrides, name: "portOverrides", parent: name, max: 10)
             try self.validate(self.portOverrides, name: "portOverrides", parent: name, min: 0)
+            try self.thresholdCount?.forEach {}
             try self.validate(self.thresholdCount, name: "thresholdCount", parent: name, max: 10)
             try self.validate(self.thresholdCount, name: "thresholdCount", parent: name, min: 1)
+            try self.trafficDialPercentage?.forEach {}
             try self.validate(self.trafficDialPercentage, name: "trafficDialPercentage", parent: name, max: 100)
             try self.validate(self.trafficDialPercentage, name: "trafficDialPercentage", parent: name, min: 0)
         }
@@ -658,11 +692,14 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.acceleratorArn.forEach {}
             try self.validate(self.acceleratorArn, name: "acceleratorArn", parent: name, max: 255)
+            try self.idempotencyToken.forEach {}
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 255)
             try self.portRanges.forEach {
                 try $0.validate(name: "\(name).portRanges[]")
             }
+            try self.portRanges.forEach {}
             try self.validate(self.portRanges, name: "portRanges", parent: name, max: 10)
             try self.validate(self.portRanges, name: "portRanges", parent: name, min: 1)
         }
@@ -770,10 +807,13 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.fromPort.forEach {}
             try self.validate(self.fromPort, name: "fromPort", parent: name, max: 65535)
             try self.validate(self.fromPort, name: "fromPort", parent: name, min: 1)
+            try self.protocols.forEach {}
             try self.validate(self.protocols, name: "protocols", parent: name, max: 2)
             try self.validate(self.protocols, name: "protocols", parent: name, min: 1)
+            try self.toPort.forEach {}
             try self.validate(self.toPort, name: "toPort", parent: name, max: 65535)
             try self.validate(self.toPort, name: "toPort", parent: name, min: 1)
         }
@@ -815,6 +855,7 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.endpointId?.forEach {}
             try self.validate(self.endpointId, name: "endpointId", parent: name, max: 255)
         }
 
@@ -887,6 +928,7 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.acceleratorArn.forEach {}
             try self.validate(self.acceleratorArn, name: "acceleratorArn", parent: name, max: 255)
         }
 
@@ -904,6 +946,7 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.acceleratorArn.forEach {}
             try self.validate(self.acceleratorArn, name: "acceleratorArn", parent: name, max: 255)
         }
 
@@ -921,6 +964,7 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.endpointGroupArn.forEach {}
             try self.validate(self.endpointGroupArn, name: "endpointGroupArn", parent: name, max: 255)
         }
 
@@ -938,6 +982,7 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.listenerArn.forEach {}
             try self.validate(self.listenerArn, name: "listenerArn", parent: name, max: 255)
         }
 
@@ -955,6 +1000,7 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.endpointGroupArn.forEach {}
             try self.validate(self.endpointGroupArn, name: "endpointGroupArn", parent: name, max: 255)
         }
 
@@ -972,6 +1018,7 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.listenerArn.forEach {}
             try self.validate(self.listenerArn, name: "listenerArn", parent: name, max: 255)
         }
 
@@ -1004,13 +1051,17 @@ extension GlobalAccelerator {
             try self.destinationAddresses?.forEach {
                 try validate($0, name: "destinationAddresses[]", parent: name, max: 45)
             }
+            try self.destinationAddresses?.forEach {}
             try self.validate(self.destinationAddresses, name: "destinationAddresses", parent: name, max: 100)
             try self.destinationPorts?.forEach {
                 try validate($0, name: "destinationPorts[]", parent: name, max: 65535)
                 try validate($0, name: "destinationPorts[]", parent: name, min: 1)
             }
+            try self.destinationPorts?.forEach {}
             try self.validate(self.destinationPorts, name: "destinationPorts", parent: name, max: 100)
+            try self.endpointGroupArn.forEach {}
             try self.validate(self.endpointGroupArn, name: "endpointGroupArn", parent: name, max: 255)
+            try self.endpointId.forEach {}
             try self.validate(self.endpointId, name: "endpointId", parent: name, max: 255)
         }
 
@@ -1032,6 +1083,7 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.cidr.forEach {}
             try self.validate(self.cidr, name: "cidr", parent: name, max: 255)
         }
 
@@ -1062,6 +1114,7 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.acceleratorArn.forEach {}
             try self.validate(self.acceleratorArn, name: "acceleratorArn", parent: name, max: 255)
         }
 
@@ -1092,6 +1145,7 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.acceleratorArn.forEach {}
             try self.validate(self.acceleratorArn, name: "acceleratorArn", parent: name, max: 255)
         }
 
@@ -1122,6 +1176,7 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.acceleratorArn.forEach {}
             try self.validate(self.acceleratorArn, name: "acceleratorArn", parent: name, max: 255)
         }
 
@@ -1152,6 +1207,7 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.acceleratorArn.forEach {}
             try self.validate(self.acceleratorArn, name: "acceleratorArn", parent: name, max: 255)
         }
 
@@ -1182,6 +1238,7 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.endpointGroupArn.forEach {}
             try self.validate(self.endpointGroupArn, name: "endpointGroupArn", parent: name, max: 255)
         }
 
@@ -1212,6 +1269,7 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.listenerArn.forEach {}
             try self.validate(self.listenerArn, name: "listenerArn", parent: name, max: 255)
         }
 
@@ -1242,6 +1300,7 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.endpointGroupArn.forEach {}
             try self.validate(self.endpointGroupArn, name: "endpointGroupArn", parent: name, max: 255)
         }
 
@@ -1272,6 +1331,7 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.listenerArn.forEach {}
             try self.validate(self.listenerArn, name: "listenerArn", parent: name, max: 255)
         }
 
@@ -1349,7 +1409,9 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.endpointId?.forEach {}
             try self.validate(self.endpointId, name: "endpointId", parent: name, max: 255)
+            try self.weight?.forEach {}
             try self.validate(self.weight, name: "weight", parent: name, max: 255)
             try self.validate(self.weight, name: "weight", parent: name, min: 0)
         }
@@ -1468,8 +1530,10 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
         }
 
@@ -1508,8 +1572,10 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
         }
 
@@ -1548,8 +1614,10 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
         }
 
@@ -1591,9 +1659,12 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.listenerArn.forEach {}
             try self.validate(self.listenerArn, name: "listenerArn", parent: name, max: 255)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
         }
 
@@ -1636,9 +1707,12 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.acceleratorArn.forEach {}
             try self.validate(self.acceleratorArn, name: "acceleratorArn", parent: name, max: 255)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
         }
 
@@ -1684,10 +1758,14 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.destinationAddress.forEach {}
             try self.validate(self.destinationAddress, name: "destinationAddress", parent: name, max: 255)
+            try self.endpointId.forEach {}
             try self.validate(self.endpointId, name: "endpointId", parent: name, max: 255)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
         }
 
@@ -1734,10 +1812,14 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.acceleratorArn.forEach {}
             try self.validate(self.acceleratorArn, name: "acceleratorArn", parent: name, max: 255)
+            try self.endpointGroupArn?.forEach {}
             try self.validate(self.endpointGroupArn, name: "endpointGroupArn", parent: name, max: 255)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
         }
 
@@ -1781,9 +1863,12 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.listenerArn.forEach {}
             try self.validate(self.listenerArn, name: "listenerArn", parent: name, max: 255)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
         }
 
@@ -1826,9 +1911,12 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.acceleratorArn.forEach {}
             try self.validate(self.acceleratorArn, name: "acceleratorArn", parent: name, max: 255)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
         }
 
@@ -1865,6 +1953,7 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
         }
@@ -1957,8 +2046,10 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.endpointPort?.forEach {}
             try self.validate(self.endpointPort, name: "endpointPort", parent: name, max: 65535)
             try self.validate(self.endpointPort, name: "endpointPort", parent: name, min: 1)
+            try self.listenerPort?.forEach {}
             try self.validate(self.listenerPort, name: "listenerPort", parent: name, max: 65535)
             try self.validate(self.listenerPort, name: "listenerPort", parent: name, min: 1)
         }
@@ -1981,8 +2072,10 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.fromPort?.forEach {}
             try self.validate(self.fromPort, name: "fromPort", parent: name, max: 65535)
             try self.validate(self.fromPort, name: "fromPort", parent: name, min: 1)
+            try self.toPort?.forEach {}
             try self.validate(self.toPort, name: "toPort", parent: name, max: 65535)
             try self.validate(self.toPort, name: "toPort", parent: name, min: 1)
         }
@@ -2005,8 +2098,10 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.cidr.forEach {}
             try self.validate(self.cidr, name: "cidr", parent: name, max: 255)
             try self.cidrAuthorizationContext.validate(name: "\(name).cidrAuthorizationContext")
+            try self.cidrAuthorizationContext.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2040,10 +2135,12 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.endpointGroupArn.forEach {}
             try self.validate(self.endpointGroupArn, name: "endpointGroupArn", parent: name, max: 255)
             try self.endpointIds.forEach {
                 try validate($0, name: "endpointIds[]", parent: name, max: 255)
             }
+            try self.endpointIds.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2081,8 +2178,10 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
         }
@@ -2105,11 +2204,13 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2134,12 +2235,14 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
         }
@@ -2172,8 +2275,11 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.acceleratorArn.forEach {}
             try self.validate(self.acceleratorArn, name: "acceleratorArn", parent: name, max: 255)
+            try self.flowLogsS3Bucket?.forEach {}
             try self.validate(self.flowLogsS3Bucket, name: "flowLogsS3Bucket", parent: name, max: 255)
+            try self.flowLogsS3Prefix?.forEach {}
             try self.validate(self.flowLogsS3Prefix, name: "flowLogsS3Prefix", parent: name, max: 255)
         }
 
@@ -2216,7 +2322,9 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.acceleratorArn.forEach {}
             try self.validate(self.acceleratorArn, name: "acceleratorArn", parent: name, max: 255)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
         }
 
@@ -2259,8 +2367,11 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.acceleratorArn.forEach {}
             try self.validate(self.acceleratorArn, name: "acceleratorArn", parent: name, max: 255)
+            try self.flowLogsS3Bucket?.forEach {}
             try self.validate(self.flowLogsS3Bucket, name: "flowLogsS3Bucket", parent: name, max: 255)
+            try self.flowLogsS3Prefix?.forEach {}
             try self.validate(self.flowLogsS3Prefix, name: "flowLogsS3Prefix", parent: name, max: 255)
         }
 
@@ -2303,7 +2414,9 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.acceleratorArn.forEach {}
             try self.validate(self.acceleratorArn, name: "acceleratorArn", parent: name, max: 255)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
         }
 
@@ -2340,10 +2453,12 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.listenerArn.forEach {}
             try self.validate(self.listenerArn, name: "listenerArn", parent: name, max: 255)
             try self.portRanges.forEach {
                 try $0.validate(name: "\(name).portRanges[]")
             }
+            try self.portRanges.forEach {}
             try self.validate(self.portRanges, name: "portRanges", parent: name, max: 10)
             try self.validate(self.portRanges, name: "portRanges", parent: name, min: 1)
         }
@@ -2403,22 +2518,30 @@ extension GlobalAccelerator {
             try self.endpointConfigurations?.forEach {
                 try $0.validate(name: "\(name).endpointConfigurations[]")
             }
+            try self.endpointConfigurations?.forEach {}
             try self.validate(self.endpointConfigurations, name: "endpointConfigurations", parent: name, max: 10)
             try self.validate(self.endpointConfigurations, name: "endpointConfigurations", parent: name, min: 0)
+            try self.endpointGroupArn.forEach {}
             try self.validate(self.endpointGroupArn, name: "endpointGroupArn", parent: name, max: 255)
+            try self.healthCheckIntervalSeconds?.forEach {}
             try self.validate(self.healthCheckIntervalSeconds, name: "healthCheckIntervalSeconds", parent: name, max: 30)
             try self.validate(self.healthCheckIntervalSeconds, name: "healthCheckIntervalSeconds", parent: name, min: 10)
+            try self.healthCheckPath?.forEach {}
             try self.validate(self.healthCheckPath, name: "healthCheckPath", parent: name, max: 255)
             try self.validate(self.healthCheckPath, name: "healthCheckPath", parent: name, pattern: "^/[-a-zA-Z0-9@:%_\\\\+.~#?&/=]*$")
+            try self.healthCheckPort?.forEach {}
             try self.validate(self.healthCheckPort, name: "healthCheckPort", parent: name, max: 65535)
             try self.validate(self.healthCheckPort, name: "healthCheckPort", parent: name, min: 1)
             try self.portOverrides?.forEach {
                 try $0.validate(name: "\(name).portOverrides[]")
             }
+            try self.portOverrides?.forEach {}
             try self.validate(self.portOverrides, name: "portOverrides", parent: name, max: 10)
             try self.validate(self.portOverrides, name: "portOverrides", parent: name, min: 0)
+            try self.thresholdCount?.forEach {}
             try self.validate(self.thresholdCount, name: "thresholdCount", parent: name, max: 10)
             try self.validate(self.thresholdCount, name: "thresholdCount", parent: name, min: 1)
+            try self.trafficDialPercentage?.forEach {}
             try self.validate(self.trafficDialPercentage, name: "trafficDialPercentage", parent: name, max: 100)
             try self.validate(self.trafficDialPercentage, name: "trafficDialPercentage", parent: name, min: 0)
         }
@@ -2467,10 +2590,12 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.listenerArn.forEach {}
             try self.validate(self.listenerArn, name: "listenerArn", parent: name, max: 255)
             try self.portRanges?.forEach {
                 try $0.validate(name: "\(name).portRanges[]")
             }
+            try self.portRanges?.forEach {}
             try self.validate(self.portRanges, name: "portRanges", parent: name, max: 10)
             try self.validate(self.portRanges, name: "portRanges", parent: name, min: 1)
         }
@@ -2505,6 +2630,7 @@ extension GlobalAccelerator {
         }
 
         public func validate(name: String) throws {
+            try self.cidr.forEach {}
             try self.validate(self.cidr, name: "cidr", parent: name, max: 255)
         }
 

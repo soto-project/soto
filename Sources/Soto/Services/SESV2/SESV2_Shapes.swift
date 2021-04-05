@@ -267,6 +267,7 @@ extension SESV2 {
 
         public func validate(name: String) throws {
             try self.template?.validate(name: "\(name).template")
+            try self.template?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -290,6 +291,7 @@ extension SESV2 {
 
         public func validate(name: String) throws {
             try self.replacementEmailContent?.validate(name: "\(name).replacementEmailContent")
+            try self.replacementEmailContent?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -591,6 +593,7 @@ extension SESV2 {
         }
 
         public func validate(name: String) throws {
+            try self.templateName.forEach {}
             try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
         }
 
@@ -648,6 +651,7 @@ extension SESV2 {
 
         public func validate(name: String) throws {
             try self.content.validate(name: "\(name).content")
+            try self.content.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -695,8 +699,11 @@ extension SESV2 {
         }
 
         public func validate(name: String) throws {
+            try self.emailIdentity.forEach {}
             try self.validate(self.emailIdentity, name: "emailIdentity", parent: name, min: 1)
+            try self.policy.forEach {}
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
+            try self.policyName.forEach {}
             try self.validate(self.policyName, name: "policyName", parent: name, max: 64)
             try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
         }
@@ -729,6 +736,8 @@ extension SESV2 {
 
         public func validate(name: String) throws {
             try self.dkimSigningAttributes?.validate(name: "\(name).dkimSigningAttributes")
+            try self.dkimSigningAttributes?.forEach {}
+            try self.emailIdentity.forEach {}
             try self.validate(self.emailIdentity, name: "emailIdentity", parent: name, min: 1)
         }
 
@@ -773,6 +782,7 @@ extension SESV2 {
         }
 
         public func validate(name: String) throws {
+            try self.templateName.forEach {}
             try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
         }
 
@@ -799,6 +809,7 @@ extension SESV2 {
 
         public func validate(name: String) throws {
             try self.importDataSource.validate(name: "\(name).importDataSource")
+            try self.importDataSource.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -992,6 +1003,7 @@ extension SESV2 {
         }
 
         public func validate(name: String) throws {
+            try self.templateName.forEach {}
             try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
         }
 
@@ -1038,7 +1050,9 @@ extension SESV2 {
         }
 
         public func validate(name: String) throws {
+            try self.emailIdentity.forEach {}
             try self.validate(self.emailIdentity, name: "emailIdentity", parent: name, min: 1)
+            try self.policyName.forEach {}
             try self.validate(self.policyName, name: "policyName", parent: name, max: 64)
             try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
         }
@@ -1063,6 +1077,7 @@ extension SESV2 {
         }
 
         public func validate(name: String) throws {
+            try self.emailIdentity.forEach {}
             try self.validate(self.emailIdentity, name: "emailIdentity", parent: name, min: 1)
         }
 
@@ -1086,6 +1101,7 @@ extension SESV2 {
         }
 
         public func validate(name: String) throws {
+            try self.templateName.forEach {}
             try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
         }
 
@@ -1223,9 +1239,11 @@ extension SESV2 {
         }
 
         public func validate(name: String) throws {
+            try self.domainSigningPrivateKey.forEach {}
             try self.validate(self.domainSigningPrivateKey, name: "domainSigningPrivateKey", parent: name, max: 20480)
             try self.validate(self.domainSigningPrivateKey, name: "domainSigningPrivateKey", parent: name, min: 1)
             try self.validate(self.domainSigningPrivateKey, name: "domainSigningPrivateKey", parent: name, pattern: "^[a-zA-Z0-9+\\/]+={0,2}$")
+            try self.domainSigningSelector.forEach {}
             try self.validate(self.domainSigningSelector, name: "domainSigningSelector", parent: name, max: 63)
             try self.validate(self.domainSigningSelector, name: "domainSigningSelector", parent: name, min: 1)
             try self.validate(self.domainSigningSelector, name: "domainSigningSelector", parent: name, pattern: "^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9]))$")
@@ -1368,6 +1386,7 @@ extension SESV2 {
 
         public func validate(name: String) throws {
             try self.template?.validate(name: "\(name).template")
+            try self.template?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1772,6 +1791,7 @@ extension SESV2 {
         }
 
         public func validate(name: String) throws {
+            try self.templateName.forEach {}
             try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
         }
 
@@ -2005,6 +2025,7 @@ extension SESV2 {
         }
 
         public func validate(name: String) throws {
+            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
         }
 
@@ -2041,6 +2062,7 @@ extension SESV2 {
         }
 
         public func validate(name: String) throws {
+            try self.emailIdentity.forEach {}
             try self.validate(self.emailIdentity, name: "emailIdentity", parent: name, min: 1)
         }
 
@@ -2073,6 +2095,7 @@ extension SESV2 {
         }
 
         public func validate(name: String) throws {
+            try self.emailIdentity.forEach {}
             try self.validate(self.emailIdentity, name: "emailIdentity", parent: name, min: 1)
         }
 
@@ -2133,6 +2156,7 @@ extension SESV2 {
         }
 
         public func validate(name: String) throws {
+            try self.templateName.forEach {}
             try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
         }
 
@@ -2169,6 +2193,7 @@ extension SESV2 {
         }
 
         public func validate(name: String) throws {
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
         }
 
@@ -2281,6 +2306,7 @@ extension SESV2 {
         }
 
         public func validate(name: String) throws {
+            try self.s3Url.forEach {}
             try self.validate(self.s3Url, name: "s3Url", parent: name, pattern: "^s3:\\/\\/([^\\/]+)\\/(.*?([^\\/]+)\\/?)$")
         }
 
@@ -3040,10 +3066,13 @@ extension SESV2 {
                 try validate($0, name: "additionalContactEmailAddresses[]", parent: name, min: 6)
                 try validate($0, name: "additionalContactEmailAddresses[]", parent: name, pattern: "^(.+)@(.+)$")
             }
+            try self.additionalContactEmailAddresses?.forEach {}
             try self.validate(self.additionalContactEmailAddresses, name: "additionalContactEmailAddresses", parent: name, max: 4)
             try self.validate(self.additionalContactEmailAddresses, name: "additionalContactEmailAddresses", parent: name, min: 1)
+            try self.useCaseDescription.forEach {}
             try self.validate(self.useCaseDescription, name: "useCaseDescription", parent: name, max: 5000)
             try self.validate(self.useCaseDescription, name: "useCaseDescription", parent: name, min: 1)
+            try self.websiteURL.forEach {}
             try self.validate(self.websiteURL, name: "websiteURL", parent: name, max: 1000)
             try self.validate(self.websiteURL, name: "websiteURL", parent: name, min: 1)
             try self.validate(self.websiteURL, name: "websiteURL", parent: name, pattern: "^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?")
@@ -3306,6 +3335,7 @@ extension SESV2 {
         }
 
         public func validate(name: String) throws {
+            try self.emailIdentity.forEach {}
             try self.validate(self.emailIdentity, name: "emailIdentity", parent: name, min: 1)
         }
 
@@ -3334,6 +3364,7 @@ extension SESV2 {
         }
 
         public func validate(name: String) throws {
+            try self.emailIdentity.forEach {}
             try self.validate(self.emailIdentity, name: "emailIdentity", parent: name, min: 1)
         }
 
@@ -3365,8 +3396,10 @@ extension SESV2 {
         }
 
         public func validate(name: String) throws {
+            try self.emailIdentity.forEach {}
             try self.validate(self.emailIdentity, name: "emailIdentity", parent: name, min: 1)
             try self.signingAttributes?.validate(name: "\(name).signingAttributes")
+            try self.signingAttributes?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3408,6 +3441,7 @@ extension SESV2 {
         }
 
         public func validate(name: String) throws {
+            try self.emailIdentity.forEach {}
             try self.validate(self.emailIdentity, name: "emailIdentity", parent: name, min: 1)
         }
 
@@ -3439,6 +3473,7 @@ extension SESV2 {
         }
 
         public func validate(name: String) throws {
+            try self.emailIdentity.forEach {}
             try self.validate(self.emailIdentity, name: "emailIdentity", parent: name, min: 1)
         }
 
@@ -3496,6 +3531,7 @@ extension SESV2 {
 
         public func validate(name: String) throws {
             try self.replacementTemplate?.validate(name: "\(name).replacementTemplate")
+            try self.replacementTemplate?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3512,6 +3548,7 @@ extension SESV2 {
         }
 
         public func validate(name: String) throws {
+            try self.replacementTemplateData?.forEach {}
             try self.validate(self.replacementTemplateData, name: "replacementTemplateData", parent: name, max: 262_144)
         }
 
@@ -3590,7 +3627,9 @@ extension SESV2 {
             try self.bulkEmailEntries.forEach {
                 try $0.validate(name: "\(name).bulkEmailEntries[]")
             }
+            try self.bulkEmailEntries.forEach {}
             try self.defaultContent.validate(name: "\(name).defaultContent")
+            try self.defaultContent.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3633,6 +3672,7 @@ extension SESV2 {
         }
 
         public func validate(name: String) throws {
+            try self.templateName.forEach {}
             try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
         }
 
@@ -3693,6 +3733,7 @@ extension SESV2 {
 
         public func validate(name: String) throws {
             try self.content.validate(name: "\(name).content")
+            try self.content.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3924,7 +3965,9 @@ extension SESV2 {
         }
 
         public func validate(name: String) throws {
+            try self.templateData?.forEach {}
             try self.validate(self.templateData, name: "templateData", parent: name, max: 262_144)
+            try self.templateName?.forEach {}
             try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
         }
 
@@ -3951,7 +3994,9 @@ extension SESV2 {
         }
 
         public func validate(name: String) throws {
+            try self.templateData.forEach {}
             try self.validate(self.templateData, name: "templateData", parent: name, max: 262_144)
+            try self.templateName.forEach {}
             try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
         }
 
@@ -4188,6 +4233,7 @@ extension SESV2 {
         }
 
         public func validate(name: String) throws {
+            try self.templateName.forEach {}
             try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
         }
 
@@ -4224,8 +4270,11 @@ extension SESV2 {
         }
 
         public func validate(name: String) throws {
+            try self.emailIdentity.forEach {}
             try self.validate(self.emailIdentity, name: "emailIdentity", parent: name, min: 1)
+            try self.policy.forEach {}
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
+            try self.policyName.forEach {}
             try self.validate(self.policyName, name: "policyName", parent: name, max: 64)
             try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
         }
@@ -4255,6 +4304,7 @@ extension SESV2 {
         }
 
         public func validate(name: String) throws {
+            try self.templateName.forEach {}
             try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
         }
 

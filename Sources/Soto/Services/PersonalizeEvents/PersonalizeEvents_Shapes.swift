@@ -52,20 +52,26 @@ extension PersonalizeEvents {
         }
 
         public func validate(name: String) throws {
+            try self.eventId?.forEach {}
             try self.validate(self.eventId, name: "eventId", parent: name, max: 256)
             try self.validate(self.eventId, name: "eventId", parent: name, min: 1)
+            try self.eventType.forEach {}
             try self.validate(self.eventType, name: "eventType", parent: name, max: 256)
             try self.validate(self.eventType, name: "eventType", parent: name, min: 1)
             try self.impression?.forEach {
                 try validate($0, name: "impression[]", parent: name, max: 256)
                 try validate($0, name: "impression[]", parent: name, min: 1)
             }
+            try self.impression?.forEach {}
             try self.validate(self.impression, name: "impression", parent: name, max: 25)
             try self.validate(self.impression, name: "impression", parent: name, min: 1)
+            try self.itemId?.forEach {}
             try self.validate(self.itemId, name: "itemId", parent: name, max: 256)
             try self.validate(self.itemId, name: "itemId", parent: name, min: 1)
+            try self.properties?.forEach {}
             try self.validate(self.properties, name: "properties", parent: name, max: 1024)
             try self.validate(self.properties, name: "properties", parent: name, min: 1)
+            try self.recommendationId?.forEach {}
             try self.validate(self.recommendationId, name: "recommendationId", parent: name, max: 40)
             try self.validate(self.recommendationId, name: "recommendationId", parent: name, min: 1)
         }
@@ -94,8 +100,10 @@ extension PersonalizeEvents {
         }
 
         public func validate(name: String) throws {
+            try self.itemId.forEach {}
             try self.validate(self.itemId, name: "itemId", parent: name, max: 256)
             try self.validate(self.itemId, name: "itemId", parent: name, min: 1)
+            try self.properties?.forEach {}
             try self.validate(self.properties, name: "properties", parent: name, max: 4096)
             try self.validate(self.properties, name: "properties", parent: name, min: 1)
         }
@@ -127,12 +135,16 @@ extension PersonalizeEvents {
             try self.eventList.forEach {
                 try $0.validate(name: "\(name).eventList[]")
             }
+            try self.eventList.forEach {}
             try self.validate(self.eventList, name: "eventList", parent: name, max: 10)
             try self.validate(self.eventList, name: "eventList", parent: name, min: 1)
+            try self.sessionId.forEach {}
             try self.validate(self.sessionId, name: "sessionId", parent: name, max: 256)
             try self.validate(self.sessionId, name: "sessionId", parent: name, min: 1)
+            try self.trackingId.forEach {}
             try self.validate(self.trackingId, name: "trackingId", parent: name, max: 256)
             try self.validate(self.trackingId, name: "trackingId", parent: name, min: 1)
+            try self.userId?.forEach {}
             try self.validate(self.userId, name: "userId", parent: name, max: 256)
             try self.validate(self.userId, name: "userId", parent: name, min: 1)
         }
@@ -157,11 +169,13 @@ extension PersonalizeEvents {
         }
 
         public func validate(name: String) throws {
+            try self.datasetArn.forEach {}
             try self.validate(self.datasetArn, name: "datasetArn", parent: name, max: 256)
             try self.validate(self.datasetArn, name: "datasetArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
             try self.items.forEach {
                 try $0.validate(name: "\(name).items[]")
             }
+            try self.items.forEach {}
             try self.validate(self.items, name: "items", parent: name, max: 10)
             try self.validate(self.items, name: "items", parent: name, min: 1)
         }
@@ -184,11 +198,13 @@ extension PersonalizeEvents {
         }
 
         public func validate(name: String) throws {
+            try self.datasetArn.forEach {}
             try self.validate(self.datasetArn, name: "datasetArn", parent: name, max: 256)
             try self.validate(self.datasetArn, name: "datasetArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
             try self.users.forEach {
                 try $0.validate(name: "\(name).users[]")
             }
+            try self.users.forEach {}
             try self.validate(self.users, name: "users", parent: name, max: 10)
             try self.validate(self.users, name: "users", parent: name, min: 1)
         }
@@ -211,8 +227,10 @@ extension PersonalizeEvents {
         }
 
         public func validate(name: String) throws {
+            try self.properties?.forEach {}
             try self.validate(self.properties, name: "properties", parent: name, max: 4096)
             try self.validate(self.properties, name: "properties", parent: name, min: 1)
+            try self.userId.forEach {}
             try self.validate(self.userId, name: "userId", parent: name, max: 256)
             try self.validate(self.userId, name: "userId", parent: name, min: 1)
         }

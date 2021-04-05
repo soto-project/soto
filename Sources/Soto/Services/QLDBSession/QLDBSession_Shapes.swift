@@ -51,6 +51,7 @@ extension QLDBSession {
         }
 
         public func validate(name: String) throws {
+            try self.transactionId.forEach {}
             try self.validate(self.transactionId, name: "transactionId", parent: name, max: 22)
             try self.validate(self.transactionId, name: "transactionId", parent: name, min: 22)
             try self.validate(self.transactionId, name: "transactionId", parent: name, pattern: "^[A-Za-z-0-9]+$")
@@ -122,8 +123,11 @@ extension QLDBSession {
             try self.parameters?.forEach {
                 try $0.validate(name: "\(name).parameters[]")
             }
+            try self.parameters?.forEach {}
+            try self.statement.forEach {}
             try self.validate(self.statement, name: "statement", parent: name, max: 100_000)
             try self.validate(self.statement, name: "statement", parent: name, min: 1)
+            try self.transactionId.forEach {}
             try self.validate(self.transactionId, name: "transactionId", parent: name, max: 22)
             try self.validate(self.transactionId, name: "transactionId", parent: name, min: 22)
             try self.validate(self.transactionId, name: "transactionId", parent: name, pattern: "^[A-Za-z-0-9]+$")
@@ -169,9 +173,11 @@ extension QLDBSession {
         }
 
         public func validate(name: String) throws {
+            try self.nextPageToken.forEach {}
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 1024)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, min: 4)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "^[A-Za-z-0-9+/=]+$")
+            try self.transactionId.forEach {}
             try self.validate(self.transactionId, name: "transactionId", parent: name, max: 22)
             try self.validate(self.transactionId, name: "transactionId", parent: name, min: 22)
             try self.validate(self.transactionId, name: "transactionId", parent: name, pattern: "^[A-Za-z-0-9]+$")
@@ -269,12 +275,17 @@ extension QLDBSession {
 
         public func validate(name: String) throws {
             try self.commitTransaction?.validate(name: "\(name).commitTransaction")
+            try self.commitTransaction?.forEach {}
             try self.executeStatement?.validate(name: "\(name).executeStatement")
+            try self.executeStatement?.forEach {}
             try self.fetchPage?.validate(name: "\(name).fetchPage")
+            try self.fetchPage?.forEach {}
+            try self.sessionToken?.forEach {}
             try self.validate(self.sessionToken, name: "sessionToken", parent: name, max: 1024)
             try self.validate(self.sessionToken, name: "sessionToken", parent: name, min: 4)
             try self.validate(self.sessionToken, name: "sessionToken", parent: name, pattern: "^[A-Za-z-0-9+/=]+$")
             try self.startSession?.validate(name: "\(name).startSession")
+            try self.startSession?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -335,6 +346,7 @@ extension QLDBSession {
         }
 
         public func validate(name: String) throws {
+            try self.ledgerName.forEach {}
             try self.validate(self.ledgerName, name: "ledgerName", parent: name, max: 32)
             try self.validate(self.ledgerName, name: "ledgerName", parent: name, min: 1)
             try self.validate(self.ledgerName, name: "ledgerName", parent: name, pattern: "(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$")
@@ -408,8 +420,10 @@ extension QLDBSession {
         }
 
         public func validate(name: String) throws {
+            try self.ionBinary?.forEach {}
             try self.validate(self.ionBinary, name: "ionBinary", parent: name, max: 131_072)
             try self.validate(self.ionBinary, name: "ionBinary", parent: name, min: 1)
+            try self.ionText?.forEach {}
             try self.validate(self.ionText, name: "ionText", parent: name, max: 1_048_576)
             try self.validate(self.ionText, name: "ionText", parent: name, min: 1)
         }

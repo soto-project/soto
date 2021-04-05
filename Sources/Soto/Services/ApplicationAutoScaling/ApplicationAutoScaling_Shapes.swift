@@ -183,9 +183,11 @@ extension ApplicationAutoScaling {
         }
 
         public func validate(name: String) throws {
+            try self.policyName.forEach {}
             try self.validate(self.policyName, name: "policyName", parent: name, max: 1600)
             try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
             try self.validate(self.policyName, name: "policyName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 1600)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -221,9 +223,11 @@ extension ApplicationAutoScaling {
         }
 
         public func validate(name: String) throws {
+            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 1600)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.scheduledActionName.forEach {}
             try self.validate(self.scheduledActionName, name: "scheduledActionName", parent: name, max: 1600)
             try self.validate(self.scheduledActionName, name: "scheduledActionName", parent: name, min: 1)
             try self.validate(self.scheduledActionName, name: "scheduledActionName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -256,6 +260,7 @@ extension ApplicationAutoScaling {
         }
 
         public func validate(name: String) throws {
+            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 1600)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -293,12 +298,14 @@ extension ApplicationAutoScaling {
         }
 
         public func validate(name: String) throws {
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.resourceIds?.forEach {
                 try validate($0, name: "resourceIds[]", parent: name, max: 1600)
                 try validate($0, name: "resourceIds[]", parent: name, min: 1)
                 try validate($0, name: "resourceIds[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             }
+            try self.resourceIds?.forEach {}
             try self.validate(self.resourceIds, name: "resourceIds", parent: name, max: 50)
         }
 
@@ -349,7 +356,9 @@ extension ApplicationAutoScaling {
         }
 
         public func validate(name: String) throws {
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.resourceId?.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 1600)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -405,13 +414,16 @@ extension ApplicationAutoScaling {
         }
 
         public func validate(name: String) throws {
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.policyNames?.forEach {
                 try validate($0, name: "policyNames[]", parent: name, max: 1600)
                 try validate($0, name: "policyNames[]", parent: name, min: 1)
                 try validate($0, name: "policyNames[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             }
+            try self.policyNames?.forEach {}
             try self.validate(self.policyNames, name: "policyNames", parent: name, max: 50)
+            try self.resourceId?.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 1600)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -468,7 +480,9 @@ extension ApplicationAutoScaling {
         }
 
         public func validate(name: String) throws {
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.resourceId?.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 1600)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -477,6 +491,7 @@ extension ApplicationAutoScaling {
                 try validate($0, name: "scheduledActionNames[]", parent: name, min: 1)
                 try validate($0, name: "scheduledActionNames[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             }
+            try self.scheduledActionNames?.forEach {}
             try self.validate(self.scheduledActionNames, name: "scheduledActionNames", parent: name, max: 50)
         }
 
@@ -536,6 +551,7 @@ extension ApplicationAutoScaling {
         }
 
         public func validate(name: String) throws {
+            try self.resourceLabel?.forEach {}
             try self.validate(self.resourceLabel, name: "resourceLabel", parent: name, max: 1023)
             try self.validate(self.resourceLabel, name: "resourceLabel", parent: name, min: 1)
         }
@@ -573,13 +589,16 @@ extension ApplicationAutoScaling {
         }
 
         public func validate(name: String) throws {
+            try self.policyName.forEach {}
             try self.validate(self.policyName, name: "policyName", parent: name, max: 256)
             try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
             try self.validate(self.policyName, name: "policyName", parent: name, pattern: "\\p{Print}+")
+            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 1600)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.targetTrackingScalingPolicyConfiguration?.validate(name: "\(name).targetTrackingScalingPolicyConfiguration")
+            try self.targetTrackingScalingPolicyConfiguration?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -643,15 +662,19 @@ extension ApplicationAutoScaling {
         }
 
         public func validate(name: String) throws {
+            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 1600)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.schedule?.forEach {}
             try self.validate(self.schedule, name: "schedule", parent: name, max: 1600)
             try self.validate(self.schedule, name: "schedule", parent: name, min: 1)
             try self.validate(self.schedule, name: "schedule", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.scheduledActionName.forEach {}
             try self.validate(self.scheduledActionName, name: "scheduledActionName", parent: name, max: 256)
             try self.validate(self.scheduledActionName, name: "scheduledActionName", parent: name, min: 1)
             try self.validate(self.scheduledActionName, name: "scheduledActionName", parent: name, pattern: "(?!((^[ ]+.*)|(.*([\\u0000-\\u001f]|[\\u007f-\\u009f]|[:/|])+.*)|(.*[ ]+$))).+")
+            try self.timezone?.forEach {}
             try self.validate(self.timezone, name: "timezone", parent: name, max: 1600)
             try self.validate(self.timezone, name: "timezone", parent: name, min: 1)
             try self.validate(self.timezone, name: "timezone", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -701,9 +724,11 @@ extension ApplicationAutoScaling {
         }
 
         public func validate(name: String) throws {
+            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 1600)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.roleARN?.forEach {}
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 1600)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
             try self.validate(self.roleARN, name: "roleARN", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -1032,6 +1057,7 @@ extension ApplicationAutoScaling {
 
         public func validate(name: String) throws {
             try self.predefinedMetricSpecification?.validate(name: "\(name).predefinedMetricSpecification")
+            try self.predefinedMetricSpecification?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {

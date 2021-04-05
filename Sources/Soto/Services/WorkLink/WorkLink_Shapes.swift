@@ -78,11 +78,15 @@ extension WorkLink {
         }
 
         public func validate(name: String) throws {
+            try self.acmCertificateArn.forEach {}
             try self.validate(self.acmCertificateArn, name: "acmCertificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=/,.@-]+)*")
+            try self.displayName?.forEach {}
             try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 253)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\\.)+[a-zA-Z0-9]+$")
+            try self.fleetArn.forEach {}
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, max: 2048)
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, min: 20)
         }
@@ -114,9 +118,11 @@ extension WorkLink {
         }
 
         public func validate(name: String) throws {
+            try self.domainName?.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 253)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\\.)+[a-zA-Z0-9]+$")
+            try self.fleetArn.forEach {}
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, max: 2048)
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, min: 20)
         }
@@ -156,10 +162,13 @@ extension WorkLink {
         }
 
         public func validate(name: String) throws {
+            try self.certificate.forEach {}
             try self.validate(self.certificate, name: "certificate", parent: name, max: 8192)
             try self.validate(self.certificate, name: "certificate", parent: name, min: 1)
             try self.validate(self.certificate, name: "certificate", parent: name, pattern: "-{5}BEGIN CERTIFICATE-{5}\\u000D?\\u000A([A-Za-z0-9/+]{64}\\u000D?\\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\\u000D?\\u000A-{5}END CERTIFICATE-{5}(\\u000D?\\u000A)?")
+            try self.displayName?.forEach {}
             try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
+            try self.fleetArn.forEach {}
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, max: 2048)
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, min: 20)
         }
@@ -202,7 +211,9 @@ extension WorkLink {
         }
 
         public func validate(name: String) throws {
+            try self.displayName?.forEach {}
             try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
+            try self.fleetName.forEach {}
             try self.validate(self.fleetName, name: "fleetName", parent: name, max: 48)
             try self.validate(self.fleetName, name: "fleetName", parent: name, min: 1)
             try self.validate(self.fleetName, name: "fleetName", parent: name, pattern: "^[a-z0-9](?:[a-z0-9\\-]{0,46}[a-z0-9])?$")
@@ -244,6 +255,7 @@ extension WorkLink {
         }
 
         public func validate(name: String) throws {
+            try self.fleetArn.forEach {}
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, max: 2048)
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, min: 20)
         }
@@ -266,6 +278,7 @@ extension WorkLink {
         }
 
         public func validate(name: String) throws {
+            try self.fleetArn.forEach {}
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, max: 2048)
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, min: 20)
         }
@@ -297,6 +310,7 @@ extension WorkLink {
         }
 
         public func validate(name: String) throws {
+            try self.fleetArn.forEach {}
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, max: 2048)
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, min: 20)
         }
@@ -336,6 +350,7 @@ extension WorkLink {
         }
 
         public func validate(name: String) throws {
+            try self.fleetArn.forEach {}
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, max: 2048)
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, min: 20)
         }
@@ -370,8 +385,10 @@ extension WorkLink {
         }
 
         public func validate(name: String) throws {
+            try self.deviceId.forEach {}
             try self.validate(self.deviceId, name: "deviceId", parent: name, max: 256)
             try self.validate(self.deviceId, name: "deviceId", parent: name, min: 1)
+            try self.fleetArn.forEach {}
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, max: 2048)
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, min: 20)
         }
@@ -439,9 +456,11 @@ extension WorkLink {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 253)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\\.)+[a-zA-Z0-9]+$")
+            try self.fleetArn.forEach {}
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, max: 2048)
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, min: 20)
         }
@@ -490,6 +509,7 @@ extension WorkLink {
         }
 
         public func validate(name: String) throws {
+            try self.fleetArn.forEach {}
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, max: 2048)
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, min: 20)
         }
@@ -549,6 +569,7 @@ extension WorkLink {
         }
 
         public func validate(name: String) throws {
+            try self.fleetArn.forEach {}
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, max: 2048)
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, min: 20)
         }
@@ -591,8 +612,10 @@ extension WorkLink {
         }
 
         public func validate(name: String) throws {
+            try self.fleetArn.forEach {}
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, max: 2048)
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, min: 20)
+            try self.websiteCaId.forEach {}
             try self.validate(self.websiteCaId, name: "websiteCaId", parent: name, max: 256)
             try self.validate(self.websiteCaId, name: "websiteCaId", parent: name, min: 1)
         }
@@ -653,9 +676,11 @@ extension WorkLink {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 253)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\\.)+[a-zA-Z0-9]+$")
+            try self.fleetArn.forEach {}
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, max: 2048)
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, min: 20)
         }
@@ -682,8 +707,10 @@ extension WorkLink {
         }
 
         public func validate(name: String) throws {
+            try self.authorizationProviderId.forEach {}
             try self.validate(self.authorizationProviderId, name: "authorizationProviderId", parent: name, max: 256)
             try self.validate(self.authorizationProviderId, name: "authorizationProviderId", parent: name, min: 1)
+            try self.fleetArn.forEach {}
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, max: 2048)
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, min: 20)
         }
@@ -710,8 +737,10 @@ extension WorkLink {
         }
 
         public func validate(name: String) throws {
+            try self.fleetArn.forEach {}
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, max: 2048)
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, min: 20)
+            try self.websiteCaId.forEach {}
             try self.validate(self.websiteCaId, name: "websiteCaId", parent: name, max: 256)
             try self.validate(self.websiteCaId, name: "websiteCaId", parent: name, min: 1)
         }
@@ -807,9 +836,12 @@ extension WorkLink {
         }
 
         public func validate(name: String) throws {
+            try self.fleetArn.forEach {}
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, max: 2048)
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, min: 20)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\w\\-]+")
@@ -854,9 +886,12 @@ extension WorkLink {
         }
 
         public func validate(name: String) throws {
+            try self.fleetArn.forEach {}
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, max: 2048)
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, min: 20)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\w\\-]+")
@@ -898,7 +933,9 @@ extension WorkLink {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\w\\-]+")
@@ -940,6 +977,7 @@ extension WorkLink {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
         }
@@ -975,9 +1013,12 @@ extension WorkLink {
         }
 
         public func validate(name: String) throws {
+            try self.fleetArn.forEach {}
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, max: 2048)
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, min: 20)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\w\\-]+")
@@ -1022,9 +1063,12 @@ extension WorkLink {
         }
 
         public func validate(name: String) throws {
+            try self.fleetArn.forEach {}
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, max: 2048)
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, min: 20)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\w\\-]+")
@@ -1066,9 +1110,11 @@ extension WorkLink {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 253)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\\.)+[a-zA-Z0-9]+$")
+            try self.fleetArn.forEach {}
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, max: 2048)
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, min: 20)
         }
@@ -1095,9 +1141,11 @@ extension WorkLink {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 253)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\\.)+[a-zA-Z0-9]+$")
+            try self.fleetArn.forEach {}
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, max: 2048)
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, min: 20)
         }
@@ -1124,8 +1172,10 @@ extension WorkLink {
         }
 
         public func validate(name: String) throws {
+            try self.fleetArn.forEach {}
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, max: 2048)
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, min: 20)
+            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 256)
             try self.validate(self.username, name: "username", parent: name, min: 1)
         }
@@ -1156,6 +1206,7 @@ extension WorkLink {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.tags.forEach {
@@ -1192,6 +1243,7 @@ extension WorkLink {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.tagKeys.forEach {
@@ -1199,6 +1251,7 @@ extension WorkLink {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
@@ -1222,7 +1275,9 @@ extension WorkLink {
         }
 
         public func validate(name: String) throws {
+            try self.auditStreamArn?.forEach {}
             try self.validate(self.auditStreamArn, name: "auditStreamArn", parent: name, pattern: "^arn:aws:kinesis:.+:[0-9]{12}:stream/AmazonWorkLink-.*$")
+            try self.fleetArn.forEach {}
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, max: 2048)
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, min: 20)
         }
@@ -1255,15 +1310,19 @@ extension WorkLink {
         }
 
         public func validate(name: String) throws {
+            try self.fleetArn.forEach {}
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, max: 2048)
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, min: 20)
             try self.securityGroupIds.forEach {
                 try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^sg-([0-9a-f]{8}|[0-9a-f]{17})$")
             }
+            try self.securityGroupIds.forEach {}
             try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 5)
             try self.subnetIds.forEach {
                 try validate($0, name: "subnetIds[]", parent: name, pattern: "^subnet-([0-9a-f]{8}|[0-9a-f]{17})$")
             }
+            try self.subnetIds.forEach {}
+            try self.vpcId.forEach {}
             try self.validate(self.vpcId, name: "vpcId", parent: name, pattern: "^vpc-([0-9a-f]{8}|[0-9a-f]{17})$")
         }
 
@@ -1291,9 +1350,11 @@ extension WorkLink {
         }
 
         public func validate(name: String) throws {
+            try self.deviceCaCertificate?.forEach {}
             try self.validate(self.deviceCaCertificate, name: "deviceCaCertificate", parent: name, max: 32768)
             try self.validate(self.deviceCaCertificate, name: "deviceCaCertificate", parent: name, min: 1)
             try self.validate(self.deviceCaCertificate, name: "deviceCaCertificate", parent: name, pattern: "(-{5}BEGIN CERTIFICATE-{5}\\u000D?\\u000A([A-Za-z0-9/+]{64}\\u000D?\\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\\u000D?\\u000A-{5}END CERTIFICATE-{5}\\u000D?\\u000A)*-{5}BEGIN CERTIFICATE-{5}\\u000D?\\u000A([A-Za-z0-9/+]{64}\\u000D?\\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\\u000D?\\u000A-{5}END CERTIFICATE-{5}(\\u000D?\\u000A)?")
+            try self.fleetArn.forEach {}
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, max: 2048)
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, min: 20)
         }
@@ -1323,10 +1384,13 @@ extension WorkLink {
         }
 
         public func validate(name: String) throws {
+            try self.displayName?.forEach {}
             try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 253)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\\.)+[a-zA-Z0-9]+$")
+            try self.fleetArn.forEach {}
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, max: 2048)
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, min: 20)
         }
@@ -1357,7 +1421,9 @@ extension WorkLink {
         }
 
         public func validate(name: String) throws {
+            try self.displayName?.forEach {}
             try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
+            try self.fleetArn.forEach {}
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, max: 2048)
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, min: 20)
         }
@@ -1388,8 +1454,10 @@ extension WorkLink {
         }
 
         public func validate(name: String) throws {
+            try self.fleetArn.forEach {}
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, max: 2048)
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, min: 20)
+            try self.identityProviderSamlMetadata?.forEach {}
             try self.validate(self.identityProviderSamlMetadata, name: "identityProviderSamlMetadata", parent: name, max: 204_800)
             try self.validate(self.identityProviderSamlMetadata, name: "identityProviderSamlMetadata", parent: name, min: 1)
         }

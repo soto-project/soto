@@ -52,6 +52,21 @@ extension Cloud9 {
         public var description: String { return self.rawValue }
     }
 
+    public enum ManagedCredentialsStatus: String, CustomStringConvertible, Codable {
+        case disabledByCollaborator = "DISABLED_BY_COLLABORATOR"
+        case disabledByDefault = "DISABLED_BY_DEFAULT"
+        case disabledByOwner = "DISABLED_BY_OWNER"
+        case enabledByOwner = "ENABLED_BY_OWNER"
+        case enabledOnCreate = "ENABLED_ON_CREATE"
+        case failedRemovalByCollaborator = "FAILED_REMOVAL_BY_COLLABORATOR"
+        case failedRemovalByOwner = "FAILED_REMOVAL_BY_OWNER"
+        case pendingRemovalByCollaborator = "PENDING_REMOVAL_BY_COLLABORATOR"
+        case pendingRemovalByOwner = "PENDING_REMOVAL_BY_OWNER"
+        case pendingStartRemovalByCollaborator = "PENDING_START_REMOVAL_BY_COLLABORATOR"
+        case pendingStartRemovalByOwner = "PENDING_START_REMOVAL_BY_OWNER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MemberPermissions: String, CustomStringConvertible, Codable {
         case readOnly = "read-only"
         case readWrite = "read-write"
@@ -72,10 +87,12 @@ extension Cloud9 {
         public let automaticStopTimeMinutes: Int?
         /// A unique, case-sensitive string that helps AWS Cloud9 to ensure this operation completes no more than one time. For more information, see Client Tokens in the Amazon EC2 API Reference.
         public let clientRequestToken: String?
-        /// The connection type used for connecting to an Amazon EC2 environment.
+        /// The connection type used for connecting to an Amazon EC2 environment. Valid values are CONNECT_SSH (default) and CONNECT_SSM (connected through AWS Systems Manager). For more information, see Accessing no-ingress EC2 instances with AWS Systems Manager in the AWS Cloud9 User Guide.
         public let connectionType: ConnectionType?
         /// The description of the environment to create.
         public let description: String?
+        /// The identifier for the Amazon Machine Image (AMI) that's used to create the EC2 instance. You can specify the AMI for the instance using an AMI alias or an AWS Systems Manager (SSM) path. The default AMI is used if the parameter isn't explicitly assigned a value in the request.   AMI aliases     Amazon Linux 2: amazonlinux-2-x86_64    Ubuntu 18.04: ubuntu-18.04-x86_64    Amazon Linux (default): amazonlinux-1-x86_64     SSM paths    Amazon Linux 2: resolve:ssm:/aws/service/cloud9/amis/amazonlinux-2-x86_64    Ubuntu 18.04: resolve:ssm:/aws/service/cloud9/amis/ubuntu-18.04-x86_64    Amazon Linux (default): resolve:ssm:/aws/service/cloud9/amis/amazonlinux-1-x86_64
+        public let imageId: String?
         /// The type of instance to connect to the environment (for example, t2.micro).
         public let instanceType: String
         /// The name of the environment to create. This name is visible to other AWS IAM users in the same AWS account.
@@ -87,11 +104,12 @@ extension Cloud9 {
         /// An array of key-value pairs that will be associated with the new AWS Cloud9 development environment.
         public let tags: [Tag]?
 
-        public init(automaticStopTimeMinutes: Int? = nil, clientRequestToken: String? = nil, connectionType: ConnectionType? = nil, description: String? = nil, instanceType: String, name: String, ownerArn: String? = nil, subnetId: String? = nil, tags: [Tag]? = nil) {
+        public init(automaticStopTimeMinutes: Int? = nil, clientRequestToken: String? = nil, connectionType: ConnectionType? = nil, description: String? = nil, imageId: String? = nil, instanceType: String, name: String, ownerArn: String? = nil, subnetId: String? = nil, tags: [Tag]? = nil) {
             self.automaticStopTimeMinutes = automaticStopTimeMinutes
             self.clientRequestToken = clientRequestToken
             self.connectionType = connectionType
             self.description = description
+            self.imageId = imageId
             self.instanceType = instanceType
             self.name = name
             self.ownerArn = ownerArn
@@ -100,20 +118,31 @@ extension Cloud9 {
         }
 
         public func validate(name: String) throws {
+            try self.automaticStopTimeMinutes?.forEach {}
             try self.validate(self.automaticStopTimeMinutes, name: "automaticStopTimeMinutes", parent: name, max: 20160)
+            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "[\\x20-\\x7E]{10,128}")
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.imageId?.forEach {}
+            try self.validate(self.imageId, name: "imageId", parent: name, max: 512)
+            try self.instanceType.forEach {}
             try self.validate(self.instanceType, name: "instanceType", parent: name, max: 20)
             try self.validate(self.instanceType, name: "instanceType", parent: name, min: 5)
             try self.validate(self.instanceType, name: "instanceType", parent: name, pattern: "^[a-z][1-9][.][a-z0-9]+$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 60)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.ownerArn, name: "ownerArn", parent: name, pattern: "^arn:aws:(iam|sts)::\\d+:(root|(user\\/[\\w+=/:,.@-]{1,64}|federated-user\\/[\\w+=/:,.@-]{2,32}|assumed-role\\/[\\w+=:,.@-]{1,64}\\/[\\w+=,.@-]{1,64}))$")
-            try self.validate(self.subnetId, name: "subnetId", parent: name, max: 30)
-            try self.validate(self.subnetId, name: "subnetId", parent: name, min: 5)
+            try self.ownerArn?.forEach {}
+            try self.validate(self.ownerArn, name: "ownerArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):(iam|sts)::\\d+:(root|(user\\/[\\w+=/:,.@-]{1,64}|federated-user\\/[\\w+=/:,.@-]{2,32}|assumed-role\\/[\\w+=:,.@-]{1,64}\\/[\\w+=,.@-]{1,64}))$")
+            try self.subnetId?.forEach {}
+            try self.validate(self.subnetId, name: "subnetId", parent: name, max: 24)
+            try self.validate(self.subnetId, name: "subnetId", parent: name, min: 15)
+            try self.validate(self.subnetId, name: "subnetId", parent: name, pattern: "^(subnet-[0-9a-f]{8}|subnet-[0-9a-f]{17})$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -123,6 +152,7 @@ extension Cloud9 {
             case clientRequestToken
             case connectionType
             case description
+            case imageId
             case instanceType
             case name
             case ownerArn
@@ -159,8 +189,10 @@ extension Cloud9 {
         }
 
         public func validate(name: String) throws {
+            try self.environmentId.forEach {}
             try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^[a-zA-Z0-9]{8,32}$")
-            try self.validate(self.userArn, name: "userArn", parent: name, pattern: "^arn:aws:(iam|sts)::\\d+:(root|(user\\/[\\w+=/:,.@-]{1,64}|federated-user\\/[\\w+=/:,.@-]{2,32}|assumed-role\\/[\\w+=:,.@-]{1,64}\\/[\\w+=,.@-]{1,64}))$")
+            try self.userArn.forEach {}
+            try self.validate(self.userArn, name: "userArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):(iam|sts)::\\d+:(root|(user\\/[\\w+=/:,.@-]{1,64}|federated-user\\/[\\w+=/:,.@-]{2,32}|assumed-role\\/[\\w+=:,.@-]{1,64}\\/[\\w+=,.@-]{1,64}))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -172,9 +204,9 @@ extension Cloud9 {
 
     public struct CreateEnvironmentMembershipResult: AWSDecodableShape {
         /// Information about the environment member that was added.
-        public let membership: EnvironmentMember?
+        public let membership: EnvironmentMember
 
-        public init(membership: EnvironmentMember? = nil) {
+        public init(membership: EnvironmentMember) {
             self.membership = membership
         }
 
@@ -195,8 +227,10 @@ extension Cloud9 {
         }
 
         public func validate(name: String) throws {
+            try self.environmentId.forEach {}
             try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^[a-zA-Z0-9]{8,32}$")
-            try self.validate(self.userArn, name: "userArn", parent: name, pattern: "^arn:aws:(iam|sts)::\\d+:(root|(user\\/[\\w+=/:,.@-]{1,64}|federated-user\\/[\\w+=/:,.@-]{2,32}|assumed-role\\/[\\w+=:,.@-]{1,64}\\/[\\w+=,.@-]{1,64}))$")
+            try self.userArn.forEach {}
+            try self.validate(self.userArn, name: "userArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):(iam|sts)::\\d+:(root|(user\\/[\\w+=/:,.@-]{1,64}|federated-user\\/[\\w+=/:,.@-]{2,32}|assumed-role\\/[\\w+=:,.@-]{1,64}\\/[\\w+=,.@-]{1,64}))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -218,6 +252,7 @@ extension Cloud9 {
         }
 
         public func validate(name: String) throws {
+            try self.environmentId.forEach {}
             try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^[a-zA-Z0-9]{8,32}$")
         }
 
@@ -251,10 +286,13 @@ extension Cloud9 {
         }
 
         public func validate(name: String) throws {
+            try self.environmentId?.forEach {}
             try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^[a-zA-Z0-9]{8,32}$")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.validate(self.userArn, name: "userArn", parent: name, pattern: "^arn:aws:(iam|sts)::\\d+:(root|(user\\/[\\w+=/:,.@-]{1,64}|federated-user\\/[\\w+=/:,.@-]{2,32}|assumed-role\\/[\\w+=:,.@-]{1,64}\\/[\\w+=,.@-]{1,64}))$")
+            try self.userArn?.forEach {}
+            try self.validate(self.userArn, name: "userArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):(iam|sts)::\\d+:(root|(user\\/[\\w+=/:,.@-]{1,64}|federated-user\\/[\\w+=/:,.@-]{2,32}|assumed-role\\/[\\w+=:,.@-]{1,64}\\/[\\w+=,.@-]{1,64}))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -292,6 +330,7 @@ extension Cloud9 {
         }
 
         public func validate(name: String) throws {
+            try self.environmentId.forEach {}
             try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^[a-zA-Z0-9]{8,32}$")
         }
 
@@ -302,11 +341,11 @@ extension Cloud9 {
 
     public struct DescribeEnvironmentStatusResult: AWSDecodableShape {
         /// Any informational message about the status of the environment.
-        public let message: String?
+        public let message: String
         /// The status of the environment. Available values include:    connecting: The environment is connecting.    creating: The environment is being created.    deleting: The environment is being deleted.    error: The environment is in an error state.    ready: The environment is ready.    stopped: The environment is stopped.    stopping: The environment is stopping.
-        public let status: EnvironmentStatus?
+        public let status: EnvironmentStatus
 
-        public init(message: String? = nil, status: EnvironmentStatus? = nil) {
+        public init(message: String, status: EnvironmentStatus) {
             self.message = message
             self.status = status
         }
@@ -329,6 +368,7 @@ extension Cloud9 {
             try self.environmentIds.forEach {
                 try validate($0, name: "environmentIds[]", parent: name, pattern: "^[a-zA-Z0-9]{8,32}$")
             }
+            try self.environmentIds.forEach {}
             try self.validate(self.environmentIds, name: "environmentIds", parent: name, max: 25)
             try self.validate(self.environmentIds, name: "environmentIds", parent: name, min: 1)
         }
@@ -353,8 +393,8 @@ extension Cloud9 {
 
     public struct Environment: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the environment.
-        public let arn: String?
-        /// The connection type used for connecting to an Amazon EC2 environment.
+        public let arn: String
+        /// The connection type used for connecting to an Amazon EC2 environment. CONNECT_SSH is selected by default.
         public let connectionType: ConnectionType?
         /// The description for the environment.
         public let description: String?
@@ -362,19 +402,22 @@ extension Cloud9 {
         public let id: String?
         /// The state of the environment in its creation or deletion lifecycle.
         public let lifecycle: EnvironmentLifecycle?
+        /// Describes the status of AWS managed temporary credentials for the AWS Cloud9 environment. Available values are:    ENABLED_ON_CREATE     ENABLED_BY_OWNER     DISABLED_BY_DEFAULT     DISABLED_BY_OWNER     DISABLED_BY_COLLABORATOR     PENDING_REMOVAL_BY_COLLABORATOR     PENDING_REMOVAL_BY_OWNER     FAILED_REMOVAL_BY_COLLABORATOR     ENABLED_BY_OWNER     DISABLED_BY_DEFAULT
+        public let managedCredentialsStatus: ManagedCredentialsStatus?
         /// The name of the environment.
         public let name: String?
         /// The Amazon Resource Name (ARN) of the environment owner.
-        public let ownerArn: String?
+        public let ownerArn: String
         /// The type of environment. Valid values include the following:    ec2: An Amazon Elastic Compute Cloud (Amazon EC2) instance connects to the environment.    ssh: Your own server connects to the environment.
-        public let type: EnvironmentType?
+        public let type: EnvironmentType
 
-        public init(arn: String? = nil, connectionType: ConnectionType? = nil, description: String? = nil, id: String? = nil, lifecycle: EnvironmentLifecycle? = nil, name: String? = nil, ownerArn: String? = nil, type: EnvironmentType? = nil) {
+        public init(arn: String, connectionType: ConnectionType? = nil, description: String? = nil, id: String? = nil, lifecycle: EnvironmentLifecycle? = nil, managedCredentialsStatus: ManagedCredentialsStatus? = nil, name: String? = nil, ownerArn: String, type: EnvironmentType) {
             self.arn = arn
             self.connectionType = connectionType
             self.description = description
             self.id = id
             self.lifecycle = lifecycle
+            self.managedCredentialsStatus = managedCredentialsStatus
             self.name = name
             self.ownerArn = ownerArn
             self.type = type
@@ -386,6 +429,7 @@ extension Cloud9 {
             case description
             case id
             case lifecycle
+            case managedCredentialsStatus
             case name
             case ownerArn
             case type
@@ -415,17 +459,17 @@ extension Cloud9 {
 
     public struct EnvironmentMember: AWSDecodableShape {
         /// The ID of the environment for the environment member.
-        public let environmentId: String?
+        public let environmentId: String
         /// The time, expressed in epoch time format, when the environment member last opened the environment.
         public let lastAccess: Date?
         /// The type of environment member permissions associated with this environment member. Available values include:    owner: Owns the environment.    read-only: Has read-only access to the environment.    read-write: Has read-write access to the environment.
-        public let permissions: Permissions?
+        public let permissions: Permissions
         /// The Amazon Resource Name (ARN) of the environment member.
-        public let userArn: String?
+        public let userArn: String
         /// The user ID in AWS Identity and Access Management (AWS IAM) of the environment member.
-        public let userId: String?
+        public let userId: String
 
-        public init(environmentId: String? = nil, lastAccess: Date? = nil, permissions: Permissions? = nil, userArn: String? = nil, userId: String? = nil) {
+        public init(environmentId: String, lastAccess: Date? = nil, permissions: Permissions, userArn: String, userId: String) {
             self.environmentId = environmentId
             self.lastAccess = lastAccess
             self.permissions = permissions
@@ -454,6 +498,7 @@ extension Cloud9 {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
         }
@@ -490,7 +535,8 @@ extension Cloud9 {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "arn:aws:cloud9:([a-z]{2}-[a-z]+-\\d{1}):[0-9]{12}:environment:[a-zA-Z0-9]{8,32}")
+            try self.resourceARN.forEach {}
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):cloud9:([a-z]{2}-[a-z]+-\\d{1}):[0-9]{12}:environment:[a-zA-Z0-9]{8,32}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -523,8 +569,10 @@ extension Cloud9 {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
         }
@@ -547,10 +595,12 @@ extension Cloud9 {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "arn:aws:cloud9:([a-z]{2}-[a-z]+-\\d{1}):[0-9]{12}:environment:[a-zA-Z0-9]{8,32}")
+            try self.resourceARN.forEach {}
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):cloud9:([a-z]{2}-[a-z]+-\\d{1}):[0-9]{12}:environment:[a-zA-Z0-9]{8,32}")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -577,11 +627,13 @@ extension Cloud9 {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "arn:aws:cloud9:([a-z]{2}-[a-z]+-\\d{1}):[0-9]{12}:environment:[a-zA-Z0-9]{8,32}")
+            try self.resourceARN.forEach {}
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):cloud9:([a-z]{2}-[a-z]+-\\d{1}):[0-9]{12}:environment:[a-zA-Z0-9]{8,32}")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
         }
@@ -611,8 +663,10 @@ extension Cloud9 {
         }
 
         public func validate(name: String) throws {
+            try self.environmentId.forEach {}
             try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^[a-zA-Z0-9]{8,32}$")
-            try self.validate(self.userArn, name: "userArn", parent: name, pattern: "^arn:aws:(iam|sts)::\\d+:(root|(user\\/[\\w+=/:,.@-]{1,64}|federated-user\\/[\\w+=/:,.@-]{2,32}|assumed-role\\/[\\w+=:,.@-]{1,64}\\/[\\w+=,.@-]{1,64}))$")
+            try self.userArn.forEach {}
+            try self.validate(self.userArn, name: "userArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):(iam|sts)::\\d+:(root|(user\\/[\\w+=/:,.@-]{1,64}|federated-user\\/[\\w+=/:,.@-]{2,32}|assumed-role\\/[\\w+=:,.@-]{1,64}\\/[\\w+=,.@-]{1,64}))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -650,8 +704,11 @@ extension Cloud9 {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.environmentId.forEach {}
             try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^[a-zA-Z0-9]{8,32}$")
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 60)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }

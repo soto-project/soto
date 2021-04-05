@@ -199,6 +199,7 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.keyId.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
         }
@@ -230,6 +231,7 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.customKeyStoreId.forEach {}
             try self.validate(self.customKeyStoreId, name: "customKeyStoreId", parent: name, max: 64)
             try self.validate(self.customKeyStoreId, name: "customKeyStoreId", parent: name, min: 1)
         }
@@ -255,9 +257,11 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.aliasName.forEach {}
             try self.validate(self.aliasName, name: "aliasName", parent: name, max: 256)
             try self.validate(self.aliasName, name: "aliasName", parent: name, min: 1)
             try self.validate(self.aliasName, name: "aliasName", parent: name, pattern: "^[a-zA-Z0-9:/_-]+$")
+            try self.targetKeyId.forEach {}
             try self.validate(self.targetKeyId, name: "targetKeyId", parent: name, max: 2048)
             try self.validate(self.targetKeyId, name: "targetKeyId", parent: name, min: 1)
         }
@@ -286,12 +290,16 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.cloudHsmClusterId.forEach {}
             try self.validate(self.cloudHsmClusterId, name: "cloudHsmClusterId", parent: name, max: 24)
             try self.validate(self.cloudHsmClusterId, name: "cloudHsmClusterId", parent: name, min: 19)
+            try self.customKeyStoreName.forEach {}
             try self.validate(self.customKeyStoreName, name: "customKeyStoreName", parent: name, max: 256)
             try self.validate(self.customKeyStoreName, name: "customKeyStoreName", parent: name, min: 1)
+            try self.keyStorePassword.forEach {}
             try self.validate(self.keyStorePassword, name: "keyStorePassword", parent: name, max: 32)
             try self.validate(self.keyStorePassword, name: "keyStorePassword", parent: name, min: 7)
+            try self.trustAnchorCertificate.forEach {}
             try self.validate(self.trustAnchorCertificate, name: "trustAnchorCertificate", parent: name, max: 5000)
             try self.validate(self.trustAnchorCertificate, name: "trustAnchorCertificate", parent: name, min: 1)
         }
@@ -344,6 +352,7 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.granteePrincipal.forEach {}
             try self.validate(self.granteePrincipal, name: "granteePrincipal", parent: name, max: 256)
             try self.validate(self.granteePrincipal, name: "granteePrincipal", parent: name, min: 1)
             try self.validate(self.granteePrincipal, name: "granteePrincipal", parent: name, pattern: "^[\\w+=,.@:/-]+$")
@@ -351,13 +360,17 @@ extension KMS {
                 try validate($0, name: "grantTokens[]", parent: name, max: 8192)
                 try validate($0, name: "grantTokens[]", parent: name, min: 1)
             }
+            try self.grantTokens?.forEach {}
             try self.validate(self.grantTokens, name: "grantTokens", parent: name, max: 10)
             try self.validate(self.grantTokens, name: "grantTokens", parent: name, min: 0)
+            try self.keyId.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9:/_-]+$")
+            try self.retiringPrincipal?.forEach {}
             try self.validate(self.retiringPrincipal, name: "retiringPrincipal", parent: name, max: 256)
             try self.validate(self.retiringPrincipal, name: "retiringPrincipal", parent: name, min: 1)
             try self.validate(self.retiringPrincipal, name: "retiringPrincipal", parent: name, pattern: "^[\\w+=,.@:/-]+$")
@@ -421,16 +434,20 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.customKeyStoreId?.forEach {}
             try self.validate(self.customKeyStoreId, name: "customKeyStoreId", parent: name, max: 64)
             try self.validate(self.customKeyStoreId, name: "customKeyStoreId", parent: name, min: 1)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 8192)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.policy?.forEach {}
             try self.validate(self.policy, name: "policy", parent: name, max: 131_072)
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
             try self.validate(self.policy, name: "policy", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -516,14 +533,17 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.ciphertextBlob.forEach {}
             try self.validate(self.ciphertextBlob, name: "ciphertextBlob", parent: name, max: 6144)
             try self.validate(self.ciphertextBlob, name: "ciphertextBlob", parent: name, min: 1)
             try self.grantTokens?.forEach {
                 try validate($0, name: "grantTokens[]", parent: name, max: 8192)
                 try validate($0, name: "grantTokens[]", parent: name, min: 1)
             }
+            try self.grantTokens?.forEach {}
             try self.validate(self.grantTokens, name: "grantTokens", parent: name, max: 10)
             try self.validate(self.grantTokens, name: "grantTokens", parent: name, min: 0)
+            try self.keyId?.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
         }
@@ -567,6 +587,7 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.aliasName.forEach {}
             try self.validate(self.aliasName, name: "aliasName", parent: name, max: 256)
             try self.validate(self.aliasName, name: "aliasName", parent: name, min: 1)
             try self.validate(self.aliasName, name: "aliasName", parent: name, pattern: "^[a-zA-Z0-9:/_-]+$")
@@ -586,6 +607,7 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.customKeyStoreId.forEach {}
             try self.validate(self.customKeyStoreId, name: "customKeyStoreId", parent: name, max: 64)
             try self.validate(self.customKeyStoreId, name: "customKeyStoreId", parent: name, min: 1)
         }
@@ -608,6 +630,7 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.keyId.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
         }
@@ -635,12 +658,16 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.customKeyStoreId?.forEach {}
             try self.validate(self.customKeyStoreId, name: "customKeyStoreId", parent: name, max: 64)
             try self.validate(self.customKeyStoreId, name: "customKeyStoreId", parent: name, min: 1)
+            try self.customKeyStoreName?.forEach {}
             try self.validate(self.customKeyStoreName, name: "customKeyStoreName", parent: name, max: 256)
             try self.validate(self.customKeyStoreName, name: "customKeyStoreName", parent: name, min: 1)
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 1000)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 1024)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
             try self.validate(self.marker, name: "marker", parent: name, pattern: "[\\u0020-\\u00FF]*")
@@ -691,8 +718,10 @@ extension KMS {
                 try validate($0, name: "grantTokens[]", parent: name, max: 8192)
                 try validate($0, name: "grantTokens[]", parent: name, min: 1)
             }
+            try self.grantTokens?.forEach {}
             try self.validate(self.grantTokens, name: "grantTokens", parent: name, max: 10)
             try self.validate(self.grantTokens, name: "grantTokens", parent: name, min: 0)
+            try self.keyId.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
         }
@@ -725,6 +754,7 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.keyId.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
         }
@@ -743,6 +773,7 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.keyId.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
         }
@@ -761,6 +792,7 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.customKeyStoreId.forEach {}
             try self.validate(self.customKeyStoreId, name: "customKeyStoreId", parent: name, max: 64)
             try self.validate(self.customKeyStoreId, name: "customKeyStoreId", parent: name, min: 1)
         }
@@ -783,6 +815,7 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.keyId.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
         }
@@ -801,6 +834,7 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.keyId.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
         }
@@ -835,10 +869,13 @@ extension KMS {
                 try validate($0, name: "grantTokens[]", parent: name, max: 8192)
                 try validate($0, name: "grantTokens[]", parent: name, min: 1)
             }
+            try self.grantTokens?.forEach {}
             try self.validate(self.grantTokens, name: "grantTokens", parent: name, max: 10)
             try self.validate(self.grantTokens, name: "grantTokens", parent: name, min: 0)
+            try self.keyId.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
+            try self.plaintext.forEach {}
             try self.validate(self.plaintext, name: "plaintext", parent: name, max: 4096)
             try self.validate(self.plaintext, name: "plaintext", parent: name, min: 1)
         }
@@ -895,8 +932,10 @@ extension KMS {
                 try validate($0, name: "grantTokens[]", parent: name, max: 8192)
                 try validate($0, name: "grantTokens[]", parent: name, min: 1)
             }
+            try self.grantTokens?.forEach {}
             try self.validate(self.grantTokens, name: "grantTokens", parent: name, max: 10)
             try self.validate(self.grantTokens, name: "grantTokens", parent: name, min: 0)
+            try self.keyId.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
         }
@@ -960,8 +999,10 @@ extension KMS {
                 try validate($0, name: "grantTokens[]", parent: name, max: 8192)
                 try validate($0, name: "grantTokens[]", parent: name, min: 1)
             }
+            try self.grantTokens?.forEach {}
             try self.validate(self.grantTokens, name: "grantTokens", parent: name, max: 10)
             try self.validate(self.grantTokens, name: "grantTokens", parent: name, min: 0)
+            try self.keyId.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
         }
@@ -1024,10 +1065,13 @@ extension KMS {
                 try validate($0, name: "grantTokens[]", parent: name, max: 8192)
                 try validate($0, name: "grantTokens[]", parent: name, min: 1)
             }
+            try self.grantTokens?.forEach {}
             try self.validate(self.grantTokens, name: "grantTokens", parent: name, max: 10)
             try self.validate(self.grantTokens, name: "grantTokens", parent: name, min: 0)
+            try self.keyId.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
+            try self.numberOfBytes?.forEach {}
             try self.validate(self.numberOfBytes, name: "numberOfBytes", parent: name, max: 1024)
             try self.validate(self.numberOfBytes, name: "numberOfBytes", parent: name, min: 1)
         }
@@ -1087,10 +1131,13 @@ extension KMS {
                 try validate($0, name: "grantTokens[]", parent: name, max: 8192)
                 try validate($0, name: "grantTokens[]", parent: name, min: 1)
             }
+            try self.grantTokens?.forEach {}
             try self.validate(self.grantTokens, name: "grantTokens", parent: name, max: 10)
             try self.validate(self.grantTokens, name: "grantTokens", parent: name, min: 0)
+            try self.keyId.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
+            try self.numberOfBytes?.forEach {}
             try self.validate(self.numberOfBytes, name: "numberOfBytes", parent: name, max: 1024)
             try self.validate(self.numberOfBytes, name: "numberOfBytes", parent: name, min: 1)
         }
@@ -1133,8 +1180,10 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.customKeyStoreId?.forEach {}
             try self.validate(self.customKeyStoreId, name: "customKeyStoreId", parent: name, max: 64)
             try self.validate(self.customKeyStoreId, name: "customKeyStoreId", parent: name, min: 1)
+            try self.numberOfBytes?.forEach {}
             try self.validate(self.numberOfBytes, name: "numberOfBytes", parent: name, max: 1024)
             try self.validate(self.numberOfBytes, name: "numberOfBytes", parent: name, min: 1)
         }
@@ -1170,8 +1219,10 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.keyId.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
+            try self.policyName.forEach {}
             try self.validate(self.policyName, name: "policyName", parent: name, max: 128)
             try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
             try self.validate(self.policyName, name: "policyName", parent: name, pattern: "[\\w]+")
@@ -1205,6 +1256,7 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.keyId.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
         }
@@ -1242,6 +1294,7 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.keyId.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
         }
@@ -1294,8 +1347,10 @@ extension KMS {
                 try validate($0, name: "grantTokens[]", parent: name, max: 8192)
                 try validate($0, name: "grantTokens[]", parent: name, min: 1)
             }
+            try self.grantTokens?.forEach {}
             try self.validate(self.grantTokens, name: "grantTokens", parent: name, max: 10)
             try self.validate(self.grantTokens, name: "grantTokens", parent: name, min: 0)
+            try self.keyId.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
         }
@@ -1422,10 +1477,13 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.encryptedKeyMaterial.forEach {}
             try self.validate(self.encryptedKeyMaterial, name: "encryptedKeyMaterial", parent: name, max: 6144)
             try self.validate(self.encryptedKeyMaterial, name: "encryptedKeyMaterial", parent: name, min: 1)
+            try self.importToken.forEach {}
             try self.validate(self.importToken, name: "importToken", parent: name, max: 6144)
             try self.validate(self.importToken, name: "importToken", parent: name, min: 1)
+            try self.keyId.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
         }
@@ -1556,10 +1614,13 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.keyId?.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 1000)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 1024)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
             try self.validate(self.marker, name: "marker", parent: name, pattern: "[\\u0020-\\u00FF]*")
@@ -1614,15 +1675,20 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.granteePrincipal?.forEach {}
             try self.validate(self.granteePrincipal, name: "granteePrincipal", parent: name, max: 256)
             try self.validate(self.granteePrincipal, name: "granteePrincipal", parent: name, min: 1)
             try self.validate(self.granteePrincipal, name: "granteePrincipal", parent: name, pattern: "^[\\w+=,.@:/-]+$")
+            try self.grantId?.forEach {}
             try self.validate(self.grantId, name: "grantId", parent: name, max: 128)
             try self.validate(self.grantId, name: "grantId", parent: name, min: 1)
+            try self.keyId.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 1000)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 1024)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
             try self.validate(self.marker, name: "marker", parent: name, pattern: "[\\u0020-\\u00FF]*")
@@ -1673,10 +1739,13 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.keyId.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 1000)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 1024)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
             try self.validate(self.marker, name: "marker", parent: name, pattern: "[\\u0020-\\u00FF]*")
@@ -1722,8 +1791,10 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 1000)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 1024)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
             try self.validate(self.marker, name: "marker", parent: name, pattern: "[\\u0020-\\u00FF]*")
@@ -1771,10 +1842,13 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.keyId.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 1000)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 1024)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
             try self.validate(self.marker, name: "marker", parent: name, pattern: "[\\u0020-\\u00FF]*")
@@ -1823,11 +1897,14 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 1000)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 1024)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
             try self.validate(self.marker, name: "marker", parent: name, pattern: "[\\u0020-\\u00FF]*")
+            try self.retiringPrincipal.forEach {}
             try self.validate(self.retiringPrincipal, name: "retiringPrincipal", parent: name, max: 256)
             try self.validate(self.retiringPrincipal, name: "retiringPrincipal", parent: name, min: 1)
             try self.validate(self.retiringPrincipal, name: "retiringPrincipal", parent: name, pattern: "^[\\w+=,.@:/-]+$")
@@ -1858,11 +1935,14 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.keyId.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
+            try self.policy.forEach {}
             try self.validate(self.policy, name: "policy", parent: name, max: 131_072)
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
             try self.validate(self.policy, name: "policy", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
+            try self.policyName.forEach {}
             try self.validate(self.policyName, name: "policyName", parent: name, max: 128)
             try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
             try self.validate(self.policyName, name: "policyName", parent: name, pattern: "[\\w]+")
@@ -1906,16 +1986,20 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.ciphertextBlob.forEach {}
             try self.validate(self.ciphertextBlob, name: "ciphertextBlob", parent: name, max: 6144)
             try self.validate(self.ciphertextBlob, name: "ciphertextBlob", parent: name, min: 1)
+            try self.destinationKeyId.forEach {}
             try self.validate(self.destinationKeyId, name: "destinationKeyId", parent: name, max: 2048)
             try self.validate(self.destinationKeyId, name: "destinationKeyId", parent: name, min: 1)
             try self.grantTokens?.forEach {
                 try validate($0, name: "grantTokens[]", parent: name, max: 8192)
                 try validate($0, name: "grantTokens[]", parent: name, min: 1)
             }
+            try self.grantTokens?.forEach {}
             try self.validate(self.grantTokens, name: "grantTokens", parent: name, max: 10)
             try self.validate(self.grantTokens, name: "grantTokens", parent: name, min: 0)
+            try self.sourceKeyId?.forEach {}
             try self.validate(self.sourceKeyId, name: "sourceKeyId", parent: name, max: 2048)
             try self.validate(self.sourceKeyId, name: "sourceKeyId", parent: name, min: 1)
         }
@@ -1976,10 +2060,13 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.grantId?.forEach {}
             try self.validate(self.grantId, name: "grantId", parent: name, max: 128)
             try self.validate(self.grantId, name: "grantId", parent: name, min: 1)
+            try self.grantToken?.forEach {}
             try self.validate(self.grantToken, name: "grantToken", parent: name, max: 8192)
             try self.validate(self.grantToken, name: "grantToken", parent: name, min: 1)
+            try self.keyId?.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
         }
@@ -2003,8 +2090,10 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.grantId.forEach {}
             try self.validate(self.grantId, name: "grantId", parent: name, max: 128)
             try self.validate(self.grantId, name: "grantId", parent: name, min: 1)
+            try self.keyId.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
         }
@@ -2027,8 +2116,10 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.keyId.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
+            try self.pendingWindowInDays?.forEach {}
             try self.validate(self.pendingWindowInDays, name: "pendingWindowInDays", parent: name, max: 365)
             try self.validate(self.pendingWindowInDays, name: "pendingWindowInDays", parent: name, min: 1)
         }
@@ -2081,10 +2172,13 @@ extension KMS {
                 try validate($0, name: "grantTokens[]", parent: name, max: 8192)
                 try validate($0, name: "grantTokens[]", parent: name, min: 1)
             }
+            try self.grantTokens?.forEach {}
             try self.validate(self.grantTokens, name: "grantTokens", parent: name, max: 10)
             try self.validate(self.grantTokens, name: "grantTokens", parent: name, min: 0)
+            try self.keyId.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
+            try self.message.forEach {}
             try self.validate(self.message, name: "message", parent: name, max: 4096)
             try self.validate(self.message, name: "message", parent: name, min: 1)
         }
@@ -2131,8 +2225,10 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.tagKey.forEach {}
             try self.validate(self.tagKey, name: "tagKey", parent: name, max: 128)
             try self.validate(self.tagKey, name: "tagKey", parent: name, min: 1)
+            try self.tagValue.forEach {}
             try self.validate(self.tagValue, name: "tagValue", parent: name, max: 256)
             try self.validate(self.tagValue, name: "tagValue", parent: name, min: 0)
         }
@@ -2155,11 +2251,13 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.keyId.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2180,12 +2278,14 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.keyId.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
+            try self.tagKeys.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2206,9 +2306,11 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.aliasName.forEach {}
             try self.validate(self.aliasName, name: "aliasName", parent: name, max: 256)
             try self.validate(self.aliasName, name: "aliasName", parent: name, min: 1)
             try self.validate(self.aliasName, name: "aliasName", parent: name, pattern: "^[a-zA-Z0-9:/_-]+$")
+            try self.targetKeyId.forEach {}
             try self.validate(self.targetKeyId, name: "targetKeyId", parent: name, max: 2048)
             try self.validate(self.targetKeyId, name: "targetKeyId", parent: name, min: 1)
         }
@@ -2237,12 +2339,16 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.cloudHsmClusterId?.forEach {}
             try self.validate(self.cloudHsmClusterId, name: "cloudHsmClusterId", parent: name, max: 24)
             try self.validate(self.cloudHsmClusterId, name: "cloudHsmClusterId", parent: name, min: 19)
+            try self.customKeyStoreId.forEach {}
             try self.validate(self.customKeyStoreId, name: "customKeyStoreId", parent: name, max: 64)
             try self.validate(self.customKeyStoreId, name: "customKeyStoreId", parent: name, min: 1)
+            try self.keyStorePassword?.forEach {}
             try self.validate(self.keyStorePassword, name: "keyStorePassword", parent: name, max: 32)
             try self.validate(self.keyStorePassword, name: "keyStorePassword", parent: name, min: 7)
+            try self.newCustomKeyStoreName?.forEach {}
             try self.validate(self.newCustomKeyStoreName, name: "newCustomKeyStoreName", parent: name, max: 256)
             try self.validate(self.newCustomKeyStoreName, name: "newCustomKeyStoreName", parent: name, min: 1)
         }
@@ -2271,8 +2377,10 @@ extension KMS {
         }
 
         public func validate(name: String) throws {
+            try self.description.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 8192)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.keyId.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
         }
@@ -2311,12 +2419,16 @@ extension KMS {
                 try validate($0, name: "grantTokens[]", parent: name, max: 8192)
                 try validate($0, name: "grantTokens[]", parent: name, min: 1)
             }
+            try self.grantTokens?.forEach {}
             try self.validate(self.grantTokens, name: "grantTokens", parent: name, max: 10)
             try self.validate(self.grantTokens, name: "grantTokens", parent: name, min: 0)
+            try self.keyId.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
+            try self.message.forEach {}
             try self.validate(self.message, name: "message", parent: name, max: 4096)
             try self.validate(self.message, name: "message", parent: name, min: 1)
+            try self.signature.forEach {}
             try self.validate(self.signature, name: "signature", parent: name, max: 6144)
             try self.validate(self.signature, name: "signature", parent: name, min: 1)
         }

@@ -476,10 +476,13 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 16384)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 0)
+            try self.projectArn.forEach {}
             try self.validate(self.projectArn, name: "projectArn", parent: name, max: 1011)
             try self.validate(self.projectArn, name: "projectArn", parent: name, min: 32)
             try self.validate(self.projectArn, name: "projectArn", parent: name, pattern: "^arn:.+")
@@ -528,8 +531,10 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 16384)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 0)
         }
@@ -598,15 +603,20 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 16384)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.downlinkLossPercent?.forEach {}
             try self.validate(self.downlinkLossPercent, name: "downlinkLossPercent", parent: name, max: 100)
             try self.validate(self.downlinkLossPercent, name: "downlinkLossPercent", parent: name, min: 0)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 0)
+            try self.projectArn.forEach {}
             try self.validate(self.projectArn, name: "projectArn", parent: name, max: 1011)
             try self.validate(self.projectArn, name: "projectArn", parent: name, min: 32)
             try self.validate(self.projectArn, name: "projectArn", parent: name, pattern: "^arn:.+")
+            try self.uplinkLossPercent?.forEach {}
             try self.validate(self.uplinkLossPercent, name: "uplinkLossPercent", parent: name, max: 100)
             try self.validate(self.uplinkLossPercent, name: "uplinkLossPercent", parent: name, min: 0)
         }
@@ -652,6 +662,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 0)
         }
@@ -692,6 +703,7 @@ extension DeviceFarm {
                 try validate($0, name: "vpceConfigurationArns[]", parent: name, min: 32)
                 try validate($0, name: "vpceConfigurationArns[]", parent: name, pattern: "^arn:.+")
             }
+            try self.vpceConfigurationArns?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -742,23 +754,31 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.clientId?.forEach {}
             try self.validate(self.clientId, name: "clientId", parent: name, max: 64)
             try self.validate(self.clientId, name: "clientId", parent: name, min: 0)
             try self.configuration?.validate(name: "\(name).configuration")
+            try self.configuration?.forEach {}
+            try self.deviceArn.forEach {}
             try self.validate(self.deviceArn, name: "deviceArn", parent: name, max: 1011)
             try self.validate(self.deviceArn, name: "deviceArn", parent: name, min: 32)
             try self.validate(self.deviceArn, name: "deviceArn", parent: name, pattern: "^arn:.+")
+            try self.instanceArn?.forEach {}
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1011)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 32)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:.+")
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 0)
+            try self.projectArn.forEach {}
             try self.validate(self.projectArn, name: "projectArn", parent: name, max: 1011)
             try self.validate(self.projectArn, name: "projectArn", parent: name, min: 32)
             try self.validate(self.projectArn, name: "projectArn", parent: name, pattern: "^arn:.+")
+            try self.remoteRecordAppArn?.forEach {}
             try self.validate(self.remoteRecordAppArn, name: "remoteRecordAppArn", parent: name, max: 1011)
             try self.validate(self.remoteRecordAppArn, name: "remoteRecordAppArn", parent: name, min: 32)
             try self.validate(self.remoteRecordAppArn, name: "remoteRecordAppArn", parent: name, pattern: "^arn:.+")
+            try self.sshPublicKey?.forEach {}
             try self.validate(self.sshPublicKey, name: "sshPublicKey", parent: name, max: 8192)
             try self.validate(self.sshPublicKey, name: "sshPublicKey", parent: name, min: 0)
         }
@@ -804,9 +824,11 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*\\S.*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
@@ -843,8 +865,10 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.expiresInSeconds.forEach {}
             try self.validate(self.expiresInSeconds, name: "expiresInSeconds", parent: name, max: 86400)
             try self.validate(self.expiresInSeconds, name: "expiresInSeconds", parent: name, min: 60)
+            try self.projectArn.forEach {}
             try self.validate(self.projectArn, name: "projectArn", parent: name, max: 1011)
             try self.validate(self.projectArn, name: "projectArn", parent: name, min: 32)
             try self.validate(self.projectArn, name: "projectArn", parent: name, pattern: "^arn:aws:devicefarm:.+")
@@ -891,10 +915,13 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.contentType?.forEach {}
             try self.validate(self.contentType, name: "contentType", parent: name, max: 64)
             try self.validate(self.contentType, name: "contentType", parent: name, min: 0)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 0)
+            try self.projectArn.forEach {}
             try self.validate(self.projectArn, name: "projectArn", parent: name, max: 1011)
             try self.validate(self.projectArn, name: "projectArn", parent: name, min: 32)
             try self.validate(self.projectArn, name: "projectArn", parent: name, pattern: "^arn:.+")
@@ -939,12 +966,16 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.serviceDnsName.forEach {}
             try self.validate(self.serviceDnsName, name: "serviceDnsName", parent: name, max: 2048)
             try self.validate(self.serviceDnsName, name: "serviceDnsName", parent: name, min: 0)
+            try self.vpceConfigurationDescription?.forEach {}
             try self.validate(self.vpceConfigurationDescription, name: "vpceConfigurationDescription", parent: name, max: 2048)
             try self.validate(self.vpceConfigurationDescription, name: "vpceConfigurationDescription", parent: name, min: 0)
+            try self.vpceConfigurationName.forEach {}
             try self.validate(self.vpceConfigurationName, name: "vpceConfigurationName", parent: name, max: 1024)
             try self.validate(self.vpceConfigurationName, name: "vpceConfigurationName", parent: name, min: 0)
+            try self.vpceServiceName.forEach {}
             try self.validate(self.vpceServiceName, name: "vpceServiceName", parent: name, max: 2048)
             try self.validate(self.vpceServiceName, name: "vpceServiceName", parent: name, min: 0)
         }
@@ -1000,6 +1031,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
@@ -1023,6 +1055,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
@@ -1046,6 +1079,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
@@ -1069,6 +1103,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
@@ -1092,6 +1127,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
@@ -1115,6 +1151,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
@@ -1138,6 +1175,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.projectArn.forEach {}
             try self.validate(self.projectArn, name: "projectArn", parent: name, max: 1011)
             try self.validate(self.projectArn, name: "projectArn", parent: name, min: 32)
             try self.validate(self.projectArn, name: "projectArn", parent: name, pattern: "^arn:aws:devicefarm:.+")
@@ -1161,6 +1199,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
@@ -1184,6 +1223,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
@@ -1513,6 +1553,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
@@ -1557,14 +1598,18 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.appArn?.forEach {}
             try self.validate(self.appArn, name: "appArn", parent: name, max: 1011)
             try self.validate(self.appArn, name: "appArn", parent: name, min: 32)
             try self.validate(self.appArn, name: "appArn", parent: name, pattern: "^arn:.+")
             try self.configuration?.validate(name: "\(name).configuration")
+            try self.configuration?.forEach {}
+            try self.devicePoolArn.forEach {}
             try self.validate(self.devicePoolArn, name: "devicePoolArn", parent: name, max: 1011)
             try self.validate(self.devicePoolArn, name: "devicePoolArn", parent: name, min: 32)
             try self.validate(self.devicePoolArn, name: "devicePoolArn", parent: name, pattern: "^arn:.+")
             try self.test?.validate(name: "\(name).test")
+            try self.test?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1602,6 +1647,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
@@ -1634,6 +1680,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
@@ -1666,6 +1713,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
@@ -1698,6 +1746,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
@@ -1730,6 +1779,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
@@ -1762,6 +1812,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
         }
@@ -1801,6 +1852,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
@@ -1833,6 +1885,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
@@ -1865,6 +1918,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
@@ -1897,6 +1951,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
@@ -1929,6 +1984,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.projectArn.forEach {}
             try self.validate(self.projectArn, name: "projectArn", parent: name, max: 1011)
             try self.validate(self.projectArn, name: "projectArn", parent: name, min: 32)
             try self.validate(self.projectArn, name: "projectArn", parent: name, pattern: "^arn:aws:devicefarm:.+")
@@ -1967,12 +2023,15 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.projectArn?.forEach {}
             try self.validate(self.projectArn, name: "projectArn", parent: name, max: 1011)
             try self.validate(self.projectArn, name: "projectArn", parent: name, min: 32)
             try self.validate(self.projectArn, name: "projectArn", parent: name, pattern: "^arn:aws:devicefarm:.+")
+            try self.sessionArn?.forEach {}
             try self.validate(self.sessionArn, name: "sessionArn", parent: name, max: 1011)
             try self.validate(self.sessionArn, name: "sessionArn", parent: name, min: 32)
             try self.validate(self.sessionArn, name: "sessionArn", parent: name, pattern: "^arn:aws:devicefarm:.+")
+            try self.sessionId?.forEach {}
             try self.validate(self.sessionId, name: "sessionId", parent: name, max: 128)
             try self.validate(self.sessionId, name: "sessionId", parent: name, min: 1)
             try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: ".*\\S.*")
@@ -2007,6 +2066,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
@@ -2039,6 +2099,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
@@ -2071,6 +2132,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
@@ -2123,9 +2185,11 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.appArn.forEach {}
             try self.validate(self.appArn, name: "appArn", parent: name, max: 1011)
             try self.validate(self.appArn, name: "appArn", parent: name, min: 32)
             try self.validate(self.appArn, name: "appArn", parent: name, pattern: "^arn:.+")
+            try self.remoteAccessSessionArn.forEach {}
             try self.validate(self.remoteAccessSessionArn, name: "remoteAccessSessionArn", parent: name, max: 1011)
             try self.validate(self.remoteAccessSessionArn, name: "remoteAccessSessionArn", parent: name, min: 32)
             try self.validate(self.remoteAccessSessionArn, name: "remoteAccessSessionArn", parent: name, pattern: "^arn:.+")
@@ -2267,9 +2331,11 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
         }
@@ -2310,6 +2376,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
         }
@@ -2352,9 +2419,11 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
         }
@@ -2398,9 +2467,11 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn?.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
         }
@@ -2441,6 +2512,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
         }
@@ -2480,9 +2552,11 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
         }
@@ -2525,9 +2599,11 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
         }
@@ -2565,6 +2641,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
         }
@@ -2600,6 +2677,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
         }
@@ -2635,6 +2713,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
         }
@@ -2673,9 +2752,11 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn?.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
         }
@@ -2715,9 +2796,11 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
         }
@@ -2757,9 +2840,11 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
         }
@@ -2799,9 +2884,11 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
         }
@@ -2841,9 +2928,11 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
         }
@@ -2880,6 +2969,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 32)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws:devicefarm:.+")
@@ -2915,8 +3005,10 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.maxResult?.forEach {}
             try self.validate(self.maxResult, name: "maxResult", parent: name, max: 1000)
             try self.validate(self.maxResult, name: "maxResult", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
         }
@@ -2959,10 +3051,13 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.maxResult?.forEach {}
             try self.validate(self.maxResult, name: "maxResult", parent: name, max: 1000)
             try self.validate(self.maxResult, name: "maxResult", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
+            try self.sessionArn.forEach {}
             try self.validate(self.sessionArn, name: "sessionArn", parent: name, max: 1011)
             try self.validate(self.sessionArn, name: "sessionArn", parent: name, min: 32)
             try self.validate(self.sessionArn, name: "sessionArn", parent: name, pattern: "^arn:aws:devicefarm:.+")
@@ -3010,10 +3105,13 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.maxResult?.forEach {}
             try self.validate(self.maxResult, name: "maxResult", parent: name, max: 1000)
             try self.validate(self.maxResult, name: "maxResult", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
+            try self.sessionArn.forEach {}
             try self.validate(self.sessionArn, name: "sessionArn", parent: name, max: 1011)
             try self.validate(self.sessionArn, name: "sessionArn", parent: name, min: 32)
             try self.validate(self.sessionArn, name: "sessionArn", parent: name, pattern: "^arn:aws:devicefarm:.+")
@@ -3074,10 +3172,13 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.maxResult?.forEach {}
             try self.validate(self.maxResult, name: "maxResult", parent: name, max: 1000)
             try self.validate(self.maxResult, name: "maxResult", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
+            try self.projectArn.forEach {}
             try self.validate(self.projectArn, name: "projectArn", parent: name, max: 1011)
             try self.validate(self.projectArn, name: "projectArn", parent: name, min: 32)
             try self.validate(self.projectArn, name: "projectArn", parent: name, pattern: "^arn:aws:devicefarm:.+")
@@ -3124,9 +3225,11 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
         }
@@ -3166,9 +3269,11 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
         }
@@ -3211,9 +3316,11 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
         }
@@ -3254,6 +3361,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
         }
@@ -3566,7 +3674,9 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.offeringId?.forEach {}
             try self.validate(self.offeringId, name: "offeringId", parent: name, min: 32)
+            try self.offeringPromotionId?.forEach {}
             try self.validate(self.offeringPromotionId, name: "offeringPromotionId", parent: name, min: 4)
         }
 
@@ -3737,6 +3847,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.offeringId?.forEach {}
             try self.validate(self.offeringId, name: "offeringId", parent: name, min: 32)
         }
 
@@ -3989,9 +4100,12 @@ extension DeviceFarm {
                 try validate($0, name: "auxiliaryApps[]", parent: name, min: 32)
                 try validate($0, name: "auxiliaryApps[]", parent: name, pattern: "^arn:.+")
             }
+            try self.auxiliaryApps?.forEach {}
+            try self.extraDataPackageArn?.forEach {}
             try self.validate(self.extraDataPackageArn, name: "extraDataPackageArn", parent: name, max: 1011)
             try self.validate(self.extraDataPackageArn, name: "extraDataPackageArn", parent: name, min: 32)
             try self.validate(self.extraDataPackageArn, name: "extraDataPackageArn", parent: name, pattern: "^arn:.+")
+            try self.networkProfileArn?.forEach {}
             try self.validate(self.networkProfileArn, name: "networkProfileArn", parent: name, max: 1011)
             try self.validate(self.networkProfileArn, name: "networkProfileArn", parent: name, min: 32)
             try self.validate(self.networkProfileArn, name: "networkProfileArn", parent: name, pattern: "^arn:.+")
@@ -4000,6 +4114,7 @@ extension DeviceFarm {
                 try validate($0, name: "vpceConfigurationArns[]", parent: name, min: 32)
                 try validate($0, name: "vpceConfigurationArns[]", parent: name, pattern: "^arn:.+")
             }
+            try self.vpceConfigurationArns?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4045,19 +4160,25 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.appArn?.forEach {}
             try self.validate(self.appArn, name: "appArn", parent: name, max: 1011)
             try self.validate(self.appArn, name: "appArn", parent: name, min: 32)
             try self.validate(self.appArn, name: "appArn", parent: name, pattern: "^arn:.+")
             try self.configuration?.validate(name: "\(name).configuration")
+            try self.configuration?.forEach {}
+            try self.devicePoolArn?.forEach {}
             try self.validate(self.devicePoolArn, name: "devicePoolArn", parent: name, max: 1011)
             try self.validate(self.devicePoolArn, name: "devicePoolArn", parent: name, min: 32)
             try self.validate(self.devicePoolArn, name: "devicePoolArn", parent: name, pattern: "^arn:.+")
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 0)
+            try self.projectArn.forEach {}
             try self.validate(self.projectArn, name: "projectArn", parent: name, max: 1011)
             try self.validate(self.projectArn, name: "projectArn", parent: name, min: 32)
             try self.validate(self.projectArn, name: "projectArn", parent: name, pattern: "^arn:.+")
             try self.test.validate(name: "\(name).test")
+            try self.test.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4106,11 +4227,14 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.filter?.forEach {}
             try self.validate(self.filter, name: "filter", parent: name, max: 8192)
             try self.validate(self.filter, name: "filter", parent: name, min: 0)
+            try self.testPackageArn?.forEach {}
             try self.validate(self.testPackageArn, name: "testPackageArn", parent: name, max: 1011)
             try self.validate(self.testPackageArn, name: "testPackageArn", parent: name, min: 32)
             try self.validate(self.testPackageArn, name: "testPackageArn", parent: name, pattern: "^arn:.+")
+            try self.testSpecArn?.forEach {}
             try self.validate(self.testSpecArn, name: "testSpecArn", parent: name, max: 1011)
             try self.validate(self.testSpecArn, name: "testSpecArn", parent: name, min: 32)
             try self.validate(self.testSpecArn, name: "testSpecArn", parent: name, pattern: "^arn:.+")
@@ -4134,6 +4258,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
@@ -4166,6 +4291,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
@@ -4198,6 +4324,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
@@ -4286,8 +4413,10 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
         }
@@ -4310,12 +4439,14 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 32)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws:devicefarm:.+")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 150)
         }
 
@@ -4536,6 +4667,7 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 32)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws:devicefarm:.+")
@@ -4543,6 +4675,7 @@ extension DeviceFarm {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 150)
         }
 
@@ -4571,9 +4704,11 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
+            try self.profileArn?.forEach {}
             try self.validate(self.profileArn, name: "profileArn", parent: name, max: 1011)
             try self.validate(self.profileArn, name: "profileArn", parent: name, min: 32)
             try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:.+")
@@ -4623,11 +4758,14 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 16384)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 0)
         }
@@ -4679,11 +4817,14 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 16384)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 0)
         }
@@ -4753,15 +4894,20 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 16384)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.downlinkLossPercent?.forEach {}
             try self.validate(self.downlinkLossPercent, name: "downlinkLossPercent", parent: name, max: 100)
             try self.validate(self.downlinkLossPercent, name: "downlinkLossPercent", parent: name, min: 0)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 0)
+            try self.uplinkLossPercent?.forEach {}
             try self.validate(self.uplinkLossPercent, name: "uplinkLossPercent", parent: name, max: 100)
             try self.validate(self.uplinkLossPercent, name: "uplinkLossPercent", parent: name, min: 0)
         }
@@ -4810,9 +4956,11 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 0)
         }
@@ -4852,12 +5000,15 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*\\S.*")
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+            try self.projectArn.forEach {}
             try self.validate(self.projectArn, name: "projectArn", parent: name, max: 1011)
             try self.validate(self.projectArn, name: "projectArn", parent: name, min: 32)
             try self.validate(self.projectArn, name: "projectArn", parent: name, pattern: "^arn:aws:devicefarm:.+")
@@ -4901,11 +5052,14 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
+            try self.contentType?.forEach {}
             try self.validate(self.contentType, name: "contentType", parent: name, max: 64)
             try self.validate(self.contentType, name: "contentType", parent: name, min: 0)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 0)
         }
@@ -4952,15 +5106,20 @@ extension DeviceFarm {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:.+")
+            try self.serviceDnsName?.forEach {}
             try self.validate(self.serviceDnsName, name: "serviceDnsName", parent: name, max: 2048)
             try self.validate(self.serviceDnsName, name: "serviceDnsName", parent: name, min: 0)
+            try self.vpceConfigurationDescription?.forEach {}
             try self.validate(self.vpceConfigurationDescription, name: "vpceConfigurationDescription", parent: name, max: 2048)
             try self.validate(self.vpceConfigurationDescription, name: "vpceConfigurationDescription", parent: name, min: 0)
+            try self.vpceConfigurationName?.forEach {}
             try self.validate(self.vpceConfigurationName, name: "vpceConfigurationName", parent: name, max: 1024)
             try self.validate(self.vpceConfigurationName, name: "vpceConfigurationName", parent: name, min: 0)
+            try self.vpceServiceName?.forEach {}
             try self.validate(self.vpceServiceName, name: "vpceServiceName", parent: name, max: 2048)
             try self.validate(self.vpceServiceName, name: "vpceServiceName", parent: name, min: 0)
         }

@@ -43,11 +43,14 @@ extension SageMakerFeatureStoreRuntime {
         }
 
         public func validate(name: String) throws {
+            try self.eventTime.forEach {}
             try self.validate(self.eventTime, name: "eventTime", parent: name, max: 358_400)
             try self.validate(self.eventTime, name: "eventTime", parent: name, pattern: ".*")
+            try self.featureGroupName.forEach {}
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, max: 64)
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, min: 1)
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.recordIdentifierValueAsString.forEach {}
             try self.validate(self.recordIdentifierValueAsString, name: "recordIdentifierValueAsString", parent: name, max: 358_400)
             try self.validate(self.recordIdentifierValueAsString, name: "recordIdentifierValueAsString", parent: name, pattern: ".*")
         }
@@ -67,9 +70,11 @@ extension SageMakerFeatureStoreRuntime {
         }
 
         public func validate(name: String) throws {
+            try self.featureName.forEach {}
             try self.validate(self.featureName, name: "featureName", parent: name, max: 64)
             try self.validate(self.featureName, name: "featureName", parent: name, min: 1)
             try self.validate(self.featureName, name: "featureName", parent: name, pattern: "^[a-zA-Z0-9]([-_]*[a-zA-Z0-9])*")
+            try self.valueAsString.forEach {}
             try self.validate(self.valueAsString, name: "valueAsString", parent: name, max: 358_400)
             try self.validate(self.valueAsString, name: "valueAsString", parent: name, pattern: ".*")
         }
@@ -101,6 +106,7 @@ extension SageMakerFeatureStoreRuntime {
         }
 
         public func validate(name: String) throws {
+            try self.featureGroupName.forEach {}
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, max: 64)
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, min: 1)
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
@@ -109,7 +115,9 @@ extension SageMakerFeatureStoreRuntime {
                 try validate($0, name: "featureNames[]", parent: name, min: 1)
                 try validate($0, name: "featureNames[]", parent: name, pattern: "^[a-zA-Z0-9]([-_]*[a-zA-Z0-9])*")
             }
+            try self.featureNames?.forEach {}
             try self.validate(self.featureNames, name: "featureNames", parent: name, min: 1)
+            try self.recordIdentifierValueAsString.forEach {}
             try self.validate(self.recordIdentifierValueAsString, name: "recordIdentifierValueAsString", parent: name, max: 358_400)
             try self.validate(self.recordIdentifierValueAsString, name: "recordIdentifierValueAsString", parent: name, pattern: ".*")
         }
@@ -146,12 +154,14 @@ extension SageMakerFeatureStoreRuntime {
         }
 
         public func validate(name: String) throws {
+            try self.featureGroupName.forEach {}
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, max: 64)
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, min: 1)
             try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
             try self.record.forEach {
                 try $0.validate(name: "\(name).record[]")
             }
+            try self.record.forEach {}
             try self.validate(self.record, name: "record", parent: name, min: 1)
         }
 

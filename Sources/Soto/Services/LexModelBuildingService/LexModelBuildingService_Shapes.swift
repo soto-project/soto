@@ -85,6 +85,7 @@ extension LexModelBuildingService {
         case frCa = "fr-CA"
         case frFr = "fr-FR"
         case itIt = "it-IT"
+        case jaJp = "ja-JP"
         public var description: String { return self.rawValue }
     }
 
@@ -326,8 +327,10 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.messageVersion.forEach {}
             try self.validate(self.messageVersion, name: "messageVersion", parent: name, max: 5)
             try self.validate(self.messageVersion, name: "messageVersion", parent: name, min: 1)
+            try self.uri.forEach {}
             try self.validate(self.uri, name: "uri", parent: name, max: 2048)
             try self.validate(self.uri, name: "uri", parent: name, min: 20)
             try self.validate(self.uri, name: "uri", parent: name, pattern: "arn:aws:lambda:[a-z]+-[a-z]+-[0-9]:[0-9]{12}:function:[a-zA-Z0-9-_]+(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})?(:[a-zA-Z0-9-_]+)?")
@@ -351,12 +354,14 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.iamRoleArn.forEach {}
             try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, max: 2048)
             try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, min: 20)
             try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, pattern: "^arn:[\\w\\-]+:iam::[\\d]{12}:role/.+$")
             try self.logSettings.forEach {
                 try $0.validate(name: "\(name).logSettings[]")
             }
+            try self.logSettings.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -398,6 +403,7 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 50)
             try self.validate(self.name, name: "name", parent: name, min: 2)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z]_?)+$")
@@ -501,6 +507,7 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z]_?)+$")
@@ -608,6 +615,7 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z]_?)+$")
@@ -684,9 +692,11 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.botName.forEach {}
             try self.validate(self.botName, name: "botName", parent: name, max: 50)
             try self.validate(self.botName, name: "botName", parent: name, min: 2)
             try self.validate(self.botName, name: "botName", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z]_?)+$")
@@ -716,12 +726,15 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.botAlias.forEach {}
             try self.validate(self.botAlias, name: "botAlias", parent: name, max: 100)
             try self.validate(self.botAlias, name: "botAlias", parent: name, min: 1)
             try self.validate(self.botAlias, name: "botAlias", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try self.botName.forEach {}
             try self.validate(self.botName, name: "botName", parent: name, max: 50)
             try self.validate(self.botName, name: "botName", parent: name, min: 2)
             try self.validate(self.botName, name: "botName", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z]_?)+$")
@@ -743,6 +756,7 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 50)
             try self.validate(self.name, name: "name", parent: name, min: 2)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z]_?)+$")
@@ -768,9 +782,11 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 50)
             try self.validate(self.name, name: "name", parent: name, min: 2)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try self.version.forEach {}
             try self.validate(self.version, name: "version", parent: name, max: 64)
             try self.validate(self.version, name: "version", parent: name, min: 1)
             try self.validate(self.version, name: "version", parent: name, pattern: "[0-9]+")
@@ -792,6 +808,7 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z]_?)+$")
@@ -817,9 +834,11 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try self.version.forEach {}
             try self.validate(self.version, name: "version", parent: name, max: 64)
             try self.validate(self.version, name: "version", parent: name, min: 1)
             try self.validate(self.version, name: "version", parent: name, pattern: "[0-9]+")
@@ -841,6 +860,7 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z]_?)+$")
@@ -866,9 +886,11 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try self.version.forEach {}
             try self.validate(self.version, name: "version", parent: name, max: 64)
             try self.validate(self.version, name: "version", parent: name, min: 1)
             try self.validate(self.version, name: "version", parent: name, pattern: "[0-9]+")
@@ -894,9 +916,11 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.botName.forEach {}
             try self.validate(self.botName, name: "botName", parent: name, max: 50)
             try self.validate(self.botName, name: "botName", parent: name, min: 2)
             try self.validate(self.botName, name: "botName", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try self.userId.forEach {}
             try self.validate(self.userId, name: "userId", parent: name, max: 100)
             try self.validate(self.userId, name: "userId", parent: name, min: 2)
         }
@@ -920,6 +944,8 @@ extension LexModelBuildingService {
                 try validate($0, name: "synonyms[]", parent: name, max: 140)
                 try validate($0, name: "synonyms[]", parent: name, min: 1)
             }
+            try self.synonyms?.forEach {}
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 140)
             try self.validate(self.value, name: "value", parent: name, min: 1)
         }
@@ -943,7 +969,9 @@ extension LexModelBuildingService {
 
         public func validate(name: String) throws {
             try self.prompt.validate(name: "\(name).prompt")
+            try self.prompt.forEach {}
             try self.rejectionStatement.validate(name: "\(name).rejectionStatement")
+            try self.rejectionStatement.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -965,6 +993,7 @@ extension LexModelBuildingService {
 
         public func validate(name: String) throws {
             try self.codeHook?.validate(name: "\(name).codeHook")
+            try self.codeHook?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -990,9 +1019,11 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.botName.forEach {}
             try self.validate(self.botName, name: "botName", parent: name, max: 50)
             try self.validate(self.botName, name: "botName", parent: name, min: 2)
             try self.validate(self.botName, name: "botName", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z]_?)+$")
@@ -1067,11 +1098,14 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.botName.forEach {}
             try self.validate(self.botName, name: "botName", parent: name, max: 50)
             try self.validate(self.botName, name: "botName", parent: name, min: 2)
             try self.validate(self.botName, name: "botName", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nameContains?.forEach {}
             try self.validate(self.nameContains, name: "nameContains", parent: name, max: 100)
             try self.validate(self.nameContains, name: "nameContains", parent: name, min: 1)
             try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^([A-Za-z]_?)+$")
@@ -1118,12 +1152,15 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.botAlias.forEach {}
             try self.validate(self.botAlias, name: "botAlias", parent: name, max: 100)
             try self.validate(self.botAlias, name: "botAlias", parent: name, min: 1)
             try self.validate(self.botAlias, name: "botAlias", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try self.botName.forEach {}
             try self.validate(self.botName, name: "botName", parent: name, max: 50)
             try self.validate(self.botName, name: "botName", parent: name, min: 2)
             try self.validate(self.botName, name: "botName", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z]_?)+$")
@@ -1206,14 +1243,18 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.botAlias.forEach {}
             try self.validate(self.botAlias, name: "botAlias", parent: name, max: 100)
             try self.validate(self.botAlias, name: "botAlias", parent: name, min: 1)
             try self.validate(self.botAlias, name: "botAlias", parent: name, pattern: "^(-|^([A-Za-z]_?)+$)$")
+            try self.botName.forEach {}
             try self.validate(self.botName, name: "botName", parent: name, max: 50)
             try self.validate(self.botName, name: "botName", parent: name, min: 2)
             try self.validate(self.botName, name: "botName", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nameContains?.forEach {}
             try self.validate(self.nameContains, name: "nameContains", parent: name, max: 100)
             try self.validate(self.nameContains, name: "nameContains", parent: name, min: 1)
             try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^([A-Za-z]_?)+$")
@@ -1256,6 +1297,7 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 50)
             try self.validate(self.name, name: "name", parent: name, min: 2)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z]_?)+$")
@@ -1366,8 +1408,10 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 50)
             try self.validate(self.name, name: "name", parent: name, min: 2)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z]_?)+$")
@@ -1414,8 +1458,10 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nameContains?.forEach {}
             try self.validate(self.nameContains, name: "nameContains", parent: name, max: 50)
             try self.validate(self.nameContains, name: "nameContains", parent: name, min: 2)
             try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^([A-Za-z]_?)+$")
@@ -1502,6 +1548,7 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1551,6 +1598,7 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1600,9 +1648,11 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z_]+")
+            try self.version.forEach {}
             try self.validate(self.version, name: "version", parent: name, max: 64)
             try self.validate(self.version, name: "version", parent: name, min: 1)
             try self.validate(self.version, name: "version", parent: name, pattern: "[0-9]+")
@@ -1717,9 +1767,11 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try self.version.forEach {}
             try self.validate(self.version, name: "version", parent: name, max: 64)
             try self.validate(self.version, name: "version", parent: name, min: 1)
             try self.validate(self.version, name: "version", parent: name, pattern: "\\$LATEST|[0-9]+")
@@ -1830,8 +1882,10 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z]_?)+$")
@@ -1878,8 +1932,10 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nameContains?.forEach {}
             try self.validate(self.nameContains, name: "nameContains", parent: name, max: 100)
             try self.validate(self.nameContains, name: "nameContains", parent: name, min: 1)
             try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^([A-Za-z]_?)+$")
@@ -1922,9 +1978,11 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try self.version.forEach {}
             try self.validate(self.version, name: "version", parent: name, max: 64)
             try self.validate(self.version, name: "version", parent: name, min: 1)
             try self.validate(self.version, name: "version", parent: name, pattern: "\\$LATEST|[0-9]+")
@@ -2003,8 +2061,10 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z]_?)+$")
@@ -2051,8 +2111,10 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nameContains?.forEach {}
             try self.validate(self.nameContains, name: "nameContains", parent: name, max: 100)
             try self.validate(self.nameContains, name: "nameContains", parent: name, min: 1)
             try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^([A-Za-z]_?)+$")
@@ -2099,6 +2161,7 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.botName.forEach {}
             try self.validate(self.botName, name: "botName", parent: name, max: 50)
             try self.validate(self.botName, name: "botName", parent: name, min: 2)
             try self.validate(self.botName, name: "botName", parent: name, pattern: "^([A-Za-z]_?)+$")
@@ -2107,6 +2170,7 @@ extension LexModelBuildingService {
                 try validate($0, name: "botVersions[]", parent: name, min: 1)
                 try validate($0, name: "botVersions[]", parent: name, pattern: "\\$LATEST|[0-9]+")
             }
+            try self.botVersions.forEach {}
             try self.validate(self.botVersions, name: "botVersions", parent: name, max: 5)
             try self.validate(self.botVersions, name: "botVersions", parent: name, min: 1)
         }
@@ -2140,6 +2204,7 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z]_?)+$")
@@ -2162,9 +2227,11 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.intentName.forEach {}
             try self.validate(self.intentName, name: "intentName", parent: name, max: 100)
             try self.validate(self.intentName, name: "intentName", parent: name, min: 1)
             try self.validate(self.intentName, name: "intentName", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try self.intentVersion.forEach {}
             try self.validate(self.intentVersion, name: "intentVersion", parent: name, max: 64)
             try self.validate(self.intentVersion, name: "intentVersion", parent: name, min: 1)
             try self.validate(self.intentVersion, name: "intentVersion", parent: name, pattern: "\\$LATEST|[0-9]+")
@@ -2220,10 +2287,13 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.kendraIndex.forEach {}
             try self.validate(self.kendraIndex, name: "kendraIndex", parent: name, max: 2048)
             try self.validate(self.kendraIndex, name: "kendraIndex", parent: name, min: 20)
             try self.validate(self.kendraIndex, name: "kendraIndex", parent: name, pattern: "arn:aws:kendra:[a-z]+-[a-z]+-[0-9]:[0-9]{12}:index\\/[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.queryFilterString?.forEach {}
             try self.validate(self.queryFilterString, name: "queryFilterString", parent: name, min: 0)
+            try self.role.forEach {}
             try self.validate(self.role, name: "role", parent: name, max: 2048)
             try self.validate(self.role, name: "role", parent: name, min: 20)
             try self.validate(self.role, name: "role", parent: name, pattern: "arn:aws:iam::[0-9]{12}:role/.*")
@@ -2249,6 +2319,7 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
         }
@@ -2287,9 +2358,11 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.kmsKeyArn?.forEach {}
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 20)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:[\\w\\-]+:kms:[\\w\\-]+:[\\d]{12}:(?:key\\/[\\w\\-]+|alias\\/[a-zA-Z0-9:\\/_\\-]{1,256})$")
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[\\w\\-]+:(?:logs:[\\w\\-]+:[\\d]{12}:log-group:[\\.\\-_/#A-Za-z0-9]{1,512}(?::\\*)?|s3:::[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9])$")
@@ -2347,8 +2420,10 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.content.forEach {}
             try self.validate(self.content, name: "content", parent: name, max: 1000)
             try self.validate(self.content, name: "content", parent: name, min: 1)
+            try self.groupNumber?.forEach {}
             try self.validate(self.groupNumber, name: "groupNumber", parent: name, max: 5)
             try self.validate(self.groupNumber, name: "groupNumber", parent: name, min: 1)
         }
@@ -2375,11 +2450,14 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try self.timeToLiveInSeconds.forEach {}
             try self.validate(self.timeToLiveInSeconds, name: "timeToLiveInSeconds", parent: name, max: 86400)
             try self.validate(self.timeToLiveInSeconds, name: "timeToLiveInSeconds", parent: name, min: 5)
+            try self.turnsToLive.forEach {}
             try self.validate(self.turnsToLive, name: "turnsToLive", parent: name, max: 20)
             try self.validate(self.turnsToLive, name: "turnsToLive", parent: name, min: 1)
         }
@@ -2406,13 +2484,16 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.maxAttempts.forEach {}
             try self.validate(self.maxAttempts, name: "maxAttempts", parent: name, max: 5)
             try self.validate(self.maxAttempts, name: "maxAttempts", parent: name, min: 1)
             try self.messages.forEach {
                 try $0.validate(name: "\(name).messages[]")
             }
+            try self.messages.forEach {}
             try self.validate(self.messages, name: "messages", parent: name, max: 15)
             try self.validate(self.messages, name: "messages", parent: name, min: 1)
+            try self.responseCard?.forEach {}
             try self.validate(self.responseCard, name: "responseCard", parent: name, max: 50000)
             try self.validate(self.responseCard, name: "responseCard", parent: name, min: 1)
         }
@@ -2456,21 +2537,27 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.botName.forEach {}
             try self.validate(self.botName, name: "botName", parent: name, max: 50)
             try self.validate(self.botName, name: "botName", parent: name, min: 2)
             try self.validate(self.botName, name: "botName", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try self.botVersion.forEach {}
             try self.validate(self.botVersion, name: "botVersion", parent: name, max: 64)
             try self.validate(self.botVersion, name: "botVersion", parent: name, min: 1)
             try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "\\$LATEST|[0-9]+")
             try self.conversationLogs?.validate(name: "\(name).conversationLogs")
+            try self.conversationLogs?.forEach {}
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z]_?)+$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -2588,22 +2675,30 @@ extension LexModelBuildingService {
 
         public func validate(name: String) throws {
             try self.abortStatement?.validate(name: "\(name).abortStatement")
+            try self.abortStatement?.forEach {}
             try self.clarificationPrompt?.validate(name: "\(name).clarificationPrompt")
+            try self.clarificationPrompt?.forEach {}
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.idleSessionTTLInSeconds?.forEach {}
             try self.validate(self.idleSessionTTLInSeconds, name: "idleSessionTTLInSeconds", parent: name, max: 86400)
             try self.validate(self.idleSessionTTLInSeconds, name: "idleSessionTTLInSeconds", parent: name, min: 60)
             try self.intents?.forEach {
                 try $0.validate(name: "\(name).intents[]")
             }
+            try self.intents?.forEach {}
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 50)
             try self.validate(self.name, name: "name", parent: name, min: 2)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try self.nluIntentConfidenceThreshold?.forEach {}
             try self.validate(self.nluIntentConfidenceThreshold, name: "nluIntentConfidenceThreshold", parent: name, max: 1)
             try self.validate(self.nluIntentConfidenceThreshold, name: "nluIntentConfidenceThreshold", parent: name, min: 0)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -2775,36 +2870,49 @@ extension LexModelBuildingService {
 
         public func validate(name: String) throws {
             try self.conclusionStatement?.validate(name: "\(name).conclusionStatement")
+            try self.conclusionStatement?.forEach {}
             try self.confirmationPrompt?.validate(name: "\(name).confirmationPrompt")
+            try self.confirmationPrompt?.forEach {}
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.dialogCodeHook?.validate(name: "\(name).dialogCodeHook")
+            try self.dialogCodeHook?.forEach {}
             try self.followUpPrompt?.validate(name: "\(name).followUpPrompt")
+            try self.followUpPrompt?.forEach {}
             try self.fulfillmentActivity?.validate(name: "\(name).fulfillmentActivity")
+            try self.fulfillmentActivity?.forEach {}
             try self.inputContexts?.forEach {
                 try $0.validate(name: "\(name).inputContexts[]")
             }
+            try self.inputContexts?.forEach {}
             try self.validate(self.inputContexts, name: "inputContexts", parent: name, max: 5)
             try self.validate(self.inputContexts, name: "inputContexts", parent: name, min: 0)
             try self.kendraConfiguration?.validate(name: "\(name).kendraConfiguration")
+            try self.kendraConfiguration?.forEach {}
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z]_?)+$")
             try self.outputContexts?.forEach {
                 try $0.validate(name: "\(name).outputContexts[]")
             }
+            try self.outputContexts?.forEach {}
             try self.validate(self.outputContexts, name: "outputContexts", parent: name, max: 10)
             try self.validate(self.outputContexts, name: "outputContexts", parent: name, min: 0)
             try self.rejectionStatement?.validate(name: "\(name).rejectionStatement")
+            try self.rejectionStatement?.forEach {}
             try self.sampleUtterances?.forEach {
                 try validate($0, name: "sampleUtterances[]", parent: name, max: 200)
                 try validate($0, name: "sampleUtterances[]", parent: name, min: 1)
             }
+            try self.sampleUtterances?.forEach {}
             try self.validate(self.sampleUtterances, name: "sampleUtterances", parent: name, max: 1500)
             try self.validate(self.sampleUtterances, name: "sampleUtterances", parent: name, min: 0)
             try self.slots?.forEach {
                 try $0.validate(name: "\(name).slots[]")
             }
+            try self.slots?.forEach {}
             try self.validate(self.slots, name: "slots", parent: name, max: 100)
             try self.validate(self.slots, name: "slots", parent: name, min: 0)
         }
@@ -2947,22 +3055,27 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.enumerationValues?.forEach {
                 try $0.validate(name: "\(name).enumerationValues[]")
             }
+            try self.enumerationValues?.forEach {}
             try self.validate(self.enumerationValues, name: "enumerationValues", parent: name, max: 10000)
             try self.validate(self.enumerationValues, name: "enumerationValues", parent: name, min: 0)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try self.parentSlotTypeSignature?.forEach {}
             try self.validate(self.parentSlotTypeSignature, name: "parentSlotTypeSignature", parent: name, max: 100)
             try self.validate(self.parentSlotTypeSignature, name: "parentSlotTypeSignature", parent: name, min: 1)
             try self.validate(self.parentSlotTypeSignature, name: "parentSlotTypeSignature", parent: name, pattern: "^((AMAZON\\.)_?|[A-Za-z]_?)+")
             try self.slotTypeConfigurations?.forEach {
                 try $0.validate(name: "\(name).slotTypeConfigurations[]")
             }
+            try self.slotTypeConfigurations?.forEach {}
             try self.validate(self.slotTypeConfigurations, name: "slotTypeConfigurations", parent: name, max: 10)
             try self.validate(self.slotTypeConfigurations, name: "slotTypeConfigurations", parent: name, min: 0)
         }
@@ -3071,28 +3184,37 @@ extension LexModelBuildingService {
 
         public func validate(name: String) throws {
             try self.defaultValueSpec?.validate(name: "\(name).defaultValueSpec")
+            try self.defaultValueSpec?.forEach {}
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z](-|_|.)?)+$")
+            try self.priority?.forEach {}
             try self.validate(self.priority, name: "priority", parent: name, max: 100)
             try self.validate(self.priority, name: "priority", parent: name, min: 0)
+            try self.responseCard?.forEach {}
             try self.validate(self.responseCard, name: "responseCard", parent: name, max: 50000)
             try self.validate(self.responseCard, name: "responseCard", parent: name, min: 1)
             try self.sampleUtterances?.forEach {
                 try validate($0, name: "sampleUtterances[]", parent: name, max: 200)
                 try validate($0, name: "sampleUtterances[]", parent: name, min: 1)
             }
+            try self.sampleUtterances?.forEach {}
             try self.validate(self.sampleUtterances, name: "sampleUtterances", parent: name, max: 10)
             try self.validate(self.sampleUtterances, name: "sampleUtterances", parent: name, min: 0)
+            try self.slotType?.forEach {}
             try self.validate(self.slotType, name: "slotType", parent: name, max: 100)
             try self.validate(self.slotType, name: "slotType", parent: name, min: 1)
             try self.validate(self.slotType, name: "slotType", parent: name, pattern: "^((AMAZON\\.)_?|[A-Za-z]_?)+")
+            try self.slotTypeVersion?.forEach {}
             try self.validate(self.slotTypeVersion, name: "slotTypeVersion", parent: name, max: 64)
             try self.validate(self.slotTypeVersion, name: "slotTypeVersion", parent: name, min: 1)
             try self.validate(self.slotTypeVersion, name: "slotTypeVersion", parent: name, pattern: "\\$LATEST|[0-9]+")
             try self.valueElicitationPrompt?.validate(name: "\(name).valueElicitationPrompt")
+            try self.valueElicitationPrompt?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3119,6 +3241,7 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.defaultValue.forEach {}
             try self.validate(self.defaultValue, name: "defaultValue", parent: name, max: 202)
             try self.validate(self.defaultValue, name: "defaultValue", parent: name, min: 1)
         }
@@ -3140,6 +3263,7 @@ extension LexModelBuildingService {
             try self.defaultValueList.forEach {
                 try $0.validate(name: "\(name).defaultValueList[]")
             }
+            try self.defaultValueList.forEach {}
             try self.validate(self.defaultValueList, name: "defaultValueList", parent: name, max: 10)
             try self.validate(self.defaultValueList, name: "defaultValueList", parent: name, min: 0)
         }
@@ -3159,6 +3283,7 @@ extension LexModelBuildingService {
 
         public func validate(name: String) throws {
             try self.regexConfiguration?.validate(name: "\(name).regexConfiguration")
+            try self.regexConfiguration?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3204,6 +3329,7 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.pattern.forEach {}
             try self.validate(self.pattern, name: "pattern", parent: name, max: 100)
             try self.validate(self.pattern, name: "pattern", parent: name, min: 1)
         }
@@ -3234,6 +3360,7 @@ extension LexModelBuildingService {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -3298,8 +3425,10 @@ extension LexModelBuildingService {
             try self.messages.forEach {
                 try $0.validate(name: "\(name).messages[]")
             }
+            try self.messages.forEach {}
             try self.validate(self.messages, name: "messages", parent: name, max: 15)
             try self.validate(self.messages, name: "messages", parent: name, min: 1)
+            try self.responseCard?.forEach {}
             try self.validate(self.responseCard, name: "responseCard", parent: name, max: 50000)
             try self.validate(self.responseCard, name: "responseCard", parent: name, min: 1)
         }
@@ -3322,8 +3451,10 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
         }
@@ -3350,11 +3481,13 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -3385,12 +3518,14 @@ extension LexModelBuildingService {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
         }

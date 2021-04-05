@@ -199,6 +199,7 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.environmentName?.forEach {}
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 40)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 4)
         }
@@ -493,8 +494,10 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.environmentName.forEach {}
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 40)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 4)
+            try self.operationsRole.forEach {}
             try self.validate(self.operationsRole, name: "operationsRole", parent: name, max: 256)
             try self.validate(self.operationsRole, name: "operationsRole", parent: name, min: 1)
         }
@@ -539,7 +542,9 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.codeBuildServiceRole.forEach {}
             try self.validate(self.codeBuildServiceRole, name: "codeBuildServiceRole", parent: name, pattern: ".*\\S.*")
+            try self.image.forEach {}
             try self.validate(self.image, name: "image", parent: name, pattern: ".*\\S.*")
         }
 
@@ -615,6 +620,7 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.cNAMEPrefix.forEach {}
             try self.validate(self.cNAMEPrefix, name: "cNAMEPrefix", parent: name, max: 63)
             try self.validate(self.cNAMEPrefix, name: "cNAMEPrefix", parent: name, min: 4)
         }
@@ -657,14 +663,17 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.applicationName?.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.groupName?.forEach {}
             try self.validate(self.groupName, name: "groupName", parent: name, max: 19)
             try self.validate(self.groupName, name: "groupName", parent: name, min: 1)
             try self.versionLabels?.forEach {
                 try validate($0, name: "versionLabels[]", parent: name, max: 100)
                 try validate($0, name: "versionLabels[]", parent: name, min: 1)
             }
+            try self.versionLabels?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -746,6 +755,7 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.resourceName?.forEach {}
             try self.validate(self.resourceName, name: "resourceName", parent: name, max: 256)
             try self.validate(self.resourceName, name: "resourceName", parent: name, min: 1)
         }
@@ -877,12 +887,15 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -927,15 +940,22 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
             try self.buildConfiguration?.validate(name: "\(name).buildConfiguration")
+            try self.buildConfiguration?.forEach {}
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.sourceBuildInformation?.validate(name: "\(name).sourceBuildInformation")
+            try self.sourceBuildInformation?.forEach {}
             try self.sourceBundle?.validate(name: "\(name).sourceBundle")
+            try self.sourceBundle?.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
+            try self.versionLabel.forEach {}
             try self.validate(self.versionLabel, name: "versionLabel", parent: name, max: 100)
             try self.validate(self.versionLabel, name: "versionLabel", parent: name, min: 1)
         }
@@ -988,16 +1008,22 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.optionSettings?.forEach {
                 try $0.validate(name: "\(name).optionSettings[]")
             }
+            try self.optionSettings?.forEach {}
             try self.sourceConfiguration?.validate(name: "\(name).sourceConfiguration")
+            try self.sourceConfiguration?.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
+            try self.templateName.forEach {}
             try self.validate(self.templateName, name: "templateName", parent: name, max: 100)
             try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
         }
@@ -1066,28 +1092,39 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.cNAMEPrefix?.forEach {}
             try self.validate(self.cNAMEPrefix, name: "cNAMEPrefix", parent: name, max: 63)
             try self.validate(self.cNAMEPrefix, name: "cNAMEPrefix", parent: name, min: 4)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.environmentName?.forEach {}
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 40)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 4)
+            try self.groupName?.forEach {}
             try self.validate(self.groupName, name: "groupName", parent: name, max: 19)
             try self.validate(self.groupName, name: "groupName", parent: name, min: 1)
+            try self.operationsRole?.forEach {}
             try self.validate(self.operationsRole, name: "operationsRole", parent: name, max: 256)
             try self.validate(self.operationsRole, name: "operationsRole", parent: name, min: 1)
             try self.optionSettings?.forEach {
                 try $0.validate(name: "\(name).optionSettings[]")
             }
+            try self.optionSettings?.forEach {}
             try self.optionsToRemove?.forEach {
                 try $0.validate(name: "\(name).optionsToRemove[]")
             }
+            try self.optionsToRemove?.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
+            try self.templateName?.forEach {}
             try self.validate(self.templateName, name: "templateName", parent: name, max: 100)
             try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
+            try self.versionLabel?.forEach {}
             try self.validate(self.versionLabel, name: "versionLabel", parent: name, max: 100)
             try self.validate(self.versionLabel, name: "versionLabel", parent: name, min: 1)
         }
@@ -1136,15 +1173,19 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.environmentName?.forEach {}
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 40)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 4)
             try self.optionSettings?.forEach {
                 try $0.validate(name: "\(name).optionSettings[]")
             }
+            try self.optionSettings?.forEach {}
             try self.platformDefinitionBundle.validate(name: "\(name).platformDefinitionBundle")
+            try self.platformDefinitionBundle.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1216,6 +1257,7 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
         }
@@ -1241,8 +1283,10 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.versionLabel.forEach {}
             try self.validate(self.versionLabel, name: "versionLabel", parent: name, max: 100)
             try self.validate(self.versionLabel, name: "versionLabel", parent: name, min: 1)
         }
@@ -1266,8 +1310,10 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.templateName.forEach {}
             try self.validate(self.templateName, name: "templateName", parent: name, max: 100)
             try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
         }
@@ -1290,8 +1336,10 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.environmentName.forEach {}
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 40)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 4)
         }
@@ -1385,14 +1433,17 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.applicationName?.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.maxRecords?.forEach {}
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, max: 1000)
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, min: 1)
             try self.versionLabels?.forEach {
                 try validate($0, name: "versionLabels[]", parent: name, max: 100)
                 try validate($0, name: "versionLabels[]", parent: name, min: 1)
             }
+            try self.versionLabels?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1417,6 +1468,7 @@ extension ElasticBeanstalk {
                 try validate($0, name: "applicationNames[]", parent: name, max: 100)
                 try validate($0, name: "applicationNames[]", parent: name, min: 1)
             }
+            try self.applicationNames?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1449,13 +1501,17 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.applicationName?.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.environmentName?.forEach {}
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 40)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 4)
             try self.options?.forEach {
                 try $0.validate(name: "\(name).options[]")
             }
+            try self.options?.forEach {}
+            try self.templateName?.forEach {}
             try self.validate(self.templateName, name: "templateName", parent: name, max: 100)
             try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
         }
@@ -1485,10 +1541,13 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.environmentName?.forEach {}
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 40)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 4)
+            try self.templateName?.forEach {}
             try self.validate(self.templateName, name: "templateName", parent: name, max: 100)
             try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
         }
@@ -1516,6 +1575,7 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.environmentName?.forEach {}
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 40)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 4)
         }
@@ -1587,8 +1647,10 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.environmentName?.forEach {}
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 40)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 4)
+            try self.maxItems?.forEach {}
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 100)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
         }
@@ -1666,6 +1728,7 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.environmentName?.forEach {}
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 40)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 4)
         }
@@ -1708,14 +1771,18 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.applicationName?.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
             try self.environmentNames?.forEach {
                 try validate($0, name: "environmentNames[]", parent: name, max: 40)
                 try validate($0, name: "environmentNames[]", parent: name, min: 4)
             }
+            try self.environmentNames?.forEach {}
+            try self.maxRecords?.forEach {}
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, max: 1000)
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, min: 1)
+            try self.versionLabel?.forEach {}
             try self.validate(self.versionLabel, name: "versionLabel", parent: name, max: 100)
             try self.validate(self.versionLabel, name: "versionLabel", parent: name, min: 1)
         }
@@ -1774,14 +1841,19 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.applicationName?.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.environmentName?.forEach {}
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 40)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 4)
+            try self.maxRecords?.forEach {}
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, max: 1000)
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, min: 1)
+            try self.templateName?.forEach {}
             try self.validate(self.templateName, name: "templateName", parent: name, max: 100)
             try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
+            try self.versionLabel?.forEach {}
             try self.validate(self.versionLabel, name: "versionLabel", parent: name, max: 100)
             try self.validate(self.versionLabel, name: "versionLabel", parent: name, min: 1)
         }
@@ -1821,8 +1893,10 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.environmentName?.forEach {}
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 40)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 4)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 100)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1892,6 +1966,7 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.environmentName.forEach {}
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 40)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 4)
         }
@@ -2369,6 +2444,7 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.maxRecords?.forEach {}
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, min: 1)
         }
 
@@ -2413,6 +2489,7 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.maxRecords?.forEach {}
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, min: 1)
         }
 
@@ -2650,6 +2727,7 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.resourceName?.forEach {}
             try self.validate(self.resourceName, name: "resourceName", parent: name, max: 256)
             try self.validate(self.resourceName, name: "resourceName", parent: name, min: 1)
         }
@@ -2933,6 +3011,7 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.environmentName?.forEach {}
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 40)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 4)
         }
@@ -2958,6 +3037,7 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.environmentName?.forEach {}
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 40)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 4)
         }
@@ -3041,6 +3121,7 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.environmentName?.forEach {}
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 40)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 4)
         }
@@ -3066,6 +3147,7 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.environmentName?.forEach {}
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 40)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 4)
         }
@@ -3103,7 +3185,9 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.s3Bucket?.forEach {}
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, max: 255)
+            try self.s3Key?.forEach {}
             try self.validate(self.s3Key, name: "s3Key", parent: name, max: 1024)
         }
 
@@ -3218,6 +3302,7 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.sourceLocation.forEach {}
             try self.validate(self.sourceLocation, name: "sourceLocation", parent: name, max: 255)
             try self.validate(self.sourceLocation, name: "sourceLocation", parent: name, min: 3)
             try self.validate(self.sourceLocation, name: "sourceLocation", parent: name, pattern: ".+/.+")
@@ -3242,8 +3327,10 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.applicationName?.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.templateName?.forEach {}
             try self.validate(self.templateName, name: "templateName", parent: name, max: 100)
             try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
         }
@@ -3297,8 +3384,10 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.destinationEnvironmentName?.forEach {}
             try self.validate(self.destinationEnvironmentName, name: "destinationEnvironmentName", parent: name, max: 40)
             try self.validate(self.destinationEnvironmentName, name: "destinationEnvironmentName", parent: name, min: 4)
+            try self.sourceEnvironmentName?.forEach {}
             try self.validate(self.sourceEnvironmentName, name: "sourceEnvironmentName", parent: name, max: 40)
             try self.validate(self.sourceEnvironmentName, name: "sourceEnvironmentName", parent: name, min: 4)
         }
@@ -3341,8 +3430,10 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 1)
         }
@@ -3371,6 +3462,7 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.environmentName?.forEach {}
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 40)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 4)
         }
@@ -3408,8 +3500,10 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 200)
         }
 
@@ -3431,6 +3525,7 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
         }
@@ -3456,9 +3551,12 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.versionLabel.forEach {}
             try self.validate(self.versionLabel, name: "versionLabel", parent: name, max: 100)
             try self.validate(self.versionLabel, name: "versionLabel", parent: name, min: 1)
         }
@@ -3493,15 +3591,20 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.optionSettings?.forEach {
                 try $0.validate(name: "\(name).optionSettings[]")
             }
+            try self.optionSettings?.forEach {}
             try self.optionsToRemove?.forEach {
                 try $0.validate(name: "\(name).optionsToRemove[]")
             }
+            try self.optionsToRemove?.forEach {}
+            try self.templateName.forEach {}
             try self.validate(self.templateName, name: "templateName", parent: name, max: 100)
             try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
         }
@@ -3559,21 +3662,29 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.applicationName?.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.environmentName?.forEach {}
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 40)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 4)
+            try self.groupName?.forEach {}
             try self.validate(self.groupName, name: "groupName", parent: name, max: 19)
             try self.validate(self.groupName, name: "groupName", parent: name, min: 1)
             try self.optionSettings?.forEach {
                 try $0.validate(name: "\(name).optionSettings[]")
             }
+            try self.optionSettings?.forEach {}
             try self.optionsToRemove?.forEach {
                 try $0.validate(name: "\(name).optionsToRemove[]")
             }
+            try self.optionsToRemove?.forEach {}
+            try self.templateName?.forEach {}
             try self.validate(self.templateName, name: "templateName", parent: name, max: 100)
             try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
+            try self.versionLabel?.forEach {}
             try self.validate(self.versionLabel, name: "versionLabel", parent: name, max: 100)
             try self.validate(self.versionLabel, name: "versionLabel", parent: name, min: 1)
         }
@@ -3614,10 +3725,12 @@ extension ElasticBeanstalk {
             try self.tagsToAdd?.forEach {
                 try $0.validate(name: "\(name).tagsToAdd[]")
             }
+            try self.tagsToAdd?.forEach {}
             try self.tagsToRemove?.forEach {
                 try validate($0, name: "tagsToRemove[]", parent: name, max: 128)
                 try validate($0, name: "tagsToRemove[]", parent: name, min: 1)
             }
+            try self.tagsToRemove?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3646,13 +3759,17 @@ extension ElasticBeanstalk {
         }
 
         public func validate(name: String) throws {
+            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.environmentName?.forEach {}
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 40)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 4)
             try self.optionSettings.forEach {
                 try $0.validate(name: "\(name).optionSettings[]")
             }
+            try self.optionSettings.forEach {}
+            try self.templateName?.forEach {}
             try self.validate(self.templateName, name: "templateName", parent: name, max: 100)
             try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
         }

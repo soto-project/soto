@@ -217,6 +217,7 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
+            try self.actionThresholdValue.forEach {}
             try self.validate(self.actionThresholdValue, name: "actionThresholdValue", parent: name, max: 40_000_000_000)
             try self.validate(self.actionThresholdValue, name: "actionThresholdValue", parent: name, min: 0)
         }
@@ -264,10 +265,13 @@ extension Budgets {
 
         public func validate(name: String) throws {
             try self.budgetLimit?.validate(name: "\(name).budgetLimit")
+            try self.budgetLimit?.forEach {}
+            try self.budgetName.forEach {}
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
             try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "[^:\\\\]+")
             try self.calculatedSpend?.validate(name: "\(name).calculatedSpend")
+            try self.calculatedSpend?.forEach {}
             try self.costFilters?.forEach {
                 try validate($0.key, name: "costFilters.key", parent: name, max: 2_147_483_647)
                 try validate($0.key, name: "costFilters.key", parent: name, min: 0)
@@ -359,7 +363,9 @@ extension Budgets {
 
         public func validate(name: String) throws {
             try self.actualSpend.validate(name: "\(name).actualSpend")
+            try self.actualSpend.forEach {}
             try self.forecastedSpend?.validate(name: "\(name).forecastedSpend")
+            try self.forecastedSpend?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -448,20 +454,26 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "\\d{12}")
             try self.actionThreshold.validate(name: "\(name).actionThreshold")
+            try self.actionThreshold.forEach {}
+            try self.budgetName.forEach {}
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
             try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "[^:\\\\]+")
             try self.definition.validate(name: "\(name).definition")
+            try self.definition.forEach {}
+            try self.executionRoleArn.forEach {}
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 618)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 32)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|us-iso-east-1|us-isob-east-1):iam::\\d{12}:role(\\u002F[\\u0021-\\u007F]+\\u002F|\\u002F)[\\w+=,.@-]+$")
             try self.subscribers.forEach {
                 try $0.validate(name: "\(name).subscribers[]")
             }
+            try self.subscribers.forEach {}
             try self.validate(self.subscribers, name: "subscribers", parent: name, max: 11)
             try self.validate(self.subscribers, name: "subscribers", parent: name, min: 1)
         }
@@ -513,13 +525,16 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "\\d{12}")
             try self.budget.validate(name: "\(name).budget")
+            try self.budget.forEach {}
             try self.notificationsWithSubscribers?.forEach {
                 try $0.validate(name: "\(name).notificationsWithSubscribers[]")
             }
+            try self.notificationsWithSubscribers?.forEach {}
             try self.validate(self.notificationsWithSubscribers, name: "notificationsWithSubscribers", parent: name, max: 10)
         }
 
@@ -552,16 +567,20 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "\\d{12}")
+            try self.budgetName.forEach {}
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
             try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "[^:\\\\]+")
             try self.notification.validate(name: "\(name).notification")
+            try self.notification.forEach {}
             try self.subscribers.forEach {
                 try $0.validate(name: "\(name).subscribers[]")
             }
+            try self.subscribers.forEach {}
             try self.validate(self.subscribers, name: "subscribers", parent: name, max: 11)
             try self.validate(self.subscribers, name: "subscribers", parent: name, min: 1)
         }
@@ -596,14 +615,18 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "\\d{12}")
+            try self.budgetName.forEach {}
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
             try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "[^:\\\\]+")
             try self.notification.validate(name: "\(name).notification")
+            try self.notification.forEach {}
             try self.subscriber.validate(name: "\(name).subscriber")
+            try self.subscriber.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -634,8 +657,11 @@ extension Budgets {
 
         public func validate(name: String) throws {
             try self.iamActionDefinition?.validate(name: "\(name).iamActionDefinition")
+            try self.iamActionDefinition?.forEach {}
             try self.scpActionDefinition?.validate(name: "\(name).scpActionDefinition")
+            try self.scpActionDefinition?.forEach {}
             try self.ssmActionDefinition?.validate(name: "\(name).ssmActionDefinition")
+            try self.ssmActionDefinition?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -658,12 +684,15 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "\\d{12}")
+            try self.actionId.forEach {}
             try self.validate(self.actionId, name: "actionId", parent: name, max: 36)
             try self.validate(self.actionId, name: "actionId", parent: name, min: 36)
             try self.validate(self.actionId, name: "actionId", parent: name, pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$")
+            try self.budgetName.forEach {}
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
             try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "[^:\\\\]+")
@@ -706,9 +735,11 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "\\d{12}")
+            try self.budgetName.forEach {}
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
             try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "[^:\\\\]+")
@@ -739,13 +770,16 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "\\d{12}")
+            try self.budgetName.forEach {}
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
             try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "[^:\\\\]+")
             try self.notification.validate(name: "\(name).notification")
+            try self.notification.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -777,14 +811,18 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "\\d{12}")
+            try self.budgetName.forEach {}
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
             try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "[^:\\\\]+")
             try self.notification.validate(name: "\(name).notification")
+            try self.notification.forEach {}
             try self.subscriber.validate(name: "\(name).subscriber")
+            try self.subscriber.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -818,17 +856,22 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "\\d{12}")
+            try self.actionId.forEach {}
             try self.validate(self.actionId, name: "actionId", parent: name, max: 36)
             try self.validate(self.actionId, name: "actionId", parent: name, min: 36)
             try self.validate(self.actionId, name: "actionId", parent: name, pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$")
+            try self.budgetName.forEach {}
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
             try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "[^:\\\\]+")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2_147_483_647)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
@@ -873,12 +916,15 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "\\d{12}")
+            try self.actionId.forEach {}
             try self.validate(self.actionId, name: "actionId", parent: name, max: 36)
             try self.validate(self.actionId, name: "actionId", parent: name, min: 36)
             try self.validate(self.actionId, name: "actionId", parent: name, pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$")
+            try self.budgetName.forEach {}
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
             try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "[^:\\\\]+")
@@ -922,11 +968,14 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "\\d{12}")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2_147_483_647)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
@@ -969,14 +1018,18 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "\\d{12}")
+            try self.budgetName.forEach {}
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
             try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "[^:\\\\]+")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2_147_483_647)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
@@ -1023,14 +1076,18 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "\\d{12}")
+            try self.budgetName.forEach {}
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
             try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "[^:\\\\]+")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2_147_483_647)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
@@ -1073,9 +1130,11 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "\\d{12}")
+            try self.budgetName.forEach {}
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
             try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "[^:\\\\]+")
@@ -1115,11 +1174,14 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "\\d{12}")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2_147_483_647)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
@@ -1167,14 +1229,18 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "\\d{12}")
+            try self.budgetName.forEach {}
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
             try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "[^:\\\\]+")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2_147_483_647)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
@@ -1226,18 +1292,23 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "\\d{12}")
+            try self.budgetName.forEach {}
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
             try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "[^:\\\\]+")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2_147_483_647)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
             try self.notification.validate(name: "\(name).notification")
+            try self.notification.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1282,12 +1353,15 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "\\d{12}")
+            try self.actionId.forEach {}
             try self.validate(self.actionId, name: "actionId", parent: name, max: 36)
             try self.validate(self.actionId, name: "actionId", parent: name, min: 36)
             try self.validate(self.actionId, name: "actionId", parent: name, pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$")
+            try self.budgetName.forEach {}
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
             try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "[^:\\\\]+")
@@ -1347,8 +1421,10 @@ extension Budgets {
                 try validate($0, name: "groups[]", parent: name, min: 1)
                 try validate($0, name: "groups[]", parent: name, pattern: "^([\\u0021-\\u007F]+\\u002F)?[\\w+=,.@-]+$")
             }
+            try self.groups?.forEach {}
             try self.validate(self.groups, name: "groups", parent: name, max: 100)
             try self.validate(self.groups, name: "groups", parent: name, min: 1)
+            try self.policyArn.forEach {}
             try self.validate(self.policyArn, name: "policyArn", parent: name, max: 684)
             try self.validate(self.policyArn, name: "policyArn", parent: name, min: 25)
             try self.validate(self.policyArn, name: "policyArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|us-iso-east-1|us-isob-east-1):iam::(\\d{12}|aws):policy(\\u002F[\\u0021-\\u007F]+\\u002F|\\u002F)[\\w+=,.@-]+$")
@@ -1357,6 +1433,7 @@ extension Budgets {
                 try validate($0, name: "roles[]", parent: name, min: 1)
                 try validate($0, name: "roles[]", parent: name, pattern: "^([\\u0021-\\u007F]+\\u002F)?[\\w+=,.@-]+$")
             }
+            try self.roles?.forEach {}
             try self.validate(self.roles, name: "roles", parent: name, max: 100)
             try self.validate(self.roles, name: "roles", parent: name, min: 1)
             try self.users?.forEach {
@@ -1364,6 +1441,7 @@ extension Budgets {
                 try validate($0, name: "users[]", parent: name, min: 1)
                 try validate($0, name: "users[]", parent: name, pattern: "^([\\u0021-\\u007F]+\\u002F)?[\\w+=,.@-]+$")
             }
+            try self.users?.forEach {}
             try self.validate(self.users, name: "users", parent: name, max: 100)
             try self.validate(self.users, name: "users", parent: name, min: 1)
         }
@@ -1397,6 +1475,7 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
+            try self.threshold.forEach {}
             try self.validate(self.threshold, name: "threshold", parent: name, max: 40_000_000_000)
             try self.validate(self.threshold, name: "threshold", parent: name, min: 0)
         }
@@ -1423,9 +1502,11 @@ extension Budgets {
 
         public func validate(name: String) throws {
             try self.notification.validate(name: "\(name).notification")
+            try self.notification.forEach {}
             try self.subscribers.forEach {
                 try $0.validate(name: "\(name).subscribers[]")
             }
+            try self.subscribers.forEach {}
             try self.validate(self.subscribers, name: "subscribers", parent: name, max: 11)
             try self.validate(self.subscribers, name: "subscribers", parent: name, min: 1)
         }
@@ -1448,6 +1529,7 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
+            try self.policyId.forEach {}
             try self.validate(self.policyId, name: "policyId", parent: name, max: 130)
             try self.validate(self.policyId, name: "policyId", parent: name, min: 10)
             try self.validate(self.policyId, name: "policyId", parent: name, pattern: "^p-[0-9a-zA-Z_]{8,128}$")
@@ -1456,6 +1538,7 @@ extension Budgets {
                 try validate($0, name: "targetIds[]", parent: name, min: 12)
                 try validate($0, name: "targetIds[]", parent: name, pattern: "^(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$)|(\\d{12})")
             }
+            try self.targetIds.forEach {}
             try self.validate(self.targetIds, name: "targetIds", parent: name, max: 100)
             try self.validate(self.targetIds, name: "targetIds", parent: name, min: 1)
         }
@@ -1478,9 +1561,11 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
+            try self.amount.forEach {}
             try self.validate(self.amount, name: "amount", parent: name, max: 2_147_483_647)
             try self.validate(self.amount, name: "amount", parent: name, min: 1)
             try self.validate(self.amount, name: "amount", parent: name, pattern: "([0-9]*\\.)?[0-9]+")
+            try self.unit.forEach {}
             try self.validate(self.unit, name: "unit", parent: name, max: 2_147_483_647)
             try self.validate(self.unit, name: "unit", parent: name, min: 1)
             try self.validate(self.unit, name: "unit", parent: name, pattern: ".*")
@@ -1512,8 +1597,10 @@ extension Budgets {
                 try validate($0, name: "instanceIds[]", parent: name, min: 1)
                 try validate($0, name: "instanceIds[]", parent: name, pattern: "^i-(\\w{8}|\\w{17})$|^[a-zA-Z]([\\w-]{0,61}\\w)?$")
             }
+            try self.instanceIds.forEach {}
             try self.validate(self.instanceIds, name: "instanceIds", parent: name, max: 100)
             try self.validate(self.instanceIds, name: "instanceIds", parent: name, min: 1)
+            try self.region.forEach {}
             try self.validate(self.region, name: "region", parent: name, max: 20)
             try self.validate(self.region, name: "region", parent: name, min: 9)
             try self.validate(self.region, name: "region", parent: name, pattern: "^\\w{2}-\\w+(-\\w+)?-\\d$")
@@ -1538,6 +1625,7 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
+            try self.address.forEach {}
             try self.validate(self.address, name: "address", parent: name, max: 2_147_483_647)
             try self.validate(self.address, name: "address", parent: name, min: 1)
             try self.validate(self.address, name: "address", parent: name, pattern: "(.*[\\n\\r\\t\\f\\ ]?)*")
@@ -1593,23 +1681,30 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "\\d{12}")
+            try self.actionId.forEach {}
             try self.validate(self.actionId, name: "actionId", parent: name, max: 36)
             try self.validate(self.actionId, name: "actionId", parent: name, min: 36)
             try self.validate(self.actionId, name: "actionId", parent: name, pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$")
             try self.actionThreshold?.validate(name: "\(name).actionThreshold")
+            try self.actionThreshold?.forEach {}
+            try self.budgetName.forEach {}
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
             try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "[^:\\\\]+")
             try self.definition?.validate(name: "\(name).definition")
+            try self.definition?.forEach {}
+            try self.executionRoleArn?.forEach {}
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 618)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 32)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|us-iso-east-1|us-isob-east-1):iam::\\d{12}:role(\\u002F[\\u0021-\\u007F]+\\u002F|\\u002F)[\\w+=,.@-]+$")
             try self.subscribers?.forEach {
                 try $0.validate(name: "\(name).subscribers[]")
             }
+            try self.subscribers?.forEach {}
             try self.validate(self.subscribers, name: "subscribers", parent: name, max: 11)
             try self.validate(self.subscribers, name: "subscribers", parent: name, min: 1)
         }
@@ -1662,10 +1757,12 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "\\d{12}")
             try self.newBudget.validate(name: "\(name).newBudget")
+            try self.newBudget.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1696,14 +1793,18 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "\\d{12}")
+            try self.budgetName.forEach {}
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
             try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "[^:\\\\]+")
             try self.newNotification.validate(name: "\(name).newNotification")
+            try self.newNotification.forEach {}
             try self.oldNotification.validate(name: "\(name).oldNotification")
+            try self.oldNotification.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1739,15 +1840,20 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "\\d{12}")
+            try self.budgetName.forEach {}
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
             try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "[^:\\\\]+")
             try self.newSubscriber.validate(name: "\(name).newSubscriber")
+            try self.newSubscriber.forEach {}
             try self.notification.validate(name: "\(name).notification")
+            try self.notification.forEach {}
             try self.oldSubscriber.validate(name: "\(name).oldSubscriber")
+            try self.oldSubscriber.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {

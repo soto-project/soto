@@ -96,6 +96,7 @@ extension ElasticLoadBalancing {
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
@@ -121,8 +122,10 @@ extension ElasticLoadBalancing {
         }
 
         public func validate(name: String) throws {
+            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 256)
             try self.validate(self.key, name: "key", parent: name, pattern: "^[a-zA-Z0-9.]+$")
+            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, pattern: "^[a-zA-Z0-9.]+$")
         }
@@ -245,6 +248,7 @@ extension ElasticLoadBalancing {
 
         public func validate(name: String) throws {
             try self.healthCheck.validate(name: "\(name).healthCheck")
+            try self.healthCheck.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -292,6 +296,7 @@ extension ElasticLoadBalancing {
         }
 
         public func validate(name: String) throws {
+            try self.idleTimeout.forEach {}
             try self.validate(self.idleTimeout, name: "idleTimeout", parent: name, max: 3600)
             try self.validate(self.idleTimeout, name: "idleTimeout", parent: name, min: 1)
         }
@@ -336,9 +341,11 @@ extension ElasticLoadBalancing {
             try self.listeners.forEach {
                 try $0.validate(name: "\(name).listeners[]")
             }
+            try self.listeners.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
@@ -432,6 +439,7 @@ extension ElasticLoadBalancing {
             try self.listeners.forEach {
                 try $0.validate(name: "\(name).listeners[]")
             }
+            try self.listeners.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -595,6 +603,7 @@ extension ElasticLoadBalancing {
         }
 
         public func validate(name: String) throws {
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 400)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 1)
         }
@@ -636,6 +645,7 @@ extension ElasticLoadBalancing {
         }
 
         public func validate(name: String) throws {
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 400)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 1)
         }
@@ -792,6 +802,7 @@ extension ElasticLoadBalancing {
         }
 
         public func validate(name: String) throws {
+            try self.loadBalancerNames.forEach {}
             try self.validate(self.loadBalancerNames, name: "loadBalancerNames", parent: name, max: 20)
             try self.validate(self.loadBalancerNames, name: "loadBalancerNames", parent: name, min: 1)
         }
@@ -868,12 +879,16 @@ extension ElasticLoadBalancing {
         }
 
         public func validate(name: String) throws {
+            try self.healthyThreshold.forEach {}
             try self.validate(self.healthyThreshold, name: "healthyThreshold", parent: name, max: 10)
             try self.validate(self.healthyThreshold, name: "healthyThreshold", parent: name, min: 2)
+            try self.interval.forEach {}
             try self.validate(self.interval, name: "interval", parent: name, max: 300)
             try self.validate(self.interval, name: "interval", parent: name, min: 5)
+            try self.timeout.forEach {}
             try self.validate(self.timeout, name: "timeout", parent: name, max: 60)
             try self.validate(self.timeout, name: "timeout", parent: name, min: 2)
+            try self.unhealthyThreshold.forEach {}
             try self.validate(self.unhealthyThreshold, name: "unhealthyThreshold", parent: name, max: 10)
             try self.validate(self.unhealthyThreshold, name: "unhealthyThreshold", parent: name, min: 2)
         }
@@ -980,6 +995,7 @@ extension ElasticLoadBalancing {
         }
 
         public func validate(name: String) throws {
+            try self.instancePort.forEach {}
             try self.validate(self.instancePort, name: "instancePort", parent: name, max: 65535)
             try self.validate(self.instancePort, name: "instancePort", parent: name, min: 1)
         }
@@ -1036,8 +1052,10 @@ extension ElasticLoadBalancing {
             try self.additionalAttributes?.forEach {
                 try $0.validate(name: "\(name).additionalAttributes[]")
             }
+            try self.additionalAttributes?.forEach {}
             try self.validate(self.additionalAttributes, name: "additionalAttributes", parent: name, max: 10)
             try self.connectionSettings?.validate(name: "\(name).connectionSettings")
+            try self.connectionSettings?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1141,6 +1159,7 @@ extension ElasticLoadBalancing {
 
         public func validate(name: String) throws {
             try self.loadBalancerAttributes.validate(name: "\(name).loadBalancerAttributes")
+            try self.loadBalancerAttributes.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1378,6 +1397,7 @@ extension ElasticLoadBalancing {
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
@@ -1497,9 +1517,11 @@ extension ElasticLoadBalancing {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
             try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -1538,6 +1560,7 @@ extension ElasticLoadBalancing {
         }
 
         public func validate(name: String) throws {
+            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")

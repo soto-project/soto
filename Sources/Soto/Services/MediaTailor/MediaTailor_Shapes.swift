@@ -20,6 +20,22 @@ import SotoCore
 extension MediaTailor {
     // MARK: Enums
 
+    public enum AccessType: String, CustomStringConvertible, Codable {
+        case s3Sigv4 = "S3_SIGV4"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChannelState: String, CustomStringConvertible, Codable {
+        case running = "RUNNING"
+        case stopped = "STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MessageType: String, CustomStringConvertible, Codable {
+        case spliceInsert = "SPLICE_INSERT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Mode: String, CustomStringConvertible, Codable {
         case behindLiveEdge = "BEHIND_LIVE_EDGE"
         case off = "OFF"
@@ -32,9 +48,65 @@ extension MediaTailor {
         public var description: String { return self.rawValue }
     }
 
+    public enum PlaybackMode: String, CustomStringConvertible, Codable {
+        case loop = "LOOP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RelativePosition: String, CustomStringConvertible, Codable {
+        case afterProgram = "AFTER_PROGRAM"
+        case beforeProgram = "BEFORE_PROGRAM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum `Type`: String, CustomStringConvertible, Codable {
+        case dash = "DASH"
+        case hls = "HLS"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
+    public struct AccessConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The type of authentication used to access content from HttpConfiguration::BaseUrl on your source location. Accepted value: S3_SIGV4. S3_SIGV4 - AWS Signature Version 4 authentication for Amazon S3 hosted virtual-style access. If your source location base URL is an Amazon S3 bucket, MediaTailor can use AWS Signature Version 4 (SigV4) authentication to access the bucket where your source content is stored. Your MediaTailor source location baseURL must follow the S3 virtual hosted-style request URL format. For example, https://bucket-name.s3.Region.amazonaws.com/key-name. Before you can use S3_SIGV4, you must meet these requirements: • You must allow MediaTailor to access your S3 bucket by granting mediatailor.amazonaws.com principal access in IAM. For information about configuring access in IAM, see Access management in the IAM User Guide. • The mediatailor.amazonaws.com service principal must have permissions to read all top level manifests referenced by the VodSource packaging configurations. • The caller of the API must have s3:GetObject IAM permissions to read all top level manifests referenced by your MediaTailor VodSource packaging configurations.
+        public let accessType: AccessType?
+
+        public init(accessType: AccessType? = nil) {
+            self.accessType = accessType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessType = "AccessType"
+        }
+    }
+
+    public struct AdBreak: AWSEncodableShape & AWSDecodableShape {
+        /// The SCTE-35 ad insertion type. Accepted value: SPLICE_INSERT.
+        public let messageType: MessageType?
+        /// How long (in milliseconds) after the beginning of the program that an ad starts. This value must fall within 100ms of a segment boundary, otherwise the ad break will be skipped.
+        public let offsetMillis: Int64?
+        /// Ad break slate configuration.
+        public let slate: SlateSource?
+        /// This defines the SCTE-35 splice_insert() message inserted around the ad. For information about using splice_insert(), see the SCTE-35 specficiaiton, section 9.7.3.1.
+        public let spliceInsertMessage: SpliceInsertMessage?
+
+        public init(messageType: MessageType? = nil, offsetMillis: Int64? = nil, slate: SlateSource? = nil, spliceInsertMessage: SpliceInsertMessage? = nil) {
+            self.messageType = messageType
+            self.offsetMillis = offsetMillis
+            self.slate = slate
+            self.spliceInsertMessage = spliceInsertMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messageType = "MessageType"
+            case offsetMillis = "OffsetMillis"
+            case slate = "Slate"
+            case spliceInsertMessage = "SpliceInsertMessage"
+        }
+    }
+
     public struct AdMarkerPassthrough: AWSEncodableShape & AWSDecodableShape {
+        /// Enables ad marker passthrough for your configuration.
         public let enabled: Bool?
 
         public init(enabled: Bool? = nil) {
@@ -47,8 +119,9 @@ extension MediaTailor {
     }
 
     public struct AvailSuppression: AWSEncodableShape & AWSDecodableShape {
+        /// Sets the ad suppression mode. By default, ad suppression is off and all ad breaks are filled with ads or slate. When Mode is set to BEHIND_LIVE_EDGE, ad suppression is active and MediaTailor won't fill ad breaks on or behind the ad suppression Value time in the manifest lookback window.
         public let mode: Mode?
-        /// Sets the mode for avail suppression, also known as ad suppression. By default, ad suppression is off and all ad breaks are filled by MediaTailor with ads or slate.
+        /// A live edge offset time in HH:MM:SS. MediaTailor won't fill ad breaks on or behind this time in the manifest lookback window. If Value is set to 00:00:00, it is in sync with the live edge, and MediaTailor won't fill any ad breaks on or behind the live edge. If you set a Value time, MediaTailor won't fill any ad breaks on or behind this time in the manifest lookback window. For example, if you set 00:45:00, then MediaTailor will fill ad breaks that occur within 45 minutes behind the live edge, but won't fill ad breaks on or behind 45 minutes behind the live edge.
         public let value: String?
 
         public init(mode: Mode? = nil, value: String? = nil) {
@@ -63,7 +136,9 @@ extension MediaTailor {
     }
 
     public struct Bumper: AWSEncodableShape & AWSDecodableShape {
+        /// The URL for the end bumper asset.
         public let endUrl: String?
+        /// The URL for the start bumper asset.
         public let startUrl: String?
 
         public init(endUrl: String? = nil, startUrl: String? = nil) {
@@ -78,7 +153,7 @@ extension MediaTailor {
     }
 
     public struct CdnConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// A non-default content delivery network (CDN) to serve ad segments. By default, AWS Elemental MediaTailor uses Amazon CloudFront with default cache settings as its CDN for ad segments. To set up an alternate CDN, create a rule in your CDN for the following origin: ads.mediatailor.&lt;region>.amazonaws.com. Then specify the rule's name in this AdSegmentUrlPrefix. When AWS Elemental MediaTailor serves a manifest, it reports your CDN as the source for ad segments.
+        /// A non-default content delivery network (CDN) to serve ad segments. By default, AWS Elemental MediaTailor uses Amazon CloudFront with default cache settings as its CDN for ad segments. To set up an alternate CDN, create a rule in your CDN for the origin ads.mediatailor.&amp;lt;region&gt;.amazonaws.com. Then specify the rule's name in this AdSegmentUrlPrefix. When AWS Elemental MediaTailor serves a manifest, it reports your CDN as the source for ad segments.
         public let adSegmentUrlPrefix: String?
         /// A content delivery network (CDN) to cache content segments, so that content requests don’t always have to go to the origin server. First, create a rule in your CDN for the content segment origin server. Then specify the rule's name in this ContentSegmentUrlPrefix. When AWS Elemental MediaTailor serves a manifest, it reports your CDN as the source for content segments.
         public let contentSegmentUrlPrefix: String?
@@ -91,6 +166,300 @@ extension MediaTailor {
         private enum CodingKeys: String, CodingKey {
             case adSegmentUrlPrefix = "AdSegmentUrlPrefix"
             case contentSegmentUrlPrefix = "ContentSegmentUrlPrefix"
+        }
+    }
+
+    public struct Channel: AWSDecodableShape {
+        /// The ARN of the channel.
+        public let arn: String
+        /// The name of the channel.
+        public let channelName: String
+        /// Returns the state whether the channel is running or not.
+        public let channelState: String
+        /// The timestamp of when the channel was created.
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var creationTime: Date?
+        /// The timestamp of when the channel was last modified.
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var lastModifiedTime: Date?
+        /// The channel's output properties.
+        public let outputs: [ResponseOutputItem]
+        /// The type of playback mode for this channel. Possible values: ONCE or LOOP.
+        public let playbackMode: String
+        /// The tags to assign to the channel.
+        public let tags: [String: String]?
+
+        public init(arn: String, channelName: String, channelState: String, creationTime: Date? = nil, lastModifiedTime: Date? = nil, outputs: [ResponseOutputItem], playbackMode: String, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.channelName = channelName
+            self.channelState = channelState
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+            self.outputs = outputs
+            self.playbackMode = playbackMode
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case channelName = "ChannelName"
+            case channelState = "ChannelState"
+            case creationTime = "CreationTime"
+            case lastModifiedTime = "LastModifiedTime"
+            case outputs = "Outputs"
+            case playbackMode = "PlaybackMode"
+            case tags
+        }
+    }
+
+    public struct CreateChannelRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName"))
+        ]
+
+        public let channelName: String
+        /// The channel's output properties.
+        public let outputs: [RequestOutputItem]
+        /// The type of playback mode for this channel. The only supported value is LOOP.
+        public let playbackMode: PlaybackMode
+        /// The tags to assign to the channel.
+        public let tags: [String: String]?
+
+        public init(channelName: String, outputs: [RequestOutputItem], playbackMode: PlaybackMode, tags: [String: String]? = nil) {
+            self.channelName = channelName
+            self.outputs = outputs
+            self.playbackMode = playbackMode
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outputs = "Outputs"
+            case playbackMode = "PlaybackMode"
+            case tags
+        }
+    }
+
+    public struct CreateChannelResponse: AWSDecodableShape {
+        public let arn: String?
+        public let channelName: String?
+        public let channelState: ChannelState?
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var creationTime: Date?
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var lastModifiedTime: Date?
+        public let outputs: [ResponseOutputItem]?
+        public let playbackMode: String?
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, channelName: String? = nil, channelState: ChannelState? = nil, creationTime: Date? = nil, lastModifiedTime: Date? = nil, outputs: [ResponseOutputItem]? = nil, playbackMode: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.channelName = channelName
+            self.channelState = channelState
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+            self.outputs = outputs
+            self.playbackMode = playbackMode
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case channelName = "ChannelName"
+            case channelState = "ChannelState"
+            case creationTime = "CreationTime"
+            case lastModifiedTime = "LastModifiedTime"
+            case outputs = "Outputs"
+            case playbackMode = "PlaybackMode"
+            case tags
+        }
+    }
+
+    public struct CreateProgramRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName")),
+            AWSMemberEncoding(label: "programName", location: .uri(locationName: "programName"))
+        ]
+
+        /// The ad break configuration settings.
+        public let adBreaks: [AdBreak]?
+        public let channelName: String
+        public let programName: String
+        /// The schedule configuration settings.
+        public let scheduleConfiguration: ScheduleConfiguration
+        /// The name of the source location.
+        public let sourceLocationName: String
+        /// The name that's used to refer to a VOD source.
+        public let vodSourceName: String
+
+        public init(adBreaks: [AdBreak]? = nil, channelName: String, programName: String, scheduleConfiguration: ScheduleConfiguration, sourceLocationName: String, vodSourceName: String) {
+            self.adBreaks = adBreaks
+            self.channelName = channelName
+            self.programName = programName
+            self.scheduleConfiguration = scheduleConfiguration
+            self.sourceLocationName = sourceLocationName
+            self.vodSourceName = vodSourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adBreaks = "AdBreaks"
+            case scheduleConfiguration = "ScheduleConfiguration"
+            case sourceLocationName = "SourceLocationName"
+            case vodSourceName = "VodSourceName"
+        }
+    }
+
+    public struct CreateProgramResponse: AWSDecodableShape {
+        public let adBreaks: [AdBreak]?
+        public let arn: String?
+        public let channelName: String?
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var creationTime: Date?
+        public let programName: String?
+        public let sourceLocationName: String?
+        public let vodSourceName: String?
+
+        public init(adBreaks: [AdBreak]? = nil, arn: String? = nil, channelName: String? = nil, creationTime: Date? = nil, programName: String? = nil, sourceLocationName: String? = nil, vodSourceName: String? = nil) {
+            self.adBreaks = adBreaks
+            self.arn = arn
+            self.channelName = channelName
+            self.creationTime = creationTime
+            self.programName = programName
+            self.sourceLocationName = sourceLocationName
+            self.vodSourceName = vodSourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adBreaks = "AdBreaks"
+            case arn = "Arn"
+            case channelName = "ChannelName"
+            case creationTime = "CreationTime"
+            case programName = "ProgramName"
+            case sourceLocationName = "SourceLocationName"
+            case vodSourceName = "VodSourceName"
+        }
+    }
+
+    public struct CreateSourceLocationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "sourceLocationName", location: .uri(locationName: "sourceLocationName"))
+        ]
+
+        /// Access configuration parameters. Configures the type of authentication used to access content from your source location.
+        public let accessConfiguration: AccessConfiguration?
+        /// The optional configuration for the server that serves segments.
+        public let defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration?
+        /// The source's HTTP package configurations.
+        public let httpConfiguration: HttpConfiguration
+        public let sourceLocationName: String
+        /// The tags to assign to the source location.
+        public let tags: [String: String]?
+
+        public init(accessConfiguration: AccessConfiguration? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration, sourceLocationName: String, tags: [String: String]? = nil) {
+            self.accessConfiguration = accessConfiguration
+            self.defaultSegmentDeliveryConfiguration = defaultSegmentDeliveryConfiguration
+            self.httpConfiguration = httpConfiguration
+            self.sourceLocationName = sourceLocationName
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessConfiguration = "AccessConfiguration"
+            case defaultSegmentDeliveryConfiguration = "DefaultSegmentDeliveryConfiguration"
+            case httpConfiguration = "HttpConfiguration"
+            case tags
+        }
+    }
+
+    public struct CreateSourceLocationResponse: AWSDecodableShape {
+        public let accessConfiguration: AccessConfiguration?
+        public let arn: String?
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var creationTime: Date?
+        public let defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration?
+        public let httpConfiguration: HttpConfiguration?
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var lastModifiedTime: Date?
+        public let sourceLocationName: String?
+        public let tags: [String: String]?
+
+        public init(accessConfiguration: AccessConfiguration? = nil, arn: String? = nil, creationTime: Date? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration? = nil, lastModifiedTime: Date? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil) {
+            self.accessConfiguration = accessConfiguration
+            self.arn = arn
+            self.creationTime = creationTime
+            self.defaultSegmentDeliveryConfiguration = defaultSegmentDeliveryConfiguration
+            self.httpConfiguration = httpConfiguration
+            self.lastModifiedTime = lastModifiedTime
+            self.sourceLocationName = sourceLocationName
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessConfiguration = "AccessConfiguration"
+            case arn = "Arn"
+            case creationTime = "CreationTime"
+            case defaultSegmentDeliveryConfiguration = "DefaultSegmentDeliveryConfiguration"
+            case httpConfiguration = "HttpConfiguration"
+            case lastModifiedTime = "LastModifiedTime"
+            case sourceLocationName = "SourceLocationName"
+            case tags
+        }
+    }
+
+    public struct CreateVodSourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "sourceLocationName", location: .uri(locationName: "sourceLocationName")),
+            AWSMemberEncoding(label: "vodSourceName", location: .uri(locationName: "vodSourceName"))
+        ]
+
+        /// An array of HTTP package configuration parameters for this VOD source.
+        public let httpPackageConfigurations: [HttpPackageConfiguration]
+        public let sourceLocationName: String
+        /// The tags to assign to the VOD source.
+        public let tags: [String: String]?
+        public let vodSourceName: String
+
+        public init(httpPackageConfigurations: [HttpPackageConfiguration], sourceLocationName: String, tags: [String: String]? = nil, vodSourceName: String) {
+            self.httpPackageConfigurations = httpPackageConfigurations
+            self.sourceLocationName = sourceLocationName
+            self.tags = tags
+            self.vodSourceName = vodSourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case httpPackageConfigurations = "HttpPackageConfigurations"
+            case tags
+        }
+    }
+
+    public struct CreateVodSourceResponse: AWSDecodableShape {
+        public let arn: String?
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var creationTime: Date?
+        public let httpPackageConfigurations: [HttpPackageConfiguration]?
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var lastModifiedTime: Date?
+        public let sourceLocationName: String?
+        public let tags: [String: String]?
+        public let vodSourceName: String?
+
+        public init(arn: String? = nil, creationTime: Date? = nil, httpPackageConfigurations: [HttpPackageConfiguration]? = nil, lastModifiedTime: Date? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil, vodSourceName: String? = nil) {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.httpPackageConfigurations = httpPackageConfigurations
+            self.lastModifiedTime = lastModifiedTime
+            self.sourceLocationName = sourceLocationName
+            self.tags = tags
+            self.vodSourceName = vodSourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTime = "CreationTime"
+            case httpPackageConfigurations = "HttpPackageConfigurations"
+            case lastModifiedTime = "LastModifiedTime"
+            case sourceLocationName = "SourceLocationName"
+            case tags
+            case vodSourceName = "VodSourceName"
         }
     }
 
@@ -132,6 +501,80 @@ extension MediaTailor {
         }
     }
 
+    public struct DashPlaylistSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The total duration (in seconds) of each manifest. Minimum value: 30 seconds. Maximum value: 3600 seconds.
+        public let manifestWindowSeconds: Int?
+        /// Minimum amount of content (measured in seconds) that a player must keep available in the buffer. Minimum value: 2 seconds. Maximum value: 60 seconds.
+        public let minBufferTimeSeconds: Int?
+        /// Minimum amount of time (in seconds) that the player should wait before requesting updates to the manifest. Minimum value: 2 seconds. Maximum value: 60 seconds.
+        public let minUpdatePeriodSeconds: Int?
+        /// Amount of time (in seconds) that the player should be from the live point at the end of the manifest. Minimum value: 2 seconds. Maximum value: 60 seconds.
+        public let suggestedPresentationDelaySeconds: Int?
+
+        public init(manifestWindowSeconds: Int? = nil, minBufferTimeSeconds: Int? = nil, minUpdatePeriodSeconds: Int? = nil, suggestedPresentationDelaySeconds: Int? = nil) {
+            self.manifestWindowSeconds = manifestWindowSeconds
+            self.minBufferTimeSeconds = minBufferTimeSeconds
+            self.minUpdatePeriodSeconds = minUpdatePeriodSeconds
+            self.suggestedPresentationDelaySeconds = suggestedPresentationDelaySeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case manifestWindowSeconds = "ManifestWindowSeconds"
+            case minBufferTimeSeconds = "MinBufferTimeSeconds"
+            case minUpdatePeriodSeconds = "MinUpdatePeriodSeconds"
+            case suggestedPresentationDelaySeconds = "SuggestedPresentationDelaySeconds"
+        }
+    }
+
+    public struct DefaultSegmentDeliveryConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The hostname of the server that will be used to serve segments. This string must include the protocol, such as https://.
+        public let baseUrl: String?
+
+        public init(baseUrl: String? = nil) {
+            self.baseUrl = baseUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseUrl = "BaseUrl"
+        }
+    }
+
+    public struct DeleteChannelPolicyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName"))
+        ]
+
+        public let channelName: String
+
+        public init(channelName: String) {
+            self.channelName = channelName
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteChannelPolicyResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteChannelRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName"))
+        ]
+
+        public let channelName: String
+
+        public init(channelName: String) {
+            self.channelName = channelName
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteChannelResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeletePlaybackConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
@@ -148,6 +591,364 @@ extension MediaTailor {
 
     public struct DeletePlaybackConfigurationResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DeleteProgramRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName")),
+            AWSMemberEncoding(label: "programName", location: .uri(locationName: "programName"))
+        ]
+
+        public let channelName: String
+        public let programName: String
+
+        public init(channelName: String, programName: String) {
+            self.channelName = channelName
+            self.programName = programName
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteProgramResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteSourceLocationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "sourceLocationName", location: .uri(locationName: "sourceLocationName"))
+        ]
+
+        public let sourceLocationName: String
+
+        public init(sourceLocationName: String) {
+            self.sourceLocationName = sourceLocationName
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteSourceLocationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteVodSourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "sourceLocationName", location: .uri(locationName: "sourceLocationName")),
+            AWSMemberEncoding(label: "vodSourceName", location: .uri(locationName: "vodSourceName"))
+        ]
+
+        public let sourceLocationName: String
+        public let vodSourceName: String
+
+        public init(sourceLocationName: String, vodSourceName: String) {
+            self.sourceLocationName = sourceLocationName
+            self.vodSourceName = vodSourceName
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteVodSourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DescribeChannelRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName"))
+        ]
+
+        public let channelName: String
+
+        public init(channelName: String) {
+            self.channelName = channelName
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeChannelResponse: AWSDecodableShape {
+        /// The ARN of the channel.
+        public let arn: String?
+        /// The name of the channel.
+        public let channelName: String?
+        /// Indicates whether the channel is in a running state or not.
+        public let channelState: ChannelState?
+        /// The timestamp of when the channel was created.
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var creationTime: Date?
+        /// The timestamp of when the channel was last modified.
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var lastModifiedTime: Date?
+        /// The channel's output properties.
+        public let outputs: [ResponseOutputItem]?
+        /// The type of playback for this channel. The only supported value is LOOP.
+        public let playbackMode: String?
+        /// The tags assigned to the channel.
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, channelName: String? = nil, channelState: ChannelState? = nil, creationTime: Date? = nil, lastModifiedTime: Date? = nil, outputs: [ResponseOutputItem]? = nil, playbackMode: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.channelName = channelName
+            self.channelState = channelState
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+            self.outputs = outputs
+            self.playbackMode = playbackMode
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case channelName = "ChannelName"
+            case channelState = "ChannelState"
+            case creationTime = "CreationTime"
+            case lastModifiedTime = "LastModifiedTime"
+            case outputs = "Outputs"
+            case playbackMode = "PlaybackMode"
+            case tags
+        }
+    }
+
+    public struct DescribeProgramRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName")),
+            AWSMemberEncoding(label: "programName", location: .uri(locationName: "programName"))
+        ]
+
+        public let channelName: String
+        public let programName: String
+
+        public init(channelName: String, programName: String) {
+            self.channelName = channelName
+            self.programName = programName
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeProgramResponse: AWSDecodableShape {
+        /// The ad break configuration settings.
+        public let adBreaks: [AdBreak]?
+        /// The ARN of the program.
+        public let arn: String?
+        /// The name of the channel that the program belongs to.
+        public let channelName: String?
+        /// The timestamp of when the program was created.
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var creationTime: Date?
+        /// The name of the program.
+        public let programName: String?
+        /// The source location name.
+        public let sourceLocationName: String?
+        /// The name that's used to refer to a VOD source.
+        public let vodSourceName: String?
+
+        public init(adBreaks: [AdBreak]? = nil, arn: String? = nil, channelName: String? = nil, creationTime: Date? = nil, programName: String? = nil, sourceLocationName: String? = nil, vodSourceName: String? = nil) {
+            self.adBreaks = adBreaks
+            self.arn = arn
+            self.channelName = channelName
+            self.creationTime = creationTime
+            self.programName = programName
+            self.sourceLocationName = sourceLocationName
+            self.vodSourceName = vodSourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adBreaks = "AdBreaks"
+            case arn = "Arn"
+            case channelName = "ChannelName"
+            case creationTime = "CreationTime"
+            case programName = "ProgramName"
+            case sourceLocationName = "SourceLocationName"
+            case vodSourceName = "VodSourceName"
+        }
+    }
+
+    public struct DescribeSourceLocationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "sourceLocationName", location: .uri(locationName: "sourceLocationName"))
+        ]
+
+        public let sourceLocationName: String
+
+        public init(sourceLocationName: String) {
+            self.sourceLocationName = sourceLocationName
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeSourceLocationResponse: AWSDecodableShape {
+        /// The access configuration for the source location.
+        public let accessConfiguration: AccessConfiguration?
+        /// The ARN of the source location.
+        public let arn: String?
+        /// The timestamp that indicates when the source location was created.
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var creationTime: Date?
+        /// The default segment delivery configuration settings.
+        public let defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration?
+        /// The HTTP package configuration settings for the source location.
+        public let httpConfiguration: HttpConfiguration?
+        /// The timestamp that indicates when the source location was last modified.
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var lastModifiedTime: Date?
+        /// The name of the source location.
+        public let sourceLocationName: String?
+        /// The tags assigned to the source location.
+        public let tags: [String: String]?
+
+        public init(accessConfiguration: AccessConfiguration? = nil, arn: String? = nil, creationTime: Date? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration? = nil, lastModifiedTime: Date? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil) {
+            self.accessConfiguration = accessConfiguration
+            self.arn = arn
+            self.creationTime = creationTime
+            self.defaultSegmentDeliveryConfiguration = defaultSegmentDeliveryConfiguration
+            self.httpConfiguration = httpConfiguration
+            self.lastModifiedTime = lastModifiedTime
+            self.sourceLocationName = sourceLocationName
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessConfiguration = "AccessConfiguration"
+            case arn = "Arn"
+            case creationTime = "CreationTime"
+            case defaultSegmentDeliveryConfiguration = "DefaultSegmentDeliveryConfiguration"
+            case httpConfiguration = "HttpConfiguration"
+            case lastModifiedTime = "LastModifiedTime"
+            case sourceLocationName = "SourceLocationName"
+            case tags
+        }
+    }
+
+    public struct DescribeVodSourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "sourceLocationName", location: .uri(locationName: "sourceLocationName")),
+            AWSMemberEncoding(label: "vodSourceName", location: .uri(locationName: "vodSourceName"))
+        ]
+
+        public let sourceLocationName: String
+        public let vodSourceName: String
+
+        public init(sourceLocationName: String, vodSourceName: String) {
+            self.sourceLocationName = sourceLocationName
+            self.vodSourceName = vodSourceName
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeVodSourceResponse: AWSDecodableShape {
+        /// The ARN of the VOD source.
+        public let arn: String?
+        /// The timestamp that indicates when the VOD source was created.
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var creationTime: Date?
+        /// The HTTP package configurations.
+        public let httpPackageConfigurations: [HttpPackageConfiguration]?
+        /// The ARN for the VOD source.
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var lastModifiedTime: Date?
+        /// The name of the source location associated with the VOD source.
+        public let sourceLocationName: String?
+        /// The tags assigned to the VOD source.
+        public let tags: [String: String]?
+        /// The name of the VOD source.
+        public let vodSourceName: String?
+
+        public init(arn: String? = nil, creationTime: Date? = nil, httpPackageConfigurations: [HttpPackageConfiguration]? = nil, lastModifiedTime: Date? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil, vodSourceName: String? = nil) {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.httpPackageConfigurations = httpPackageConfigurations
+            self.lastModifiedTime = lastModifiedTime
+            self.sourceLocationName = sourceLocationName
+            self.tags = tags
+            self.vodSourceName = vodSourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTime = "CreationTime"
+            case httpPackageConfigurations = "HttpPackageConfigurations"
+            case lastModifiedTime = "LastModifiedTime"
+            case sourceLocationName = "SourceLocationName"
+            case tags
+            case vodSourceName = "VodSourceName"
+        }
+    }
+
+    public struct GetChannelPolicyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName"))
+        ]
+
+        public let channelName: String
+
+        public init(channelName: String) {
+            self.channelName = channelName
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetChannelPolicyResponse: AWSDecodableShape {
+        /// The IAM policy for the channel.
+        public let policy: String?
+
+        public init(policy: String? = nil) {
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+        }
+    }
+
+    public struct GetChannelScheduleRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName")),
+            AWSMemberEncoding(label: "durationMinutes", location: .querystring(locationName: "durationMinutes")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        public let channelName: String
+        public let durationMinutes: String?
+        public let maxResults: Int?
+        public let nextToken: String?
+
+        public init(channelName: String, durationMinutes: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.channelName = channelName
+            self.durationMinutes = durationMinutes
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetChannelScheduleResponse: AWSDecodableShape {
+        /// An array of schedule entries for the channel.
+        public let items: [ScheduleEntry]?
+        /// Pagination token from the GET list request. Use the token to fetch the next page of results.
+        public let nextToken: String?
+
+        public init(items: [ScheduleEntry]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
     }
 
     public struct GetPlaybackConfigurationRequest: AWSEncodableShape {
@@ -167,13 +968,13 @@ extension MediaTailor {
     public struct GetPlaybackConfigurationResponse: AWSDecodableShape {
         /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing, you can provide a static VAST URL. The maximum length is 25,000 characters.
         public let adDecisionServerUrl: String?
-        /// The configuration for Avail Suppression.
+        /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see Ad Suppression.
         public let availSuppression: AvailSuppression?
-        /// The configuration for bumpers. Bumpers are short audio or video clips that play at the start or before the end of an ad break.
+        /// The configuration for bumpers. Bumpers are short audio or video clips that play at the start or before the end of an ad break. To learn more about bumpers, see Bumpers.
         public let bumper: Bumper?
         /// The configuration for using a content delivery network (CDN), like Amazon CloudFront, for content and ad segment management.
         public let cdnConfiguration: CdnConfiguration?
-        /// Predefined aliases for dynamic variables.
+        /// The player parameters and aliases used as dynamic variables during session initialization. For more information, see Domain Variables.
         public let configurationAliases: [String: [String: String]]?
         /// The configuration for DASH content.
         public let dashConfiguration: DashConfiguration?
@@ -185,7 +986,7 @@ extension MediaTailor {
         public let manifestProcessingRules: ManifestProcessingRules?
         /// The identifier for the playback configuration.
         public let name: String?
-        /// The maximum duration of underfilled ad time (in seconds) allowed in an ad break.
+        /// Defines the maximum duration of underfilled ad time (in seconds) allowed in an ad break. If the duration of underfilled ad time exceeds the personalization threshold, then the personalization of the ad break is abandoned and the underlying content is shown. This feature applies to ad replacement in live and VOD streams, rather than ad insertion, because it relies on an underlying content stream. For more information about ad break behavior, including ad replacement and insertion, see Ad Behavior in AWS Elemental MediaTailor.
         public let personalizationThresholdSeconds: Int?
         /// The Amazon Resource Name (ARN) for the playback configuration.
         public let playbackConfigurationArn: String?
@@ -199,7 +1000,7 @@ extension MediaTailor {
         public let tags: [String: String]?
         /// The name that is used to associate this playback configuration with a custom transcode profile. This overrides the dynamic transcoding defaults of MediaTailor. Use this only if you have already set up custom profiles with the help of AWS Support.
         public let transcodeProfileName: String?
-        /// The URL prefix for the master playlist for the stream, minus the asset ID. The maximum length is 512 characters.
+        /// The URL prefix for the parent manifest for the stream, minus the asset ID. The maximum length is 512 characters.
         public let videoContentSourceUrl: String?
 
         public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
@@ -258,6 +1059,93 @@ extension MediaTailor {
         }
     }
 
+    public struct HlsPlaylistSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The total duration (in seconds) of each manifest. Minimum value: 30 seconds. Maximum value: 3600 seconds.
+        public let manifestWindowSeconds: Int?
+
+        public init(manifestWindowSeconds: Int? = nil) {
+            self.manifestWindowSeconds = manifestWindowSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case manifestWindowSeconds = "ManifestWindowSeconds"
+        }
+    }
+
+    public struct HttpConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The base URL for the source location host server. This string must include the protocol, such as https://.
+        public let baseUrl: String
+
+        public init(baseUrl: String) {
+            self.baseUrl = baseUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseUrl = "BaseUrl"
+        }
+    }
+
+    public struct HttpPackageConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The relative path to the URL for this VOD source. This is combined with SourceLocation::HttpConfiguration::BaseUrl to form a valid URL.
+        public let path: String
+        /// The name of the source group. This has to match one of the Channel::Outputs::SourceGroup.
+        public let sourceGroup: String
+        /// The streaming protocol for this package configuration. Supported values are HLS and DASH.
+        public let type: `Type`
+
+        public init(path: String, sourceGroup: String, type: `Type`) {
+            self.path = path
+            self.sourceGroup = sourceGroup
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case path = "Path"
+            case sourceGroup = "SourceGroup"
+            case type = "Type"
+        }
+    }
+
+    public struct ListChannelsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        public let maxResults: Int?
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListChannelsResponse: AWSDecodableShape {
+        /// An array of channels that are associated with this account.
+        public let items: [Channel]?
+        /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
+        public let nextToken: String?
+
+        public init(items: [Channel]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListPlaybackConfigurationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
@@ -273,6 +1161,7 @@ extension MediaTailor {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -287,6 +1176,46 @@ extension MediaTailor {
         public let nextToken: String?
 
         public init(items: [PlaybackConfiguration]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListSourceLocationsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        public let maxResults: Int?
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListSourceLocationsResponse: AWSDecodableShape {
+        /// An array of source locations.
+        public let items: [SourceLocation]?
+        /// Pagination token from the list request. Use the token to fetch the next page of results.
+        public let nextToken: String?
+
+        public init(items: [SourceLocation]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
         }
@@ -323,6 +1252,49 @@ extension MediaTailor {
         }
     }
 
+    public struct ListVodSourcesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "sourceLocationName", location: .uri(locationName: "sourceLocationName"))
+        ]
+
+        public let maxResults: Int?
+        public let nextToken: String?
+        public let sourceLocationName: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, sourceLocationName: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sourceLocationName = sourceLocationName
+        }
+
+        public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListVodSourcesResponse: AWSDecodableShape {
+        /// Lists the VOD sources.
+        public let items: [VodSource]?
+        /// Pagination token from the list request. Use the token to fetch the next page of results.
+        public let nextToken: String?
+
+        public init(items: [VodSource]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct LivePreRollConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The URL for the ad decision server (ADS) for pre-roll ads. This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing, you can provide a static VAST URL. The maximum length is 25,000 characters.
         public let adDecisionServerUrl: String?
@@ -341,7 +1313,7 @@ extension MediaTailor {
     }
 
     public struct ManifestProcessingRules: AWSEncodableShape & AWSDecodableShape {
-        /// For HLS, when set to true, MediaTailor passes through EXT-X-CUE-IN, EXT-X-CUE-OUT, and EXT-X-SPLICEPOINT-SCTE35 ad markers from the origin manifest to the MediaTailor personalized manifest.No logic is applied to these ad markers. For example, if EXT-X-CUE-OUT has a value of 60, but no ads are filled for that ad break, MediaTailor will not set the value to 0.
+        /// For HLS, when set to true, MediaTailor passes through EXT-X-CUE-IN, EXT-X-CUE-OUT, and EXT-X-SPLICEPOINT-SCTE35 ad markers from the origin manifest to the MediaTailor personalized manifest. No logic is applied to these ad markers. For example, if EXT-X-CUE-OUT has a value of 60, but no ads are filled for that ad break, MediaTailor will not set the value to 0.
         public let adMarkerPassthrough: AdMarkerPassthrough?
 
         public init(adMarkerPassthrough: AdMarkerPassthrough? = nil) {
@@ -354,28 +1326,53 @@ extension MediaTailor {
     }
 
     public struct PlaybackConfiguration: AWSDecodableShape {
+        /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.
         public let adDecisionServerUrl: String?
+        /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see Ad Suppression.
+        public let availSuppression: AvailSuppression?
+        /// The configuration for bumpers. Bumpers are short audio or video clips that play at the start or before the end of an ad break. To learn more about bumpers, see Bumpers.
+        public let bumper: Bumper?
+        /// The configuration for using a content delivery network (CDN), like Amazon CloudFront, for content and ad segment management.
         public let cdnConfiguration: CdnConfiguration?
-        /// Predefined aliases for dynamic variables.
+        /// The player parameters and aliases used as dynamic variables during session initialization. For more information, see Domain Variables.
         public let configurationAliases: [String: [String: String]]?
+        /// The configuration for a DASH source.
         public let dashConfiguration: DashConfiguration?
+        /// The configuration for HLS content.
         public let hlsConfiguration: HlsConfiguration?
+        /// The configuration for pre-roll ad insertion.
+        public let livePreRollConfiguration: LivePreRollConfiguration?
+        /// The configuration for manifest processing rules. Manifest processing rules enable customization of the personalized manifests created by MediaTailor.
+        public let manifestProcessingRules: ManifestProcessingRules?
+        /// The identifier for the playback configuration.
         public let name: String?
+        /// Defines the maximum duration of underfilled ad time (in seconds) allowed in an ad break. If the duration of underfilled ad time exceeds the personalization threshold, then the personalization of the ad break is abandoned and the underlying content is shown. This feature applies to ad replacement in live and VOD streams, rather than ad insertion, because it relies on an underlying content stream. For more information about ad break behavior, including ad replacement and insertion, see Ad Behavior in AWS Elemental MediaTailor.
         public let personalizationThresholdSeconds: Int?
+        /// The Amazon Resource Name (ARN) for the playback configuration.
         public let playbackConfigurationArn: String?
+        /// The URL that the player accesses to get a manifest from AWS Elemental MediaTailor.
         public let playbackEndpointPrefix: String?
+        /// The URL that the player uses to initialize a session that uses client-side reporting.
         public let sessionInitializationEndpointPrefix: String?
+        /// The URL for a video asset to transcode and use to fill in time that's not used by ads. AWS Elemental MediaTailor shows the slate to fill in gaps in media content. Configuring the slate is optional for non-VPAID playback configurations. For VPAID, the slate is required because MediaTailor provides it in the slots designated for dynamic ad content. The slate must be a high-quality asset that contains both audio and video.
         public let slateAdUrl: String?
+        /// The tags to assign to the playback configuration.
         public let tags: [String: String]?
+        /// The name that is used to associate this playback configuration with a custom transcode profile. This overrides the dynamic transcoding defaults of MediaTailor. Use this only if you have already set up custom profiles with the help of AWS Support.
         public let transcodeProfileName: String?
+        /// The URL prefix for the parent manifest for the stream, minus the asset ID. The maximum length is 512 characters.
         public let videoContentSourceUrl: String?
 
-        public init(adDecisionServerUrl: String? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adDecisionServerUrl = adDecisionServerUrl
+            self.availSuppression = availSuppression
+            self.bumper = bumper
             self.cdnConfiguration = cdnConfiguration
             self.configurationAliases = configurationAliases
             self.dashConfiguration = dashConfiguration
             self.hlsConfiguration = hlsConfiguration
+            self.livePreRollConfiguration = livePreRollConfiguration
+            self.manifestProcessingRules = manifestProcessingRules
             self.name = name
             self.personalizationThresholdSeconds = personalizationThresholdSeconds
             self.playbackConfigurationArn = playbackConfigurationArn
@@ -389,10 +1386,14 @@ extension MediaTailor {
 
         private enum CodingKeys: String, CodingKey {
             case adDecisionServerUrl = "AdDecisionServerUrl"
+            case availSuppression = "AvailSuppression"
+            case bumper = "Bumper"
             case cdnConfiguration = "CdnConfiguration"
             case configurationAliases = "ConfigurationAliases"
             case dashConfiguration = "DashConfiguration"
             case hlsConfiguration = "HlsConfiguration"
+            case livePreRollConfiguration = "LivePreRollConfiguration"
+            case manifestProcessingRules = "ManifestProcessingRules"
             case name = "Name"
             case personalizationThresholdSeconds = "PersonalizationThresholdSeconds"
             case playbackConfigurationArn = "PlaybackConfigurationArn"
@@ -405,16 +1406,39 @@ extension MediaTailor {
         }
     }
 
+    public struct PutChannelPolicyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName"))
+        ]
+
+        public let channelName: String
+        /// Adds an IAM role that determines the permissions of your channel.
+        public let policy: String
+
+        public init(channelName: String, policy: String) {
+            self.channelName = channelName
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+        }
+    }
+
+    public struct PutChannelPolicyResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct PutPlaybackConfigurationRequest: AWSEncodableShape {
         /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.
         public let adDecisionServerUrl: String?
-        /// The configuration for Avail Suppression.
+        /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see Ad Suppression.
         public let availSuppression: AvailSuppression?
-        /// The configuration for bumpers. Bumpers are short audio or video clips that play at the start or before the end of an ad break.
+        /// The configuration for bumpers. Bumpers are short audio or video clips that play at the start or before the end of an ad break. To learn more about bumpers, see Bumpers.
         public let bumper: Bumper?
         /// The configuration for using a content delivery network (CDN), like Amazon CloudFront, for content and ad segment management.
         public let cdnConfiguration: CdnConfiguration?
-        /// Predefined aliases for dynamic variables.
+        /// The player parameters and aliases used as dynamic variables during session initialization. For more information, see Domain Variables.
         public let configurationAliases: [String: [String: String]]?
         /// The configuration for DASH content.
         public let dashConfiguration: DashConfigurationForPut?
@@ -424,7 +1448,7 @@ extension MediaTailor {
         public let manifestProcessingRules: ManifestProcessingRules?
         /// The identifier for the playback configuration.
         public let name: String?
-        /// The maximum duration of underfilled ad time (in seconds) allowed in an ad break.
+        /// Defines the maximum duration of underfilled ad time (in seconds) allowed in an ad break. If the duration of underfilled ad time exceeds the personalization threshold, then the personalization of the ad break is abandoned and the underlying content is shown. This feature applies to ad replacement in live and VOD streams, rather than ad insertion, because it relies on an underlying content stream. For more information about ad break behavior, including ad replacement and insertion, see Ad Behavior in AWS Elemental MediaTailor.
         public let personalizationThresholdSeconds: Int?
         /// The URL for a high-quality video asset to transcode and use to fill in time that's not used by ads. AWS Elemental MediaTailor shows the slate to fill in gaps in media content. Configuring the slate is optional for non-VPAID configurations. For VPAID, the slate is required because MediaTailor provides it in the slots that are designated for dynamic ad content. The slate must be a high-quality asset that contains both audio and video.
         public let slateAdUrl: String?
@@ -432,7 +1456,7 @@ extension MediaTailor {
         public let tags: [String: String]?
         /// The name that is used to associate this playback configuration with a custom transcode profile. This overrides the dynamic transcoding defaults of MediaTailor. Use this only if you have already set up custom profiles with the help of AWS Support.
         public let transcodeProfileName: String?
-        /// The URL prefix for the master playlist for the stream, minus the asset ID. The maximum length is 512 characters.
+        /// The URL prefix for the parent manifest for the stream, minus the asset ID. The maximum length is 512 characters.
         public let videoContentSourceUrl: String?
 
         public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfigurationForPut? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
@@ -453,6 +1477,7 @@ extension MediaTailor {
         }
 
         public func validate(name: String) throws {
+            try self.personalizationThresholdSeconds?.forEach {}
             try self.validate(self.personalizationThresholdSeconds, name: "personalizationThresholdSeconds", parent: name, min: 1)
         }
 
@@ -485,6 +1510,7 @@ extension MediaTailor {
         public let livePreRollConfiguration: LivePreRollConfiguration?
         public let manifestProcessingRules: ManifestProcessingRules?
         public let name: String?
+        public let personalizationThresholdSeconds: Int?
         public let playbackConfigurationArn: String?
         public let playbackEndpointPrefix: String?
         public let sessionInitializationEndpointPrefix: String?
@@ -493,7 +1519,7 @@ extension MediaTailor {
         public let transcodeProfileName: String?
         public let videoContentSourceUrl: String?
 
-        public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adDecisionServerUrl = adDecisionServerUrl
             self.availSuppression = availSuppression
             self.bumper = bumper
@@ -504,6 +1530,7 @@ extension MediaTailor {
             self.livePreRollConfiguration = livePreRollConfiguration
             self.manifestProcessingRules = manifestProcessingRules
             self.name = name
+            self.personalizationThresholdSeconds = personalizationThresholdSeconds
             self.playbackConfigurationArn = playbackConfigurationArn
             self.playbackEndpointPrefix = playbackEndpointPrefix
             self.sessionInitializationEndpointPrefix = sessionInitializationEndpointPrefix
@@ -524,6 +1551,7 @@ extension MediaTailor {
             case livePreRollConfiguration = "LivePreRollConfiguration"
             case manifestProcessingRules = "ManifestProcessingRules"
             case name = "Name"
+            case personalizationThresholdSeconds = "PersonalizationThresholdSeconds"
             case playbackConfigurationArn = "PlaybackConfigurationArn"
             case playbackEndpointPrefix = "PlaybackEndpointPrefix"
             case sessionInitializationEndpointPrefix = "SessionInitializationEndpointPrefix"
@@ -532,6 +1560,232 @@ extension MediaTailor {
             case transcodeProfileName = "TranscodeProfileName"
             case videoContentSourceUrl = "VideoContentSourceUrl"
         }
+    }
+
+    public struct RequestOutputItem: AWSEncodableShape {
+        /// DASH manifest configuration parameters.
+        public let dashPlaylistSettings: DashPlaylistSettings?
+        /// HLS playlist configuration parameters.
+        public let hlsPlaylistSettings: HlsPlaylistSettings?
+        /// The name of the manifest for the channel. The name appears in the PlaybackUrl.
+        public let manifestName: String
+        /// A string used to match which HttpPackageConfiguration is used for each VodSource.
+        public let sourceGroup: String
+
+        public init(dashPlaylistSettings: DashPlaylistSettings? = nil, hlsPlaylistSettings: HlsPlaylistSettings? = nil, manifestName: String, sourceGroup: String) {
+            self.dashPlaylistSettings = dashPlaylistSettings
+            self.hlsPlaylistSettings = hlsPlaylistSettings
+            self.manifestName = manifestName
+            self.sourceGroup = sourceGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashPlaylistSettings = "DashPlaylistSettings"
+            case hlsPlaylistSettings = "HlsPlaylistSettings"
+            case manifestName = "ManifestName"
+            case sourceGroup = "SourceGroup"
+        }
+    }
+
+    public struct ResponseOutputItem: AWSDecodableShape {
+        /// DASH manifest configuration settings.
+        public let dashPlaylistSettings: DashPlaylistSettings?
+        /// HLS manifest configuration settings.
+        public let hlsPlaylistSettings: HlsPlaylistSettings?
+        /// The name of the manifest for the channel that will appear in the channel output's playback URL.
+        public let manifestName: String
+        /// The URL used for playback by content players.
+        public let playbackUrl: String
+        /// A string used to associate a package configuration source group with a channel output.
+        public let sourceGroup: String
+
+        public init(dashPlaylistSettings: DashPlaylistSettings? = nil, hlsPlaylistSettings: HlsPlaylistSettings? = nil, manifestName: String, playbackUrl: String, sourceGroup: String) {
+            self.dashPlaylistSettings = dashPlaylistSettings
+            self.hlsPlaylistSettings = hlsPlaylistSettings
+            self.manifestName = manifestName
+            self.playbackUrl = playbackUrl
+            self.sourceGroup = sourceGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashPlaylistSettings = "DashPlaylistSettings"
+            case hlsPlaylistSettings = "HlsPlaylistSettings"
+            case manifestName = "ManifestName"
+            case playbackUrl = "PlaybackUrl"
+            case sourceGroup = "SourceGroup"
+        }
+    }
+
+    public struct ScheduleConfiguration: AWSEncodableShape {
+        /// Program transition configurations.
+        public let transition: Transition
+
+        public init(transition: Transition) {
+            self.transition = transition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transition = "Transition"
+        }
+    }
+
+    public struct ScheduleEntry: AWSDecodableShape {
+        /// The approximate duration of this program, in seconds.
+        public let approximateDurationSeconds: Int64?
+        /// The approximate time that the program will start playing.
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var approximateStartTime: Date?
+        /// The ARN of the program.
+        public let arn: String
+        /// The name of the channel that uses this schedule.
+        public let channelName: String
+        /// The name of the program.
+        public let programName: String
+        /// The name of the source location.
+        public let sourceLocationName: String
+        /// The name of the VOD source.
+        public let vodSourceName: String
+
+        public init(approximateDurationSeconds: Int64? = nil, approximateStartTime: Date? = nil, arn: String, channelName: String, programName: String, sourceLocationName: String, vodSourceName: String) {
+            self.approximateDurationSeconds = approximateDurationSeconds
+            self.approximateStartTime = approximateStartTime
+            self.arn = arn
+            self.channelName = channelName
+            self.programName = programName
+            self.sourceLocationName = sourceLocationName
+            self.vodSourceName = vodSourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case approximateDurationSeconds = "ApproximateDurationSeconds"
+            case approximateStartTime = "ApproximateStartTime"
+            case arn = "Arn"
+            case channelName = "ChannelName"
+            case programName = "ProgramName"
+            case sourceLocationName = "SourceLocationName"
+            case vodSourceName = "VodSourceName"
+        }
+    }
+
+    public struct SlateSource: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the source location where the slate VOD source is stored.
+        public let sourceLocationName: String?
+        /// The slate VOD source name. The VOD source must already exist in a source location before it can be used for slate.
+        public let vodSourceName: String?
+
+        public init(sourceLocationName: String? = nil, vodSourceName: String? = nil) {
+            self.sourceLocationName = sourceLocationName
+            self.vodSourceName = vodSourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceLocationName = "SourceLocationName"
+            case vodSourceName = "VodSourceName"
+        }
+    }
+
+    public struct SourceLocation: AWSDecodableShape {
+        /// The access configuration for the source location.
+        public let accessConfiguration: AccessConfiguration?
+        /// The ARN of the SourceLocation.
+        public let arn: String
+        /// The timestamp that indicates when the source location was created.
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var creationTime: Date?
+        /// The default segment delivery configuration.
+        public let defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration?
+        /// The HTTP configuration for the source location.
+        public let httpConfiguration: HttpConfiguration
+        /// The timestamp that indicates when the source location was last modified.
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var lastModifiedTime: Date?
+        /// The name of the source location.
+        public let sourceLocationName: String
+        /// The tags assigned to the source location.
+        public let tags: [String: String]?
+
+        public init(accessConfiguration: AccessConfiguration? = nil, arn: String, creationTime: Date? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration, lastModifiedTime: Date? = nil, sourceLocationName: String, tags: [String: String]? = nil) {
+            self.accessConfiguration = accessConfiguration
+            self.arn = arn
+            self.creationTime = creationTime
+            self.defaultSegmentDeliveryConfiguration = defaultSegmentDeliveryConfiguration
+            self.httpConfiguration = httpConfiguration
+            self.lastModifiedTime = lastModifiedTime
+            self.sourceLocationName = sourceLocationName
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessConfiguration = "AccessConfiguration"
+            case arn = "Arn"
+            case creationTime = "CreationTime"
+            case defaultSegmentDeliveryConfiguration = "DefaultSegmentDeliveryConfiguration"
+            case httpConfiguration = "HttpConfiguration"
+            case lastModifiedTime = "LastModifiedTime"
+            case sourceLocationName = "SourceLocationName"
+            case tags
+        }
+    }
+
+    public struct SpliceInsertMessage: AWSEncodableShape & AWSDecodableShape {
+        /// This is written to splice_insert.avail_num, as defined in section 9.7.3.1 of the SCTE-35 specification. The default value is 0. Values must be between 0 and 256, inclusive.
+        public let availNum: Int?
+        /// This is written to splice_insert.avails_expected, as defined in section 9.7.3.1 of the SCTE-35 specification. The default value is 0. Values must be between 0 and 256, inclusive.
+        public let availsExpected: Int?
+        /// This is written to splice_insert.splice_event_id, as defined in section 9.7.3.1 of the SCTE-35 specification. The default value is 1.
+        public let spliceEventId: Int?
+        /// This is written to splice_insert.unique_program_id, as defined in section 9.7.3.1 of the SCTE-35 specification. The default value is 0. Values must be between 0 and 256, inclusive.
+        public let uniqueProgramId: Int?
+
+        public init(availNum: Int? = nil, availsExpected: Int? = nil, spliceEventId: Int? = nil, uniqueProgramId: Int? = nil) {
+            self.availNum = availNum
+            self.availsExpected = availsExpected
+            self.spliceEventId = spliceEventId
+            self.uniqueProgramId = uniqueProgramId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availNum = "AvailNum"
+            case availsExpected = "AvailsExpected"
+            case spliceEventId = "SpliceEventId"
+            case uniqueProgramId = "UniqueProgramId"
+        }
+    }
+
+    public struct StartChannelRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName"))
+        ]
+
+        public let channelName: String
+
+        public init(channelName: String) {
+            self.channelName = channelName
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct StartChannelResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct StopChannelRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName"))
+        ]
+
+        public let channelName: String
+
+        public init(channelName: String) {
+            self.channelName = channelName
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct StopChannelResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
@@ -552,6 +1806,27 @@ extension MediaTailor {
         }
     }
 
+    public struct Transition: AWSEncodableShape {
+        /// The position where this program will be inserted relative to the RelativeProgram. Possible values are: AFTER_PROGRAM, and BEFORE_PROGRAM.
+        public let relativePosition: RelativePosition
+        /// The name of the program that this program will be inserted next to, as defined by RelativePosition.
+        public let relativeProgram: String?
+        /// When the program should be played. RELATIVE means that programs will be played back-to-back.
+        public let type: String
+
+        public init(relativePosition: RelativePosition, relativeProgram: String? = nil, type: String) {
+            self.relativePosition = relativePosition
+            self.relativeProgram = relativeProgram
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case relativePosition = "RelativePosition"
+            case relativeProgram = "RelativeProgram"
+            case type = "Type"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")),
@@ -567,5 +1842,214 @@ extension MediaTailor {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UpdateChannelRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName"))
+        ]
+
+        public let channelName: String
+        /// The channel's output properties.
+        public let outputs: [RequestOutputItem]
+
+        public init(channelName: String, outputs: [RequestOutputItem]) {
+            self.channelName = channelName
+            self.outputs = outputs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outputs = "Outputs"
+        }
+    }
+
+    public struct UpdateChannelResponse: AWSDecodableShape {
+        public let arn: String?
+        public let channelName: String?
+        public let channelState: ChannelState?
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var creationTime: Date?
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var lastModifiedTime: Date?
+        public let outputs: [ResponseOutputItem]?
+        public let playbackMode: String?
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, channelName: String? = nil, channelState: ChannelState? = nil, creationTime: Date? = nil, lastModifiedTime: Date? = nil, outputs: [ResponseOutputItem]? = nil, playbackMode: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.channelName = channelName
+            self.channelState = channelState
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+            self.outputs = outputs
+            self.playbackMode = playbackMode
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case channelName = "ChannelName"
+            case channelState = "ChannelState"
+            case creationTime = "CreationTime"
+            case lastModifiedTime = "LastModifiedTime"
+            case outputs = "Outputs"
+            case playbackMode = "PlaybackMode"
+            case tags
+        }
+    }
+
+    public struct UpdateSourceLocationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "sourceLocationName", location: .uri(locationName: "sourceLocationName"))
+        ]
+
+        /// Access configuration parameters. Configures the type of authentication used to access content from your source location.
+        public let accessConfiguration: AccessConfiguration?
+        /// The optional configuration for the host server that serves segments.
+        public let defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration?
+        /// The HTTP configuration for the source location.
+        public let httpConfiguration: HttpConfiguration
+        public let sourceLocationName: String
+
+        public init(accessConfiguration: AccessConfiguration? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration, sourceLocationName: String) {
+            self.accessConfiguration = accessConfiguration
+            self.defaultSegmentDeliveryConfiguration = defaultSegmentDeliveryConfiguration
+            self.httpConfiguration = httpConfiguration
+            self.sourceLocationName = sourceLocationName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessConfiguration = "AccessConfiguration"
+            case defaultSegmentDeliveryConfiguration = "DefaultSegmentDeliveryConfiguration"
+            case httpConfiguration = "HttpConfiguration"
+        }
+    }
+
+    public struct UpdateSourceLocationResponse: AWSDecodableShape {
+        public let accessConfiguration: AccessConfiguration?
+        public let arn: String?
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var creationTime: Date?
+        public let defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration?
+        public let httpConfiguration: HttpConfiguration?
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var lastModifiedTime: Date?
+        public let sourceLocationName: String?
+        public let tags: [String: String]?
+
+        public init(accessConfiguration: AccessConfiguration? = nil, arn: String? = nil, creationTime: Date? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration? = nil, lastModifiedTime: Date? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil) {
+            self.accessConfiguration = accessConfiguration
+            self.arn = arn
+            self.creationTime = creationTime
+            self.defaultSegmentDeliveryConfiguration = defaultSegmentDeliveryConfiguration
+            self.httpConfiguration = httpConfiguration
+            self.lastModifiedTime = lastModifiedTime
+            self.sourceLocationName = sourceLocationName
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessConfiguration = "AccessConfiguration"
+            case arn = "Arn"
+            case creationTime = "CreationTime"
+            case defaultSegmentDeliveryConfiguration = "DefaultSegmentDeliveryConfiguration"
+            case httpConfiguration = "HttpConfiguration"
+            case lastModifiedTime = "LastModifiedTime"
+            case sourceLocationName = "SourceLocationName"
+            case tags
+        }
+    }
+
+    public struct UpdateVodSourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "sourceLocationName", location: .uri(locationName: "sourceLocationName")),
+            AWSMemberEncoding(label: "vodSourceName", location: .uri(locationName: "vodSourceName"))
+        ]
+
+        /// An array of HTTP package configurations for the VOD source on this account.
+        public let httpPackageConfigurations: [HttpPackageConfiguration]
+        public let sourceLocationName: String
+        public let vodSourceName: String
+
+        public init(httpPackageConfigurations: [HttpPackageConfiguration], sourceLocationName: String, vodSourceName: String) {
+            self.httpPackageConfigurations = httpPackageConfigurations
+            self.sourceLocationName = sourceLocationName
+            self.vodSourceName = vodSourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case httpPackageConfigurations = "HttpPackageConfigurations"
+        }
+    }
+
+    public struct UpdateVodSourceResponse: AWSDecodableShape {
+        public let arn: String?
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var creationTime: Date?
+        public let httpPackageConfigurations: [HttpPackageConfiguration]?
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var lastModifiedTime: Date?
+        public let sourceLocationName: String?
+        public let tags: [String: String]?
+        public let vodSourceName: String?
+
+        public init(arn: String? = nil, creationTime: Date? = nil, httpPackageConfigurations: [HttpPackageConfiguration]? = nil, lastModifiedTime: Date? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil, vodSourceName: String? = nil) {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.httpPackageConfigurations = httpPackageConfigurations
+            self.lastModifiedTime = lastModifiedTime
+            self.sourceLocationName = sourceLocationName
+            self.tags = tags
+            self.vodSourceName = vodSourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTime = "CreationTime"
+            case httpPackageConfigurations = "HttpPackageConfigurations"
+            case lastModifiedTime = "LastModifiedTime"
+            case sourceLocationName = "SourceLocationName"
+            case tags
+            case vodSourceName = "VodSourceName"
+        }
+    }
+
+    public struct VodSource: AWSDecodableShape {
+        /// The ARN for the VOD source.
+        public let arn: String
+        /// The timestamp that indicates when the VOD source was created.
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var creationTime: Date?
+        /// The HTTP package configurations for the VOD source.
+        public let httpPackageConfigurations: [HttpPackageConfiguration]
+        /// The timestamp that indicates when the VOD source was last modified.
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var lastModifiedTime: Date?
+        /// The name of the source location that the VOD source is associated with.
+        public let sourceLocationName: String
+        /// The tags assigned to the VOD source.
+        public let tags: [String: String]?
+        /// The name of the VOD source.
+        public let vodSourceName: String
+
+        public init(arn: String, creationTime: Date? = nil, httpPackageConfigurations: [HttpPackageConfiguration], lastModifiedTime: Date? = nil, sourceLocationName: String, tags: [String: String]? = nil, vodSourceName: String) {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.httpPackageConfigurations = httpPackageConfigurations
+            self.lastModifiedTime = lastModifiedTime
+            self.sourceLocationName = sourceLocationName
+            self.tags = tags
+            self.vodSourceName = vodSourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTime = "CreationTime"
+            case httpPackageConfigurations = "HttpPackageConfigurations"
+            case lastModifiedTime = "LastModifiedTime"
+            case sourceLocationName = "SourceLocationName"
+            case tags
+            case vodSourceName = "VodSourceName"
+        }
     }
 }

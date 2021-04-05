@@ -42,6 +42,7 @@ extension Macie {
         }
 
         public func validate(name: String) throws {
+            try self.memberAccountId.forEach {}
             try self.validate(self.memberAccountId, name: "memberAccountId", parent: name, pattern: "[0-9]{12}")
         }
 
@@ -62,10 +63,12 @@ extension Macie {
         }
 
         public func validate(name: String) throws {
+            try self.memberAccountId?.forEach {}
             try self.validate(self.memberAccountId, name: "memberAccountId", parent: name, pattern: "[0-9]{12}")
             try self.s3Resources.forEach {
                 try $0.validate(name: "\(name).s3Resources[]")
             }
+            try self.s3Resources.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -130,6 +133,7 @@ extension Macie {
         }
 
         public func validate(name: String) throws {
+            try self.memberAccountId.forEach {}
             try self.validate(self.memberAccountId, name: "memberAccountId", parent: name, pattern: "[0-9]{12}")
         }
 
@@ -153,6 +157,8 @@ extension Macie {
             try self.associatedS3Resources.forEach {
                 try $0.validate(name: "\(name).associatedS3Resources[]")
             }
+            try self.associatedS3Resources.forEach {}
+            try self.memberAccountId?.forEach {}
             try self.validate(self.memberAccountId, name: "memberAccountId", parent: name, pattern: "[0-9]{12}")
         }
 
@@ -208,7 +214,9 @@ extension Macie {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 500)
         }
 
@@ -250,8 +258,11 @@ extension Macie {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.memberAccountId?.forEach {}
             try self.validate(self.memberAccountId, name: "memberAccountId", parent: name, pattern: "[0-9]{12}")
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 500)
         }
 
@@ -304,7 +315,9 @@ extension Macie {
         }
 
         public func validate(name: String) throws {
+            try self.bucketName.forEach {}
             try self.validate(self.bucketName, name: "bucketName", parent: name, max: 500)
+            try self.prefix?.forEach {}
             try self.validate(self.prefix, name: "prefix", parent: name, max: 10000)
         }
 
@@ -329,7 +342,9 @@ extension Macie {
         }
 
         public func validate(name: String) throws {
+            try self.bucketName.forEach {}
             try self.validate(self.bucketName, name: "bucketName", parent: name, max: 500)
+            try self.prefix?.forEach {}
             try self.validate(self.prefix, name: "prefix", parent: name, max: 10000)
         }
 
@@ -355,7 +370,9 @@ extension Macie {
         }
 
         public func validate(name: String) throws {
+            try self.bucketName.forEach {}
             try self.validate(self.bucketName, name: "bucketName", parent: name, max: 500)
+            try self.prefix?.forEach {}
             try self.validate(self.prefix, name: "prefix", parent: name, max: 10000)
         }
 
@@ -378,10 +395,12 @@ extension Macie {
         }
 
         public func validate(name: String) throws {
+            try self.memberAccountId?.forEach {}
             try self.validate(self.memberAccountId, name: "memberAccountId", parent: name, pattern: "[0-9]{12}")
             try self.s3ResourcesUpdate.forEach {
                 try $0.validate(name: "\(name).s3ResourcesUpdate[]")
             }
+            try self.s3ResourcesUpdate.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {

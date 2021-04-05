@@ -94,16 +94,22 @@ extension RDSDataService {
         }
 
         public func validate(name: String) throws {
+            try self.database?.forEach {}
             try self.validate(self.database, name: "database", parent: name, max: 64)
             try self.validate(self.database, name: "database", parent: name, min: 0)
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 11)
+            try self.schema?.forEach {}
             try self.validate(self.schema, name: "schema", parent: name, max: 64)
             try self.validate(self.schema, name: "schema", parent: name, min: 0)
+            try self.secretArn.forEach {}
             try self.validate(self.secretArn, name: "secretArn", parent: name, max: 2048)
             try self.validate(self.secretArn, name: "secretArn", parent: name, min: 11)
+            try self.sql.forEach {}
             try self.validate(self.sql, name: "sql", parent: name, max: 65536)
             try self.validate(self.sql, name: "sql", parent: name, min: 0)
+            try self.transactionId?.forEach {}
             try self.validate(self.transactionId, name: "transactionId", parent: name, max: 192)
             try self.validate(self.transactionId, name: "transactionId", parent: name, min: 0)
         }
@@ -150,12 +156,16 @@ extension RDSDataService {
         }
 
         public func validate(name: String) throws {
+            try self.database?.forEach {}
             try self.validate(self.database, name: "database", parent: name, max: 64)
             try self.validate(self.database, name: "database", parent: name, min: 0)
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 11)
+            try self.schema?.forEach {}
             try self.validate(self.schema, name: "schema", parent: name, max: 64)
             try self.validate(self.schema, name: "schema", parent: name, min: 0)
+            try self.secretArn.forEach {}
             try self.validate(self.secretArn, name: "secretArn", parent: name, max: 2048)
             try self.validate(self.secretArn, name: "secretArn", parent: name, min: 11)
         }
@@ -261,10 +271,13 @@ extension RDSDataService {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 11)
+            try self.secretArn.forEach {}
             try self.validate(self.secretArn, name: "secretArn", parent: name, max: 2048)
             try self.validate(self.secretArn, name: "secretArn", parent: name, min: 11)
+            try self.transactionId.forEach {}
             try self.validate(self.transactionId, name: "transactionId", parent: name, max: 192)
             try self.validate(self.transactionId, name: "transactionId", parent: name, min: 0)
         }
@@ -310,14 +323,19 @@ extension RDSDataService {
         }
 
         public func validate(name: String) throws {
+            try self.awsSecretStoreArn.forEach {}
             try self.validate(self.awsSecretStoreArn, name: "awsSecretStoreArn", parent: name, max: 2048)
             try self.validate(self.awsSecretStoreArn, name: "awsSecretStoreArn", parent: name, min: 11)
+            try self.database?.forEach {}
             try self.validate(self.database, name: "database", parent: name, max: 64)
             try self.validate(self.database, name: "database", parent: name, min: 0)
+            try self.dbClusterOrInstanceArn.forEach {}
             try self.validate(self.dbClusterOrInstanceArn, name: "dbClusterOrInstanceArn", parent: name, max: 2048)
             try self.validate(self.dbClusterOrInstanceArn, name: "dbClusterOrInstanceArn", parent: name, min: 11)
+            try self.schema?.forEach {}
             try self.validate(self.schema, name: "schema", parent: name, max: 64)
             try self.validate(self.schema, name: "schema", parent: name, min: 0)
+            try self.sqlStatements.forEach {}
             try self.validate(self.sqlStatements, name: "sqlStatements", parent: name, max: 65536)
             try self.validate(self.sqlStatements, name: "sqlStatements", parent: name, min: 0)
         }
@@ -380,16 +398,22 @@ extension RDSDataService {
         }
 
         public func validate(name: String) throws {
+            try self.database?.forEach {}
             try self.validate(self.database, name: "database", parent: name, max: 64)
             try self.validate(self.database, name: "database", parent: name, min: 0)
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 11)
+            try self.schema?.forEach {}
             try self.validate(self.schema, name: "schema", parent: name, max: 64)
             try self.validate(self.schema, name: "schema", parent: name, min: 0)
+            try self.secretArn.forEach {}
             try self.validate(self.secretArn, name: "secretArn", parent: name, max: 2048)
             try self.validate(self.secretArn, name: "secretArn", parent: name, min: 11)
+            try self.sql.forEach {}
             try self.validate(self.sql, name: "sql", parent: name, max: 65536)
             try self.validate(self.sql, name: "sql", parent: name, min: 0)
+            try self.transactionId?.forEach {}
             try self.validate(self.transactionId, name: "transactionId", parent: name, max: 192)
             try self.validate(self.transactionId, name: "transactionId", parent: name, min: 0)
         }
@@ -545,10 +569,13 @@ extension RDSDataService {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 11)
+            try self.secretArn.forEach {}
             try self.validate(self.secretArn, name: "secretArn", parent: name, max: 2048)
             try self.validate(self.secretArn, name: "secretArn", parent: name, min: 11)
+            try self.transactionId.forEach {}
             try self.validate(self.transactionId, name: "transactionId", parent: name, max: 192)
             try self.validate(self.transactionId, name: "transactionId", parent: name, min: 0)
         }

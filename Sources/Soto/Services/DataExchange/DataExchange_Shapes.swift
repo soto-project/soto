@@ -278,6 +278,7 @@ extension DataExchange {
 
         public func validate(name: String) throws {
             try self.details.validate(name: "\(name).details")
+            try self.details.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -339,6 +340,7 @@ extension DataExchange {
         }
 
         public func validate(name: String) throws {
+            try self.comment?.forEach {}
             try self.validate(self.comment, name: "comment", parent: name, max: 16384)
             try self.validate(self.comment, name: "comment", parent: name, min: 0)
         }
@@ -917,6 +919,7 @@ extension DataExchange {
         }
 
         public func validate(name: String) throws {
+            try self.md5Hash.forEach {}
             try self.validate(self.md5Hash, name: "md5Hash", parent: name, max: 24)
             try self.validate(self.md5Hash, name: "md5Hash", parent: name, min: 24)
             try self.validate(self.md5Hash, name: "md5Hash", parent: name, pattern: "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")
@@ -1103,6 +1106,7 @@ extension DataExchange {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1143,6 +1147,7 @@ extension DataExchange {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1186,6 +1191,7 @@ extension DataExchange {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1229,6 +1235,7 @@ extension DataExchange {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1311,6 +1318,7 @@ extension DataExchange {
 
         public func validate(name: String) throws {
             try self.importAssetFromSignedUrl?.validate(name: "\(name).importAssetFromSignedUrl")
+            try self.importAssetFromSignedUrl?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1632,6 +1640,7 @@ extension DataExchange {
         }
 
         public func validate(name: String) throws {
+            try self.comment?.forEach {}
             try self.validate(self.comment, name: "comment", parent: name, max: 16384)
             try self.validate(self.comment, name: "comment", parent: name, min: 0)
         }

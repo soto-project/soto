@@ -64,14 +64,17 @@ extension TimestreamWrite {
         }
 
         public func validate(name: String) throws {
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 64)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 3)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.kmsKeyId?.forEach {}
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -114,16 +117,20 @@ extension TimestreamWrite {
         }
 
         public func validate(name: String) throws {
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 64)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 3)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try self.retentionProperties?.validate(name: "\(name).retentionProperties")
+            try self.retentionProperties?.forEach {}
+            try self.tableName.forEach {}
             try self.validate(self.tableName, name: "tableName", parent: name, max: 64)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 3)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -191,6 +198,7 @@ extension TimestreamWrite {
         }
 
         public func validate(name: String) throws {
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 64)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 3)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -213,9 +221,11 @@ extension TimestreamWrite {
         }
 
         public func validate(name: String) throws {
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 64)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 3)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.tableName.forEach {}
             try self.validate(self.tableName, name: "tableName", parent: name, max: 64)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 3)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -236,6 +246,7 @@ extension TimestreamWrite {
         }
 
         public func validate(name: String) throws {
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 64)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 3)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -288,9 +299,11 @@ extension TimestreamWrite {
         }
 
         public func validate(name: String) throws {
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 64)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 3)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.tableName.forEach {}
             try self.validate(self.tableName, name: "tableName", parent: name, max: 64)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 3)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -330,8 +343,10 @@ extension TimestreamWrite {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 2048)
             try self.validate(self.value, name: "value", parent: name, min: 1)
         }
@@ -372,6 +387,7 @@ extension TimestreamWrite {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -414,9 +430,11 @@ extension TimestreamWrite {
         }
 
         public func validate(name: String) throws {
+            try self.databaseName?.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 64)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 3)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -454,6 +472,7 @@ extension TimestreamWrite {
         }
 
         public func validate(name: String) throws {
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
         }
@@ -506,11 +525,15 @@ extension TimestreamWrite {
             try self.dimensions?.forEach {
                 try $0.validate(name: "\(name).dimensions[]")
             }
+            try self.dimensions?.forEach {}
             try self.validate(self.dimensions, name: "dimensions", parent: name, max: 128)
+            try self.measureName?.forEach {}
             try self.validate(self.measureName, name: "measureName", parent: name, max: 256)
             try self.validate(self.measureName, name: "measureName", parent: name, min: 1)
+            try self.measureValue?.forEach {}
             try self.validate(self.measureValue, name: "measureValue", parent: name, max: 2048)
             try self.validate(self.measureValue, name: "measureValue", parent: name, min: 1)
+            try self.time?.forEach {}
             try self.validate(self.time, name: "time", parent: name, max: 256)
             try self.validate(self.time, name: "time", parent: name, min: 1)
         }
@@ -538,8 +561,10 @@ extension TimestreamWrite {
         }
 
         public func validate(name: String) throws {
+            try self.magneticStoreRetentionPeriodInDays.forEach {}
             try self.validate(self.magneticStoreRetentionPeriodInDays, name: "magneticStoreRetentionPeriodInDays", parent: name, max: 73000)
             try self.validate(self.magneticStoreRetentionPeriodInDays, name: "magneticStoreRetentionPeriodInDays", parent: name, min: 1)
+            try self.memoryStoreRetentionPeriodInHours.forEach {}
             try self.validate(self.memoryStoreRetentionPeriodInHours, name: "memoryStoreRetentionPeriodInHours", parent: name, max: 8766)
             try self.validate(self.memoryStoreRetentionPeriodInHours, name: "memoryStoreRetentionPeriodInHours", parent: name, min: 1)
         }
@@ -599,8 +624,10 @@ extension TimestreamWrite {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
         }
@@ -623,11 +650,13 @@ extension TimestreamWrite {
         }
 
         public func validate(name: String) throws {
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -654,12 +683,14 @@ extension TimestreamWrite {
         }
 
         public func validate(name: String) throws {
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
         }
@@ -686,9 +717,11 @@ extension TimestreamWrite {
         }
 
         public func validate(name: String) throws {
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 64)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 3)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.kmsKeyId.forEach {}
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
         }
@@ -726,10 +759,13 @@ extension TimestreamWrite {
         }
 
         public func validate(name: String) throws {
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 64)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 3)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try self.retentionProperties.validate(name: "\(name).retentionProperties")
+            try self.retentionProperties.forEach {}
+            try self.tableName.forEach {}
             try self.validate(self.tableName, name: "tableName", parent: name, max: 64)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 3)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -774,14 +810,18 @@ extension TimestreamWrite {
 
         public func validate(name: String) throws {
             try self.commonAttributes?.validate(name: "\(name).commonAttributes")
+            try self.commonAttributes?.forEach {}
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 64)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 3)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try self.records.forEach {
                 try $0.validate(name: "\(name).records[]")
             }
+            try self.records.forEach {}
             try self.validate(self.records, name: "records", parent: name, max: 100)
             try self.validate(self.records, name: "records", parent: name, min: 1)
+            try self.tableName.forEach {}
             try self.validate(self.tableName, name: "tableName", parent: name, max: 64)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 3)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")

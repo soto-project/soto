@@ -102,16 +102,21 @@ extension Translate {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\P{M}\\p{M}]{0,256}")
             try self.encryptionKey?.validate(name: "\(name).encryptionKey")
+            try self.encryptionKey?.forEach {}
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z0-9-]_?)+$")
             try self.parallelDataConfig.validate(name: "\(name).parallelDataConfig")
+            try self.parallelDataConfig.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -149,6 +154,7 @@ extension Translate {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z0-9-]_?)+$")
@@ -185,6 +191,7 @@ extension Translate {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z0-9-]_?)+$")
@@ -204,6 +211,7 @@ extension Translate {
         }
 
         public func validate(name: String) throws {
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 32)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
@@ -239,6 +247,7 @@ extension Translate {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 400)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "(arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:kms:)?([a-z]{2}-[a-z]+(-[a-z]+)?-\\d:)?(\\d{12}:)?(((key/)?[a-zA-Z0-9-_]+)|(alias/[a-zA-Z0-9:/_-]+))")
@@ -259,6 +268,7 @@ extension Translate {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z0-9-]_?)+$")
@@ -306,6 +316,7 @@ extension Translate {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z0-9-]_?)+$")
@@ -355,13 +366,17 @@ extension Translate {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\P{M}\\p{M}]{0,256}")
             try self.encryptionKey?.validate(name: "\(name).encryptionKey")
+            try self.encryptionKey?.forEach {}
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z0-9-]_?)+$")
             try self.terminologyData.validate(name: "\(name).terminologyData")
+            try self.terminologyData.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -398,8 +413,10 @@ extension Translate {
         }
 
         public func validate(name: String) throws {
+            try self.contentType.forEach {}
             try self.validate(self.contentType, name: "contentType", parent: name, max: 256)
             try self.validate(self.contentType, name: "contentType", parent: name, pattern: "^[-\\w.]+\\/[-\\w.+]+$")
+            try self.s3Uri.forEach {}
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
         }
@@ -443,8 +460,10 @@ extension Translate {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "\\p{ASCII}{0,8192}")
         }
@@ -484,8 +503,10 @@ extension Translate {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "\\p{ASCII}{0,8192}")
         }
@@ -529,8 +550,11 @@ extension Translate {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
+            try self.filter?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "\\p{ASCII}{0,8192}")
         }
@@ -568,6 +592,7 @@ extension Translate {
         }
 
         public func validate(name: String) throws {
+            try self.s3Uri.forEach {}
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
         }
@@ -589,6 +614,7 @@ extension Translate {
         }
 
         public func validate(name: String) throws {
+            try self.s3Uri.forEach {}
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
         }
@@ -725,28 +751,36 @@ extension Translate {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.dataAccessRoleArn.forEach {}
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, max: 2048)
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, min: 20)
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
             try self.inputDataConfig.validate(name: "\(name).inputDataConfig")
+            try self.inputDataConfig.forEach {}
+            try self.jobName?.forEach {}
             try self.validate(self.jobName, name: "jobName", parent: name, max: 256)
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
             try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
+            try self.outputDataConfig.forEach {}
             try self.parallelDataNames?.forEach {
                 try validate($0, name: "parallelDataNames[]", parent: name, max: 256)
                 try validate($0, name: "parallelDataNames[]", parent: name, min: 1)
                 try validate($0, name: "parallelDataNames[]", parent: name, pattern: "^([A-Za-z0-9-]_?)+$")
             }
+            try self.parallelDataNames?.forEach {}
+            try self.sourceLanguageCode.forEach {}
             try self.validate(self.sourceLanguageCode, name: "sourceLanguageCode", parent: name, max: 5)
             try self.validate(self.sourceLanguageCode, name: "sourceLanguageCode", parent: name, min: 2)
             try self.targetLanguageCodes.forEach {
                 try validate($0, name: "targetLanguageCodes[]", parent: name, max: 5)
                 try validate($0, name: "targetLanguageCodes[]", parent: name, min: 2)
             }
+            try self.targetLanguageCodes.forEach {}
             try self.validate(self.targetLanguageCodes, name: "targetLanguageCodes", parent: name, max: 1)
             try self.validate(self.targetLanguageCodes, name: "targetLanguageCodes", parent: name, min: 1)
             try self.terminologyNames?.forEach {
@@ -754,6 +788,7 @@ extension Translate {
                 try validate($0, name: "terminologyNames[]", parent: name, min: 1)
                 try validate($0, name: "terminologyNames[]", parent: name, pattern: "^([A-Za-z0-9-]_?)+$")
             }
+            try self.terminologyNames?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -795,6 +830,7 @@ extension Translate {
         }
 
         public func validate(name: String) throws {
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 32)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
@@ -851,6 +887,7 @@ extension Translate {
         }
 
         public func validate(name: String) throws {
+            try self.file.forEach {}
             try self.validate(self.file, name: "file", parent: name, max: 10_485_760)
         }
 
@@ -944,6 +981,7 @@ extension Translate {
         }
 
         public func validate(name: String) throws {
+            try self.jobName?.forEach {}
             try self.validate(self.jobName, name: "jobName", parent: name, max: 256)
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
@@ -1040,8 +1078,10 @@ extension Translate {
         }
 
         public func validate(name: String) throws {
+            try self.sourceLanguageCode.forEach {}
             try self.validate(self.sourceLanguageCode, name: "sourceLanguageCode", parent: name, max: 5)
             try self.validate(self.sourceLanguageCode, name: "sourceLanguageCode", parent: name, min: 2)
+            try self.targetLanguageCode.forEach {}
             try self.validate(self.targetLanguageCode, name: "targetLanguageCode", parent: name, max: 5)
             try self.validate(self.targetLanguageCode, name: "targetLanguageCode", parent: name, min: 2)
             try self.terminologyNames?.forEach {
@@ -1049,6 +1089,8 @@ extension Translate {
                 try validate($0, name: "terminologyNames[]", parent: name, min: 1)
                 try validate($0, name: "terminologyNames[]", parent: name, pattern: "^([A-Za-z0-9-]_?)+$")
             }
+            try self.terminologyNames?.forEach {}
+            try self.text.forEach {}
             try self.validate(self.text, name: "text", parent: name, max: 5000)
             try self.validate(self.text, name: "text", parent: name, min: 1)
             try self.validate(self.text, name: "text", parent: name, pattern: "[\\P{M}\\p{M}]{1,5000}")
@@ -1105,15 +1147,19 @@ extension Translate {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\P{M}\\p{M}]{0,256}")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z0-9-]_?)+$")
             try self.parallelDataConfig.validate(name: "\(name).parallelDataConfig")
+            try self.parallelDataConfig.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {

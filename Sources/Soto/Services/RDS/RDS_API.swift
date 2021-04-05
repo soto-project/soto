@@ -172,6 +172,11 @@ public struct RDS: AWSService {
         return self.client.execute(operation: "CreateDBProxy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  Creates a DBProxyEndpoint. Only applies to proxies that are associated with Aurora DB clusters. You can use DB proxy endpoints to specify read/write or read-only access to the DB cluster. You can also use DB proxy endpoints to access a DB proxy through a different VPC than the proxy's default VPC.
+    public func createDBProxyEndpoint(_ input: CreateDBProxyEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDBProxyEndpointResponse> {
+        return self.client.execute(operation: "CreateDBProxyEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a new DB security group. DB security groups control access to a DB instance.  A DB security group controls access to EC2-Classic DB instances that are not in a VPC.
     public func createDBSecurityGroup(_ input: CreateDBSecurityGroupMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDBSecurityGroupResult> {
         return self.client.execute(operation: "CreateDBSecurityGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -242,9 +247,14 @@ public struct RDS: AWSService {
         return self.client.execute(operation: "DeleteDBParameterGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes an existing proxy.
+    /// Deletes an existing DB proxy.
     public func deleteDBProxy(_ input: DeleteDBProxyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDBProxyResponse> {
         return self.client.execute(operation: "DeleteDBProxy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a DBProxyEndpoint. Doing so removes the ability to access the DB proxy using the endpoint that you defined. The endpoint that you delete might have provided capabilities such as read/write or read-only operations, or using a different VPC than the DB proxy's default VPC.
+    public func deleteDBProxyEndpoint(_ input: DeleteDBProxyEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDBProxyEndpointResponse> {
+        return self.client.execute(operation: "DeleteDBProxyEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a DB security group.  The specified DB security group must not be associated with any DB instances.
@@ -370,6 +380,11 @@ public struct RDS: AWSService {
     /// Returns information about DB proxies.
     public func describeDBProxies(_ input: DescribeDBProxiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDBProxiesResponse> {
         return self.client.execute(operation: "DescribeDBProxies", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns information about DB proxy endpoints.
+    public func describeDBProxyEndpoints(_ input: DescribeDBProxyEndpointsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDBProxyEndpointsResponse> {
+        return self.client.execute(operation: "DescribeDBProxyEndpoints", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns information about DB proxy target groups, represented by DBProxyTargetGroup data structures.
@@ -550,6 +565,11 @@ public struct RDS: AWSService {
     /// Changes the settings for an existing DB proxy.
     public func modifyDBProxy(_ input: ModifyDBProxyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyDBProxyResponse> {
         return self.client.execute(operation: "ModifyDBProxy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Changes the settings for an existing DB proxy endpoint.
+    public func modifyDBProxyEndpoint(_ input: ModifyDBProxyEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyDBProxyEndpointResponse> {
+        return self.client.execute(operation: "ModifyDBProxyEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Modifies the properties of a DBProxyTargetGroup.

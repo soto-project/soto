@@ -240,6 +240,7 @@ extension RoboMaker {
                 try validate($0, name: "worlds[]", parent: name, min: 1)
                 try validate($0, name: "worlds[]", parent: name, pattern: "arn:.*")
             }
+            try self.worlds.forEach {}
             try self.validate(self.worlds, name: "worlds", parent: name, max: 100)
             try self.validate(self.worlds, name: "worlds", parent: name, min: 1)
         }
@@ -276,6 +277,7 @@ extension RoboMaker {
                 try validate($0, name: "jobs[]", parent: name, min: 1)
                 try validate($0, name: "jobs[]", parent: name, pattern: "arn:.*")
             }
+            try self.jobs.forEach {}
             try self.validate(self.jobs, name: "jobs", parent: name, max: 100)
             try self.validate(self.jobs, name: "jobs", parent: name, min: 1)
         }
@@ -328,6 +330,7 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.job.forEach {}
             try self.validate(self.job, name: "job", parent: name, max: 1224)
             try self.validate(self.job, name: "job", parent: name, min: 1)
             try self.validate(self.job, name: "job", parent: name, pattern: "arn:.*")
@@ -351,6 +354,7 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.batch.forEach {}
             try self.validate(self.batch, name: "batch", parent: name, max: 1224)
             try self.validate(self.batch, name: "batch", parent: name, min: 1)
             try self.validate(self.batch, name: "batch", parent: name, pattern: "arn:.*")
@@ -374,6 +378,7 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.job.forEach {}
             try self.validate(self.job, name: "job", parent: name, max: 1224)
             try self.validate(self.job, name: "job", parent: name, min: 1)
             try self.validate(self.job, name: "job", parent: name, pattern: "arn:.*")
@@ -397,6 +402,7 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.job.forEach {}
             try self.validate(self.job, name: "job", parent: name, max: 1224)
             try self.validate(self.job, name: "job", parent: name, min: 1)
             try self.validate(self.job, name: "job", parent: name, pattern: "arn:.*")
@@ -420,6 +426,7 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.job.forEach {}
             try self.validate(self.job, name: "job", parent: name, max: 1224)
             try self.validate(self.job, name: "job", parent: name, min: 1)
             try self.validate(self.job, name: "job", parent: name, pattern: "arn:.*")
@@ -443,6 +450,7 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.simulationUnitLimit?.forEach {}
             try self.validate(self.simulationUnitLimit, name: "simulationUnitLimit", parent: name, max: 15)
             try self.validate(self.simulationUnitLimit, name: "simulationUnitLimit", parent: name, min: 1)
         }
@@ -486,15 +494,19 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.clientRequestToken.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "[a-zA-Z0-9_\\-=]*")
             try self.deploymentApplicationConfigs.forEach {
                 try $0.validate(name: "\(name).deploymentApplicationConfigs[]")
             }
+            try self.deploymentApplicationConfigs.forEach {}
             try self.validate(self.deploymentApplicationConfigs, name: "deploymentApplicationConfigs", parent: name, max: 1)
             try self.validate(self.deploymentApplicationConfigs, name: "deploymentApplicationConfigs", parent: name, min: 1)
             try self.deploymentConfig?.validate(name: "\(name).deploymentConfig")
+            try self.deploymentConfig?.forEach {}
+            try self.fleet.forEach {}
             try self.validate(self.fleet, name: "fleet", parent: name, max: 1224)
             try self.validate(self.fleet, name: "fleet", parent: name, min: 1)
             try self.validate(self.fleet, name: "fleet", parent: name, pattern: "arn:.*")
@@ -574,6 +586,7 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9_\\-]*")
@@ -636,12 +649,14 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9_\\-]*")
             try self.sources.forEach {
                 try $0.validate(name: "\(name).sources[]")
             }
+            try self.sources.forEach {}
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -713,9 +728,11 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.application.forEach {}
             try self.validate(self.application, name: "application", parent: name, max: 1224)
             try self.validate(self.application, name: "application", parent: name, min: 1)
             try self.validate(self.application, name: "application", parent: name, pattern: "arn:.*")
+            try self.currentRevisionId?.forEach {}
             try self.validate(self.currentRevisionId, name: "currentRevisionId", parent: name, max: 40)
             try self.validate(self.currentRevisionId, name: "currentRevisionId", parent: name, min: 1)
             try self.validate(self.currentRevisionId, name: "currentRevisionId", parent: name, pattern: "[a-zA-Z0-9_.\\-]*")
@@ -782,9 +799,11 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.greengrassGroupId.forEach {}
             try self.validate(self.greengrassGroupId, name: "greengrassGroupId", parent: name, max: 1224)
             try self.validate(self.greengrassGroupId, name: "greengrassGroupId", parent: name, min: 1)
             try self.validate(self.greengrassGroupId, name: "greengrassGroupId", parent: name, pattern: ".*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9_\\-]*")
@@ -863,14 +882,18 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9_\\-]*")
             try self.renderingEngine?.validate(name: "\(name).renderingEngine")
+            try self.renderingEngine?.forEach {}
             try self.simulationSoftwareSuite.validate(name: "\(name).simulationSoftwareSuite")
+            try self.simulationSoftwareSuite.forEach {}
             try self.sources.forEach {
                 try $0.validate(name: "\(name).sources[]")
             }
+            try self.sources.forEach {}
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -952,9 +975,11 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.application.forEach {}
             try self.validate(self.application, name: "application", parent: name, max: 1224)
             try self.validate(self.application, name: "application", parent: name, min: 1)
             try self.validate(self.application, name: "application", parent: name, pattern: "arn:.*")
+            try self.currentRevisionId?.forEach {}
             try self.validate(self.currentRevisionId, name: "currentRevisionId", parent: name, max: 40)
             try self.validate(self.currentRevisionId, name: "currentRevisionId", parent: name, min: 1)
             try self.validate(self.currentRevisionId, name: "currentRevisionId", parent: name, pattern: "[a-zA-Z0-9_.\\-]*")
@@ -1053,27 +1078,34 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "[a-zA-Z0-9_\\-=]*")
             try self.compute?.validate(name: "\(name).compute")
+            try self.compute?.forEach {}
             try self.dataSources?.forEach {
                 try $0.validate(name: "\(name).dataSources[]")
             }
+            try self.dataSources?.forEach {}
             try self.validate(self.dataSources, name: "dataSources", parent: name, max: 5)
             try self.validate(self.dataSources, name: "dataSources", parent: name, min: 1)
+            try self.iamRole.forEach {}
             try self.validate(self.iamRole, name: "iamRole", parent: name, max: 255)
             try self.validate(self.iamRole, name: "iamRole", parent: name, min: 1)
             try self.validate(self.iamRole, name: "iamRole", parent: name, pattern: "arn:aws:iam::\\w+:role/.*")
             try self.outputLocation?.validate(name: "\(name).outputLocation")
+            try self.outputLocation?.forEach {}
             try self.robotApplications?.forEach {
                 try $0.validate(name: "\(name).robotApplications[]")
             }
+            try self.robotApplications?.forEach {}
             try self.validate(self.robotApplications, name: "robotApplications", parent: name, max: 1)
             try self.validate(self.robotApplications, name: "robotApplications", parent: name, min: 1)
             try self.simulationApplications?.forEach {
                 try $0.validate(name: "\(name).simulationApplications[]")
             }
+            try self.simulationApplications?.forEach {}
             try self.validate(self.simulationApplications, name: "simulationApplications", parent: name, max: 1)
             try self.validate(self.simulationApplications, name: "simulationApplications", parent: name, min: 1)
             try self.tags?.forEach {
@@ -1085,6 +1117,7 @@ extension RoboMaker {
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
             }
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
+            try self.vpcConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1204,13 +1237,16 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "[a-zA-Z0-9_\\-=]*")
+            try self.iamRole.forEach {}
             try self.validate(self.iamRole, name: "iamRole", parent: name, max: 255)
             try self.validate(self.iamRole, name: "iamRole", parent: name, min: 1)
             try self.validate(self.iamRole, name: "iamRole", parent: name, pattern: "arn:aws:iam::\\w+:role/.*")
             try self.outputLocation.validate(name: "\(name).outputLocation")
+            try self.outputLocation.forEach {}
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1224,6 +1260,7 @@ extension RoboMaker {
                 try validate($0, name: "worlds[]", parent: name, min: 1)
                 try validate($0, name: "worlds[]", parent: name, pattern: "arn:.*")
             }
+            try self.worlds.forEach {}
             try self.validate(self.worlds, name: "worlds", parent: name, max: 100)
             try self.validate(self.worlds, name: "worlds", parent: name, min: 1)
         }
@@ -1298,6 +1335,7 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "[a-zA-Z0-9_\\-=]*")
@@ -1309,6 +1347,7 @@ extension RoboMaker {
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
             }
+            try self.template.forEach {}
             try self.validate(self.template, name: "template", parent: name, max: 1224)
             try self.validate(self.template, name: "template", parent: name, min: 1)
             try self.validate(self.template, name: "template", parent: name, pattern: "arn:.*")
@@ -1397,9 +1436,11 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "[a-zA-Z0-9_\\-=]*")
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 0)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*")
@@ -1411,10 +1452,12 @@ extension RoboMaker {
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
             }
+            try self.templateBody?.forEach {}
             try self.validate(self.templateBody, name: "templateBody", parent: name, max: 262_144)
             try self.validate(self.templateBody, name: "templateBody", parent: name, min: 1)
             try self.validate(self.templateBody, name: "templateBody", parent: name, pattern: "[\\S\\s]+")
             try self.templateLocation?.validate(name: "\(name).templateLocation")
+            try self.templateLocation?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1491,9 +1534,11 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9_\\-]*")
+            try self.s3Bucket.forEach {}
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, max: 63)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, min: 3)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "[a-z0-9][a-z0-9.\\-]*[a-z0-9]")
@@ -1502,6 +1547,7 @@ extension RoboMaker {
                 try validate($0, name: "s3Keys[]", parent: name, min: 1)
                 try validate($0, name: "s3Keys[]", parent: name, pattern: ".*")
             }
+            try self.s3Keys.forEach {}
             try self.validate(self.s3Keys, name: "s3Keys", parent: name, max: 100)
             try self.validate(self.s3Keys, name: "s3Keys", parent: name, min: 1)
         }
@@ -1522,6 +1568,7 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.fleet.forEach {}
             try self.validate(self.fleet, name: "fleet", parent: name, max: 1224)
             try self.validate(self.fleet, name: "fleet", parent: name, min: 1)
             try self.validate(self.fleet, name: "fleet", parent: name, pattern: "arn:.*")
@@ -1548,9 +1595,11 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.application.forEach {}
             try self.validate(self.application, name: "application", parent: name, max: 1224)
             try self.validate(self.application, name: "application", parent: name, min: 1)
             try self.validate(self.application, name: "application", parent: name, pattern: "arn:.*")
+            try self.applicationVersion?.forEach {}
             try self.validate(self.applicationVersion, name: "applicationVersion", parent: name, max: 255)
             try self.validate(self.applicationVersion, name: "applicationVersion", parent: name, min: 1)
             try self.validate(self.applicationVersion, name: "applicationVersion", parent: name, pattern: "(\\$LATEST)|[0-9]*")
@@ -1575,6 +1624,7 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.robot.forEach {}
             try self.validate(self.robot, name: "robot", parent: name, max: 1224)
             try self.validate(self.robot, name: "robot", parent: name, min: 1)
             try self.validate(self.robot, name: "robot", parent: name, pattern: "arn:.*")
@@ -1601,9 +1651,11 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.application.forEach {}
             try self.validate(self.application, name: "application", parent: name, max: 1224)
             try self.validate(self.application, name: "application", parent: name, min: 1)
             try self.validate(self.application, name: "application", parent: name, pattern: "arn:.*")
+            try self.applicationVersion?.forEach {}
             try self.validate(self.applicationVersion, name: "applicationVersion", parent: name, max: 255)
             try self.validate(self.applicationVersion, name: "applicationVersion", parent: name, min: 1)
             try self.validate(self.applicationVersion, name: "applicationVersion", parent: name, pattern: "(\\$LATEST)|[0-9]*")
@@ -1628,6 +1680,7 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.template.forEach {}
             try self.validate(self.template, name: "template", parent: name, max: 1224)
             try self.validate(self.template, name: "template", parent: name, min: 1)
             try self.validate(self.template, name: "template", parent: name, pattern: "arn:.*")
@@ -1657,13 +1710,16 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.application.forEach {}
             try self.validate(self.application, name: "application", parent: name, max: 1224)
             try self.validate(self.application, name: "application", parent: name, min: 1)
             try self.validate(self.application, name: "application", parent: name, pattern: "arn:.*")
+            try self.applicationVersion.forEach {}
             try self.validate(self.applicationVersion, name: "applicationVersion", parent: name, max: 255)
             try self.validate(self.applicationVersion, name: "applicationVersion", parent: name, min: 1)
             try self.validate(self.applicationVersion, name: "applicationVersion", parent: name, pattern: "[0-9]*")
             try self.launchConfig.validate(name: "\(name).launchConfig")
+            try self.launchConfig.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1691,9 +1747,12 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.concurrentDeploymentPercentage?.forEach {}
             try self.validate(self.concurrentDeploymentPercentage, name: "concurrentDeploymentPercentage", parent: name, max: 100)
             try self.validate(self.concurrentDeploymentPercentage, name: "concurrentDeploymentPercentage", parent: name, min: 1)
             try self.downloadConditionFile?.validate(name: "\(name).downloadConditionFile")
+            try self.downloadConditionFile?.forEach {}
+            try self.failureThresholdPercentage?.forEach {}
             try self.validate(self.failureThresholdPercentage, name: "failureThresholdPercentage", parent: name, max: 100)
             try self.validate(self.failureThresholdPercentage, name: "failureThresholdPercentage", parent: name, min: 1)
         }
@@ -1776,15 +1835,19 @@ extension RoboMaker {
                 try validate($0.value, name: "environmentVariables[\"\($0.key)\"]", parent: name, min: 1)
                 try validate($0.value, name: "environmentVariables[\"\($0.key)\"]", parent: name, pattern: ".*")
             }
+            try self.launchFile.forEach {}
             try self.validate(self.launchFile, name: "launchFile", parent: name, max: 1024)
             try self.validate(self.launchFile, name: "launchFile", parent: name, min: 1)
             try self.validate(self.launchFile, name: "launchFile", parent: name, pattern: "[a-zA-Z0-9_.\\-]*")
+            try self.packageName.forEach {}
             try self.validate(self.packageName, name: "packageName", parent: name, max: 1024)
             try self.validate(self.packageName, name: "packageName", parent: name, min: 1)
             try self.validate(self.packageName, name: "packageName", parent: name, pattern: "[a-zA-Z0-9_.\\-]*")
+            try self.postLaunchFile?.forEach {}
             try self.validate(self.postLaunchFile, name: "postLaunchFile", parent: name, max: 1024)
             try self.validate(self.postLaunchFile, name: "postLaunchFile", parent: name, min: 1)
             try self.validate(self.postLaunchFile, name: "postLaunchFile", parent: name, pattern: ".*")
+            try self.preLaunchFile?.forEach {}
             try self.validate(self.preLaunchFile, name: "preLaunchFile", parent: name, max: 1024)
             try self.validate(self.preLaunchFile, name: "preLaunchFile", parent: name, min: 1)
             try self.validate(self.preLaunchFile, name: "preLaunchFile", parent: name, pattern: ".*")
@@ -1811,9 +1874,11 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.fleet.forEach {}
             try self.validate(self.fleet, name: "fleet", parent: name, max: 1224)
             try self.validate(self.fleet, name: "fleet", parent: name, min: 1)
             try self.validate(self.fleet, name: "fleet", parent: name, pattern: "arn:.*")
+            try self.robot.forEach {}
             try self.validate(self.robot, name: "robot", parent: name, max: 1224)
             try self.validate(self.robot, name: "robot", parent: name, min: 1)
             try self.validate(self.robot, name: "robot", parent: name, pattern: "arn:.*")
@@ -1851,6 +1916,7 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.job.forEach {}
             try self.validate(self.job, name: "job", parent: name, max: 1224)
             try self.validate(self.job, name: "job", parent: name, min: 1)
             try self.validate(self.job, name: "job", parent: name, pattern: "arn:.*")
@@ -1919,6 +1985,7 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.fleet.forEach {}
             try self.validate(self.fleet, name: "fleet", parent: name, max: 1224)
             try self.validate(self.fleet, name: "fleet", parent: name, min: 1)
             try self.validate(self.fleet, name: "fleet", parent: name, pattern: "arn:.*")
@@ -1982,9 +2049,11 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.application.forEach {}
             try self.validate(self.application, name: "application", parent: name, max: 1224)
             try self.validate(self.application, name: "application", parent: name, min: 1)
             try self.validate(self.application, name: "application", parent: name, pattern: "arn:.*")
+            try self.applicationVersion?.forEach {}
             try self.validate(self.applicationVersion, name: "applicationVersion", parent: name, max: 255)
             try self.validate(self.applicationVersion, name: "applicationVersion", parent: name, min: 1)
             try self.validate(self.applicationVersion, name: "applicationVersion", parent: name, pattern: "(\\$LATEST)|[0-9]*")
@@ -2046,6 +2115,7 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.robot.forEach {}
             try self.validate(self.robot, name: "robot", parent: name, max: 1224)
             try self.validate(self.robot, name: "robot", parent: name, min: 1)
             try self.validate(self.robot, name: "robot", parent: name, pattern: "arn:.*")
@@ -2117,9 +2187,11 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.application.forEach {}
             try self.validate(self.application, name: "application", parent: name, max: 1224)
             try self.validate(self.application, name: "application", parent: name, min: 1)
             try self.validate(self.application, name: "application", parent: name, pattern: "arn:.*")
+            try self.applicationVersion?.forEach {}
             try self.validate(self.applicationVersion, name: "applicationVersion", parent: name, max: 255)
             try self.validate(self.applicationVersion, name: "applicationVersion", parent: name, min: 1)
             try self.validate(self.applicationVersion, name: "applicationVersion", parent: name, pattern: "(\\$LATEST)|[0-9]*")
@@ -2189,6 +2261,7 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.batch.forEach {}
             try self.validate(self.batch, name: "batch", parent: name, max: 1224)
             try self.validate(self.batch, name: "batch", parent: name, min: 1)
             try self.validate(self.batch, name: "batch", parent: name, pattern: "arn:.*")
@@ -2265,6 +2338,7 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.job.forEach {}
             try self.validate(self.job, name: "job", parent: name, max: 1224)
             try self.validate(self.job, name: "job", parent: name, min: 1)
             try self.validate(self.job, name: "job", parent: name, pattern: "arn:.*")
@@ -2377,6 +2451,7 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.job.forEach {}
             try self.validate(self.job, name: "job", parent: name, max: 1224)
             try self.validate(self.job, name: "job", parent: name, min: 1)
             try self.validate(self.job, name: "job", parent: name, pattern: "arn:.*")
@@ -2444,6 +2519,7 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.job.forEach {}
             try self.validate(self.job, name: "job", parent: name, max: 1224)
             try self.validate(self.job, name: "job", parent: name, min: 1)
             try self.validate(self.job, name: "job", parent: name, pattern: "arn:.*")
@@ -2516,6 +2592,7 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.world.forEach {}
             try self.validate(self.world, name: "world", parent: name, max: 1224)
             try self.validate(self.world, name: "world", parent: name, min: 1)
             try self.validate(self.world, name: "world", parent: name, pattern: "arn:.*")
@@ -2564,6 +2641,7 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.template.forEach {}
             try self.validate(self.template, name: "template", parent: name, max: 1224)
             try self.validate(self.template, name: "template", parent: name, min: 1)
             try self.validate(self.template, name: "template", parent: name, pattern: "arn:.*")
@@ -2661,6 +2739,7 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9_\\-]*")
@@ -2669,6 +2748,7 @@ extension RoboMaker {
                 try validate($0, name: "values[]", parent: name, min: 1)
                 try validate($0, name: "values[]", parent: name, pattern: "[a-zA-Z0-9_\\-]*")
             }
+            try self.values?.forEach {}
             try self.validate(self.values, name: "values", parent: name, max: 1)
             try self.validate(self.values, name: "values", parent: name, min: 1)
         }
@@ -2745,9 +2825,11 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.generationJob?.forEach {}
             try self.validate(self.generationJob, name: "generationJob", parent: name, max: 1224)
             try self.validate(self.generationJob, name: "generationJob", parent: name, min: 1)
             try self.validate(self.generationJob, name: "generationJob", parent: name, pattern: "arn:.*")
+            try self.template?.forEach {}
             try self.validate(self.template, name: "template", parent: name, max: 1224)
             try self.validate(self.template, name: "template", parent: name, min: 1)
             try self.validate(self.template, name: "template", parent: name, pattern: "arn:.*")
@@ -2801,13 +2883,16 @@ extension RoboMaker {
                 try validate($0.value, name: "environmentVariables[\"\($0.key)\"]", parent: name, min: 1)
                 try validate($0.value, name: "environmentVariables[\"\($0.key)\"]", parent: name, pattern: ".*")
             }
+            try self.launchFile.forEach {}
             try self.validate(self.launchFile, name: "launchFile", parent: name, max: 1024)
             try self.validate(self.launchFile, name: "launchFile", parent: name, min: 1)
             try self.validate(self.launchFile, name: "launchFile", parent: name, pattern: "[a-zA-Z0-9_.\\-]*")
+            try self.packageName.forEach {}
             try self.validate(self.packageName, name: "packageName", parent: name, max: 1024)
             try self.validate(self.packageName, name: "packageName", parent: name, min: 1)
             try self.validate(self.packageName, name: "packageName", parent: name, pattern: "[a-zA-Z0-9_.\\-]*")
             try self.portForwardingConfig?.validate(name: "\(name).portForwardingConfig")
+            try self.portForwardingConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2837,8 +2922,10 @@ extension RoboMaker {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 1)
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9_.\\-\\/+=]*")
@@ -2886,8 +2973,10 @@ extension RoboMaker {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 1)
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9_.\\-\\/+=]*")
@@ -2938,11 +3027,14 @@ extension RoboMaker {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 1)
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9_.\\-\\/+=]*")
+            try self.versionQualifier?.forEach {}
             try self.validate(self.versionQualifier, name: "versionQualifier", parent: name, max: 255)
             try self.validate(self.versionQualifier, name: "versionQualifier", parent: name, min: 1)
             try self.validate(self.versionQualifier, name: "versionQualifier", parent: name, pattern: "ALL")
@@ -2991,8 +3083,10 @@ extension RoboMaker {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 1)
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9_.\\-\\/+=]*")
@@ -3043,11 +3137,14 @@ extension RoboMaker {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 1)
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9_.\\-\\/+=]*")
+            try self.versionQualifier?.forEach {}
             try self.validate(self.versionQualifier, name: "versionQualifier", parent: name, max: 255)
             try self.validate(self.versionQualifier, name: "versionQualifier", parent: name, min: 1)
             try self.validate(self.versionQualifier, name: "versionQualifier", parent: name, pattern: "ALL")
@@ -3096,8 +3193,10 @@ extension RoboMaker {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 1)
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9_.\\-\\/+=]*")
@@ -3145,8 +3244,10 @@ extension RoboMaker {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 1)
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9_.\\-\\/+=]*")
@@ -3189,6 +3290,7 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1224)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:.*")
@@ -3228,8 +3330,10 @@ extension RoboMaker {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 1)
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9_.\\-\\/+=]*")
@@ -3277,8 +3381,10 @@ extension RoboMaker {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 1)
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9_.\\-\\/+=]*")
@@ -3320,6 +3426,7 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9_.\\-\\/+=]*")
@@ -3366,8 +3473,10 @@ extension RoboMaker {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 1)
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9_.\\-\\/+=]*")
@@ -3443,9 +3552,11 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.s3Bucket?.forEach {}
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, max: 63)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, min: 3)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "[a-z0-9][a-z0-9.\\-]*[a-z0-9]")
+            try self.s3Prefix?.forEach {}
             try self.validate(self.s3Prefix, name: "s3Prefix", parent: name, max: 1024)
             try self.validate(self.s3Prefix, name: "s3Prefix", parent: name, min: 1)
             try self.validate(self.s3Prefix, name: "s3Prefix", parent: name, pattern: ".*")
@@ -3469,6 +3580,7 @@ extension RoboMaker {
             try self.portMappings?.forEach {
                 try $0.validate(name: "\(name).portMappings[]")
             }
+            try self.portMappings?.forEach {}
             try self.validate(self.portMappings, name: "portMappings", parent: name, max: 10)
             try self.validate(self.portMappings, name: "portMappings", parent: name, min: 0)
         }
@@ -3493,8 +3605,10 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.applicationPort.forEach {}
             try self.validate(self.applicationPort, name: "applicationPort", parent: name, max: 65535)
             try self.validate(self.applicationPort, name: "applicationPort", parent: name, min: 1024)
+            try self.jobPort.forEach {}
             try self.validate(self.jobPort, name: "jobPort", parent: name, max: 65535)
             try self.validate(self.jobPort, name: "jobPort", parent: name, min: 1)
         }
@@ -3543,9 +3657,11 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.fleet.forEach {}
             try self.validate(self.fleet, name: "fleet", parent: name, max: 1224)
             try self.validate(self.fleet, name: "fleet", parent: name, min: 1)
             try self.validate(self.fleet, name: "fleet", parent: name, pattern: "arn:.*")
+            try self.robot.forEach {}
             try self.validate(self.robot, name: "robot", parent: name, max: 1224)
             try self.validate(self.robot, name: "robot", parent: name, min: 1)
             try self.validate(self.robot, name: "robot", parent: name, pattern: "arn:.*")
@@ -3586,6 +3702,7 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.version?.forEach {}
             try self.validate(self.version, name: "version", parent: name, max: 4)
             try self.validate(self.version, name: "version", parent: name, min: 1)
             try self.validate(self.version, name: "version", parent: name, pattern: "1.x")
@@ -3606,6 +3723,7 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.job.forEach {}
             try self.validate(self.job, name: "job", parent: name, max: 1224)
             try self.validate(self.job, name: "job", parent: name, min: 1)
             try self.validate(self.job, name: "job", parent: name, pattern: "arn:.*")
@@ -3686,16 +3804,20 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.application.forEach {}
             try self.validate(self.application, name: "application", parent: name, max: 1224)
             try self.validate(self.application, name: "application", parent: name, min: 1)
             try self.validate(self.application, name: "application", parent: name, pattern: "arn:.*")
+            try self.applicationVersion?.forEach {}
             try self.validate(self.applicationVersion, name: "applicationVersion", parent: name, max: 255)
             try self.validate(self.applicationVersion, name: "applicationVersion", parent: name, min: 1)
             try self.validate(self.applicationVersion, name: "applicationVersion", parent: name, pattern: "(\\$LATEST)|[0-9]*")
             try self.launchConfig.validate(name: "\(name).launchConfig")
+            try self.launchConfig.forEach {}
             try self.uploadConfigurations?.forEach {
                 try $0.validate(name: "\(name).uploadConfigurations[]")
             }
+            try self.uploadConfigurations?.forEach {}
             try self.validate(self.uploadConfigurations, name: "uploadConfigurations", parent: name, max: 10)
             try self.validate(self.uploadConfigurations, name: "uploadConfigurations", parent: name, min: 0)
         }
@@ -3824,9 +3946,11 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.bucket.forEach {}
             try self.validate(self.bucket, name: "bucket", parent: name, max: 63)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
             try self.validate(self.bucket, name: "bucket", parent: name, pattern: "[a-z0-9][a-z0-9.\\-]*[a-z0-9]")
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 1024)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: ".*")
@@ -3863,21 +3987,26 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.application.forEach {}
             try self.validate(self.application, name: "application", parent: name, max: 1224)
             try self.validate(self.application, name: "application", parent: name, min: 1)
             try self.validate(self.application, name: "application", parent: name, pattern: "arn:.*")
+            try self.applicationVersion?.forEach {}
             try self.validate(self.applicationVersion, name: "applicationVersion", parent: name, max: 255)
             try self.validate(self.applicationVersion, name: "applicationVersion", parent: name, min: 1)
             try self.validate(self.applicationVersion, name: "applicationVersion", parent: name, pattern: "(\\$LATEST)|[0-9]*")
             try self.launchConfig.validate(name: "\(name).launchConfig")
+            try self.launchConfig.forEach {}
             try self.uploadConfigurations?.forEach {
                 try $0.validate(name: "\(name).uploadConfigurations[]")
             }
+            try self.uploadConfigurations?.forEach {}
             try self.validate(self.uploadConfigurations, name: "uploadConfigurations", parent: name, max: 10)
             try self.validate(self.uploadConfigurations, name: "uploadConfigurations", parent: name, min: 0)
             try self.worldConfigs?.forEach {
                 try $0.validate(name: "\(name).worldConfigs[]")
             }
+            try self.worldConfigs?.forEach {}
             try self.validate(self.worldConfigs, name: "worldConfigs", parent: name, max: 1)
             try self.validate(self.worldConfigs, name: "worldConfigs", parent: name, min: 0)
         }
@@ -4095,23 +4224,29 @@ extension RoboMaker {
 
         public func validate(name: String) throws {
             try self.compute?.validate(name: "\(name).compute")
+            try self.compute?.forEach {}
             try self.dataSources?.forEach {
                 try $0.validate(name: "\(name).dataSources[]")
             }
+            try self.dataSources?.forEach {}
             try self.validate(self.dataSources, name: "dataSources", parent: name, max: 5)
             try self.validate(self.dataSources, name: "dataSources", parent: name, min: 1)
+            try self.iamRole?.forEach {}
             try self.validate(self.iamRole, name: "iamRole", parent: name, max: 255)
             try self.validate(self.iamRole, name: "iamRole", parent: name, min: 1)
             try self.validate(self.iamRole, name: "iamRole", parent: name, pattern: "arn:aws:iam::\\w+:role/.*")
             try self.outputLocation?.validate(name: "\(name).outputLocation")
+            try self.outputLocation?.forEach {}
             try self.robotApplications?.forEach {
                 try $0.validate(name: "\(name).robotApplications[]")
             }
+            try self.robotApplications?.forEach {}
             try self.validate(self.robotApplications, name: "robotApplications", parent: name, max: 1)
             try self.validate(self.robotApplications, name: "robotApplications", parent: name, min: 1)
             try self.simulationApplications?.forEach {
                 try $0.validate(name: "\(name).simulationApplications[]")
             }
+            try self.simulationApplications?.forEach {}
             try self.validate(self.simulationApplications, name: "simulationApplications", parent: name, max: 1)
             try self.validate(self.simulationApplications, name: "simulationApplications", parent: name, min: 1)
             try self.tags?.forEach {
@@ -4123,6 +4258,7 @@ extension RoboMaker {
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
             }
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
+            try self.vpcConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4190,6 +4326,7 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.version?.forEach {}
             try self.validate(self.version, name: "version", parent: name, max: 1024)
             try self.validate(self.version, name: "version", parent: name, min: 0)
             try self.validate(self.version, name: "version", parent: name, pattern: "7|9|Kinetic|Melodic|Dashing")
@@ -4241,9 +4378,11 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.s3Bucket?.forEach {}
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, max: 63)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, min: 3)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "[a-z0-9][a-z0-9.\\-]*[a-z0-9]")
+            try self.s3Key?.forEach {}
             try self.validate(self.s3Key, name: "s3Key", parent: name, max: 1024)
             try self.validate(self.s3Key, name: "s3Key", parent: name, min: 1)
             try self.validate(self.s3Key, name: "s3Key", parent: name, pattern: ".*")
@@ -4274,12 +4413,14 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "[a-zA-Z0-9_\\-=]*")
             try self.createSimulationJobRequests.forEach {
                 try $0.validate(name: "\(name).createSimulationJobRequests[]")
             }
+            try self.createSimulationJobRequests.forEach {}
             try self.validate(self.createSimulationJobRequests, name: "createSimulationJobRequests", parent: name, max: 1000)
             try self.validate(self.createSimulationJobRequests, name: "createSimulationJobRequests", parent: name, min: 1)
             try self.tags?.forEach {
@@ -4365,9 +4506,11 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.clientRequestToken.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "[a-zA-Z0-9_\\-=]*")
+            try self.fleet.forEach {}
             try self.validate(self.fleet, name: "fleet", parent: name, max: 1224)
             try self.validate(self.fleet, name: "fleet", parent: name, min: 1)
             try self.validate(self.fleet, name: "fleet", parent: name, pattern: "arn:.*")
@@ -4436,6 +4579,7 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1224)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:.*")
@@ -4470,9 +4614,11 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.s3Bucket.forEach {}
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, max: 63)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, min: 3)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "[a-z0-9][a-z0-9.\\-]*[a-z0-9]")
+            try self.s3Key.forEach {}
             try self.validate(self.s3Key, name: "s3Key", parent: name, max: 1024)
             try self.validate(self.s3Key, name: "s3Key", parent: name, min: 1)
             try self.validate(self.s3Key, name: "s3Key", parent: name, pattern: ".*")
@@ -4526,6 +4672,7 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1224)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:.*")
@@ -4534,6 +4681,7 @@ extension RoboMaker {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
             }
+            try self.tagKeys.forEach {}
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4561,15 +4709,18 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.application.forEach {}
             try self.validate(self.application, name: "application", parent: name, max: 1224)
             try self.validate(self.application, name: "application", parent: name, min: 1)
             try self.validate(self.application, name: "application", parent: name, pattern: "arn:.*")
+            try self.currentRevisionId?.forEach {}
             try self.validate(self.currentRevisionId, name: "currentRevisionId", parent: name, max: 40)
             try self.validate(self.currentRevisionId, name: "currentRevisionId", parent: name, min: 1)
             try self.validate(self.currentRevisionId, name: "currentRevisionId", parent: name, pattern: "[a-zA-Z0-9_.\\-]*")
             try self.sources.forEach {
                 try $0.validate(name: "\(name).sources[]")
             }
+            try self.sources.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4641,17 +4792,22 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.application.forEach {}
             try self.validate(self.application, name: "application", parent: name, max: 1224)
             try self.validate(self.application, name: "application", parent: name, min: 1)
             try self.validate(self.application, name: "application", parent: name, pattern: "arn:.*")
+            try self.currentRevisionId?.forEach {}
             try self.validate(self.currentRevisionId, name: "currentRevisionId", parent: name, max: 40)
             try self.validate(self.currentRevisionId, name: "currentRevisionId", parent: name, min: 1)
             try self.validate(self.currentRevisionId, name: "currentRevisionId", parent: name, pattern: "[a-zA-Z0-9_.\\-]*")
             try self.renderingEngine?.validate(name: "\(name).renderingEngine")
+            try self.renderingEngine?.forEach {}
             try self.simulationSoftwareSuite.validate(name: "\(name).simulationSoftwareSuite")
+            try self.simulationSoftwareSuite.forEach {}
             try self.sources.forEach {
                 try $0.validate(name: "\(name).sources[]")
             }
+            try self.sources.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4727,16 +4883,20 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 0)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*")
+            try self.template.forEach {}
             try self.validate(self.template, name: "template", parent: name, max: 1224)
             try self.validate(self.template, name: "template", parent: name, min: 1)
             try self.validate(self.template, name: "template", parent: name, pattern: "arn:.*")
+            try self.templateBody?.forEach {}
             try self.validate(self.templateBody, name: "templateBody", parent: name, max: 262_144)
             try self.validate(self.templateBody, name: "templateBody", parent: name, min: 1)
             try self.validate(self.templateBody, name: "templateBody", parent: name, pattern: "[\\S\\s]+")
             try self.templateLocation?.validate(name: "\(name).templateLocation")
+            try self.templateLocation?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4787,9 +4947,11 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9_\\-]*")
+            try self.path.forEach {}
             try self.validate(self.path, name: "path", parent: name, max: 1024)
             try self.validate(self.path, name: "path", parent: name, min: 1)
             try self.validate(self.path, name: "path", parent: name, pattern: ".*")
@@ -4822,6 +4984,7 @@ extension RoboMaker {
                 try validate($0, name: "securityGroups[]", parent: name, min: 1)
                 try validate($0, name: "securityGroups[]", parent: name, pattern: ".+")
             }
+            try self.securityGroups?.forEach {}
             try self.validate(self.securityGroups, name: "securityGroups", parent: name, max: 5)
             try self.validate(self.securityGroups, name: "securityGroups", parent: name, min: 1)
             try self.subnets.forEach {
@@ -4829,6 +4992,7 @@ extension RoboMaker {
                 try validate($0, name: "subnets[]", parent: name, min: 1)
                 try validate($0, name: "subnets[]", parent: name, pattern: ".+")
             }
+            try self.subnets.forEach {}
             try self.validate(self.subnets, name: "subnets", parent: name, max: 16)
             try self.validate(self.subnets, name: "subnets", parent: name, min: 1)
         }
@@ -4874,6 +5038,7 @@ extension RoboMaker {
         }
 
         public func validate(name: String) throws {
+            try self.world?.forEach {}
             try self.validate(self.world, name: "world", parent: name, max: 1224)
             try self.validate(self.world, name: "world", parent: name, min: 1)
             try self.validate(self.world, name: "world", parent: name, pattern: "arn:.*")

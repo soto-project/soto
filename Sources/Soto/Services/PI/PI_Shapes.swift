@@ -84,9 +84,12 @@ extension PI {
 
         public func validate(name: String) throws {
             try self.groupBy.validate(name: "\(name).groupBy")
+            try self.groupBy.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.partitionBy?.validate(name: "\(name).partitionBy")
+            try self.partitionBy?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -148,8 +151,10 @@ extension PI {
         }
 
         public func validate(name: String) throws {
+            try self.dimensions?.forEach {}
             try self.validate(self.dimensions, name: "dimensions", parent: name, max: 10)
             try self.validate(self.dimensions, name: "dimensions", parent: name, min: 1)
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 10)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
         }
@@ -212,11 +217,13 @@ extension PI {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.metricQueries.forEach {
                 try $0.validate(name: "\(name).metricQueries[]")
             }
+            try self.metricQueries.forEach {}
             try self.validate(self.metricQueries, name: "metricQueries", parent: name, max: 15)
             try self.validate(self.metricQueries, name: "metricQueries", parent: name, min: 1)
         }
@@ -295,6 +302,7 @@ extension PI {
 
         public func validate(name: String) throws {
             try self.groupBy?.validate(name: "\(name).groupBy")
+            try self.groupBy?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {

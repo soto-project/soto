@@ -46,14 +46,18 @@ extension IoT1ClickProjects {
         }
 
         public func validate(name: String) throws {
+            try self.deviceId.forEach {}
             try self.validate(self.deviceId, name: "deviceId", parent: name, max: 32)
             try self.validate(self.deviceId, name: "deviceId", parent: name, min: 1)
+            try self.deviceTemplateName.forEach {}
             try self.validate(self.deviceTemplateName, name: "deviceTemplateName", parent: name, max: 128)
             try self.validate(self.deviceTemplateName, name: "deviceTemplateName", parent: name, min: 1)
             try self.validate(self.deviceTemplateName, name: "deviceTemplateName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.placementName.forEach {}
             try self.validate(self.placementName, name: "placementName", parent: name, max: 128)
             try self.validate(self.placementName, name: "placementName", parent: name, min: 1)
             try self.validate(self.placementName, name: "placementName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, max: 128)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
@@ -92,9 +96,11 @@ extension IoT1ClickProjects {
                 try validate($0.key, name: "attributes.key", parent: name, min: 1)
                 try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, max: 800)
             }
+            try self.placementName.forEach {}
             try self.validate(self.placementName, name: "placementName", parent: name, max: 128)
             try self.validate(self.placementName, name: "placementName", parent: name, min: 1)
             try self.validate(self.placementName, name: "placementName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, max: 128)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
@@ -128,9 +134,12 @@ extension IoT1ClickProjects {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 500)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.placementTemplate?.validate(name: "\(name).placementTemplate")
+            try self.placementTemplate?.forEach {}
+            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, max: 128)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
@@ -171,9 +180,11 @@ extension IoT1ClickProjects {
         }
 
         public func validate(name: String) throws {
+            try self.placementName.forEach {}
             try self.validate(self.placementName, name: "placementName", parent: name, max: 128)
             try self.validate(self.placementName, name: "placementName", parent: name, min: 1)
             try self.validate(self.placementName, name: "placementName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, max: 128)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
@@ -199,6 +210,7 @@ extension IoT1ClickProjects {
         }
 
         public func validate(name: String) throws {
+            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, max: 128)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
@@ -228,9 +240,11 @@ extension IoT1ClickProjects {
         }
 
         public func validate(name: String) throws {
+            try self.placementName.forEach {}
             try self.validate(self.placementName, name: "placementName", parent: name, max: 128)
             try self.validate(self.placementName, name: "placementName", parent: name, min: 1)
             try self.validate(self.placementName, name: "placementName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, max: 128)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
@@ -265,6 +279,7 @@ extension IoT1ClickProjects {
         }
 
         public func validate(name: String) throws {
+            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, max: 128)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
@@ -303,6 +318,7 @@ extension IoT1ClickProjects {
                 try validate($0.key, name: "callbackOverrides.key", parent: name, min: 1)
                 try validate($0.value, name: "callbackOverrides[\"\($0.key)\"]", parent: name, max: 200)
             }
+            try self.deviceType?.forEach {}
             try self.validate(self.deviceType, name: "deviceType", parent: name, max: 128)
         }
 
@@ -333,12 +349,15 @@ extension IoT1ClickProjects {
         }
 
         public func validate(name: String) throws {
+            try self.deviceTemplateName.forEach {}
             try self.validate(self.deviceTemplateName, name: "deviceTemplateName", parent: name, max: 128)
             try self.validate(self.deviceTemplateName, name: "deviceTemplateName", parent: name, min: 1)
             try self.validate(self.deviceTemplateName, name: "deviceTemplateName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.placementName.forEach {}
             try self.validate(self.placementName, name: "placementName", parent: name, max: 128)
             try self.validate(self.placementName, name: "placementName", parent: name, min: 1)
             try self.validate(self.placementName, name: "placementName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, max: 128)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
@@ -368,9 +387,11 @@ extension IoT1ClickProjects {
         }
 
         public func validate(name: String) throws {
+            try self.placementName.forEach {}
             try self.validate(self.placementName, name: "placementName", parent: name, max: 128)
             try self.validate(self.placementName, name: "placementName", parent: name, min: 1)
             try self.validate(self.placementName, name: "placementName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, max: 128)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
@@ -413,10 +434,13 @@ extension IoT1ClickProjects {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, max: 128)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
@@ -459,8 +483,10 @@ extension IoT1ClickProjects {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -498,6 +524,7 @@ extension IoT1ClickProjects {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:iot1click:[A-Za-z0-9_/.-]{0,63}:\\d+:projects/[0-9A-Za-z_-]{1,128}$")
         }
 
@@ -684,6 +711,7 @@ extension IoT1ClickProjects {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:iot1click:[A-Za-z0-9_/.-]{0,63}:\\d+:projects/[0-9A-Za-z_-]{1,128}$")
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -719,12 +747,14 @@ extension IoT1ClickProjects {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:iot1click:[A-Za-z0-9_/.-]{0,63}:\\d+:projects/[0-9A-Za-z_-]{1,128}$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
@@ -761,9 +791,11 @@ extension IoT1ClickProjects {
                 try validate($0.key, name: "attributes.key", parent: name, min: 1)
                 try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, max: 800)
             }
+            try self.placementName.forEach {}
             try self.validate(self.placementName, name: "placementName", parent: name, max: 128)
             try self.validate(self.placementName, name: "placementName", parent: name, min: 1)
             try self.validate(self.placementName, name: "placementName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, max: 128)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
@@ -797,9 +829,12 @@ extension IoT1ClickProjects {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 500)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.placementTemplate?.validate(name: "\(name).placementTemplate")
+            try self.placementTemplate?.forEach {}
+            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, max: 128)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "^[0-9A-Za-z_-]+$")

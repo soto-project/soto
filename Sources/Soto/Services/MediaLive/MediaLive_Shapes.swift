@@ -1477,6 +1477,14 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum S3CannedAcl: String, CustomStringConvertible, Codable {
+        case authenticatedRead = "AUTHENTICATED_READ"
+        case bucketOwnerFullControl = "BUCKET_OWNER_FULL_CONTROL"
+        case bucketOwnerRead = "BUCKET_OWNER_READ"
+        case publicRead = "PUBLIC_READ"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Scte20Convert608To708: String, CustomStringConvertible, Codable {
         case disabled = "DISABLED"
         case upconvert = "UPCONVERT"
@@ -1658,6 +1666,8 @@ extension MediaLive {
 
     public enum VideoSelectorColorSpace: String, CustomStringConvertible, Codable {
         case follow = "FOLLOW"
+        case hdr10 = "HDR10"
+        case hlg2020 = "HLG_2020"
         case rec601 = "REC_601"
         case rec709 = "REC_709"
         public var description: String { return self.rawValue }
@@ -1752,6 +1762,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.dialnorm?.forEach {}
             try self.validate(self.dialnorm, name: "dialnorm", parent: name, max: 31)
             try self.validate(self.dialnorm, name: "dialnorm", parent: name, min: 1)
         }
@@ -1794,12 +1805,25 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.sourceAncillaryChannelNumber?.forEach {}
             try self.validate(self.sourceAncillaryChannelNumber, name: "sourceAncillaryChannelNumber", parent: name, max: 4)
             try self.validate(self.sourceAncillaryChannelNumber, name: "sourceAncillaryChannelNumber", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case sourceAncillaryChannelNumber
+        }
+    }
+
+    public struct ArchiveCdnSettings: AWSEncodableShape & AWSDecodableShape {
+        public let archiveS3Settings: ArchiveS3Settings?
+
+        public init(archiveS3Settings: ArchiveS3Settings? = nil) {
+            self.archiveS3Settings = archiveS3Settings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case archiveS3Settings
         }
     }
 
@@ -1814,6 +1838,7 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.m2tsSettings?.validate(name: "\(name).m2tsSettings")
+            try self.m2tsSettings?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1823,21 +1848,26 @@ extension MediaLive {
     }
 
     public struct ArchiveGroupSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Parameters that control interactions with the CDN.
+        public let archiveCdnSettings: ArchiveCdnSettings?
         /// A directory and base filename where archive files should be written.
         public let destination: OutputLocationRef
         /// Number of seconds to write to archive file before closing and starting a new one.
         public let rolloverInterval: Int?
 
-        public init(destination: OutputLocationRef, rolloverInterval: Int? = nil) {
+        public init(archiveCdnSettings: ArchiveCdnSettings? = nil, destination: OutputLocationRef, rolloverInterval: Int? = nil) {
+            self.archiveCdnSettings = archiveCdnSettings
             self.destination = destination
             self.rolloverInterval = rolloverInterval
         }
 
         public func validate(name: String) throws {
+            try self.rolloverInterval?.forEach {}
             try self.validate(self.rolloverInterval, name: "rolloverInterval", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case archiveCdnSettings
             case destination
             case rolloverInterval
         }
@@ -1859,12 +1889,26 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.containerSettings.validate(name: "\(name).containerSettings")
+            try self.containerSettings.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
             case containerSettings
             case `extension`
             case nameModifier
+        }
+    }
+
+    public struct ArchiveS3Settings: AWSEncodableShape & AWSDecodableShape {
+        /// Specify the canned ACL to apply to each S3 request. Defaults to none.
+        public let cannedAcl: S3CannedAcl?
+
+        public init(cannedAcl: S3CannedAcl? = nil) {
+            self.cannedAcl = cannedAcl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cannedAcl
         }
     }
 
@@ -1891,6 +1935,8 @@ extension MediaLive {
             try self.inputChannelLevels.forEach {
                 try $0.validate(name: "\(name).inputChannelLevels[]")
             }
+            try self.inputChannelLevels.forEach {}
+            try self.outputChannel.forEach {}
             try self.validate(self.outputChannel, name: "outputChannel", parent: name, max: 7)
             try self.validate(self.outputChannel, name: "outputChannel", parent: name, min: 0)
         }
@@ -1920,7 +1966,9 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.ac3Settings?.validate(name: "\(name).ac3Settings")
+            try self.ac3Settings?.forEach {}
             try self.eac3Settings?.validate(name: "\(name).eac3Settings")
+            try self.eac3Settings?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1973,9 +2021,12 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.codecSettings?.validate(name: "\(name).codecSettings")
+            try self.codecSettings?.forEach {}
+            try self.languageCode?.forEach {}
             try self.validate(self.languageCode, name: "languageCode", parent: name, max: 35)
             try self.validate(self.languageCode, name: "languageCode", parent: name, min: 1)
             try self.remixSettings?.validate(name: "\(name).remixSettings")
+            try self.remixSettings?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2073,6 +2124,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.pid.forEach {}
             try self.validate(self.pid, name: "pid", parent: name, max: 8191)
             try self.validate(self.pid, name: "pid", parent: name, min: 0)
         }
@@ -2094,8 +2146,10 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.selectorSettings?.validate(name: "\(name).selectorSettings")
+            try self.selectorSettings?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2117,7 +2171,9 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.audioPidSelection?.validate(name: "\(name).audioPidSelection")
+            try self.audioPidSelection?.forEach {}
             try self.audioTrackSelection?.validate(name: "\(name).audioTrackSelection")
+            try self.audioTrackSelection?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2139,6 +2195,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.audioSilenceThresholdMsec?.forEach {}
             try self.validate(self.audioSilenceThresholdMsec, name: "audioSilenceThresholdMsec", parent: name, min: 1000)
         }
 
@@ -2157,6 +2214,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.track.forEach {}
             try self.validate(self.track, name: "track", parent: name, min: 1)
         }
 
@@ -2177,6 +2235,7 @@ extension MediaLive {
             try self.tracks.forEach {
                 try $0.validate(name: "\(name).tracks[]")
             }
+            try self.tracks.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2202,10 +2261,12 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.errorClearTimeMsec?.forEach {}
             try self.validate(self.errorClearTimeMsec, name: "errorClearTimeMsec", parent: name, min: 1)
             try self.failoverConditions?.forEach {
                 try $0.validate(name: "\(name).failoverConditions[]")
             }
+            try self.failoverConditions?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2243,6 +2304,7 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.availSettings?.validate(name: "\(name).availSettings")
+            try self.availSettings?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2261,7 +2323,9 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.scte35SpliceInsert?.validate(name: "\(name).scte35SpliceInsert")
+            try self.scte35SpliceInsert?.forEach {}
             try self.scte35TimeSignalApos?.validate(name: "\(name).scte35TimeSignalApos")
+            try self.scte35TimeSignalApos?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2343,6 +2407,7 @@ extension MediaLive {
             try self.scheduleActions.forEach {
                 try $0.validate(name: "\(name).scheduleActions[]")
             }
+            try self.scheduleActions.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2489,6 +2554,7 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.creates?.validate(name: "\(name).creates")
+            try self.creates?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2533,6 +2599,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.networkId?.forEach {}
             try self.validate(self.networkId, name: "networkId", parent: name, max: 34)
             try self.validate(self.networkId, name: "networkId", parent: name, min: 34)
         }
@@ -2603,17 +2670,24 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.backgroundOpacity?.forEach {}
             try self.validate(self.backgroundOpacity, name: "backgroundOpacity", parent: name, max: 255)
             try self.validate(self.backgroundOpacity, name: "backgroundOpacity", parent: name, min: 0)
+            try self.fontOpacity?.forEach {}
             try self.validate(self.fontOpacity, name: "fontOpacity", parent: name, max: 255)
             try self.validate(self.fontOpacity, name: "fontOpacity", parent: name, min: 0)
+            try self.fontResolution?.forEach {}
             try self.validate(self.fontResolution, name: "fontResolution", parent: name, max: 600)
             try self.validate(self.fontResolution, name: "fontResolution", parent: name, min: 96)
+            try self.outlineSize?.forEach {}
             try self.validate(self.outlineSize, name: "outlineSize", parent: name, max: 10)
             try self.validate(self.outlineSize, name: "outlineSize", parent: name, min: 0)
+            try self.shadowOpacity?.forEach {}
             try self.validate(self.shadowOpacity, name: "shadowOpacity", parent: name, max: 255)
             try self.validate(self.shadowOpacity, name: "shadowOpacity", parent: name, min: 0)
+            try self.xPosition?.forEach {}
             try self.validate(self.xPosition, name: "xPosition", parent: name, min: 0)
+            try self.yPosition?.forEach {}
             try self.validate(self.yPosition, name: "yPosition", parent: name, min: 0)
         }
 
@@ -2678,6 +2752,7 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.destinationSettings?.validate(name: "\(name).destinationSettings")
+            try self.destinationSettings?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2722,7 +2797,11 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.burnInDestinationSettings?.validate(name: "\(name).burnInDestinationSettings")
+            try self.burnInDestinationSettings?.forEach {}
             try self.dvbSubDestinationSettings?.validate(name: "\(name).dvbSubDestinationSettings")
+            try self.dvbSubDestinationSettings?.forEach {}
+            try self.ebuTtDDestinationSettings?.validate(name: "\(name).ebuTtDDestinationSettings")
+            try self.ebuTtDDestinationSettings?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2757,10 +2836,13 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.captionChannel.forEach {}
             try self.validate(self.captionChannel, name: "captionChannel", parent: name, max: 4)
             try self.validate(self.captionChannel, name: "captionChannel", parent: name, min: 1)
+            try self.languageCode.forEach {}
             try self.validate(self.languageCode, name: "languageCode", parent: name, max: 3)
             try self.validate(self.languageCode, name: "languageCode", parent: name, min: 3)
+            try self.languageDescription.forEach {}
             try self.validate(self.languageDescription, name: "languageDescription", parent: name, min: 1)
         }
 
@@ -2768,6 +2850,40 @@ extension MediaLive {
             case captionChannel
             case languageCode
             case languageDescription
+        }
+    }
+
+    public struct CaptionRectangle: AWSEncodableShape & AWSDecodableShape {
+        /// See the description in leftOffset.
+        /// For height, specify the entire height of the rectangle as a percentage of the underlying frame height. For example, \"80\" means the rectangle height is 80% of the underlying frame height. The topOffset and rectangleHeight must add up to 100% or less.
+        /// This field corresponds to tts:extent - Y in the TTML standard.
+        public let height: Double
+        /// Applies only if you plan to convert these source captions to EBU-TT-D or TTML in an output. (Make sure to leave the default if you don't have either of these formats in the output.) You can define a display rectangle for the captions that is smaller than the underlying video frame. You define the rectangle by specifying the position of the left edge, top edge, bottom edge, and right edge of the rectangle, all within the underlying video frame. The units for the measurements are percentages.
+        /// If you specify a value for one of these fields, you must specify a value for all of them.
+        /// For leftOffset, specify the position of the left edge of the rectangle, as a percentage of the underlying frame width, and relative to the left edge of the frame. For example, \"10\" means the measurement is 10% of the underlying frame width. The rectangle left edge starts at that position from the left edge of the frame.
+        /// This field corresponds to tts:origin - X in the TTML standard.
+        public let leftOffset: Double
+        /// See the description in leftOffset.
+        /// For topOffset, specify the position of the top edge of the rectangle, as a percentage of the underlying frame height, and relative to the top edge of the frame. For example, \"10\" means the measurement is 10% of the underlying frame height. The rectangle top edge starts at that position from the top edge of the frame.
+        /// This field corresponds to tts:origin - Y in the TTML standard.
+        public let topOffset: Double
+        /// See the description in leftOffset.
+        /// For width, specify the entire width of the rectangle as a percentage of the underlying frame width. For example, \"80\" means the rectangle width is 80% of the underlying frame width. The leftOffset and rectangleWidth must add up to 100% or less.
+        /// This field corresponds to tts:extent - X in the TTML standard.
+        public let width: Double
+
+        public init(height: Double, leftOffset: Double, topOffset: Double, width: Double) {
+            self.height = height
+            self.leftOffset = leftOffset
+            self.topOffset = topOffset
+            self.width = width
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case height
+            case leftOffset
+            case topOffset
+            case width
         }
     }
 
@@ -2786,8 +2902,10 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.selectorSettings?.validate(name: "\(name).selectorSettings")
+            try self.selectorSettings?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2818,10 +2936,15 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.ancillarySourceSettings?.validate(name: "\(name).ancillarySourceSettings")
+            try self.ancillarySourceSettings?.forEach {}
             try self.dvbSubSourceSettings?.validate(name: "\(name).dvbSubSourceSettings")
+            try self.dvbSubSourceSettings?.forEach {}
             try self.embeddedSourceSettings?.validate(name: "\(name).embeddedSourceSettings")
+            try self.embeddedSourceSettings?.forEach {}
             try self.scte20SourceSettings?.validate(name: "\(name).scte20SourceSettings")
+            try self.scte20SourceSettings?.forEach {}
             try self.scte27SourceSettings?.validate(name: "\(name).scte27SourceSettings")
+            try self.scte27SourceSettings?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3045,10 +3168,13 @@ extension MediaLive {
             try self.destinations?.forEach {
                 try $0.validate(name: "\(name).destinations[]")
             }
+            try self.destinations?.forEach {}
             try self.encoderSettings?.validate(name: "\(name).encoderSettings")
+            try self.encoderSettings?.forEach {}
             try self.inputAttachments?.forEach {
                 try $0.validate(name: "\(name).inputAttachments[]")
             }
+            try self.inputAttachments?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3179,6 +3305,7 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.multiplexProgramSettings.validate(name: "\(name).multiplexProgramSettings")
+            try self.multiplexProgramSettings.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3217,6 +3344,7 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.multiplexSettings.validate(name: "\(name).multiplexSettings")
+            try self.multiplexSettings.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4149,6 +4277,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -4186,10 +4315,13 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.networkId.forEach {}
             try self.validate(self.networkId, name: "networkId", parent: name, max: 65536)
             try self.validate(self.networkId, name: "networkId", parent: name, min: 0)
+            try self.networkName.forEach {}
             try self.validate(self.networkName, name: "networkName", parent: name, max: 256)
             try self.validate(self.networkName, name: "networkName", parent: name, min: 1)
+            try self.repInterval?.forEach {}
             try self.validate(self.repInterval, name: "repInterval", parent: name, max: 10000)
             try self.validate(self.repInterval, name: "repInterval", parent: name, min: 25)
         }
@@ -4219,10 +4351,13 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.repInterval?.forEach {}
             try self.validate(self.repInterval, name: "repInterval", parent: name, max: 2000)
             try self.validate(self.repInterval, name: "repInterval", parent: name, min: 25)
+            try self.serviceName?.forEach {}
             try self.validate(self.serviceName, name: "serviceName", parent: name, max: 256)
             try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
+            try self.serviceProviderName?.forEach {}
             try self.validate(self.serviceProviderName, name: "serviceProviderName", parent: name, max: 256)
             try self.validate(self.serviceProviderName, name: "serviceProviderName", parent: name, min: 1)
         }
@@ -4292,17 +4427,24 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.backgroundOpacity?.forEach {}
             try self.validate(self.backgroundOpacity, name: "backgroundOpacity", parent: name, max: 255)
             try self.validate(self.backgroundOpacity, name: "backgroundOpacity", parent: name, min: 0)
+            try self.fontOpacity?.forEach {}
             try self.validate(self.fontOpacity, name: "fontOpacity", parent: name, max: 255)
             try self.validate(self.fontOpacity, name: "fontOpacity", parent: name, min: 0)
+            try self.fontResolution?.forEach {}
             try self.validate(self.fontResolution, name: "fontResolution", parent: name, max: 600)
             try self.validate(self.fontResolution, name: "fontResolution", parent: name, min: 96)
+            try self.outlineSize?.forEach {}
             try self.validate(self.outlineSize, name: "outlineSize", parent: name, max: 10)
             try self.validate(self.outlineSize, name: "outlineSize", parent: name, min: 0)
+            try self.shadowOpacity?.forEach {}
             try self.validate(self.shadowOpacity, name: "shadowOpacity", parent: name, max: 255)
             try self.validate(self.shadowOpacity, name: "shadowOpacity", parent: name, min: 0)
+            try self.xPosition?.forEach {}
             try self.validate(self.xPosition, name: "xPosition", parent: name, min: 0)
+            try self.yPosition?.forEach {}
             try self.validate(self.yPosition, name: "yPosition", parent: name, min: 0)
         }
 
@@ -4336,6 +4478,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.pid?.forEach {}
             try self.validate(self.pid, name: "pid", parent: name, min: 1)
         }
 
@@ -4353,6 +4496,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.repInterval?.forEach {}
             try self.validate(self.repInterval, name: "repInterval", parent: name, max: 30000)
             try self.validate(self.repInterval, name: "repInterval", parent: name, min: 1000)
         }
@@ -4428,6 +4572,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.dialnorm?.forEach {}
             try self.validate(self.dialnorm, name: "dialnorm", parent: name, max: 31)
             try self.validate(self.dialnorm, name: "dialnorm", parent: name, min: 1)
         }
@@ -4457,6 +4602,8 @@ extension MediaLive {
     }
 
     public struct EbuTtDDestinationSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Applies only if you plan to convert these source captions to EBU-TT-D or TTML in an output. Complete this field if you want to include the name of the copyright holder in the copyright metadata tag in the TTML
+        public let copyrightHolder: String?
         /// Specifies how to handle the gap between the lines (in multi-line captions).
         /// - enabled: Fill with the captions background color (as specified in the input captions).
         /// - disabled: Leave the gap unfilled.
@@ -4471,13 +4618,20 @@ extension MediaLive {
         /// - exclude: In the font data attached to the EBU-TT captions, set the font family to "monospaced". Do not include any other style information.
         public let styleControl: EbuTtDDestinationStyleControl?
 
-        public init(fillLineGap: EbuTtDFillLineGapControl? = nil, fontFamily: String? = nil, styleControl: EbuTtDDestinationStyleControl? = nil) {
+        public init(copyrightHolder: String? = nil, fillLineGap: EbuTtDFillLineGapControl? = nil, fontFamily: String? = nil, styleControl: EbuTtDDestinationStyleControl? = nil) {
+            self.copyrightHolder = copyrightHolder
             self.fillLineGap = fillLineGap
             self.fontFamily = fontFamily
             self.styleControl = styleControl
         }
 
+        public func validate(name: String) throws {
+            try self.copyrightHolder?.forEach {}
+            try self.validate(self.copyrightHolder, name: "copyrightHolder", parent: name, max: 1000)
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case copyrightHolder
             case fillLineGap
             case fontFamily
             case styleControl
@@ -4510,8 +4664,10 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.source608ChannelNumber?.forEach {}
             try self.validate(self.source608ChannelNumber, name: "source608ChannelNumber", parent: name, max: 4)
             try self.validate(self.source608ChannelNumber, name: "source608ChannelNumber", parent: name, min: 1)
+            try self.source608TrackNumber?.forEach {}
             try self.validate(self.source608TrackNumber, name: "source608TrackNumber", parent: name, max: 5)
             try self.validate(self.source608TrackNumber, name: "source608TrackNumber", parent: name, min: 1)
         }
@@ -4563,19 +4719,27 @@ extension MediaLive {
             try self.audioDescriptions.forEach {
                 try $0.validate(name: "\(name).audioDescriptions[]")
             }
+            try self.audioDescriptions.forEach {}
             try self.availConfiguration?.validate(name: "\(name).availConfiguration")
+            try self.availConfiguration?.forEach {}
             try self.blackoutSlate?.validate(name: "\(name).blackoutSlate")
+            try self.blackoutSlate?.forEach {}
             try self.captionDescriptions?.forEach {
                 try $0.validate(name: "\(name).captionDescriptions[]")
             }
+            try self.captionDescriptions?.forEach {}
             try self.globalConfiguration?.validate(name: "\(name).globalConfiguration")
+            try self.globalConfiguration?.forEach {}
             try self.outputGroups.forEach {
                 try $0.validate(name: "\(name).outputGroups[]")
             }
+            try self.outputGroups.forEach {}
             try self.timecodeConfig.validate(name: "\(name).timecodeConfig")
+            try self.timecodeConfig.forEach {}
             try self.videoDescriptions.forEach {
                 try $0.validate(name: "\(name).videoDescriptions[]")
             }
+            try self.videoDescriptions.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4603,6 +4767,7 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.failoverConditionSettings?.validate(name: "\(name).failoverConditionSettings")
+            try self.failoverConditionSettings?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4626,8 +4791,11 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.audioSilenceSettings?.validate(name: "\(name).audioSilenceSettings")
+            try self.audioSilenceSettings?.forEach {}
             try self.inputLossSettings?.validate(name: "\(name).inputLossSettings")
+            try self.inputLossSettings?.forEach {}
             try self.videoBlackSettings?.validate(name: "\(name).videoBlackSettings")
+            try self.videoBlackSettings?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4666,8 +4834,10 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.columnDepth?.forEach {}
             try self.validate(self.columnDepth, name: "columnDepth", parent: name, max: 20)
             try self.validate(self.columnDepth, name: "columnDepth", parent: name, min: 4)
+            try self.rowLength?.forEach {}
             try self.validate(self.rowLength, name: "rowLength", parent: name, max: 20)
             try self.validate(self.rowLength, name: "rowLength", parent: name, min: 1)
         }
@@ -4730,16 +4900,32 @@ extension MediaLive {
         }
     }
 
+    public struct FrameCaptureCdnSettings: AWSEncodableShape & AWSDecodableShape {
+        public let frameCaptureS3Settings: FrameCaptureS3Settings?
+
+        public init(frameCaptureS3Settings: FrameCaptureS3Settings? = nil) {
+            self.frameCaptureS3Settings = frameCaptureS3Settings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case frameCaptureS3Settings
+        }
+    }
+
     public struct FrameCaptureGroupSettings: AWSEncodableShape & AWSDecodableShape {
         /// The destination for the frame capture files. Either the URI for an Amazon S3 bucket and object, plus a file name prefix (for example, s3ssl://sportsDelivery/highlights/20180820/curling-) or the URI for a MediaStore container, plus a file name prefix (for example, mediastoressl://sportsDelivery/20180820/curling-). The final file names consist of the prefix from the destination field (for example, "curling-") + name modifier + the counter (5 digits, starting from 00001) + extension (which is always .jpg).  For example, curling-low.00001.jpg
         public let destination: OutputLocationRef
+        /// Parameters that control interactions with the CDN.
+        public let frameCaptureCdnSettings: FrameCaptureCdnSettings?
 
-        public init(destination: OutputLocationRef) {
+        public init(destination: OutputLocationRef, frameCaptureCdnSettings: FrameCaptureCdnSettings? = nil) {
             self.destination = destination
+            self.frameCaptureCdnSettings = frameCaptureCdnSettings
         }
 
         private enum CodingKeys: String, CodingKey {
             case destination
+            case frameCaptureCdnSettings
         }
     }
 
@@ -4760,6 +4946,19 @@ extension MediaLive {
         }
     }
 
+    public struct FrameCaptureS3Settings: AWSEncodableShape & AWSDecodableShape {
+        /// Specify the canned ACL to apply to each S3 request. Defaults to none.
+        public let cannedAcl: S3CannedAcl?
+
+        public init(cannedAcl: S3CannedAcl? = nil) {
+            self.cannedAcl = cannedAcl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cannedAcl
+        }
+    }
+
     public struct FrameCaptureSettings: AWSEncodableShape & AWSDecodableShape {
         /// The frequency at which to capture frames for inclusion in the output. May be specified in either seconds or milliseconds, as specified by captureIntervalUnits.
         public let captureInterval: Int?
@@ -4772,6 +4971,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.captureInterval?.forEach {}
             try self.validate(self.captureInterval, name: "captureInterval", parent: name, max: 3_600_000)
             try self.validate(self.captureInterval, name: "captureInterval", parent: name, min: 1)
         }
@@ -4808,9 +5008,11 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.initialAudioGain?.forEach {}
             try self.validate(self.initialAudioGain, name: "initialAudioGain", parent: name, max: 60)
             try self.validate(self.initialAudioGain, name: "initialAudioGain", parent: name, min: -60)
             try self.inputLossBehavior?.validate(name: "\(name).inputLossBehavior")
+            try self.inputLossBehavior?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4946,7 +5148,7 @@ extension MediaLive {
         /// Number of slices per picture. Must be less than or equal to the number of macroblock rows for progressive pictures, and less than or equal to half the number of macroblock rows for interlaced pictures.
         /// This field is optional; when no value is specified the encoder will choose the number of slices based on encode resolution.
         public let slices: Int?
-        /// Softness. Selects quantizer matrix, larger values reduce high-frequency content in the encoded image.
+        /// Softness. Selects quantizer matrix, larger values reduce high-frequency content in the encoded image.  If not set to zero, must be greater than 15.
         public let softness: Int?
         /// If set to enabled, adjust quantization within each frame based on spatial variation of content complexity.
         public let spatialAq: H264SpatialAq?
@@ -5006,26 +5208,41 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.bitrate?.forEach {}
             try self.validate(self.bitrate, name: "bitrate", parent: name, min: 1000)
+            try self.bufFillPct?.forEach {}
             try self.validate(self.bufFillPct, name: "bufFillPct", parent: name, max: 100)
             try self.validate(self.bufFillPct, name: "bufFillPct", parent: name, min: 0)
+            try self.bufSize?.forEach {}
             try self.validate(self.bufSize, name: "bufSize", parent: name, min: 0)
+            try self.framerateDenominator?.forEach {}
             try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, min: 1)
+            try self.framerateNumerator?.forEach {}
             try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
+            try self.gopClosedCadence?.forEach {}
             try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, min: 0)
+            try self.gopNumBFrames?.forEach {}
             try self.validate(self.gopNumBFrames, name: "gopNumBFrames", parent: name, max: 7)
             try self.validate(self.gopNumBFrames, name: "gopNumBFrames", parent: name, min: 0)
+            try self.maxBitrate?.forEach {}
             try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, min: 1000)
+            try self.minIInterval?.forEach {}
             try self.validate(self.minIInterval, name: "minIInterval", parent: name, max: 30)
             try self.validate(self.minIInterval, name: "minIInterval", parent: name, min: 0)
+            try self.numRefFrames?.forEach {}
             try self.validate(self.numRefFrames, name: "numRefFrames", parent: name, max: 6)
             try self.validate(self.numRefFrames, name: "numRefFrames", parent: name, min: 1)
+            try self.parDenominator?.forEach {}
             try self.validate(self.parDenominator, name: "parDenominator", parent: name, min: 1)
+            try self.parNumerator?.forEach {}
             try self.validate(self.parNumerator, name: "parNumerator", parent: name, min: 1)
+            try self.qvbrQualityLevel?.forEach {}
             try self.validate(self.qvbrQualityLevel, name: "qvbrQualityLevel", parent: name, max: 10)
             try self.validate(self.qvbrQualityLevel, name: "qvbrQualityLevel", parent: name, min: 1)
+            try self.slices?.forEach {}
             try self.validate(self.slices, name: "slices", parent: name, max: 32)
             try self.validate(self.slices, name: "slices", parent: name, min: 1)
+            try self.softness?.forEach {}
             try self.validate(self.softness, name: "softness", parent: name, max: 128)
             try self.validate(self.softness, name: "softness", parent: name, min: 0)
         }
@@ -5090,6 +5307,7 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.hdr10Settings?.validate(name: "\(name).hdr10Settings")
+            try self.hdr10Settings?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5220,23 +5438,35 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.bitrate?.forEach {}
             try self.validate(self.bitrate, name: "bitrate", parent: name, max: 40_000_000)
             try self.validate(self.bitrate, name: "bitrate", parent: name, min: 100_000)
+            try self.bufSize?.forEach {}
             try self.validate(self.bufSize, name: "bufSize", parent: name, max: 80_000_000)
             try self.validate(self.bufSize, name: "bufSize", parent: name, min: 100_000)
             try self.colorSpaceSettings?.validate(name: "\(name).colorSpaceSettings")
+            try self.colorSpaceSettings?.forEach {}
+            try self.framerateDenominator.forEach {}
             try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 3003)
             try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, min: 1)
+            try self.framerateNumerator.forEach {}
             try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
+            try self.gopClosedCadence?.forEach {}
             try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, min: 0)
+            try self.maxBitrate?.forEach {}
             try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, max: 40_000_000)
             try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, min: 100_000)
+            try self.minIInterval?.forEach {}
             try self.validate(self.minIInterval, name: "minIInterval", parent: name, max: 30)
             try self.validate(self.minIInterval, name: "minIInterval", parent: name, min: 0)
+            try self.parDenominator?.forEach {}
             try self.validate(self.parDenominator, name: "parDenominator", parent: name, min: 1)
+            try self.parNumerator?.forEach {}
             try self.validate(self.parNumerator, name: "parNumerator", parent: name, min: 1)
+            try self.qvbrQualityLevel?.forEach {}
             try self.validate(self.qvbrQualityLevel, name: "qvbrQualityLevel", parent: name, max: 10)
             try self.validate(self.qvbrQualityLevel, name: "qvbrQualityLevel", parent: name, min: 1)
+            try self.slices?.forEach {}
             try self.validate(self.slices, name: "slices", parent: name, max: 16)
             try self.validate(self.slices, name: "slices", parent: name, min: 1)
         }
@@ -5290,8 +5520,10 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.maxCll?.forEach {}
             try self.validate(self.maxCll, name: "maxCll", parent: name, max: 32768)
             try self.validate(self.maxCll, name: "maxCll", parent: name, min: 0)
+            try self.maxFall?.forEach {}
             try self.validate(self.maxFall, name: "maxFall", parent: name, max: 32768)
             try self.validate(self.maxFall, name: "maxFall", parent: name, min: 0)
         }
@@ -5329,10 +5561,14 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.connectionRetryInterval?.forEach {}
             try self.validate(self.connectionRetryInterval, name: "connectionRetryInterval", parent: name, min: 0)
+            try self.filecacheDuration?.forEach {}
             try self.validate(self.filecacheDuration, name: "filecacheDuration", parent: name, max: 600)
             try self.validate(self.filecacheDuration, name: "filecacheDuration", parent: name, min: 0)
+            try self.numRetries?.forEach {}
             try self.validate(self.numRetries, name: "numRetries", parent: name, min: 0)
+            try self.restartDelay?.forEach {}
             try self.validate(self.restartDelay, name: "restartDelay", parent: name, max: 15)
             try self.validate(self.restartDelay, name: "restartDelay", parent: name, min: 0)
         }
@@ -5366,10 +5602,14 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.connectionRetryInterval?.forEach {}
             try self.validate(self.connectionRetryInterval, name: "connectionRetryInterval", parent: name, min: 0)
+            try self.filecacheDuration?.forEach {}
             try self.validate(self.filecacheDuration, name: "filecacheDuration", parent: name, max: 600)
             try self.validate(self.filecacheDuration, name: "filecacheDuration", parent: name, min: 0)
+            try self.numRetries?.forEach {}
             try self.validate(self.numRetries, name: "numRetries", parent: name, min: 0)
+            try self.restartDelay?.forEach {}
             try self.validate(self.restartDelay, name: "restartDelay", parent: name, max: 15)
             try self.validate(self.restartDelay, name: "restartDelay", parent: name, min: 0)
         }
@@ -5386,26 +5626,33 @@ extension MediaLive {
         public let hlsAkamaiSettings: HlsAkamaiSettings?
         public let hlsBasicPutSettings: HlsBasicPutSettings?
         public let hlsMediaStoreSettings: HlsMediaStoreSettings?
+        public let hlsS3Settings: HlsS3Settings?
         public let hlsWebdavSettings: HlsWebdavSettings?
 
-        public init(hlsAkamaiSettings: HlsAkamaiSettings? = nil, hlsBasicPutSettings: HlsBasicPutSettings? = nil, hlsMediaStoreSettings: HlsMediaStoreSettings? = nil, hlsWebdavSettings: HlsWebdavSettings? = nil) {
+        public init(hlsAkamaiSettings: HlsAkamaiSettings? = nil, hlsBasicPutSettings: HlsBasicPutSettings? = nil, hlsMediaStoreSettings: HlsMediaStoreSettings? = nil, hlsS3Settings: HlsS3Settings? = nil, hlsWebdavSettings: HlsWebdavSettings? = nil) {
             self.hlsAkamaiSettings = hlsAkamaiSettings
             self.hlsBasicPutSettings = hlsBasicPutSettings
             self.hlsMediaStoreSettings = hlsMediaStoreSettings
+            self.hlsS3Settings = hlsS3Settings
             self.hlsWebdavSettings = hlsWebdavSettings
         }
 
         public func validate(name: String) throws {
             try self.hlsAkamaiSettings?.validate(name: "\(name).hlsAkamaiSettings")
+            try self.hlsAkamaiSettings?.forEach {}
             try self.hlsBasicPutSettings?.validate(name: "\(name).hlsBasicPutSettings")
+            try self.hlsBasicPutSettings?.forEach {}
             try self.hlsMediaStoreSettings?.validate(name: "\(name).hlsMediaStoreSettings")
+            try self.hlsMediaStoreSettings?.forEach {}
             try self.hlsWebdavSettings?.validate(name: "\(name).hlsWebdavSettings")
+            try self.hlsWebdavSettings?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
             case hlsAkamaiSettings
             case hlsBasicPutSettings
             case hlsMediaStoreSettings
+            case hlsS3Settings
             case hlsWebdavSettings
         }
     }
@@ -5564,18 +5811,30 @@ extension MediaLive {
             try self.captionLanguageMappings?.forEach {
                 try $0.validate(name: "\(name).captionLanguageMappings[]")
             }
+            try self.captionLanguageMappings?.forEach {}
+            try self.constantIv?.forEach {}
             try self.validate(self.constantIv, name: "constantIv", parent: name, max: 32)
             try self.validate(self.constantIv, name: "constantIv", parent: name, min: 32)
             try self.hlsCdnSettings?.validate(name: "\(name).hlsCdnSettings")
+            try self.hlsCdnSettings?.forEach {}
+            try self.indexNSegments?.forEach {}
             try self.validate(self.indexNSegments, name: "indexNSegments", parent: name, min: 3)
+            try self.keepSegments?.forEach {}
             try self.validate(self.keepSegments, name: "keepSegments", parent: name, min: 1)
             try self.keyProviderSettings?.validate(name: "\(name).keyProviderSettings")
+            try self.keyProviderSettings?.forEach {}
+            try self.minSegmentLength?.forEach {}
             try self.validate(self.minSegmentLength, name: "minSegmentLength", parent: name, min: 0)
+            try self.programDateTimePeriod?.forEach {}
             try self.validate(self.programDateTimePeriod, name: "programDateTimePeriod", parent: name, max: 3600)
             try self.validate(self.programDateTimePeriod, name: "programDateTimePeriod", parent: name, min: 0)
+            try self.segmentLength?.forEach {}
             try self.validate(self.segmentLength, name: "segmentLength", parent: name, min: 1)
+            try self.segmentsPerSubdirectory?.forEach {}
             try self.validate(self.segmentsPerSubdirectory, name: "segmentsPerSubdirectory", parent: name, min: 1)
+            try self.timedMetadataId3Period?.forEach {}
             try self.validate(self.timedMetadataId3Period, name: "timedMetadataId3Period", parent: name, min: 0)
+            try self.timestampDeltaMilliseconds?.forEach {}
             try self.validate(self.timestampDeltaMilliseconds, name: "timestampDeltaMilliseconds", parent: name, min: 0)
         }
 
@@ -5656,9 +5915,13 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.bandwidth?.forEach {}
             try self.validate(self.bandwidth, name: "bandwidth", parent: name, min: 0)
+            try self.bufferSegments?.forEach {}
             try self.validate(self.bufferSegments, name: "bufferSegments", parent: name, min: 0)
+            try self.retries?.forEach {}
             try self.validate(self.retries, name: "retries", parent: name, min: 0)
+            try self.retryInterval?.forEach {}
             try self.validate(self.retryInterval, name: "retryInterval", parent: name, min: 0)
         }
 
@@ -5691,10 +5954,14 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.connectionRetryInterval?.forEach {}
             try self.validate(self.connectionRetryInterval, name: "connectionRetryInterval", parent: name, min: 0)
+            try self.filecacheDuration?.forEach {}
             try self.validate(self.filecacheDuration, name: "filecacheDuration", parent: name, max: 600)
             try self.validate(self.filecacheDuration, name: "filecacheDuration", parent: name, min: 0)
+            try self.numRetries?.forEach {}
             try self.validate(self.numRetries, name: "numRetries", parent: name, min: 0)
+            try self.restartDelay?.forEach {}
             try self.validate(self.restartDelay, name: "restartDelay", parent: name, max: 15)
             try self.validate(self.restartDelay, name: "restartDelay", parent: name, min: 0)
         }
@@ -5728,6 +5995,8 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.hlsSettings.validate(name: "\(name).hlsSettings")
+            try self.hlsSettings.forEach {}
+            try self.nameModifier?.forEach {}
             try self.validate(self.nameModifier, name: "nameModifier", parent: name, min: 1)
         }
 
@@ -5736,6 +6005,19 @@ extension MediaLive {
             case hlsSettings
             case nameModifier
             case segmentModifier
+        }
+    }
+
+    public struct HlsS3Settings: AWSEncodableShape & AWSDecodableShape {
+        /// Specify the canned ACL to apply to each S3 request. Defaults to none.
+        public let cannedAcl: S3CannedAcl?
+
+        public init(cannedAcl: S3CannedAcl? = nil) {
+            self.cannedAcl = cannedAcl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cannedAcl
         }
     }
 
@@ -5754,6 +6036,7 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.standardHlsSettings?.validate(name: "\(name).standardHlsSettings")
+            try self.standardHlsSettings?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5798,10 +6081,14 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.connectionRetryInterval?.forEach {}
             try self.validate(self.connectionRetryInterval, name: "connectionRetryInterval", parent: name, min: 0)
+            try self.filecacheDuration?.forEach {}
             try self.validate(self.filecacheDuration, name: "filecacheDuration", parent: name, max: 600)
             try self.validate(self.filecacheDuration, name: "filecacheDuration", parent: name, min: 0)
+            try self.numRetries?.forEach {}
             try self.validate(self.numRetries, name: "numRetries", parent: name, min: 0)
+            try self.restartDelay?.forEach {}
             try self.validate(self.restartDelay, name: "restartDelay", parent: name, max: 15)
             try self.validate(self.restartDelay, name: "restartDelay", parent: name, min: 0)
         }
@@ -5911,7 +6198,9 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.automaticInputFailoverSettings?.validate(name: "\(name).automaticInputFailoverSettings")
+            try self.automaticInputFailoverSettings?.forEach {}
             try self.inputSettings?.validate(name: "\(name).inputSettings")
+            try self.inputSettings?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5934,8 +6223,10 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.gain.forEach {}
             try self.validate(self.gain, name: "gain", parent: name, max: 6)
             try self.validate(self.gain, name: "gain", parent: name, min: -60)
+            try self.inputChannel.forEach {}
             try self.validate(self.inputChannel, name: "inputChannel", parent: name, max: 15)
             try self.validate(self.inputChannel, name: "inputChannel", parent: name, min: 0)
         }
@@ -6277,10 +6568,13 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.blackFrameMsec?.forEach {}
             try self.validate(self.blackFrameMsec, name: "blackFrameMsec", parent: name, max: 1_000_000)
             try self.validate(self.blackFrameMsec, name: "blackFrameMsec", parent: name, min: 0)
+            try self.inputLossImageColor?.forEach {}
             try self.validate(self.inputLossImageColor, name: "inputLossImageColor", parent: name, max: 6)
             try self.validate(self.inputLossImageColor, name: "inputLossImageColor", parent: name, min: 6)
+            try self.repeatFrameMsec?.forEach {}
             try self.validate(self.repeatFrameMsec, name: "repeatFrameMsec", parent: name, max: 1_000_000)
             try self.validate(self.repeatFrameMsec, name: "repeatFrameMsec", parent: name, min: 0)
         }
@@ -6303,6 +6597,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.inputLossThresholdMsec?.forEach {}
             try self.validate(self.inputLossThresholdMsec, name: "inputLossThresholdMsec", parent: name, min: 100)
         }
 
@@ -6409,13 +6704,18 @@ extension MediaLive {
             try self.audioSelectors?.forEach {
                 try $0.validate(name: "\(name).audioSelectors[]")
             }
+            try self.audioSelectors?.forEach {}
             try self.captionSelectors?.forEach {
                 try $0.validate(name: "\(name).captionSelectors[]")
             }
+            try self.captionSelectors?.forEach {}
+            try self.filterStrength?.forEach {}
             try self.validate(self.filterStrength, name: "filterStrength", parent: name, max: 5)
             try self.validate(self.filterStrength, name: "filterStrength", parent: name, min: 1)
             try self.networkInputSettings?.validate(name: "\(name).networkInputSettings")
+            try self.networkInputSettings?.forEach {}
             try self.videoSelector?.validate(name: "\(name).videoSelector")
+            try self.videoSelector?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6572,6 +6872,7 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.staticKeySettings?.validate(name: "\(name).staticKeySettings")
+            try self.staticKeySettings?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6594,6 +6895,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -6634,6 +6936,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -6671,6 +6974,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -6708,6 +7012,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -6745,6 +7050,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -6785,6 +7091,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -6822,6 +7129,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -6889,6 +7197,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -6950,6 +7259,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -7147,21 +7457,32 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.audioFramesPerPes?.forEach {}
             try self.validate(self.audioFramesPerPes, name: "audioFramesPerPes", parent: name, min: 0)
+            try self.bitrate?.forEach {}
             try self.validate(self.bitrate, name: "bitrate", parent: name, min: 0)
             try self.dvbNitSettings?.validate(name: "\(name).dvbNitSettings")
+            try self.dvbNitSettings?.forEach {}
             try self.dvbSdtSettings?.validate(name: "\(name).dvbSdtSettings")
+            try self.dvbSdtSettings?.forEach {}
             try self.dvbTdtSettings?.validate(name: "\(name).dvbTdtSettings")
+            try self.dvbTdtSettings?.forEach {}
+            try self.ebpLookaheadMs?.forEach {}
             try self.validate(self.ebpLookaheadMs, name: "ebpLookaheadMs", parent: name, max: 10000)
             try self.validate(self.ebpLookaheadMs, name: "ebpLookaheadMs", parent: name, min: 0)
+            try self.patInterval?.forEach {}
             try self.validate(self.patInterval, name: "patInterval", parent: name, max: 1000)
             try self.validate(self.patInterval, name: "patInterval", parent: name, min: 0)
+            try self.pcrPeriod?.forEach {}
             try self.validate(self.pcrPeriod, name: "pcrPeriod", parent: name, max: 500)
             try self.validate(self.pcrPeriod, name: "pcrPeriod", parent: name, min: 0)
+            try self.pmtInterval?.forEach {}
             try self.validate(self.pmtInterval, name: "pmtInterval", parent: name, max: 1000)
             try self.validate(self.pmtInterval, name: "pmtInterval", parent: name, min: 0)
+            try self.programNum?.forEach {}
             try self.validate(self.programNum, name: "programNum", parent: name, max: 65535)
             try self.validate(self.programNum, name: "programNum", parent: name, min: 0)
+            try self.transportStreamId?.forEach {}
             try self.validate(self.transportStreamId, name: "transportStreamId", parent: name, max: 65535)
             try self.validate(self.transportStreamId, name: "transportStreamId", parent: name, min: 0)
         }
@@ -7274,15 +7595,21 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.audioFramesPerPes?.forEach {}
             try self.validate(self.audioFramesPerPes, name: "audioFramesPerPes", parent: name, min: 0)
+            try self.patInterval?.forEach {}
             try self.validate(self.patInterval, name: "patInterval", parent: name, max: 1000)
             try self.validate(self.patInterval, name: "patInterval", parent: name, min: 0)
+            try self.pcrPeriod?.forEach {}
             try self.validate(self.pcrPeriod, name: "pcrPeriod", parent: name, max: 500)
             try self.validate(self.pcrPeriod, name: "pcrPeriod", parent: name, min: 0)
+            try self.pmtInterval?.forEach {}
             try self.validate(self.pmtInterval, name: "pmtInterval", parent: name, max: 1000)
             try self.validate(self.pmtInterval, name: "pmtInterval", parent: name, min: 0)
+            try self.programNum?.forEach {}
             try self.validate(self.programNum, name: "programNum", parent: name, max: 65535)
             try self.validate(self.programNum, name: "programNum", parent: name, min: 0)
+            try self.transportStreamId?.forEach {}
             try self.validate(self.transportStreamId, name: "transportStreamId", parent: name, max: 65535)
             try self.validate(self.transportStreamId, name: "transportStreamId", parent: name, min: 0)
         }
@@ -7356,6 +7683,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.channelId?.forEach {}
             try self.validate(self.channelId, name: "channelId", parent: name, min: 1)
         }
 
@@ -7468,9 +7796,13 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.framerateDenominator.forEach {}
             try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, min: 1)
+            try self.framerateNumerator.forEach {}
             try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
+            try self.gopClosedCadence?.forEach {}
             try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, min: 0)
+            try self.gopNumBFrames?.forEach {}
             try self.validate(self.gopNumBFrames, name: "gopNumBFrames", parent: name, max: 7)
             try self.validate(self.gopNumBFrames, name: "gopNumBFrames", parent: name, min: 0)
         }
@@ -7568,11 +7900,17 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.connectionRetryInterval?.forEach {}
             try self.validate(self.connectionRetryInterval, name: "connectionRetryInterval", parent: name, min: 0)
+            try self.filecacheDuration?.forEach {}
             try self.validate(self.filecacheDuration, name: "filecacheDuration", parent: name, min: 0)
+            try self.fragmentLength?.forEach {}
             try self.validate(self.fragmentLength, name: "fragmentLength", parent: name, min: 1)
+            try self.numRetries?.forEach {}
             try self.validate(self.numRetries, name: "numRetries", parent: name, min: 0)
+            try self.restartDelay?.forEach {}
             try self.validate(self.restartDelay, name: "restartDelay", parent: name, min: 0)
+            try self.sendDelayMs?.forEach {}
             try self.validate(self.sendDelayMs, name: "sendDelayMs", parent: name, max: 10000)
             try self.validate(self.sendDelayMs, name: "sendDelayMs", parent: name, min: 0)
         }
@@ -7752,7 +8090,9 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.multiplexId?.forEach {}
             try self.validate(self.multiplexId, name: "multiplexId", parent: name, min: 1)
+            try self.programName?.forEach {}
             try self.validate(self.programName, name: "programName", parent: name, min: 1)
         }
 
@@ -7839,7 +8179,9 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.providerName.forEach {}
             try self.validate(self.providerName, name: "providerName", parent: name, max: 256)
+            try self.serviceName.forEach {}
             try self.validate(self.serviceName, name: "serviceName", parent: name, max: 256)
         }
 
@@ -7867,10 +8209,13 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.programNumber.forEach {}
             try self.validate(self.programNumber, name: "programNumber", parent: name, max: 65535)
             try self.validate(self.programNumber, name: "programNumber", parent: name, min: 0)
             try self.serviceDescriptor?.validate(name: "\(name).serviceDescriptor")
+            try self.serviceDescriptor?.forEach {}
             try self.videoSettings?.validate(name: "\(name).videoSettings")
+            try self.videoSettings?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7916,12 +8261,16 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.maximumVideoBufferDelayMilliseconds?.forEach {}
             try self.validate(self.maximumVideoBufferDelayMilliseconds, name: "maximumVideoBufferDelayMilliseconds", parent: name, max: 3000)
             try self.validate(self.maximumVideoBufferDelayMilliseconds, name: "maximumVideoBufferDelayMilliseconds", parent: name, min: 800)
+            try self.transportStreamBitrate.forEach {}
             try self.validate(self.transportStreamBitrate, name: "transportStreamBitrate", parent: name, max: 100_000_000)
             try self.validate(self.transportStreamBitrate, name: "transportStreamBitrate", parent: name, min: 1_000_000)
+            try self.transportStreamId.forEach {}
             try self.validate(self.transportStreamId, name: "transportStreamId", parent: name, max: 65535)
             try self.validate(self.transportStreamId, name: "transportStreamId", parent: name, min: 0)
+            try self.transportStreamReservedBitrate?.forEach {}
             try self.validate(self.transportStreamReservedBitrate, name: "transportStreamReservedBitrate", parent: name, max: 100_000_000)
             try self.validate(self.transportStreamReservedBitrate, name: "transportStreamReservedBitrate", parent: name, min: 0)
         }
@@ -7962,10 +8311,13 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.maximumBitrate?.forEach {}
             try self.validate(self.maximumBitrate, name: "maximumBitrate", parent: name, max: 100_000_000)
             try self.validate(self.maximumBitrate, name: "maximumBitrate", parent: name, min: 100_000)
+            try self.minimumBitrate?.forEach {}
             try self.validate(self.minimumBitrate, name: "minimumBitrate", parent: name, max: 100_000_000)
             try self.validate(self.minimumBitrate, name: "minimumBitrate", parent: name, min: 100_000)
+            try self.priority?.forEach {}
             try self.validate(self.priority, name: "priority", parent: name, max: 5)
             try self.validate(self.priority, name: "priority", parent: name, min: -5)
         }
@@ -8036,9 +8388,11 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.constantBitrate?.forEach {}
             try self.validate(self.constantBitrate, name: "constantBitrate", parent: name, max: 100_000_000)
             try self.validate(self.constantBitrate, name: "constantBitrate", parent: name, min: 100_000)
             try self.statmuxSettings?.validate(name: "\(name).statmuxSettings")
+            try self.statmuxSettings?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8060,6 +8414,7 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.hlsInputSettings?.validate(name: "\(name).hlsInputSettings")
+            try self.hlsInputSettings?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8159,9 +8514,11 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.outputName?.forEach {}
             try self.validate(self.outputName, name: "outputName", parent: name, max: 255)
             try self.validate(self.outputName, name: "outputName", parent: name, min: 1)
             try self.outputSettings.validate(name: "\(name).outputSettings")
+            try self.outputSettings.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8194,7 +8551,9 @@ extension MediaLive {
             try self.mediaPackageSettings?.forEach {
                 try $0.validate(name: "\(name).mediaPackageSettings[]")
             }
+            try self.mediaPackageSettings?.forEach {}
             try self.multiplexSettings?.validate(name: "\(name).multiplexSettings")
+            try self.multiplexSettings?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8244,11 +8603,14 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 32)
             try self.outputGroupSettings.validate(name: "\(name).outputGroupSettings")
+            try self.outputGroupSettings.forEach {}
             try self.outputs.forEach {
                 try $0.validate(name: "\(name).outputs[]")
             }
+            try self.outputs.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8281,10 +8643,15 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.archiveGroupSettings?.validate(name: "\(name).archiveGroupSettings")
+            try self.archiveGroupSettings?.forEach {}
             try self.hlsGroupSettings?.validate(name: "\(name).hlsGroupSettings")
+            try self.hlsGroupSettings?.forEach {}
             try self.msSmoothGroupSettings?.validate(name: "\(name).msSmoothGroupSettings")
+            try self.msSmoothGroupSettings?.forEach {}
             try self.rtmpGroupSettings?.validate(name: "\(name).rtmpGroupSettings")
+            try self.rtmpGroupSettings?.forEach {}
             try self.udpGroupSettings?.validate(name: "\(name).udpGroupSettings")
+            try self.udpGroupSettings?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8334,9 +8701,13 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.archiveOutputSettings?.validate(name: "\(name).archiveOutputSettings")
+            try self.archiveOutputSettings?.forEach {}
             try self.hlsOutputSettings?.validate(name: "\(name).hlsOutputSettings")
+            try self.hlsOutputSettings?.forEach {}
             try self.rtmpOutputSettings?.validate(name: "\(name).rtmpOutputSettings")
+            try self.rtmpOutputSettings?.forEach {}
             try self.udpOutputSettings?.validate(name: "\(name).udpOutputSettings")
+            try self.udpOutputSettings?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8423,6 +8794,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.count.forEach {}
             try self.validate(self.count, name: "count", parent: name, min: 1)
         }
 
@@ -8496,8 +8868,11 @@ extension MediaLive {
             try self.channelMappings.forEach {
                 try $0.validate(name: "\(name).channelMappings[]")
             }
+            try self.channelMappings.forEach {}
+            try self.channelsIn?.forEach {}
             try self.validate(self.channelsIn, name: "channelsIn", parent: name, max: 16)
             try self.validate(self.channelsIn, name: "channelsIn", parent: name, min: 1)
+            try self.channelsOut?.forEach {}
             try self.validate(self.channelsOut, name: "channelsOut", parent: name, max: 8)
             try self.validate(self.channelsOut, name: "channelsOut", parent: name, min: 1)
         }
@@ -8664,7 +9039,9 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.cacheLength?.forEach {}
             try self.validate(self.cacheLength, name: "cacheLength", parent: name, min: 30)
+            try self.restartDelay?.forEach {}
             try self.validate(self.restartDelay, name: "restartDelay", parent: name, min: 0)
         }
 
@@ -8697,7 +9074,9 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.connectionRetryInterval?.forEach {}
             try self.validate(self.connectionRetryInterval, name: "connectionRetryInterval", parent: name, min: 1)
+            try self.numRetries?.forEach {}
             try self.validate(self.numRetries, name: "numRetries", parent: name, min: 0)
         }
 
@@ -8725,6 +9104,7 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.scheduleActionSettings.validate(name: "\(name).scheduleActionSettings")
+            try self.scheduleActionSettings.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8771,10 +9151,15 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.scte35ReturnToNetworkSettings?.validate(name: "\(name).scte35ReturnToNetworkSettings")
+            try self.scte35ReturnToNetworkSettings?.forEach {}
             try self.scte35SpliceInsertSettings?.validate(name: "\(name).scte35SpliceInsertSettings")
+            try self.scte35SpliceInsertSettings?.forEach {}
             try self.scte35TimeSignalSettings?.validate(name: "\(name).scte35TimeSignalSettings")
+            try self.scte35TimeSignalSettings?.forEach {}
             try self.staticImageActivateSettings?.validate(name: "\(name).staticImageActivateSettings")
+            try self.staticImageActivateSettings?.forEach {}
             try self.staticImageDeactivateSettings?.validate(name: "\(name).staticImageDeactivateSettings")
+            try self.staticImageDeactivateSettings?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8828,6 +9213,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.source608ChannelNumber?.forEach {}
             try self.validate(self.source608ChannelNumber, name: "source608ChannelNumber", parent: name, max: 4)
             try self.validate(self.source608ChannelNumber, name: "source608ChannelNumber", parent: name, min: 1)
         }
@@ -8855,6 +9241,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.pid?.forEach {}
             try self.validate(self.pid, name: "pid", parent: name, min: 1)
         }
 
@@ -8898,6 +9285,7 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.scte35DescriptorSettings.validate(name: "\(name).scte35DescriptorSettings")
+            try self.scte35DescriptorSettings.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8915,6 +9303,7 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.segmentationDescriptorScte35DescriptorSettings.validate(name: "\(name).segmentationDescriptorScte35DescriptorSettings")
+            try self.segmentationDescriptorScte35DescriptorSettings.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8931,6 +9320,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.spliceEventId.forEach {}
             try self.validate(self.spliceEventId, name: "spliceEventId", parent: name, max: 4_294_967_295)
             try self.validate(self.spliceEventId, name: "spliceEventId", parent: name, min: 0)
         }
@@ -8979,20 +9369,28 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.segmentationDuration?.forEach {}
             try self.validate(self.segmentationDuration, name: "segmentationDuration", parent: name, max: 1_099_511_627_775)
             try self.validate(self.segmentationDuration, name: "segmentationDuration", parent: name, min: 0)
+            try self.segmentationEventId.forEach {}
             try self.validate(self.segmentationEventId, name: "segmentationEventId", parent: name, max: 4_294_967_295)
             try self.validate(self.segmentationEventId, name: "segmentationEventId", parent: name, min: 0)
+            try self.segmentationTypeId?.forEach {}
             try self.validate(self.segmentationTypeId, name: "segmentationTypeId", parent: name, max: 255)
             try self.validate(self.segmentationTypeId, name: "segmentationTypeId", parent: name, min: 0)
+            try self.segmentationUpidType?.forEach {}
             try self.validate(self.segmentationUpidType, name: "segmentationUpidType", parent: name, max: 255)
             try self.validate(self.segmentationUpidType, name: "segmentationUpidType", parent: name, min: 0)
+            try self.segmentNum?.forEach {}
             try self.validate(self.segmentNum, name: "segmentNum", parent: name, max: 255)
             try self.validate(self.segmentNum, name: "segmentNum", parent: name, min: 0)
+            try self.segmentsExpected?.forEach {}
             try self.validate(self.segmentsExpected, name: "segmentsExpected", parent: name, max: 255)
             try self.validate(self.segmentsExpected, name: "segmentsExpected", parent: name, min: 0)
+            try self.subSegmentNum?.forEach {}
             try self.validate(self.subSegmentNum, name: "subSegmentNum", parent: name, max: 255)
             try self.validate(self.subSegmentNum, name: "subSegmentNum", parent: name, min: 0)
+            try self.subSegmentsExpected?.forEach {}
             try self.validate(self.subSegmentsExpected, name: "subSegmentsExpected", parent: name, max: 255)
             try self.validate(self.subSegmentsExpected, name: "subSegmentsExpected", parent: name, min: 0)
         }
@@ -9027,6 +9425,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.adAvailOffset?.forEach {}
             try self.validate(self.adAvailOffset, name: "adAvailOffset", parent: name, max: 1000)
             try self.validate(self.adAvailOffset, name: "adAvailOffset", parent: name, min: -1000)
         }
@@ -9050,8 +9449,10 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.duration?.forEach {}
             try self.validate(self.duration, name: "duration", parent: name, max: 8_589_934_591)
             try self.validate(self.duration, name: "duration", parent: name, min: 0)
+            try self.spliceEventId.forEach {}
             try self.validate(self.spliceEventId, name: "spliceEventId", parent: name, max: 4_294_967_295)
             try self.validate(self.spliceEventId, name: "spliceEventId", parent: name, min: 0)
         }
@@ -9077,6 +9478,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.adAvailOffset?.forEach {}
             try self.validate(self.adAvailOffset, name: "adAvailOffset", parent: name, max: 1000)
             try self.validate(self.adAvailOffset, name: "adAvailOffset", parent: name, min: -1000)
         }
@@ -9100,6 +9502,7 @@ extension MediaLive {
             try self.scte35Descriptors.forEach {
                 try $0.validate(name: "\(name).scte35Descriptors[]")
             }
+            try self.scte35Descriptors.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9123,6 +9526,7 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.m3u8Settings.validate(name: "\(name).m3u8Settings")
+            try self.m3u8Settings.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9307,16 +9711,25 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.duration?.forEach {}
             try self.validate(self.duration, name: "duration", parent: name, min: 0)
+            try self.fadeIn?.forEach {}
             try self.validate(self.fadeIn, name: "fadeIn", parent: name, min: 0)
+            try self.fadeOut?.forEach {}
             try self.validate(self.fadeOut, name: "fadeOut", parent: name, min: 0)
+            try self.height?.forEach {}
             try self.validate(self.height, name: "height", parent: name, min: 1)
+            try self.imageX?.forEach {}
             try self.validate(self.imageX, name: "imageX", parent: name, min: 0)
+            try self.imageY?.forEach {}
             try self.validate(self.imageY, name: "imageY", parent: name, min: 0)
+            try self.layer?.forEach {}
             try self.validate(self.layer, name: "layer", parent: name, max: 7)
             try self.validate(self.layer, name: "layer", parent: name, min: 0)
+            try self.opacity?.forEach {}
             try self.validate(self.opacity, name: "opacity", parent: name, max: 100)
             try self.validate(self.opacity, name: "opacity", parent: name, min: 0)
+            try self.width?.forEach {}
             try self.validate(self.width, name: "width", parent: name, min: 1)
         }
 
@@ -9346,7 +9759,9 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.fadeOut?.forEach {}
             try self.validate(self.fadeOut, name: "fadeOut", parent: name, min: 0)
+            try self.layer?.forEach {}
             try self.validate(self.layer, name: "layer", parent: name, max: 7)
             try self.validate(self.layer, name: "layer", parent: name, min: 0)
         }
@@ -9369,6 +9784,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.staticKeyValue.forEach {}
             try self.validate(self.staticKeyValue, name: "staticKeyValue", parent: name, max: 32)
             try self.validate(self.staticKeyValue, name: "staticKeyValue", parent: name, min: 32)
         }
@@ -9528,14 +9944,18 @@ extension MediaLive {
     }
 
     public struct TeletextSourceSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Optionally defines a region where TTML style captions will be displayed
+        public let outputRectangle: CaptionRectangle?
         /// Specifies the teletext page number within the data stream from which to extract captions. Range of 0x100 (256) to 0x8FF (2303). Unused for passthrough. Should be specified as a hexadecimal string with no "0x" prefix.
         public let pageNumber: String?
 
-        public init(pageNumber: String? = nil) {
+        public init(outputRectangle: CaptionRectangle? = nil, pageNumber: String? = nil) {
+            self.outputRectangle = outputRectangle
             self.pageNumber = pageNumber
         }
 
         private enum CodingKeys: String, CodingKey {
+            case outputRectangle
             case pageNumber
         }
     }
@@ -9574,6 +9994,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.syncThreshold?.forEach {}
             try self.validate(self.syncThreshold, name: "syncThreshold", parent: name, max: 1_000_000)
             try self.validate(self.syncThreshold, name: "syncThreshold", parent: name, min: 1)
         }
@@ -9591,16 +10012,19 @@ extension MediaLive {
 
         public let inputDeviceId: String
         public let targetCustomerId: String?
+        public let targetRegion: String?
         public let transferMessage: String?
 
-        public init(inputDeviceId: String, targetCustomerId: String? = nil, transferMessage: String? = nil) {
+        public init(inputDeviceId: String, targetCustomerId: String? = nil, targetRegion: String? = nil, transferMessage: String? = nil) {
             self.inputDeviceId = inputDeviceId
             self.targetCustomerId = targetCustomerId
+            self.targetRegion = targetRegion
             self.transferMessage = transferMessage
         }
 
         private enum CodingKeys: String, CodingKey {
             case targetCustomerId
+            case targetRegion
             case transferMessage
         }
     }
@@ -9616,13 +10040,15 @@ extension MediaLive {
         public let message: String?
         /// The AWS account ID for the recipient of the input device transfer.
         public let targetCustomerId: String?
+        public let targetRegion: String?
         /// The type (direction) of the input device transfer.
         public let transferType: InputDeviceTransferType?
 
-        public init(id: String? = nil, message: String? = nil, targetCustomerId: String? = nil, transferType: InputDeviceTransferType? = nil) {
+        public init(id: String? = nil, message: String? = nil, targetCustomerId: String? = nil, targetRegion: String? = nil, transferType: InputDeviceTransferType? = nil) {
             self.id = id
             self.message = message
             self.targetCustomerId = targetCustomerId
+            self.targetRegion = targetRegion
             self.transferType = transferType
         }
 
@@ -9630,6 +10056,7 @@ extension MediaLive {
             case id
             case message
             case targetCustomerId
+            case targetRegion
             case transferType
         }
     }
@@ -9656,6 +10083,7 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.m2tsSettings?.validate(name: "\(name).m2tsSettings")
+            try self.m2tsSettings?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9678,6 +10106,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.timedMetadataId3Period?.forEach {}
             try self.validate(self.timedMetadataId3Period, name: "timedMetadataId3Period", parent: name, min: 0)
         }
 
@@ -9705,10 +10134,13 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.bufferMsec?.forEach {}
             try self.validate(self.bufferMsec, name: "bufferMsec", parent: name, max: 10000)
             try self.validate(self.bufferMsec, name: "bufferMsec", parent: name, min: 0)
             try self.containerSettings.validate(name: "\(name).containerSettings")
+            try self.containerSettings.forEach {}
             try self.fecOutputSettings?.validate(name: "\(name).fecOutputSettings")
+            try self.fecOutputSettings?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9738,6 +10170,7 @@ extension MediaLive {
             try self.destinations?.forEach {
                 try $0.validate(name: "\(name).destinations[]")
             }
+            try self.destinations?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9789,10 +10222,13 @@ extension MediaLive {
             try self.destinations?.forEach {
                 try $0.validate(name: "\(name).destinations[]")
             }
+            try self.destinations?.forEach {}
             try self.encoderSettings?.validate(name: "\(name).encoderSettings")
+            try self.encoderSettings?.forEach {}
             try self.inputAttachments?.forEach {
                 try $0.validate(name: "\(name).inputAttachments[]")
             }
+            try self.inputAttachments?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9987,6 +10423,7 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.multiplexProgramSettings?.validate(name: "\(name).multiplexProgramSettings")
+            try self.multiplexProgramSettings?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10023,6 +10460,7 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.multiplexSettings?.validate(name: "\(name).multiplexSettings")
+            try self.multiplexSettings?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10085,6 +10523,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.videoBlackThresholdMsec?.forEach {}
             try self.validate(self.videoBlackThresholdMsec, name: "videoBlackThresholdMsec", parent: name, min: 1000)
         }
 
@@ -10109,9 +10548,13 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.frameCaptureSettings?.validate(name: "\(name).frameCaptureSettings")
+            try self.frameCaptureSettings?.forEach {}
             try self.h264Settings?.validate(name: "\(name).h264Settings")
+            try self.h264Settings?.forEach {}
             try self.h265Settings?.validate(name: "\(name).h265Settings")
+            try self.h265Settings?.forEach {}
             try self.mpeg2Settings?.validate(name: "\(name).mpeg2Settings")
+            try self.mpeg2Settings?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10153,6 +10596,8 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.codecSettings?.validate(name: "\(name).codecSettings")
+            try self.codecSettings?.forEach {}
+            try self.sharpness?.forEach {}
             try self.validate(self.sharpness, name: "sharpness", parent: name, max: 100)
             try self.validate(self.sharpness, name: "sharpness", parent: name, min: 0)
         }
@@ -10171,25 +10616,49 @@ extension MediaLive {
     public struct VideoSelector: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the color space of an input. This setting works in tandem with colorSpaceUsage and a video description's colorSpaceSettingsChoice to determine if any conversion will be performed.
         public let colorSpace: VideoSelectorColorSpace?
+        /// Color space settings
+        public let colorSpaceSettings: VideoSelectorColorSpaceSettings?
         /// Applies only if colorSpace is a value other than follow. This field controls how the value in the colorSpace field will be used. fallback means that when the input does include color space data, that data will be used, but when the input has no color space data, the value in colorSpace will be used. Choose fallback if your input is sometimes missing color space data, but when it does have color space data, that data is correct. force means to always use the value in colorSpace. Choose force if your input usually has no color space data or might have unreliable color space data.
         public let colorSpaceUsage: VideoSelectorColorSpaceUsage?
         /// The video selector settings.
         public let selectorSettings: VideoSelectorSettings?
 
-        public init(colorSpace: VideoSelectorColorSpace? = nil, colorSpaceUsage: VideoSelectorColorSpaceUsage? = nil, selectorSettings: VideoSelectorSettings? = nil) {
+        public init(colorSpace: VideoSelectorColorSpace? = nil, colorSpaceSettings: VideoSelectorColorSpaceSettings? = nil, colorSpaceUsage: VideoSelectorColorSpaceUsage? = nil, selectorSettings: VideoSelectorSettings? = nil) {
             self.colorSpace = colorSpace
+            self.colorSpaceSettings = colorSpaceSettings
             self.colorSpaceUsage = colorSpaceUsage
             self.selectorSettings = selectorSettings
         }
 
         public func validate(name: String) throws {
+            try self.colorSpaceSettings?.validate(name: "\(name).colorSpaceSettings")
+            try self.colorSpaceSettings?.forEach {}
             try self.selectorSettings?.validate(name: "\(name).selectorSettings")
+            try self.selectorSettings?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
             case colorSpace
+            case colorSpaceSettings
             case colorSpaceUsage
             case selectorSettings
+        }
+    }
+
+    public struct VideoSelectorColorSpaceSettings: AWSEncodableShape & AWSDecodableShape {
+        public let hdr10Settings: Hdr10Settings?
+
+        public init(hdr10Settings: Hdr10Settings? = nil) {
+            self.hdr10Settings = hdr10Settings
+        }
+
+        public func validate(name: String) throws {
+            try self.hdr10Settings?.validate(name: "\(name).hdr10Settings")
+            try self.hdr10Settings?.forEach {}
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hdr10Settings
         }
     }
 
@@ -10202,6 +10671,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.pid?.forEach {}
             try self.validate(self.pid, name: "pid", parent: name, max: 8191)
             try self.validate(self.pid, name: "pid", parent: name, min: 0)
         }
@@ -10220,6 +10690,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.programId?.forEach {}
             try self.validate(self.programId, name: "programId", parent: name, max: 65536)
             try self.validate(self.programId, name: "programId", parent: name, min: 0)
         }
@@ -10240,7 +10711,9 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.videoSelectorPid?.validate(name: "\(name).videoSelectorPid")
+            try self.videoSelectorPid?.forEach {}
             try self.videoSelectorProgramId?.validate(name: "\(name).videoSelectorProgramId")
+            try self.videoSelectorProgramId?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {

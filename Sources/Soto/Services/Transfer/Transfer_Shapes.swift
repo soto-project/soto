@@ -102,20 +102,28 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
+            try self.certificate?.forEach {}
             try self.validate(self.certificate, name: "certificate", parent: name, max: 1600)
             try self.endpointDetails?.validate(name: "\(name).endpointDetails")
+            try self.endpointDetails?.forEach {}
+            try self.hostKey?.forEach {}
             try self.validate(self.hostKey, name: "hostKey", parent: name, max: 4096)
             try self.identityProviderDetails?.validate(name: "\(name).identityProviderDetails")
+            try self.identityProviderDetails?.forEach {}
+            try self.loggingRole?.forEach {}
             try self.validate(self.loggingRole, name: "loggingRole", parent: name, max: 2048)
             try self.validate(self.loggingRole, name: "loggingRole", parent: name, min: 20)
             try self.validate(self.loggingRole, name: "loggingRole", parent: name, pattern: "arn:.*role/.*")
+            try self.protocols?.forEach {}
             try self.validate(self.protocols, name: "protocols", parent: name, max: 3)
             try self.validate(self.protocols, name: "protocols", parent: name, min: 1)
+            try self.securityPolicyName?.forEach {}
             try self.validate(self.securityPolicyName, name: "securityPolicyName", parent: name, max: 100)
             try self.validate(self.securityPolicyName, name: "securityPolicyName", parent: name, pattern: "TransferSecurityPolicy-.+")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
@@ -183,28 +191,37 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
+            try self.homeDirectory?.forEach {}
             try self.validate(self.homeDirectory, name: "homeDirectory", parent: name, max: 1024)
             try self.validate(self.homeDirectory, name: "homeDirectory", parent: name, pattern: "^$|/.*")
             try self.homeDirectoryMappings?.forEach {
                 try $0.validate(name: "\(name).homeDirectoryMappings[]")
             }
+            try self.homeDirectoryMappings?.forEach {}
             try self.validate(self.homeDirectoryMappings, name: "homeDirectoryMappings", parent: name, max: 50)
             try self.validate(self.homeDirectoryMappings, name: "homeDirectoryMappings", parent: name, min: 1)
+            try self.policy?.forEach {}
             try self.validate(self.policy, name: "policy", parent: name, max: 2048)
             try self.posixProfile?.validate(name: "\(name).posixProfile")
+            try self.posixProfile?.forEach {}
+            try self.role.forEach {}
             try self.validate(self.role, name: "role", parent: name, max: 2048)
             try self.validate(self.role, name: "role", parent: name, min: 20)
             try self.validate(self.role, name: "role", parent: name, pattern: "arn:.*role/.*")
+            try self.serverId.forEach {}
             try self.validate(self.serverId, name: "serverId", parent: name, max: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, min: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
+            try self.sshPublicKeyBody?.forEach {}
             try self.validate(self.sshPublicKeyBody, name: "sshPublicKeyBody", parent: name, max: 2048)
             try self.validate(self.sshPublicKeyBody, name: "sshPublicKeyBody", parent: name, pattern: "^ssh-rsa\\s+[A-Za-z0-9+/]+[=]{0,3}(\\s+.+)?\\s*$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
+            try self.userName.forEach {}
             try self.validate(self.userName, name: "userName", parent: name, max: 100)
             try self.validate(self.userName, name: "userName", parent: name, min: 3)
             try self.validate(self.userName, name: "userName", parent: name, pattern: "^[\\w][\\w@.-]{2,99}$")
@@ -250,6 +267,7 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
+            try self.serverId.forEach {}
             try self.validate(self.serverId, name: "serverId", parent: name, max: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, min: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
@@ -275,12 +293,15 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
+            try self.serverId.forEach {}
             try self.validate(self.serverId, name: "serverId", parent: name, max: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, min: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
+            try self.sshPublicKeyId.forEach {}
             try self.validate(self.sshPublicKeyId, name: "sshPublicKeyId", parent: name, max: 21)
             try self.validate(self.sshPublicKeyId, name: "sshPublicKeyId", parent: name, min: 21)
             try self.validate(self.sshPublicKeyId, name: "sshPublicKeyId", parent: name, pattern: "^key-[0-9a-f]{17}$")
+            try self.userName.forEach {}
             try self.validate(self.userName, name: "userName", parent: name, max: 100)
             try self.validate(self.userName, name: "userName", parent: name, min: 3)
             try self.validate(self.userName, name: "userName", parent: name, pattern: "^[\\w][\\w@.-]{2,99}$")
@@ -305,9 +326,11 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
+            try self.serverId.forEach {}
             try self.validate(self.serverId, name: "serverId", parent: name, max: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, min: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
+            try self.userName.forEach {}
             try self.validate(self.userName, name: "userName", parent: name, max: 100)
             try self.validate(self.userName, name: "userName", parent: name, min: 3)
             try self.validate(self.userName, name: "userName", parent: name, pattern: "^[\\w][\\w@.-]{2,99}$")
@@ -328,6 +351,7 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
+            try self.securityPolicyName.forEach {}
             try self.validate(self.securityPolicyName, name: "securityPolicyName", parent: name, max: 100)
             try self.validate(self.securityPolicyName, name: "securityPolicyName", parent: name, pattern: "TransferSecurityPolicy-.+")
         }
@@ -359,6 +383,7 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
+            try self.serverId.forEach {}
             try self.validate(self.serverId, name: "serverId", parent: name, max: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, min: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
@@ -394,9 +419,11 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
+            try self.serverId.forEach {}
             try self.validate(self.serverId, name: "serverId", parent: name, max: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, min: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
+            try self.userName.forEach {}
             try self.validate(self.userName, name: "userName", parent: name, max: 100)
             try self.validate(self.userName, name: "userName", parent: name, min: 3)
             try self.validate(self.userName, name: "userName", parent: name, pattern: "^[\\w][\\w@.-]{2,99}$")
@@ -600,6 +627,8 @@ extension Transfer {
                 try validate($0, name: "securityGroupIds[]", parent: name, min: 11)
                 try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^sg-[0-9a-f]{8,17}$")
             }
+            try self.securityGroupIds?.forEach {}
+            try self.vpcEndpointId?.forEach {}
             try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, max: 22)
             try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, min: 22)
             try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, pattern: "^vpce-[0-9a-f]{17}$")
@@ -626,8 +655,10 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
+            try self.entry.forEach {}
             try self.validate(self.entry, name: "entry", parent: name, max: 1024)
             try self.validate(self.entry, name: "entry", parent: name, pattern: "^/.*")
+            try self.target.forEach {}
             try self.validate(self.target, name: "target", parent: name, max: 1024)
             try self.validate(self.target, name: "target", parent: name, pattern: "^/.*")
         }
@@ -650,9 +681,11 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
+            try self.invocationRole?.forEach {}
             try self.validate(self.invocationRole, name: "invocationRole", parent: name, max: 2048)
             try self.validate(self.invocationRole, name: "invocationRole", parent: name, min: 20)
             try self.validate(self.invocationRole, name: "invocationRole", parent: name, pattern: "arn:.*role/.*")
+            try self.url?.forEach {}
             try self.validate(self.url, name: "url", parent: name, max: 255)
         }
 
@@ -677,11 +710,14 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
+            try self.serverId.forEach {}
             try self.validate(self.serverId, name: "serverId", parent: name, max: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, min: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
+            try self.sshPublicKeyBody.forEach {}
             try self.validate(self.sshPublicKeyBody, name: "sshPublicKeyBody", parent: name, max: 2048)
             try self.validate(self.sshPublicKeyBody, name: "sshPublicKeyBody", parent: name, pattern: "^ssh-rsa\\s+[A-Za-z0-9+/]+[=]{0,3}(\\s+.+)?\\s*$")
+            try self.userName.forEach {}
             try self.validate(self.userName, name: "userName", parent: name, max: 100)
             try self.validate(self.userName, name: "userName", parent: name, min: 3)
             try self.validate(self.userName, name: "userName", parent: name, pattern: "^[\\w][\\w@.-]{2,99}$")
@@ -727,8 +763,10 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 6144)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -768,8 +806,10 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 6144)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -812,11 +852,14 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1600)
             try self.validate(self.arn, name: "arn", parent: name, min: 20)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "arn:.*")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 6144)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -864,10 +907,13 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 6144)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.serverId.forEach {}
             try self.validate(self.serverId, name: "serverId", parent: name, max: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, min: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
@@ -986,14 +1032,17 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
+            try self.gid.forEach {}
             try self.validate(self.gid, name: "gid", parent: name, max: 4_294_967_295)
             try self.validate(self.gid, name: "gid", parent: name, min: 0)
             try self.secondaryGids?.forEach {
                 try validate($0, name: "secondaryGids[]", parent: name, max: 4_294_967_295)
                 try validate($0, name: "secondaryGids[]", parent: name, min: 0)
             }
+            try self.secondaryGids?.forEach {}
             try self.validate(self.secondaryGids, name: "secondaryGids", parent: name, max: 16)
             try self.validate(self.secondaryGids, name: "secondaryGids", parent: name, min: 0)
+            try self.uid.forEach {}
             try self.validate(self.uid, name: "uid", parent: name, max: 4_294_967_295)
             try self.validate(self.uid, name: "uid", parent: name, min: 0)
         }
@@ -1035,6 +1084,7 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
+            try self.serverId.forEach {}
             try self.validate(self.serverId, name: "serverId", parent: name, max: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, min: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
@@ -1054,6 +1104,7 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
+            try self.serverId.forEach {}
             try self.validate(self.serverId, name: "serverId", parent: name, max: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, min: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
@@ -1076,7 +1127,9 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
         }
 
@@ -1098,12 +1151,14 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1600)
             try self.validate(self.arn, name: "arn", parent: name, min: 20)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "arn:.*")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
@@ -1135,14 +1190,18 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
+            try self.serverId.forEach {}
             try self.validate(self.serverId, name: "serverId", parent: name, max: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, min: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
+            try self.sourceIp?.forEach {}
             try self.validate(self.sourceIp, name: "sourceIp", parent: name, max: 32)
             try self.validate(self.sourceIp, name: "sourceIp", parent: name, pattern: "^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}$")
+            try self.userName.forEach {}
             try self.validate(self.userName, name: "userName", parent: name, max: 100)
             try self.validate(self.userName, name: "userName", parent: name, min: 3)
             try self.validate(self.userName, name: "userName", parent: name, pattern: "^[\\w][\\w@.-]{2,99}$")
+            try self.userPassword?.forEach {}
             try self.validate(self.userPassword, name: "userPassword", parent: name, max: 1024)
         }
 
@@ -1192,12 +1251,14 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1600)
             try self.validate(self.arn, name: "arn", parent: name, min: 20)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "arn:.*")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
@@ -1241,16 +1302,24 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
+            try self.certificate?.forEach {}
             try self.validate(self.certificate, name: "certificate", parent: name, max: 1600)
             try self.endpointDetails?.validate(name: "\(name).endpointDetails")
+            try self.endpointDetails?.forEach {}
+            try self.hostKey?.forEach {}
             try self.validate(self.hostKey, name: "hostKey", parent: name, max: 4096)
             try self.identityProviderDetails?.validate(name: "\(name).identityProviderDetails")
+            try self.identityProviderDetails?.forEach {}
+            try self.loggingRole?.forEach {}
             try self.validate(self.loggingRole, name: "loggingRole", parent: name, max: 2048)
             try self.validate(self.loggingRole, name: "loggingRole", parent: name, pattern: "^$|arn:.*role/.*")
+            try self.protocols?.forEach {}
             try self.validate(self.protocols, name: "protocols", parent: name, max: 3)
             try self.validate(self.protocols, name: "protocols", parent: name, min: 1)
+            try self.securityPolicyName?.forEach {}
             try self.validate(self.securityPolicyName, name: "securityPolicyName", parent: name, max: 100)
             try self.validate(self.securityPolicyName, name: "securityPolicyName", parent: name, pattern: "TransferSecurityPolicy-.+")
+            try self.serverId.forEach {}
             try self.validate(self.serverId, name: "serverId", parent: name, max: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, min: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
@@ -1311,21 +1380,28 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
+            try self.homeDirectory?.forEach {}
             try self.validate(self.homeDirectory, name: "homeDirectory", parent: name, max: 1024)
             try self.validate(self.homeDirectory, name: "homeDirectory", parent: name, pattern: "^$|/.*")
             try self.homeDirectoryMappings?.forEach {
                 try $0.validate(name: "\(name).homeDirectoryMappings[]")
             }
+            try self.homeDirectoryMappings?.forEach {}
             try self.validate(self.homeDirectoryMappings, name: "homeDirectoryMappings", parent: name, max: 50)
             try self.validate(self.homeDirectoryMappings, name: "homeDirectoryMappings", parent: name, min: 1)
+            try self.policy?.forEach {}
             try self.validate(self.policy, name: "policy", parent: name, max: 2048)
             try self.posixProfile?.validate(name: "\(name).posixProfile")
+            try self.posixProfile?.forEach {}
+            try self.role?.forEach {}
             try self.validate(self.role, name: "role", parent: name, max: 2048)
             try self.validate(self.role, name: "role", parent: name, min: 20)
             try self.validate(self.role, name: "role", parent: name, pattern: "arn:.*role/.*")
+            try self.serverId.forEach {}
             try self.validate(self.serverId, name: "serverId", parent: name, max: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, min: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
+            try self.userName.forEach {}
             try self.validate(self.userName, name: "userName", parent: name, max: 100)
             try self.validate(self.userName, name: "userName", parent: name, min: 3)
             try self.validate(self.userName, name: "userName", parent: name, pattern: "^[\\w][\\w@.-]{2,99}$")

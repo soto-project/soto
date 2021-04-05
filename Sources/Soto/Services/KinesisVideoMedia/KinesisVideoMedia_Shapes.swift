@@ -48,9 +48,12 @@ extension KinesisVideoMedia {
 
         public func validate(name: String) throws {
             try self.startSelector.validate(name: "\(name).startSelector")
+            try self.startSelector.forEach {}
+            try self.streamARN?.forEach {}
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.streamName?.forEach {}
             try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -106,9 +109,11 @@ extension KinesisVideoMedia {
         }
 
         public func validate(name: String) throws {
+            try self.afterFragmentNumber?.forEach {}
             try self.validate(self.afterFragmentNumber, name: "afterFragmentNumber", parent: name, max: 128)
             try self.validate(self.afterFragmentNumber, name: "afterFragmentNumber", parent: name, min: 1)
             try self.validate(self.afterFragmentNumber, name: "afterFragmentNumber", parent: name, pattern: "^[0-9]+$")
+            try self.continuationToken?.forEach {}
             try self.validate(self.continuationToken, name: "continuationToken", parent: name, max: 128)
             try self.validate(self.continuationToken, name: "continuationToken", parent: name, min: 1)
             try self.validate(self.continuationToken, name: "continuationToken", parent: name, pattern: "^[a-zA-Z0-9_\\.\\-]+$")

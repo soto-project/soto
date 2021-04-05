@@ -90,8 +90,11 @@ extension MarketplaceCommerceAnalytics {
                 try validate($0.value, name: "customerDefinedValues[\"\($0.key)\"]", parent: name, max: 255)
                 try validate($0.value, name: "customerDefinedValues[\"\($0.key)\"]", parent: name, min: 1)
             }
+            try self.destinationS3BucketName.forEach {}
             try self.validate(self.destinationS3BucketName, name: "destinationS3BucketName", parent: name, min: 1)
+            try self.roleNameArn.forEach {}
             try self.validate(self.roleNameArn, name: "roleNameArn", parent: name, min: 1)
+            try self.snsTopicArn.forEach {}
             try self.validate(self.snsTopicArn, name: "snsTopicArn", parent: name, min: 1)
         }
 
@@ -152,8 +155,11 @@ extension MarketplaceCommerceAnalytics {
                 try validate($0.value, name: "customerDefinedValues[\"\($0.key)\"]", parent: name, max: 255)
                 try validate($0.value, name: "customerDefinedValues[\"\($0.key)\"]", parent: name, min: 1)
             }
+            try self.destinationS3BucketName.forEach {}
             try self.validate(self.destinationS3BucketName, name: "destinationS3BucketName", parent: name, min: 1)
+            try self.roleNameArn.forEach {}
             try self.validate(self.roleNameArn, name: "roleNameArn", parent: name, min: 1)
+            try self.snsTopicArn.forEach {}
             try self.validate(self.snsTopicArn, name: "snsTopicArn", parent: name, min: 1)
         }
 

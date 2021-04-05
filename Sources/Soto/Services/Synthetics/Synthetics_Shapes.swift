@@ -140,14 +140,19 @@ extension Synthetics {
         }
 
         public func validate(name: String) throws {
+            try self.handler.forEach {}
             try self.validate(self.handler, name: "handler", parent: name, max: 1024)
             try self.validate(self.handler, name: "handler", parent: name, min: 1)
+            try self.s3Bucket?.forEach {}
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, max: 1024)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, min: 1)
+            try self.s3Key?.forEach {}
             try self.validate(self.s3Key, name: "s3Key", parent: name, max: 1024)
             try self.validate(self.s3Key, name: "s3Key", parent: name, min: 1)
+            try self.s3Version?.forEach {}
             try self.validate(self.s3Version, name: "s3Version", parent: name, max: 1024)
             try self.validate(self.s3Version, name: "s3Version", parent: name, min: 1)
+            try self.zipFile?.forEach {}
             try self.validate(self.zipFile, name: "zipFile", parent: name, max: 10_000_000)
             try self.validate(self.zipFile, name: "zipFile", parent: name, min: 1)
         }
@@ -245,8 +250,10 @@ extension Synthetics {
             try self.environmentVariables?.forEach {
                 try validate($0.key, name: "environmentVariables.key", parent: name, pattern: "[a-zA-Z]([a-zA-Z0-9_])+")
             }
+            try self.memoryInMB?.forEach {}
             try self.validate(self.memoryInMB, name: "memoryInMB", parent: name, max: 3008)
             try self.validate(self.memoryInMB, name: "memoryInMB", parent: name, min: 960)
+            try self.timeoutInSeconds?.forEach {}
             try self.validate(self.timeoutInSeconds, name: "timeoutInSeconds", parent: name, max: 840)
             try self.validate(self.timeoutInSeconds, name: "timeoutInSeconds", parent: name, min: 3)
         }
@@ -330,8 +337,10 @@ extension Synthetics {
         }
 
         public func validate(name: String) throws {
+            try self.durationInSeconds?.forEach {}
             try self.validate(self.durationInSeconds, name: "durationInSeconds", parent: name, max: 31_622_400)
             try self.validate(self.durationInSeconds, name: "durationInSeconds", parent: name, min: 0)
+            try self.expression.forEach {}
             try self.validate(self.expression, name: "expression", parent: name, max: 1024)
             try self.validate(self.expression, name: "expression", parent: name, min: 1)
         }
@@ -444,21 +453,30 @@ extension Synthetics {
         }
 
         public func validate(name: String) throws {
+            try self.artifactS3Location.forEach {}
             try self.validate(self.artifactS3Location, name: "artifactS3Location", parent: name, max: 1024)
             try self.validate(self.artifactS3Location, name: "artifactS3Location", parent: name, min: 1)
             try self.code.validate(name: "\(name).code")
+            try self.code.forEach {}
+            try self.executionRoleArn.forEach {}
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 1)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
+            try self.failureRetentionPeriodInDays?.forEach {}
             try self.validate(self.failureRetentionPeriodInDays, name: "failureRetentionPeriodInDays", parent: name, max: 1024)
             try self.validate(self.failureRetentionPeriodInDays, name: "failureRetentionPeriodInDays", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 21)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_\\-]+$")
             try self.runConfig?.validate(name: "\(name).runConfig")
+            try self.runConfig?.forEach {}
+            try self.runtimeVersion.forEach {}
             try self.validate(self.runtimeVersion, name: "runtimeVersion", parent: name, max: 1024)
             try self.validate(self.runtimeVersion, name: "runtimeVersion", parent: name, min: 1)
             try self.schedule.validate(name: "\(name).schedule")
+            try self.schedule.forEach {}
+            try self.successRetentionPeriodInDays?.forEach {}
             try self.validate(self.successRetentionPeriodInDays, name: "successRetentionPeriodInDays", parent: name, max: 1024)
             try self.validate(self.successRetentionPeriodInDays, name: "successRetentionPeriodInDays", parent: name, min: 1)
             try self.tags?.forEach {
@@ -468,6 +486,7 @@ extension Synthetics {
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
+            try self.vpcConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -511,6 +530,7 @@ extension Synthetics {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 21)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_\\-]+$")
@@ -535,8 +555,10 @@ extension Synthetics {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 252)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
         }
@@ -576,8 +598,10 @@ extension Synthetics {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 252)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
         }
@@ -617,8 +641,10 @@ extension Synthetics {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 252)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
         }
@@ -659,6 +685,7 @@ extension Synthetics {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 21)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_\\-]+$")
@@ -699,11 +726,14 @@ extension Synthetics {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 21)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_\\-]+$")
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 252)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
         }
@@ -744,6 +774,7 @@ extension Synthetics {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:canary:[0-9a-z_\\-]{1,21}")
@@ -803,6 +834,7 @@ extension Synthetics {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 21)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_\\-]+$")
@@ -828,6 +860,7 @@ extension Synthetics {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 21)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_\\-]+$")
@@ -856,6 +889,7 @@ extension Synthetics {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:canary:[0-9a-z_\\-]{1,21}")
@@ -893,6 +927,7 @@ extension Synthetics {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:canary:[0-9a-z_\\-]{1,21}")
@@ -901,6 +936,7 @@ extension Synthetics {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
@@ -950,21 +986,30 @@ extension Synthetics {
 
         public func validate(name: String) throws {
             try self.code?.validate(name: "\(name).code")
+            try self.code?.forEach {}
+            try self.executionRoleArn?.forEach {}
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 1)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
+            try self.failureRetentionPeriodInDays?.forEach {}
             try self.validate(self.failureRetentionPeriodInDays, name: "failureRetentionPeriodInDays", parent: name, max: 1024)
             try self.validate(self.failureRetentionPeriodInDays, name: "failureRetentionPeriodInDays", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 21)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_\\-]+$")
             try self.runConfig?.validate(name: "\(name).runConfig")
+            try self.runConfig?.forEach {}
+            try self.runtimeVersion?.forEach {}
             try self.validate(self.runtimeVersion, name: "runtimeVersion", parent: name, max: 1024)
             try self.validate(self.runtimeVersion, name: "runtimeVersion", parent: name, min: 1)
             try self.schedule?.validate(name: "\(name).schedule")
+            try self.schedule?.forEach {}
+            try self.successRetentionPeriodInDays?.forEach {}
             try self.validate(self.successRetentionPeriodInDays, name: "successRetentionPeriodInDays", parent: name, max: 1024)
             try self.validate(self.successRetentionPeriodInDays, name: "successRetentionPeriodInDays", parent: name, min: 1)
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
+            try self.vpcConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -995,8 +1040,10 @@ extension Synthetics {
         }
 
         public func validate(name: String) throws {
+            try self.securityGroupIds?.forEach {}
             try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 5)
             try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, min: 0)
+            try self.subnetIds?.forEach {}
             try self.validate(self.subnetIds, name: "subnetIds", parent: name, max: 16)
             try self.validate(self.subnetIds, name: "subnetIds", parent: name, min: 0)
         }

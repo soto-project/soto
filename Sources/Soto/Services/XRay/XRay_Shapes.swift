@@ -167,6 +167,7 @@ extension XRay {
                 try validate($0, name: "traceIds[]", parent: name, max: 35)
                 try validate($0, name: "traceIds[]", parent: name, min: 1)
             }
+            try self.traceIds.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -214,11 +215,13 @@ extension XRay {
         }
 
         public func validate(name: String) throws {
+            try self.groupName.forEach {}
             try self.validate(self.groupName, name: "groupName", parent: name, max: 32)
             try self.validate(self.groupName, name: "groupName", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -257,9 +260,11 @@ extension XRay {
 
         public func validate(name: String) throws {
             try self.samplingRule.validate(name: "\(name).samplingRule")
+            try self.samplingRule.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -295,8 +300,10 @@ extension XRay {
         }
 
         public func validate(name: String) throws {
+            try self.groupARN?.forEach {}
             try self.validate(self.groupARN, name: "groupARN", parent: name, max: 400)
             try self.validate(self.groupARN, name: "groupARN", parent: name, min: 1)
+            try self.groupName?.forEach {}
             try self.validate(self.groupName, name: "groupName", parent: name, max: 32)
             try self.validate(self.groupName, name: "groupName", parent: name, min: 1)
         }
@@ -650,8 +657,10 @@ extension XRay {
         }
 
         public func validate(name: String) throws {
+            try self.groupARN?.forEach {}
             try self.validate(self.groupARN, name: "groupARN", parent: name, max: 400)
             try self.validate(self.groupARN, name: "groupARN", parent: name, min: 1)
+            try self.groupName?.forEach {}
             try self.validate(self.groupName, name: "groupName", parent: name, max: 32)
             try self.validate(self.groupName, name: "groupName", parent: name, min: 1)
         }
@@ -684,6 +693,7 @@ extension XRay {
         }
 
         public func validate(name: String) throws {
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 100)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -725,9 +735,12 @@ extension XRay {
         }
 
         public func validate(name: String) throws {
+            try self.insightId.forEach {}
             try self.validate(self.insightId, name: "insightId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -774,7 +787,9 @@ extension XRay {
         }
 
         public func validate(name: String) throws {
+            try self.insightId.forEach {}
             try self.validate(self.insightId, name: "insightId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}")
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -833,6 +848,7 @@ extension XRay {
         }
 
         public func validate(name: String) throws {
+            try self.insightId.forEach {}
             try self.validate(self.insightId, name: "insightId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}")
         }
 
@@ -881,14 +897,19 @@ extension XRay {
         }
 
         public func validate(name: String) throws {
+            try self.groupARN?.forEach {}
             try self.validate(self.groupARN, name: "groupARN", parent: name, max: 400)
             try self.validate(self.groupARN, name: "groupARN", parent: name, min: 1)
+            try self.groupName?.forEach {}
             try self.validate(self.groupName, name: "groupName", parent: name, max: 32)
             try self.validate(self.groupName, name: "groupName", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.states?.forEach {}
             try self.validate(self.states, name: "states", parent: name, max: 1)
             try self.validate(self.states, name: "states", parent: name, min: 0)
         }
@@ -993,6 +1014,7 @@ extension XRay {
             try self.samplingStatisticsDocuments.forEach {
                 try $0.validate(name: "\(name).samplingStatisticsDocuments[]")
             }
+            try self.samplingStatisticsDocuments.forEach {}
             try self.validate(self.samplingStatisticsDocuments, name: "samplingStatisticsDocuments", parent: name, max: 25)
         }
 
@@ -1043,8 +1065,10 @@ extension XRay {
         }
 
         public func validate(name: String) throws {
+            try self.groupARN?.forEach {}
             try self.validate(self.groupARN, name: "groupARN", parent: name, max: 400)
             try self.validate(self.groupARN, name: "groupARN", parent: name, min: 1)
+            try self.groupName?.forEach {}
             try self.validate(self.groupName, name: "groupName", parent: name, max: 32)
             try self.validate(self.groupName, name: "groupName", parent: name, min: 1)
         }
@@ -1117,10 +1141,13 @@ extension XRay {
         }
 
         public func validate(name: String) throws {
+            try self.entitySelectorExpression?.forEach {}
             try self.validate(self.entitySelectorExpression, name: "entitySelectorExpression", parent: name, max: 500)
             try self.validate(self.entitySelectorExpression, name: "entitySelectorExpression", parent: name, min: 1)
+            try self.groupARN?.forEach {}
             try self.validate(self.groupARN, name: "groupARN", parent: name, max: 400)
             try self.validate(self.groupARN, name: "groupARN", parent: name, min: 1)
+            try self.groupName?.forEach {}
             try self.validate(self.groupName, name: "groupName", parent: name, max: 32)
             try self.validate(self.groupName, name: "groupName", parent: name, min: 1)
         }
@@ -1174,6 +1201,7 @@ extension XRay {
                 try validate($0, name: "traceIds[]", parent: name, max: 35)
                 try validate($0, name: "traceIds[]", parent: name, min: 1)
             }
+            try self.traceIds.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1590,6 +1618,7 @@ extension XRay {
         }
 
         public func validate(name: String) throws {
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
         }
@@ -1629,6 +1658,7 @@ extension XRay {
         }
 
         public func validate(name: String) throws {
+            try self.keyId?.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 3000)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
         }
@@ -1666,8 +1696,11 @@ extension XRay {
         }
 
         public func validate(name: String) throws {
+            try self.eC2InstanceId?.forEach {}
             try self.validate(self.eC2InstanceId, name: "eC2InstanceId", parent: name, max: 20)
+            try self.hostname?.forEach {}
             try self.validate(self.hostname, name: "hostname", parent: name, max: 255)
+            try self.resourceARN?.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 500)
         }
 
@@ -1882,19 +1915,30 @@ extension XRay {
                 try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, max: 32)
                 try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, min: 1)
             }
+            try self.fixedRate.forEach {}
             try self.validate(self.fixedRate, name: "fixedRate", parent: name, max: 1)
             try self.validate(self.fixedRate, name: "fixedRate", parent: name, min: 0)
+            try self.host.forEach {}
             try self.validate(self.host, name: "host", parent: name, max: 64)
+            try self.hTTPMethod.forEach {}
             try self.validate(self.hTTPMethod, name: "hTTPMethod", parent: name, max: 10)
+            try self.priority.forEach {}
             try self.validate(self.priority, name: "priority", parent: name, max: 9999)
             try self.validate(self.priority, name: "priority", parent: name, min: 1)
+            try self.reservoirSize.forEach {}
             try self.validate(self.reservoirSize, name: "reservoirSize", parent: name, min: 0)
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 500)
+            try self.ruleName?.forEach {}
             try self.validate(self.ruleName, name: "ruleName", parent: name, max: 32)
             try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
+            try self.serviceName.forEach {}
             try self.validate(self.serviceName, name: "serviceName", parent: name, max: 64)
+            try self.serviceType.forEach {}
             try self.validate(self.serviceType, name: "serviceType", parent: name, max: 64)
+            try self.uRLPath.forEach {}
             try self.validate(self.uRLPath, name: "uRLPath", parent: name, max: 128)
+            try self.version.forEach {}
             try self.validate(self.version, name: "version", parent: name, min: 1)
         }
 
@@ -1984,13 +2028,20 @@ extension XRay {
                 try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, max: 32)
                 try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, min: 1)
             }
+            try self.host?.forEach {}
             try self.validate(self.host, name: "host", parent: name, max: 64)
+            try self.hTTPMethod?.forEach {}
             try self.validate(self.hTTPMethod, name: "hTTPMethod", parent: name, max: 10)
+            try self.resourceARN?.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 500)
+            try self.ruleName?.forEach {}
             try self.validate(self.ruleName, name: "ruleName", parent: name, max: 32)
             try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
+            try self.serviceName?.forEach {}
             try self.validate(self.serviceName, name: "serviceName", parent: name, max: 64)
+            try self.serviceType?.forEach {}
             try self.validate(self.serviceType, name: "serviceType", parent: name, max: 64)
+            try self.uRLPath?.forEach {}
             try self.validate(self.uRLPath, name: "uRLPath", parent: name, max: 128)
         }
 
@@ -2063,12 +2114,17 @@ extension XRay {
         }
 
         public func validate(name: String) throws {
+            try self.borrowCount?.forEach {}
             try self.validate(self.borrowCount, name: "borrowCount", parent: name, min: 0)
+            try self.clientID.forEach {}
             try self.validate(self.clientID, name: "clientID", parent: name, max: 24)
             try self.validate(self.clientID, name: "clientID", parent: name, min: 24)
+            try self.requestCount.forEach {}
             try self.validate(self.requestCount, name: "requestCount", parent: name, min: 0)
+            try self.ruleName.forEach {}
             try self.validate(self.ruleName, name: "ruleName", parent: name, max: 32)
             try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
+            try self.sampledCount.forEach {}
             try self.validate(self.sampledCount, name: "sampledCount", parent: name, min: 0)
         }
 
@@ -2268,8 +2324,10 @@ extension XRay {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
         }
@@ -2292,11 +2350,13 @@ extension XRay {
         }
 
         public func validate(name: String) throws {
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -2550,12 +2610,14 @@ extension XRay {
         }
 
         public func validate(name: String) throws {
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
         }
@@ -2588,8 +2650,10 @@ extension XRay {
         }
 
         public func validate(name: String) throws {
+            try self.groupARN?.forEach {}
             try self.validate(self.groupARN, name: "groupARN", parent: name, max: 400)
             try self.validate(self.groupARN, name: "groupARN", parent: name, min: 1)
+            try self.groupName?.forEach {}
             try self.validate(self.groupName, name: "groupName", parent: name, max: 32)
             try self.validate(self.groupName, name: "groupName", parent: name, min: 1)
         }
@@ -2625,6 +2689,7 @@ extension XRay {
 
         public func validate(name: String) throws {
             try self.samplingRuleUpdate.validate(name: "\(name).samplingRuleUpdate")
+            try self.samplingRuleUpdate.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {

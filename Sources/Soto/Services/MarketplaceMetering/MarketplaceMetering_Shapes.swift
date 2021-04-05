@@ -41,12 +41,14 @@ extension MarketplaceMetering {
         }
 
         public func validate(name: String) throws {
+            try self.productCode.forEach {}
             try self.validate(self.productCode, name: "productCode", parent: name, max: 255)
             try self.validate(self.productCode, name: "productCode", parent: name, min: 1)
             try self.validate(self.productCode, name: "productCode", parent: name, pattern: "[\\s\\S]+")
             try self.usageRecords.forEach {
                 try $0.validate(name: "\(name).usageRecords[]")
             }
+            try self.usageRecords.forEach {}
             try self.validate(self.usageRecords, name: "usageRecords", parent: name, max: 25)
             try self.validate(self.usageRecords, name: "usageRecords", parent: name, min: 0)
         }
@@ -98,17 +100,21 @@ extension MarketplaceMetering {
         }
 
         public func validate(name: String) throws {
+            try self.productCode.forEach {}
             try self.validate(self.productCode, name: "productCode", parent: name, max: 255)
             try self.validate(self.productCode, name: "productCode", parent: name, min: 1)
             try self.validate(self.productCode, name: "productCode", parent: name, pattern: "[\\s\\S]+")
             try self.usageAllocations?.forEach {
                 try $0.validate(name: "\(name).usageAllocations[]")
             }
+            try self.usageAllocations?.forEach {}
             try self.validate(self.usageAllocations, name: "usageAllocations", parent: name, max: 500)
             try self.validate(self.usageAllocations, name: "usageAllocations", parent: name, min: 1)
+            try self.usageDimension.forEach {}
             try self.validate(self.usageDimension, name: "usageDimension", parent: name, max: 255)
             try self.validate(self.usageDimension, name: "usageDimension", parent: name, min: 1)
             try self.validate(self.usageDimension, name: "usageDimension", parent: name, pattern: "[\\s\\S]+")
+            try self.usageQuantity?.forEach {}
             try self.validate(self.usageQuantity, name: "usageQuantity", parent: name, max: 2_147_483_647)
             try self.validate(self.usageQuantity, name: "usageQuantity", parent: name, min: 0)
         }
@@ -151,11 +157,14 @@ extension MarketplaceMetering {
         }
 
         public func validate(name: String) throws {
+            try self.nonce?.forEach {}
             try self.validate(self.nonce, name: "nonce", parent: name, max: 255)
             try self.validate(self.nonce, name: "nonce", parent: name, pattern: "[\\s\\S]*")
+            try self.productCode.forEach {}
             try self.validate(self.productCode, name: "productCode", parent: name, max: 255)
             try self.validate(self.productCode, name: "productCode", parent: name, min: 1)
             try self.validate(self.productCode, name: "productCode", parent: name, pattern: "[\\s\\S]+")
+            try self.publicKeyVersion.forEach {}
             try self.validate(self.publicKeyVersion, name: "publicKeyVersion", parent: name, min: 1)
         }
 
@@ -192,6 +201,7 @@ extension MarketplaceMetering {
         }
 
         public func validate(name: String) throws {
+            try self.registrationToken.forEach {}
             try self.validate(self.registrationToken, name: "registrationToken", parent: name, pattern: "[\\s\\S]+")
         }
 
@@ -229,9 +239,11 @@ extension MarketplaceMetering {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 100)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^[a-zA-Z0-9+ -=._:\\/@]+$")
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 1)
             try self.validate(self.value, name: "value", parent: name, pattern: "^[a-zA-Z0-9+ -=._:\\/@]+$")
@@ -255,11 +267,13 @@ extension MarketplaceMetering {
         }
 
         public func validate(name: String) throws {
+            try self.allocatedUsageQuantity.forEach {}
             try self.validate(self.allocatedUsageQuantity, name: "allocatedUsageQuantity", parent: name, max: 2_147_483_647)
             try self.validate(self.allocatedUsageQuantity, name: "allocatedUsageQuantity", parent: name, min: 0)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 5)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
@@ -291,17 +305,21 @@ extension MarketplaceMetering {
         }
 
         public func validate(name: String) throws {
+            try self.customerIdentifier.forEach {}
             try self.validate(self.customerIdentifier, name: "customerIdentifier", parent: name, max: 255)
             try self.validate(self.customerIdentifier, name: "customerIdentifier", parent: name, min: 1)
             try self.validate(self.customerIdentifier, name: "customerIdentifier", parent: name, pattern: "[\\s\\S]+")
+            try self.dimension.forEach {}
             try self.validate(self.dimension, name: "dimension", parent: name, max: 255)
             try self.validate(self.dimension, name: "dimension", parent: name, min: 1)
             try self.validate(self.dimension, name: "dimension", parent: name, pattern: "[\\s\\S]+")
+            try self.quantity?.forEach {}
             try self.validate(self.quantity, name: "quantity", parent: name, max: 2_147_483_647)
             try self.validate(self.quantity, name: "quantity", parent: name, min: 0)
             try self.usageAllocations?.forEach {
                 try $0.validate(name: "\(name).usageAllocations[]")
             }
+            try self.usageAllocations?.forEach {}
             try self.validate(self.usageAllocations, name: "usageAllocations", parent: name, max: 500)
             try self.validate(self.usageAllocations, name: "usageAllocations", parent: name, min: 1)
         }

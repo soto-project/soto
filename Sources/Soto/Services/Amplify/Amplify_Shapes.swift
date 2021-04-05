@@ -221,14 +221,18 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.basicAuthCredentials?.forEach {}
             try self.validate(self.basicAuthCredentials, name: "basicAuthCredentials", parent: name, max: 2000)
+            try self.buildSpec?.forEach {}
             try self.validate(self.buildSpec, name: "buildSpec", parent: name, max: 25000)
             try self.validate(self.buildSpec, name: "buildSpec", parent: name, min: 1)
             try self.environmentVariables?.forEach {
                 try validate($0.key, name: "environmentVariables.key", parent: name, max: 255)
                 try validate($0.value, name: "environmentVariables[\"\($0.key)\"]", parent: name, max: 1000)
             }
+            try self.framework?.forEach {}
             try self.validate(self.framework, name: "framework", parent: name, max: 255)
+            try self.pullRequestEnvironmentName?.forEach {}
             try self.validate(self.pullRequestEnvironmentName, name: "pullRequestEnvironmentName", parent: name, max: 20)
         }
 
@@ -459,31 +463,43 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.accessToken?.forEach {}
             try self.validate(self.accessToken, name: "accessToken", parent: name, max: 255)
             try self.validate(self.accessToken, name: "accessToken", parent: name, min: 1)
             try self.autoBranchCreationConfig?.validate(name: "\(name).autoBranchCreationConfig")
+            try self.autoBranchCreationConfig?.forEach {}
             try self.autoBranchCreationPatterns?.forEach {
                 try validate($0, name: "autoBranchCreationPatterns[]", parent: name, max: 2048)
                 try validate($0, name: "autoBranchCreationPatterns[]", parent: name, min: 1)
             }
+            try self.autoBranchCreationPatterns?.forEach {}
+            try self.basicAuthCredentials?.forEach {}
             try self.validate(self.basicAuthCredentials, name: "basicAuthCredentials", parent: name, max: 2000)
+            try self.buildSpec?.forEach {}
             try self.validate(self.buildSpec, name: "buildSpec", parent: name, max: 25000)
             try self.validate(self.buildSpec, name: "buildSpec", parent: name, min: 1)
+            try self.customHeaders?.forEach {}
             try self.validate(self.customHeaders, name: "customHeaders", parent: name, max: 25000)
             try self.validate(self.customHeaders, name: "customHeaders", parent: name, min: 1)
             try self.customRules?.forEach {
                 try $0.validate(name: "\(name).customRules[]")
             }
+            try self.customRules?.forEach {}
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.environmentVariables?.forEach {
                 try validate($0.key, name: "environmentVariables.key", parent: name, max: 255)
                 try validate($0.value, name: "environmentVariables[\"\($0.key)\"]", parent: name, max: 1000)
             }
+            try self.iamServiceRoleArn?.forEach {}
             try self.validate(self.iamServiceRoleArn, name: "iamServiceRoleArn", parent: name, max: 1000)
             try self.validate(self.iamServiceRoleArn, name: "iamServiceRoleArn", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.oauthToken?.forEach {}
             try self.validate(self.oauthToken, name: "oauthToken", parent: name, max: 1000)
+            try self.repository?.forEach {}
             try self.validate(self.repository, name: "repository", parent: name, max: 1000)
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -550,13 +566,17 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.appId.forEach {}
             try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
+            try self.deploymentArtifacts?.forEach {}
             try self.validate(self.deploymentArtifacts, name: "deploymentArtifacts", parent: name, max: 1000)
             try self.validate(self.deploymentArtifacts, name: "deploymentArtifacts", parent: name, min: 1)
+            try self.environmentName.forEach {}
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 255)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 1)
+            try self.stackName?.forEach {}
             try self.validate(self.stackName, name: "stackName", parent: name, max: 255)
             try self.validate(self.stackName, name: "stackName", parent: name, min: 1)
         }
@@ -645,23 +665,32 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.appId.forEach {}
             try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
+            try self.backendEnvironmentArn?.forEach {}
             try self.validate(self.backendEnvironmentArn, name: "backendEnvironmentArn", parent: name, max: 1000)
             try self.validate(self.backendEnvironmentArn, name: "backendEnvironmentArn", parent: name, min: 1)
+            try self.basicAuthCredentials?.forEach {}
             try self.validate(self.basicAuthCredentials, name: "basicAuthCredentials", parent: name, max: 2000)
+            try self.branchName.forEach {}
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
+            try self.buildSpec?.forEach {}
             try self.validate(self.buildSpec, name: "buildSpec", parent: name, max: 25000)
             try self.validate(self.buildSpec, name: "buildSpec", parent: name, min: 1)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.displayName?.forEach {}
             try self.validate(self.displayName, name: "displayName", parent: name, max: 255)
             try self.environmentVariables?.forEach {
                 try validate($0.key, name: "environmentVariables.key", parent: name, max: 255)
                 try validate($0.value, name: "environmentVariables[\"\($0.key)\"]", parent: name, max: 1000)
             }
+            try self.framework?.forEach {}
             try self.validate(self.framework, name: "framework", parent: name, max: 255)
+            try self.pullRequestEnvironmentName?.forEach {}
             try self.validate(self.pullRequestEnvironmentName, name: "pullRequestEnvironmentName", parent: name, max: 20)
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -725,9 +754,11 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.appId.forEach {}
             try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
+            try self.branchName.forEach {}
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
             try self.fileMap?.forEach {
@@ -790,6 +821,7 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.appId.forEach {}
             try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
@@ -797,12 +829,16 @@ extension Amplify {
                 try validate($0, name: "autoSubDomainCreationPatterns[]", parent: name, max: 2048)
                 try validate($0, name: "autoSubDomainCreationPatterns[]", parent: name, min: 1)
             }
+            try self.autoSubDomainCreationPatterns?.forEach {}
+            try self.autoSubDomainIAMRole?.forEach {}
             try self.validate(self.autoSubDomainIAMRole, name: "autoSubDomainIAMRole", parent: name, max: 1000)
             try self.validate(self.autoSubDomainIAMRole, name: "autoSubDomainIAMRole", parent: name, pattern: "^$|^arn:aws:iam::\\d{12}:role.+")
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
             try self.subDomainSettings.forEach {
                 try $0.validate(name: "\(name).subDomainSettings[]")
             }
+            try self.subDomainSettings.forEach {}
             try self.validate(self.subDomainSettings, name: "subDomainSettings", parent: name, max: 255)
         }
 
@@ -847,11 +883,14 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.appId.forEach {}
             try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
+            try self.branchName.forEach {}
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1000)
         }
 
@@ -892,12 +931,16 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.condition?.forEach {}
             try self.validate(self.condition, name: "condition", parent: name, max: 2048)
             try self.validate(self.condition, name: "condition", parent: name, min: 1)
+            try self.source.forEach {}
             try self.validate(self.source, name: "source", parent: name, max: 2048)
             try self.validate(self.source, name: "source", parent: name, min: 1)
+            try self.status?.forEach {}
             try self.validate(self.status, name: "status", parent: name, max: 7)
             try self.validate(self.status, name: "status", parent: name, min: 3)
+            try self.target.forEach {}
             try self.validate(self.target, name: "target", parent: name, max: 2048)
             try self.validate(self.target, name: "target", parent: name, min: 1)
         }
@@ -923,6 +966,7 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.appId.forEach {}
             try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
@@ -960,9 +1004,11 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.appId.forEach {}
             try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
+            try self.environmentName.forEach {}
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 255)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 1)
         }
@@ -1000,9 +1046,11 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.appId.forEach {}
             try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
+            try self.branchName.forEach {}
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
         }
@@ -1040,9 +1088,11 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.appId.forEach {}
             try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
         }
 
@@ -1082,11 +1132,14 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.appId.forEach {}
             try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
+            try self.branchName.forEach {}
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 255)
         }
 
@@ -1118,6 +1171,7 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.webhookId.forEach {}
             try self.validate(self.webhookId, name: "webhookId", parent: name, max: 255)
         }
 
@@ -1204,9 +1258,11 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.appId.forEach {}
             try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
         }
 
@@ -1243,6 +1299,7 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.appId.forEach {}
             try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
@@ -1276,6 +1333,7 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.artifactId.forEach {}
             try self.validate(self.artifactId, name: "artifactId", parent: name, max: 255)
         }
 
@@ -1316,9 +1374,11 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.appId.forEach {}
             try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
+            try self.environmentName.forEach {}
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 255)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 1)
         }
@@ -1356,9 +1416,11 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.appId.forEach {}
             try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
+            try self.branchName.forEach {}
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
         }
@@ -1395,9 +1457,11 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.appId.forEach {}
             try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
         }
 
@@ -1438,11 +1502,14 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.appId.forEach {}
             try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
+            try self.branchName.forEach {}
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 255)
         }
 
@@ -1474,6 +1541,7 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.webhookId.forEach {}
             try self.validate(self.webhookId, name: "webhookId", parent: name, max: 255)
         }
 
@@ -1572,8 +1640,10 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
         }
 
@@ -1626,14 +1696,19 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.appId.forEach {}
             try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
+            try self.branchName.forEach {}
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 255)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
         }
 
@@ -1682,13 +1757,17 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.appId.forEach {}
             try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
+            try self.environmentName?.forEach {}
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 255)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
         }
 
@@ -1733,11 +1812,14 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.appId.forEach {}
             try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
         }
 
@@ -1782,11 +1864,14 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.appId.forEach {}
             try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
         }
 
@@ -1835,13 +1920,17 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.appId.forEach {}
             try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
+            try self.branchName.forEach {}
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
         }
 
@@ -1878,6 +1967,7 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:amplify:.*")
         }
 
@@ -1918,11 +2008,14 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.appId.forEach {}
             try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
         }
 
@@ -1994,12 +2087,16 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.appId.forEach {}
             try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
+            try self.branchName.forEach {}
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
+            try self.jobId?.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 255)
+            try self.sourceUrl?.forEach {}
             try self.validate(self.sourceUrl, name: "sourceUrl", parent: name, max: 1000)
         }
 
@@ -2057,14 +2154,20 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.appId.forEach {}
             try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
+            try self.branchName.forEach {}
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
+            try self.commitId?.forEach {}
             try self.validate(self.commitId, name: "commitId", parent: name, max: 255)
+            try self.commitMessage?.forEach {}
             try self.validate(self.commitMessage, name: "commitMessage", parent: name, max: 10000)
+            try self.jobId?.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 255)
+            try self.jobReason?.forEach {}
             try self.validate(self.jobReason, name: "jobReason", parent: name, max: 255)
         }
 
@@ -2165,11 +2268,14 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.appId.forEach {}
             try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
+            try self.branchName.forEach {}
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 255)
         }
 
@@ -2222,8 +2328,10 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.branchName.forEach {}
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
+            try self.prefix.forEach {}
             try self.validate(self.prefix, name: "prefix", parent: name, max: 255)
         }
 
@@ -2249,6 +2357,7 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:amplify:.*")
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -2284,12 +2393,14 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:amplify:.*")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
@@ -2368,34 +2479,47 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.accessToken?.forEach {}
             try self.validate(self.accessToken, name: "accessToken", parent: name, max: 255)
             try self.validate(self.accessToken, name: "accessToken", parent: name, min: 1)
+            try self.appId.forEach {}
             try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.autoBranchCreationConfig?.validate(name: "\(name).autoBranchCreationConfig")
+            try self.autoBranchCreationConfig?.forEach {}
             try self.autoBranchCreationPatterns?.forEach {
                 try validate($0, name: "autoBranchCreationPatterns[]", parent: name, max: 2048)
                 try validate($0, name: "autoBranchCreationPatterns[]", parent: name, min: 1)
             }
+            try self.autoBranchCreationPatterns?.forEach {}
+            try self.basicAuthCredentials?.forEach {}
             try self.validate(self.basicAuthCredentials, name: "basicAuthCredentials", parent: name, max: 2000)
+            try self.buildSpec?.forEach {}
             try self.validate(self.buildSpec, name: "buildSpec", parent: name, max: 25000)
             try self.validate(self.buildSpec, name: "buildSpec", parent: name, min: 1)
+            try self.customHeaders?.forEach {}
             try self.validate(self.customHeaders, name: "customHeaders", parent: name, max: 25000)
             try self.validate(self.customHeaders, name: "customHeaders", parent: name, min: 1)
             try self.customRules?.forEach {
                 try $0.validate(name: "\(name).customRules[]")
             }
+            try self.customRules?.forEach {}
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.environmentVariables?.forEach {
                 try validate($0.key, name: "environmentVariables.key", parent: name, max: 255)
                 try validate($0.value, name: "environmentVariables[\"\($0.key)\"]", parent: name, max: 1000)
             }
+            try self.iamServiceRoleArn?.forEach {}
             try self.validate(self.iamServiceRoleArn, name: "iamServiceRoleArn", parent: name, max: 1000)
             try self.validate(self.iamServiceRoleArn, name: "iamServiceRoleArn", parent: name, min: 1)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.oauthToken?.forEach {}
             try self.validate(self.oauthToken, name: "oauthToken", parent: name, max: 1000)
+            try self.repository?.forEach {}
             try self.validate(self.repository, name: "repository", parent: name, max: 1000)
         }
 
@@ -2496,23 +2620,32 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.appId.forEach {}
             try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
+            try self.backendEnvironmentArn?.forEach {}
             try self.validate(self.backendEnvironmentArn, name: "backendEnvironmentArn", parent: name, max: 1000)
             try self.validate(self.backendEnvironmentArn, name: "backendEnvironmentArn", parent: name, min: 1)
+            try self.basicAuthCredentials?.forEach {}
             try self.validate(self.basicAuthCredentials, name: "basicAuthCredentials", parent: name, max: 2000)
+            try self.branchName.forEach {}
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
+            try self.buildSpec?.forEach {}
             try self.validate(self.buildSpec, name: "buildSpec", parent: name, max: 25000)
             try self.validate(self.buildSpec, name: "buildSpec", parent: name, min: 1)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.displayName?.forEach {}
             try self.validate(self.displayName, name: "displayName", parent: name, max: 255)
             try self.environmentVariables?.forEach {
                 try validate($0.key, name: "environmentVariables.key", parent: name, max: 255)
                 try validate($0.value, name: "environmentVariables[\"\($0.key)\"]", parent: name, max: 1000)
             }
+            try self.framework?.forEach {}
             try self.validate(self.framework, name: "framework", parent: name, max: 255)
+            try self.pullRequestEnvironmentName?.forEach {}
             try self.validate(self.pullRequestEnvironmentName, name: "pullRequestEnvironmentName", parent: name, max: 20)
         }
 
@@ -2577,6 +2710,7 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.appId.forEach {}
             try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
@@ -2584,12 +2718,16 @@ extension Amplify {
                 try validate($0, name: "autoSubDomainCreationPatterns[]", parent: name, max: 2048)
                 try validate($0, name: "autoSubDomainCreationPatterns[]", parent: name, min: 1)
             }
+            try self.autoSubDomainCreationPatterns?.forEach {}
+            try self.autoSubDomainIAMRole?.forEach {}
             try self.validate(self.autoSubDomainIAMRole, name: "autoSubDomainIAMRole", parent: name, max: 1000)
             try self.validate(self.autoSubDomainIAMRole, name: "autoSubDomainIAMRole", parent: name, pattern: "^$|^arn:aws:iam::\\d{12}:role.+")
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
             try self.subDomainSettings.forEach {
                 try $0.validate(name: "\(name).subDomainSettings[]")
             }
+            try self.subDomainSettings.forEach {}
             try self.validate(self.subDomainSettings, name: "subDomainSettings", parent: name, max: 255)
         }
 
@@ -2633,9 +2771,12 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.branchName?.forEach {}
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.webhookId.forEach {}
             try self.validate(self.webhookId, name: "webhookId", parent: name, max: 255)
         }
 

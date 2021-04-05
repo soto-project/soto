@@ -18,7 +18,7 @@
 
 /// Service object for interacting with AWS AccessAnalyzer service.
 ///
-/// AWS IAM Access Analyzer helps identify potential resource-access risks by enabling you to identify any policies that grant access to an external principal. It does this by using logic-based reasoning to analyze resource-based policies in your AWS environment. An external principal can be another AWS account, a root user, an IAM user or role, a federated user, an AWS service, or an anonymous user. This guide describes the AWS IAM Access Analyzer operations that you can call programmatically. For general information about Access Analyzer, see AWS IAM Access Analyzer in the IAM User Guide. To start using Access Analyzer, you first need to create an analyzer.
+/// AWS IAM Access Analyzer helps identify potential resource-access risks by enabling you to identify any policies that grant access to an external principal. It does this by using logic-based reasoning to analyze resource-based policies in your AWS environment. An external principal can be another AWS account, a root user, an IAM user or role, a federated user, an AWS service, or an anonymous user. You can also use Access Analyzer to preview and validate public and cross-account access to your resources before deploying permissions changes. This guide describes the AWS IAM Access Analyzer operations that you can call programmatically. For general information about Access Analyzer, see AWS IAM Access Analyzer in the IAM User Guide. To start using Access Analyzer, you first need to create an analyzer.
 public struct AccessAnalyzer: AWSService {
     // MARK: Member variables
 
@@ -68,12 +68,17 @@ public struct AccessAnalyzer: AWSService {
         return self.client.execute(operation: "ApplyArchiveRule", path: "/archive-rule", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates an access preview that allows you to preview Access Analyzer findings for your resource before deploying resource permissions.
+    public func createAccessPreview(_ input: CreateAccessPreviewRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAccessPreviewResponse> {
+        return self.client.execute(operation: "CreateAccessPreview", path: "/access-preview", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates an analyzer for your account.
     public func createAnalyzer(_ input: CreateAnalyzerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAnalyzerResponse> {
         return self.client.execute(operation: "CreateAnalyzer", path: "/analyzer", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an archive rule for the specified analyzer. Archive rules automatically archive new findings that meet the criteria you define when you create the rule.
+    /// Creates an archive rule for the specified analyzer. Archive rules automatically archive new findings that meet the criteria you define when you create the rule. To learn about filter keys that you can use to create an archive rule, see Access Analyzer filter keys in the IAM User Guide.
     @discardableResult public func createArchiveRule(_ input: CreateArchiveRuleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "CreateArchiveRule", path: "/analyzer/{analyzerName}/archive-rule", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -86,6 +91,11 @@ public struct AccessAnalyzer: AWSService {
     /// Deletes the specified archive rule.
     @discardableResult public func deleteArchiveRule(_ input: DeleteArchiveRuleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteArchiveRule", path: "/analyzer/{analyzerName}/archive-rule/{ruleName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves information about an access preview for the specified analyzer.
+    public func getAccessPreview(_ input: GetAccessPreviewRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAccessPreviewResponse> {
+        return self.client.execute(operation: "GetAccessPreview", path: "/access-preview/{accessPreviewId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves information about a resource that was analyzed.
@@ -108,6 +118,16 @@ public struct AccessAnalyzer: AWSService {
         return self.client.execute(operation: "GetFinding", path: "/finding/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieves a list of access preview findings generated by the specified access preview.
+    public func listAccessPreviewFindings(_ input: ListAccessPreviewFindingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAccessPreviewFindingsResponse> {
+        return self.client.execute(operation: "ListAccessPreviewFindings", path: "/access-preview/{accessPreviewId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves a list of access previews for the specified analyzer.
+    public func listAccessPreviews(_ input: ListAccessPreviewsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAccessPreviewsResponse> {
+        return self.client.execute(operation: "ListAccessPreviews", path: "/access-preview", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Retrieves a list of resources of the specified type that have been analyzed by the specified analyzer..
     public func listAnalyzedResources(_ input: ListAnalyzedResourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAnalyzedResourcesResponse> {
         return self.client.execute(operation: "ListAnalyzedResources", path: "/analyzed-resource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -123,7 +143,7 @@ public struct AccessAnalyzer: AWSService {
         return self.client.execute(operation: "ListArchiveRules", path: "/analyzer/{analyzerName}/archive-rule", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves a list of findings generated by the specified analyzer. To learn about filter keys that you can use to create an archive rule, see Access Analyzer filter keys in the IAM User Guide.
+    /// Retrieves a list of findings generated by the specified analyzer. To learn about filter keys that you can use to retrieve a list of findings, see Access Analyzer filter keys in the IAM User Guide.
     public func listFindings(_ input: ListFindingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFindingsResponse> {
         return self.client.execute(operation: "ListFindings", path: "/finding", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -156,6 +176,11 @@ public struct AccessAnalyzer: AWSService {
     /// Updates the status for the specified findings.
     @discardableResult public func updateFindings(_ input: UpdateFindingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "UpdateFindings", path: "/finding", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Requests the validation of a policy and returns a list of findings. The findings help you identify issues and provide actionable recommendations to resolve the issue and enable you to author functional policies that meet security best practices.
+    public func validatePolicy(_ input: ValidatePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ValidatePolicyResponse> {
+        return self.client.execute(operation: "ValidatePolicy", path: "/policy/validation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 

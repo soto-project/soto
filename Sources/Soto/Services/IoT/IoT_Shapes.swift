@@ -486,6 +486,7 @@ extension IoT {
             try self.criteriaList.forEach {
                 try $0.validate(name: "\(name).criteriaList[]")
             }
+            try self.criteriaList.forEach {}
             try self.validate(self.criteriaList, name: "criteriaList", parent: name, min: 1)
         }
 
@@ -512,7 +513,9 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.minNumberOfExecutedThings.forEach {}
             try self.validate(self.minNumberOfExecutedThings, name: "minNumberOfExecutedThings", parent: name, min: 1)
+            try self.thresholdPercentage.forEach {}
             try self.validate(self.thresholdPercentage, name: "thresholdPercentage", parent: name, max: 100)
         }
 
@@ -541,6 +544,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.certificateId.forEach {}
             try self.validate(self.certificateId, name: "certificateId", parent: name, max: 64)
             try self.validate(self.certificateId, name: "certificateId", parent: name, min: 64)
             try self.validate(self.certificateId, name: "certificateId", parent: name, pattern: "(0x)?[a-fA-F0-9]+")
@@ -619,13 +623,21 @@ extension IoT {
 
         public func validate(name: String) throws {
             try self.elasticsearch?.validate(name: "\(name).elasticsearch")
+            try self.elasticsearch?.forEach {}
             try self.firehose?.validate(name: "\(name).firehose")
+            try self.firehose?.forEach {}
             try self.http?.validate(name: "\(name).http")
+            try self.http?.forEach {}
             try self.iotEvents?.validate(name: "\(name).iotEvents")
+            try self.iotEvents?.forEach {}
             try self.iotSiteWise?.validate(name: "\(name).iotSiteWise")
+            try self.iotSiteWise?.forEach {}
             try self.republish?.validate(name: "\(name).republish")
+            try self.republish?.forEach {}
             try self.salesforce?.validate(name: "\(name).salesforce")
+            try self.salesforce?.forEach {}
             try self.timestream?.validate(name: "\(name).timestream")
+            try self.timestream?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -712,9 +724,11 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.billingGroupName?.forEach {}
             try self.validate(self.billingGroupName, name: "billingGroupName", parent: name, max: 128)
             try self.validate(self.billingGroupName, name: "billingGroupName", parent: name, min: 1)
             try self.validate(self.billingGroupName, name: "billingGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try self.thingName?.forEach {}
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
             try self.validate(self.thingName, name: "thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -753,9 +767,11 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.thingGroupName?.forEach {}
             try self.validate(self.thingGroupName, name: "thingGroupName", parent: name, max: 128)
             try self.validate(self.thingGroupName, name: "thingGroupName", parent: name, min: 1)
             try self.validate(self.thingGroupName, name: "thingGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try self.thingName?.forEach {}
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
             try self.validate(self.thingName, name: "thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -791,6 +807,7 @@ extension IoT {
                 try validate($0, name: "thingGroupNames[]", parent: name, min: 1)
                 try validate($0, name: "thingGroupNames[]", parent: name, pattern: "[a-zA-Z0-9:_-]+")
             }
+            try self.thingGroupNames.forEach {}
             try self.validate(self.thingGroupNames, name: "thingGroupNames", parent: name, max: 10)
             try self.validate(self.thingGroupNames, name: "thingGroupNames", parent: name, min: 1)
         }
@@ -813,6 +830,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
         }
@@ -869,6 +887,7 @@ extension IoT {
 
         public func validate(name: String) throws {
             try self.value.validate(name: "\(name).value")
+            try self.value.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -896,6 +915,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.stringValue?.forEach {}
             try self.validate(self.stringValue, name: "stringValue", parent: name, max: 1024)
             try self.validate(self.stringValue, name: "stringValue", parent: name, min: 1)
         }
@@ -931,17 +951,21 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.comment?.forEach {}
             try self.validate(self.comment, name: "comment", parent: name, max: 2028)
             try self.validate(self.comment, name: "comment", parent: name, pattern: "[^\\p{C}]+")
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try self.namespaceId?.forEach {}
             try self.validate(self.namespaceId, name: "namespaceId", parent: name, max: 64)
             try self.validate(self.namespaceId, name: "namespaceId", parent: name, min: 1)
             try self.validate(self.namespaceId, name: "namespaceId", parent: name, pattern: "[a-zA-Z0-9_-]+")
             try self.targets.forEach {
                 try validate($0, name: "targets[]", parent: name, max: 2048)
             }
+            try self.targets.forEach {}
             try self.validate(self.targets, name: "targets", parent: name, min: 1)
         }
 
@@ -988,6 +1012,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.policyName.forEach {}
             try self.validate(self.policyName, name: "policyName", parent: name, max: 128)
             try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
             try self.validate(self.policyName, name: "policyName", parent: name, pattern: "[\\w+=,.@-]+")
@@ -1015,6 +1040,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.policyName.forEach {}
             try self.validate(self.policyName, name: "policyName", parent: name, max: 128)
             try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
             try self.validate(self.policyName, name: "policyName", parent: name, pattern: "[\\w+=,.@-]+")
@@ -1040,6 +1066,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.securityProfileName.forEach {}
             try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, max: 128)
             try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, min: 1)
             try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -1069,6 +1096,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.thingName.forEach {}
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
             try self.validate(self.thingName, name: "thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -1295,6 +1323,7 @@ extension IoT {
                 try validate($0.value, name: "auditCheckToReasonCodeFilter[\"\($0.key)\"]", parent: name, max: 25)
                 try validate($0.value, name: "auditCheckToReasonCodeFilter[\"\($0.key)\"]", parent: name, min: 1)
             }
+            try self.auditTaskId?.forEach {}
             try self.validate(self.auditTaskId, name: "auditTaskId", parent: name, max: 40)
             try self.validate(self.auditTaskId, name: "auditTaskId", parent: name, min: 1)
             try self.validate(self.auditTaskId, name: "auditTaskId", parent: name, pattern: "[a-zA-Z0-9\\-]+")
@@ -1303,6 +1332,7 @@ extension IoT {
                 try validate($0, name: "findingIds[]", parent: name, min: 1)
                 try validate($0, name: "findingIds[]", parent: name, pattern: "[a-zA-Z0-9_-]+")
             }
+            try self.findingIds?.forEach {}
             try self.validate(self.findingIds, name: "findingIds", parent: name, max: 25)
             try self.validate(self.findingIds, name: "findingIds", parent: name, min: 1)
         }
@@ -1329,8 +1359,10 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.roleArn?.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.targetArn?.forEach {}
             try self.validate(self.targetArn, name: "targetArn", parent: name, max: 2048)
         }
 
@@ -1404,6 +1436,7 @@ extension IoT {
             try self.resources.forEach {
                 try validate($0, name: "resources[]", parent: name, max: 2048)
             }
+            try self.resources.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1453,6 +1486,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.defaultAuthorizerName?.forEach {}
             try self.validate(self.defaultAuthorizerName, name: "defaultAuthorizerName", parent: name, max: 128)
             try self.validate(self.defaultAuthorizerName, name: "defaultAuthorizerName", parent: name, min: 1)
             try self.validate(self.defaultAuthorizerName, name: "defaultAuthorizerName", parent: name, pattern: "[\\w=,@-]+")
@@ -1538,6 +1572,7 @@ extension IoT {
             try self.abortCriteriaList.forEach {
                 try $0.validate(name: "\(name).abortCriteriaList[]")
             }
+            try self.abortCriteriaList.forEach {}
             try self.validate(self.abortCriteriaList, name: "abortCriteriaList", parent: name, min: 1)
         }
 
@@ -1564,7 +1599,9 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.minNumberOfExecutedThings.forEach {}
             try self.validate(self.minNumberOfExecutedThings, name: "minNumberOfExecutedThings", parent: name, min: 1)
+            try self.thresholdPercentage.forEach {}
             try self.validate(self.thresholdPercentage, name: "thresholdPercentage", parent: name, max: 100)
         }
 
@@ -1589,6 +1626,8 @@ extension IoT {
 
         public func validate(name: String) throws {
             try self.exponentialRate?.validate(name: "\(name).exponentialRate")
+            try self.exponentialRate?.forEach {}
+            try self.maximumPerMinute?.forEach {}
             try self.validate(self.maximumPerMinute, name: "maximumPerMinute", parent: name, max: 1000)
             try self.validate(self.maximumPerMinute, name: "maximumPerMinute", parent: name, min: 1)
         }
@@ -1614,9 +1653,11 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.baseRatePerMinute.forEach {}
             try self.validate(self.baseRatePerMinute, name: "baseRatePerMinute", parent: name, max: 1000)
             try self.validate(self.baseRatePerMinute, name: "baseRatePerMinute", parent: name, min: 1)
             try self.rateIncreaseCriteria.validate(name: "\(name).rateIncreaseCriteria")
+            try self.rateIncreaseCriteria.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1651,7 +1692,9 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.numberOfNotifiedThings?.forEach {}
             try self.validate(self.numberOfNotifiedThings, name: "numberOfNotifiedThings", parent: name, min: 1)
+            try self.numberOfSucceededThings?.forEach {}
             try self.validate(self.numberOfSucceededThings, name: "numberOfSucceededThings", parent: name, min: 1)
         }
 
@@ -1696,7 +1739,10 @@ extension IoT {
 
         public func validate(name: String) throws {
             try self.criteria?.validate(name: "\(name).criteria")
+            try self.criteria?.forEach {}
             try self.metricDimension?.validate(name: "\(name).metricDimension")
+            try self.metricDimension?.forEach {}
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -1738,12 +1784,16 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.consecutiveDatapointsToAlarm?.forEach {}
             try self.validate(self.consecutiveDatapointsToAlarm, name: "consecutiveDatapointsToAlarm", parent: name, max: 10)
             try self.validate(self.consecutiveDatapointsToAlarm, name: "consecutiveDatapointsToAlarm", parent: name, min: 1)
+            try self.consecutiveDatapointsToClear?.forEach {}
             try self.validate(self.consecutiveDatapointsToClear, name: "consecutiveDatapointsToClear", parent: name, max: 10)
             try self.validate(self.consecutiveDatapointsToClear, name: "consecutiveDatapointsToClear", parent: name, min: 1)
             try self.statisticalThreshold?.validate(name: "\(name).statisticalThreshold")
+            try self.statisticalThreshold?.forEach {}
             try self.value?.validate(name: "\(name).value")
+            try self.value?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1812,6 +1862,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.billingGroupDescription?.forEach {}
             try self.validate(self.billingGroupDescription, name: "billingGroupDescription", parent: name, max: 2028)
             try self.validate(self.billingGroupDescription, name: "billingGroupDescription", parent: name, pattern: "[\\p{Graph}\\x20]*")
         }
@@ -1912,6 +1963,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.taskId.forEach {}
             try self.validate(self.taskId, name: "taskId", parent: name, max: 128)
             try self.validate(self.taskId, name: "taskId", parent: name, min: 1)
             try self.validate(self.taskId, name: "taskId", parent: name, pattern: "[a-zA-Z0-9_-]+")
@@ -1937,6 +1989,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.taskId.forEach {}
             try self.validate(self.taskId, name: "taskId", parent: name, max: 40)
             try self.validate(self.taskId, name: "taskId", parent: name, min: 1)
             try self.validate(self.taskId, name: "taskId", parent: name, pattern: "[a-zA-Z0-9\\-]+")
@@ -1962,6 +2015,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.certificateId.forEach {}
             try self.validate(self.certificateId, name: "certificateId", parent: name, max: 64)
             try self.validate(self.certificateId, name: "certificateId", parent: name, min: 64)
             try self.validate(self.certificateId, name: "certificateId", parent: name, pattern: "(0x)?[a-fA-F0-9]+")
@@ -1983,6 +2037,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.taskId.forEach {}
             try self.validate(self.taskId, name: "taskId", parent: name, max: 128)
             try self.validate(self.taskId, name: "taskId", parent: name, min: 1)
             try self.validate(self.taskId, name: "taskId", parent: name, pattern: "[a-zA-Z0-9_-]+")
@@ -2022,6 +2077,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[a-zA-Z0-9_-]+")
@@ -2032,6 +2088,7 @@ extension IoT {
                 try validate($0.value, name: "statusDetails[\"\($0.key)\"]", parent: name, min: 1)
                 try validate($0.value, name: "statusDetails[\"\($0.key)\"]", parent: name, pattern: "[^\\p{C}]+")
             }
+            try self.thingName.forEach {}
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
             try self.validate(self.thingName, name: "thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -2066,11 +2123,14 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.comment?.forEach {}
             try self.validate(self.comment, name: "comment", parent: name, max: 2028)
             try self.validate(self.comment, name: "comment", parent: name, pattern: "[^\\p{C}]+")
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try self.reasonCode?.forEach {}
             try self.validate(self.reasonCode, name: "reasonCode", parent: name, max: 128)
             try self.validate(self.reasonCode, name: "reasonCode", parent: name, pattern: "[\\p{Upper}\\p{Digit}_]+")
         }
@@ -2312,6 +2372,7 @@ extension IoT {
 
         public func validate(name: String) throws {
             try self.startSigningJobParameter?.validate(name: "\(name).startSigningJobParameter")
+            try self.startSigningJobParameter?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2377,6 +2438,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.confirmationToken.forEach {}
             try self.validate(self.confirmationToken, name: "confirmationToken", parent: name, max: 2048)
             try self.validate(self.confirmationToken, name: "confirmationToken", parent: name, min: 1)
         }
@@ -2410,12 +2472,15 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.clientRequestToken.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\p{Graph}\\x20]*")
             try self.resourceIdentifier.validate(name: "\(name).resourceIdentifier")
+            try self.resourceIdentifier.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2463,13 +2528,17 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.authorizerFunctionArn.forEach {}
             try self.validate(self.authorizerFunctionArn, name: "authorizerFunctionArn", parent: name, max: 2048)
+            try self.authorizerName.forEach {}
             try self.validate(self.authorizerName, name: "authorizerName", parent: name, max: 128)
             try self.validate(self.authorizerName, name: "authorizerName", parent: name, min: 1)
             try self.validate(self.authorizerName, name: "authorizerName", parent: name, pattern: "[\\w=,@-]+")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
+            try self.tokenKeyName?.forEach {}
             try self.validate(self.tokenKeyName, name: "tokenKeyName", parent: name, max: 128)
             try self.validate(self.tokenKeyName, name: "tokenKeyName", parent: name, min: 1)
             try self.validate(self.tokenKeyName, name: "tokenKeyName", parent: name, pattern: "[a-zA-Z0-9_-]+")
@@ -2527,13 +2596,16 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.billingGroupName.forEach {}
             try self.validate(self.billingGroupName, name: "billingGroupName", parent: name, max: 128)
             try self.validate(self.billingGroupName, name: "billingGroupName", parent: name, min: 1)
             try self.validate(self.billingGroupName, name: "billingGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
             try self.billingGroupProperties?.validate(name: "\(name).billingGroupProperties")
+            try self.billingGroupProperties?.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2579,6 +2651,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.certificateSigningRequest.forEach {}
             try self.validate(self.certificateSigningRequest, name: "certificateSigningRequest", parent: name, min: 1)
         }
 
@@ -2633,17 +2706,21 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.clientRequestToken.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.displayName?.forEach {}
             try self.validate(self.displayName, name: "displayName", parent: name, max: 128)
             try self.validate(self.displayName, name: "displayName", parent: name, pattern: "[\\p{Graph}\\x20]*")
+            try self.metricName.forEach {}
             try self.validate(self.metricName, name: "metricName", parent: name, max: 128)
             try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
             try self.validate(self.metricName, name: "metricName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2696,9 +2773,11 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.clientRequestToken.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -2706,11 +2785,13 @@ extension IoT {
                 try validate($0, name: "stringValues[]", parent: name, max: 256)
                 try validate($0, name: "stringValues[]", parent: name, min: 1)
             }
+            try self.stringValues.forEach {}
             try self.validate(self.stringValues, name: "stringValues", parent: name, max: 100)
             try self.validate(self.stringValues, name: "stringValues", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2770,9 +2851,12 @@ extension IoT {
 
         public func validate(name: String) throws {
             try self.authorizerConfig?.validate(name: "\(name).authorizerConfig")
+            try self.authorizerConfig?.forEach {}
+            try self.domainConfigurationName.forEach {}
             try self.validate(self.domainConfigurationName, name: "domainConfigurationName", parent: name, max: 128)
             try self.validate(self.domainConfigurationName, name: "domainConfigurationName", parent: name, min: 1)
             try self.validate(self.domainConfigurationName, name: "domainConfigurationName", parent: name, pattern: "[\\w.-]+")
+            try self.domainName?.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 253)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.serverCertificateArns?.forEach {
@@ -2780,11 +2864,14 @@ extension IoT {
                 try validate($0, name: "serverCertificateArns[]", parent: name, min: 1)
                 try validate($0, name: "serverCertificateArns[]", parent: name, pattern: "arn:aws(-cn|-us-gov|-iso-b|-iso)?:acm:[a-z]{2}-(gov-|iso-|isob-)?[a-z]{4,9}-\\d{1}:\\d{12}:certificate/[a-zA-Z0-9/-]+")
             }
+            try self.serverCertificateArns?.forEach {}
             try self.validate(self.serverCertificateArns, name: "serverCertificateArns", parent: name, max: 1)
             try self.validate(self.serverCertificateArns, name: "serverCertificateArns", parent: name, min: 0)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
+            try self.validationCertificateArn?.forEach {}
             try self.validate(self.validationCertificateArn, name: "validationCertificateArn", parent: name, max: 2048)
             try self.validate(self.validationCertificateArn, name: "validationCertificateArn", parent: name, min: 1)
             try self.validate(self.validationCertificateArn, name: "validationCertificateArn", parent: name, pattern: "arn:aws(-cn|-us-gov|-iso-b|-iso)?:acm:[a-z]{2}-(gov-|iso-|isob-)?[a-z]{4,9}-\\d{1}:\\d{12}:certificate/[a-zA-Z0-9/-]+")
@@ -2845,17 +2932,22 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.indexName?.forEach {}
             try self.validate(self.indexName, name: "indexName", parent: name, max: 128)
             try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
             try self.validate(self.indexName, name: "indexName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try self.queryString.forEach {}
             try self.validate(self.queryString, name: "queryString", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
+            try self.thingGroupName.forEach {}
             try self.validate(self.thingGroupName, name: "thingGroupName", parent: name, max: 128)
             try self.validate(self.thingGroupName, name: "thingGroupName", parent: name, min: 1)
             try self.validate(self.thingGroupName, name: "thingGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
             try self.thingGroupProperties?.validate(name: "\(name).thingGroupProperties")
+            try self.thingGroupProperties?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2947,25 +3039,35 @@ extension IoT {
 
         public func validate(name: String) throws {
             try self.abortConfig?.validate(name: "\(name).abortConfig")
+            try self.abortConfig?.forEach {}
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2028)
             try self.validate(self.description, name: "description", parent: name, pattern: "[^\\p{C}]+")
+            try self.document?.forEach {}
             try self.validate(self.document, name: "document", parent: name, max: 32768)
+            try self.documentSource?.forEach {}
             try self.validate(self.documentSource, name: "documentSource", parent: name, max: 1350)
             try self.validate(self.documentSource, name: "documentSource", parent: name, min: 1)
             try self.jobExecutionsRolloutConfig?.validate(name: "\(name).jobExecutionsRolloutConfig")
+            try self.jobExecutionsRolloutConfig?.forEach {}
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try self.namespaceId?.forEach {}
             try self.validate(self.namespaceId, name: "namespaceId", parent: name, max: 64)
             try self.validate(self.namespaceId, name: "namespaceId", parent: name, min: 1)
             try self.validate(self.namespaceId, name: "namespaceId", parent: name, pattern: "[a-zA-Z0-9_-]+")
             try self.presignedUrlConfig?.validate(name: "\(name).presignedUrlConfig")
+            try self.presignedUrlConfig?.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.targets.forEach {
                 try validate($0, name: "targets[]", parent: name, max: 2048)
             }
+            try self.targets.forEach {}
             try self.validate(self.targets, name: "targets", parent: name, min: 1)
         }
 
@@ -3067,14 +3169,18 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.actionName.forEach {}
             try self.validate(self.actionName, name: "actionName", parent: name, max: 128)
             try self.validate(self.actionName, name: "actionName", parent: name, pattern: "[a-zA-Z0-9_-]+")
             try self.actionParams.validate(name: "\(name).actionParams")
+            try self.actionParams.forEach {}
+            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3151,24 +3257,33 @@ extension IoT {
 
         public func validate(name: String) throws {
             try self.awsJobAbortConfig?.validate(name: "\(name).awsJobAbortConfig")
+            try self.awsJobAbortConfig?.forEach {}
             try self.awsJobExecutionsRolloutConfig?.validate(name: "\(name).awsJobExecutionsRolloutConfig")
+            try self.awsJobExecutionsRolloutConfig?.forEach {}
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2028)
             try self.validate(self.description, name: "description", parent: name, pattern: "[^\\p{C}]+")
             try self.files.forEach {
                 try $0.validate(name: "\(name).files[]")
             }
+            try self.files.forEach {}
             try self.validate(self.files, name: "files", parent: name, max: 50)
             try self.validate(self.files, name: "files", parent: name, min: 1)
+            try self.otaUpdateId.forEach {}
             try self.validate(self.otaUpdateId, name: "otaUpdateId", parent: name, max: 128)
             try self.validate(self.otaUpdateId, name: "otaUpdateId", parent: name, min: 1)
             try self.validate(self.otaUpdateId, name: "otaUpdateId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try self.protocols?.forEach {}
             try self.validate(self.protocols, name: "protocols", parent: name, max: 2)
             try self.validate(self.protocols, name: "protocols", parent: name, min: 1)
+            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
+            try self.targets.forEach {}
             try self.validate(self.targets, name: "targets", parent: name, min: 1)
         }
 
@@ -3236,12 +3351,14 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.policyName.forEach {}
             try self.validate(self.policyName, name: "policyName", parent: name, max: 128)
             try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
             try self.validate(self.policyName, name: "policyName", parent: name, pattern: "[\\w+=,.@-]+")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3295,6 +3412,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.policyName.forEach {}
             try self.validate(self.policyName, name: "policyName", parent: name, max: 128)
             try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
             try self.validate(self.policyName, name: "policyName", parent: name, pattern: "[\\w+=,.@-]+")
@@ -3343,6 +3461,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.templateName.forEach {}
             try self.validate(self.templateName, name: "templateName", parent: name, max: 36)
             try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
             try self.validate(self.templateName, name: "templateName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
@@ -3403,15 +3522,20 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 500)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, pattern: "[^\\p{C}]*")
             try self.preProvisioningHook?.validate(name: "\(name).preProvisioningHook")
+            try self.preProvisioningHook?.forEach {}
+            try self.provisioningRoleArn.forEach {}
             try self.validate(self.provisioningRoleArn, name: "provisioningRoleArn", parent: name, max: 2048)
             try self.validate(self.provisioningRoleArn, name: "provisioningRoleArn", parent: name, min: 20)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
+            try self.templateName.forEach {}
             try self.validate(self.templateName, name: "templateName", parent: name, max: 36)
             try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
             try self.validate(self.templateName, name: "templateName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
@@ -3469,6 +3593,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.templateName.forEach {}
             try self.validate(self.templateName, name: "templateName", parent: name, max: 36)
             try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
             try self.validate(self.templateName, name: "templateName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
@@ -3526,16 +3651,20 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.credentialDurationSeconds?.forEach {}
             try self.validate(self.credentialDurationSeconds, name: "credentialDurationSeconds", parent: name, max: 3600)
             try self.validate(self.credentialDurationSeconds, name: "credentialDurationSeconds", parent: name, min: 900)
+            try self.roleAlias.forEach {}
             try self.validate(self.roleAlias, name: "roleAlias", parent: name, max: 128)
             try self.validate(self.roleAlias, name: "roleAlias", parent: name, min: 1)
             try self.validate(self.roleAlias, name: "roleAlias", parent: name, pattern: "[\\w=,@-]+")
+            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3590,13 +3719,16 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.dayOfMonth?.forEach {}
             try self.validate(self.dayOfMonth, name: "dayOfMonth", parent: name, pattern: "^([1-9]|[12][0-9]|3[01])$|^LAST$")
+            try self.scheduledAuditName.forEach {}
             try self.validate(self.scheduledAuditName, name: "scheduledAuditName", parent: name, max: 128)
             try self.validate(self.scheduledAuditName, name: "scheduledAuditName", parent: name, min: 1)
             try self.validate(self.scheduledAuditName, name: "scheduledAuditName", parent: name, pattern: "[a-zA-Z0-9_-]+")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3652,21 +3784,26 @@ extension IoT {
             try self.additionalMetricsToRetainV2?.forEach {
                 try $0.validate(name: "\(name).additionalMetricsToRetainV2[]")
             }
+            try self.additionalMetricsToRetainV2?.forEach {}
             try self.alertTargets?.forEach {
                 try $0.value.validate(name: "\(name).alertTargets[\"\($0.key)\"]")
             }
             try self.behaviors?.forEach {
                 try $0.validate(name: "\(name).behaviors[]")
             }
+            try self.behaviors?.forEach {}
             try self.validate(self.behaviors, name: "behaviors", parent: name, max: 100)
+            try self.securityProfileDescription?.forEach {}
             try self.validate(self.securityProfileDescription, name: "securityProfileDescription", parent: name, max: 1000)
             try self.validate(self.securityProfileDescription, name: "securityProfileDescription", parent: name, pattern: "[\\p{Graph}\\x20]*")
+            try self.securityProfileName.forEach {}
             try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, max: 128)
             try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, min: 1)
             try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3720,21 +3857,26 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2028)
             try self.validate(self.description, name: "description", parent: name, pattern: "[^\\p{C}]+")
             try self.files.forEach {
                 try $0.validate(name: "\(name).files[]")
             }
+            try self.files.forEach {}
             try self.validate(self.files, name: "files", parent: name, max: 50)
             try self.validate(self.files, name: "files", parent: name, min: 1)
+            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.streamId.forEach {}
             try self.validate(self.streamId, name: "streamId", parent: name, max: 128)
             try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
             try self.validate(self.streamId, name: "streamId", parent: name, pattern: "[a-zA-Z0-9_-]+")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3792,16 +3934,20 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.parentGroupName?.forEach {}
             try self.validate(self.parentGroupName, name: "parentGroupName", parent: name, max: 128)
             try self.validate(self.parentGroupName, name: "parentGroupName", parent: name, min: 1)
             try self.validate(self.parentGroupName, name: "parentGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
+            try self.thingGroupName.forEach {}
             try self.validate(self.thingGroupName, name: "thingGroupName", parent: name, max: 128)
             try self.validate(self.thingGroupName, name: "thingGroupName", parent: name, min: 1)
             try self.validate(self.thingGroupName, name: "thingGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
             try self.thingGroupProperties?.validate(name: "\(name).thingGroupProperties")
+            try self.thingGroupProperties?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3855,12 +4001,16 @@ extension IoT {
 
         public func validate(name: String) throws {
             try self.attributePayload?.validate(name: "\(name).attributePayload")
+            try self.attributePayload?.forEach {}
+            try self.billingGroupName?.forEach {}
             try self.validate(self.billingGroupName, name: "billingGroupName", parent: name, max: 128)
             try self.validate(self.billingGroupName, name: "billingGroupName", parent: name, min: 1)
             try self.validate(self.billingGroupName, name: "billingGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try self.thingName.forEach {}
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
             try self.validate(self.thingName, name: "thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try self.thingTypeName?.forEach {}
             try self.validate(self.thingTypeName, name: "thingTypeName", parent: name, max: 128)
             try self.validate(self.thingTypeName, name: "thingTypeName", parent: name, min: 1)
             try self.validate(self.thingTypeName, name: "thingTypeName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -3916,10 +4066,13 @@ extension IoT {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
+            try self.thingTypeName.forEach {}
             try self.validate(self.thingTypeName, name: "thingTypeName", parent: name, max: 128)
             try self.validate(self.thingTypeName, name: "thingTypeName", parent: name, min: 1)
             try self.validate(self.thingTypeName, name: "thingTypeName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
             try self.thingTypeProperties?.validate(name: "\(name).thingTypeProperties")
+            try self.thingTypeProperties?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3959,6 +4112,7 @@ extension IoT {
 
         public func validate(name: String) throws {
             try self.destinationConfiguration.validate(name: "\(name).destinationConfiguration")
+            try self.destinationConfiguration.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4001,10 +4155,12 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.ruleName.forEach {}
             try self.validate(self.ruleName, name: "ruleName", parent: name, max: 128)
             try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
             try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
             try self.topicRulePayload.validate(name: "\(name).topicRulePayload")
+            try self.topicRulePayload.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4067,6 +4223,7 @@ extension IoT {
 
         public func validate(name: String) throws {
             try self.resourceIdentifier.validate(name: "\(name).resourceIdentifier")
+            try self.resourceIdentifier.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4092,6 +4249,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.authorizerName.forEach {}
             try self.validate(self.authorizerName, name: "authorizerName", parent: name, max: 128)
             try self.validate(self.authorizerName, name: "authorizerName", parent: name, min: 1)
             try self.validate(self.authorizerName, name: "authorizerName", parent: name, pattern: "[\\w=,@-]+")
@@ -4121,6 +4279,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.billingGroupName.forEach {}
             try self.validate(self.billingGroupName, name: "billingGroupName", parent: name, max: 128)
             try self.validate(self.billingGroupName, name: "billingGroupName", parent: name, min: 1)
             try self.validate(self.billingGroupName, name: "billingGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -4146,6 +4305,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.certificateId.forEach {}
             try self.validate(self.certificateId, name: "certificateId", parent: name, max: 64)
             try self.validate(self.certificateId, name: "certificateId", parent: name, min: 64)
             try self.validate(self.certificateId, name: "certificateId", parent: name, pattern: "(0x)?[a-fA-F0-9]+")
@@ -4175,6 +4335,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.certificateId.forEach {}
             try self.validate(self.certificateId, name: "certificateId", parent: name, max: 64)
             try self.validate(self.certificateId, name: "certificateId", parent: name, min: 64)
             try self.validate(self.certificateId, name: "certificateId", parent: name, pattern: "(0x)?[a-fA-F0-9]+")
@@ -4196,6 +4357,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.metricName.forEach {}
             try self.validate(self.metricName, name: "metricName", parent: name, max: 128)
             try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
             try self.validate(self.metricName, name: "metricName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -4221,6 +4383,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -4246,6 +4409,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.domainConfigurationName.forEach {}
             try self.validate(self.domainConfigurationName, name: "domainConfigurationName", parent: name, max: 128)
             try self.validate(self.domainConfigurationName, name: "domainConfigurationName", parent: name, min: 1)
             try self.validate(self.domainConfigurationName, name: "domainConfigurationName", parent: name, pattern: "[\\w.-]+")
@@ -4275,6 +4439,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.thingGroupName.forEach {}
             try self.validate(self.thingGroupName, name: "thingGroupName", parent: name, max: 128)
             try self.validate(self.thingGroupName, name: "thingGroupName", parent: name, min: 1)
             try self.validate(self.thingGroupName, name: "thingGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -4316,12 +4481,15 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try self.namespaceId?.forEach {}
             try self.validate(self.namespaceId, name: "namespaceId", parent: name, max: 64)
             try self.validate(self.namespaceId, name: "namespaceId", parent: name, min: 1)
             try self.validate(self.namespaceId, name: "namespaceId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try self.thingName.forEach {}
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
             try self.validate(self.thingName, name: "thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -4351,9 +4519,11 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try self.namespaceId?.forEach {}
             try self.validate(self.namespaceId, name: "namespaceId", parent: name, max: 64)
             try self.validate(self.namespaceId, name: "namespaceId", parent: name, min: 1)
             try self.validate(self.namespaceId, name: "namespaceId", parent: name, pattern: "[a-zA-Z0-9_-]+")
@@ -4375,6 +4545,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.actionName.forEach {}
             try self.validate(self.actionName, name: "actionName", parent: name, max: 128)
             try self.validate(self.actionName, name: "actionName", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
@@ -4407,6 +4578,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.otaUpdateId.forEach {}
             try self.validate(self.otaUpdateId, name: "otaUpdateId", parent: name, max: 128)
             try self.validate(self.otaUpdateId, name: "otaUpdateId", parent: name, min: 1)
             try self.validate(self.otaUpdateId, name: "otaUpdateId", parent: name, pattern: "[a-zA-Z0-9_-]+")
@@ -4432,6 +4604,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.policyName.forEach {}
             try self.validate(self.policyName, name: "policyName", parent: name, max: 128)
             try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
             try self.validate(self.policyName, name: "policyName", parent: name, pattern: "[\\w+=,.@-]+")
@@ -4457,9 +4630,11 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.policyName.forEach {}
             try self.validate(self.policyName, name: "policyName", parent: name, max: 128)
             try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
             try self.validate(self.policyName, name: "policyName", parent: name, pattern: "[\\w+=,.@-]+")
+            try self.policyVersionId.forEach {}
             try self.validate(self.policyVersionId, name: "policyVersionId", parent: name, pattern: "[0-9]+")
         }
 
@@ -4479,6 +4654,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.templateName.forEach {}
             try self.validate(self.templateName, name: "templateName", parent: name, max: 36)
             try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
             try self.validate(self.templateName, name: "templateName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
@@ -4508,6 +4684,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.templateName.forEach {}
             try self.validate(self.templateName, name: "templateName", parent: name, max: 36)
             try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
             try self.validate(self.templateName, name: "templateName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
@@ -4541,6 +4718,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.roleAlias.forEach {}
             try self.validate(self.roleAlias, name: "roleAlias", parent: name, max: 128)
             try self.validate(self.roleAlias, name: "roleAlias", parent: name, min: 1)
             try self.validate(self.roleAlias, name: "roleAlias", parent: name, pattern: "[\\w=,@-]+")
@@ -4566,6 +4744,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.scheduledAuditName.forEach {}
             try self.validate(self.scheduledAuditName, name: "scheduledAuditName", parent: name, max: 128)
             try self.validate(self.scheduledAuditName, name: "scheduledAuditName", parent: name, min: 1)
             try self.validate(self.scheduledAuditName, name: "scheduledAuditName", parent: name, pattern: "[a-zA-Z0-9_-]+")
@@ -4595,6 +4774,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.securityProfileName.forEach {}
             try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, max: 128)
             try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, min: 1)
             try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -4620,6 +4800,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.streamId.forEach {}
             try self.validate(self.streamId, name: "streamId", parent: name, max: 128)
             try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
             try self.validate(self.streamId, name: "streamId", parent: name, pattern: "[a-zA-Z0-9_-]+")
@@ -4649,6 +4830,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.thingGroupName.forEach {}
             try self.validate(self.thingGroupName, name: "thingGroupName", parent: name, max: 128)
             try self.validate(self.thingGroupName, name: "thingGroupName", parent: name, min: 1)
             try self.validate(self.thingGroupName, name: "thingGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -4678,6 +4860,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.thingName.forEach {}
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
             try self.validate(self.thingName, name: "thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -4703,6 +4886,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.thingTypeName.forEach {}
             try self.validate(self.thingTypeName, name: "thingTypeName", parent: name, max: 128)
             try self.validate(self.thingTypeName, name: "thingTypeName", parent: name, min: 1)
             try self.validate(self.thingTypeName, name: "thingTypeName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -4747,6 +4931,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.ruleName.forEach {}
             try self.validate(self.ruleName, name: "ruleName", parent: name, max: 128)
             try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
             try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
@@ -4807,6 +4992,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.thingTypeName.forEach {}
             try self.validate(self.thingTypeName, name: "thingTypeName", parent: name, max: 128)
             try self.validate(self.thingTypeName, name: "thingTypeName", parent: name, min: 1)
             try self.validate(self.thingTypeName, name: "thingTypeName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -4859,6 +5045,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.findingId.forEach {}
             try self.validate(self.findingId, name: "findingId", parent: name, max: 128)
             try self.validate(self.findingId, name: "findingId", parent: name, min: 1)
             try self.validate(self.findingId, name: "findingId", parent: name, pattern: "[a-zA-Z0-9_-]+")
@@ -4892,6 +5079,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.taskId.forEach {}
             try self.validate(self.taskId, name: "taskId", parent: name, max: 128)
             try self.validate(self.taskId, name: "taskId", parent: name, min: 1)
             try self.validate(self.taskId, name: "taskId", parent: name, pattern: "[a-zA-Z0-9_-]+")
@@ -4948,6 +5136,7 @@ extension IoT {
 
         public func validate(name: String) throws {
             try self.resourceIdentifier.validate(name: "\(name).resourceIdentifier")
+            try self.resourceIdentifier.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4996,6 +5185,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.taskId.forEach {}
             try self.validate(self.taskId, name: "taskId", parent: name, max: 40)
             try self.validate(self.taskId, name: "taskId", parent: name, min: 1)
             try self.validate(self.taskId, name: "taskId", parent: name, pattern: "[a-zA-Z0-9\\-]+")
@@ -5050,6 +5240,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.authorizerName.forEach {}
             try self.validate(self.authorizerName, name: "authorizerName", parent: name, max: 128)
             try self.validate(self.authorizerName, name: "authorizerName", parent: name, min: 1)
             try self.validate(self.authorizerName, name: "authorizerName", parent: name, pattern: "[\\w=,@-]+")
@@ -5084,6 +5275,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.billingGroupName.forEach {}
             try self.validate(self.billingGroupName, name: "billingGroupName", parent: name, max: 128)
             try self.validate(self.billingGroupName, name: "billingGroupName", parent: name, min: 1)
             try self.validate(self.billingGroupName, name: "billingGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -5138,6 +5330,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.certificateId.forEach {}
             try self.validate(self.certificateId, name: "certificateId", parent: name, max: 64)
             try self.validate(self.certificateId, name: "certificateId", parent: name, min: 64)
             try self.validate(self.certificateId, name: "certificateId", parent: name, pattern: "(0x)?[a-fA-F0-9]+")
@@ -5176,6 +5369,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.certificateId.forEach {}
             try self.validate(self.certificateId, name: "certificateId", parent: name, max: 64)
             try self.validate(self.certificateId, name: "certificateId", parent: name, min: 64)
             try self.validate(self.certificateId, name: "certificateId", parent: name, pattern: "(0x)?[a-fA-F0-9]+")
@@ -5210,6 +5404,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.metricName.forEach {}
             try self.validate(self.metricName, name: "metricName", parent: name, max: 128)
             try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
             try self.validate(self.metricName, name: "metricName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -5281,6 +5476,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.taskId.forEach {}
             try self.validate(self.taskId, name: "taskId", parent: name, max: 128)
             try self.validate(self.taskId, name: "taskId", parent: name, min: 1)
             try self.validate(self.taskId, name: "taskId", parent: name, pattern: "[a-zA-Z0-9_-]+")
@@ -5315,6 +5511,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -5369,6 +5566,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.domainConfigurationName.forEach {}
             try self.validate(self.domainConfigurationName, name: "domainConfigurationName", parent: name, max: 128)
             try self.validate(self.domainConfigurationName, name: "domainConfigurationName", parent: name, min: 1)
             try self.validate(self.domainConfigurationName, name: "domainConfigurationName", parent: name, pattern: "[\\w.:-]+")
@@ -5435,6 +5633,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.endpointType?.forEach {}
             try self.validate(self.endpointType, name: "endpointType", parent: name, max: 128)
         }
 
@@ -5492,6 +5691,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.indexName.forEach {}
             try self.validate(self.indexName, name: "indexName", parent: name, max: 128)
             try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
             try self.validate(self.indexName, name: "indexName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -5542,9 +5742,11 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try self.thingName.forEach {}
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
             try self.validate(self.thingName, name: "thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -5579,6 +5781,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[a-zA-Z0-9_-]+")
@@ -5617,6 +5820,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.actionName.forEach {}
             try self.validate(self.actionName, name: "actionName", parent: name, max: 128)
             try self.validate(self.actionName, name: "actionName", parent: name, pattern: "[a-zA-Z0-9_-]+")
         }
@@ -5678,6 +5882,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.templateName.forEach {}
             try self.validate(self.templateName, name: "templateName", parent: name, max: 36)
             try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
             try self.validate(self.templateName, name: "templateName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
@@ -5752,6 +5957,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.templateName.forEach {}
             try self.validate(self.templateName, name: "templateName", parent: name, max: 36)
             try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
             try self.validate(self.templateName, name: "templateName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
@@ -5798,6 +6004,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.roleAlias.forEach {}
             try self.validate(self.roleAlias, name: "roleAlias", parent: name, max: 128)
             try self.validate(self.roleAlias, name: "roleAlias", parent: name, min: 1)
             try self.validate(self.roleAlias, name: "roleAlias", parent: name, pattern: "[\\w=,@-]+")
@@ -5832,6 +6039,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.scheduledAuditName.forEach {}
             try self.validate(self.scheduledAuditName, name: "scheduledAuditName", parent: name, max: 128)
             try self.validate(self.scheduledAuditName, name: "scheduledAuditName", parent: name, min: 1)
             try self.validate(self.scheduledAuditName, name: "scheduledAuditName", parent: name, pattern: "[a-zA-Z0-9_-]+")
@@ -5886,6 +6094,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.securityProfileName.forEach {}
             try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, max: 128)
             try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, min: 1)
             try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -5952,6 +6161,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.streamId.forEach {}
             try self.validate(self.streamId, name: "streamId", parent: name, max: 128)
             try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
             try self.validate(self.streamId, name: "streamId", parent: name, pattern: "[a-zA-Z0-9_-]+")
@@ -5986,6 +6196,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.thingGroupName.forEach {}
             try self.validate(self.thingGroupName, name: "thingGroupName", parent: name, max: 128)
             try self.validate(self.thingGroupName, name: "thingGroupName", parent: name, min: 1)
             try self.validate(self.thingGroupName, name: "thingGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -6056,6 +6267,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.taskId.forEach {}
             try self.validate(self.taskId, name: "taskId", parent: name, max: 40)
         }
 
@@ -6132,6 +6344,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.thingName.forEach {}
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
             try self.validate(self.thingName, name: "thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -6194,6 +6407,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.thingTypeName.forEach {}
             try self.validate(self.thingTypeName, name: "thingTypeName", parent: name, max: 128)
             try self.validate(self.thingTypeName, name: "thingTypeName", parent: name, min: 1)
             try self.validate(self.thingTypeName, name: "thingTypeName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -6241,6 +6455,7 @@ extension IoT {
 
         public func validate(name: String) throws {
             try self.s3Destination?.validate(name: "\(name).s3Destination")
+            try self.s3Destination?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6264,6 +6479,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.policyName.forEach {}
             try self.validate(self.policyName, name: "policyName", parent: name, max: 128)
             try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
             try self.validate(self.policyName, name: "policyName", parent: name, pattern: "[\\w+=,.@-]+")
@@ -6291,6 +6507,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.policyName.forEach {}
             try self.validate(self.policyName, name: "policyName", parent: name, max: 128)
             try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
             try self.validate(self.policyName, name: "policyName", parent: name, pattern: "[\\w+=,.@-]+")
@@ -6316,6 +6533,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.securityProfileName.forEach {}
             try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, max: 128)
             try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, min: 1)
             try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -6345,6 +6563,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.thingName.forEach {}
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
             try self.validate(self.thingName, name: "thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -6487,9 +6706,11 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.behaviorName?.forEach {}
             try self.validate(self.behaviorName, name: "behaviorName", parent: name, max: 128)
             try self.validate(self.behaviorName, name: "behaviorName", parent: name, min: 1)
             try self.validate(self.behaviorName, name: "behaviorName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try self.securityProfileName?.forEach {}
             try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, max: 128)
             try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, min: 1)
             try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -6498,6 +6719,7 @@ extension IoT {
                 try validate($0, name: "violationIds[]", parent: name, min: 1)
                 try validate($0, name: "violationIds[]", parent: name, pattern: "[a-zA-Z0-9\\-]+")
             }
+            try self.violationIds?.forEach {}
             try self.validate(self.violationIds, name: "violationIds", parent: name, max: 25)
             try self.validate(self.violationIds, name: "violationIds", parent: name, min: 1)
         }
@@ -6522,6 +6744,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.ruleName.forEach {}
             try self.validate(self.ruleName, name: "ruleName", parent: name, max: 128)
             try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
             try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
@@ -6659,6 +6882,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.endpoint.forEach {}
             try self.validate(self.endpoint, name: "endpoint", parent: name, pattern: "https?://.*")
         }
 
@@ -6683,6 +6907,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.roleArnForLogging.forEach {}
             try self.validate(self.roleArnForLogging, name: "roleArnForLogging", parent: name, max: 2048)
             try self.validate(self.roleArnForLogging, name: "roleArnForLogging", parent: name, min: 20)
         }
@@ -6706,6 +6931,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.ruleName.forEach {}
             try self.validate(self.ruleName, name: "ruleName", parent: name, max: 128)
             try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
             try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
@@ -6759,11 +6985,14 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.baseRatePerMinute.forEach {}
             try self.validate(self.baseRatePerMinute, name: "baseRatePerMinute", parent: name, max: 1000)
             try self.validate(self.baseRatePerMinute, name: "baseRatePerMinute", parent: name, min: 1)
+            try self.incrementFactor.forEach {}
             try self.validate(self.incrementFactor, name: "incrementFactor", parent: name, max: 5)
             try self.validate(self.incrementFactor, name: "incrementFactor", parent: name, min: 1)
             try self.rateIncreaseCriteria.validate(name: "\(name).rateIncreaseCriteria")
+            try self.rateIncreaseCriteria.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6803,7 +7032,9 @@ extension IoT {
 
         public func validate(name: String) throws {
             try self.s3Location?.validate(name: "\(name).s3Location")
+            try self.s3Location?.forEach {}
             try self.stream?.validate(name: "\(name).stream")
+            try self.stream?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6830,6 +7061,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.separator?.forEach {}
             try self.validate(self.separator, name: "separator", parent: name, pattern: "([\\n\\t])|(\\r\\n)|(,)")
         }
 
@@ -6862,8 +7094,10 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.securityProfileName?.forEach {}
             try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, max: 128)
             try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, min: 1)
             try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -6907,10 +7141,13 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.aggregationField?.forEach {}
             try self.validate(self.aggregationField, name: "aggregationField", parent: name, min: 1)
+            try self.indexName?.forEach {}
             try self.validate(self.indexName, name: "indexName", parent: name, max: 128)
             try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
             try self.validate(self.indexName, name: "indexName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try self.queryString.forEach {}
             try self.validate(self.queryString, name: "queryString", parent: name, min: 1)
         }
 
@@ -6954,6 +7191,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.thingName?.forEach {}
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
             try self.validate(self.thingName, name: "thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -7012,6 +7250,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[a-zA-Z0-9_-]+")
@@ -7067,6 +7306,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.otaUpdateId.forEach {}
             try self.validate(self.otaUpdateId, name: "otaUpdateId", parent: name, max: 128)
             try self.validate(self.otaUpdateId, name: "otaUpdateId", parent: name, min: 1)
             try self.validate(self.otaUpdateId, name: "otaUpdateId", parent: name, pattern: "[a-zA-Z0-9_-]+")
@@ -7109,7 +7349,9 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.aggregationField?.forEach {}
             try self.validate(self.aggregationField, name: "aggregationField", parent: name, min: 1)
+            try self.indexName?.forEach {}
             try self.validate(self.indexName, name: "indexName", parent: name, max: 128)
             try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
             try self.validate(self.indexName, name: "indexName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -7117,6 +7359,8 @@ extension IoT {
                 try validate($0, name: "percents[]", parent: name, max: 100)
                 try validate($0, name: "percents[]", parent: name, min: 0)
             }
+            try self.percents?.forEach {}
+            try self.queryString.forEach {}
             try self.validate(self.queryString, name: "queryString", parent: name, min: 1)
         }
 
@@ -7155,6 +7399,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.policyName.forEach {}
             try self.validate(self.policyName, name: "policyName", parent: name, max: 128)
             try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
             try self.validate(self.policyName, name: "policyName", parent: name, pattern: "[\\w+=,.@-]+")
@@ -7217,9 +7462,11 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.policyName.forEach {}
             try self.validate(self.policyName, name: "policyName", parent: name, max: 128)
             try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
             try self.validate(self.policyName, name: "policyName", parent: name, pattern: "[\\w+=,.@-]+")
+            try self.policyVersionId.forEach {}
             try self.validate(self.policyVersionId, name: "policyVersionId", parent: name, pattern: "[0-9]+")
         }
 
@@ -7302,10 +7549,13 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.aggregationField?.forEach {}
             try self.validate(self.aggregationField, name: "aggregationField", parent: name, min: 1)
+            try self.indexName?.forEach {}
             try self.validate(self.indexName, name: "indexName", parent: name, max: 128)
             try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
             try self.validate(self.indexName, name: "indexName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try self.queryString.forEach {}
             try self.validate(self.queryString, name: "queryString", parent: name, min: 1)
         }
 
@@ -7371,6 +7621,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.ruleName.forEach {}
             try self.validate(self.ruleName, name: "ruleName", parent: name, max: 128)
             try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
             try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
@@ -7456,12 +7707,15 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.confirmationUrl?.forEach {}
             try self.validate(self.confirmationUrl, name: "confirmationUrl", parent: name, max: 2000)
             try self.headers?.forEach {
                 try $0.validate(name: "\(name).headers[]")
             }
+            try self.headers?.forEach {}
             try self.validate(self.headers, name: "headers", parent: name, max: 100)
             try self.validate(self.headers, name: "headers", parent: name, min: 0)
+            try self.url.forEach {}
             try self.validate(self.url, name: "url", parent: name, max: 2000)
         }
 
@@ -7485,6 +7739,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 256)
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
@@ -7526,6 +7781,7 @@ extension IoT {
                 try validate($0.value, name: "headers[\"\($0.key)\"]", parent: name, max: 8192)
                 try validate($0.value, name: "headers[\"\($0.key)\"]", parent: name, min: 1)
             }
+            try self.queryString?.forEach {}
             try self.validate(self.queryString, name: "queryString", parent: name, max: 4096)
             try self.validate(self.queryString, name: "queryString", parent: name, min: 1)
         }
@@ -7545,6 +7801,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.confirmationUrl.forEach {}
             try self.validate(self.confirmationUrl, name: "confirmationUrl", parent: name, max: 2000)
         }
 
@@ -7635,8 +7892,10 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.inputName.forEach {}
             try self.validate(self.inputName, name: "inputName", parent: name, max: 128)
             try self.validate(self.inputName, name: "inputName", parent: name, min: 1)
+            try self.messageId?.forEach {}
             try self.validate(self.messageId, name: "messageId", parent: name, max: 128)
         }
 
@@ -7663,6 +7922,7 @@ extension IoT {
             try self.putAssetPropertyValueEntries.forEach {
                 try $0.validate(name: "\(name).putAssetPropertyValueEntries[]")
             }
+            try self.putAssetPropertyValueEntries.forEach {}
             try self.validate(self.putAssetPropertyValueEntries, name: "putAssetPropertyValueEntries", parent: name, min: 1)
         }
 
@@ -7895,6 +8155,8 @@ extension IoT {
 
         public func validate(name: String) throws {
             try self.exponentialRate?.validate(name: "\(name).exponentialRate")
+            try self.exponentialRate?.forEach {}
+            try self.maximumPerMinute?.forEach {}
             try self.validate(self.maximumPerMinute, name: "maximumPerMinute", parent: name, max: 1000)
             try self.validate(self.maximumPerMinute, name: "maximumPerMinute", parent: name, min: 1)
         }
@@ -8104,11 +8366,14 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.securityProfileName?.forEach {}
             try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, max: 128)
             try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, min: 1)
             try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try self.thingName?.forEach {}
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
         }
@@ -8158,8 +8423,10 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 1024)
             try self.validate(self.marker, name: "marker", parent: name, pattern: "[A-Za-z0-9+/]+={0,2}")
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 250)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 1)
         }
@@ -8214,9 +8481,12 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.resourceIdentifier?.validate(name: "\(name).resourceIdentifier")
+            try self.resourceIdentifier?.forEach {}
+            try self.taskId?.forEach {}
             try self.validate(self.taskId, name: "taskId", parent: name, max: 40)
             try self.validate(self.taskId, name: "taskId", parent: name, min: 1)
             try self.validate(self.taskId, name: "taskId", parent: name, pattern: "[a-zA-Z0-9\\-]+")
@@ -8280,11 +8550,14 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.findingId.forEach {}
             try self.validate(self.findingId, name: "findingId", parent: name, max: 128)
             try self.validate(self.findingId, name: "findingId", parent: name, min: 1)
             try self.validate(self.findingId, name: "findingId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.taskId.forEach {}
             try self.validate(self.taskId, name: "taskId", parent: name, max: 128)
             try self.validate(self.taskId, name: "taskId", parent: name, min: 1)
             try self.validate(self.taskId, name: "taskId", parent: name, pattern: "[a-zA-Z0-9_-]+")
@@ -8347,12 +8620,15 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.auditTaskId?.forEach {}
             try self.validate(self.auditTaskId, name: "auditTaskId", parent: name, max: 40)
             try self.validate(self.auditTaskId, name: "auditTaskId", parent: name, min: 1)
             try self.validate(self.auditTaskId, name: "auditTaskId", parent: name, pattern: "[a-zA-Z0-9\\-]+")
+            try self.findingId?.forEach {}
             try self.validate(self.findingId, name: "findingId", parent: name, max: 128)
             try self.validate(self.findingId, name: "findingId", parent: name, min: 1)
             try self.validate(self.findingId, name: "findingId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -8396,9 +8672,11 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.resourceIdentifier?.validate(name: "\(name).resourceIdentifier")
+            try self.resourceIdentifier?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8460,6 +8738,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -8509,8 +8788,10 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 1024)
             try self.validate(self.marker, name: "marker", parent: name, pattern: "[A-Za-z0-9+/]+={0,2}")
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 250)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 1)
         }
@@ -8556,8 +8837,10 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.namePrefixFilter?.forEach {}
             try self.validate(self.namePrefixFilter, name: "namePrefixFilter", parent: name, max: 128)
             try self.validate(self.namePrefixFilter, name: "namePrefixFilter", parent: name, min: 1)
             try self.validate(self.namePrefixFilter, name: "namePrefixFilter", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -8604,8 +8887,10 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 1024)
             try self.validate(self.marker, name: "marker", parent: name, pattern: "[A-Za-z0-9+/]+={0,2}")
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 250)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 1)
         }
@@ -8655,11 +8940,14 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.caCertificateId.forEach {}
             try self.validate(self.caCertificateId, name: "caCertificateId", parent: name, max: 64)
             try self.validate(self.caCertificateId, name: "caCertificateId", parent: name, min: 64)
             try self.validate(self.caCertificateId, name: "caCertificateId", parent: name, pattern: "(0x)?[a-fA-F0-9]+")
+            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 1024)
             try self.validate(self.marker, name: "marker", parent: name, pattern: "[A-Za-z0-9+/]+={0,2}")
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 250)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 1)
         }
@@ -8705,8 +8993,10 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 1024)
             try self.validate(self.marker, name: "marker", parent: name, pattern: "[A-Za-z0-9+/]+={0,2}")
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 250)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 1)
         }
@@ -8748,6 +9038,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -8809,13 +9100,17 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.taskId?.forEach {}
             try self.validate(self.taskId, name: "taskId", parent: name, max: 128)
             try self.validate(self.taskId, name: "taskId", parent: name, min: 1)
             try self.validate(self.taskId, name: "taskId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try self.thingName?.forEach {}
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
+            try self.violationId?.forEach {}
             try self.validate(self.violationId, name: "violationId", parent: name, max: 128)
             try self.validate(self.violationId, name: "violationId", parent: name, min: 1)
             try self.validate(self.violationId, name: "violationId", parent: name, pattern: "[a-zA-Z0-9\\-]+")
@@ -8866,6 +9161,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -8907,6 +9203,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -8952,8 +9249,10 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 1024)
             try self.validate(self.marker, name: "marker", parent: name, pattern: "[A-Za-z0-9+/]+={0,2}")
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 250)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 1)
         }
@@ -8995,6 +9294,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -9044,9 +9344,11 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -9100,11 +9402,14 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.namespaceId?.forEach {}
             try self.validate(self.namespaceId, name: "namespaceId", parent: name, max: 64)
             try self.validate(self.namespaceId, name: "namespaceId", parent: name, min: 1)
             try self.validate(self.namespaceId, name: "namespaceId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try self.thingName.forEach {}
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
             try self.validate(self.thingName, name: "thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -9167,14 +9472,18 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.namespaceId?.forEach {}
             try self.validate(self.namespaceId, name: "namespaceId", parent: name, max: 64)
             try self.validate(self.namespaceId, name: "namespaceId", parent: name, min: 1)
             try self.validate(self.namespaceId, name: "namespaceId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try self.thingGroupId?.forEach {}
             try self.validate(self.thingGroupId, name: "thingGroupId", parent: name, max: 128)
             try self.validate(self.thingGroupId, name: "thingGroupId", parent: name, min: 1)
             try self.validate(self.thingGroupId, name: "thingGroupId", parent: name, pattern: "[a-zA-Z0-9\\-]+")
+            try self.thingGroupName?.forEach {}
             try self.validate(self.thingGroupName, name: "thingGroupName", parent: name, max: 128)
             try self.validate(self.thingGroupName, name: "thingGroupName", parent: name, min: 1)
             try self.validate(self.thingGroupName, name: "thingGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -9221,6 +9530,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -9266,6 +9576,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -9311,8 +9622,10 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 1024)
             try self.validate(self.marker, name: "marker", parent: name, pattern: "[A-Za-z0-9+/]+={0,2}")
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 250)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 1)
         }
@@ -9358,8 +9671,10 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 1024)
             try self.validate(self.marker, name: "marker", parent: name, pattern: "[A-Za-z0-9+/]+={0,2}")
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 250)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 1)
         }
@@ -9409,10 +9724,13 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 1024)
             try self.validate(self.marker, name: "marker", parent: name, pattern: "[A-Za-z0-9+/]+={0,2}")
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 250)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 1)
+            try self.policyName.forEach {}
             try self.validate(self.policyName, name: "policyName", parent: name, max: 128)
             try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
             try self.validate(self.policyName, name: "policyName", parent: name, pattern: "[\\w+=,.@-]+")
@@ -9451,6 +9769,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.policyName.forEach {}
             try self.validate(self.policyName, name: "policyName", parent: name, max: 128)
             try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
             try self.validate(self.policyName, name: "policyName", parent: name, pattern: "[\\w+=,.@-]+")
@@ -9497,8 +9816,10 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 1024)
             try self.validate(self.marker, name: "marker", parent: name, pattern: "[A-Za-z0-9+/]+={0,2}")
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 250)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 1)
         }
@@ -9544,6 +9865,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -9589,8 +9911,10 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.templateName.forEach {}
             try self.validate(self.templateName, name: "templateName", parent: name, max: 36)
             try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
             try self.validate(self.templateName, name: "templateName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
@@ -9633,6 +9957,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -9678,8 +10003,10 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 1024)
             try self.validate(self.marker, name: "marker", parent: name, pattern: "[A-Za-z0-9+/]+={0,2}")
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 250)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 1)
         }
@@ -9721,6 +10048,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -9770,6 +10098,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -9819,11 +10148,14 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.dimensionName?.forEach {}
             try self.validate(self.dimensionName, name: "dimensionName", parent: name, max: 128)
             try self.validate(self.dimensionName, name: "dimensionName", parent: name, min: 1)
             try self.validate(self.dimensionName, name: "dimensionName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.metricName?.forEach {}
             try self.validate(self.metricName, name: "metricName", parent: name, max: 128)
             try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
             try self.validate(self.metricName, name: "metricName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -9870,6 +10202,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -9951,10 +10284,13 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 1024)
             try self.validate(self.marker, name: "marker", parent: name, pattern: "[A-Za-z0-9+/]+={0,2}")
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 250)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 1)
+            try self.policyName.forEach {}
             try self.validate(self.policyName, name: "policyName", parent: name, max: 128)
             try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
             try self.validate(self.policyName, name: "policyName", parent: name, pattern: "[\\w+=,.@-]+")
@@ -10001,8 +10337,10 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.securityProfileName.forEach {}
             try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, max: 128)
             try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, min: 1)
             try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -10049,8 +10387,10 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.thingName.forEach {}
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
             try self.validate(self.thingName, name: "thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -10105,11 +10445,14 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.namePrefixFilter?.forEach {}
             try self.validate(self.namePrefixFilter, name: "namePrefixFilter", parent: name, max: 128)
             try self.validate(self.namePrefixFilter, name: "namePrefixFilter", parent: name, min: 1)
             try self.validate(self.namePrefixFilter, name: "namePrefixFilter", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try self.parentGroup?.forEach {}
             try self.validate(self.parentGroup, name: "parentGroup", parent: name, max: 128)
             try self.validate(self.parentGroup, name: "parentGroup", parent: name, min: 1)
             try self.validate(self.parentGroup, name: "parentGroup", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -10156,8 +10499,10 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.thingName.forEach {}
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
             try self.validate(self.thingName, name: "thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -10208,8 +10553,10 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.taskId.forEach {}
             try self.validate(self.taskId, name: "taskId", parent: name, max: 40)
         }
 
@@ -10258,6 +10605,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -10303,8 +10651,10 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.thingTypeName?.forEach {}
             try self.validate(self.thingTypeName, name: "thingTypeName", parent: name, max: 128)
             try self.validate(self.thingTypeName, name: "thingTypeName", parent: name, min: 1)
             try self.validate(self.thingTypeName, name: "thingTypeName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -10351,9 +10701,11 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.billingGroupName.forEach {}
             try self.validate(self.billingGroupName, name: "billingGroupName", parent: name, max: 128)
             try self.validate(self.billingGroupName, name: "billingGroupName", parent: name, min: 1)
             try self.validate(self.billingGroupName, name: "billingGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -10403,8 +10755,10 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.thingGroupName.forEach {}
             try self.validate(self.thingGroupName, name: "thingGroupName", parent: name, max: 128)
             try self.validate(self.thingGroupName, name: "thingGroupName", parent: name, min: 1)
             try self.validate(self.thingGroupName, name: "thingGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -10436,7 +10790,8 @@ extension IoT {
             AWSMemberEncoding(label: "attributeValue", location: .querystring(locationName: "attributeValue")),
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "thingTypeName", location: .querystring(locationName: "thingTypeName"))
+            AWSMemberEncoding(label: "thingTypeName", location: .querystring(locationName: "thingTypeName")),
+            AWSMemberEncoding(label: "usePrefixAttributeValue", location: .querystring(locationName: "usePrefixAttributeValue"))
         ]
 
         /// The attribute name used to search for things.
@@ -10449,22 +10804,29 @@ extension IoT {
         public let nextToken: String?
         /// The name of the thing type used to search for things.
         public let thingTypeName: String?
+        /// When true, the action returns the thing resources with attribute values that start with the attributeValue provided. When false, or not present, the action returns only the thing resources with attribute values that match the entire attributeValue provided.
+        public let usePrefixAttributeValue: Bool?
 
-        public init(attributeName: String? = nil, attributeValue: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, thingTypeName: String? = nil) {
+        public init(attributeName: String? = nil, attributeValue: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, thingTypeName: String? = nil, usePrefixAttributeValue: Bool? = nil) {
             self.attributeName = attributeName
             self.attributeValue = attributeValue
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.thingTypeName = thingTypeName
+            self.usePrefixAttributeValue = usePrefixAttributeValue
         }
 
         public func validate(name: String) throws {
+            try self.attributeName?.forEach {}
             try self.validate(self.attributeName, name: "attributeName", parent: name, max: 128)
             try self.validate(self.attributeName, name: "attributeName", parent: name, pattern: "[a-zA-Z0-9_.,@/:#-]+")
+            try self.attributeValue?.forEach {}
             try self.validate(self.attributeValue, name: "attributeValue", parent: name, max: 800)
             try self.validate(self.attributeValue, name: "attributeValue", parent: name, pattern: "[a-zA-Z0-9_.,@/:#-]*")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.thingTypeName?.forEach {}
             try self.validate(self.thingTypeName, name: "thingTypeName", parent: name, max: 128)
             try self.validate(self.thingTypeName, name: "thingTypeName", parent: name, min: 1)
             try self.validate(self.thingTypeName, name: "thingTypeName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -10507,6 +10869,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -10556,6 +10919,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -10601,6 +10965,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -10666,11 +11031,14 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.securityProfileName?.forEach {}
             try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, max: 128)
             try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, min: 1)
             try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try self.thingName?.forEach {}
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
         }
@@ -10771,6 +11139,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.dimensionName.forEach {}
             try self.validate(self.dimensionName, name: "dimensionName", parent: name, max: 128)
             try self.validate(self.dimensionName, name: "dimensionName", parent: name, min: 1)
             try self.validate(self.dimensionName, name: "dimensionName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -10795,6 +11164,7 @@ extension IoT {
 
         public func validate(name: String) throws {
             try self.metricDimension?.validate(name: "\(name).metricDimension")
+            try self.metricDimension?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10832,11 +11202,14 @@ extension IoT {
                 try validate($0, name: "cidrs[]", parent: name, min: 2)
                 try validate($0, name: "cidrs[]", parent: name, pattern: "[a-fA-F0-9:\\.\\/]+")
             }
+            try self.cidrs?.forEach {}
+            try self.count?.forEach {}
             try self.validate(self.count, name: "count", parent: name, min: 0)
             try self.ports?.forEach {
                 try validate($0, name: "ports[]", parent: name, max: 65535)
                 try validate($0, name: "ports[]", parent: name, min: 0)
             }
+            try self.ports?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10920,8 +11293,11 @@ extension IoT {
 
         public func validate(name: String) throws {
             try self.addThingsToThingGroupParams?.validate(name: "\(name).addThingsToThingGroupParams")
+            try self.addThingsToThingGroupParams?.forEach {}
             try self.enableIoTLoggingParams?.validate(name: "\(name).enableIoTLoggingParams")
+            try self.enableIoTLoggingParams?.forEach {}
             try self.publishFindingToSnsParams?.validate(name: "\(name).publishFindingToSnsParams")
+            try self.publishFindingToSnsParams?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10949,10 +11325,13 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.clientId?.forEach {}
             try self.validate(self.clientId, name: "clientId", parent: name, max: 65535)
             try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
+            try self.password?.forEach {}
             try self.validate(self.password, name: "password", parent: name, max: 65535)
             try self.validate(self.password, name: "password", parent: name, min: 1)
+            try self.username?.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 65535)
             try self.validate(self.username, name: "username", parent: name, min: 1)
         }
@@ -11010,7 +11389,10 @@ extension IoT {
 
         public func validate(name: String) throws {
             try self.codeSigning?.validate(name: "\(name).codeSigning")
+            try self.codeSigning?.forEach {}
             try self.fileLocation?.validate(name: "\(name).fileLocation")
+            try self.fileLocation?.forEach {}
+            try self.fileType?.forEach {}
             try self.validate(self.fileType, name: "fileType", parent: name, max: 255)
             try self.validate(self.fileType, name: "fileType", parent: name, min: 0)
         }
@@ -11219,9 +11601,11 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.policyName?.forEach {}
             try self.validate(self.policyName, name: "policyName", parent: name, max: 128)
             try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
             try self.validate(self.policyName, name: "policyName", parent: name, pattern: "[\\w+=,.@-]+")
+            try self.policyVersionId?.forEach {}
             try self.validate(self.policyVersionId, name: "policyVersionId", parent: name, pattern: "[0-9]+")
         }
 
@@ -11243,8 +11627,10 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.expiresInSec?.forEach {}
             try self.validate(self.expiresInSec, name: "expiresInSec", parent: name, max: 3600)
             try self.validate(self.expiresInSec, name: "expiresInSec", parent: name, min: 60)
+            try self.roleArn?.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
         }
@@ -11267,9 +11653,11 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.payloadVersion?.forEach {}
             try self.validate(self.payloadVersion, name: "payloadVersion", parent: name, max: 32)
             try self.validate(self.payloadVersion, name: "payloadVersion", parent: name, min: 10)
             try self.validate(self.payloadVersion, name: "payloadVersion", parent: name, pattern: "^[0-9-]+$")
+            try self.targetArn.forEach {}
             try self.validate(self.targetArn, name: "targetArn", parent: name, max: 2048)
         }
 
@@ -11342,6 +11730,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.topicArn.forEach {}
             try self.validate(self.topicArn, name: "topicArn", parent: name, max: 350)
         }
 
@@ -11371,10 +11760,12 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.propertyAlias?.forEach {}
             try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, min: 1)
             try self.propertyValues.forEach {
                 try $0.validate(name: "\(name).propertyValues[]")
             }
+            try self.propertyValues.forEach {}
             try self.validate(self.propertyValues, name: "propertyValues", parent: name, min: 1)
         }
 
@@ -11412,7 +11803,9 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.numberOfNotifiedThings?.forEach {}
             try self.validate(self.numberOfNotifiedThings, name: "numberOfNotifiedThings", parent: name, min: 1)
+            try self.numberOfSucceededThings?.forEach {}
             try self.validate(self.numberOfSucceededThings, name: "numberOfSucceededThings", parent: name, min: 1)
         }
 
@@ -11451,12 +11844,16 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.caCertificate.forEach {}
             try self.validate(self.caCertificate, name: "caCertificate", parent: name, max: 65536)
             try self.validate(self.caCertificate, name: "caCertificate", parent: name, min: 1)
             try self.registrationConfig?.validate(name: "\(name).registrationConfig")
+            try self.registrationConfig?.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
+            try self.verificationCertificate.forEach {}
             try self.validate(self.verificationCertificate, name: "verificationCertificate", parent: name, max: 65536)
             try self.validate(self.verificationCertificate, name: "verificationCertificate", parent: name, min: 1)
         }
@@ -11501,8 +11898,10 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.caCertificatePem?.forEach {}
             try self.validate(self.caCertificatePem, name: "caCertificatePem", parent: name, max: 65536)
             try self.validate(self.caCertificatePem, name: "caCertificatePem", parent: name, min: 1)
+            try self.certificatePem.forEach {}
             try self.validate(self.certificatePem, name: "certificatePem", parent: name, max: 65536)
             try self.validate(self.certificatePem, name: "certificatePem", parent: name, min: 1)
         }
@@ -11543,6 +11942,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.certificatePem.forEach {}
             try self.validate(self.certificatePem, name: "certificatePem", parent: name, max: 65536)
             try self.validate(self.certificatePem, name: "certificatePem", parent: name, min: 1)
         }
@@ -11616,6 +12016,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.roleArn?.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
         }
@@ -11642,9 +12043,11 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.certificateId.forEach {}
             try self.validate(self.certificateId, name: "certificateId", parent: name, max: 64)
             try self.validate(self.certificateId, name: "certificateId", parent: name, min: 64)
             try self.validate(self.certificateId, name: "certificateId", parent: name, pattern: "(0x)?[a-fA-F0-9]+")
+            try self.rejectReason?.forEach {}
             try self.validate(self.rejectReason, name: "rejectReason", parent: name, max: 128)
         }
 
@@ -11692,9 +12095,11 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.billingGroupName?.forEach {}
             try self.validate(self.billingGroupName, name: "billingGroupName", parent: name, max: 128)
             try self.validate(self.billingGroupName, name: "billingGroupName", parent: name, min: 1)
             try self.validate(self.billingGroupName, name: "billingGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try self.thingName?.forEach {}
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
             try self.validate(self.thingName, name: "thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -11730,9 +12135,11 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.thingGroupName?.forEach {}
             try self.validate(self.thingGroupName, name: "thingGroupName", parent: name, max: 128)
             try self.validate(self.thingGroupName, name: "thingGroupName", parent: name, min: 1)
             try self.validate(self.thingGroupName, name: "thingGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try self.thingName?.forEach {}
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
             try self.validate(self.thingName, name: "thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -11781,10 +12188,12 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.ruleName.forEach {}
             try self.validate(self.ruleName, name: "ruleName", parent: name, max: 128)
             try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
             try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
             try self.topicRulePayload.validate(name: "\(name).topicRulePayload")
+            try self.topicRulePayload.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11807,6 +12216,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.qos?.forEach {}
             try self.validate(self.qos, name: "qos", parent: name, max: 1)
             try self.validate(self.qos, name: "qos", parent: name, min: 0)
         }
@@ -11848,18 +12258,24 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.account?.forEach {}
             try self.validate(self.account, name: "account", parent: name, max: 12)
             try self.validate(self.account, name: "account", parent: name, min: 12)
             try self.validate(self.account, name: "account", parent: name, pattern: "[0-9]+")
+            try self.caCertificateId?.forEach {}
             try self.validate(self.caCertificateId, name: "caCertificateId", parent: name, max: 64)
             try self.validate(self.caCertificateId, name: "caCertificateId", parent: name, min: 64)
             try self.validate(self.caCertificateId, name: "caCertificateId", parent: name, pattern: "(0x)?[a-fA-F0-9]+")
+            try self.deviceCertificateId?.forEach {}
             try self.validate(self.deviceCertificateId, name: "deviceCertificateId", parent: name, max: 64)
             try self.validate(self.deviceCertificateId, name: "deviceCertificateId", parent: name, min: 64)
             try self.validate(self.deviceCertificateId, name: "deviceCertificateId", parent: name, pattern: "(0x)?[a-fA-F0-9]+")
+            try self.iamRoleArn?.forEach {}
             try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, max: 2048)
             try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, min: 20)
             try self.policyVersionIdentifier?.validate(name: "\(name).policyVersionIdentifier")
+            try self.policyVersionIdentifier?.forEach {}
+            try self.roleAliasArn?.forEach {}
             try self.validate(self.roleAliasArn, name: "roleAliasArn", parent: name, max: 2048)
             try self.validate(self.roleAliasArn, name: "roleAliasArn", parent: name, min: 1)
         }
@@ -11950,6 +12366,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.bucket?.forEach {}
             try self.validate(self.bucket, name: "bucket", parent: name, min: 1)
         }
 
@@ -11974,7 +12391,9 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.bucket?.forEach {}
             try self.validate(self.bucket, name: "bucket", parent: name, min: 1)
+            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
 
@@ -11997,7 +12416,9 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.token.forEach {}
             try self.validate(self.token, name: "token", parent: name, min: 40)
+            try self.url.forEach {}
             try self.validate(self.url, name: "url", parent: name, max: 2000)
             try self.validate(self.url, name: "url", parent: name, pattern: "https://ingestion-[a-zA-Z0-9]{1,12}\\.[a-zA-Z0-9]+\\.((sfdc-matrix\\.net)|(sfdcnow\\.com))/streams/\\w{1,20}/\\w{1,20}/event")
         }
@@ -12058,11 +12479,14 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.indexName?.forEach {}
             try self.validate(self.indexName, name: "indexName", parent: name, max: 128)
             try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
             try self.validate(self.indexName, name: "indexName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.queryString.forEach {}
             try self.validate(self.queryString, name: "queryString", parent: name, min: 1)
         }
 
@@ -12173,6 +12597,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.authorizerName.forEach {}
             try self.validate(self.authorizerName, name: "authorizerName", parent: name, max: 128)
             try self.validate(self.authorizerName, name: "authorizerName", parent: name, min: 1)
             try self.validate(self.authorizerName, name: "authorizerName", parent: name, pattern: "[\\w=,@-]+")
@@ -12217,9 +12642,11 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.policyName.forEach {}
             try self.validate(self.policyName, name: "policyName", parent: name, max: 128)
             try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
             try self.validate(self.policyName, name: "policyName", parent: name, pattern: "[\\w+=,.@-]+")
+            try self.policyVersionId.forEach {}
             try self.validate(self.policyVersionId, name: "policyVersionId", parent: name, pattern: "[0-9]+")
         }
 
@@ -12390,10 +12817,13 @@ extension IoT {
                 try validate($0.value, name: "auditCheckToActionsMapping[\"\($0.key)\"]", parent: name, max: 5)
                 try validate($0.value, name: "auditCheckToActionsMapping[\"\($0.key)\"]", parent: name, min: 1)
             }
+            try self.clientRequestToken.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
             try self.target.validate(name: "\(name).target")
+            try self.target.forEach {}
+            try self.taskId.forEach {}
             try self.validate(self.taskId, name: "taskId", parent: name, max: 128)
             try self.validate(self.taskId, name: "taskId", parent: name, min: 1)
             try self.validate(self.taskId, name: "taskId", parent: name, pattern: "[a-zA-Z0-9_-]+")
@@ -12454,12 +12884,16 @@ extension IoT {
                 try validate($0, name: "actions[]", parent: name, max: 128)
                 try validate($0, name: "actions[]", parent: name, pattern: "[a-zA-Z0-9_-]+")
             }
+            try self.actions.forEach {}
             try self.validate(self.actions, name: "actions", parent: name, max: 5)
             try self.validate(self.actions, name: "actions", parent: name, min: 1)
+            try self.clientRequestToken.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
             try self.target.validate(name: "\(name).target")
+            try self.target.forEach {}
+            try self.taskId.forEach {}
             try self.validate(self.taskId, name: "taskId", parent: name, max: 128)
             try self.validate(self.taskId, name: "taskId", parent: name, min: 1)
             try self.validate(self.taskId, name: "taskId", parent: name, pattern: "[a-zA-Z0-9_-]+")
@@ -12530,6 +12964,7 @@ extension IoT {
 
         public func validate(name: String) throws {
             try self.destination?.validate(name: "\(name).destination")
+            try self.destination?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12557,12 +12992,15 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.inputFileBucket.forEach {}
             try self.validate(self.inputFileBucket, name: "inputFileBucket", parent: name, max: 256)
             try self.validate(self.inputFileBucket, name: "inputFileBucket", parent: name, min: 3)
             try self.validate(self.inputFileBucket, name: "inputFileBucket", parent: name, pattern: "[a-zA-Z0-9._-]+")
+            try self.inputFileKey.forEach {}
             try self.validate(self.inputFileKey, name: "inputFileKey", parent: name, max: 1024)
             try self.validate(self.inputFileKey, name: "inputFileKey", parent: name, min: 1)
             try self.validate(self.inputFileKey, name: "inputFileKey", parent: name, pattern: "[a-zA-Z0-9!_.*'()-\\/]+")
+            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
         }
@@ -12597,6 +13035,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.statistic?.forEach {}
             try self.validate(self.statistic, name: "statistic", parent: name, pattern: "(p0|p0\\.1|p0\\.01|p1|p10|p50|p90|p99|p99\\.9|p99\\.99|p100)")
         }
 
@@ -12680,6 +13119,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.taskId.forEach {}
             try self.validate(self.taskId, name: "taskId", parent: name, max: 40)
         }
 
@@ -12702,8 +13142,10 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.fileId?.forEach {}
             try self.validate(self.fileId, name: "fileId", parent: name, max: 255)
             try self.validate(self.fileId, name: "fileId", parent: name, min: 0)
+            try self.streamId?.forEach {}
             try self.validate(self.streamId, name: "streamId", parent: name, max: 128)
             try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
             try self.validate(self.streamId, name: "streamId", parent: name, pattern: "[a-zA-Z0-9_-]+")
@@ -12727,9 +13169,11 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.fileId?.forEach {}
             try self.validate(self.fileId, name: "fileId", parent: name, max: 255)
             try self.validate(self.fileId, name: "fileId", parent: name, min: 0)
             try self.s3Location?.validate(name: "\(name).s3Location")
+            try self.s3Location?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12816,9 +13260,11 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 1)
         }
@@ -12844,6 +13290,7 @@ extension IoT {
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12953,6 +13400,7 @@ extension IoT {
             try self.authInfos.forEach {
                 try $0.validate(name: "\(name).authInfos[]")
             }
+            try self.authInfos.forEach {}
             try self.validate(self.authInfos, name: "authInfos", parent: name, max: 10)
             try self.validate(self.authInfos, name: "authInfos", parent: name, min: 1)
             try self.policyNamesToAdd?.forEach {
@@ -12960,11 +13408,13 @@ extension IoT {
                 try validate($0, name: "policyNamesToAdd[]", parent: name, min: 1)
                 try validate($0, name: "policyNamesToAdd[]", parent: name, pattern: "[\\w+=,.@-]+")
             }
+            try self.policyNamesToAdd?.forEach {}
             try self.policyNamesToSkip?.forEach {
                 try validate($0, name: "policyNamesToSkip[]", parent: name, max: 128)
                 try validate($0, name: "policyNamesToSkip[]", parent: name, min: 1)
                 try validate($0, name: "policyNamesToSkip[]", parent: name, pattern: "[\\w+=,.@-]+")
             }
+            try self.policyNamesToSkip?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13017,14 +13467,20 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.authorizerName.forEach {}
             try self.validate(self.authorizerName, name: "authorizerName", parent: name, max: 128)
             try self.validate(self.authorizerName, name: "authorizerName", parent: name, min: 1)
             try self.validate(self.authorizerName, name: "authorizerName", parent: name, pattern: "[\\w=,@-]+")
             try self.httpContext?.validate(name: "\(name).httpContext")
+            try self.httpContext?.forEach {}
             try self.mqttContext?.validate(name: "\(name).mqttContext")
+            try self.mqttContext?.forEach {}
             try self.tlsContext?.validate(name: "\(name).tlsContext")
+            try self.tlsContext?.forEach {}
+            try self.token?.forEach {}
             try self.validate(self.token, name: "token", parent: name, max: 6144)
             try self.validate(self.token, name: "token", parent: name, min: 1)
+            try self.tokenSignature?.forEach {}
             try self.validate(self.tokenSignature, name: "tokenSignature", parent: name, max: 2560)
             try self.validate(self.tokenSignature, name: "tokenSignature", parent: name, min: 1)
             try self.validate(self.tokenSignature, name: "tokenSignature", parent: name, pattern: "[A-Za-z0-9+/]+={0,2}")
@@ -13235,6 +13691,8 @@ extension IoT {
 
         public func validate(name: String) throws {
             try self.attributePayload?.validate(name: "\(name).attributePayload")
+            try self.attributePayload?.forEach {}
+            try self.thingGroupDescription?.forEach {}
             try self.validate(self.thingGroupDescription, name: "thingGroupDescription", parent: name, max: 2028)
             try self.validate(self.thingGroupDescription, name: "thingGroupDescription", parent: name, pattern: "[\\p{Graph}\\x20]*")
         }
@@ -13332,6 +13790,8 @@ extension IoT {
                 try validate($0, name: "searchableAttributes[]", parent: name, max: 128)
                 try validate($0, name: "searchableAttributes[]", parent: name, pattern: "[a-zA-Z0-9_.,@/:#-]+")
             }
+            try self.searchableAttributes?.forEach {}
+            try self.thingTypeDescription?.forEach {}
             try self.validate(self.thingTypeDescription, name: "thingTypeDescription", parent: name, max: 2028)
             try self.validate(self.thingTypeDescription, name: "thingTypeDescription", parent: name, pattern: "[\\p{Graph}\\x20]*")
         }
@@ -13376,6 +13836,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.dimensions.forEach {}
             try self.validate(self.dimensions, name: "dimensions", parent: name, max: 128)
             try self.validate(self.dimensions, name: "dimensions", parent: name, min: 1)
         }
@@ -13432,6 +13893,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.serverName?.forEach {}
             try self.validate(self.serverName, name: "serverName", parent: name, max: 253)
             try self.validate(self.serverName, name: "serverName", parent: name, min: 1)
         }
@@ -13532,6 +13994,7 @@ extension IoT {
 
         public func validate(name: String) throws {
             try self.httpUrlConfiguration?.validate(name: "\(name).httpUrlConfiguration")
+            try self.httpUrlConfiguration?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13633,9 +14096,11 @@ extension IoT {
             try self.actions.forEach {
                 try $0.validate(name: "\(name).actions[]")
             }
+            try self.actions.forEach {}
             try self.validate(self.actions, name: "actions", parent: name, max: 10)
             try self.validate(self.actions, name: "actions", parent: name, min: 0)
             try self.errorAction?.validate(name: "\(name).errorAction")
+            try self.errorAction?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13668,12 +14133,15 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.certificateId.forEach {}
             try self.validate(self.certificateId, name: "certificateId", parent: name, max: 64)
             try self.validate(self.certificateId, name: "certificateId", parent: name, min: 64)
             try self.validate(self.certificateId, name: "certificateId", parent: name, pattern: "(0x)?[a-fA-F0-9]+")
+            try self.targetAwsAccount.forEach {}
             try self.validate(self.targetAwsAccount, name: "targetAwsAccount", parent: name, max: 12)
             try self.validate(self.targetAwsAccount, name: "targetAwsAccount", parent: name, min: 12)
             try self.validate(self.targetAwsAccount, name: "targetAwsAccount", parent: name, pattern: "[0-9]+")
+            try self.transferMessage?.forEach {}
             try self.validate(self.transferMessage, name: "transferMessage", parent: name, max: 128)
         }
 
@@ -13741,6 +14209,7 @@ extension IoT {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
+            try self.tagKeys.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13771,6 +14240,7 @@ extension IoT {
             try self.auditNotificationTargetConfigurations?.forEach {
                 try $0.value.validate(name: "\(name).auditNotificationTargetConfigurations[\"\($0.key)\"]")
             }
+            try self.roleArn?.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
         }
@@ -13805,9 +14275,11 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\p{Graph}\\x20]*")
             try self.resourceIdentifier.validate(name: "\(name).resourceIdentifier")
+            try self.resourceIdentifier.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13848,10 +14320,13 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.authorizerFunctionArn?.forEach {}
             try self.validate(self.authorizerFunctionArn, name: "authorizerFunctionArn", parent: name, max: 2048)
+            try self.authorizerName.forEach {}
             try self.validate(self.authorizerName, name: "authorizerName", parent: name, max: 128)
             try self.validate(self.authorizerName, name: "authorizerName", parent: name, min: 1)
             try self.validate(self.authorizerName, name: "authorizerName", parent: name, pattern: "[\\w=,@-]+")
+            try self.tokenKeyName?.forEach {}
             try self.validate(self.tokenKeyName, name: "tokenKeyName", parent: name, max: 128)
             try self.validate(self.tokenKeyName, name: "tokenKeyName", parent: name, min: 1)
             try self.validate(self.tokenKeyName, name: "tokenKeyName", parent: name, pattern: "[a-zA-Z0-9_-]+")
@@ -13907,10 +14382,12 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.billingGroupName.forEach {}
             try self.validate(self.billingGroupName, name: "billingGroupName", parent: name, max: 128)
             try self.validate(self.billingGroupName, name: "billingGroupName", parent: name, min: 1)
             try self.validate(self.billingGroupName, name: "billingGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
             try self.billingGroupProperties.validate(name: "\(name).billingGroupProperties")
+            try self.billingGroupProperties.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13972,10 +14449,12 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.certificateId.forEach {}
             try self.validate(self.certificateId, name: "certificateId", parent: name, max: 64)
             try self.validate(self.certificateId, name: "certificateId", parent: name, min: 64)
             try self.validate(self.certificateId, name: "certificateId", parent: name, pattern: "(0x)?[a-fA-F0-9]+")
             try self.registrationConfig?.validate(name: "\(name).registrationConfig")
+            try self.registrationConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -14001,6 +14480,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.certificateId.forEach {}
             try self.validate(self.certificateId, name: "certificateId", parent: name, max: 64)
             try self.validate(self.certificateId, name: "certificateId", parent: name, min: 64)
             try self.validate(self.certificateId, name: "certificateId", parent: name, pattern: "(0x)?[a-fA-F0-9]+")
@@ -14025,8 +14505,10 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.displayName.forEach {}
             try self.validate(self.displayName, name: "displayName", parent: name, max: 128)
             try self.validate(self.displayName, name: "displayName", parent: name, pattern: "[\\p{Graph}\\x20]*")
+            try self.metricName.forEach {}
             try self.validate(self.metricName, name: "metricName", parent: name, max: 128)
             try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
             try self.validate(self.metricName, name: "metricName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -14099,6 +14581,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -14106,6 +14589,7 @@ extension IoT {
                 try validate($0, name: "stringValues[]", parent: name, max: 256)
                 try validate($0, name: "stringValues[]", parent: name, min: 1)
             }
+            try self.stringValues.forEach {}
             try self.validate(self.stringValues, name: "stringValues", parent: name, max: 100)
             try self.validate(self.stringValues, name: "stringValues", parent: name, min: 1)
         }
@@ -14171,6 +14655,8 @@ extension IoT {
 
         public func validate(name: String) throws {
             try self.authorizerConfig?.validate(name: "\(name).authorizerConfig")
+            try self.authorizerConfig?.forEach {}
+            try self.domainConfigurationName.forEach {}
             try self.validate(self.domainConfigurationName, name: "domainConfigurationName", parent: name, max: 128)
             try self.validate(self.domainConfigurationName, name: "domainConfigurationName", parent: name, min: 1)
             try self.validate(self.domainConfigurationName, name: "domainConfigurationName", parent: name, pattern: "[\\w.:-]+")
@@ -14228,14 +14714,18 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.indexName?.forEach {}
             try self.validate(self.indexName, name: "indexName", parent: name, max: 128)
             try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
             try self.validate(self.indexName, name: "indexName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try self.queryString?.forEach {}
             try self.validate(self.queryString, name: "queryString", parent: name, min: 1)
+            try self.thingGroupName.forEach {}
             try self.validate(self.thingGroupName, name: "thingGroupName", parent: name, max: 128)
             try self.validate(self.thingGroupName, name: "thingGroupName", parent: name, min: 1)
             try self.validate(self.thingGroupName, name: "thingGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
             try self.thingGroupProperties.validate(name: "\(name).thingGroupProperties")
+            try self.thingGroupProperties.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -14331,16 +14821,22 @@ extension IoT {
 
         public func validate(name: String) throws {
             try self.abortConfig?.validate(name: "\(name).abortConfig")
+            try self.abortConfig?.forEach {}
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2028)
             try self.validate(self.description, name: "description", parent: name, pattern: "[^\\p{C}]+")
             try self.jobExecutionsRolloutConfig?.validate(name: "\(name).jobExecutionsRolloutConfig")
+            try self.jobExecutionsRolloutConfig?.forEach {}
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try self.namespaceId?.forEach {}
             try self.validate(self.namespaceId, name: "namespaceId", parent: name, max: 64)
             try self.validate(self.namespaceId, name: "namespaceId", parent: name, min: 1)
             try self.validate(self.namespaceId, name: "namespaceId", parent: name, pattern: "[a-zA-Z0-9_-]+")
             try self.presignedUrlConfig?.validate(name: "\(name).presignedUrlConfig")
+            try self.presignedUrlConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -14371,9 +14867,12 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.actionName.forEach {}
             try self.validate(self.actionName, name: "actionName", parent: name, max: 128)
             try self.validate(self.actionName, name: "actionName", parent: name, pattern: "[a-zA-Z0-9_-]+")
             try self.actionParams?.validate(name: "\(name).actionParams")
+            try self.actionParams?.forEach {}
+            try self.roleArn?.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
         }
@@ -14432,12 +14931,16 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 500)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, pattern: "[^\\p{C}]*")
             try self.preProvisioningHook?.validate(name: "\(name).preProvisioningHook")
+            try self.preProvisioningHook?.forEach {}
+            try self.provisioningRoleArn?.forEach {}
             try self.validate(self.provisioningRoleArn, name: "provisioningRoleArn", parent: name, max: 2048)
             try self.validate(self.provisioningRoleArn, name: "provisioningRoleArn", parent: name, min: 20)
+            try self.templateName.forEach {}
             try self.validate(self.templateName, name: "templateName", parent: name, max: 36)
             try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
             try self.validate(self.templateName, name: "templateName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
@@ -14476,11 +14979,14 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.credentialDurationSeconds?.forEach {}
             try self.validate(self.credentialDurationSeconds, name: "credentialDurationSeconds", parent: name, max: 3600)
             try self.validate(self.credentialDurationSeconds, name: "credentialDurationSeconds", parent: name, min: 900)
+            try self.roleAlias.forEach {}
             try self.validate(self.roleAlias, name: "roleAlias", parent: name, max: 128)
             try self.validate(self.roleAlias, name: "roleAlias", parent: name, min: 1)
             try self.validate(self.roleAlias, name: "roleAlias", parent: name, pattern: "[\\w=,@-]+")
+            try self.roleArn?.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
         }
@@ -14533,7 +15039,9 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.dayOfMonth?.forEach {}
             try self.validate(self.dayOfMonth, name: "dayOfMonth", parent: name, pattern: "^([1-9]|[12][0-9]|3[01])$|^LAST$")
+            try self.scheduledAuditName.forEach {}
             try self.validate(self.scheduledAuditName, name: "scheduledAuditName", parent: name, max: 128)
             try self.validate(self.scheduledAuditName, name: "scheduledAuditName", parent: name, min: 1)
             try self.validate(self.scheduledAuditName, name: "scheduledAuditName", parent: name, pattern: "[a-zA-Z0-9_-]+")
@@ -14601,15 +15109,19 @@ extension IoT {
             try self.additionalMetricsToRetainV2?.forEach {
                 try $0.validate(name: "\(name).additionalMetricsToRetainV2[]")
             }
+            try self.additionalMetricsToRetainV2?.forEach {}
             try self.alertTargets?.forEach {
                 try $0.value.validate(name: "\(name).alertTargets[\"\($0.key)\"]")
             }
             try self.behaviors?.forEach {
                 try $0.validate(name: "\(name).behaviors[]")
             }
+            try self.behaviors?.forEach {}
             try self.validate(self.behaviors, name: "behaviors", parent: name, max: 100)
+            try self.securityProfileDescription?.forEach {}
             try self.validate(self.securityProfileDescription, name: "securityProfileDescription", parent: name, max: 1000)
             try self.validate(self.securityProfileDescription, name: "securityProfileDescription", parent: name, pattern: "[\\p{Graph}\\x20]*")
+            try self.securityProfileName.forEach {}
             try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, max: 128)
             try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, min: 1)
             try self.validate(self.securityProfileName, name: "securityProfileName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -14693,15 +15205,19 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2028)
             try self.validate(self.description, name: "description", parent: name, pattern: "[^\\p{C}]+")
             try self.files?.forEach {
                 try $0.validate(name: "\(name).files[]")
             }
+            try self.files?.forEach {}
             try self.validate(self.files, name: "files", parent: name, max: 50)
             try self.validate(self.files, name: "files", parent: name, min: 1)
+            try self.roleArn?.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.streamId.forEach {}
             try self.validate(self.streamId, name: "streamId", parent: name, max: 128)
             try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
             try self.validate(self.streamId, name: "streamId", parent: name, pattern: "[a-zA-Z0-9_-]+")
@@ -14758,10 +15274,12 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.thingGroupName.forEach {}
             try self.validate(self.thingGroupName, name: "thingGroupName", parent: name, max: 128)
             try self.validate(self.thingGroupName, name: "thingGroupName", parent: name, min: 1)
             try self.validate(self.thingGroupName, name: "thingGroupName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
             try self.thingGroupProperties.validate(name: "\(name).thingGroupProperties")
+            try self.thingGroupProperties.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -14806,11 +15324,14 @@ extension IoT {
                 try validate($0, name: "thingGroupsToAdd[]", parent: name, min: 1)
                 try validate($0, name: "thingGroupsToAdd[]", parent: name, pattern: "[a-zA-Z0-9:_-]+")
             }
+            try self.thingGroupsToAdd?.forEach {}
             try self.thingGroupsToRemove?.forEach {
                 try validate($0, name: "thingGroupsToRemove[]", parent: name, max: 128)
                 try validate($0, name: "thingGroupsToRemove[]", parent: name, min: 1)
                 try validate($0, name: "thingGroupsToRemove[]", parent: name, pattern: "[a-zA-Z0-9:_-]+")
             }
+            try self.thingGroupsToRemove?.forEach {}
+            try self.thingName?.forEach {}
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
             try self.validate(self.thingName, name: "thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -14854,9 +15375,12 @@ extension IoT {
 
         public func validate(name: String) throws {
             try self.attributePayload?.validate(name: "\(name).attributePayload")
+            try self.attributePayload?.forEach {}
+            try self.thingName.forEach {}
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
             try self.validate(self.thingName, name: "thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
+            try self.thingTypeName?.forEach {}
             try self.validate(self.thingTypeName, name: "thingTypeName", parent: name, max: 128)
             try self.validate(self.thingTypeName, name: "thingTypeName", parent: name, min: 1)
             try self.validate(self.thingTypeName, name: "thingTypeName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -14907,6 +15431,7 @@ extension IoT {
             try self.behaviors.forEach {
                 try $0.validate(name: "\(name).behaviors[]")
             }
+            try self.behaviors.forEach {}
             try self.validate(self.behaviors, name: "behaviors", parent: name, max: 100)
         }
 

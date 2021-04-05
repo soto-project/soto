@@ -265,7 +265,9 @@ extension ElastiCache {
         }
 
         public func validate(name: String) throws {
+            try self.cacheClusterIds?.forEach {}
             try self.validate(self.cacheClusterIds, name: "cacheClusterIds", parent: name, max: 20)
+            try self.replicationGroupIds?.forEach {}
             try self.validate(self.replicationGroupIds, name: "replicationGroupIds", parent: name, max: 20)
         }
 
@@ -293,7 +295,9 @@ extension ElastiCache {
         }
 
         public func validate(name: String) throws {
+            try self.cacheClusterIds?.forEach {}
             try self.validate(self.cacheClusterIds, name: "cacheClusterIds", parent: name, max: 20)
+            try self.replicationGroupIds?.forEach {}
             try self.validate(self.replicationGroupIds, name: "replicationGroupIds", parent: name, max: 20)
         }
 
@@ -931,6 +935,7 @@ extension ElastiCache {
         }
 
         public func validate(name: String) throws {
+            try self.nodeGroupId.forEach {}
             try self.validate(self.nodeGroupId, name: "nodeGroupId", parent: name, max: 4)
             try self.validate(self.nodeGroupId, name: "nodeGroupId", parent: name, min: 1)
             try self.validate(self.nodeGroupId, name: "nodeGroupId", parent: name, pattern: "\\d+")
@@ -1369,10 +1374,12 @@ extension ElastiCache {
             try self.nodeGroupConfiguration?.forEach {
                 try $0.validate(name: "\(name).nodeGroupConfiguration[]")
             }
+            try self.nodeGroupConfiguration?.forEach {}
             try self.userGroupIds?.forEach {
                 try validate($0, name: "userGroupIds[]", parent: name, min: 1)
                 try validate($0, name: "userGroupIds[]", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
             }
+            try self.userGroupIds?.forEach {}
             try self.validate(self.userGroupIds, name: "userGroupIds", parent: name, min: 1)
         }
 
@@ -1477,11 +1484,13 @@ extension ElastiCache {
         }
 
         public func validate(name: String) throws {
+            try self.engine.forEach {}
             try self.validate(self.engine, name: "engine", parent: name, pattern: "[a-zA-Z]*")
             try self.userIds?.forEach {
                 try validate($0, name: "userIds[]", parent: name, min: 1)
                 try validate($0, name: "userIds[]", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
             }
+            try self.userIds?.forEach {}
             try self.validate(self.userIds, name: "userIds", parent: name, min: 1)
         }
 
@@ -1517,11 +1526,16 @@ extension ElastiCache {
         }
 
         public func validate(name: String) throws {
+            try self.accessString.forEach {}
             try self.validate(self.accessString, name: "accessString", parent: name, pattern: ".*\\S.*")
+            try self.engine.forEach {}
             try self.validate(self.engine, name: "engine", parent: name, pattern: "[a-zA-Z]*")
+            try self.passwords?.forEach {}
             try self.validate(self.passwords, name: "passwords", parent: name, min: 1)
+            try self.userId.forEach {}
             try self.validate(self.userId, name: "userId", parent: name, min: 1)
             try self.validate(self.userId, name: "userId", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
+            try self.userName.forEach {}
             try self.validate(self.userName, name: "userName", parent: name, min: 1)
         }
 
@@ -1626,6 +1640,7 @@ extension ElastiCache {
             try self.replicaConfiguration?.forEach {
                 try $0.validate(name: "\(name).replicaConfiguration[]")
             }
+            try self.replicaConfiguration?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1826,6 +1841,7 @@ extension ElastiCache {
         }
 
         public func validate(name: String) throws {
+            try self.userId.forEach {}
             try self.validate(self.userId, name: "userId", parent: name, min: 1)
             try self.validate(self.userId, name: "userId", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
         }
@@ -2218,6 +2234,7 @@ extension ElastiCache {
         }
 
         public func validate(name: String) throws {
+            try self.serviceUpdateStatus?.forEach {}
             try self.validate(self.serviceUpdateStatus, name: "serviceUpdateStatus", parent: name, max: 3)
         }
 
@@ -2326,9 +2343,13 @@ extension ElastiCache {
         }
 
         public func validate(name: String) throws {
+            try self.cacheClusterIds?.forEach {}
             try self.validate(self.cacheClusterIds, name: "cacheClusterIds", parent: name, max: 20)
+            try self.replicationGroupIds?.forEach {}
             try self.validate(self.replicationGroupIds, name: "replicationGroupIds", parent: name, max: 20)
+            try self.serviceUpdateStatus?.forEach {}
             try self.validate(self.serviceUpdateStatus, name: "serviceUpdateStatus", parent: name, max: 3)
+            try self.updateActionStatus?.forEach {}
             try self.validate(self.updateActionStatus, name: "updateActionStatus", parent: name, max: 9)
         }
 
@@ -2407,10 +2428,13 @@ extension ElastiCache {
         }
 
         public func validate(name: String) throws {
+            try self.engine?.forEach {}
             try self.validate(self.engine, name: "engine", parent: name, pattern: "[a-zA-Z]*")
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
+            try self.userId?.forEach {}
             try self.validate(self.userId, name: "userId", parent: name, min: 1)
             try self.validate(self.userId, name: "userId", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
         }
@@ -2634,10 +2658,12 @@ extension ElastiCache {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
             try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, pattern: ".*\\S.*")
             }
+            try self.values.forEach {}
             try self.validate(self.values, name: "values", parent: name, min: 1)
         }
 
@@ -2800,6 +2826,7 @@ extension ElastiCache {
             try self.regionalConfigurations?.forEach {
                 try $0.validate(name: "\(name).regionalConfigurations[]")
             }
+            try self.regionalConfigurations?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2846,6 +2873,7 @@ extension ElastiCache {
             try self.replicaConfiguration?.forEach {
                 try $0.validate(name: "\(name).replicaConfiguration[]")
             }
+            try self.replicaConfiguration?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3195,10 +3223,12 @@ extension ElastiCache {
                 try validate($0, name: "userGroupIdsToAdd[]", parent: name, min: 1)
                 try validate($0, name: "userGroupIdsToAdd[]", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
             }
+            try self.userGroupIdsToAdd?.forEach {}
             try self.userGroupIdsToRemove?.forEach {
                 try validate($0, name: "userGroupIdsToRemove[]", parent: name, min: 1)
                 try validate($0, name: "userGroupIdsToRemove[]", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
             }
+            try self.userGroupIdsToRemove?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3276,14 +3306,17 @@ extension ElastiCache {
                 try validate($0, name: "nodeGroupsToRemove[]", parent: name, min: 1)
                 try validate($0, name: "nodeGroupsToRemove[]", parent: name, pattern: "\\d+")
             }
+            try self.nodeGroupsToRemove?.forEach {}
             try self.nodeGroupsToRetain?.forEach {
                 try validate($0, name: "nodeGroupsToRetain[]", parent: name, max: 4)
                 try validate($0, name: "nodeGroupsToRetain[]", parent: name, min: 1)
                 try validate($0, name: "nodeGroupsToRetain[]", parent: name, pattern: "\\d+")
             }
+            try self.nodeGroupsToRetain?.forEach {}
             try self.reshardingConfiguration?.forEach {
                 try $0.validate(name: "\(name).reshardingConfiguration[]")
             }
+            try self.reshardingConfiguration?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3329,11 +3362,13 @@ extension ElastiCache {
                 try validate($0, name: "userIdsToAdd[]", parent: name, min: 1)
                 try validate($0, name: "userIdsToAdd[]", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
             }
+            try self.userIdsToAdd?.forEach {}
             try self.validate(self.userIdsToAdd, name: "userIdsToAdd", parent: name, min: 1)
             try self.userIdsToRemove?.forEach {
                 try validate($0, name: "userIdsToRemove[]", parent: name, min: 1)
                 try validate($0, name: "userIdsToRemove[]", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
             }
+            try self.userIdsToRemove?.forEach {}
             try self.validate(self.userIdsToRemove, name: "userIdsToRemove", parent: name, min: 1)
         }
 
@@ -3366,9 +3401,13 @@ extension ElastiCache {
         }
 
         public func validate(name: String) throws {
+            try self.accessString?.forEach {}
             try self.validate(self.accessString, name: "accessString", parent: name, pattern: ".*\\S.*")
+            try self.appendAccessString?.forEach {}
             try self.validate(self.appendAccessString, name: "appendAccessString", parent: name, pattern: ".*\\S.*")
+            try self.passwords?.forEach {}
             try self.validate(self.passwords, name: "passwords", parent: name, min: 1)
+            try self.userId.forEach {}
             try self.validate(self.userId, name: "userId", parent: name, min: 1)
             try self.validate(self.userId, name: "userId", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-]*")
         }
@@ -3450,6 +3489,7 @@ extension ElastiCache {
         }
 
         public func validate(name: String) throws {
+            try self.nodeGroupId?.forEach {}
             try self.validate(self.nodeGroupId, name: "nodeGroupId", parent: name, max: 4)
             try self.validate(self.nodeGroupId, name: "nodeGroupId", parent: name, min: 1)
             try self.validate(self.nodeGroupId, name: "nodeGroupId", parent: name, pattern: "\\d+")
@@ -3869,6 +3909,7 @@ extension ElastiCache {
             try self.reshardingConfiguration.forEach {
                 try $0.validate(name: "\(name).reshardingConfiguration[]")
             }
+            try self.reshardingConfiguration.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4241,6 +4282,7 @@ extension ElastiCache {
         }
 
         public func validate(name: String) throws {
+            try self.nodeGroupId?.forEach {}
             try self.validate(self.nodeGroupId, name: "nodeGroupId", parent: name, max: 4)
             try self.validate(self.nodeGroupId, name: "nodeGroupId", parent: name, min: 1)
             try self.validate(self.nodeGroupId, name: "nodeGroupId", parent: name, pattern: "\\d+")
@@ -4634,6 +4676,7 @@ extension ElastiCache {
         }
 
         public func validate(name: String) throws {
+            try self.nodeGroupId.forEach {}
             try self.validate(self.nodeGroupId, name: "nodeGroupId", parent: name, max: 4)
             try self.validate(self.nodeGroupId, name: "nodeGroupId", parent: name, min: 1)
             try self.validate(self.nodeGroupId, name: "nodeGroupId", parent: name, pattern: "\\d+")

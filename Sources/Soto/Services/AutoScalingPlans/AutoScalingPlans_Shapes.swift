@@ -140,10 +140,12 @@ extension AutoScalingPlans {
         }
 
         public func validate(name: String) throws {
+            try self.cloudFormationStackARN?.forEach {}
             try self.validate(self.cloudFormationStackARN, name: "cloudFormationStackARN", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.tagFilters?.forEach {
                 try $0.validate(name: "\(name).tagFilters[]")
             }
+            try self.tagFilters?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -168,9 +170,12 @@ extension AutoScalingPlans {
 
         public func validate(name: String) throws {
             try self.applicationSource.validate(name: "\(name).applicationSource")
+            try self.applicationSource.forEach {}
             try self.scalingInstructions.forEach {
                 try $0.validate(name: "\(name).scalingInstructions[]")
             }
+            try self.scalingInstructions.forEach {}
+            try self.scalingPlanName.forEach {}
             try self.validate(self.scalingPlanName, name: "scalingPlanName", parent: name, max: 128)
             try self.validate(self.scalingPlanName, name: "scalingPlanName", parent: name, min: 1)
             try self.validate(self.scalingPlanName, name: "scalingPlanName", parent: name, pattern: "[\\p{Print}&&[^|:/]]+")
@@ -283,6 +288,7 @@ extension AutoScalingPlans {
         }
 
         public func validate(name: String) throws {
+            try self.scalingPlanName.forEach {}
             try self.validate(self.scalingPlanName, name: "scalingPlanName", parent: name, max: 128)
             try self.validate(self.scalingPlanName, name: "scalingPlanName", parent: name, min: 1)
             try self.validate(self.scalingPlanName, name: "scalingPlanName", parent: name, pattern: "[\\p{Print}&&[^|:/]]+")
@@ -316,6 +322,7 @@ extension AutoScalingPlans {
         }
 
         public func validate(name: String) throws {
+            try self.scalingPlanName.forEach {}
             try self.validate(self.scalingPlanName, name: "scalingPlanName", parent: name, max: 128)
             try self.validate(self.scalingPlanName, name: "scalingPlanName", parent: name, min: 1)
             try self.validate(self.scalingPlanName, name: "scalingPlanName", parent: name, pattern: "[\\p{Print}&&[^|:/]]+")
@@ -370,11 +377,13 @@ extension AutoScalingPlans {
             try self.applicationSources?.forEach {
                 try $0.validate(name: "\(name).applicationSources[]")
             }
+            try self.applicationSources?.forEach {}
             try self.scalingPlanNames?.forEach {
                 try validate($0, name: "scalingPlanNames[]", parent: name, max: 128)
                 try validate($0, name: "scalingPlanNames[]", parent: name, min: 1)
                 try validate($0, name: "scalingPlanNames[]", parent: name, pattern: "[\\p{Print}&&[^|:/]]+")
             }
+            try self.scalingPlanNames?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -433,7 +442,9 @@ extension AutoScalingPlans {
         }
 
         public func validate(name: String) throws {
+            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.scalingPlanName.forEach {}
             try self.validate(self.scalingPlanName, name: "scalingPlanName", parent: name, max: 128)
             try self.validate(self.scalingPlanName, name: "scalingPlanName", parent: name, min: 1)
             try self.validate(self.scalingPlanName, name: "scalingPlanName", parent: name, pattern: "[\\p{Print}&&[^|:/]]+")
@@ -493,6 +504,7 @@ extension AutoScalingPlans {
         }
 
         public func validate(name: String) throws {
+            try self.resourceLabel?.forEach {}
             try self.validate(self.resourceLabel, name: "resourceLabel", parent: name, max: 1023)
             try self.validate(self.resourceLabel, name: "resourceLabel", parent: name, min: 1)
         }
@@ -515,6 +527,7 @@ extension AutoScalingPlans {
         }
 
         public func validate(name: String) throws {
+            try self.resourceLabel?.forEach {}
             try self.validate(self.resourceLabel, name: "resourceLabel", parent: name, max: 1023)
             try self.validate(self.resourceLabel, name: "resourceLabel", parent: name, min: 1)
         }
@@ -574,13 +587,17 @@ extension AutoScalingPlans {
 
         public func validate(name: String) throws {
             try self.predefinedLoadMetricSpecification?.validate(name: "\(name).predefinedLoadMetricSpecification")
+            try self.predefinedLoadMetricSpecification?.forEach {}
+            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 1600)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.scheduledActionBufferTime?.forEach {}
             try self.validate(self.scheduledActionBufferTime, name: "scheduledActionBufferTime", parent: name, min: 0)
             try self.targetTrackingConfigurations.forEach {
                 try $0.validate(name: "\(name).targetTrackingConfigurations[]")
             }
+            try self.targetTrackingConfigurations.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -716,6 +733,7 @@ extension AutoScalingPlans {
         }
 
         public func validate(name: String) throws {
+            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -724,6 +742,7 @@ extension AutoScalingPlans {
                 try validate($0, name: "values[]", parent: name, min: 1)
                 try validate($0, name: "values[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             }
+            try self.values?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -760,6 +779,7 @@ extension AutoScalingPlans {
 
         public func validate(name: String) throws {
             try self.predefinedScalingMetricSpecification?.validate(name: "\(name).predefinedScalingMetricSpecification")
+            try self.predefinedScalingMetricSpecification?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -792,9 +812,12 @@ extension AutoScalingPlans {
 
         public func validate(name: String) throws {
             try self.applicationSource?.validate(name: "\(name).applicationSource")
+            try self.applicationSource?.forEach {}
             try self.scalingInstructions?.forEach {
                 try $0.validate(name: "\(name).scalingInstructions[]")
             }
+            try self.scalingInstructions?.forEach {}
+            try self.scalingPlanName.forEach {}
             try self.validate(self.scalingPlanName, name: "scalingPlanName", parent: name, max: 128)
             try self.validate(self.scalingPlanName, name: "scalingPlanName", parent: name, min: 1)
             try self.validate(self.scalingPlanName, name: "scalingPlanName", parent: name, pattern: "[\\p{Print}&&[^|:/]]+")

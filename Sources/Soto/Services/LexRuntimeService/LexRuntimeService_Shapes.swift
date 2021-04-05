@@ -83,6 +83,7 @@ extension LexRuntimeService {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z]_?)+$")
@@ -93,6 +94,7 @@ extension LexRuntimeService {
                 try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, min: 1)
             }
             try self.timeToLive.validate(name: "\(name).timeToLive")
+            try self.timeToLive.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -114,8 +116,10 @@ extension LexRuntimeService {
         }
 
         public func validate(name: String) throws {
+            try self.timeToLiveInSeconds?.forEach {}
             try self.validate(self.timeToLiveInSeconds, name: "timeToLiveInSeconds", parent: name, max: 86400)
             try self.validate(self.timeToLiveInSeconds, name: "timeToLiveInSeconds", parent: name, min: 5)
+            try self.turnsToLive?.forEach {}
             try self.validate(self.turnsToLive, name: "turnsToLive", parent: name, max: 20)
             try self.validate(self.turnsToLive, name: "turnsToLive", parent: name, min: 1)
         }
@@ -164,6 +168,7 @@ extension LexRuntimeService {
         }
 
         public func validate(name: String) throws {
+            try self.userId.forEach {}
             try self.validate(self.userId, name: "userId", parent: name, max: 100)
             try self.validate(self.userId, name: "userId", parent: name, min: 2)
             try self.validate(self.userId, name: "userId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
@@ -224,6 +229,7 @@ extension LexRuntimeService {
         }
 
         public func validate(name: String) throws {
+            try self.message?.forEach {}
             try self.validate(self.message, name: "message", parent: name, max: 1024)
             try self.validate(self.message, name: "message", parent: name, min: 1)
         }
@@ -293,9 +299,11 @@ extension LexRuntimeService {
         }
 
         public func validate(name: String) throws {
+            try self.checkpointLabelFilter?.forEach {}
             try self.validate(self.checkpointLabelFilter, name: "checkpointLabelFilter", parent: name, max: 255)
             try self.validate(self.checkpointLabelFilter, name: "checkpointLabelFilter", parent: name, min: 1)
             try self.validate(self.checkpointLabelFilter, name: "checkpointLabelFilter", parent: name, pattern: "[a-zA-Z0-9-]+")
+            try self.userId.forEach {}
             try self.validate(self.userId, name: "userId", parent: name, max: 100)
             try self.validate(self.userId, name: "userId", parent: name, min: 2)
             try self.validate(self.userId, name: "userId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
@@ -373,6 +381,7 @@ extension LexRuntimeService {
         }
 
         public func validate(name: String) throws {
+            try self.checkpointLabel?.forEach {}
             try self.validate(self.checkpointLabel, name: "checkpointLabel", parent: name, max: 255)
             try self.validate(self.checkpointLabel, name: "checkpointLabel", parent: name, min: 1)
             try self.validate(self.checkpointLabel, name: "checkpointLabel", parent: name, pattern: "[a-zA-Z0-9-]+")
@@ -436,6 +445,7 @@ extension LexRuntimeService {
         }
 
         public func validate(name: String) throws {
+            try self.userId.forEach {}
             try self.validate(self.userId, name: "userId", parent: name, max: 100)
             try self.validate(self.userId, name: "userId", parent: name, min: 2)
             try self.validate(self.userId, name: "userId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
@@ -454,9 +464,9 @@ extension LexRuntimeService {
             AWSMemberEncoding(label: "botVersion", location: .header(locationName: "x-amz-lex-bot-version")),
             AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
             AWSMemberEncoding(label: "dialogState", location: .header(locationName: "x-amz-lex-dialog-state")),
-            AWSMemberEncoding(label: "inputTranscript", location: .header(locationName: "x-amz-lex-input-transcript")),
+            AWSMemberEncoding(label: "encodedInputTranscript", location: .header(locationName: "x-amz-lex-encoded-input-transcript")),
+            AWSMemberEncoding(label: "encodedMessage", location: .header(locationName: "x-amz-lex-encoded-message")),
             AWSMemberEncoding(label: "intentName", location: .header(locationName: "x-amz-lex-intent-name")),
-            AWSMemberEncoding(label: "message", location: .header(locationName: "x-amz-lex-message")),
             AWSMemberEncoding(label: "messageFormat", location: .header(locationName: "x-amz-lex-message-format")),
             AWSMemberEncoding(label: "nluIntentConfidence", location: .header(locationName: "x-amz-lex-nlu-intent-confidence")),
             AWSMemberEncoding(label: "sentimentResponse", location: .header(locationName: "x-amz-lex-sentiment")),
@@ -478,12 +488,12 @@ extension LexRuntimeService {
         public let contentType: String?
         /// Identifies the current state of the user interaction. Amazon Lex returns one of the following values as dialogState. The client can optionally use this information to customize the user interface.     ElicitIntent - Amazon Lex wants to elicit the user's intent. Consider the following examples:   For example, a user might utter an intent ("I want to order a pizza"). If Amazon Lex cannot infer the user intent from this utterance, it will return this dialog state.     ConfirmIntent - Amazon Lex is expecting a "yes" or "no" response.  For example, Amazon Lex wants user confirmation before fulfilling an intent. Instead of a simple "yes" or "no" response, a user might respond with additional information. For example, "yes, but make it a thick crust pizza" or "no, I want to order a drink." Amazon Lex can process such additional information (in these examples, update the crust type slot or change the intent from OrderPizza to OrderDrink).     ElicitSlot - Amazon Lex is expecting the value of a slot for the current intent.   For example, suppose that in the response Amazon Lex sends this message: "What size pizza would you like?". A user might reply with the slot value (e.g., "medium"). The user might also provide additional information in the response (e.g., "medium thick crust pizza"). Amazon Lex can process such additional information appropriately.     Fulfilled - Conveys that the Lambda function has successfully fulfilled the intent.     ReadyForFulfillment - Conveys that the client has to fulfill the request.     Failed - Conveys that the conversation with the user failed.   This can happen for various reasons, including that the user does not provide an appropriate response to prompts from the service (you can configure how many times Amazon Lex can prompt a user for specific information), or if the Lambda function fails to fulfill the intent.
         public let dialogState: DialogState?
-        /// The text used to process the request. If the input was an audio stream, the inputTranscript field contains the text extracted from the audio stream. This is the text that is actually processed to recognize intents and slot values. You can use this information to determine if Amazon Lex is correctly processing the audio that you send.
-        public let inputTranscript: String?
+        /// The text used to process the request. If the input was an audio stream, the encodedInputTranscript field contains the text extracted from the audio stream. This is the text that is actually processed to recognize intents and slot values. You can use this information to determine if Amazon Lex is correctly processing the audio that you send. The encodedInputTranscript field is base-64 encoded. You must decode the field before you can use the value.
+        public let encodedInputTranscript: String?
+        /// The message to convey to the user. The message can come from the bot's configuration or from a Lambda function. If the intent is not configured with a Lambda function, or if the Lambda function returned Delegate as the dialogAction.type in its response, Amazon Lex decides on the next course of action and selects an appropriate message from the bot's configuration based on the current interaction context. For example, if Amazon Lex isn't able to understand user input, it uses a clarification prompt message. When you create an intent you can assign messages to groups. When messages are assigned to groups Amazon Lex returns one message from each group in the response. The message field is an escaped JSON string containing the messages. For more information about the structure of the JSON string returned, see msg-prompts-formats. If the Lambda function returns a message, Amazon Lex passes it to the client in its response. The encodedMessage field is base-64 encoded. You must decode the field before you can use the value.
+        public let encodedMessage: String?
         /// Current user intent that Amazon Lex is aware of.
         public let intentName: String?
-        /// The message to convey to the user. The message can come from the bot's configuration or from a Lambda function. If the intent is not configured with a Lambda function, or if the Lambda function returned Delegate as the dialogAction.type in its response, Amazon Lex decides on the next course of action and selects an appropriate message from the bot's configuration based on the current interaction context. For example, if Amazon Lex isn't able to understand user input, it uses a clarification prompt message. When you create an intent you can assign messages to groups. When messages are assigned to groups Amazon Lex returns one message from each group in the response. The message field is an escaped JSON string containing the messages. For more information about the structure of the JSON string returned, see msg-prompts-formats. If the Lambda function returns a message, Amazon Lex passes it to the client in its response.
-        public let message: String?
         /// The format of the response message. One of the following values:    PlainText - The message contains plain UTF-8 text.    CustomPayload - The message is a custom format for the client.    SSML - The message contains text formatted for voice output.    Composite - The message contains an escaped JSON object containing one or more messages from the groups that messages were assigned to when the intent was created.
         public let messageFormat: MessageFormatType?
         /// Provides a score that indicates how confident Amazon Lex is that the returned intent is the one that matches the user's intent. The score is between 0.0 and 1.0. The score is a relative score, not an absolute score. The score may change based on improvements to Amazon Lex.
@@ -499,16 +509,16 @@ extension LexRuntimeService {
         ///  If the dialogState value is ElicitSlot, returns the name of the slot for which Amazon Lex is eliciting a value.
         public let slotToElicit: String?
 
-        public init(activeContexts: String? = nil, alternativeIntents: String? = nil, audioStream: AWSPayload? = nil, botVersion: String? = nil, contentType: String? = nil, dialogState: DialogState? = nil, inputTranscript: String? = nil, intentName: String? = nil, message: String? = nil, messageFormat: MessageFormatType? = nil, nluIntentConfidence: String? = nil, sentimentResponse: String? = nil, sessionAttributes: String? = nil, sessionId: String? = nil, slots: String? = nil, slotToElicit: String? = nil) {
+        public init(activeContexts: String? = nil, alternativeIntents: String? = nil, audioStream: AWSPayload? = nil, botVersion: String? = nil, contentType: String? = nil, dialogState: DialogState? = nil, encodedInputTranscript: String? = nil, encodedMessage: String? = nil, intentName: String? = nil, messageFormat: MessageFormatType? = nil, nluIntentConfidence: String? = nil, sentimentResponse: String? = nil, sessionAttributes: String? = nil, sessionId: String? = nil, slots: String? = nil, slotToElicit: String? = nil) {
             self.activeContexts = activeContexts
             self.alternativeIntents = alternativeIntents
             self.audioStream = audioStream
             self.botVersion = botVersion
             self.contentType = contentType
             self.dialogState = dialogState
-            self.inputTranscript = inputTranscript
+            self.encodedInputTranscript = encodedInputTranscript
+            self.encodedMessage = encodedMessage
             self.intentName = intentName
-            self.message = message
             self.messageFormat = messageFormat
             self.nluIntentConfidence = nluIntentConfidence
             self.sentimentResponse = sentimentResponse
@@ -525,9 +535,9 @@ extension LexRuntimeService {
             case botVersion = "x-amz-lex-bot-version"
             case contentType = "Content-Type"
             case dialogState = "x-amz-lex-dialog-state"
-            case inputTranscript = "x-amz-lex-input-transcript"
+            case encodedInputTranscript = "x-amz-lex-encoded-input-transcript"
+            case encodedMessage = "x-amz-lex-encoded-message"
             case intentName = "x-amz-lex-intent-name"
-            case message = "x-amz-lex-message"
             case messageFormat = "x-amz-lex-message-format"
             case nluIntentConfidence = "x-amz-lex-nlu-intent-confidence"
             case sentimentResponse = "x-amz-lex-sentiment"
@@ -574,10 +584,13 @@ extension LexRuntimeService {
             try self.activeContexts?.forEach {
                 try $0.validate(name: "\(name).activeContexts[]")
             }
+            try self.activeContexts?.forEach {}
             try self.validate(self.activeContexts, name: "activeContexts", parent: name, max: 20)
             try self.validate(self.activeContexts, name: "activeContexts", parent: name, min: 0)
+            try self.inputText.forEach {}
             try self.validate(self.inputText, name: "inputText", parent: name, max: 1024)
             try self.validate(self.inputText, name: "inputText", parent: name, min: 1)
+            try self.userId.forEach {}
             try self.validate(self.userId, name: "userId", parent: name, max: 100)
             try self.validate(self.userId, name: "userId", parent: name, min: 2)
             try self.validate(self.userId, name: "userId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
@@ -717,14 +730,18 @@ extension LexRuntimeService {
             try self.activeContexts?.forEach {
                 try $0.validate(name: "\(name).activeContexts[]")
             }
+            try self.activeContexts?.forEach {}
             try self.validate(self.activeContexts, name: "activeContexts", parent: name, max: 20)
             try self.validate(self.activeContexts, name: "activeContexts", parent: name, min: 0)
             try self.dialogAction?.validate(name: "\(name).dialogAction")
+            try self.dialogAction?.forEach {}
             try self.recentIntentSummaryView?.forEach {
                 try $0.validate(name: "\(name).recentIntentSummaryView[]")
             }
+            try self.recentIntentSummaryView?.forEach {}
             try self.validate(self.recentIntentSummaryView, name: "recentIntentSummaryView", parent: name, max: 3)
             try self.validate(self.recentIntentSummaryView, name: "recentIntentSummaryView", parent: name, min: 0)
+            try self.userId.forEach {}
             try self.validate(self.userId, name: "userId", parent: name, max: 100)
             try self.validate(self.userId, name: "userId", parent: name, min: 2)
             try self.validate(self.userId, name: "userId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
@@ -746,8 +763,8 @@ extension LexRuntimeService {
             AWSMemberEncoding(label: "activeContexts", location: .header(locationName: "x-amz-lex-active-contexts")),
             AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
             AWSMemberEncoding(label: "dialogState", location: .header(locationName: "x-amz-lex-dialog-state")),
+            AWSMemberEncoding(label: "encodedMessage", location: .header(locationName: "x-amz-lex-encoded-message")),
             AWSMemberEncoding(label: "intentName", location: .header(locationName: "x-amz-lex-intent-name")),
-            AWSMemberEncoding(label: "message", location: .header(locationName: "x-amz-lex-message")),
             AWSMemberEncoding(label: "messageFormat", location: .header(locationName: "x-amz-lex-message-format")),
             AWSMemberEncoding(label: "sessionAttributes", location: .header(locationName: "x-amz-lex-session-attributes")),
             AWSMemberEncoding(label: "sessionId", location: .header(locationName: "x-amz-lex-session-id")),
@@ -763,10 +780,10 @@ extension LexRuntimeService {
         public let contentType: String?
         ///     ConfirmIntent - Amazon Lex is expecting a "yes" or "no" response to confirm the intent before fulfilling an intent.    ElicitIntent - Amazon Lex wants to elicit the user's intent.    ElicitSlot - Amazon Lex is expecting the value of a slot for the current intent.    Failed - Conveys that the conversation with the user has failed. This can happen for various reasons, including the user does not provide an appropriate response to prompts from the service, or if the Lambda function fails to fulfill the intent.    Fulfilled - Conveys that the Lambda function has sucessfully fulfilled the intent.    ReadyForFulfillment - Conveys that the client has to fulfill the intent.
         public let dialogState: DialogState?
+        /// The next message that should be presented to the user. The encodedMessage field is base-64 encoded. You must decode the field before you can use the value.
+        public let encodedMessage: String?
         /// The name of the current intent.
         public let intentName: String?
-        /// The next message that should be presented to the user.
-        public let message: String?
         /// The format of the response message. One of the following values:    PlainText - The message contains plain UTF-8 text.    CustomPayload - The message is a custom format for the client.    SSML - The message contains text formatted for voice output.    Composite - The message contains an escaped JSON object containing one or more messages from the groups that messages were assigned to when the intent was created.
         public let messageFormat: MessageFormatType?
         /// Map of key/value pairs representing session-specific context information.
@@ -778,13 +795,13 @@ extension LexRuntimeService {
         /// If the dialogState is ElicitSlot, returns the name of the slot for which Amazon Lex is eliciting a value.
         public let slotToElicit: String?
 
-        public init(activeContexts: String? = nil, audioStream: AWSPayload? = nil, contentType: String? = nil, dialogState: DialogState? = nil, intentName: String? = nil, message: String? = nil, messageFormat: MessageFormatType? = nil, sessionAttributes: String? = nil, sessionId: String? = nil, slots: String? = nil, slotToElicit: String? = nil) {
+        public init(activeContexts: String? = nil, audioStream: AWSPayload? = nil, contentType: String? = nil, dialogState: DialogState? = nil, encodedMessage: String? = nil, intentName: String? = nil, messageFormat: MessageFormatType? = nil, sessionAttributes: String? = nil, sessionId: String? = nil, slots: String? = nil, slotToElicit: String? = nil) {
             self.activeContexts = activeContexts
             self.audioStream = audioStream
             self.contentType = contentType
             self.dialogState = dialogState
+            self.encodedMessage = encodedMessage
             self.intentName = intentName
-            self.message = message
             self.messageFormat = messageFormat
             self.sessionAttributes = sessionAttributes
             self.sessionId = sessionId
@@ -797,8 +814,8 @@ extension LexRuntimeService {
             case audioStream
             case contentType = "Content-Type"
             case dialogState = "x-amz-lex-dialog-state"
+            case encodedMessage = "x-amz-lex-encoded-message"
             case intentName = "x-amz-lex-intent-name"
-            case message = "x-amz-lex-message"
             case messageFormat = "x-amz-lex-message-format"
             case sessionAttributes = "x-amz-lex-session-attributes"
             case sessionId = "x-amz-lex-session-id"

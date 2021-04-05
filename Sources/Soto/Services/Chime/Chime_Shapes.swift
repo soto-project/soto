@@ -399,6 +399,7 @@ extension Chime {
 
         public func validate(name: String) throws {
             try self.channelRetentionSettings?.validate(name: "\(name).channelRetentionSettings")
+            try self.channelRetentionSettings?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -418,6 +419,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1024)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn[\\/\\:\\-\\_\\.a-zA-Z0-9]+$")
@@ -537,6 +539,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.e164PhoneNumber.forEach {}
             try self.validate(self.e164PhoneNumber, name: "e164PhoneNumber", parent: name, pattern: "^\\+?[1-9]\\d{1,14}$")
         }
 
@@ -571,6 +574,8 @@ extension Chime {
             try self.e164PhoneNumbers.forEach {
                 try validate($0, name: "e164PhoneNumbers[]", parent: name, pattern: "^\\+?[1-9]\\d{1,14}$")
             }
+            try self.e164PhoneNumbers.forEach {}
+            try self.voiceConnectorGroupId.forEach {}
             try self.validate(self.voiceConnectorGroupId, name: "voiceConnectorGroupId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -615,6 +620,8 @@ extension Chime {
             try self.e164PhoneNumbers.forEach {
                 try validate($0, name: "e164PhoneNumbers[]", parent: name, pattern: "^\\+?[1-9]\\d{1,14}$")
             }
+            try self.e164PhoneNumbers.forEach {}
+            try self.voiceConnectorId.forEach {}
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -653,10 +660,12 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
             try self.signinDelegateGroups.forEach {
                 try $0.validate(name: "\(name).signinDelegateGroups[]")
             }
+            try self.signinDelegateGroups.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -708,6 +717,8 @@ extension Chime {
             try self.attendees.forEach {
                 try $0.validate(name: "\(name).attendees[]")
             }
+            try self.attendees.forEach {}
+            try self.meetingId.forEach {}
             try self.validate(self.meetingId, name: "meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
         }
 
@@ -753,11 +764,14 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
             try self.membershipItemList.forEach {
                 try $0.validate(name: "\(name).membershipItemList[]")
             }
+            try self.membershipItemList.forEach {}
             try self.validate(self.membershipItemList, name: "membershipItemList", parent: name, max: 50)
+            try self.roomId.forEach {}
             try self.validate(self.roomId, name: "roomId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -788,6 +802,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.phoneNumberIds.forEach {}
             try self.validate(self.phoneNumberIds, name: "phoneNumberIds", parent: name, min: 1)
         }
 
@@ -825,10 +840,12 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
             try self.userIdList.forEach {
                 try validate($0, name: "userIdList[]", parent: name, pattern: ".*\\S.*")
             }
+            try self.userIdList.forEach {}
             try self.validate(self.userIdList, name: "userIdList", parent: name, max: 50)
         }
 
@@ -866,10 +883,12 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
             try self.userIdList.forEach {
                 try validate($0, name: "userIdList[]", parent: name, pattern: ".*\\S.*")
             }
+            try self.userIdList.forEach {}
             try self.validate(self.userIdList, name: "userIdList", parent: name, max: 50)
         }
 
@@ -903,6 +922,7 @@ extension Chime {
             try self.updatePhoneNumberRequestItems.forEach {
                 try $0.validate(name: "\(name).updatePhoneNumberRequestItems[]")
             }
+            try self.updatePhoneNumberRequestItems.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -939,10 +959,12 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
             try self.updateUserRequestItems.forEach {
                 try $0.validate(name: "\(name).updateUserRequestItems[]")
             }
+            try self.updateUserRequestItems.forEach {}
             try self.validate(self.updateUserRequestItems, name: "updateUserRequestItems", parent: name, max: 20)
         }
 
@@ -1326,6 +1348,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.retentionDays?.forEach {}
             try self.validate(self.retentionDays, name: "retentionDays", parent: name, max: 5475)
             try self.validate(self.retentionDays, name: "retentionDays", parent: name, min: 1)
         }
@@ -1377,6 +1400,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.retentionDays?.forEach {}
             try self.validate(self.retentionDays, name: "retentionDays", parent: name, max: 5475)
             try self.validate(self.retentionDays, name: "retentionDays", parent: name, min: 1)
         }
@@ -1395,6 +1419,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
@@ -1434,9 +1459,11 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.appInstanceAdminArn.forEach {}
             try self.validate(self.appInstanceAdminArn, name: "appInstanceAdminArn", parent: name, max: 1600)
             try self.validate(self.appInstanceAdminArn, name: "appInstanceAdminArn", parent: name, min: 5)
             try self.validate(self.appInstanceAdminArn, name: "appInstanceAdminArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.appInstanceArn.forEach {}
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, max: 1600)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, min: 5)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
@@ -1482,18 +1509,22 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.clientRequestToken.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 2)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "[-_a-zA-Z0-9]*")
+            try self.metadata?.forEach {}
             try self.validate(self.metadata, name: "metadata", parent: name, max: 1024)
             try self.validate(self.metadata, name: "metadata", parent: name, min: 0)
             try self.validate(self.metadata, name: "metadata", parent: name, pattern: ".*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
@@ -1543,24 +1574,30 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.appInstanceArn.forEach {}
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, max: 1600)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, min: 5)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.appInstanceUserId.forEach {}
             try self.validate(self.appInstanceUserId, name: "appInstanceUserId", parent: name, max: 50)
             try self.validate(self.appInstanceUserId, name: "appInstanceUserId", parent: name, min: 1)
             try self.validate(self.appInstanceUserId, name: "appInstanceUserId", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9\\:\\-\\_\\.\\@]{3,50}[A-Za-z0-9]")
+            try self.clientRequestToken.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 2)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "[-_a-zA-Z0-9]*")
+            try self.metadata?.forEach {}
             try self.validate(self.metadata, name: "metadata", parent: name, max: 1024)
             try self.validate(self.metadata, name: "metadata", parent: name, min: 0)
             try self.validate(self.metadata, name: "metadata", parent: name, pattern: ".*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
@@ -1628,12 +1665,15 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.externalUserId.forEach {}
             try self.validate(self.externalUserId, name: "externalUserId", parent: name, max: 64)
             try self.validate(self.externalUserId, name: "externalUserId", parent: name, min: 2)
+            try self.meetingId.forEach {}
             try self.validate(self.meetingId, name: "meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 10)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
@@ -1656,11 +1696,13 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.externalUserId.forEach {}
             try self.validate(self.externalUserId, name: "externalUserId", parent: name, max: 64)
             try self.validate(self.externalUserId, name: "externalUserId", parent: name, min: 2)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 10)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
@@ -1703,7 +1745,9 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
+            try self.domain?.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, pattern: ".*\\S.*")
         }
 
@@ -1746,12 +1790,15 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.channelArn.forEach {}
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.chimeBearer?.forEach {}
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.memberArn.forEach {}
             try self.validate(self.memberArn, name: "memberArn", parent: name, max: 1600)
             try self.validate(self.memberArn, name: "memberArn", parent: name, min: 5)
             try self.validate(self.memberArn, name: "memberArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
@@ -1802,12 +1849,15 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.channelArn.forEach {}
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.chimeBearer?.forEach {}
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.memberArn.forEach {}
             try self.validate(self.memberArn, name: "memberArn", parent: name, max: 1600)
             try self.validate(self.memberArn, name: "memberArn", parent: name, min: 5)
             try self.validate(self.memberArn, name: "memberArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
@@ -1856,12 +1906,15 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.channelArn.forEach {}
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.channelModeratorArn.forEach {}
             try self.validate(self.channelModeratorArn, name: "channelModeratorArn", parent: name, max: 1600)
             try self.validate(self.channelModeratorArn, name: "channelModeratorArn", parent: name, min: 5)
             try self.validate(self.channelModeratorArn, name: "channelModeratorArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.chimeBearer?.forEach {}
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
@@ -1923,24 +1976,30 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.appInstanceArn.forEach {}
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, max: 1600)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, min: 5)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.chimeBearer?.forEach {}
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.clientRequestToken.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 2)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "[-_a-zA-Z0-9]*")
+            try self.metadata?.forEach {}
             try self.validate(self.metadata, name: "metadata", parent: name, max: 1024)
             try self.validate(self.metadata, name: "metadata", parent: name, min: 0)
             try self.validate(self.metadata, name: "metadata", parent: name, pattern: ".*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
@@ -1991,11 +2050,15 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.fromPhoneNumber.forEach {}
             try self.validate(self.fromPhoneNumber, name: "fromPhoneNumber", parent: name, pattern: "^\\+?[1-9]\\d{1,14}$")
+            try self.joinToken.forEach {}
             try self.validate(self.joinToken, name: "joinToken", parent: name, max: 2048)
             try self.validate(self.joinToken, name: "joinToken", parent: name, min: 2)
             try self.validate(self.joinToken, name: "joinToken", parent: name, pattern: "^[a-zA-Z0-9+/]+$")
+            try self.meetingId.forEach {}
             try self.validate(self.meetingId, name: "meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
+            try self.toPhoneNumber.forEach {}
             try self.validate(self.toPhoneNumber, name: "toPhoneNumber", parent: name, pattern: "^\\+?[1-9]\\d{1,14}$")
         }
 
@@ -2043,17 +2106,22 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.clientRequestToken.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 2)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "[-_a-zA-Z0-9]*")
+            try self.externalMeetingId?.forEach {}
             try self.validate(self.externalMeetingId, name: "externalMeetingId", parent: name, max: 64)
             try self.validate(self.externalMeetingId, name: "externalMeetingId", parent: name, min: 2)
+            try self.meetingHostId?.forEach {}
             try self.validate(self.meetingHostId, name: "meetingHostId", parent: name, max: 64)
             try self.validate(self.meetingHostId, name: "meetingHostId", parent: name, min: 2)
             try self.notificationsConfiguration?.validate(name: "\(name).notificationsConfiguration")
+            try self.notificationsConfiguration?.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
@@ -2110,19 +2178,25 @@ extension Chime {
             try self.attendees?.forEach {
                 try $0.validate(name: "\(name).attendees[]")
             }
+            try self.attendees?.forEach {}
             try self.validate(self.attendees, name: "attendees", parent: name, max: 10)
             try self.validate(self.attendees, name: "attendees", parent: name, min: 1)
+            try self.clientRequestToken.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 2)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "[-_a-zA-Z0-9]*")
+            try self.externalMeetingId?.forEach {}
             try self.validate(self.externalMeetingId, name: "externalMeetingId", parent: name, max: 64)
             try self.validate(self.externalMeetingId, name: "externalMeetingId", parent: name, min: 2)
+            try self.meetingHostId?.forEach {}
             try self.validate(self.meetingHostId, name: "meetingHostId", parent: name, max: 64)
             try self.validate(self.meetingHostId, name: "meetingHostId", parent: name, min: 2)
             try self.notificationsConfiguration?.validate(name: "\(name).notificationsConfiguration")
+            try self.notificationsConfiguration?.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
@@ -2173,6 +2247,7 @@ extension Chime {
             try self.e164PhoneNumbers.forEach {
                 try validate($0, name: "e164PhoneNumbers[]", parent: name, pattern: "^\\+?[1-9]\\d{1,14}$")
             }
+            try self.e164PhoneNumbers.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2228,14 +2303,19 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.expiryMinutes?.forEach {}
             try self.validate(self.expiryMinutes, name: "expiryMinutes", parent: name, min: 1)
             try self.geoMatchParams?.validate(name: "\(name).geoMatchParams")
+            try self.geoMatchParams?.forEach {}
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^$|^[a-zA-Z0-9 ]{0,30}$")
             try self.participantPhoneNumbers.forEach {
                 try validate($0, name: "participantPhoneNumbers[]", parent: name, pattern: "^\\+?[1-9]\\d{1,14}$")
             }
+            try self.participantPhoneNumbers.forEach {}
             try self.validate(self.participantPhoneNumbers, name: "participantPhoneNumbers", parent: name, max: 2)
             try self.validate(self.participantPhoneNumbers, name: "participantPhoneNumbers", parent: name, min: 2)
+            try self.voiceConnectorId.forEach {}
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
@@ -2288,8 +2368,11 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
+            try self.memberId.forEach {}
             try self.validate(self.memberId, name: "memberId", parent: name, pattern: ".*\\S.*")
+            try self.roomId.forEach {}
             try self.validate(self.roomId, name: "roomId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -2331,7 +2414,9 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
+            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 2)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "[-_a-zA-Z0-9]*")
@@ -2375,8 +2460,11 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.fromPhoneNumber.forEach {}
             try self.validate(self.fromPhoneNumber, name: "fromPhoneNumber", parent: name, pattern: "^\\+?[1-9]\\d{1,14}$")
+            try self.sipMediaApplicationId.forEach {}
             try self.validate(self.sipMediaApplicationId, name: "sipMediaApplicationId", parent: name, pattern: ".*\\S.*")
+            try self.toPhoneNumber.forEach {}
             try self.validate(self.toPhoneNumber, name: "toPhoneNumber", parent: name, pattern: "^\\+?[1-9]\\d{1,14}$")
         }
 
@@ -2417,8 +2505,10 @@ extension Chime {
             try self.endpoints.forEach {
                 try $0.validate(name: "\(name).endpoints[]")
             }
+            try self.endpoints.forEach {}
             try self.validate(self.endpoints, name: "endpoints", parent: name, max: 1)
             try self.validate(self.endpoints, name: "endpoints", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -2464,13 +2554,16 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.targetApplications.forEach {
                 try $0.validate(name: "\(name).targetApplications[]")
             }
+            try self.targetApplications.forEach {}
             try self.validate(self.targetApplications, name: "targetApplications", parent: name, max: 25)
             try self.validate(self.targetApplications, name: "targetApplications", parent: name, min: 1)
+            try self.triggerValue.forEach {}
             try self.validate(self.triggerValue, name: "triggerValue", parent: name, pattern: ".*\\S.*")
         }
 
@@ -2518,7 +2611,9 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
+            try self.email?.forEach {}
             try self.validate(self.email, name: "email", parent: name, pattern: ".+@.+\\..+")
         }
 
@@ -2553,11 +2648,13 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.voiceConnectorItems?.forEach {
                 try $0.validate(name: "\(name).voiceConnectorItems[]")
             }
+            try self.voiceConnectorItems?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2594,6 +2691,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -2650,8 +2748,11 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.callingCountry.forEach {}
             try self.validate(self.callingCountry, name: "callingCountry", parent: name, pattern: "[A-Z]{2}")
+            try self.emergencyPhoneNumber.forEach {}
             try self.validate(self.emergencyPhoneNumber, name: "emergencyPhoneNumber", parent: name, pattern: "^\\+?[1-9]\\d{1,14}$")
+            try self.testPhoneNumber?.forEach {}
             try self.validate(self.testPhoneNumber, name: "testPhoneNumber", parent: name, pattern: "^\\+?[1-9]\\d{1,14}$")
         }
 
@@ -2675,6 +2776,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -2702,9 +2804,11 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.appInstanceAdminArn.forEach {}
             try self.validate(self.appInstanceAdminArn, name: "appInstanceAdminArn", parent: name, max: 1600)
             try self.validate(self.appInstanceAdminArn, name: "appInstanceAdminArn", parent: name, min: 5)
             try self.validate(self.appInstanceAdminArn, name: "appInstanceAdminArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.appInstanceArn.forEach {}
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, max: 1600)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, min: 5)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
@@ -2726,6 +2830,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.appInstanceArn.forEach {}
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, max: 1600)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, min: 5)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
@@ -2747,6 +2852,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.appInstanceArn.forEach {}
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, max: 1600)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, min: 5)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
@@ -2768,6 +2874,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.appInstanceUserArn.forEach {}
             try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, max: 1600)
             try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, min: 5)
             try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
@@ -2793,7 +2900,9 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.attendeeId.forEach {}
             try self.validate(self.attendeeId, name: "attendeeId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
+            try self.meetingId.forEach {}
             try self.validate(self.meetingId, name: "meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
         }
 
@@ -2821,12 +2930,15 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.channelArn.forEach {}
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.chimeBearer?.forEach {}
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.memberArn.forEach {}
             try self.validate(self.memberArn, name: "memberArn", parent: name, max: 1600)
             try self.validate(self.memberArn, name: "memberArn", parent: name, min: 5)
             try self.validate(self.memberArn, name: "memberArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
@@ -2856,12 +2968,15 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.channelArn.forEach {}
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.chimeBearer?.forEach {}
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.memberArn.forEach {}
             try self.validate(self.memberArn, name: "memberArn", parent: name, max: 1600)
             try self.validate(self.memberArn, name: "memberArn", parent: name, min: 5)
             try self.validate(self.memberArn, name: "memberArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
@@ -2891,12 +3006,15 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.channelArn.forEach {}
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.chimeBearer?.forEach {}
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.messageId.forEach {}
             try self.validate(self.messageId, name: "messageId", parent: name, max: 128)
             try self.validate(self.messageId, name: "messageId", parent: name, min: 1)
             try self.validate(self.messageId, name: "messageId", parent: name, pattern: "[-_a-zA-Z0-9]*")
@@ -2926,12 +3044,15 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.channelArn.forEach {}
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.channelModeratorArn.forEach {}
             try self.validate(self.channelModeratorArn, name: "channelModeratorArn", parent: name, max: 1600)
             try self.validate(self.channelModeratorArn, name: "channelModeratorArn", parent: name, min: 5)
             try self.validate(self.channelModeratorArn, name: "channelModeratorArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.chimeBearer?.forEach {}
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
@@ -2957,9 +3078,11 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.channelArn.forEach {}
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.chimeBearer?.forEach {}
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
@@ -2985,7 +3108,9 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
+            try self.botId.forEach {}
             try self.validate(self.botId, name: "botId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -3005,6 +3130,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.meetingId.forEach {}
             try self.validate(self.meetingId, name: "meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
         }
 
@@ -3043,9 +3169,11 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.proxySessionId.forEach {}
             try self.validate(self.proxySessionId, name: "proxySessionId", parent: name, max: 128)
             try self.validate(self.proxySessionId, name: "proxySessionId", parent: name, min: 1)
             try self.validate(self.proxySessionId, name: "proxySessionId", parent: name, pattern: ".*\\S.*")
+            try self.voiceConnectorId.forEach {}
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
@@ -3075,8 +3203,11 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
+            try self.memberId.forEach {}
             try self.validate(self.memberId, name: "memberId", parent: name, pattern: ".*\\S.*")
+            try self.roomId.forEach {}
             try self.validate(self.roomId, name: "roomId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -3100,7 +3231,9 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
+            try self.roomId.forEach {}
             try self.validate(self.roomId, name: "roomId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -3120,6 +3253,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.sipMediaApplicationId.forEach {}
             try self.validate(self.sipMediaApplicationId, name: "sipMediaApplicationId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -3139,6 +3273,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.sipRuleId.forEach {}
             try self.validate(self.sipRuleId, name: "sipRuleId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -3158,6 +3293,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.voiceConnectorId.forEach {}
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -3177,6 +3313,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.voiceConnectorGroupId.forEach {}
             try self.validate(self.voiceConnectorGroupId, name: "voiceConnectorGroupId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -3196,6 +3333,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.voiceConnectorId.forEach {}
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -3215,6 +3353,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.voiceConnectorId.forEach {}
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
@@ -3236,6 +3375,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.voiceConnectorId.forEach {}
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -3255,6 +3395,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.voiceConnectorId.forEach {}
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -3277,6 +3418,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.voiceConnectorId.forEach {}
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -3298,6 +3440,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.voiceConnectorId.forEach {}
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -3321,9 +3464,11 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.appInstanceAdminArn.forEach {}
             try self.validate(self.appInstanceAdminArn, name: "appInstanceAdminArn", parent: name, max: 1600)
             try self.validate(self.appInstanceAdminArn, name: "appInstanceAdminArn", parent: name, min: 5)
             try self.validate(self.appInstanceAdminArn, name: "appInstanceAdminArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.appInstanceArn.forEach {}
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, max: 1600)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, min: 5)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
@@ -3358,6 +3503,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.appInstanceArn.forEach {}
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, max: 1600)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, min: 5)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
@@ -3392,6 +3538,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.appInstanceUserArn.forEach {}
             try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, max: 1600)
             try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, min: 5)
             try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
@@ -3434,12 +3581,15 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.channelArn.forEach {}
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.chimeBearer?.forEach {}
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.memberArn.forEach {}
             try self.validate(self.memberArn, name: "memberArn", parent: name, max: 1600)
             try self.validate(self.memberArn, name: "memberArn", parent: name, min: 5)
             try self.validate(self.memberArn, name: "memberArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
@@ -3482,12 +3632,15 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.appInstanceUserArn.forEach {}
             try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, max: 1600)
             try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, min: 5)
             try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.channelArn.forEach {}
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.chimeBearer?.forEach {}
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
@@ -3530,12 +3683,15 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.channelArn.forEach {}
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.chimeBearer?.forEach {}
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.memberArn.forEach {}
             try self.validate(self.memberArn, name: "memberArn", parent: name, max: 1600)
             try self.validate(self.memberArn, name: "memberArn", parent: name, min: 5)
             try self.validate(self.memberArn, name: "memberArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
@@ -3578,12 +3734,15 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.appInstanceUserArn.forEach {}
             try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, max: 1600)
             try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, min: 5)
             try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.channelArn.forEach {}
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.chimeBearer?.forEach {}
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
@@ -3626,12 +3785,15 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.channelArn.forEach {}
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.channelModeratorArn.forEach {}
             try self.validate(self.channelModeratorArn, name: "channelModeratorArn", parent: name, max: 1600)
             try self.validate(self.channelModeratorArn, name: "channelModeratorArn", parent: name, min: 5)
             try self.validate(self.channelModeratorArn, name: "channelModeratorArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.chimeBearer?.forEach {}
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
@@ -3670,9 +3832,11 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.channelArn.forEach {}
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.chimeBearer?.forEach {}
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
@@ -3736,6 +3900,8 @@ extension Chime {
             try self.e164PhoneNumbers.forEach {
                 try validate($0, name: "e164PhoneNumbers[]", parent: name, pattern: "^\\+?[1-9]\\d{1,14}$")
             }
+            try self.e164PhoneNumbers.forEach {}
+            try self.voiceConnectorGroupId.forEach {}
             try self.validate(self.voiceConnectorGroupId, name: "voiceConnectorGroupId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -3776,6 +3942,8 @@ extension Chime {
             try self.e164PhoneNumbers.forEach {
                 try validate($0, name: "e164PhoneNumbers[]", parent: name, pattern: "^\\+?[1-9]\\d{1,14}$")
             }
+            try self.e164PhoneNumbers.forEach {}
+            try self.voiceConnectorId.forEach {}
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -3813,7 +3981,9 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
+            try self.groupNames.forEach {}
             try self.validate(self.groupNames, name: "groupNames", parent: name, min: 1)
         }
 
@@ -3838,6 +4008,7 @@ extension Chime {
             try self.dnis?.forEach {
                 try $0.validate(name: "\(name).dnis[]")
             }
+            try self.dnis?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3878,7 +4049,9 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.areaCode.forEach {}
             try self.validate(self.areaCode, name: "areaCode", parent: name, pattern: "^$|^[0-9]{3,3}$")
+            try self.country.forEach {}
             try self.validate(self.country, name: "country", parent: name, pattern: "^$|^[A-Z]{2,2}$")
         }
 
@@ -3901,6 +4074,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -3933,6 +4107,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -3965,6 +4140,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.appInstanceArn.forEach {}
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, max: 1600)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, min: 5)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
@@ -4003,6 +4179,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.appInstanceArn.forEach {}
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, max: 1600)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, min: 5)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
@@ -4041,7 +4218,9 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.attendeeId.forEach {}
             try self.validate(self.attendeeId, name: "attendeeId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
+            try self.meetingId.forEach {}
             try self.validate(self.meetingId, name: "meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
         }
 
@@ -4078,7 +4257,9 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
+            try self.botId.forEach {}
             try self.validate(self.botId, name: "botId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -4119,12 +4300,15 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.channelArn.forEach {}
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.chimeBearer?.forEach {}
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.messageId.forEach {}
             try self.validate(self.messageId, name: "messageId", parent: name, max: 128)
             try self.validate(self.messageId, name: "messageId", parent: name, min: 1)
             try self.validate(self.messageId, name: "messageId", parent: name, pattern: "[-_a-zA-Z0-9]*")
@@ -4163,7 +4347,9 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
+            try self.botId.forEach {}
             try self.validate(self.botId, name: "botId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -4213,6 +4399,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.meetingId.forEach {}
             try self.validate(self.meetingId, name: "meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
         }
 
@@ -4262,6 +4449,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.phoneNumberOrderId.forEach {}
             try self.validate(self.phoneNumberOrderId, name: "phoneNumberOrderId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
         }
 
@@ -4344,9 +4532,11 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.proxySessionId.forEach {}
             try self.validate(self.proxySessionId, name: "proxySessionId", parent: name, max: 128)
             try self.validate(self.proxySessionId, name: "proxySessionId", parent: name, min: 1)
             try self.validate(self.proxySessionId, name: "proxySessionId", parent: name, pattern: ".*\\S.*")
+            try self.voiceConnectorId.forEach {}
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
@@ -4381,6 +4571,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -4422,7 +4613,9 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
+            try self.roomId.forEach {}
             try self.validate(self.roomId, name: "roomId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -4455,6 +4648,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.sipMediaApplicationId.forEach {}
             try self.validate(self.sipMediaApplicationId, name: "sipMediaApplicationId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -4487,6 +4681,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.sipMediaApplicationId.forEach {}
             try self.validate(self.sipMediaApplicationId, name: "sipMediaApplicationId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -4519,6 +4714,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.sipRuleId.forEach {}
             try self.validate(self.sipRuleId, name: "sipRuleId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -4555,7 +4751,9 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
+            try self.userId.forEach {}
             try self.validate(self.userId, name: "userId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -4620,6 +4818,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.voiceConnectorId.forEach {}
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -4652,6 +4851,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.voiceConnectorGroupId.forEach {}
             try self.validate(self.voiceConnectorGroupId, name: "voiceConnectorGroupId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -4684,6 +4884,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.voiceConnectorId.forEach {}
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -4716,6 +4917,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.voiceConnectorId.forEach {}
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -4748,6 +4950,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.voiceConnectorId.forEach {}
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
@@ -4782,6 +4985,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.voiceConnectorId.forEach {}
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -4814,6 +5018,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.voiceConnectorId.forEach {}
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -4846,6 +5051,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.voiceConnectorId.forEach {}
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -4878,6 +5084,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.voiceConnectorId.forEach {}
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -4958,10 +5165,12 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
             try self.userEmailList.forEach {
                 try validate($0, name: "userEmailList[]", parent: name, pattern: ".+@.+\\..+")
             }
+            try self.userEmailList.forEach {}
             try self.validate(self.userEmailList, name: "userEmailList", parent: name, max: 50)
         }
 
@@ -5009,11 +5218,14 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 200)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+            try self.userEmail?.forEach {}
             try self.validate(self.userEmail, name: "userEmail", parent: name, pattern: ".+@.+\\..+")
         }
 
@@ -5058,11 +5270,14 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.appInstanceArn.forEach {}
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, max: 1600)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, min: 5)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
@@ -5113,11 +5328,14 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.appInstanceArn.forEach {}
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, max: 1600)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, min: 5)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
@@ -5164,8 +5382,10 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
@@ -5208,7 +5428,9 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.attendeeId.forEach {}
             try self.validate(self.attendeeId, name: "attendeeId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
+            try self.meetingId.forEach {}
             try self.validate(self.meetingId, name: "meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
         }
 
@@ -5249,8 +5471,10 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 99)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.meetingId.forEach {}
             try self.validate(self.meetingId, name: "meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
         }
 
@@ -5295,7 +5519,9 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 99)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -5345,14 +5571,18 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.channelArn.forEach {}
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.chimeBearer?.forEach {}
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
@@ -5407,14 +5637,18 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.appInstanceUserArn?.forEach {}
             try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, max: 1600)
             try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, min: 5)
             try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.chimeBearer?.forEach {}
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
@@ -5469,14 +5703,18 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.channelArn.forEach {}
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.chimeBearer?.forEach {}
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
@@ -5543,14 +5781,18 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.channelArn.forEach {}
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.chimeBearer?.forEach {}
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
@@ -5605,14 +5847,18 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.channelArn.forEach {}
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.chimeBearer?.forEach {}
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
@@ -5667,14 +5913,18 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.appInstanceUserArn?.forEach {}
             try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, max: 1600)
             try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, min: 5)
             try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.chimeBearer?.forEach {}
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
@@ -5729,14 +5979,18 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.appInstanceArn.forEach {}
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, max: 1600)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, min: 5)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.chimeBearer?.forEach {}
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
@@ -5775,6 +6029,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.meetingId.forEach {}
             try self.validate(self.meetingId, name: "meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
         }
 
@@ -5811,6 +6066,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 99)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -5852,6 +6108,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 99)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -5909,6 +6166,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 99)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -5958,9 +6216,12 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 99)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
+            try self.voiceConnectorId.forEach {}
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
@@ -6011,9 +6272,12 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 99)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.roomId.forEach {}
             try self.validate(self.roomId, name: "roomId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -6062,7 +6326,9 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 99)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -6104,8 +6370,10 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 99)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
         }
 
@@ -6150,9 +6418,12 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 99)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
+            try self.sipMediaApplicationId?.forEach {}
             try self.validate(self.sipMediaApplicationId, name: "sipMediaApplicationId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -6189,6 +6460,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1024)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn[\\/\\:\\-\\_\\.a-zA-Z0-9]+$")
@@ -6239,9 +6511,12 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 200)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.userEmail?.forEach {}
             try self.validate(self.userEmail, name: "userEmail", parent: name, pattern: ".+@.+\\..+")
         }
 
@@ -6282,6 +6557,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 99)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -6319,6 +6595,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.voiceConnectorId.forEach {}
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -6355,6 +6632,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 99)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -6409,7 +6687,9 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
+            try self.userId.forEach {}
             try self.validate(self.userId, name: "userId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -6494,9 +6774,11 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.snsTopicArn?.forEach {}
             try self.validate(self.snsTopicArn, name: "snsTopicArn", parent: name, max: 1024)
             try self.validate(self.snsTopicArn, name: "snsTopicArn", parent: name, min: 1)
             try self.validate(self.snsTopicArn, name: "snsTopicArn", parent: name, pattern: "^arn[\\/\\:\\-\\_\\.a-zA-Z0-9]+$")
+            try self.sqsQueueArn?.forEach {}
             try self.validate(self.sqsQueueArn, name: "sqsQueueArn", parent: name, max: 1024)
             try self.validate(self.sqsQueueArn, name: "sqsQueueArn", parent: name, min: 1)
             try self.validate(self.sqsQueueArn, name: "sqsQueueArn", parent: name, pattern: "^arn[\\/\\:\\-\\_\\.a-zA-Z0-9]+$")
@@ -6570,6 +6852,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.memberId?.forEach {}
             try self.validate(self.memberId, name: "memberId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -6624,6 +6907,7 @@ extension Chime {
             try self.routes?.forEach {
                 try $0.validate(name: "\(name).routes[]")
             }
+            try self.routes?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6653,10 +6937,13 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.port?.forEach {}
             try self.validate(self.port, name: "port", parent: name, max: 65535)
             try self.validate(self.port, name: "port", parent: name, min: 0)
+            try self.priority?.forEach {}
             try self.validate(self.priority, name: "priority", parent: name, max: 100)
             try self.validate(self.priority, name: "priority", parent: name, min: 1)
+            try self.weight?.forEach {}
             try self.validate(self.weight, name: "weight", parent: name, max: 100)
             try self.validate(self.weight, name: "weight", parent: name, min: 1)
         }
@@ -6963,10 +7250,12 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.appInstanceArn.forEach {}
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, max: 1600)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, min: 5)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try self.appInstanceRetentionSettings.validate(name: "\(name).appInstanceRetentionSettings")
+            try self.appInstanceRetentionSettings.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7007,12 +7296,14 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.appInstanceArn.forEach {}
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, max: 1600)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, min: 5)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             try self.appInstanceStreamingConfigurations.forEach {
                 try $0.validate(name: "\(name).appInstanceStreamingConfigurations[]")
             }
+            try self.appInstanceStreamingConfigurations.forEach {}
             try self.validate(self.appInstanceStreamingConfigurations, name: "appInstanceStreamingConfigurations", parent: name, max: 2)
             try self.validate(self.appInstanceStreamingConfigurations, name: "appInstanceStreamingConfigurations", parent: name, min: 1)
         }
@@ -7058,7 +7349,9 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
+            try self.botId.forEach {}
             try self.validate(self.botId, name: "botId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -7096,8 +7389,10 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
             try self.retentionSettings.validate(name: "\(name).retentionSettings")
+            try self.retentionSettings.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7139,6 +7434,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.sipMediaApplicationId.forEach {}
             try self.validate(self.sipMediaApplicationId, name: "sipMediaApplicationId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -7176,6 +7472,8 @@ extension Chime {
 
         public func validate(name: String) throws {
             try self.emergencyCallingConfiguration.validate(name: "\(name).emergencyCallingConfiguration")
+            try self.emergencyCallingConfiguration.forEach {}
+            try self.voiceConnectorId.forEach {}
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -7213,6 +7511,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.voiceConnectorId.forEach {}
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -7251,6 +7550,8 @@ extension Chime {
 
         public func validate(name: String) throws {
             try self.origination.validate(name: "\(name).origination")
+            try self.origination.forEach {}
+            try self.voiceConnectorId.forEach {}
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -7297,12 +7598,15 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.fallBackPhoneNumber?.forEach {}
             try self.validate(self.fallBackPhoneNumber, name: "fallBackPhoneNumber", parent: name, pattern: "^\\+?[1-9]\\d{1,14}$")
             try self.phoneNumberPoolCountries.forEach {
                 try validate($0, name: "phoneNumberPoolCountries[]", parent: name, pattern: "^$|^[A-Z]{2,2}$")
             }
+            try self.phoneNumberPoolCountries.forEach {}
             try self.validate(self.phoneNumberPoolCountries, name: "phoneNumberPoolCountries", parent: name, max: 100)
             try self.validate(self.phoneNumberPoolCountries, name: "phoneNumberPoolCountries", parent: name, min: 1)
+            try self.voiceConnectorId.forEach {}
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
@@ -7346,6 +7650,8 @@ extension Chime {
 
         public func validate(name: String) throws {
             try self.streamingConfiguration.validate(name: "\(name).streamingConfiguration")
+            try self.streamingConfiguration.forEach {}
+            try self.voiceConnectorId.forEach {}
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -7383,6 +7689,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.voiceConnectorId.forEach {}
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -7408,6 +7715,8 @@ extension Chime {
 
         public func validate(name: String) throws {
             try self.termination.validate(name: "\(name).termination")
+            try self.termination.forEach {}
+            try self.voiceConnectorId.forEach {}
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -7450,12 +7759,15 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.channelArn.forEach {}
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.chimeBearer?.forEach {}
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.messageId.forEach {}
             try self.validate(self.messageId, name: "messageId", parent: name, max: 128)
             try self.validate(self.messageId, name: "messageId", parent: name, min: 1)
             try self.validate(self.messageId, name: "messageId", parent: name, pattern: "[-_a-zA-Z0-9]*")
@@ -7502,8 +7814,11 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
+            try self.conversationId.forEach {}
             try self.validate(self.conversationId, name: "conversationId", parent: name, pattern: ".*\\S.*")
+            try self.messageId.forEach {}
             try self.validate(self.messageId, name: "messageId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -7535,8 +7850,11 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
+            try self.messageId.forEach {}
             try self.validate(self.messageId, name: "messageId", parent: name, pattern: ".*\\S.*")
+            try self.roomId.forEach {}
             try self.validate(self.roomId, name: "roomId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -7564,7 +7882,9 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
+            try self.botId.forEach {}
             try self.validate(self.botId, name: "botId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -7600,7 +7920,9 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
+            try self.userId.forEach {}
             try self.validate(self.userId, name: "userId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -7633,6 +7955,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.phoneNumberId.forEach {}
             try self.validate(self.phoneNumberId, name: "phoneNumberId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -7665,7 +7988,9 @@ extension Chime {
 
         public func validate(name: String) throws {
             try self.conversationRetentionSettings?.validate(name: "\(name).conversationRetentionSettings")
+            try self.conversationRetentionSettings?.forEach {}
             try self.roomRetentionSettings?.validate(name: "\(name).roomRetentionSettings")
+            try self.roomRetentionSettings?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7747,6 +8072,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.retentionDays?.forEach {}
             try self.validate(self.retentionDays, name: "retentionDays", parent: name, max: 5475)
             try self.validate(self.retentionDays, name: "retentionDays", parent: name, min: 1)
         }
@@ -7793,8 +8119,10 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.tollFreePrefix?.forEach {}
             try self.validate(self.tollFreePrefix, name: "tollFreePrefix", parent: name, max: 3)
             try self.validate(self.tollFreePrefix, name: "tollFreePrefix", parent: name, min: 3)
             try self.validate(self.tollFreePrefix, name: "tollFreePrefix", parent: name, pattern: "^8(00|33|44|55|66|77|88)$")
@@ -7848,17 +8176,22 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.channelArn.forEach {}
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.chimeBearer?.forEach {}
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.clientRequestToken.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 2)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "[-_a-zA-Z0-9]*")
+            try self.content.forEach {}
             try self.validate(self.content, name: "content", parent: name, min: 1)
             try self.validate(self.content, name: "content", parent: name, pattern: "[\\s\\S]*")
+            try self.metadata?.forEach {}
             try self.validate(self.metadata, name: "metadata", parent: name, max: 1024)
             try self.validate(self.metadata, name: "metadata", parent: name, min: 0)
             try self.validate(self.metadata, name: "metadata", parent: name, pattern: ".*")
@@ -7899,6 +8232,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.groupName?.forEach {}
             try self.validate(self.groupName, name: "groupName", parent: name, pattern: ".*\\S.*")
         }
 
@@ -7964,6 +8298,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.lambdaArn?.forEach {}
             try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, max: 10000)
             try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
         }
@@ -8044,7 +8379,9 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.priority?.forEach {}
             try self.validate(self.priority, name: "priority", parent: name, min: 1)
+            try self.sipMediaApplicationId?.forEach {}
             try self.validate(self.sipMediaApplicationId, name: "sipMediaApplicationId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -8070,7 +8407,9 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.dataRetentionInHours.forEach {}
             try self.validate(self.dataRetentionInHours, name: "dataRetentionInHours", parent: name, min: 0)
+            try self.streamingNotificationTargets?.forEach {}
             try self.validate(self.streamingNotificationTargets, name: "streamingNotificationTargets", parent: name, max: 3)
             try self.validate(self.streamingNotificationTargets, name: "streamingNotificationTargets", parent: name, min: 1)
         }
@@ -8107,8 +8446,10 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 1)
         }
@@ -8139,11 +8480,14 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.attendeeId.forEach {}
             try self.validate(self.attendeeId, name: "attendeeId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
+            try self.meetingId.forEach {}
             try self.validate(self.meetingId, name: "meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 10)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
@@ -8169,10 +8513,12 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.meetingId.forEach {}
             try self.validate(self.meetingId, name: "meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
@@ -8194,12 +8540,14 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1024)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn[\\/\\:\\-\\_\\.a-zA-Z0-9]+$")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
@@ -8252,7 +8600,9 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.cpsLimit?.forEach {}
             try self.validate(self.cpsLimit, name: "cpsLimit", parent: name, min: 1)
+            try self.defaultPhoneNumber?.forEach {}
             try self.validate(self.defaultPhoneNumber, name: "defaultPhoneNumber", parent: name, pattern: "^\\+?[1-9]\\d{1,14}$")
         }
 
@@ -8303,12 +8653,15 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.attendeeId.forEach {}
             try self.validate(self.attendeeId, name: "attendeeId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
+            try self.meetingId.forEach {}
             try self.validate(self.meetingId, name: "meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 10)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
@@ -8334,11 +8687,13 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.meetingId.forEach {}
             try self.validate(self.meetingId, name: "meetingId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
@@ -8360,6 +8715,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1024)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn[\\/\\:\\-\\_\\.a-zA-Z0-9]+$")
@@ -8367,6 +8723,7 @@ extension Chime {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
@@ -8393,7 +8750,9 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
@@ -8433,6 +8792,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -8464,12 +8824,15 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.appInstanceArn.forEach {}
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, max: 1600)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, min: 5)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.metadata?.forEach {}
             try self.validate(self.metadata, name: "metadata", parent: name, max: 1024)
             try self.validate(self.metadata, name: "metadata", parent: name, min: 0)
             try self.validate(self.metadata, name: "metadata", parent: name, pattern: ".*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
@@ -8513,12 +8876,15 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.appInstanceUserArn.forEach {}
             try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, max: 1600)
             try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, min: 5)
             try self.validate(self.appInstanceUserArn, name: "appInstanceUserArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.metadata?.forEach {}
             try self.validate(self.metadata, name: "metadata", parent: name, max: 1024)
             try self.validate(self.metadata, name: "metadata", parent: name, min: 0)
             try self.validate(self.metadata, name: "metadata", parent: name, pattern: ".*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
@@ -8563,7 +8929,9 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
+            try self.botId.forEach {}
             try self.validate(self.botId, name: "botId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -8612,18 +8980,23 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.channelArn.forEach {}
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.chimeBearer?.forEach {}
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.content?.forEach {}
             try self.validate(self.content, name: "content", parent: name, max: 4096)
             try self.validate(self.content, name: "content", parent: name, min: 0)
             try self.validate(self.content, name: "content", parent: name, pattern: "[\\s\\S]*")
+            try self.messageId.forEach {}
             try self.validate(self.messageId, name: "messageId", parent: name, max: 128)
             try self.validate(self.messageId, name: "messageId", parent: name, min: 1)
             try self.validate(self.messageId, name: "messageId", parent: name, pattern: "[-_a-zA-Z0-9]*")
+            try self.metadata?.forEach {}
             try self.validate(self.metadata, name: "metadata", parent: name, max: 1024)
             try self.validate(self.metadata, name: "metadata", parent: name, min: 0)
             try self.validate(self.metadata, name: "metadata", parent: name, pattern: ".*")
@@ -8669,9 +9042,11 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.channelArn.forEach {}
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.chimeBearer?.forEach {}
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
@@ -8719,15 +9094,19 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.channelArn.forEach {}
             try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
             try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
             try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.chimeBearer?.forEach {}
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.metadata?.forEach {}
             try self.validate(self.metadata, name: "metadata", parent: name, max: 1024)
             try self.validate(self.metadata, name: "metadata", parent: name, min: 0)
             try self.validate(self.metadata, name: "metadata", parent: name, pattern: ".*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
@@ -8789,6 +9168,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.callingName?.forEach {}
             try self.validate(self.callingName, name: "callingName", parent: name, pattern: "^$|^[a-zA-Z0-9 ]{2,15}$")
         }
 
@@ -8813,7 +9193,9 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.callingName?.forEach {}
             try self.validate(self.callingName, name: "callingName", parent: name, pattern: "^$|^[a-zA-Z0-9 ]{2,15}$")
+            try self.phoneNumberId.forEach {}
             try self.validate(self.phoneNumberId, name: "phoneNumberId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -8846,6 +9228,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.callingName.forEach {}
             try self.validate(self.callingName, name: "callingName", parent: name, pattern: "^$|^[a-zA-Z0-9 ]{2,15}$")
         }
 
@@ -8877,10 +9260,13 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.expiryMinutes?.forEach {}
             try self.validate(self.expiryMinutes, name: "expiryMinutes", parent: name, min: 1)
+            try self.proxySessionId.forEach {}
             try self.validate(self.proxySessionId, name: "proxySessionId", parent: name, max: 128)
             try self.validate(self.proxySessionId, name: "proxySessionId", parent: name, min: 1)
             try self.validate(self.proxySessionId, name: "proxySessionId", parent: name, pattern: ".*\\S.*")
+            try self.voiceConnectorId.forEach {}
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
@@ -8929,8 +9315,11 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
+            try self.memberId.forEach {}
             try self.validate(self.memberId, name: "memberId", parent: name, pattern: ".*\\S.*")
+            try self.roomId.forEach {}
             try self.validate(self.roomId, name: "roomId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -8972,7 +9361,9 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
+            try self.roomId.forEach {}
             try self.validate(self.roomId, name: "roomId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -9016,10 +9407,13 @@ extension Chime {
             try self.endpoints?.forEach {
                 try $0.validate(name: "\(name).endpoints[]")
             }
+            try self.endpoints?.forEach {}
             try self.validate(self.endpoints, name: "endpoints", parent: name, max: 1)
             try self.validate(self.endpoints, name: "endpoints", parent: name, min: 1)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.sipMediaApplicationId.forEach {}
             try self.validate(self.sipMediaApplicationId, name: "sipMediaApplicationId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -9064,12 +9458,15 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.sipRuleId.forEach {}
             try self.validate(self.sipRuleId, name: "sipRuleId", parent: name, pattern: ".*\\S.*")
             try self.targetApplications?.forEach {
                 try $0.validate(name: "\(name).targetApplications[]")
             }
+            try self.targetApplications?.forEach {}
             try self.validate(self.targetApplications, name: "targetApplications", parent: name, max: 25)
             try self.validate(self.targetApplications, name: "targetApplications", parent: name, min: 1)
         }
@@ -9120,7 +9517,9 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
+            try self.userId.forEach {}
             try self.validate(self.userId, name: "userId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -9149,6 +9548,7 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.userId.forEach {}
             try self.validate(self.userId, name: "userId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -9216,12 +9616,15 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.voiceConnectorGroupId.forEach {}
             try self.validate(self.voiceConnectorGroupId, name: "voiceConnectorGroupId", parent: name, pattern: ".*\\S.*")
             try self.voiceConnectorItems.forEach {
                 try $0.validate(name: "\(name).voiceConnectorItems[]")
             }
+            try self.voiceConnectorItems.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9262,8 +9665,10 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.voiceConnectorId.forEach {}
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -9465,8 +9870,10 @@ extension Chime {
         }
 
         public func validate(name: String) throws {
+            try self.priority.forEach {}
             try self.validate(self.priority, name: "priority", parent: name, max: 99)
             try self.validate(self.priority, name: "priority", parent: name, min: 1)
+            try self.voiceConnectorId.forEach {}
             try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: ".*\\S.*")
         }
 

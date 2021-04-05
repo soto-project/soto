@@ -34,9 +34,11 @@ extension IdentityStore {
         }
 
         public func validate(name: String) throws {
+            try self.groupId.forEach {}
             try self.validate(self.groupId, name: "groupId", parent: name, max: 47)
             try self.validate(self.groupId, name: "groupId", parent: name, min: 1)
             try self.validate(self.groupId, name: "groupId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
+            try self.identityStoreId.forEach {}
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 12)
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, min: 1)
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^d-[0-9a-f]{10}$")
@@ -77,9 +79,11 @@ extension IdentityStore {
         }
 
         public func validate(name: String) throws {
+            try self.identityStoreId.forEach {}
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 12)
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, min: 1)
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.userId.forEach {}
             try self.validate(self.userId, name: "userId", parent: name, max: 47)
             try self.validate(self.userId, name: "userId", parent: name, min: 1)
             try self.validate(self.userId, name: "userId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
@@ -120,9 +124,11 @@ extension IdentityStore {
         }
 
         public func validate(name: String) throws {
+            try self.attributePath.forEach {}
             try self.validate(self.attributePath, name: "attributePath", parent: name, max: 255)
             try self.validate(self.attributePath, name: "attributePath", parent: name, min: 1)
             try self.validate(self.attributePath, name: "attributePath", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}  ]+")
+            try self.attributeValue.forEach {}
             try self.validate(self.attributeValue, name: "attributeValue", parent: name, max: 1024)
             try self.validate(self.attributeValue, name: "attributeValue", parent: name, min: 1)
             try self.validate(self.attributeValue, name: "attributeValue", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\t\\n\\r  ]+")
@@ -172,11 +178,15 @@ extension IdentityStore {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
+            try self.identityStoreId.forEach {}
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 12)
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, min: 1)
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/:]*")
@@ -228,11 +238,15 @@ extension IdentityStore {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
+            try self.identityStoreId.forEach {}
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 12)
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, min: 1)
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/:]*")

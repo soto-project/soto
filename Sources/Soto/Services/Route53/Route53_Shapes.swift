@@ -261,7 +261,9 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.hostedZoneId.forEach {}
             try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 3)
         }
@@ -293,6 +295,7 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -318,7 +321,9 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.dNSName.forEach {}
             try self.validate(self.dNSName, name: "dNSName", parent: name, max: 1024)
+            try self.hostedZoneId.forEach {}
             try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
         }
 
@@ -349,8 +354,10 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.hostedZoneId.forEach {}
             try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
             try self.vpc.validate(name: "\(name).vpc")
+            try self.vpc.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -385,6 +392,7 @@ extension Route53 {
 
         public func validate(name: String) throws {
             try self.resourceRecordSet.validate(name: "\(name).resourceRecordSet")
+            try self.resourceRecordSet.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -411,7 +419,9 @@ extension Route53 {
             try self.changes.forEach {
                 try $0.validate(name: "\(name).changes[]")
             }
+            try self.changes.forEach {}
             try self.validate(self.changes, name: "changes", parent: name, min: 1)
+            try self.comment?.forEach {}
             try self.validate(self.comment, name: "comment", parent: name, max: 256)
         }
 
@@ -464,6 +474,8 @@ extension Route53 {
 
         public func validate(name: String) throws {
             try self.changeBatch.validate(name: "\(name).changeBatch")
+            try self.changeBatch.forEach {}
+            try self.hostedZoneId.forEach {}
             try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
         }
 
@@ -516,13 +528,16 @@ extension Route53 {
             try self.addTags?.forEach {
                 try $0.validate(name: "\(name).addTags[]")
             }
+            try self.addTags?.forEach {}
             try self.validate(self.addTags, name: "addTags", parent: name, max: 10)
             try self.validate(self.addTags, name: "addTags", parent: name, min: 1)
             try self.removeTagKeys?.forEach {
                 try validate($0, name: "removeTagKeys[]", parent: name, max: 128)
             }
+            try self.removeTagKeys?.forEach {}
             try self.validate(self.removeTagKeys, name: "removeTagKeys", parent: name, max: 10)
             try self.validate(self.removeTagKeys, name: "removeTagKeys", parent: name, min: 1)
+            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 64)
         }
 
@@ -594,9 +609,11 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.callerReference.forEach {}
             try self.validate(self.callerReference, name: "callerReference", parent: name, max: 64)
             try self.validate(self.callerReference, name: "callerReference", parent: name, min: 1)
             try self.healthCheckConfig.validate(name: "\(name).healthCheckConfig")
+            try self.healthCheckConfig.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -649,12 +666,17 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.callerReference.forEach {}
             try self.validate(self.callerReference, name: "callerReference", parent: name, max: 128)
             try self.validate(self.callerReference, name: "callerReference", parent: name, min: 1)
+            try self.delegationSetId?.forEach {}
             try self.validate(self.delegationSetId, name: "delegationSetId", parent: name, max: 32)
             try self.hostedZoneConfig?.validate(name: "\(name).hostedZoneConfig")
+            try self.hostedZoneConfig?.forEach {}
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.vpc?.validate(name: "\(name).vpc")
+            try self.vpc?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -722,11 +744,15 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.callerReference.forEach {}
             try self.validate(self.callerReference, name: "callerReference", parent: name, max: 128)
             try self.validate(self.callerReference, name: "callerReference", parent: name, min: 1)
+            try self.hostedZoneId.forEach {}
             try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 3)
+            try self.status.forEach {}
             try self.validate(self.status, name: "status", parent: name, max: 150)
             try self.validate(self.status, name: "status", parent: name, min: 5)
         }
@@ -778,6 +804,7 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.hostedZoneId.forEach {}
             try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
         }
 
@@ -822,8 +849,10 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.callerReference.forEach {}
             try self.validate(self.callerReference, name: "callerReference", parent: name, max: 128)
             try self.validate(self.callerReference, name: "callerReference", parent: name, min: 1)
+            try self.hostedZoneId?.forEach {}
             try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
         }
 
@@ -877,12 +906,17 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.hostedZoneId.forEach {}
             try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1024)
+            try self.trafficPolicyId.forEach {}
             try self.validate(self.trafficPolicyId, name: "trafficPolicyId", parent: name, max: 36)
             try self.validate(self.trafficPolicyId, name: "trafficPolicyId", parent: name, min: 1)
+            try self.trafficPolicyVersion.forEach {}
             try self.validate(self.trafficPolicyVersion, name: "trafficPolicyVersion", parent: name, max: 1000)
             try self.validate(self.trafficPolicyVersion, name: "trafficPolicyVersion", parent: name, min: 1)
+            try self.ttl.forEach {}
             try self.validate(self.ttl, name: "ttl", parent: name, max: 2_147_483_647)
             try self.validate(self.ttl, name: "ttl", parent: name, min: 0)
         }
@@ -934,8 +968,11 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.comment?.forEach {}
             try self.validate(self.comment, name: "comment", parent: name, max: 1024)
+            try self.document.forEach {}
             try self.validate(self.document, name: "document", parent: name, max: 102_400)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 512)
         }
 
@@ -987,8 +1024,11 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.comment?.forEach {}
             try self.validate(self.comment, name: "comment", parent: name, max: 1024)
+            try self.document.forEach {}
             try self.validate(self.document, name: "document", parent: name, max: 102_400)
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 1)
         }
@@ -1037,8 +1077,10 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.hostedZoneId.forEach {}
             try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
             try self.vpc.validate(name: "\(name).vpc")
+            try self.vpc.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1097,7 +1139,9 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.hostedZoneId.forEach {}
             try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 3)
         }
@@ -1154,6 +1198,7 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.healthCheckId.forEach {}
             try self.validate(self.healthCheckId, name: "healthCheckId", parent: name, max: 64)
         }
 
@@ -1177,6 +1222,7 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 32)
         }
 
@@ -1213,7 +1259,9 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.hostedZoneId.forEach {}
             try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 3)
         }
@@ -1246,6 +1294,7 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 1)
         }
@@ -1270,6 +1319,7 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 32)
         }
 
@@ -1293,6 +1343,7 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 1)
         }
@@ -1321,8 +1372,10 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.version.forEach {}
             try self.validate(self.version, name: "version", parent: name, max: 1000)
             try self.validate(self.version, name: "version", parent: name, min: 1)
         }
@@ -1351,8 +1404,10 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.hostedZoneId.forEach {}
             try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
             try self.vpc.validate(name: "\(name).vpc")
+            try self.vpc.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1394,6 +1449,7 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.hostedZoneId.forEach {}
             try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
         }
 
@@ -1432,8 +1488,10 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.hostedZoneId.forEach {}
             try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
             try self.vpc.validate(name: "\(name).vpc")
+            try self.vpc.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1468,6 +1526,7 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.hostedZoneId.forEach {}
             try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
         }
 
@@ -1501,10 +1560,13 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.continentCode?.forEach {}
             try self.validate(self.continentCode, name: "continentCode", parent: name, max: 2)
             try self.validate(self.continentCode, name: "continentCode", parent: name, min: 2)
+            try self.countryCode?.forEach {}
             try self.validate(self.countryCode, name: "countryCode", parent: name, max: 2)
             try self.validate(self.countryCode, name: "countryCode", parent: name, min: 1)
+            try self.subdivisionCode?.forEach {}
             try self.validate(self.subdivisionCode, name: "subdivisionCode", parent: name, max: 3)
             try self.validate(self.subdivisionCode, name: "subdivisionCode", parent: name, min: 1)
         }
@@ -1594,6 +1656,7 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 32)
         }
 
@@ -1644,6 +1707,7 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.hostedZoneId.forEach {}
             try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
         }
 
@@ -1689,10 +1753,13 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.continentCode?.forEach {}
             try self.validate(self.continentCode, name: "continentCode", parent: name, max: 2)
             try self.validate(self.continentCode, name: "continentCode", parent: name, min: 2)
+            try self.countryCode?.forEach {}
             try self.validate(self.countryCode, name: "countryCode", parent: name, max: 2)
             try self.validate(self.countryCode, name: "countryCode", parent: name, min: 1)
+            try self.subdivisionCode?.forEach {}
             try self.validate(self.subdivisionCode, name: "subdivisionCode", parent: name, max: 3)
             try self.validate(self.subdivisionCode, name: "subdivisionCode", parent: name, min: 1)
         }
@@ -1743,6 +1810,7 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.healthCheckId.forEach {}
             try self.validate(self.healthCheckId, name: "healthCheckId", parent: name, max: 64)
         }
 
@@ -1778,6 +1846,7 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.healthCheckId.forEach {}
             try self.validate(self.healthCheckId, name: "healthCheckId", parent: name, max: 64)
         }
 
@@ -1810,6 +1879,7 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.healthCheckId.forEach {}
             try self.validate(self.healthCheckId, name: "healthCheckId", parent: name, max: 64)
         }
 
@@ -1866,6 +1936,7 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.hostedZoneId.forEach {}
             try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
         }
 
@@ -1902,6 +1973,7 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 32)
         }
 
@@ -1945,6 +2017,7 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 1)
         }
@@ -1982,6 +2055,7 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.delegationSetId.forEach {}
             try self.validate(self.delegationSetId, name: "delegationSetId", parent: name, max: 32)
         }
 
@@ -2018,6 +2092,7 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 32)
         }
 
@@ -2067,6 +2142,7 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 1)
         }
@@ -2104,8 +2180,10 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.version.forEach {}
             try self.validate(self.version, name: "version", parent: name, max: 1000)
             try self.validate(self.version, name: "version", parent: name, min: 1)
         }
@@ -2222,24 +2300,35 @@ extension Route53 {
 
         public func validate(name: String) throws {
             try self.alarmIdentifier?.validate(name: "\(name).alarmIdentifier")
+            try self.alarmIdentifier?.forEach {}
             try self.childHealthChecks?.forEach {
                 try validate($0, name: "childHealthChecks[]", parent: name, max: 64)
             }
+            try self.childHealthChecks?.forEach {}
             try self.validate(self.childHealthChecks, name: "childHealthChecks", parent: name, max: 256)
+            try self.failureThreshold?.forEach {}
             try self.validate(self.failureThreshold, name: "failureThreshold", parent: name, max: 10)
             try self.validate(self.failureThreshold, name: "failureThreshold", parent: name, min: 1)
+            try self.fullyQualifiedDomainName?.forEach {}
             try self.validate(self.fullyQualifiedDomainName, name: "fullyQualifiedDomainName", parent: name, max: 255)
+            try self.healthThreshold?.forEach {}
             try self.validate(self.healthThreshold, name: "healthThreshold", parent: name, max: 256)
             try self.validate(self.healthThreshold, name: "healthThreshold", parent: name, min: 0)
+            try self.iPAddress?.forEach {}
             try self.validate(self.iPAddress, name: "iPAddress", parent: name, max: 45)
             try self.validate(self.iPAddress, name: "iPAddress", parent: name, pattern: "(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)")
+            try self.port?.forEach {}
             try self.validate(self.port, name: "port", parent: name, max: 65535)
             try self.validate(self.port, name: "port", parent: name, min: 1)
+            try self.regions?.forEach {}
             try self.validate(self.regions, name: "regions", parent: name, max: 64)
             try self.validate(self.regions, name: "regions", parent: name, min: 3)
+            try self.requestInterval?.forEach {}
             try self.validate(self.requestInterval, name: "requestInterval", parent: name, max: 30)
             try self.validate(self.requestInterval, name: "requestInterval", parent: name, min: 10)
+            try self.resourcePath?.forEach {}
             try self.validate(self.resourcePath, name: "resourcePath", parent: name, max: 255)
+            try self.searchString?.forEach {}
             try self.validate(self.searchString, name: "searchString", parent: name, max: 255)
         }
 
@@ -2330,6 +2419,7 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.comment?.forEach {}
             try self.validate(self.comment, name: "comment", parent: name, max: 256)
         }
 
@@ -2509,10 +2599,13 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.startContinentCode?.forEach {}
             try self.validate(self.startContinentCode, name: "startContinentCode", parent: name, max: 2)
             try self.validate(self.startContinentCode, name: "startContinentCode", parent: name, min: 2)
+            try self.startCountryCode?.forEach {}
             try self.validate(self.startCountryCode, name: "startCountryCode", parent: name, max: 2)
             try self.validate(self.startCountryCode, name: "startCountryCode", parent: name, min: 1)
+            try self.startSubdivisionCode?.forEach {}
             try self.validate(self.startSubdivisionCode, name: "startSubdivisionCode", parent: name, max: 3)
             try self.validate(self.startSubdivisionCode, name: "startSubdivisionCode", parent: name, min: 1)
         }
@@ -2573,6 +2666,7 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 64)
         }
 
@@ -2632,7 +2726,9 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.dNSName?.forEach {}
             try self.validate(self.dNSName, name: "dNSName", parent: name, max: 1024)
+            try self.hostedZoneId?.forEach {}
             try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
         }
 
@@ -2704,7 +2800,9 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.vPCId.forEach {}
             try self.validate(self.vPCId, name: "vPCId", parent: name, max: 1024)
         }
 
@@ -2756,7 +2854,9 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.delegationSetId?.forEach {}
             try self.validate(self.delegationSetId, name: "delegationSetId", parent: name, max: 32)
+            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 64)
         }
 
@@ -2816,7 +2916,9 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.hostedZoneId?.forEach {}
             try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
         }
 
@@ -2872,9 +2974,12 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.hostedZoneId.forEach {}
             try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
+            try self.startRecordIdentifier?.forEach {}
             try self.validate(self.startRecordIdentifier, name: "startRecordIdentifier", parent: name, max: 128)
             try self.validate(self.startRecordIdentifier, name: "startRecordIdentifier", parent: name, min: 1)
+            try self.startRecordName?.forEach {}
             try self.validate(self.startRecordName, name: "startRecordName", parent: name, max: 1024)
         }
 
@@ -2934,6 +3039,7 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 64)
         }
 
@@ -2989,6 +3095,7 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 64)
         }
 
@@ -3030,6 +3137,7 @@ extension Route53 {
             try self.resourceIds.forEach {
                 try validate($0, name: "resourceIds[]", parent: name, max: 64)
             }
+            try self.resourceIds.forEach {}
             try self.validate(self.resourceIds, name: "resourceIds", parent: name, max: 10)
             try self.validate(self.resourceIds, name: "resourceIds", parent: name, min: 1)
         }
@@ -3072,6 +3180,7 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.trafficPolicyIdMarker?.forEach {}
             try self.validate(self.trafficPolicyIdMarker, name: "trafficPolicyIdMarker", parent: name, max: 36)
             try self.validate(self.trafficPolicyIdMarker, name: "trafficPolicyIdMarker", parent: name, min: 1)
         }
@@ -3132,7 +3241,9 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.hostedZoneId.forEach {}
             try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
+            try self.trafficPolicyInstanceNameMarker?.forEach {}
             try self.validate(self.trafficPolicyInstanceNameMarker, name: "trafficPolicyInstanceNameMarker", parent: name, max: 1024)
         }
 
@@ -3204,10 +3315,14 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.hostedZoneIdMarker?.forEach {}
             try self.validate(self.hostedZoneIdMarker, name: "hostedZoneIdMarker", parent: name, max: 32)
+            try self.trafficPolicyId.forEach {}
             try self.validate(self.trafficPolicyId, name: "trafficPolicyId", parent: name, max: 36)
             try self.validate(self.trafficPolicyId, name: "trafficPolicyId", parent: name, min: 1)
+            try self.trafficPolicyInstanceNameMarker?.forEach {}
             try self.validate(self.trafficPolicyInstanceNameMarker, name: "trafficPolicyInstanceNameMarker", parent: name, max: 1024)
+            try self.trafficPolicyVersion.forEach {}
             try self.validate(self.trafficPolicyVersion, name: "trafficPolicyVersion", parent: name, max: 1000)
             try self.validate(self.trafficPolicyVersion, name: "trafficPolicyVersion", parent: name, min: 1)
         }
@@ -3276,7 +3391,9 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.hostedZoneIdMarker?.forEach {}
             try self.validate(self.hostedZoneIdMarker, name: "hostedZoneIdMarker", parent: name, max: 32)
+            try self.trafficPolicyInstanceNameMarker?.forEach {}
             try self.validate(self.trafficPolicyInstanceNameMarker, name: "trafficPolicyInstanceNameMarker", parent: name, max: 1024)
         }
 
@@ -3340,8 +3457,10 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.trafficPolicyVersionMarker?.forEach {}
             try self.validate(self.trafficPolicyVersionMarker, name: "trafficPolicyVersionMarker", parent: name, max: 4)
         }
 
@@ -3397,7 +3516,9 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.hostedZoneId.forEach {}
             try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
         }
 
@@ -3458,6 +3579,7 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 4000)
         }
 
@@ -3515,19 +3637,28 @@ extension Route53 {
 
         public func validate(name: String) throws {
             try self.aliasTarget?.validate(name: "\(name).aliasTarget")
+            try self.aliasTarget?.forEach {}
             try self.geoLocation?.validate(name: "\(name).geoLocation")
+            try self.geoLocation?.forEach {}
+            try self.healthCheckId?.forEach {}
             try self.validate(self.healthCheckId, name: "healthCheckId", parent: name, max: 64)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.resourceRecords?.forEach {
                 try $0.validate(name: "\(name).resourceRecords[]")
             }
+            try self.resourceRecords?.forEach {}
             try self.validate(self.resourceRecords, name: "resourceRecords", parent: name, min: 1)
+            try self.setIdentifier?.forEach {}
             try self.validate(self.setIdentifier, name: "setIdentifier", parent: name, max: 128)
             try self.validate(self.setIdentifier, name: "setIdentifier", parent: name, min: 1)
+            try self.trafficPolicyInstanceId?.forEach {}
             try self.validate(self.trafficPolicyInstanceId, name: "trafficPolicyInstanceId", parent: name, max: 36)
             try self.validate(self.trafficPolicyInstanceId, name: "trafficPolicyInstanceId", parent: name, min: 1)
+            try self.ttl?.forEach {}
             try self.validate(self.ttl, name: "ttl", parent: name, max: 2_147_483_647)
             try self.validate(self.ttl, name: "ttl", parent: name, min: 0)
+            try self.weight?.forEach {}
             try self.validate(self.weight, name: "weight", parent: name, max: 255)
             try self.validate(self.weight, name: "weight", parent: name, min: 0)
         }
@@ -3619,7 +3750,9 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
         }
 
@@ -3662,12 +3795,17 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.eDNS0ClientSubnetIP?.forEach {}
             try self.validate(self.eDNS0ClientSubnetIP, name: "eDNS0ClientSubnetIP", parent: name, max: 45)
             try self.validate(self.eDNS0ClientSubnetIP, name: "eDNS0ClientSubnetIP", parent: name, pattern: "(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)")
+            try self.eDNS0ClientSubnetMask?.forEach {}
             try self.validate(self.eDNS0ClientSubnetMask, name: "eDNS0ClientSubnetMask", parent: name, max: 3)
             try self.validate(self.eDNS0ClientSubnetMask, name: "eDNS0ClientSubnetMask", parent: name, min: 0)
+            try self.hostedZoneId.forEach {}
             try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
+            try self.recordName.forEach {}
             try self.validate(self.recordName, name: "recordName", parent: name, max: 1024)
+            try self.resolverIP?.forEach {}
             try self.validate(self.resolverIP, name: "resolverIP", parent: name, max: 45)
             try self.validate(self.resolverIP, name: "resolverIP", parent: name, pattern: "(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)")
         }
@@ -3887,25 +4025,38 @@ extension Route53 {
 
         public func validate(name: String) throws {
             try self.alarmIdentifier?.validate(name: "\(name).alarmIdentifier")
+            try self.alarmIdentifier?.forEach {}
             try self.childHealthChecks?.forEach {
                 try validate($0, name: "childHealthChecks[]", parent: name, max: 64)
             }
+            try self.childHealthChecks?.forEach {}
             try self.validate(self.childHealthChecks, name: "childHealthChecks", parent: name, max: 256)
+            try self.failureThreshold?.forEach {}
             try self.validate(self.failureThreshold, name: "failureThreshold", parent: name, max: 10)
             try self.validate(self.failureThreshold, name: "failureThreshold", parent: name, min: 1)
+            try self.fullyQualifiedDomainName?.forEach {}
             try self.validate(self.fullyQualifiedDomainName, name: "fullyQualifiedDomainName", parent: name, max: 255)
+            try self.healthCheckId.forEach {}
             try self.validate(self.healthCheckId, name: "healthCheckId", parent: name, max: 64)
+            try self.healthCheckVersion?.forEach {}
             try self.validate(self.healthCheckVersion, name: "healthCheckVersion", parent: name, min: 1)
+            try self.healthThreshold?.forEach {}
             try self.validate(self.healthThreshold, name: "healthThreshold", parent: name, max: 256)
             try self.validate(self.healthThreshold, name: "healthThreshold", parent: name, min: 0)
+            try self.iPAddress?.forEach {}
             try self.validate(self.iPAddress, name: "iPAddress", parent: name, max: 45)
             try self.validate(self.iPAddress, name: "iPAddress", parent: name, pattern: "(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)")
+            try self.port?.forEach {}
             try self.validate(self.port, name: "port", parent: name, max: 65535)
             try self.validate(self.port, name: "port", parent: name, min: 1)
+            try self.regions?.forEach {}
             try self.validate(self.regions, name: "regions", parent: name, max: 64)
             try self.validate(self.regions, name: "regions", parent: name, min: 3)
+            try self.resetElements?.forEach {}
             try self.validate(self.resetElements, name: "resetElements", parent: name, max: 64)
+            try self.resourcePath?.forEach {}
             try self.validate(self.resourcePath, name: "resourcePath", parent: name, max: 255)
+            try self.searchString?.forEach {}
             try self.validate(self.searchString, name: "searchString", parent: name, max: 255)
         }
 
@@ -3959,7 +4110,9 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.comment?.forEach {}
             try self.validate(self.comment, name: "comment", parent: name, max: 256)
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 32)
         }
 
@@ -4002,9 +4155,12 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.comment.forEach {}
             try self.validate(self.comment, name: "comment", parent: name, max: 1024)
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.version.forEach {}
             try self.validate(self.version, name: "version", parent: name, max: 1000)
             try self.validate(self.version, name: "version", parent: name, min: 1)
         }
@@ -4050,12 +4206,16 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.trafficPolicyId.forEach {}
             try self.validate(self.trafficPolicyId, name: "trafficPolicyId", parent: name, max: 36)
             try self.validate(self.trafficPolicyId, name: "trafficPolicyId", parent: name, min: 1)
+            try self.trafficPolicyVersion.forEach {}
             try self.validate(self.trafficPolicyVersion, name: "trafficPolicyVersion", parent: name, max: 1000)
             try self.validate(self.trafficPolicyVersion, name: "trafficPolicyVersion", parent: name, min: 1)
+            try self.ttl.forEach {}
             try self.validate(self.ttl, name: "ttl", parent: name, max: 2_147_483_647)
             try self.validate(self.ttl, name: "ttl", parent: name, min: 0)
         }
@@ -4091,6 +4251,7 @@ extension Route53 {
         }
 
         public func validate(name: String) throws {
+            try self.vPCId?.forEach {}
             try self.validate(self.vPCId, name: "vPCId", parent: name, max: 1024)
         }
 

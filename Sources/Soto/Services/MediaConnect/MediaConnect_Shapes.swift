@@ -40,6 +40,7 @@ extension MediaConnect {
 
     public enum KeyType: String, CustomStringConvertible, Codable {
         case speke
+        case srtPassword = "srt-password"
         case staticKey = "static-key"
         public var description: String { return self.rawValue }
     }
@@ -53,6 +54,7 @@ extension MediaConnect {
         case rist
         case rtp
         case rtpFec = "rtp-fec"
+        case srtListener = "srt-listener"
         case zixiPull = "zixi-pull"
         case zixiPush = "zixi-push"
         public var description: String { return self.rawValue }
@@ -215,6 +217,8 @@ extension MediaConnect {
         public let encryption: Encryption?
         /// The maximum latency in milliseconds for Zixi-based streams.
         public let maxLatency: Int?
+        /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
+        public let minLatency: Int?
         /// The name of the output. This value must be unique within the current flow.
         public let name: String?
         /// The port to use when content is distributed to this output.
@@ -230,12 +234,13 @@ extension MediaConnect {
         /// The name of the VPC interface attachment to use for this output.
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
-        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, maxLatency: Int? = nil, name: String? = nil, port: Int? = nil, protocol: Protocol, remoteId: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
+        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, maxLatency: Int? = nil, minLatency: Int? = nil, name: String? = nil, port: Int? = nil, protocol: Protocol, remoteId: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.cidrAllowList = cidrAllowList
             self.description = description
             self.destination = destination
             self.encryption = encryption
             self.maxLatency = maxLatency
+            self.minLatency = minLatency
             self.name = name
             self.port = port
             self.`protocol` = `protocol`
@@ -251,6 +256,7 @@ extension MediaConnect {
             case destination
             case encryption
             case maxLatency
+            case minLatency
             case name
             case port
             case `protocol`
@@ -425,7 +431,7 @@ extension MediaConnect {
 
     public struct Encryption: AWSEncodableShape & AWSDecodableShape {
         /// The type of algorithm that is used for the encryption (such as aes128, aes192, or aes256).
-        public let algorithm: Algorithm
+        public let algorithm: Algorithm?
         /// A 128-bit, 16-byte hex value represented by a 32-character string, to be used with the key for encrypting content. This parameter is not valid for static key encryption.
         public let constantInitializationVector: String?
         /// The value of one of the devices that you configured with your digital rights management (DRM) platform key provider. This parameter is required for SPEKE encryption and is not valid for static key encryption.
@@ -443,7 +449,7 @@ extension MediaConnect {
         /// The URL from the API Gateway proxy that you set up to talk to your key server. This parameter is required for SPEKE encryption and is not valid for static key encryption.
         public let url: String?
 
-        public init(algorithm: Algorithm, constantInitializationVector: String? = nil, deviceId: String? = nil, keyType: KeyType? = nil, region: String? = nil, resourceId: String? = nil, roleArn: String, secretArn: String? = nil, url: String? = nil) {
+        public init(algorithm: Algorithm? = nil, constantInitializationVector: String? = nil, deviceId: String? = nil, keyType: KeyType? = nil, region: String? = nil, resourceId: String? = nil, roleArn: String, secretArn: String? = nil, url: String? = nil) {
             self.algorithm = algorithm
             self.constantInitializationVector = constantInitializationVector
             self.deviceId = deviceId
@@ -659,6 +665,7 @@ extension MediaConnect {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -698,6 +705,7 @@ extension MediaConnect {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -737,6 +745,7 @@ extension MediaConnect {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -776,6 +785,7 @@ extension MediaConnect {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1254,6 +1264,8 @@ extension MediaConnect {
         public let maxBitrate: Int?
         /// The maximum latency in milliseconds. This parameter applies only to RIST-based and Zixi-based streams.
         public let maxLatency: Int?
+        /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
+        public let minLatency: Int?
         /// The name of the source.
         public let name: String?
         /// The protocol that is used by the source.
@@ -1265,13 +1277,14 @@ extension MediaConnect {
         /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let whitelistCidr: String?
 
-        public init(decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, ingestPort: Int? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, name: String? = nil, protocol: Protocol? = nil, streamId: String? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
+        public init(decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, ingestPort: Int? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, minLatency: Int? = nil, name: String? = nil, protocol: Protocol? = nil, streamId: String? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
             self.decryption = decryption
             self.description = description
             self.entitlementArn = entitlementArn
             self.ingestPort = ingestPort
             self.maxBitrate = maxBitrate
             self.maxLatency = maxLatency
+            self.minLatency = minLatency
             self.name = name
             self.`protocol` = `protocol`
             self.streamId = streamId
@@ -1286,6 +1299,7 @@ extension MediaConnect {
             case ingestPort
             case maxBitrate
             case maxLatency
+            case minLatency
             case name
             case `protocol`
             case streamId
@@ -1435,6 +1449,8 @@ extension MediaConnect {
         public let maxBitrate: Int?
         /// The maximum latency in milliseconds. This parameter applies only to RIST-based and Zixi-based streams.
         public let maxLatency: Int?
+        /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
+        public let minLatency: Int?
         /// The protocol that is used by the source or output.
         public let `protocol`: Protocol
         /// The remote ID for the Zixi-pull stream.
@@ -1444,10 +1460,11 @@ extension MediaConnect {
         /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
         public let streamId: String?
 
-        public init(cidrAllowList: [String]? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, protocol: Protocol, remoteId: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil) {
+        public init(cidrAllowList: [String]? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, minLatency: Int? = nil, protocol: Protocol, remoteId: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil) {
             self.cidrAllowList = cidrAllowList
             self.maxBitrate = maxBitrate
             self.maxLatency = maxLatency
+            self.minLatency = minLatency
             self.`protocol` = `protocol`
             self.remoteId = remoteId
             self.smoothingLatency = smoothingLatency
@@ -1458,6 +1475,7 @@ extension MediaConnect {
             case cidrAllowList
             case maxBitrate
             case maxLatency
+            case minLatency
             case `protocol`
             case remoteId
             case smoothingLatency
@@ -1611,6 +1629,8 @@ extension MediaConnect {
         public let flowArn: String
         /// The maximum latency in milliseconds for Zixi-based streams.
         public let maxLatency: Int?
+        /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
+        public let minLatency: Int?
         public let outputArn: String
         /// The port to use when content is distributed to this output.
         public let port: Int?
@@ -1625,13 +1645,14 @@ extension MediaConnect {
         /// The name of the VPC interface attachment to use for this output.
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
-        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: UpdateEncryption? = nil, flowArn: String, maxLatency: Int? = nil, outputArn: String, port: Int? = nil, protocol: Protocol? = nil, remoteId: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
+        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: UpdateEncryption? = nil, flowArn: String, maxLatency: Int? = nil, minLatency: Int? = nil, outputArn: String, port: Int? = nil, protocol: Protocol? = nil, remoteId: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.cidrAllowList = cidrAllowList
             self.description = description
             self.destination = destination
             self.encryption = encryption
             self.flowArn = flowArn
             self.maxLatency = maxLatency
+            self.minLatency = minLatency
             self.outputArn = outputArn
             self.port = port
             self.`protocol` = `protocol`
@@ -1647,6 +1668,7 @@ extension MediaConnect {
             case destination
             case encryption
             case maxLatency
+            case minLatency
             case port
             case `protocol`
             case remoteId
@@ -1722,6 +1744,8 @@ extension MediaConnect {
         public let maxBitrate: Int?
         /// The maximum latency in milliseconds. This parameter applies only to RIST-based and Zixi-based streams.
         public let maxLatency: Int?
+        /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
+        public let minLatency: Int?
         /// The protocol that is used by the source.
         public let `protocol`: Protocol?
         public let sourceArn: String
@@ -1732,7 +1756,7 @@ extension MediaConnect {
         /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let whitelistCidr: String?
 
-        public init(decryption: UpdateEncryption? = nil, description: String? = nil, entitlementArn: String? = nil, flowArn: String, ingestPort: Int? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, protocol: Protocol? = nil, sourceArn: String, streamId: String? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
+        public init(decryption: UpdateEncryption? = nil, description: String? = nil, entitlementArn: String? = nil, flowArn: String, ingestPort: Int? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, minLatency: Int? = nil, protocol: Protocol? = nil, sourceArn: String, streamId: String? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
             self.decryption = decryption
             self.description = description
             self.entitlementArn = entitlementArn
@@ -1740,6 +1764,7 @@ extension MediaConnect {
             self.ingestPort = ingestPort
             self.maxBitrate = maxBitrate
             self.maxLatency = maxLatency
+            self.minLatency = minLatency
             self.`protocol` = `protocol`
             self.sourceArn = sourceArn
             self.streamId = streamId
@@ -1754,6 +1779,7 @@ extension MediaConnect {
             case ingestPort
             case maxBitrate
             case maxLatency
+            case minLatency
             case `protocol`
             case streamId
             case vpcInterfaceName

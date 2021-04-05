@@ -81,9 +81,11 @@ extension QLDB {
         }
 
         public func validate(name: String) throws {
+            try self.ledgerName.forEach {}
             try self.validate(self.ledgerName, name: "ledgerName", parent: name, max: 32)
             try self.validate(self.ledgerName, name: "ledgerName", parent: name, min: 1)
             try self.validate(self.ledgerName, name: "ledgerName", parent: name, pattern: "(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$")
+            try self.streamId.forEach {}
             try self.validate(self.streamId, name: "streamId", parent: name, max: 22)
             try self.validate(self.streamId, name: "streamId", parent: name, min: 22)
             try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[A-Za-z-0-9]+$")
@@ -123,6 +125,7 @@ extension QLDB {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 32)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$")
@@ -184,6 +187,7 @@ extension QLDB {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 32)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$")
@@ -209,9 +213,11 @@ extension QLDB {
         }
 
         public func validate(name: String) throws {
+            try self.ledgerName.forEach {}
             try self.validate(self.ledgerName, name: "ledgerName", parent: name, max: 32)
             try self.validate(self.ledgerName, name: "ledgerName", parent: name, min: 1)
             try self.validate(self.ledgerName, name: "ledgerName", parent: name, pattern: "(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$")
+            try self.streamId.forEach {}
             try self.validate(self.streamId, name: "streamId", parent: name, max: 22)
             try self.validate(self.streamId, name: "streamId", parent: name, min: 22)
             try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[A-Za-z-0-9]+$")
@@ -250,9 +256,11 @@ extension QLDB {
         }
 
         public func validate(name: String) throws {
+            try self.exportId.forEach {}
             try self.validate(self.exportId, name: "exportId", parent: name, max: 22)
             try self.validate(self.exportId, name: "exportId", parent: name, min: 22)
             try self.validate(self.exportId, name: "exportId", parent: name, pattern: "^[A-Za-z-0-9]+$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 32)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$")
@@ -287,6 +295,7 @@ extension QLDB {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 32)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$")
@@ -349,12 +358,15 @@ extension QLDB {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 32)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$")
+            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1600)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.s3ExportConfiguration.validate(name: "\(name).s3ExportConfiguration")
+            try self.s3ExportConfiguration.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -398,7 +410,10 @@ extension QLDB {
 
         public func validate(name: String) throws {
             try self.blockAddress.validate(name: "\(name).blockAddress")
+            try self.blockAddress.forEach {}
             try self.digestTipAddress?.validate(name: "\(name).digestTipAddress")
+            try self.digestTipAddress?.forEach {}
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 32)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$")
@@ -440,6 +455,7 @@ extension QLDB {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 32)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$")
@@ -488,10 +504,14 @@ extension QLDB {
 
         public func validate(name: String) throws {
             try self.blockAddress.validate(name: "\(name).blockAddress")
+            try self.blockAddress.forEach {}
             try self.digestTipAddress?.validate(name: "\(name).digestTipAddress")
+            try self.digestTipAddress?.forEach {}
+            try self.documentId.forEach {}
             try self.validate(self.documentId, name: "documentId", parent: name, max: 22)
             try self.validate(self.documentId, name: "documentId", parent: name, min: 22)
             try self.validate(self.documentId, name: "documentId", parent: name, pattern: "^[A-Za-z-0-9]+$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 32)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$")
@@ -626,6 +646,7 @@ extension QLDB {
         }
 
         public func validate(name: String) throws {
+            try self.streamArn.forEach {}
             try self.validate(self.streamArn, name: "streamArn", parent: name, max: 1600)
             try self.validate(self.streamArn, name: "streamArn", parent: name, min: 20)
         }
@@ -678,11 +699,14 @@ extension QLDB {
         }
 
         public func validate(name: String) throws {
+            try self.ledgerName.forEach {}
             try self.validate(self.ledgerName, name: "ledgerName", parent: name, max: 32)
             try self.validate(self.ledgerName, name: "ledgerName", parent: name, min: 1)
             try self.validate(self.ledgerName, name: "ledgerName", parent: name, pattern: "(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z-0-9+/=]+$")
@@ -729,11 +753,14 @@ extension QLDB {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 32)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$")
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z-0-9+/=]+$")
@@ -776,8 +803,10 @@ extension QLDB {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z-0-9+/=]+$")
@@ -820,8 +849,10 @@ extension QLDB {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z-0-9+/=]+$")
@@ -860,6 +891,7 @@ extension QLDB {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1600)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
         }
@@ -892,6 +924,7 @@ extension QLDB {
         }
 
         public func validate(name: String) throws {
+            try self.kmsKeyArn?.forEach {}
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 1600)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 20)
         }
@@ -917,10 +950,13 @@ extension QLDB {
         }
 
         public func validate(name: String) throws {
+            try self.bucket.forEach {}
             try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
             try self.validate(self.bucket, name: "bucket", parent: name, pattern: "^[A-Za-z-0-9-_.]+$")
             try self.encryptionConfiguration.validate(name: "\(name).encryptionConfiguration")
+            try self.encryptionConfiguration.forEach {}
+            try self.prefix.forEach {}
             try self.validate(self.prefix, name: "prefix", parent: name, max: 128)
             try self.validate(self.prefix, name: "prefix", parent: name, min: 0)
         }
@@ -964,11 +1000,15 @@ extension QLDB {
 
         public func validate(name: String) throws {
             try self.kinesisConfiguration.validate(name: "\(name).kinesisConfiguration")
+            try self.kinesisConfiguration.forEach {}
+            try self.ledgerName.forEach {}
             try self.validate(self.ledgerName, name: "ledgerName", parent: name, max: 32)
             try self.validate(self.ledgerName, name: "ledgerName", parent: name, min: 1)
             try self.validate(self.ledgerName, name: "ledgerName", parent: name, pattern: "(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$")
+            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1600)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.streamName.forEach {}
             try self.validate(self.streamName, name: "streamName", parent: name, max: 32)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$")
@@ -1019,6 +1059,7 @@ extension QLDB {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1600)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.tags.forEach {
@@ -1055,12 +1096,14 @@ extension QLDB {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1600)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
         }
@@ -1088,6 +1131,7 @@ extension QLDB {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 32)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$")
@@ -1136,6 +1180,7 @@ extension QLDB {
         }
 
         public func validate(name: String) throws {
+            try self.ionText?.forEach {}
             try self.validate(self.ionText, name: "ionText", parent: name, max: 1_048_576)
             try self.validate(self.ionText, name: "ionText", parent: name, min: 1)
         }

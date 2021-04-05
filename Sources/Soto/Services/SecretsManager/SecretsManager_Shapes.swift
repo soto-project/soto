@@ -24,6 +24,7 @@ extension SecretsManager {
         case all
         case description
         case name
+        case primaryRegion = "primary-region"
         case tagKey = "tag-key"
         case tagValue = "tag-value"
         public var description: String { return self.rawValue }
@@ -32,6 +33,13 @@ extension SecretsManager {
     public enum SortOrderType: String, CustomStringConvertible, Codable {
         case asc
         case desc
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StatusType: String, CustomStringConvertible, Codable {
+        case failed = "Failed"
+        case inprogress = "InProgress"
+        case insync = "InSync"
         public var description: String { return self.rawValue }
     }
 
@@ -46,6 +54,7 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
+            try self.secretId.forEach {}
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
         }
@@ -77,10 +86,14 @@ extension SecretsManager {
     }
 
     public struct CreateSecretRequest: AWSEncodableShape {
-        /// (Optional) If you include SecretString or SecretBinary, then an initial version is created as part of the secret, and this parameter specifies a unique identifier for the new version.   If you use the AWS CLI or one of the AWS SDK to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes it as the value for this parameter in the request. If you don't use the SDK and instead generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken yourself for the new version and include the value in the request.  This value helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during a rotation. We recommend that you generate a UUID-type value to ensure uniqueness of your versions within the specified secret.    If the ClientRequestToken value isn't already associated with a version of the secret then a new version of the secret is created.    If a version with this value already exists and the version SecretString and SecretBinary values are the same as those in the request, then the request is ignored.   If a version with this value already exists and that version's SecretString and SecretBinary values are different from those in the request then the request fails because you cannot modify an existing version. Instead, use PutSecretValue to create a new version.   This value becomes the VersionId of the new version.
+        /// (Optional) Add a list of regions to replicate secrets. Secrets Manager replicates the KMSKeyID objects to the list of regions specified in the parameter.
+        public let addReplicaRegions: [ReplicaRegionType]?
+        /// (Optional) If you include SecretString or SecretBinary, then an initial version is created as part of the secret, and this parameter specifies a unique identifier for the new version.   If you use the AWS CLI or one of the AWS SDK to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes it as the value for this parameter in the request. If you don't use the SDK and instead generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken yourself for the new version and include the value in the request.  This value helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during a rotation. We recommend that you generate a UUID-type value to ensure uniqueness of your versions within the specified secret.    If the ClientRequestToken value isn't already associated with a version of the secret then a new version of the secret is created.    If a version with this value already exists and the version SecretString and SecretBinary values are the same as those in the request, then the request is ignored.   If a version with this value already exists and that version's SecretString and SecretBinary values are different from those in the request, then the request fails because you cannot modify an existing version. Instead, use PutSecretValue to create a new version.   This value becomes the VersionId of the new version.
         public let clientRequestToken: String?
         /// (Optional) Specifies a user-provided description of the secret.
         public let description: String?
+        /// (Optional) If set, the replication overwrites a secret with the same name in the destination region.
+        public let forceOverwriteReplicaSecret: Bool?
         /// (Optional) Specifies the ARN, Key ID, or alias of the AWS KMS customer master key (CMK) to be used to encrypt the SecretString or SecretBinary values in the versions stored in this secret. You can specify any of the supported ways to identify a AWS KMS key ID. If you need to reference a CMK in a different account, you can use only the key ARN or the alias ARN. If you don't specify this value, then Secrets Manager defaults to using the AWS account's default CMK (the one named aws/secretsmanager). If a AWS KMS CMK with that name doesn't yet exist, then Secrets Manager creates it for you automatically the first time it needs to encrypt a version's SecretString or SecretBinary fields.  You can use the account default CMK to encrypt and decrypt only if you call this operation using credentials from the same account that owns the secret. If the secret resides in a different account, then you must create a custom CMK and specify the ARN in this field.
         public let kmsKeyId: String?
         /// Specifies the friendly name of the new secret. The secret name must be ASCII letters, digits, or the following characters : /_+=.@-  Do not end your secret name with a hyphen followed by six characters. If you do so, you risk confusion and unexpected results when searching for a secret by partial ARN. Secrets Manager automatically adds a hyphen and six random characters at the end of the ARN.
@@ -92,9 +105,11 @@ extension SecretsManager {
         /// (Optional) Specifies a list of user-defined tags that are attached to the secret. Each tag is a "Key" and "Value" pair of strings. This operation only appends tags to the existing list of tags. To remove tags, you must use UntagResource.    Secrets Manager tag key names are case sensitive. A tag with the key "ABC" is a different tag from one with key "abc".   If you check tags in IAM policy Condition elements as part of your security strategy, then adding or removing a tag can change permissions. If the successful completion of this operation would result in you losing your permissions for this secret, then this operation is blocked and returns an Access Denied error.    This parameter requires a JSON text string argument. For information on how to format a JSON parameter for the various command line tool environments, see Using JSON for Parameters in the AWS CLI User Guide. For example:  [{"Key":"CostCenter","Value":"12345"},{"Key":"environment","Value":"production"}]  If your command-line tool or SDK requires quotation marks around the parameter, you should use single quotes to avoid confusion with the double quotes required in the JSON text.  The following basic restrictions apply to tags:   Maximum number of tags per secret—50   Maximum key length—127 Unicode characters in UTF-8   Maximum value length—255 Unicode characters in UTF-8   Tag keys and values are case sensitive.   Do not use the aws: prefix in your tag names or values because AWS reserves it for AWS use. You can't edit or delete tag names or values with this prefix. Tags with this prefix do not count against your tags per secret limit.   If you use your tagging schema across multiple services and resources, remember other services might have restrictions on allowed characters. Generally allowed characters: letters, spaces, and numbers representable in UTF-8, plus the following special characters: + - = . _ : / @.
         public let tags: [Tag]?
 
-        public init(clientRequestToken: String? = CreateSecretRequest.idempotencyToken(), description: String? = nil, kmsKeyId: String? = nil, name: String, secretBinary: Data? = nil, secretString: String? = nil, tags: [Tag]? = nil) {
+        public init(addReplicaRegions: [ReplicaRegionType]? = nil, clientRequestToken: String? = CreateSecretRequest.idempotencyToken(), description: String? = nil, forceOverwriteReplicaSecret: Bool? = nil, kmsKeyId: String? = nil, name: String, secretBinary: Data? = nil, secretString: String? = nil, tags: [Tag]? = nil) {
+            self.addReplicaRegions = addReplicaRegions
             self.clientRequestToken = clientRequestToken
             self.description = description
+            self.forceOverwriteReplicaSecret = forceOverwriteReplicaSecret
             self.kmsKeyId = kmsKeyId
             self.name = name
             self.secretBinary = secretBinary
@@ -103,25 +118,39 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
+            try self.addReplicaRegions?.forEach {
+                try $0.validate(name: "\(name).addReplicaRegions[]")
+            }
+            try self.addReplicaRegions?.forEach {}
+            try self.validate(self.addReplicaRegions, name: "addReplicaRegions", parent: name, min: 1)
+            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.kmsKeyId?.forEach {}
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 0)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 512)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.secretBinary?.forEach {}
             try self.validate(self.secretBinary, name: "secretBinary", parent: name, max: 65536)
             try self.validate(self.secretBinary, name: "secretBinary", parent: name, min: 0)
+            try self.secretString?.forEach {}
             try self.validate(self.secretString, name: "secretString", parent: name, max: 65536)
             try self.validate(self.secretString, name: "secretString", parent: name, min: 0)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
+            case addReplicaRegions = "AddReplicaRegions"
             case clientRequestToken = "ClientRequestToken"
             case description = "Description"
+            case forceOverwriteReplicaSecret = "ForceOverwriteReplicaSecret"
             case kmsKeyId = "KmsKeyId"
             case name = "Name"
             case secretBinary = "SecretBinary"
@@ -135,18 +164,22 @@ extension SecretsManager {
         public let arn: String?
         /// The friendly name of the secret that you just created.
         public let name: String?
+        /// Describes a list of replication status objects as InProgress, Failed or InSync.
+        public let replicationStatus: [ReplicationStatusType]?
         /// The unique identifier associated with the version of the secret you just created.
         public let versionId: String?
 
-        public init(arn: String? = nil, name: String? = nil, versionId: String? = nil) {
+        public init(arn: String? = nil, name: String? = nil, replicationStatus: [ReplicationStatusType]? = nil, versionId: String? = nil) {
             self.arn = arn
             self.name = name
+            self.replicationStatus = replicationStatus
             self.versionId = versionId
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "ARN"
             case name = "Name"
+            case replicationStatus = "ReplicationStatus"
             case versionId = "VersionId"
         }
     }
@@ -160,6 +193,7 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
+            try self.secretId.forEach {}
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
         }
@@ -187,11 +221,11 @@ extension SecretsManager {
     }
 
     public struct DeleteSecretRequest: AWSEncodableShape {
-        /// (Optional) Specifies that the secret is to be deleted without any recovery window. You can't use both this parameter and the RecoveryWindowInDays parameter in the same API call. An asynchronous background process performs the actual deletion, so there can be a short delay before the operation completes. If you write code to delete and then immediately recreate a secret with the same name, ensure that your code includes appropriate back off and retry logic.  Use this parameter with caution. This parameter causes the operation to skip the normal waiting period before the permanent deletion that AWS would normally impose with the RecoveryWindowInDays parameter. If you delete a secret with the ForceDeleteWithouRecovery parameter, then you have no opportunity to recover the secret. It is permanently lost.
+        /// (Optional) Specifies that the secret is to be deleted without any recovery window. You can't use both this parameter and the RecoveryWindowInDays parameter in the same API call. An asynchronous background process performs the actual deletion, so there can be a short delay before the operation completes. If you write code to delete and then immediately recreate a secret with the same name, ensure that your code includes appropriate back off and retry logic.  Use this parameter with caution. This parameter causes the operation to skip the normal waiting period before the permanent deletion that AWS would normally impose with the RecoveryWindowInDays parameter. If you delete a secret with the ForceDeleteWithouRecovery parameter, then you have no opportunity to recover the secret. You lose the secret permanently.   If you use this parameter and include a previously deleted or nonexistent secret, the operation does not return the error ResourceNotFoundException in order to correctly handle retries.
         public let forceDeleteWithoutRecovery: Bool?
-        /// (Optional) Specifies the number of days that Secrets Manager waits before it can delete the secret. You can't use both this parameter and the ForceDeleteWithoutRecovery parameter in the same API call. This value can range from 7 to 30 days. The default value is 30.
+        /// (Optional) Specifies the number of days that Secrets Manager waits before Secrets Manager can delete the secret. You can't use both this parameter and the ForceDeleteWithoutRecovery parameter in the same API call. This value can range from 7 to 30 days with a default value of 30.
         public let recoveryWindowInDays: Int64?
-        /// Specifies the secret that you want to delete. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names ending with a hyphen followed by six characters. If you specify an incomplete ARN without the random suffix, and instead provide the 'friendly name', you must not include the random suffix. If you do include the random suffix added by Secrets Manager, you receive either a ResourceNotFoundException or an AccessDeniedException error, depending on your permissions.
+        /// Specifies the secret to delete. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names ending with a hyphen followed by six characters. If you specify an incomplete ARN without the random suffix, and instead provide the 'friendly name', you must not include the random suffix. If you do include the random suffix added by Secrets Manager, you receive either a ResourceNotFoundException or an AccessDeniedException error, depending on your permissions.
         public let secretId: String
 
         public init(forceDeleteWithoutRecovery: Bool? = nil, recoveryWindowInDays: Int64? = nil, secretId: String) {
@@ -201,6 +235,7 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
+            try self.secretId.forEach {}
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
         }
@@ -217,7 +252,7 @@ extension SecretsManager {
         public let arn: String?
         /// The date and time after which this secret can be deleted by Secrets Manager and can no longer be restored. This value is the date and time of the delete request plus the number of days specified in RecoveryWindowInDays.
         public let deletionDate: Date?
-        /// The friendly name of the secret that is now scheduled for deletion.
+        /// The friendly name of the secret currently scheduled for deletion.
         public let name: String?
 
         public init(arn: String? = nil, deletionDate: Date? = nil, name: String? = nil) {
@@ -242,6 +277,7 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
+            try self.secretId.forEach {}
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
         }
@@ -254,7 +290,7 @@ extension SecretsManager {
     public struct DescribeSecretResponse: AWSDecodableShape {
         /// The ARN of the secret.
         public let arn: String?
-        /// The date that the secret was created.
+        /// The date you created the secret.
         public let createdDate: Date?
         /// This value exists if the secret is scheduled for deletion. Some time after the specified date and time, Secrets Manager deletes the secret and all of its versions. If a secret is scheduled for deletion, then its details, including the encrypted secret information, is not accessible. To cancel a scheduled deletion and restore access, use RestoreSecret.
         public let deletedDate: Date?
@@ -266,24 +302,28 @@ extension SecretsManager {
         public let lastAccessedDate: Date?
         /// The last date and time that this secret was modified in any way.
         public let lastChangedDate: Date?
-        /// The most recent date and time that the Secrets Manager rotation process was successfully completed. This value is null if the secret has never rotated.
+        /// The last date and time that the rotation process for this secret was invoked. The most recent date and time that the Secrets Manager rotation process successfully completed. If the secret doesn't rotate, Secrets Manager returns a null value.
         public let lastRotatedDate: Date?
         /// The user-provided friendly name of the secret.
         public let name: String?
         /// Returns the name of the service that created this secret.
         public let owningService: String?
+        /// Specifies the primary region for secret replication.
+        public let primaryRegion: String?
+        /// Describes a list of replication status objects as InProgress, Failed or InSync.P
+        public let replicationStatus: [ReplicationStatusType]?
         /// Specifies whether automatic rotation is enabled for this secret. To enable rotation, use RotateSecret with AutomaticallyRotateAfterDays set to a value greater than 0. To disable rotation, use CancelRotateSecret.
         public let rotationEnabled: Bool?
         /// The ARN of a Lambda function that's invoked by Secrets Manager to rotate the secret either automatically per the schedule or manually by a call to RotateSecret.
         public let rotationLambdaARN: String?
-        /// A structure that contains the rotation configuration for this secret.
+        /// A structure with the rotation configuration for this secret.
         public let rotationRules: RotationRulesType?
         /// The list of user-defined tags that are associated with the secret. To add tags to a secret, use TagResource. To remove tags, use UntagResource.
         public let tags: [Tag]?
         /// A list of all of the currently assigned VersionStage staging labels and the VersionId that each is attached to. Staging labels are used to keep track of the different versions during the rotation process.  A version that does not have any staging labels attached is considered deprecated and subject to deletion. Such versions are not included in this list.
         public let versionIdsToStages: [String: [String]]?
 
-        public init(arn: String? = nil, createdDate: Date? = nil, deletedDate: Date? = nil, description: String? = nil, kmsKeyId: String? = nil, lastAccessedDate: Date? = nil, lastChangedDate: Date? = nil, lastRotatedDate: Date? = nil, name: String? = nil, owningService: String? = nil, rotationEnabled: Bool? = nil, rotationLambdaARN: String? = nil, rotationRules: RotationRulesType? = nil, tags: [Tag]? = nil, versionIdsToStages: [String: [String]]? = nil) {
+        public init(arn: String? = nil, createdDate: Date? = nil, deletedDate: Date? = nil, description: String? = nil, kmsKeyId: String? = nil, lastAccessedDate: Date? = nil, lastChangedDate: Date? = nil, lastRotatedDate: Date? = nil, name: String? = nil, owningService: String? = nil, primaryRegion: String? = nil, replicationStatus: [ReplicationStatusType]? = nil, rotationEnabled: Bool? = nil, rotationLambdaARN: String? = nil, rotationRules: RotationRulesType? = nil, tags: [Tag]? = nil, versionIdsToStages: [String: [String]]? = nil) {
             self.arn = arn
             self.createdDate = createdDate
             self.deletedDate = deletedDate
@@ -294,6 +334,8 @@ extension SecretsManager {
             self.lastRotatedDate = lastRotatedDate
             self.name = name
             self.owningService = owningService
+            self.primaryRegion = primaryRegion
+            self.replicationStatus = replicationStatus
             self.rotationEnabled = rotationEnabled
             self.rotationLambdaARN = rotationLambdaARN
             self.rotationRules = rotationRules
@@ -312,6 +354,8 @@ extension SecretsManager {
             case lastRotatedDate = "LastRotatedDate"
             case name = "Name"
             case owningService = "OwningService"
+            case primaryRegion = "PrimaryRegion"
+            case replicationStatus = "ReplicationStatus"
             case rotationEnabled = "RotationEnabled"
             case rotationLambdaARN = "RotationLambdaARN"
             case rotationRules = "RotationRules"
@@ -323,7 +367,7 @@ extension SecretsManager {
     public struct Filter: AWSEncodableShape {
         /// Filters your list of secrets by a specific key.
         public let key: FilterNameStringType?
-        /// Filters your list of secrets by a specific value.
+        /// Filters your list of secrets by a specific value. You can prefix your search value with an exclamation mark (!) in order to perform negation filters.
         public let values: [String]?
 
         public init(key: FilterNameStringType? = nil, values: [String]? = nil) {
@@ -334,9 +378,9 @@ extension SecretsManager {
         public func validate(name: String) throws {
             try self.values?.forEach {
                 try validate($0, name: "values[]", parent: name, max: 512)
-                try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "[a-zA-Z0-9 :_@\\/\\+\\=\\.\\-]+")
+                try validate($0, name: "values[]", parent: name, pattern: "^\\!?[a-zA-Z0-9 :_@\\/\\+\\=\\.\\-]*$")
             }
+            try self.values?.forEach {}
             try self.validate(self.values, name: "values", parent: name, max: 10)
             try self.validate(self.values, name: "values", parent: name, min: 1)
         }
@@ -377,8 +421,10 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
+            try self.excludeCharacters?.forEach {}
             try self.validate(self.excludeCharacters, name: "excludeCharacters", parent: name, max: 4096)
             try self.validate(self.excludeCharacters, name: "excludeCharacters", parent: name, min: 0)
+            try self.passwordLength?.forEach {}
             try self.validate(self.passwordLength, name: "passwordLength", parent: name, max: 4096)
             try self.validate(self.passwordLength, name: "passwordLength", parent: name, min: 1)
         }
@@ -417,6 +463,7 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
+            try self.secretId.forEach {}
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
         }
@@ -450,9 +497,9 @@ extension SecretsManager {
     public struct GetSecretValueRequest: AWSEncodableShape {
         /// Specifies the secret containing the version that you want to retrieve. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names ending with a hyphen followed by six characters. If you specify an incomplete ARN without the random suffix, and instead provide the 'friendly name', you must not include the random suffix. If you do include the random suffix added by Secrets Manager, you receive either a ResourceNotFoundException or an AccessDeniedException error, depending on your permissions.
         public let secretId: String
-        /// Specifies the unique identifier of the version of the secret that you want to retrieve. If you specify this parameter then don't specify VersionStage. If you don't specify either a VersionStage or VersionId then the default is to perform the operation on the version with the VersionStage value of AWSCURRENT. This value is typically a UUID-type value with 32 hexadecimal digits.
+        /// Specifies the unique identifier of the version of the secret that you want to retrieve. If you specify both this parameter and VersionStage, the two parameters must refer to the same secret version. If you don't specify either a VersionStage or VersionId then the default is to perform the operation on the version with the VersionStage value of AWSCURRENT. This value is typically a UUID-type value with 32 hexadecimal digits.
         public let versionId: String?
-        /// Specifies the secret version that you want to retrieve by the staging label attached to the version. Staging labels are used to keep track of different versions during the rotation process. If you use this parameter then don't specify VersionId. If you don't specify either a VersionStage or VersionId, then the default is to perform the operation on the version with the VersionStage value of AWSCURRENT.
+        /// Specifies the secret version that you want to retrieve by the staging label attached to the version. Staging labels are used to keep track of different versions during the rotation process. If you specify both this parameter and VersionId, the two parameters must refer to the same secret version . If you don't specify either a VersionStage or VersionId, then the default is to perform the operation on the version with the VersionStage value of AWSCURRENT.
         public let versionStage: String?
 
         public init(secretId: String, versionId: String? = nil, versionStage: String? = nil) {
@@ -462,10 +509,13 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
+            try self.secretId.forEach {}
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
+            try self.versionId?.forEach {}
             try self.validate(self.versionId, name: "versionId", parent: name, max: 64)
             try self.validate(self.versionId, name: "versionId", parent: name, min: 32)
+            try self.versionStage?.forEach {}
             try self.validate(self.versionStage, name: "versionStage", parent: name, max: 256)
             try self.validate(self.versionStage, name: "versionStage", parent: name, min: 1)
         }
@@ -532,10 +582,13 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.secretId.forEach {}
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
         }
@@ -594,9 +647,12 @@ extension SecretsManager {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 10)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -627,11 +683,11 @@ extension SecretsManager {
     }
 
     public struct PutResourcePolicyRequest: AWSEncodableShape {
-        /// Makes an optional API call to Zelkova to validate the Resource Policy to prevent broad access to your secret.
+        /// (Optional) If you set the parameter, BlockPublicPolicy to true, then you block resource-based policies that allow broad access to the secret.
         public let blockPublicPolicy: Bool?
-        /// A JSON-formatted string that's constructed according to the grammar and syntax for an AWS resource-based policy. The policy in the string identifies who can access or manage this secret and its versions. For information on how to format a JSON parameter for the various command line tool environments, see Using JSON for Parameters in the AWS CLI User Guide.
+        /// A JSON-formatted string constructed according to the grammar and syntax for an AWS resource-based policy. The policy in the string identifies who can access or manage this secret and its versions. For information on how to format a JSON parameter for the various command line tool environments, see Using JSON for Parameters in the AWS CLI User Guide.
         public let resourcePolicy: String
-        /// Specifies the secret that you want to attach the resource-based policy to. You can specify either the ARN or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names ending with a hyphen followed by six characters. If you specify an incomplete ARN without the random suffix, and instead provide the 'friendly name', you must not include the random suffix. If you do include the random suffix added by Secrets Manager, you receive either a ResourceNotFoundException or an AccessDeniedException error, depending on your permissions.
+        /// Specifies the secret that you want to attach the resource-based policy. You can specify either the ARN or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names ending with a hyphen followed by six characters. If you specify an incomplete ARN without the random suffix, and instead provide the 'friendly name', you must not include the random suffix. If you do include the random suffix added by Secrets Manager, you receive either a ResourceNotFoundException or an AccessDeniedException error, depending on your permissions.
         public let secretId: String
 
         public init(blockPublicPolicy: Bool? = nil, resourcePolicy: String, secretId: String) {
@@ -641,8 +697,10 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
+            try self.resourcePolicy.forEach {}
             try self.validate(self.resourcePolicy, name: "resourcePolicy", parent: name, max: 20480)
             try self.validate(self.resourcePolicy, name: "resourcePolicy", parent: name, min: 1)
+            try self.secretId.forEach {}
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
         }
@@ -657,7 +715,7 @@ extension SecretsManager {
     public struct PutResourcePolicyResponse: AWSDecodableShape {
         /// The ARN of the secret retrieved by the resource-based policy.
         public let arn: String?
-        /// The friendly name of the secret that the retrieved by the resource-based policy.
+        /// The friendly name of the secret retrieved by the resource-based policy.
         public let name: String?
 
         public init(arn: String? = nil, name: String? = nil) {
@@ -692,18 +750,23 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
+            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
+            try self.secretBinary?.forEach {}
             try self.validate(self.secretBinary, name: "secretBinary", parent: name, max: 65536)
             try self.validate(self.secretBinary, name: "secretBinary", parent: name, min: 0)
+            try self.secretId.forEach {}
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
+            try self.secretString?.forEach {}
             try self.validate(self.secretString, name: "secretString", parent: name, max: 65536)
             try self.validate(self.secretString, name: "secretString", parent: name, min: 0)
             try self.versionStages?.forEach {
                 try validate($0, name: "versionStages[]", parent: name, max: 256)
                 try validate($0, name: "versionStages[]", parent: name, min: 1)
             }
+            try self.versionStages?.forEach {}
             try self.validate(self.versionStages, name: "versionStages", parent: name, max: 20)
             try self.validate(self.versionStages, name: "versionStages", parent: name, min: 1)
         }
@@ -742,6 +805,158 @@ extension SecretsManager {
         }
     }
 
+    public struct RemoveRegionsFromReplicationRequest: AWSEncodableShape {
+        /// Remove replication from specific Regions.
+        public let removeReplicaRegions: [String]
+        /// Remove a secret by SecretId from replica Regions.
+        public let secretId: String
+
+        public init(removeReplicaRegions: [String], secretId: String) {
+            self.removeReplicaRegions = removeReplicaRegions
+            self.secretId = secretId
+        }
+
+        public func validate(name: String) throws {
+            try self.removeReplicaRegions.forEach {
+                try validate($0, name: "removeReplicaRegions[]", parent: name, max: 128)
+                try validate($0, name: "removeReplicaRegions[]", parent: name, min: 1)
+                try validate($0, name: "removeReplicaRegions[]", parent: name, pattern: "^([a-z]+-)+\\d+$")
+            }
+            try self.removeReplicaRegions.forEach {}
+            try self.validate(self.removeReplicaRegions, name: "removeReplicaRegions", parent: name, min: 1)
+            try self.secretId.forEach {}
+            try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
+            try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case removeReplicaRegions = "RemoveReplicaRegions"
+            case secretId = "SecretId"
+        }
+    }
+
+    public struct RemoveRegionsFromReplicationResponse: AWSDecodableShape {
+        /// The secret ARN removed from replication regions.
+        public let arn: String?
+        /// Describes the remaining replication status after you remove regions from the replication list.
+        public let replicationStatus: [ReplicationStatusType]?
+
+        public init(arn: String? = nil, replicationStatus: [ReplicationStatusType]? = nil) {
+            self.arn = arn
+            self.replicationStatus = replicationStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
+            case replicationStatus = "ReplicationStatus"
+        }
+    }
+
+    public struct ReplicaRegionType: AWSEncodableShape {
+        /// Can be an ARN, Key ID, or Alias.
+        public let kmsKeyId: String?
+        /// Describes a single instance of Region objects.
+        public let region: String?
+
+        public init(kmsKeyId: String? = nil, region: String? = nil) {
+            self.kmsKeyId = kmsKeyId
+            self.region = region
+        }
+
+        public func validate(name: String) throws {
+            try self.kmsKeyId?.forEach {}
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 0)
+            try self.region?.forEach {}
+            try self.validate(self.region, name: "region", parent: name, max: 128)
+            try self.validate(self.region, name: "region", parent: name, min: 1)
+            try self.validate(self.region, name: "region", parent: name, pattern: "^([a-z]+-)+\\d+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "KmsKeyId"
+            case region = "Region"
+        }
+    }
+
+    public struct ReplicateSecretToRegionsRequest: AWSEncodableShape {
+        /// Add Regions to replicate the secret.
+        public let addReplicaRegions: [ReplicaRegionType]
+        /// (Optional) If set, Secrets Manager replication overwrites a secret with the same name in the destination region.
+        public let forceOverwriteReplicaSecret: Bool?
+        /// Use the Secret Id to replicate a secret to regions.
+        public let secretId: String
+
+        public init(addReplicaRegions: [ReplicaRegionType], forceOverwriteReplicaSecret: Bool? = nil, secretId: String) {
+            self.addReplicaRegions = addReplicaRegions
+            self.forceOverwriteReplicaSecret = forceOverwriteReplicaSecret
+            self.secretId = secretId
+        }
+
+        public func validate(name: String) throws {
+            try self.addReplicaRegions.forEach {
+                try $0.validate(name: "\(name).addReplicaRegions[]")
+            }
+            try self.addReplicaRegions.forEach {}
+            try self.validate(self.addReplicaRegions, name: "addReplicaRegions", parent: name, min: 1)
+            try self.secretId.forEach {}
+            try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
+            try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addReplicaRegions = "AddReplicaRegions"
+            case forceOverwriteReplicaSecret = "ForceOverwriteReplicaSecret"
+            case secretId = "SecretId"
+        }
+    }
+
+    public struct ReplicateSecretToRegionsResponse: AWSDecodableShape {
+        /// Replicate a secret based on the ReplicaRegionType&gt; consisting of a Region(required) and a KMSKeyId (optional) which can be the ARN, KeyID, or Alias.
+        public let arn: String?
+        /// Describes the secret replication status as PENDING, SUCCESS or FAIL.
+        public let replicationStatus: [ReplicationStatusType]?
+
+        public init(arn: String? = nil, replicationStatus: [ReplicationStatusType]? = nil) {
+            self.arn = arn
+            self.replicationStatus = replicationStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
+            case replicationStatus = "ReplicationStatus"
+        }
+    }
+
+    public struct ReplicationStatusType: AWSDecodableShape {
+        /// Can be an ARN, Key ID, or Alias.
+        public let kmsKeyId: String?
+        /// The date that you last accessed the secret in the Region.
+        public let lastAccessedDate: Date?
+        /// The Region where replication occurs.
+        public let region: String?
+        /// The status can be InProgress, Failed, or InSync.
+        public let status: StatusType?
+        /// Status message such as "Secret with this name already exists in this region".
+        public let statusMessage: String?
+
+        public init(kmsKeyId: String? = nil, lastAccessedDate: Date? = nil, region: String? = nil, status: StatusType? = nil, statusMessage: String? = nil) {
+            self.kmsKeyId = kmsKeyId
+            self.lastAccessedDate = lastAccessedDate
+            self.region = region
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "KmsKeyId"
+            case lastAccessedDate = "LastAccessedDate"
+            case region = "Region"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
     public struct RestoreSecretRequest: AWSEncodableShape {
         /// Specifies the secret that you want to restore from a previously scheduled deletion. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names ending with a hyphen followed by six characters. If you specify an incomplete ARN without the random suffix, and instead provide the 'friendly name', you must not include the random suffix. If you do include the random suffix added by Secrets Manager, you receive either a ResourceNotFoundException or an AccessDeniedException error, depending on your permissions.
         public let secretId: String
@@ -751,6 +966,7 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
+            try self.secretId.forEach {}
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
         }
@@ -795,11 +1011,15 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
+            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
+            try self.rotationLambdaARN?.forEach {}
             try self.validate(self.rotationLambdaARN, name: "rotationLambdaARN", parent: name, max: 2048)
             try self.validate(self.rotationLambdaARN, name: "rotationLambdaARN", parent: name, min: 0)
             try self.rotationRules?.validate(name: "\(name).rotationRules")
+            try self.rotationRules?.forEach {}
+            try self.secretId.forEach {}
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
         }
@@ -842,6 +1062,7 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
+            try self.automaticallyAfterDays?.forEach {}
             try self.validate(self.automaticallyAfterDays, name: "automaticallyAfterDays", parent: name, max: 1000)
             try self.validate(self.automaticallyAfterDays, name: "automaticallyAfterDays", parent: name, min: 1)
         }
@@ -866,12 +1087,14 @@ extension SecretsManager {
         public let lastAccessedDate: Date?
         /// The last date and time that this secret was modified in any way.
         public let lastChangedDate: Date?
-        /// The last date and time that the rotation process for this secret was invoked.
+        /// The most recent date and time that the Secrets Manager rotation process was successfully completed. This value is null if the secret hasn't ever rotated.
         public let lastRotatedDate: Date?
         /// The friendly name of the secret. You can use forward slashes in the name to represent a path hierarchy. For example, /prod/databases/dbserver1 could represent the secret for a server named dbserver1 in the folder databases in the folder prod.
         public let name: String?
         /// Returns the name of the service that created the secret.
         public let owningService: String?
+        /// The Region where Secrets Manager originated the secret.
+        public let primaryRegion: String?
         /// Indicates whether automatic, scheduled rotation is enabled for this secret.
         public let rotationEnabled: Bool?
         /// The ARN of an AWS Lambda function invoked by Secrets Manager to rotate and expire the secret either automatically per the schedule or manually by a call to RotateSecret.
@@ -883,7 +1106,7 @@ extension SecretsManager {
         /// The list of user-defined tags associated with the secret. To add tags to a secret, use TagResource. To remove tags, use UntagResource.
         public let tags: [Tag]?
 
-        public init(arn: String? = nil, createdDate: Date? = nil, deletedDate: Date? = nil, description: String? = nil, kmsKeyId: String? = nil, lastAccessedDate: Date? = nil, lastChangedDate: Date? = nil, lastRotatedDate: Date? = nil, name: String? = nil, owningService: String? = nil, rotationEnabled: Bool? = nil, rotationLambdaARN: String? = nil, rotationRules: RotationRulesType? = nil, secretVersionsToStages: [String: [String]]? = nil, tags: [Tag]? = nil) {
+        public init(arn: String? = nil, createdDate: Date? = nil, deletedDate: Date? = nil, description: String? = nil, kmsKeyId: String? = nil, lastAccessedDate: Date? = nil, lastChangedDate: Date? = nil, lastRotatedDate: Date? = nil, name: String? = nil, owningService: String? = nil, primaryRegion: String? = nil, rotationEnabled: Bool? = nil, rotationLambdaARN: String? = nil, rotationRules: RotationRulesType? = nil, secretVersionsToStages: [String: [String]]? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.createdDate = createdDate
             self.deletedDate = deletedDate
@@ -894,6 +1117,7 @@ extension SecretsManager {
             self.lastRotatedDate = lastRotatedDate
             self.name = name
             self.owningService = owningService
+            self.primaryRegion = primaryRegion
             self.rotationEnabled = rotationEnabled
             self.rotationLambdaARN = rotationLambdaARN
             self.rotationRules = rotationRules
@@ -912,6 +1136,7 @@ extension SecretsManager {
             case lastRotatedDate = "LastRotatedDate"
             case name = "Name"
             case owningService = "OwningService"
+            case primaryRegion = "PrimaryRegion"
             case rotationEnabled = "RotationEnabled"
             case rotationLambdaARN = "RotationLambdaARN"
             case rotationRules = "RotationRules"
@@ -945,6 +1170,38 @@ extension SecretsManager {
         }
     }
 
+    public struct StopReplicationToReplicaRequest: AWSEncodableShape {
+        /// Response to StopReplicationToReplica of a secret, based on the SecretId.
+        public let secretId: String
+
+        public init(secretId: String) {
+            self.secretId = secretId
+        }
+
+        public func validate(name: String) throws {
+            try self.secretId.forEach {}
+            try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
+            try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case secretId = "SecretId"
+        }
+    }
+
+    public struct StopReplicationToReplicaResponse: AWSDecodableShape {
+        /// Response StopReplicationToReplica of a secret, based on the ARN,.
+        public let arn: String?
+
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
+        }
+    }
+
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// The key identifier, or name, of the tag.
         public let key: String?
@@ -957,8 +1214,10 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
+            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
         }
@@ -972,7 +1231,7 @@ extension SecretsManager {
     public struct TagResourceRequest: AWSEncodableShape {
         /// The identifier for the secret that you want to attach tags to. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names ending with a hyphen followed by six characters. If you specify an incomplete ARN without the random suffix, and instead provide the 'friendly name', you must not include the random suffix. If you do include the random suffix added by Secrets Manager, you receive either a ResourceNotFoundException or an AccessDeniedException error, depending on your permissions.
         public let secretId: String
-        /// The tags to attach to the secret. Each element in the list consists of a Key and a Value. This parameter to the API requires a JSON text string argument. For information on how to format a JSON parameter for the various command line tool environments, see Using JSON for Parameters in the AWS CLI User Guide. For the AWS CLI, you can also use the syntax: --Tags Key="Key1",Value="Value1",Key="Key2",Value="Value2"[,…]
+        /// The tags to attach to the secret. Each element in the list consists of a Key and a Value. This parameter to the API requires a JSON text string argument. For information on how to format a JSON parameter for the various command line tool environments, see Using JSON for Parameters in the AWS CLI User Guide. For the AWS CLI, you can also use the syntax: --Tags Key="Key1",Value="Value1" Key="Key2",Value="Value2"[,…]
         public let tags: [Tag]
 
         public init(secretId: String, tags: [Tag]) {
@@ -981,11 +1240,13 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
+            try self.secretId.forEach {}
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1006,12 +1267,14 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
+            try self.secretId.forEach {}
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
+            try self.tagKeys.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1044,15 +1307,21 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
+            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.kmsKeyId?.forEach {}
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 0)
+            try self.secretBinary?.forEach {}
             try self.validate(self.secretBinary, name: "secretBinary", parent: name, max: 65536)
             try self.validate(self.secretBinary, name: "secretBinary", parent: name, min: 0)
+            try self.secretId.forEach {}
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
+            try self.secretString?.forEach {}
             try self.validate(self.secretString, name: "secretString", parent: name, max: 65536)
             try self.validate(self.secretString, name: "secretString", parent: name, min: 0)
         }
@@ -1106,12 +1375,16 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
+            try self.moveToVersionId?.forEach {}
             try self.validate(self.moveToVersionId, name: "moveToVersionId", parent: name, max: 64)
             try self.validate(self.moveToVersionId, name: "moveToVersionId", parent: name, min: 32)
+            try self.removeFromVersionId?.forEach {}
             try self.validate(self.removeFromVersionId, name: "removeFromVersionId", parent: name, max: 64)
             try self.validate(self.removeFromVersionId, name: "removeFromVersionId", parent: name, min: 32)
+            try self.secretId.forEach {}
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
+            try self.versionStage.forEach {}
             try self.validate(self.versionStage, name: "versionStage", parent: name, max: 256)
             try self.validate(self.versionStage, name: "versionStage", parent: name, min: 1)
         }
@@ -1142,9 +1415,9 @@ extension SecretsManager {
     }
 
     public struct ValidateResourcePolicyRequest: AWSEncodableShape {
-        /// Identifies the Resource Policy attached to the secret.
+        /// A JSON-formatted string constructed according to the grammar and syntax for an AWS resource-based policy. The policy in the string identifies who can access or manage this secret and its versions. For information on how to format a JSON parameter for the various command line tool environments, see Using JSON for Parameters in the AWS CLI User Guide.publi
         public let resourcePolicy: String
-        ///  The identifier for the secret that you want to validate a resource policy. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names ending with a hyphen followed by six characters. If you specify an incomplete ARN without the random suffix, and instead provide the 'friendly name', you must not include the random suffix. If you do include the random suffix added by Secrets Manager, you receive either a ResourceNotFoundException or an AccessDeniedException error, depending on your permissions.
+        ///  (Optional) The identifier of the secret with the resource-based policy you want to validate. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names ending with a hyphen followed by six characters. If you specify an incomplete ARN without the random suffix, and instead provide the 'friendly name', you must not include the random suffix. If you do include the random suffix added by Secrets Manager, you receive either a ResourceNotFoundException or an AccessDeniedException error, depending on your permissions.
         public let secretId: String?
 
         public init(resourcePolicy: String, secretId: String? = nil) {
@@ -1153,8 +1426,10 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
+            try self.resourcePolicy.forEach {}
             try self.validate(self.resourcePolicy, name: "resourcePolicy", parent: name, max: 20480)
             try self.validate(self.resourcePolicy, name: "resourcePolicy", parent: name, min: 1)
+            try self.secretId?.forEach {}
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
         }

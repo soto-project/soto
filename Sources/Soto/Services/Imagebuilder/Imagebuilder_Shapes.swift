@@ -101,7 +101,7 @@ extension Imagebuilder {
     // MARK: Shapes
 
     public struct Ami: AWSDecodableShape {
-        ///  The account ID of the owner of the AMI.
+        /// The account ID of the owner of the AMI.
         public let accountId: String?
         /// The description of the EC2 AMI. Minimum and maximum length are in characters.
         public let description: String?
@@ -137,13 +137,13 @@ extension Imagebuilder {
         public let amiTags: [String: String]?
         /// The description of the distribution configuration. Minimum and maximum length are in characters.
         public let description: String?
-        ///  The KMS key identifier used to encrypt the distributed image.
+        /// The KMS key identifier used to encrypt the distributed image.
         public let kmsKeyId: String?
         ///  Launch permissions can be used to configure which AWS accounts can use the AMI to launch instances.
         public let launchPermission: LaunchPermissionConfiguration?
         /// The name of the distribution configuration.
         public let name: String?
-        ///  The ID of an account to which you want to distribute an image.
+        /// The ID of an account to which you want to distribute an image.
         public let targetAccountIds: [String]?
 
         public init(amiTags: [String: String]? = nil, description: String? = nil, kmsKeyId: String? = nil, launchPermission: LaunchPermissionConfiguration? = nil, name: String? = nil, targetAccountIds: [String]? = nil) {
@@ -162,17 +162,22 @@ extension Imagebuilder {
                 try validate($0.key, name: "amiTags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
                 try validate($0.value, name: "amiTags[\"\($0.key)\"]", parent: name, max: 256)
             }
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.kmsKeyId?.forEach {}
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 1024)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
             try self.launchPermission?.validate(name: "\(name).launchPermission")
+            try self.launchPermission?.forEach {}
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 127)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[-_A-Za-z0-9{][-_A-Za-z0-9\\s:{}\\.]+[-_A-Za-z0-9}]$")
             try self.targetAccountIds?.forEach {
-                try validate($0, name: "targetAccountIds[]", parent: name, pattern: "^\\d{12}$")
+                try validate($0, name: "targetAccountIds[]", parent: name, pattern: "^[0-9]{12}$")
             }
+            try self.targetAccountIds?.forEach {}
             try self.validate(self.targetAccountIds, name: "targetAccountIds", parent: name, max: 1536)
             try self.validate(self.targetAccountIds, name: "targetAccountIds", parent: name, min: 1)
         }
@@ -199,9 +204,11 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.imageBuildVersionArn, name: "imageBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+/\\d+$")
+            try self.imageBuildVersionArn.forEach {}
+            try self.validate(self.imageBuildVersionArn, name: "imageBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+/[0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -305,7 +312,8 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.componentArn, name: "componentArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):component/[a-z0-9-_]+/(?:(?:(\\d+|x)\\.(\\d+|x)\\.(\\d+|x))|(?:\\d+\\.\\d+\\.\\d+/\\d+))$")
+            try self.componentArn.forEach {}
+            try self.validate(self.componentArn, name: "componentArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):component/[a-z0-9-_]+/(?:(?:([0-9]+|x)\\.([0-9]+|x)\\.([0-9]+|x))|(?:[0-9]+\\.[0-9]+\\.[0-9]+/[0-9]+))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -379,7 +387,7 @@ extension Imagebuilder {
         public let owner: String?
         /// The platform of the component.
         public let platform: Platform?
-        ///  The operating system (OS) version supported by the component. If the OS information is available, a prefix match is performed against the parent image OS version during image recipe creation.
+        /// he operating system (OS) version supported by the component. If the OS information is available, a prefix match is performed against the parent image OS version during image recipe creation.
         public let supportedOsVersions: [String]?
         /// The type of the component denotes whether the component is used to build the image or only to test it.
         public let type: ComponentType?
@@ -447,9 +455,12 @@ extension Imagebuilder {
                 try validate($0, name: "containerTags[]", parent: name, max: 1024)
                 try validate($0, name: "containerTags[]", parent: name, min: 1)
             }
+            try self.containerTags?.forEach {}
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.targetRepository.validate(name: "\(name).targetRepository")
+            try self.targetRepository.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -474,6 +485,8 @@ extension Imagebuilder {
         public let dockerfileTemplateData: String?
         /// A flag that indicates if the target container is encrypted.
         public let encrypted: Bool?
+        /// A group of options that can be used to configure an instance for building and testing container images.
+        public let instanceConfiguration: InstanceConfiguration?
         /// Identifies which KMS key is used to encrypt the container image for distribution to the target Region.
         public let kmsKeyId: String?
         /// The name of the container recipe.
@@ -493,7 +506,7 @@ extension Imagebuilder {
         /// The working directory for use during build and test workflows.
         public let workingDirectory: String?
 
-        public init(arn: String? = nil, components: [ComponentConfiguration]? = nil, containerType: ContainerType? = nil, dateCreated: String? = nil, description: String? = nil, dockerfileTemplateData: String? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, name: String? = nil, owner: String? = nil, parentImage: String? = nil, platform: Platform? = nil, tags: [String: String]? = nil, targetRepository: TargetContainerRepository? = nil, version: String? = nil, workingDirectory: String? = nil) {
+        public init(arn: String? = nil, components: [ComponentConfiguration]? = nil, containerType: ContainerType? = nil, dateCreated: String? = nil, description: String? = nil, dockerfileTemplateData: String? = nil, encrypted: Bool? = nil, instanceConfiguration: InstanceConfiguration? = nil, kmsKeyId: String? = nil, name: String? = nil, owner: String? = nil, parentImage: String? = nil, platform: Platform? = nil, tags: [String: String]? = nil, targetRepository: TargetContainerRepository? = nil, version: String? = nil, workingDirectory: String? = nil) {
             self.arn = arn
             self.components = components
             self.containerType = containerType
@@ -501,6 +514,7 @@ extension Imagebuilder {
             self.description = description
             self.dockerfileTemplateData = dockerfileTemplateData
             self.encrypted = encrypted
+            self.instanceConfiguration = instanceConfiguration
             self.kmsKeyId = kmsKeyId
             self.name = name
             self.owner = owner
@@ -520,6 +534,7 @@ extension Imagebuilder {
             case description
             case dockerfileTemplateData
             case encrypted
+            case instanceConfiguration
             case kmsKeyId
             case name
             case owner
@@ -612,22 +627,30 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
+            try self.changeDescription?.forEach {}
             try self.validate(self.changeDescription, name: "changeDescription", parent: name, max: 1024)
             try self.validate(self.changeDescription, name: "changeDescription", parent: name, min: 1)
+            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.data?.forEach {}
             try self.validate(self.data, name: "data", parent: name, max: 16000)
             try self.validate(self.data, name: "data", parent: name, min: 1)
             try self.validate(self.data, name: "data", parent: name, pattern: "[^\\x00]+")
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.kmsKeyId?.forEach {}
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 1024)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$")
+            try self.semanticVersion.forEach {}
             try self.validate(self.semanticVersion, name: "semanticVersion", parent: name, pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$")
             try self.supportedOsVersions?.forEach {
                 try validate($0, name: "supportedOsVersions[]", parent: name, min: 1)
             }
+            try self.supportedOsVersions?.forEach {}
             try self.validate(self.supportedOsVersions, name: "supportedOsVersions", parent: name, max: 25)
             try self.validate(self.supportedOsVersions, name: "supportedOsVersions", parent: name, min: 1)
             try self.tags?.forEach {
@@ -684,11 +707,13 @@ extension Imagebuilder {
         /// The description of the container recipe.
         public let description: String?
         /// The Dockerfile template used to build your image as an inline data blob.
-        public let dockerfileTemplateData: String
+        public let dockerfileTemplateData: String?
         /// The S3 URI for the Dockerfile that will be used to build your container image.
         public let dockerfileTemplateUri: String?
         /// Specifies the operating system version for the source image.
         public let imageOsVersionOverride: String?
+        /// A group of options that can be used to configure an instance for building and testing container images.
+        public let instanceConfiguration: InstanceConfiguration?
         /// Identifies which KMS key is used to encrypt the container image.
         public let kmsKeyId: String?
         /// The name of the container recipe.
@@ -706,7 +731,7 @@ extension Imagebuilder {
         /// The working directory for use during build and test workflows.
         public let workingDirectory: String?
 
-        public init(clientToken: String = CreateContainerRecipeRequest.idempotencyToken(), components: [ComponentConfiguration], containerType: ContainerType, description: String? = nil, dockerfileTemplateData: String, dockerfileTemplateUri: String? = nil, imageOsVersionOverride: String? = nil, kmsKeyId: String? = nil, name: String, parentImage: String, platformOverride: Platform? = nil, semanticVersion: String, tags: [String: String]? = nil, targetRepository: TargetContainerRepository, workingDirectory: String? = nil) {
+        public init(clientToken: String = CreateContainerRecipeRequest.idempotencyToken(), components: [ComponentConfiguration], containerType: ContainerType, description: String? = nil, dockerfileTemplateData: String? = nil, dockerfileTemplateUri: String? = nil, imageOsVersionOverride: String? = nil, instanceConfiguration: InstanceConfiguration? = nil, kmsKeyId: String? = nil, name: String, parentImage: String, platformOverride: Platform? = nil, semanticVersion: String, tags: [String: String]? = nil, targetRepository: TargetContainerRepository, workingDirectory: String? = nil) {
             self.clientToken = clientToken
             self.components = components
             self.containerType = containerType
@@ -714,6 +739,7 @@ extension Imagebuilder {
             self.dockerfileTemplateData = dockerfileTemplateData
             self.dockerfileTemplateUri = dockerfileTemplateUri
             self.imageOsVersionOverride = imageOsVersionOverride
+            self.instanceConfiguration = instanceConfiguration
             self.kmsKeyId = kmsKeyId
             self.name = name
             self.parentImage = parentImage
@@ -725,24 +751,35 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.components.forEach {
                 try $0.validate(name: "\(name).components[]")
             }
+            try self.components.forEach {}
             try self.validate(self.components, name: "components", parent: name, min: 1)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.dockerfileTemplateData?.forEach {}
             try self.validate(self.dockerfileTemplateData, name: "dockerfileTemplateData", parent: name, max: 16000)
             try self.validate(self.dockerfileTemplateData, name: "dockerfileTemplateData", parent: name, min: 1)
             try self.validate(self.dockerfileTemplateData, name: "dockerfileTemplateData", parent: name, pattern: "[^\\x00]+")
+            try self.imageOsVersionOverride?.forEach {}
             try self.validate(self.imageOsVersionOverride, name: "imageOsVersionOverride", parent: name, max: 1024)
             try self.validate(self.imageOsVersionOverride, name: "imageOsVersionOverride", parent: name, min: 1)
+            try self.instanceConfiguration?.validate(name: "\(name).instanceConfiguration")
+            try self.instanceConfiguration?.forEach {}
+            try self.kmsKeyId?.forEach {}
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 1024)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$")
+            try self.parentImage.forEach {}
             try self.validate(self.parentImage, name: "parentImage", parent: name, max: 1024)
             try self.validate(self.parentImage, name: "parentImage", parent: name, min: 1)
+            try self.semanticVersion.forEach {}
             try self.validate(self.semanticVersion, name: "semanticVersion", parent: name, pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -751,6 +788,8 @@ extension Imagebuilder {
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.targetRepository.validate(name: "\(name).targetRepository")
+            try self.targetRepository.forEach {}
+            try self.workingDirectory?.forEach {}
             try self.validate(self.workingDirectory, name: "workingDirectory", parent: name, max: 1024)
             try self.validate(self.workingDirectory, name: "workingDirectory", parent: name, min: 1)
         }
@@ -763,6 +802,7 @@ extension Imagebuilder {
             case dockerfileTemplateData
             case dockerfileTemplateUri
             case imageOsVersionOverride
+            case instanceConfiguration
             case kmsKeyId
             case name
             case parentImage
@@ -816,13 +856,17 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.distributions.forEach {
                 try $0.validate(name: "\(name).distributions[]")
             }
+            try self.distributions.forEach {}
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -904,17 +948,26 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.containerRecipeArn, name: "containerRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):container-recipe/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+$")
+            try self.containerRecipeArn?.forEach {}
+            try self.validate(self.containerRecipeArn, name: "containerRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):container-recipe/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+$")
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.validate(self.distributionConfigurationArn, name: "distributionConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):distribution-configuration/[a-z0-9-_]+$")
-            try self.validate(self.imageRecipeArn, name: "imageRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image-recipe/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+$")
+            try self.distributionConfigurationArn?.forEach {}
+            try self.validate(self.distributionConfigurationArn, name: "distributionConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):distribution-configuration/[a-z0-9-_]+$")
+            try self.imageRecipeArn?.forEach {}
+            try self.validate(self.imageRecipeArn, name: "imageRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-recipe/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+$")
             try self.imageTestsConfiguration?.validate(name: "\(name).imageTestsConfiguration")
-            try self.validate(self.infrastructureConfigurationArn, name: "infrastructureConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):infrastructure-configuration/[a-z0-9-_]+$")
+            try self.imageTestsConfiguration?.forEach {}
+            try self.infrastructureConfigurationArn.forEach {}
+            try self.validate(self.infrastructureConfigurationArn, name: "infrastructureConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infrastructure-configuration/[a-z0-9-_]+$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$")
             try self.schedule?.validate(name: "\(name).schedule")
+            try self.schedule?.forEach {}
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -996,17 +1049,24 @@ extension Imagebuilder {
             try self.blockDeviceMappings?.forEach {
                 try $0.validate(name: "\(name).blockDeviceMappings[]")
             }
+            try self.blockDeviceMappings?.forEach {}
+            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.components.forEach {
                 try $0.validate(name: "\(name).components[]")
             }
+            try self.components.forEach {}
             try self.validate(self.components, name: "components", parent: name, min: 1)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$")
+            try self.parentImage.forEach {}
             try self.validate(self.parentImage, name: "parentImage", parent: name, max: 1024)
             try self.validate(self.parentImage, name: "parentImage", parent: name, min: 1)
+            try self.semanticVersion.forEach {}
             try self.validate(self.semanticVersion, name: "semanticVersion", parent: name, pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -1014,6 +1074,7 @@ extension Imagebuilder {
                 try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
+            try self.workingDirectory?.forEach {}
             try self.validate(self.workingDirectory, name: "workingDirectory", parent: name, max: 1024)
             try self.validate(self.workingDirectory, name: "workingDirectory", parent: name, min: 1)
         }
@@ -1082,13 +1143,19 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.containerRecipeArn, name: "containerRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):container-recipe/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+$")
-            try self.validate(self.distributionConfigurationArn, name: "distributionConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):distribution-configuration/[a-z0-9-_]+$")
-            try self.validate(self.imageRecipeArn, name: "imageRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image-recipe/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+$")
+            try self.containerRecipeArn?.forEach {}
+            try self.validate(self.containerRecipeArn, name: "containerRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):container-recipe/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+$")
+            try self.distributionConfigurationArn?.forEach {}
+            try self.validate(self.distributionConfigurationArn, name: "distributionConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):distribution-configuration/[a-z0-9-_]+$")
+            try self.imageRecipeArn?.forEach {}
+            try self.validate(self.imageRecipeArn, name: "imageRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-recipe/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+$")
             try self.imageTestsConfiguration?.validate(name: "\(name).imageTestsConfiguration")
-            try self.validate(self.infrastructureConfigurationArn, name: "infrastructureConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):infrastructure-configuration/[a-z0-9-_]+$")
+            try self.imageTestsConfiguration?.forEach {}
+            try self.infrastructureConfigurationArn.forEach {}
+            try self.validate(self.infrastructureConfigurationArn, name: "infrastructureConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infrastructure-configuration/[a-z0-9-_]+$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1175,15 +1242,22 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.validate(self.instanceProfileName, name: "instanceProfileName", parent: name, max: 1024)
+            try self.instanceProfileName.forEach {}
+            try self.validate(self.instanceProfileName, name: "instanceProfileName", parent: name, max: 256)
             try self.validate(self.instanceProfileName, name: "instanceProfileName", parent: name, min: 1)
+            try self.validate(self.instanceProfileName, name: "instanceProfileName", parent: name, pattern: "^[\\w+=,.@-]+$")
+            try self.keyPair?.forEach {}
             try self.validate(self.keyPair, name: "keyPair", parent: name, max: 1024)
             try self.validate(self.keyPair, name: "keyPair", parent: name, min: 1)
             try self.logging?.validate(name: "\(name).logging")
+            try self.logging?.forEach {}
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$")
             try self.resourceTags?.forEach {
                 try validate($0.key, name: "resourceTags.key", parent: name, max: 128)
@@ -1195,7 +1269,10 @@ extension Imagebuilder {
                 try validate($0, name: "securityGroupIds[]", parent: name, max: 1024)
                 try validate($0, name: "securityGroupIds[]", parent: name, min: 1)
             }
-            try self.validate(self.snsTopicArn, name: "snsTopicArn", parent: name, pattern: "^arn:aws[^:]*:sns:[^:]+:\\d{12}:[a-zA-Z0-9-_]{1,256}$")
+            try self.securityGroupIds?.forEach {}
+            try self.snsTopicArn?.forEach {}
+            try self.validate(self.snsTopicArn, name: "snsTopicArn", parent: name, pattern: "^arn:aws[^:]*:sns:[^:]+:[0-9]{12}:[a-zA-Z0-9-_]{1,256}$")
+            try self.subnetId?.forEach {}
             try self.validate(self.subnetId, name: "subnetId", parent: name, max: 1024)
             try self.validate(self.subnetId, name: "subnetId", parent: name, min: 1)
             try self.tags?.forEach {
@@ -1257,7 +1334,8 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.componentBuildVersionArn, name: "componentBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):component/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+/\\d+$")
+            try self.componentBuildVersionArn.forEach {}
+            try self.validate(self.componentBuildVersionArn, name: "componentBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):component/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+/[0-9]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1293,7 +1371,8 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.containerRecipeArn, name: "containerRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):container-recipe/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+$")
+            try self.containerRecipeArn.forEach {}
+            try self.validate(self.containerRecipeArn, name: "containerRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):container-recipe/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1329,7 +1408,8 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.distributionConfigurationArn, name: "distributionConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):distribution-configuration/[a-z0-9-_]+$")
+            try self.distributionConfigurationArn.forEach {}
+            try self.validate(self.distributionConfigurationArn, name: "distributionConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):distribution-configuration/[a-z0-9-_]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1365,7 +1445,8 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.imagePipelineArn, name: "imagePipelineArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image-pipeline/[a-z0-9-_]+$")
+            try self.imagePipelineArn.forEach {}
+            try self.validate(self.imagePipelineArn, name: "imagePipelineArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-pipeline/[a-z0-9-_]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1401,7 +1482,8 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.imageRecipeArn, name: "imageRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image-recipe/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+$")
+            try self.imageRecipeArn.forEach {}
+            try self.validate(self.imageRecipeArn, name: "imageRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-recipe/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1437,7 +1519,8 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.imageBuildVersionArn, name: "imageBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+/\\d+$")
+            try self.imageBuildVersionArn.forEach {}
+            try self.validate(self.imageBuildVersionArn, name: "imageBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+/[0-9]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1473,7 +1556,8 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.infrastructureConfigurationArn, name: "infrastructureConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):infrastructure-configuration/[a-z0-9-_]+$")
+            try self.infrastructureConfigurationArn.forEach {}
+            try self.validate(self.infrastructureConfigurationArn, name: "infrastructureConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infrastructure-configuration/[a-z0-9-_]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1497,30 +1581,43 @@ extension Imagebuilder {
     }
 
     public struct Distribution: AWSEncodableShape & AWSDecodableShape {
-        /// The specific AMI settings (for example, launch permissions, AMI tags).
+        /// The specific AMI settings; for example, launch permissions or AMI tags.
         public let amiDistributionConfiguration: AmiDistributionConfiguration?
         /// Container distribution settings for encryption, licensing, and sharing in a specific Region.
         public let containerDistributionConfiguration: ContainerDistributionConfiguration?
+        /// A group of launchTemplateConfiguration settings that apply to image distribution for specified accounts.
+        public let launchTemplateConfigurations: [LaunchTemplateConfiguration]?
         /// The License Manager Configuration to associate with the AMI in the specified Region.
         public let licenseConfigurationArns: [String]?
         /// The target Region.
         public let region: String
 
-        public init(amiDistributionConfiguration: AmiDistributionConfiguration? = nil, containerDistributionConfiguration: ContainerDistributionConfiguration? = nil, licenseConfigurationArns: [String]? = nil, region: String) {
+        public init(amiDistributionConfiguration: AmiDistributionConfiguration? = nil, containerDistributionConfiguration: ContainerDistributionConfiguration? = nil, launchTemplateConfigurations: [LaunchTemplateConfiguration]? = nil, licenseConfigurationArns: [String]? = nil, region: String) {
             self.amiDistributionConfiguration = amiDistributionConfiguration
             self.containerDistributionConfiguration = containerDistributionConfiguration
+            self.launchTemplateConfigurations = launchTemplateConfigurations
             self.licenseConfigurationArns = licenseConfigurationArns
             self.region = region
         }
 
         public func validate(name: String) throws {
             try self.amiDistributionConfiguration?.validate(name: "\(name).amiDistributionConfiguration")
+            try self.amiDistributionConfiguration?.forEach {}
             try self.containerDistributionConfiguration?.validate(name: "\(name).containerDistributionConfiguration")
-            try self.licenseConfigurationArns?.forEach {
-                try validate($0, name: "licenseConfigurationArns[]", parent: name, pattern: "^arn:aws[^:]*:license-manager:[^:]+:\\d{12}:license-configuration:lic-[a-z0-9-_]{32}$")
+            try self.containerDistributionConfiguration?.forEach {}
+            try self.launchTemplateConfigurations?.forEach {
+                try $0.validate(name: "\(name).launchTemplateConfigurations[]")
             }
+            try self.launchTemplateConfigurations?.forEach {}
+            try self.validate(self.launchTemplateConfigurations, name: "launchTemplateConfigurations", parent: name, max: 100)
+            try self.validate(self.launchTemplateConfigurations, name: "launchTemplateConfigurations", parent: name, min: 1)
+            try self.licenseConfigurationArns?.forEach {
+                try validate($0, name: "licenseConfigurationArns[]", parent: name, pattern: "^arn:aws[^:]*:license-manager:[^:]+:[0-9]{12}:license-configuration:lic-[a-z0-9-_]{32}$")
+            }
+            try self.licenseConfigurationArns?.forEach {}
             try self.validate(self.licenseConfigurationArns, name: "licenseConfigurationArns", parent: name, max: 50)
             try self.validate(self.licenseConfigurationArns, name: "licenseConfigurationArns", parent: name, min: 1)
+            try self.region.forEach {}
             try self.validate(self.region, name: "region", parent: name, max: 1024)
             try self.validate(self.region, name: "region", parent: name, min: 1)
         }
@@ -1528,6 +1625,7 @@ extension Imagebuilder {
         private enum CodingKeys: String, CodingKey {
             case amiDistributionConfiguration
             case containerDistributionConfiguration
+            case launchTemplateConfigurations
             case licenseConfigurationArns
             case region
         }
@@ -1542,7 +1640,7 @@ extension Imagebuilder {
         public let dateUpdated: String?
         /// The description of the distribution configuration.
         public let description: String?
-        /// The distributions of the distribution configuration.
+        /// The distribution objects that apply Region-specific settings for the deployment of the image to targeted Regions.
         public let distributions: [Distribution]?
         /// The name of the distribution configuration.
         public let name: String?
@@ -1638,12 +1736,16 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
+            try self.iops?.forEach {}
             try self.validate(self.iops, name: "iops", parent: name, max: 10000)
             try self.validate(self.iops, name: "iops", parent: name, min: 100)
+            try self.kmsKeyId?.forEach {}
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 1024)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.snapshotId?.forEach {}
             try self.validate(self.snapshotId, name: "snapshotId", parent: name, max: 1024)
             try self.validate(self.snapshotId, name: "snapshotId", parent: name, min: 1)
+            try self.volumeSize?.forEach {}
             try self.validate(self.volumeSize, name: "volumeSize", parent: name, max: 16000)
             try self.validate(self.volumeSize, name: "volumeSize", parent: name, min: 1)
         }
@@ -1671,10 +1773,12 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z]{1,1024}$")
             try self.values?.forEach {
                 try validate($0, name: "values[]", parent: name, pattern: "^[0-9a-zA-Z./_ :-]{1,1024}$")
             }
+            try self.values?.forEach {}
             try self.validate(self.values, name: "values", parent: name, max: 10)
             try self.validate(self.values, name: "values", parent: name, min: 1)
         }
@@ -1698,7 +1802,8 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.componentArn, name: "componentArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):component/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+/\\d+$")
+            try self.componentArn.forEach {}
+            try self.validate(self.componentArn, name: "componentArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):component/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+/[0-9]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1734,7 +1839,8 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.componentBuildVersionArn, name: "componentBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):component/[a-z0-9-_]+/(?:(?:(\\d+|x)\\.(\\d+|x)\\.(\\d+|x))|(?:\\d+\\.\\d+\\.\\d+/\\d+))$")
+            try self.componentBuildVersionArn.forEach {}
+            try self.validate(self.componentBuildVersionArn, name: "componentBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):component/[a-z0-9-_]+/(?:(?:([0-9]+|x)\\.([0-9]+|x)\\.([0-9]+|x))|(?:[0-9]+\\.[0-9]+\\.[0-9]+/[0-9]+))$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1770,7 +1876,8 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.containerRecipeArn, name: "containerRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):container-recipe/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+$")
+            try self.containerRecipeArn.forEach {}
+            try self.validate(self.containerRecipeArn, name: "containerRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):container-recipe/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1806,7 +1913,8 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.containerRecipeArn, name: "containerRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):container-recipe/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+$")
+            try self.containerRecipeArn.forEach {}
+            try self.validate(self.containerRecipeArn, name: "containerRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):container-recipe/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1842,7 +1950,8 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.distributionConfigurationArn, name: "distributionConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):distribution-configuration/[a-z0-9-_]+$")
+            try self.distributionConfigurationArn.forEach {}
+            try self.validate(self.distributionConfigurationArn, name: "distributionConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):distribution-configuration/[a-z0-9-_]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1878,7 +1987,8 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.imagePipelineArn, name: "imagePipelineArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image-pipeline/[a-z0-9-_]+$")
+            try self.imagePipelineArn.forEach {}
+            try self.validate(self.imagePipelineArn, name: "imagePipelineArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-pipeline/[a-z0-9-_]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1914,7 +2024,8 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.imageArn, name: "imageArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+/\\d+$")
+            try self.imageArn.forEach {}
+            try self.validate(self.imageArn, name: "imageArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+/[0-9]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1950,7 +2061,8 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.imageRecipeArn, name: "imageRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image-recipe/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+$")
+            try self.imageRecipeArn.forEach {}
+            try self.validate(self.imageRecipeArn, name: "imageRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-recipe/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1986,7 +2098,8 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.imageRecipeArn, name: "imageRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image-recipe/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+$")
+            try self.imageRecipeArn.forEach {}
+            try self.validate(self.imageRecipeArn, name: "imageRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-recipe/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2022,7 +2135,8 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.imageBuildVersionArn, name: "imageBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image/[a-z0-9-_]+/(?:(?:(\\d+|x)\\.(\\d+|x)\\.(\\d+|x))|(?:\\d+\\.\\d+\\.\\d+/\\d+))$")
+            try self.imageBuildVersionArn.forEach {}
+            try self.validate(self.imageBuildVersionArn, name: "imageBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image/[a-z0-9-_]+/(?:(?:([0-9]+|x)\\.([0-9]+|x)\\.([0-9]+|x))|(?:[0-9]+\\.[0-9]+\\.[0-9]+/[0-9]+))$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2058,7 +2172,8 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.infrastructureConfigurationArn, name: "infrastructureConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):infrastructure-configuration/[a-z0-9-_]+$")
+            try self.infrastructureConfigurationArn.forEach {}
+            try self.validate(self.infrastructureConfigurationArn, name: "infrastructureConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infrastructure-configuration/[a-z0-9-_]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2436,6 +2551,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
+            try self.timeoutMinutes?.forEach {}
             try self.validate(self.timeoutMinutes, name: "timeoutMinutes", parent: name, max: 1440)
             try self.validate(self.timeoutMinutes, name: "timeoutMinutes", parent: name, min: 60)
         }
@@ -2453,7 +2569,7 @@ extension Imagebuilder {
         public let dateCreated: String?
         /// The name of the image semantic version.
         public let name: String?
-        ///  The operating system version of the instance. For example, Amazon Linux 2, Ubuntu 18, or Microsoft Windows Server 2019.
+        /// The operating system version of the instance. For example, Amazon Linux 2, Ubuntu 18, or Microsoft Windows Server 2019.
         public let osVersion: String?
         /// The owner of the image semantic version.
         public let owner: String?
@@ -2529,17 +2645,24 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
+            try self.changeDescription?.forEach {}
             try self.validate(self.changeDescription, name: "changeDescription", parent: name, max: 1024)
             try self.validate(self.changeDescription, name: "changeDescription", parent: name, min: 1)
+            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.data?.forEach {}
             try self.validate(self.data, name: "data", parent: name, max: 1024)
             try self.validate(self.data, name: "data", parent: name, min: 1)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.kmsKeyId?.forEach {}
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 1024)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$")
+            try self.semanticVersion.forEach {}
             try self.validate(self.semanticVersion, name: "semanticVersion", parent: name, pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -2718,11 +2841,15 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
+            try self.deviceName?.forEach {}
             try self.validate(self.deviceName, name: "deviceName", parent: name, max: 1024)
             try self.validate(self.deviceName, name: "deviceName", parent: name, min: 1)
             try self.ebs?.validate(name: "\(name).ebs")
+            try self.ebs?.forEach {}
+            try self.noDevice?.forEach {}
             try self.validate(self.noDevice, name: "noDevice", parent: name, max: 0)
             try self.validate(self.noDevice, name: "noDevice", parent: name, min: 0)
+            try self.virtualName?.forEach {}
             try self.validate(self.virtualName, name: "virtualName", parent: name, max: 1024)
             try self.validate(self.virtualName, name: "virtualName", parent: name, min: 1)
         }
@@ -2732,6 +2859,33 @@ extension Imagebuilder {
             case ebs
             case noDevice
             case virtualName
+        }
+    }
+
+    public struct InstanceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Defines the block devices to attach for building an instance from this Image Builder AMI.
+        public let blockDeviceMappings: [InstanceBlockDeviceMapping]?
+        /// The AMI ID to use as the base image for a container build and test instance. If not specified, Image Builder will use the appropriate ECS-optimized AMI as a base image.
+        public let image: String?
+
+        public init(blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, image: String? = nil) {
+            self.blockDeviceMappings = blockDeviceMappings
+            self.image = image
+        }
+
+        public func validate(name: String) throws {
+            try self.blockDeviceMappings?.forEach {
+                try $0.validate(name: "\(name).blockDeviceMappings[]")
+            }
+            try self.blockDeviceMappings?.forEach {}
+            try self.image?.forEach {}
+            try self.validate(self.image, name: "image", parent: name, max: 1024)
+            try self.validate(self.image, name: "image", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blockDeviceMappings
+            case image
         }
     }
 
@@ -2751,9 +2905,11 @@ extension Imagebuilder {
                 try validate($0, name: "userGroups[]", parent: name, max: 1024)
                 try validate($0, name: "userGroups[]", parent: name, min: 1)
             }
+            try self.userGroups?.forEach {}
             try self.userIds?.forEach {
-                try validate($0, name: "userIds[]", parent: name, pattern: "^\\d{12}$")
+                try validate($0, name: "userIds[]", parent: name, pattern: "^[0-9]{12}$")
             }
+            try self.userIds?.forEach {}
             try self.validate(self.userIds, name: "userIds", parent: name, max: 1536)
             try self.validate(self.userIds, name: "userIds", parent: name, min: 1)
         }
@@ -2761,6 +2917,34 @@ extension Imagebuilder {
         private enum CodingKeys: String, CodingKey {
             case userGroups
             case userIds
+        }
+    }
+
+    public struct LaunchTemplateConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The account ID that this configuration applies to.
+        public let accountId: String?
+        /// Identifies the EC2 launch template to use.
+        public let launchTemplateId: String
+        /// Set the specified EC2 launch template as the default launch template for the specified account.
+        public let setDefaultVersion: Bool?
+
+        public init(accountId: String? = nil, launchTemplateId: String, setDefaultVersion: Bool? = nil) {
+            self.accountId = accountId
+            self.launchTemplateId = launchTemplateId
+            self.setDefaultVersion = setDefaultVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.accountId?.forEach {}
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.launchTemplateId.forEach {}
+            try self.validate(self.launchTemplateId, name: "launchTemplateId", parent: name, pattern: "^lt-[a-z0-9-_]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId
+            case launchTemplateId
+            case setDefaultVersion
         }
     }
 
@@ -2779,9 +2963,12 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.componentVersionArn, name: "componentVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):component/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+$")
+            try self.componentVersionArn.forEach {}
+            try self.validate(self.componentVersionArn, name: "componentVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):component/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+$")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2838,10 +3025,13 @@ extension Imagebuilder {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 10)
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2897,10 +3087,13 @@ extension Imagebuilder {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 10)
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2935,7 +3128,7 @@ extension Imagebuilder {
     }
 
     public struct ListDistributionConfigurationsRequest: AWSEncodableShape {
-        /// The filters.     name - The name of this distribution configuration.
+        /// The filters.    name - The name of this distribution configuration.
         public let filters: [Filter]?
         /// The maximum items to return in a request.
         public let maxResults: Int?
@@ -2952,10 +3145,13 @@ extension Imagebuilder {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 10)
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -3009,11 +3205,15 @@ extension Imagebuilder {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 10)
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
-            try self.validate(self.imageVersionArn, name: "imageVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+$")
+            try self.imageVersionArn.forEach {}
+            try self.validate(self.imageVersionArn, name: "imageVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+$")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -3062,9 +3262,12 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.imageBuildVersionArn, name: "imageBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+/\\d+$")
+            try self.imageBuildVersionArn.forEach {}
+            try self.validate(self.imageBuildVersionArn, name: "imageBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+/[0-9]+$")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -3118,11 +3321,15 @@ extension Imagebuilder {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 10)
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
-            try self.validate(self.imagePipelineArn, name: "imagePipelineArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image-pipeline/[a-z0-9-_]+$")
+            try self.imagePipelineArn.forEach {}
+            try self.validate(self.imagePipelineArn, name: "imagePipelineArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-pipeline/[a-z0-9-_]+$")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -3174,10 +3381,13 @@ extension Imagebuilder {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 10)
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -3231,10 +3441,13 @@ extension Imagebuilder {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 10)
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -3295,10 +3508,13 @@ extension Imagebuilder {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 10)
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -3352,10 +3568,13 @@ extension Imagebuilder {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 10)
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -3401,7 +3620,8 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):(?:image-recipe|container-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline)/[a-z0-9-_]+(?:/(?:(?:x|\\d+)\\.(?:x|\\d+)\\.(?:x|\\d+))(?:/\\d+)?)?$")
+            try self.resourceArn.forEach {}
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):(?:image-recipe|container-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline)/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\\.(?:x|[0-9]+)\\.(?:x|[0-9]+))(?:/[0-9]+)?)?$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3430,6 +3650,7 @@ extension Imagebuilder {
 
         public func validate(name: String) throws {
             try self.s3Logs?.validate(name: "\(name).s3Logs")
+            try self.s3Logs?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3466,7 +3687,9 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.componentArn, name: "componentArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):component/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+/\\d+$")
+            try self.componentArn.forEach {}
+            try self.validate(self.componentArn, name: "componentArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):component/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+/[0-9]+$")
+            try self.policy.forEach {}
             try self.validate(self.policy, name: "policy", parent: name, max: 30000)
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
         }
@@ -3506,7 +3729,9 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.containerRecipeArn, name: "containerRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):container-recipe/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+$")
+            try self.containerRecipeArn.forEach {}
+            try self.validate(self.containerRecipeArn, name: "containerRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):container-recipe/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+$")
+            try self.policy.forEach {}
             try self.validate(self.policy, name: "policy", parent: name, max: 30000)
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
         }
@@ -3546,7 +3771,9 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.imageArn, name: "imageArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+/\\d+$")
+            try self.imageArn.forEach {}
+            try self.validate(self.imageArn, name: "imageArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+/[0-9]+$")
+            try self.policy.forEach {}
             try self.validate(self.policy, name: "policy", parent: name, max: 30000)
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
         }
@@ -3586,7 +3813,9 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.imageRecipeArn, name: "imageRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image-recipe/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+$")
+            try self.imageRecipeArn.forEach {}
+            try self.validate(self.imageRecipeArn, name: "imageRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-recipe/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+$")
+            try self.policy.forEach {}
             try self.validate(self.policy, name: "policy", parent: name, max: 30000)
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
         }
@@ -3626,8 +3855,10 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
+            try self.s3BucketName?.forEach {}
             try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, max: 1024)
             try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, min: 1)
+            try self.s3KeyPrefix?.forEach {}
             try self.validate(self.s3KeyPrefix, name: "s3KeyPrefix", parent: name, max: 1024)
             try self.validate(self.s3KeyPrefix, name: "s3KeyPrefix", parent: name, min: 1)
         }
@@ -3653,8 +3884,10 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
+            try self.scheduleExpression?.forEach {}
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, max: 1024)
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, min: 1)
+            try self.timezone?.forEach {}
             try self.validate(self.timezone, name: "timezone", parent: name, max: 100)
             try self.validate(self.timezone, name: "timezone", parent: name, min: 3)
             try self.validate(self.timezone, name: "timezone", parent: name, pattern: "[a-zA-Z0-9]{2,}(?:\\/[a-zA-z0-9-_+]+)*")
@@ -3679,9 +3912,11 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.imagePipelineArn, name: "imagePipelineArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image-pipeline/[a-z0-9-_]+$")
+            try self.imagePipelineArn.forEach {}
+            try self.validate(self.imagePipelineArn, name: "imagePipelineArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-pipeline/[a-z0-9-_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3727,7 +3962,8 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):(?:image-recipe|container-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline)/[a-z0-9-_]+(?:/(?:(?:x|\\d+)\\.(?:x|\\d+)\\.(?:x|\\d+))(?:/\\d+)?)?$")
+            try self.resourceArn.forEach {}
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):(?:image-recipe|container-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline)/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\\.(?:x|[0-9]+)\\.(?:x|[0-9]+))(?:/[0-9]+)?)?$")
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -3757,6 +3993,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 1024)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
         }
@@ -3784,12 +4021,14 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):(?:image-recipe|container-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline)/[a-z0-9-_]+(?:/(?:(?:x|\\d+)\\.(?:x|\\d+)\\.(?:x|\\d+))(?:/\\d+)?)?$")
+            try self.resourceArn.forEach {}
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):(?:image-recipe|container-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline)/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\\.(?:x|[0-9]+)\\.(?:x|[0-9]+))(?:/[0-9]+)?)?$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
@@ -3819,14 +4058,18 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.validate(self.distributionConfigurationArn, name: "distributionConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):distribution-configuration/[a-z0-9-_]+$")
+            try self.distributionConfigurationArn.forEach {}
+            try self.validate(self.distributionConfigurationArn, name: "distributionConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):distribution-configuration/[a-z0-9-_]+$")
             try self.distributions.forEach {
                 try $0.validate(name: "\(name).distributions[]")
             }
+            try self.distributions.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3897,17 +4140,26 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.containerRecipeArn, name: "containerRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):container-recipe/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+$")
+            try self.containerRecipeArn?.forEach {}
+            try self.validate(self.containerRecipeArn, name: "containerRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):container-recipe/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+$")
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.validate(self.distributionConfigurationArn, name: "distributionConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):distribution-configuration/[a-z0-9-_]+$")
-            try self.validate(self.imagePipelineArn, name: "imagePipelineArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image-pipeline/[a-z0-9-_]+$")
-            try self.validate(self.imageRecipeArn, name: "imageRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):image-recipe/[a-z0-9-_]+/\\d+\\.\\d+\\.\\d+$")
+            try self.distributionConfigurationArn?.forEach {}
+            try self.validate(self.distributionConfigurationArn, name: "distributionConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):distribution-configuration/[a-z0-9-_]+$")
+            try self.imagePipelineArn.forEach {}
+            try self.validate(self.imagePipelineArn, name: "imagePipelineArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-pipeline/[a-z0-9-_]+$")
+            try self.imageRecipeArn?.forEach {}
+            try self.validate(self.imageRecipeArn, name: "imageRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-recipe/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+$")
             try self.imageTestsConfiguration?.validate(name: "\(name).imageTestsConfiguration")
-            try self.validate(self.infrastructureConfigurationArn, name: "infrastructureConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):infrastructure-configuration/[a-z0-9-_]+$")
+            try self.imageTestsConfiguration?.forEach {}
+            try self.infrastructureConfigurationArn.forEach {}
+            try self.validate(self.infrastructureConfigurationArn, name: "infrastructureConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infrastructure-configuration/[a-z0-9-_]+$")
             try self.schedule?.validate(name: "\(name).schedule")
+            try self.schedule?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3988,16 +4240,23 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.validate(self.infrastructureConfigurationArn, name: "infrastructureConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:\\d{12}|aws):infrastructure-configuration/[a-z0-9-_]+$")
-            try self.validate(self.instanceProfileName, name: "instanceProfileName", parent: name, max: 1024)
+            try self.infrastructureConfigurationArn.forEach {}
+            try self.validate(self.infrastructureConfigurationArn, name: "infrastructureConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infrastructure-configuration/[a-z0-9-_]+$")
+            try self.instanceProfileName.forEach {}
+            try self.validate(self.instanceProfileName, name: "instanceProfileName", parent: name, max: 256)
             try self.validate(self.instanceProfileName, name: "instanceProfileName", parent: name, min: 1)
+            try self.validate(self.instanceProfileName, name: "instanceProfileName", parent: name, pattern: "^[\\w+=,.@-]+$")
+            try self.keyPair?.forEach {}
             try self.validate(self.keyPair, name: "keyPair", parent: name, max: 1024)
             try self.validate(self.keyPair, name: "keyPair", parent: name, min: 1)
             try self.logging?.validate(name: "\(name).logging")
+            try self.logging?.forEach {}
             try self.resourceTags?.forEach {
                 try validate($0.key, name: "resourceTags.key", parent: name, max: 128)
                 try validate($0.key, name: "resourceTags.key", parent: name, min: 1)
@@ -4008,7 +4267,10 @@ extension Imagebuilder {
                 try validate($0, name: "securityGroupIds[]", parent: name, max: 1024)
                 try validate($0, name: "securityGroupIds[]", parent: name, min: 1)
             }
-            try self.validate(self.snsTopicArn, name: "snsTopicArn", parent: name, pattern: "^arn:aws[^:]*:sns:[^:]+:\\d{12}:[a-zA-Z0-9-_]{1,256}$")
+            try self.securityGroupIds?.forEach {}
+            try self.snsTopicArn?.forEach {}
+            try self.validate(self.snsTopicArn, name: "snsTopicArn", parent: name, pattern: "^arn:aws[^:]*:sns:[^:]+:[0-9]{12}:[a-zA-Z0-9-_]{1,256}$")
+            try self.subnetId?.forEach {}
             try self.validate(self.subnetId, name: "subnetId", parent: name, max: 1024)
             try self.validate(self.subnetId, name: "subnetId", parent: name, min: 1)
         }

@@ -648,6 +648,7 @@ extension SSM {
         case maintenancewindow = "MaintenanceWindow"
         case managedinstance = "ManagedInstance"
         case opsitem = "OpsItem"
+        case opsmetadata = "OpsMetadata"
         case parameter = "Parameter"
         case patchbaseline = "PatchBaseline"
         public var description: String { return self.rawValue }
@@ -781,7 +782,7 @@ extension SSM {
     }
 
     public struct AddTagsToResourceRequest: AWSEncodableShape {
-        /// The resource ID you want to tag. Use the ID of the resource. Here are some examples: ManagedInstance: mi-012345abcde MaintenanceWindow: mw-012345abcde PatchBaseline: pb-012345abcde For the Document and Parameter values, use the name of the resource.  The ManagedInstance type for this API action is only for on-premises managed instances. You must specify the name of the managed instance in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
+        /// The resource ID you want to tag. Use the ID of the resource. Here are some examples: ManagedInstance: mi-012345abcde MaintenanceWindow: mw-012345abcde PatchBaseline: pb-012345abcde OpsMetadata object: ResourceID for tagging is created from the Amazon Resource Name (ARN) for the object. Specifically, ResourceID is created from the strings that come after the word opsmetadata in the ARN. For example, an OpsMetadata object with an ARN of arn:aws:ssm:us-east-2:1234567890:opsmetadata/aws/ssm/MyGroup/appmanager has a ResourceID of either aws/ssm/MyGroup/appmanager or /aws/ssm/MyGroup/appmanager. For the Document and Parameter values, use the name of the resource.  The ManagedInstance type for this API action is only for on-premises managed instances. You must specify the name of the managed instance in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
         public let resourceId: String
         /// Specifies the type of resource you are tagging.  The ManagedInstance type for this API action is for on-premises managed instances. You must specify the name of the managed instance in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
         public let resourceType: ResourceTypeForTagging
@@ -798,6 +799,7 @@ extension SSM {
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 1000)
         }
 
@@ -1018,6 +1020,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, min: 1)
         }
 
@@ -1085,6 +1088,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, min: 1)
         }
 
@@ -1106,6 +1110,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, min: 1)
         }
 
@@ -1154,7 +1159,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.additionalInfo?.forEach {}
             try self.validate(self.additionalInfo, name: "additionalInfo", parent: name, max: 1024)
+            try self.message.forEach {}
             try self.validate(self.message, name: "message", parent: name, max: 1024)
             try self.validate(self.message, name: "message", parent: name, min: 1)
         }
@@ -1297,11 +1304,13 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
             try self.values?.forEach {
                 try validate($0, name: "values[]", parent: name, max: 1024)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
+            try self.values?.forEach {}
             try self.validate(self.values, name: "values", parent: name, max: 1)
             try self.validate(self.values, name: "values", parent: name, min: 1)
         }
@@ -1462,6 +1471,7 @@ extension SSM {
                 try validate($0, name: "values[]", parent: name, max: 150)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
+            try self.values.forEach {}
             try self.validate(self.values, name: "values", parent: name, max: 10)
             try self.validate(self.values, name: "values", parent: name, min: 1)
         }
@@ -1593,6 +1603,76 @@ extension SSM {
         }
     }
 
+    public struct BaselineOverride: AWSEncodableShape {
+        public let approvalRules: PatchRuleGroup?
+        /// A list of explicitly approved patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see About package name formats for approved and rejected patch lists in the AWS Systems Manager User Guide.
+        public let approvedPatches: [String]?
+        /// Defines the compliance level for approved patches. When an approved patch is reported as missing, this value describes the severity of the compliance violation.
+        public let approvedPatchesComplianceLevel: PatchComplianceLevel?
+        /// Indicates whether the list of approved patches includes non-security updates that should be applied to the instances. The default value is 'false'. Applies to Linux instances only.
+        public let approvedPatchesEnableNonSecurity: Bool?
+        public let globalFilters: PatchFilterGroup?
+        /// The operating system rule used by the patch baseline override.
+        public let operatingSystem: OperatingSystem?
+        /// A list of explicitly rejected patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see About package name formats for approved and rejected patch lists in the AWS Systems Manager User Guide.
+        public let rejectedPatches: [String]?
+        /// The action for Patch Manager to take on patches included in the RejectedPackages list. A patch can be allowed only if it is a dependency of another package, or blocked entirely along with packages that include it as a dependency.
+        public let rejectedPatchesAction: PatchAction?
+        /// Information about the patches to use to update the instances, including target operating systems and source repositories. Applies to Linux instances only.
+        public let sources: [PatchSource]?
+
+        public init(approvalRules: PatchRuleGroup? = nil, approvedPatches: [String]? = nil, approvedPatchesComplianceLevel: PatchComplianceLevel? = nil, approvedPatchesEnableNonSecurity: Bool? = nil, globalFilters: PatchFilterGroup? = nil, operatingSystem: OperatingSystem? = nil, rejectedPatches: [String]? = nil, rejectedPatchesAction: PatchAction? = nil, sources: [PatchSource]? = nil) {
+            self.approvalRules = approvalRules
+            self.approvedPatches = approvedPatches
+            self.approvedPatchesComplianceLevel = approvedPatchesComplianceLevel
+            self.approvedPatchesEnableNonSecurity = approvedPatchesEnableNonSecurity
+            self.globalFilters = globalFilters
+            self.operatingSystem = operatingSystem
+            self.rejectedPatches = rejectedPatches
+            self.rejectedPatchesAction = rejectedPatchesAction
+            self.sources = sources
+        }
+
+        public func validate(name: String) throws {
+            try self.approvalRules?.validate(name: "\(name).approvalRules")
+            try self.approvalRules?.forEach {}
+            try self.approvedPatches?.forEach {
+                try validate($0, name: "approvedPatches[]", parent: name, max: 100)
+                try validate($0, name: "approvedPatches[]", parent: name, min: 1)
+            }
+            try self.approvedPatches?.forEach {}
+            try self.validate(self.approvedPatches, name: "approvedPatches", parent: name, max: 50)
+            try self.validate(self.approvedPatches, name: "approvedPatches", parent: name, min: 0)
+            try self.globalFilters?.validate(name: "\(name).globalFilters")
+            try self.globalFilters?.forEach {}
+            try self.rejectedPatches?.forEach {
+                try validate($0, name: "rejectedPatches[]", parent: name, max: 100)
+                try validate($0, name: "rejectedPatches[]", parent: name, min: 1)
+            }
+            try self.rejectedPatches?.forEach {}
+            try self.validate(self.rejectedPatches, name: "rejectedPatches", parent: name, max: 50)
+            try self.validate(self.rejectedPatches, name: "rejectedPatches", parent: name, min: 0)
+            try self.sources?.forEach {
+                try $0.validate(name: "\(name).sources[]")
+            }
+            try self.sources?.forEach {}
+            try self.validate(self.sources, name: "sources", parent: name, max: 20)
+            try self.validate(self.sources, name: "sources", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case approvalRules = "ApprovalRules"
+            case approvedPatches = "ApprovedPatches"
+            case approvedPatchesComplianceLevel = "ApprovedPatchesComplianceLevel"
+            case approvedPatchesEnableNonSecurity = "ApprovedPatchesEnableNonSecurity"
+            case globalFilters = "GlobalFilters"
+            case operatingSystem = "OperatingSystem"
+            case rejectedPatches = "RejectedPatches"
+            case rejectedPatchesAction = "RejectedPatchesAction"
+            case sources = "Sources"
+        }
+    }
+
     public struct CancelCommandRequest: AWSEncodableShape {
         /// The ID of the command you want to cancel.
         public let commandId: String
@@ -1605,11 +1685,13 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.commandId.forEach {}
             try self.validate(self.commandId, name: "commandId", parent: name, max: 36)
             try self.validate(self.commandId, name: "commandId", parent: name, min: 36)
             try self.instanceIds?.forEach {
                 try validate($0, name: "instanceIds[]", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
             }
+            try self.instanceIds?.forEach {}
             try self.validate(self.instanceIds, name: "instanceIds", parent: name, max: 50)
             try self.validate(self.instanceIds, name: "instanceIds", parent: name, min: 0)
         }
@@ -1633,6 +1715,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.windowExecutionId.forEach {}
             try self.validate(self.windowExecutionId, name: "windowExecutionId", parent: name, max: 36)
             try self.validate(self.windowExecutionId, name: "windowExecutionId", parent: name, min: 36)
             try self.validate(self.windowExecutionId, name: "windowExecutionId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
@@ -1668,6 +1751,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.cloudWatchLogGroupName?.forEach {}
             try self.validate(self.cloudWatchLogGroupName, name: "cloudWatchLogGroupName", parent: name, max: 512)
             try self.validate(self.cloudWatchLogGroupName, name: "cloudWatchLogGroupName", parent: name, min: 1)
         }
@@ -1795,6 +1879,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 128)
             try self.validate(self.value, name: "value", parent: name, min: 1)
         }
@@ -1949,7 +2034,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.executionId?.forEach {}
             try self.validate(self.executionId, name: "executionId", parent: name, max: 100)
+            try self.executionType?.forEach {}
             try self.validate(self.executionType, name: "executionType", parent: name, max: 50)
         }
 
@@ -2032,6 +2119,7 @@ extension SSM {
                 try validate($0.value, name: "details[\"\($0.key)\"]", parent: name, max: 4096)
                 try validate($0.value, name: "details[\"\($0.key)\"]", parent: name, min: 0)
             }
+            try self.title?.forEach {}
             try self.validate(self.title, name: "title", parent: name, max: 500)
         }
 
@@ -2059,8 +2147,10 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 200)
             try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.values?.forEach {}
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)
         }
@@ -2115,7 +2205,7 @@ extension SSM {
         public let defaultInstanceName: String?
         /// A user-defined description of the resource that you want to register with Systems Manager.   Do not enter personally identifiable information in this field.
         public let description: String?
-        /// The date by which this activation request should expire. The default value is 24 hours.
+        /// The date by which this activation request should expire, in timestamp format, such as "2021-07-07T00:00:00". You can specify a date up to 30 days in advance. If you don't provide an expiration date, the activation code expires in 24 hours.
         public let expirationDate: Date?
         /// The Amazon Identity and Access Management (IAM) role that you want to assign to the managed instance. This IAM role must provide AssumeRole permissions for the Systems Manager service principal ssm.amazonaws.com. For more information, see Create an IAM service role for a hybrid environment in the AWS Systems Manager User Guide.
         public let iamRole: String
@@ -2134,17 +2224,22 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.defaultInstanceName?.forEach {}
             try self.validate(self.defaultInstanceName, name: "defaultInstanceName", parent: name, max: 256)
             try self.validate(self.defaultInstanceName, name: "defaultInstanceName", parent: name, min: 0)
             try self.validate(self.defaultInstanceName, name: "defaultInstanceName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.iamRole.forEach {}
             try self.validate(self.iamRole, name: "iamRole", parent: name, max: 64)
+            try self.registrationLimit?.forEach {}
             try self.validate(self.registrationLimit, name: "registrationLimit", parent: name, max: 1000)
             try self.validate(self.registrationLimit, name: "registrationLimit", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 1000)
         }
 
@@ -2187,6 +2282,7 @@ extension SSM {
             try self.entries.forEach {
                 try $0.validate(name: "\(name).entries[]")
             }
+            try self.entries.forEach {}
             try self.validate(self.entries, name: "entries", parent: name, min: 1)
         }
 
@@ -2246,29 +2342,40 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.associationName?.forEach {}
             try self.validate(self.associationName, name: "associationName", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try self.automationTargetParameterName?.forEach {}
             try self.validate(self.automationTargetParameterName, name: "automationTargetParameterName", parent: name, max: 50)
             try self.validate(self.automationTargetParameterName, name: "automationTargetParameterName", parent: name, min: 1)
+            try self.documentVersion?.forEach {}
             try self.validate(self.documentVersion, name: "documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
+            try self.instanceId?.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
+            try self.maxConcurrency?.forEach {}
             try self.validate(self.maxConcurrency, name: "maxConcurrency", parent: name, max: 7)
             try self.validate(self.maxConcurrency, name: "maxConcurrency", parent: name, min: 1)
             try self.validate(self.maxConcurrency, name: "maxConcurrency", parent: name, pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
+            try self.maxErrors?.forEach {}
             try self.validate(self.maxErrors, name: "maxErrors", parent: name, max: 7)
             try self.validate(self.maxErrors, name: "maxErrors", parent: name, min: 1)
             try self.validate(self.maxErrors, name: "maxErrors", parent: name, pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
             try self.outputLocation?.validate(name: "\(name).outputLocation")
+            try self.outputLocation?.forEach {}
+            try self.scheduleExpression?.forEach {}
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, max: 256)
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, min: 1)
             try self.targetLocations?.forEach {
                 try $0.validate(name: "\(name).targetLocations[]")
             }
+            try self.targetLocations?.forEach {}
             try self.validate(self.targetLocations, name: "targetLocations", parent: name, max: 100)
             try self.validate(self.targetLocations, name: "targetLocations", parent: name, min: 1)
             try self.targets?.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
+            try self.targets?.forEach {}
             try self.validate(self.targets, name: "targets", parent: name, max: 5)
             try self.validate(self.targets, name: "targets", parent: name, min: 0)
         }
@@ -2360,29 +2467,40 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.associationName?.forEach {}
             try self.validate(self.associationName, name: "associationName", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try self.automationTargetParameterName?.forEach {}
             try self.validate(self.automationTargetParameterName, name: "automationTargetParameterName", parent: name, max: 50)
             try self.validate(self.automationTargetParameterName, name: "automationTargetParameterName", parent: name, min: 1)
+            try self.documentVersion?.forEach {}
             try self.validate(self.documentVersion, name: "documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
+            try self.instanceId?.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
+            try self.maxConcurrency?.forEach {}
             try self.validate(self.maxConcurrency, name: "maxConcurrency", parent: name, max: 7)
             try self.validate(self.maxConcurrency, name: "maxConcurrency", parent: name, min: 1)
             try self.validate(self.maxConcurrency, name: "maxConcurrency", parent: name, pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
+            try self.maxErrors?.forEach {}
             try self.validate(self.maxErrors, name: "maxErrors", parent: name, max: 7)
             try self.validate(self.maxErrors, name: "maxErrors", parent: name, min: 1)
             try self.validate(self.maxErrors, name: "maxErrors", parent: name, pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
             try self.outputLocation?.validate(name: "\(name).outputLocation")
+            try self.outputLocation?.forEach {}
+            try self.scheduleExpression?.forEach {}
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, max: 256)
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, min: 1)
             try self.targetLocations?.forEach {
                 try $0.validate(name: "\(name).targetLocations[]")
             }
+            try self.targetLocations?.forEach {}
             try self.validate(self.targetLocations, name: "targetLocations", parent: name, max: 100)
             try self.validate(self.targetLocations, name: "targetLocations", parent: name, min: 1)
             try self.targets?.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
+            try self.targets?.forEach {}
             try self.validate(self.targets, name: "targets", parent: name, max: 5)
             try self.validate(self.targets, name: "targets", parent: name, min: 0)
         }
@@ -2455,20 +2573,27 @@ extension SSM {
             try self.attachments?.forEach {
                 try $0.validate(name: "\(name).attachments[]")
             }
+            try self.attachments?.forEach {}
             try self.validate(self.attachments, name: "attachments", parent: name, max: 20)
             try self.validate(self.attachments, name: "attachments", parent: name, min: 0)
+            try self.content.forEach {}
             try self.validate(self.content, name: "content", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
             try self.requires?.forEach {
                 try $0.validate(name: "\(name).requires[]")
             }
+            try self.requires?.forEach {}
             try self.validate(self.requires, name: "requires", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 1000)
+            try self.targetType?.forEach {}
             try self.validate(self.targetType, name: "targetType", parent: name, max: 200)
             try self.validate(self.targetType, name: "targetType", parent: name, pattern: "^\\/[\\w\\.\\-\\:\\/]*$")
+            try self.versionName?.forEach {}
             try self.validate(self.versionName, name: "versionName", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{1,128}$")
         }
 
@@ -2540,24 +2665,32 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.cutoff.forEach {}
             try self.validate(self.cutoff, name: "cutoff", parent: name, max: 23)
             try self.validate(self.cutoff, name: "cutoff", parent: name, min: 0)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 128)
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.duration.forEach {}
             try self.validate(self.duration, name: "duration", parent: name, max: 24)
             try self.validate(self.duration, name: "duration", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try self.schedule.forEach {}
             try self.validate(self.schedule, name: "schedule", parent: name, max: 256)
             try self.validate(self.schedule, name: "schedule", parent: name, min: 1)
+            try self.scheduleOffset?.forEach {}
             try self.validate(self.scheduleOffset, name: "scheduleOffset", parent: name, max: 6)
             try self.validate(self.scheduleOffset, name: "scheduleOffset", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 1000)
         }
 
@@ -2641,9 +2774,11 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.category?.forEach {}
             try self.validate(self.category, name: "category", parent: name, max: 64)
             try self.validate(self.category, name: "category", parent: name, min: 1)
             try self.validate(self.category, name: "category", parent: name, pattern: "^(?!\\s*$).+")
+            try self.description.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\s\\S]*\\S[\\s\\S]*")
@@ -2653,18 +2788,23 @@ extension SSM {
                 try validate($0.key, name: "operationalData.key", parent: name, pattern: "^(?!\\s*$).+")
                 try $0.value.validate(name: "\(name).operationalData[\"\($0.key)\"]")
             }
+            try self.priority?.forEach {}
             try self.validate(self.priority, name: "priority", parent: name, max: 5)
             try self.validate(self.priority, name: "priority", parent: name, min: 1)
+            try self.severity?.forEach {}
             try self.validate(self.severity, name: "severity", parent: name, max: 64)
             try self.validate(self.severity, name: "severity", parent: name, min: 1)
             try self.validate(self.severity, name: "severity", parent: name, pattern: "^(?!\\s*$).+")
+            try self.source.forEach {}
             try self.validate(self.source, name: "source", parent: name, max: 128)
             try self.validate(self.source, name: "source", parent: name, min: 1)
             try self.validate(self.source, name: "source", parent: name, pattern: "^(?!\\s*$).+")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 1000)
+            try self.title.forEach {}
             try self.validate(self.title, name: "title", parent: name, max: 1024)
             try self.validate(self.title, name: "title", parent: name, min: 1)
             try self.validate(self.title, name: "title", parent: name, pattern: "^(?!\\s*$).+")
@@ -2707,10 +2847,13 @@ extension SSM {
         public let metadata: [String: MetadataValue]?
         /// A resource ID for a new Application Manager application.
         public let resourceId: String
+        /// Optional metadata that you assign to a resource. You can specify a maximum of five tags for an OpsMetadata object. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag an OpsMetadata object to identify an environment or target AWS Region. In this case, you could specify the following key-value pairs:    Key=Environment,Value=Production     Key=Region,Value=us-east-2
+        public let tags: [Tag]?
 
-        public init(metadata: [String: MetadataValue]? = nil, resourceId: String) {
+        public init(metadata: [String: MetadataValue]? = nil, resourceId: String, tags: [Tag]? = nil) {
             self.metadata = metadata
             self.resourceId = resourceId
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -2720,14 +2863,21 @@ extension SSM {
                 try validate($0.key, name: "metadata.key", parent: name, pattern: "^(?!\\s*$).+")
                 try $0.value.validate(name: "\(name).metadata[\"\($0.key)\"]")
             }
+            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 1024)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(?!\\s*$).+")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.tags?.forEach {}
+            try self.validate(self.tags, name: "tags", parent: name, max: 1000)
         }
 
         private enum CodingKeys: String, CodingKey {
             case metadata = "Metadata"
             case resourceId = "ResourceId"
+            case tags = "Tags"
         }
     }
 
@@ -2749,7 +2899,7 @@ extension SSM {
         public let approvalRules: PatchRuleGroup?
         /// A list of explicitly approved patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see About package name formats for approved and rejected patch lists in the AWS Systems Manager User Guide.
         public let approvedPatches: [String]?
-        /// Defines the compliance level for approved patches. This means that if an approved patch is reported as missing, this is the severity of the compliance violation. The default value is UNSPECIFIED.
+        /// Defines the compliance level for approved patches. When an approved patch is reported as missing, this value describes the severity of the compliance violation. The default value is UNSPECIFIED.
         public let approvedPatchesComplianceLevel: PatchComplianceLevel?
         /// Indicates whether the list of approved patches includes non-security updates that should be applied to the instances. The default value is 'false'. Applies to Linux instances only.
         public let approvedPatchesEnableNonSecurity: Bool?
@@ -2790,17 +2940,23 @@ extension SSM {
 
         public func validate(name: String) throws {
             try self.approvalRules?.validate(name: "\(name).approvalRules")
+            try self.approvalRules?.forEach {}
             try self.approvedPatches?.forEach {
                 try validate($0, name: "approvedPatches[]", parent: name, max: 100)
                 try validate($0, name: "approvedPatches[]", parent: name, min: 1)
             }
+            try self.approvedPatches?.forEach {}
             try self.validate(self.approvedPatches, name: "approvedPatches", parent: name, max: 50)
             try self.validate(self.approvedPatches, name: "approvedPatches", parent: name, min: 0)
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.globalFilters?.validate(name: "\(name).globalFilters")
+            try self.globalFilters?.forEach {}
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
@@ -2808,16 +2964,19 @@ extension SSM {
                 try validate($0, name: "rejectedPatches[]", parent: name, max: 100)
                 try validate($0, name: "rejectedPatches[]", parent: name, min: 1)
             }
+            try self.rejectedPatches?.forEach {}
             try self.validate(self.rejectedPatches, name: "rejectedPatches", parent: name, max: 50)
             try self.validate(self.rejectedPatches, name: "rejectedPatches", parent: name, min: 0)
             try self.sources?.forEach {
                 try $0.validate(name: "\(name).sources[]")
             }
+            try self.sources?.forEach {}
             try self.validate(self.sources, name: "sources", parent: name, max: 20)
             try self.validate(self.sources, name: "sources", parent: name, min: 0)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 1000)
         }
 
@@ -2870,9 +3029,13 @@ extension SSM {
 
         public func validate(name: String) throws {
             try self.s3Destination?.validate(name: "\(name).s3Destination")
+            try self.s3Destination?.forEach {}
+            try self.syncName.forEach {}
             try self.validate(self.syncName, name: "syncName", parent: name, max: 64)
             try self.validate(self.syncName, name: "syncName", parent: name, min: 1)
             try self.syncSource?.validate(name: "\(name).syncSource")
+            try self.syncSource?.forEach {}
+            try self.syncType?.forEach {}
             try self.validate(self.syncType, name: "syncType", parent: name, max: 64)
             try self.validate(self.syncType, name: "syncType", parent: name, min: 1)
         }
@@ -2898,6 +3061,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.activationId.forEach {}
             try self.validate(self.activationId, name: "activationId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
@@ -2925,8 +3089,11 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.associationId?.forEach {}
             try self.validate(self.associationId, name: "associationId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+            try self.instanceId?.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
         }
 
@@ -2959,8 +3126,11 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.documentVersion?.forEach {}
             try self.validate(self.documentVersion, name: "documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try self.versionName?.forEach {}
             try self.validate(self.versionName, name: "versionName", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{1,128}$")
         }
 
@@ -2994,7 +3164,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
+            try self.typeName.forEach {}
             try self.validate(self.typeName, name: "typeName", parent: name, max: 100)
             try self.validate(self.typeName, name: "typeName", parent: name, min: 1)
             try self.validate(self.typeName, name: "typeName", parent: name, pattern: "^(AWS|Custom):.*$")
@@ -3038,6 +3210,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.windowId.forEach {}
             try self.validate(self.windowId, name: "windowId", parent: name, max: 20)
             try self.validate(self.windowId, name: "windowId", parent: name, min: 20)
             try self.validate(self.windowId, name: "windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
@@ -3070,6 +3243,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.opsMetadataArn.forEach {}
             try self.validate(self.opsMetadataArn, name: "opsMetadataArn", parent: name, max: 1011)
             try self.validate(self.opsMetadataArn, name: "opsMetadataArn", parent: name, min: 1)
             try self.validate(self.opsMetadataArn, name: "opsMetadataArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:ssm:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:opsmetadata\\/([a-zA-Z0-9-_\\.\\/]*)")
@@ -3093,6 +3267,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 2048)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -3119,6 +3294,7 @@ extension SSM {
                 try validate($0, name: "names[]", parent: name, max: 2048)
                 try validate($0, name: "names[]", parent: name, min: 1)
             }
+            try self.names.forEach {}
             try self.validate(self.names, name: "names", parent: name, max: 10)
             try self.validate(self.names, name: "names", parent: name, min: 1)
         }
@@ -3154,6 +3330,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.baselineId.forEach {}
             try self.validate(self.baselineId, name: "baselineId", parent: name, max: 128)
             try self.validate(self.baselineId, name: "baselineId", parent: name, min: 20)
             try self.validate(self.baselineId, name: "baselineId", parent: name, pattern: "^[a-zA-Z0-9_\\-:/]{20,128}$")
@@ -3189,8 +3366,10 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.syncName.forEach {}
             try self.validate(self.syncName, name: "syncName", parent: name, max: 64)
             try self.validate(self.syncName, name: "syncName", parent: name, min: 1)
+            try self.syncType?.forEach {}
             try self.validate(self.syncType, name: "syncType", parent: name, max: 64)
             try self.validate(self.syncType, name: "syncType", parent: name, min: 1)
         }
@@ -3214,6 +3393,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^mi-[0-9a-f]{17}$")
         }
 
@@ -3238,9 +3418,11 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.baselineId.forEach {}
             try self.validate(self.baselineId, name: "baselineId", parent: name, max: 128)
             try self.validate(self.baselineId, name: "baselineId", parent: name, min: 20)
             try self.validate(self.baselineId, name: "baselineId", parent: name, pattern: "^[a-zA-Z0-9_\\-:/]{20,128}$")
+            try self.patchGroup.forEach {}
             try self.validate(self.patchGroup, name: "patchGroup", parent: name, max: 256)
             try self.validate(self.patchGroup, name: "patchGroup", parent: name, min: 1)
             try self.validate(self.patchGroup, name: "patchGroup", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -3284,9 +3466,11 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.windowId.forEach {}
             try self.validate(self.windowId, name: "windowId", parent: name, max: 20)
             try self.validate(self.windowId, name: "windowId", parent: name, min: 20)
             try self.validate(self.windowId, name: "windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
+            try self.windowTargetId.forEach {}
             try self.validate(self.windowTargetId, name: "windowTargetId", parent: name, max: 36)
             try self.validate(self.windowTargetId, name: "windowTargetId", parent: name, min: 36)
             try self.validate(self.windowTargetId, name: "windowTargetId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
@@ -3328,9 +3512,11 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.windowId.forEach {}
             try self.validate(self.windowId, name: "windowId", parent: name, max: 20)
             try self.validate(self.windowId, name: "windowId", parent: name, min: 20)
             try self.validate(self.windowId, name: "windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
+            try self.windowTaskId.forEach {}
             try self.validate(self.windowTaskId, name: "windowTaskId", parent: name, max: 36)
             try self.validate(self.windowTaskId, name: "windowTaskId", parent: name, min: 36)
             try self.validate(self.windowTaskId, name: "windowTaskId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
@@ -3391,6 +3577,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -3440,12 +3627,16 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.associationId.forEach {}
             try self.validate(self.associationId, name: "associationId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+            try self.executionId.forEach {}
             try self.validate(self.executionId, name: "executionId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -3494,11 +3685,14 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.associationId.forEach {}
             try self.validate(self.associationId, name: "associationId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -3546,9 +3740,13 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.associationId?.forEach {}
             try self.validate(self.associationId, name: "associationId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+            try self.associationVersion?.forEach {}
             try self.validate(self.associationVersion, name: "associationVersion", parent: name, pattern: "([$]LATEST)|([1-9][0-9]*)")
+            try self.instanceId?.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
         }
 
@@ -3591,8 +3789,10 @@ extension SSM {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 10)
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -3642,13 +3842,16 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.automationExecutionId.forEach {}
             try self.validate(self.automationExecutionId, name: "automationExecutionId", parent: name, max: 36)
             try self.validate(self.automationExecutionId, name: "automationExecutionId", parent: name, min: 36)
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 6)
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -3697,8 +3900,10 @@ extension SSM {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 5)
             try self.validate(self.filters, name: "filters", parent: name, min: 0)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -3745,8 +3950,10 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 200)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
         }
 
@@ -3794,8 +4001,11 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.documentVersion?.forEach {}
             try self.validate(self.documentVersion, name: "documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
+            try self.versionName?.forEach {}
             try self.validate(self.versionName, name: "versionName", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{1,128}$")
         }
 
@@ -3834,7 +4044,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 5)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -3878,9 +4090,11 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.baselineId.forEach {}
             try self.validate(self.baselineId, name: "baselineId", parent: name, max: 128)
             try self.validate(self.baselineId, name: "baselineId", parent: name, min: 20)
             try self.validate(self.baselineId, name: "baselineId", parent: name, pattern: "^[a-zA-Z0-9_\\-:/]{20,128}$")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -3924,7 +4138,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -3974,11 +4190,14 @@ extension SSM {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, min: 0)
             try self.instanceInformationFilterList?.forEach {
                 try $0.validate(name: "\(name).instanceInformationFilterList[]")
             }
+            try self.instanceInformationFilterList?.forEach {}
             try self.validate(self.instanceInformationFilterList, name: "instanceInformationFilterList", parent: name, min: 0)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -4029,10 +4248,13 @@ extension SSM {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 4)
             try self.validate(self.filters, name: "filters", parent: name, min: 0)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 10)
+            try self.patchGroup.forEach {}
             try self.validate(self.patchGroup, name: "patchGroup", parent: name, max: 256)
             try self.validate(self.patchGroup, name: "patchGroup", parent: name, min: 1)
             try self.validate(self.patchGroup, name: "patchGroup", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -4081,8 +4303,10 @@ extension SSM {
             try self.instanceIds.forEach {
                 try validate($0, name: "instanceIds[]", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
             }
+            try self.instanceIds.forEach {}
             try self.validate(self.instanceIds, name: "instanceIds", parent: name, max: 50)
             try self.validate(self.instanceIds, name: "instanceIds", parent: name, min: 0)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 10)
         }
@@ -4132,9 +4356,12 @@ extension SSM {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 5)
             try self.validate(self.filters, name: "filters", parent: name, min: 0)
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 10)
         }
@@ -4179,7 +4406,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.deletionId?.forEach {}
             try self.validate(self.deletionId, name: "deletionId", parent: name, pattern: "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -4232,13 +4461,17 @@ extension SSM {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 5)
             try self.validate(self.filters, name: "filters", parent: name, min: 0)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 10)
+            try self.taskId.forEach {}
             try self.validate(self.taskId, name: "taskId", parent: name, max: 36)
             try self.validate(self.taskId, name: "taskId", parent: name, min: 36)
             try self.validate(self.taskId, name: "taskId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
+            try self.windowExecutionId.forEach {}
             try self.validate(self.windowExecutionId, name: "windowExecutionId", parent: name, max: 36)
             try self.validate(self.windowExecutionId, name: "windowExecutionId", parent: name, min: 36)
             try self.validate(self.windowExecutionId, name: "windowExecutionId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
@@ -4291,10 +4524,13 @@ extension SSM {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 5)
             try self.validate(self.filters, name: "filters", parent: name, min: 0)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 10)
+            try self.windowExecutionId.forEach {}
             try self.validate(self.windowExecutionId, name: "windowExecutionId", parent: name, max: 36)
             try self.validate(self.windowExecutionId, name: "windowExecutionId", parent: name, min: 36)
             try self.validate(self.windowExecutionId, name: "windowExecutionId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
@@ -4346,10 +4582,13 @@ extension SSM {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 5)
             try self.validate(self.filters, name: "filters", parent: name, min: 0)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 10)
+            try self.windowId.forEach {}
             try self.validate(self.windowId, name: "windowId", parent: name, max: 20)
             try self.validate(self.windowId, name: "windowId", parent: name, min: 20)
             try self.validate(self.windowId, name: "windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
@@ -4407,14 +4646,18 @@ extension SSM {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 5)
             try self.validate(self.filters, name: "filters", parent: name, min: 0)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.targets?.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
+            try self.targets?.forEach {}
             try self.validate(self.targets, name: "targets", parent: name, max: 5)
             try self.validate(self.targets, name: "targets", parent: name, min: 0)
+            try self.windowId?.forEach {}
             try self.validate(self.windowId, name: "windowId", parent: name, max: 20)
             try self.validate(self.windowId, name: "windowId", parent: name, min: 20)
             try self.validate(self.windowId, name: "windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
@@ -4468,10 +4711,13 @@ extension SSM {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 5)
             try self.validate(self.filters, name: "filters", parent: name, min: 0)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 10)
+            try self.windowId.forEach {}
             try self.validate(self.windowId, name: "windowId", parent: name, max: 20)
             try self.validate(self.windowId, name: "windowId", parent: name, min: 20)
             try self.validate(self.windowId, name: "windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
@@ -4523,10 +4769,13 @@ extension SSM {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 5)
             try self.validate(self.filters, name: "filters", parent: name, min: 0)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 10)
+            try self.windowId.forEach {}
             try self.validate(self.windowId, name: "windowId", parent: name, max: 20)
             try self.validate(self.windowId, name: "windowId", parent: name, min: 20)
             try self.validate(self.windowId, name: "windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
@@ -4575,10 +4824,12 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.targets.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
+            try self.targets.forEach {}
             try self.validate(self.targets, name: "targets", parent: name, max: 5)
             try self.validate(self.targets, name: "targets", parent: name, min: 0)
         }
@@ -4626,8 +4877,10 @@ extension SSM {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 5)
             try self.validate(self.filters, name: "filters", parent: name, min: 0)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 10)
         }
@@ -4671,6 +4924,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -4720,11 +4974,14 @@ extension SSM {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.parameterFilters?.forEach {
                 try $0.validate(name: "\(name).parameterFilters[]")
             }
+            try self.parameterFilters?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4770,8 +5027,10 @@ extension SSM {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 5)
             try self.validate(self.filters, name: "filters", parent: name, min: 0)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -4809,6 +5068,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.patchGroup.forEach {}
             try self.validate(self.patchGroup, name: "patchGroup", parent: name, max: 256)
             try self.validate(self.patchGroup, name: "patchGroup", parent: name, min: 1)
             try self.validate(self.patchGroup, name: "patchGroup", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -4882,8 +5142,10 @@ extension SSM {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 5)
             try self.validate(self.filters, name: "filters", parent: name, min: 0)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -4933,6 +5195,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -4984,8 +5247,10 @@ extension SSM {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 6)
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 200)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -5165,6 +5430,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, min: 1)
         }
 
@@ -5247,12 +5513,14 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.values?.forEach {
                 try validate($0, name: "values[]", parent: name, max: 256)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
+            try self.values?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5311,7 +5579,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
+            try self.version?.forEach {}
             try self.validate(self.version, name: "version", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
         }
 
@@ -5333,6 +5603,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.content?.forEach {}
             try self.validate(self.content, name: "content", parent: name, max: 1024)
             try self.validate(self.content, name: "content", parent: name, min: 1)
             try self.validate(self.content, name: "content", parent: name, pattern: "^(?!\\s*$).+")
@@ -5388,6 +5659,7 @@ extension SSM {
             try self.comment?.forEach {
                 try $0.validate(name: "\(name).comment[]")
             }
+            try self.comment?.forEach {}
             try self.validate(self.comment, name: "comment", parent: name, max: 1)
             try self.validate(self.comment, name: "comment", parent: name, min: 0)
         }
@@ -5511,6 +5783,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.automationExecutionId.forEach {}
             try self.validate(self.automationExecutionId, name: "automationExecutionId", parent: name, max: 36)
             try self.validate(self.automationExecutionId, name: "automationExecutionId", parent: name, min: 36)
         }
@@ -5576,7 +5849,7 @@ extension SSM {
         public let commandId: String
         /// (Required) The ID of the managed instance targeted by the command. A managed instance can be an EC2 instance or an instance in your hybrid environment that is configured for Systems Manager.
         public let instanceId: String
-        /// (Optional) The name of the plugin for which you want detailed results. If the document contains only one plugin, the name can be omitted and the details will be returned. Plugin names are also referred to as step names in Systems Manager documents.
+        /// The name of the plugin for which you want detailed results. If the document contains only one plugin, you can omit the name and details for that plugin are returned. If the document contains more than one plugin, you must specify the name of the plugin for which you want to view details. Plugin names are also referred to as step names in Systems Manager documents. For example, aws:RunShellScript is a plugin.
         public let pluginName: String?
 
         public init(commandId: String, instanceId: String, pluginName: String? = nil) {
@@ -5586,9 +5859,12 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.commandId.forEach {}
             try self.validate(self.commandId, name: "commandId", parent: name, max: 36)
             try self.validate(self.commandId, name: "commandId", parent: name, min: 36)
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
+            try self.pluginName?.forEach {}
             try self.validate(self.pluginName, name: "pluginName", parent: name, min: 4)
         }
 
@@ -5618,7 +5894,7 @@ extension SSM {
         public let executionStartDateTime: String?
         /// The ID of the managed instance targeted by the command. A managed instance can be an EC2 instance or an instance in your hybrid environment that is configured for Systems Manager.
         public let instanceId: String?
-        /// The name of the plugin for which you want detailed results. For example, aws:RunShellScript is a plugin.
+        /// The name of the plugin, or step name, for which details are reported. For example, aws:RunShellScript is a plugin.
         public let pluginName: String?
         /// The error level response code for the plugin script. If the response code is -1, then the command has not started running on the instance, or it was not received by the instance.
         public let responseCode: Int?
@@ -5685,6 +5961,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.target.forEach {}
             try self.validate(self.target, name: "target", parent: name, max: 400)
             try self.validate(self.target, name: "target", parent: name, min: 1)
         }
@@ -5742,24 +6019,32 @@ extension SSM {
     }
 
     public struct GetDeployablePatchSnapshotForInstanceRequest: AWSEncodableShape {
+        /// Defines the basic information about a patch baseline override.
+        public let baselineOverride: BaselineOverride?
         /// The ID of the instance for which the appropriate patch snapshot should be retrieved.
         public let instanceId: String
         /// The user-defined snapshot ID.
         public let snapshotId: String
 
-        public init(instanceId: String, snapshotId: String) {
+        public init(baselineOverride: BaselineOverride? = nil, instanceId: String, snapshotId: String) {
+            self.baselineOverride = baselineOverride
             self.instanceId = instanceId
             self.snapshotId = snapshotId
         }
 
         public func validate(name: String) throws {
+            try self.baselineOverride?.validate(name: "\(name).baselineOverride")
+            try self.baselineOverride?.forEach {}
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
+            try self.snapshotId.forEach {}
             try self.validate(self.snapshotId, name: "snapshotId", parent: name, max: 36)
             try self.validate(self.snapshotId, name: "snapshotId", parent: name, min: 36)
             try self.validate(self.snapshotId, name: "snapshotId", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case baselineOverride = "BaselineOverride"
             case instanceId = "InstanceId"
             case snapshotId = "SnapshotId"
         }
@@ -5808,8 +6093,11 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.documentVersion?.forEach {}
             try self.validate(self.documentVersion, name: "documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
+            try self.versionName?.forEach {}
             try self.validate(self.versionName, name: "versionName", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{1,128}$")
         }
 
@@ -5898,18 +6186,22 @@ extension SSM {
             try self.aggregators?.forEach {
                 try $0.validate(name: "\(name).aggregators[]")
             }
+            try self.aggregators?.forEach {}
             try self.validate(self.aggregators, name: "aggregators", parent: name, max: 10)
             try self.validate(self.aggregators, name: "aggregators", parent: name, min: 1)
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 5)
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.resultAttributes?.forEach {
                 try $0.validate(name: "\(name).resultAttributes[]")
             }
+            try self.resultAttributes?.forEach {}
             try self.validate(self.resultAttributes, name: "resultAttributes", parent: name, max: 1)
             try self.validate(self.resultAttributes, name: "resultAttributes", parent: name, min: 1)
         }
@@ -5961,8 +6253,10 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 200)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 50)
+            try self.typeName?.forEach {}
             try self.validate(self.typeName, name: "typeName", parent: name, max: 100)
             try self.validate(self.typeName, name: "typeName", parent: name, min: 0)
         }
@@ -6002,6 +6296,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.windowExecutionId.forEach {}
             try self.validate(self.windowExecutionId, name: "windowExecutionId", parent: name, max: 36)
             try self.validate(self.windowExecutionId, name: "windowExecutionId", parent: name, min: 36)
             try self.validate(self.windowExecutionId, name: "windowExecutionId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
@@ -6060,12 +6355,15 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.invocationId.forEach {}
             try self.validate(self.invocationId, name: "invocationId", parent: name, max: 36)
             try self.validate(self.invocationId, name: "invocationId", parent: name, min: 36)
             try self.validate(self.invocationId, name: "invocationId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
+            try self.taskId.forEach {}
             try self.validate(self.taskId, name: "taskId", parent: name, max: 36)
             try self.validate(self.taskId, name: "taskId", parent: name, min: 36)
             try self.validate(self.taskId, name: "taskId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
+            try self.windowExecutionId.forEach {}
             try self.validate(self.windowExecutionId, name: "windowExecutionId", parent: name, max: 36)
             try self.validate(self.windowExecutionId, name: "windowExecutionId", parent: name, min: 36)
             try self.validate(self.windowExecutionId, name: "windowExecutionId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
@@ -6147,9 +6445,11 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.taskId.forEach {}
             try self.validate(self.taskId, name: "taskId", parent: name, max: 36)
             try self.validate(self.taskId, name: "taskId", parent: name, min: 36)
             try self.validate(self.taskId, name: "taskId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
+            try self.windowExecutionId.forEach {}
             try self.validate(self.windowExecutionId, name: "windowExecutionId", parent: name, max: 36)
             try self.validate(self.windowExecutionId, name: "windowExecutionId", parent: name, min: 36)
             try self.validate(self.windowExecutionId, name: "windowExecutionId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
@@ -6231,6 +6531,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.windowId.forEach {}
             try self.validate(self.windowId, name: "windowId", parent: name, max: 20)
             try self.validate(self.windowId, name: "windowId", parent: name, min: 20)
             try self.validate(self.windowId, name: "windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
@@ -6322,9 +6623,11 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.windowId.forEach {}
             try self.validate(self.windowId, name: "windowId", parent: name, max: 20)
             try self.validate(self.windowId, name: "windowId", parent: name, min: 20)
             try self.validate(self.windowId, name: "windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
+            try self.windowTaskId.forEach {}
             try self.validate(self.windowTaskId, name: "windowTaskId", parent: name, max: 36)
             try self.validate(self.windowTaskId, name: "windowTaskId", parent: name, min: 36)
             try self.validate(self.windowTaskId, name: "windowTaskId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
@@ -6410,6 +6713,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.opsItemId.forEach {}
             try self.validate(self.opsItemId, name: "opsItemId", parent: name, pattern: "^(oi)-[0-9a-f]{12}$")
         }
 
@@ -6446,8 +6750,10 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.opsMetadataArn.forEach {}
             try self.validate(self.opsMetadataArn, name: "opsMetadataArn", parent: name, max: 1011)
             try self.validate(self.opsMetadataArn, name: "opsMetadataArn", parent: name, min: 1)
             try self.validate(self.opsMetadataArn, name: "opsMetadataArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:ssm:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:opsmetadata\\/([a-zA-Z0-9-_\\.\\/]*)")
@@ -6508,19 +6814,24 @@ extension SSM {
             try self.aggregators?.forEach {
                 try $0.validate(name: "\(name).aggregators[]")
             }
+            try self.aggregators?.forEach {}
             try self.validate(self.aggregators, name: "aggregators", parent: name, max: 12)
             try self.validate(self.aggregators, name: "aggregators", parent: name, min: 1)
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 5)
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.resultAttributes?.forEach {
                 try $0.validate(name: "\(name).resultAttributes[]")
             }
+            try self.resultAttributes?.forEach {}
             try self.validate(self.resultAttributes, name: "resultAttributes", parent: name, min: 1)
+            try self.syncName?.forEach {}
             try self.validate(self.syncName, name: "syncName", parent: name, max: 64)
             try self.validate(self.syncName, name: "syncName", parent: name, min: 1)
         }
@@ -6570,8 +6881,10 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 2048)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -6613,6 +6926,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 2048)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -6660,11 +6974,14 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.parameterFilters?.forEach {
                 try $0.validate(name: "\(name).parameterFilters[]")
             }
+            try self.parameterFilters?.forEach {}
+            try self.path.forEach {}
             try self.validate(self.path, name: "path", parent: name, max: 2048)
             try self.validate(self.path, name: "path", parent: name, min: 1)
         }
@@ -6712,6 +7029,7 @@ extension SSM {
                 try validate($0, name: "names[]", parent: name, max: 2048)
                 try validate($0, name: "names[]", parent: name, min: 1)
             }
+            try self.names.forEach {}
             try self.validate(self.names, name: "names", parent: name, max: 10)
             try self.validate(self.names, name: "names", parent: name, min: 1)
         }
@@ -6751,6 +7069,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.patchGroup.forEach {}
             try self.validate(self.patchGroup, name: "patchGroup", parent: name, max: 256)
             try self.validate(self.patchGroup, name: "patchGroup", parent: name, min: 1)
             try self.validate(self.patchGroup, name: "patchGroup", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -6792,6 +7111,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.baselineId.forEach {}
             try self.validate(self.baselineId, name: "baselineId", parent: name, max: 128)
             try self.validate(self.baselineId, name: "baselineId", parent: name, min: 20)
             try self.validate(self.baselineId, name: "baselineId", parent: name, pattern: "^[a-zA-Z0-9_\\-:/]{20,128}$")
@@ -6872,7 +7192,7 @@ extension SSM {
     }
 
     public struct GetServiceSettingRequest: AWSEncodableShape {
-        /// The ID of the service setting to get. The setting ID can be /ssm/parameter-store/default-parameter-tier, /ssm/parameter-store/high-throughput-enabled, or /ssm/managed-instance/activation-tier.
+        /// The ID of the service setting to get. The setting ID can be /ssm/automation/customer-script-log-destination, /ssm/automation/customer-script-log-group-name, /ssm/parameter-store/default-parameter-tier, /ssm/parameter-store/high-throughput-enabled, or /ssm/managed-instance/activation-tier.
         public let settingId: String
 
         public init(settingId: String) {
@@ -6880,6 +7200,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.settingId.forEach {}
             try self.validate(self.settingId, name: "settingId", parent: name, max: 1000)
             try self.validate(self.settingId, name: "settingId", parent: name, min: 1)
         }
@@ -6954,6 +7275,7 @@ extension SSM {
 
         public func validate(name: String) throws {
             try self.s3Location?.validate(name: "\(name).s3Location")
+            try self.s3Location?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7131,6 +7453,7 @@ extension SSM {
             try self.valueSet.forEach {
                 try validate($0, name: "valueSet[]", parent: name, min: 1)
             }
+            try self.valueSet.forEach {}
             try self.validate(self.valueSet, name: "valueSet", parent: name, max: 100)
             try self.validate(self.valueSet, name: "valueSet", parent: name, min: 1)
         }
@@ -7142,7 +7465,7 @@ extension SSM {
     }
 
     public struct InstanceInformationStringFilter: AWSEncodableShape {
-        /// The filter key name to describe your instances. For example: "InstanceIds"|"AgentVersion"|"PingStatus"|"PlatformTypes"|"ActivationIds"|"IamRole"|"ResourceType"|"AssociationStatus"|"Tag Key"
+        /// The filter key name to describe your instances. For example: "InstanceIds"|"AgentVersion"|"PingStatus"|"PlatformTypes"|"ActivationIds"|"IamRole"|"ResourceType"|"AssociationStatus"|"Tag Key"   Tag key is not a valid filter. You must specify either tag-key or tag:keyname and a string. Here are some valid examples: tag-key, tag:123, tag:al!, tag:Windows. Here are some invalid examples: tag-keys, Tag Key, tag:, tagKey, abc:keyname.
         public let key: String
         /// The filter values.
         public let values: [String]
@@ -7153,10 +7476,12 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
+            try self.values.forEach {}
             try self.validate(self.values, name: "values", parent: name, max: 100)
             try self.validate(self.values, name: "values", parent: name, min: 1)
         }
@@ -7267,8 +7592,10 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 200)
             try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.values.forEach {}
             try self.validate(self.values, name: "values", parent: name, max: 1)
             try self.validate(self.values, name: "values", parent: name, min: 1)
         }
@@ -7298,13 +7625,16 @@ extension SSM {
             try self.aggregators?.forEach {
                 try $0.validate(name: "\(name).aggregators[]")
             }
+            try self.aggregators?.forEach {}
             try self.validate(self.aggregators, name: "aggregators", parent: name, max: 10)
             try self.validate(self.aggregators, name: "aggregators", parent: name, min: 1)
+            try self.expression?.forEach {}
             try self.validate(self.expression, name: "expression", parent: name, max: 1000)
             try self.validate(self.expression, name: "expression", parent: name, min: 1)
             try self.groups?.forEach {
                 try $0.validate(name: "\(name).groups[]")
             }
+            try self.groups?.forEach {}
             try self.validate(self.groups, name: "groups", parent: name, max: 15)
             try self.validate(self.groups, name: "groups", parent: name, min: 1)
         }
@@ -7410,8 +7740,10 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 200)
             try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.values.forEach {}
             try self.validate(self.values, name: "values", parent: name, max: 40)
             try self.validate(self.values, name: "values", parent: name, min: 1)
         }
@@ -7438,8 +7770,10 @@ extension SSM {
             try self.filters.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 5)
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 200)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -7474,9 +7808,12 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.captureTime.forEach {}
             try self.validate(self.captureTime, name: "captureTime", parent: name, pattern: "^(20)[0-9][0-9]-(0[1-9]|1[012])-([12][0-9]|3[01]|0[1-9])(T)(2[0-3]|[0-1][0-9])(:[0-5][0-9])(:[0-5][0-9])(Z)$")
+            try self.content?.forEach {}
             try self.validate(self.content, name: "content", parent: name, max: 10000)
             try self.validate(self.content, name: "content", parent: name, min: 0)
+            try self.contentHash?.forEach {}
             try self.validate(self.contentHash, name: "contentHash", parent: name, max: 256)
             try self.context?.forEach {
                 try validate($0.key, name: "context.key", parent: name, max: 64)
@@ -7484,7 +7821,9 @@ extension SSM {
                 try validate($0.value, name: "context[\"\($0.key)\"]", parent: name, max: 4096)
                 try validate($0.value, name: "context[\"\($0.key)\"]", parent: name, min: 0)
             }
+            try self.schemaVersion.forEach {}
             try self.validate(self.schemaVersion, name: "schemaVersion", parent: name, pattern: "^([0-9]{1,6})(\\.[0-9]{1,6})$")
+            try self.typeName.forEach {}
             try self.validate(self.typeName, name: "typeName", parent: name, max: 100)
             try self.validate(self.typeName, name: "typeName", parent: name, min: 1)
             try self.validate(self.typeName, name: "typeName", parent: name, pattern: "^(AWS|Custom):.*$")
@@ -7607,8 +7946,10 @@ extension SSM {
                 try validate($0, name: "labels[]", parent: name, max: 100)
                 try validate($0, name: "labels[]", parent: name, min: 1)
             }
+            try self.labels.forEach {}
             try self.validate(self.labels, name: "labels", parent: name, max: 10)
             try self.validate(self.labels, name: "labels", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 2048)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -7652,7 +7993,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.associationId.forEach {}
             try self.validate(self.associationId, name: "associationId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -7699,7 +8042,9 @@ extension SSM {
             try self.associationFilterList?.forEach {
                 try $0.validate(name: "\(name).associationFilterList[]")
             }
+            try self.associationFilterList?.forEach {}
             try self.validate(self.associationFilterList, name: "associationFilterList", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -7752,14 +8097,18 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.commandId?.forEach {}
             try self.validate(self.commandId, name: "commandId", parent: name, max: 36)
             try self.validate(self.commandId, name: "commandId", parent: name, min: 36)
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 5)
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.instanceId?.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -7812,14 +8161,18 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.commandId?.forEach {}
             try self.validate(self.commandId, name: "commandId", parent: name, max: 36)
             try self.validate(self.commandId, name: "commandId", parent: name, min: 36)
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 5)
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.instanceId?.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -7874,17 +8227,21 @@ extension SSM {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.resourceIds?.forEach {
                 try validate($0, name: "resourceIds[]", parent: name, max: 100)
                 try validate($0, name: "resourceIds[]", parent: name, min: 1)
             }
+            try self.resourceIds?.forEach {}
             try self.validate(self.resourceIds, name: "resourceIds", parent: name, min: 1)
             try self.resourceTypes?.forEach {
                 try validate($0, name: "resourceTypes[]", parent: name, max: 50)
                 try validate($0, name: "resourceTypes[]", parent: name, min: 1)
             }
+            try self.resourceTypes?.forEach {}
             try self.validate(self.resourceTypes, name: "resourceTypes", parent: name, min: 1)
         }
 
@@ -7932,6 +8289,8 @@ extension SSM {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -7981,9 +8340,12 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.documentVersion?.forEach {}
             try self.validate(self.documentVersion, name: "documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
         }
 
@@ -8040,8 +8402,10 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
         }
 
@@ -8090,12 +8454,15 @@ extension SSM {
             try self.documentFilterList?.forEach {
                 try $0.validate(name: "\(name).documentFilterList[]")
             }
+            try self.documentFilterList?.forEach {}
             try self.validate(self.documentFilterList, name: "documentFilterList", parent: name, min: 1)
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 6)
             try self.validate(self.filters, name: "filters", parent: name, min: 0)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -8149,11 +8516,15 @@ extension SSM {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 5)
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.typeName.forEach {}
             try self.validate(self.typeName, name: "typeName", parent: name, max: 100)
             try self.validate(self.typeName, name: "typeName", parent: name, min: 1)
             try self.validate(self.typeName, name: "typeName", parent: name, pattern: "^(AWS|Custom):.*$")
@@ -8219,6 +8590,8 @@ extension SSM {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -8265,8 +8638,10 @@ extension SSM {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 10)
             try self.validate(self.filters, name: "filters", parent: name, min: 0)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -8313,6 +8688,8 @@ extension SSM {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -8356,8 +8733,10 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.syncType?.forEach {}
             try self.validate(self.syncType, name: "syncType", parent: name, max: 64)
             try self.validate(self.syncType, name: "syncType", parent: name, min: 1)
         }
@@ -8431,9 +8810,12 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.s3BucketName.forEach {}
             try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, max: 63)
             try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, min: 3)
+            try self.s3KeyPrefix?.forEach {}
             try self.validate(self.s3KeyPrefix, name: "s3KeyPrefix", parent: name, max: 500)
+            try self.s3Region.forEach {}
             try self.validate(self.s3Region, name: "s3Region", parent: name, max: 20)
             try self.validate(self.s3Region, name: "s3Region", parent: name, min: 3)
         }
@@ -8457,11 +8839,12 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.documentVersion?.forEach {}
             try self.validate(self.documentVersion, name: "documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
             try self.parameters?.forEach {
                 try validate($0.key, name: "parameters.key", parent: name, max: 50)
                 try validate($0.key, name: "parameters.key", parent: name, min: 1)
-                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 10)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 50)
                 try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, min: 0)
             }
         }
@@ -8615,12 +8998,14 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.values?.forEach {
                 try validate($0, name: "values[]", parent: name, max: 256)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
+            try self.values?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8718,9 +9103,12 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.clientContext?.forEach {}
             try self.validate(self.clientContext, name: "clientContext", parent: name, max: 8000)
             try self.validate(self.clientContext, name: "clientContext", parent: name, min: 1)
+            try self.payload?.forEach {}
             try self.validate(self.payload, name: "payload", parent: name, max: 4096)
+            try self.qualifier?.forEach {}
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
         }
@@ -8771,12 +9159,19 @@ extension SSM {
 
         public func validate(name: String) throws {
             try self.cloudWatchOutputConfig?.validate(name: "\(name).cloudWatchOutputConfig")
+            try self.cloudWatchOutputConfig?.forEach {}
+            try self.comment?.forEach {}
             try self.validate(self.comment, name: "comment", parent: name, max: 100)
+            try self.documentHash?.forEach {}
             try self.validate(self.documentHash, name: "documentHash", parent: name, max: 256)
+            try self.documentVersion?.forEach {}
             try self.validate(self.documentVersion, name: "documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
+            try self.outputS3BucketName?.forEach {}
             try self.validate(self.outputS3BucketName, name: "outputS3BucketName", parent: name, max: 63)
             try self.validate(self.outputS3BucketName, name: "outputS3BucketName", parent: name, min: 3)
+            try self.outputS3KeyPrefix?.forEach {}
             try self.validate(self.outputS3KeyPrefix, name: "outputS3KeyPrefix", parent: name, max: 500)
+            try self.timeoutSeconds?.forEach {}
             try self.validate(self.timeoutSeconds, name: "timeoutSeconds", parent: name, max: 2_592_000)
             try self.validate(self.timeoutSeconds, name: "timeoutSeconds", parent: name, min: 30)
         }
@@ -8808,7 +9203,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.input?.forEach {}
             try self.validate(self.input, name: "input", parent: name, max: 4096)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 80)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -8936,9 +9333,13 @@ extension SSM {
 
         public func validate(name: String) throws {
             try self.automation?.validate(name: "\(name).automation")
+            try self.automation?.forEach {}
             try self.lambda?.validate(name: "\(name).lambda")
+            try self.lambda?.forEach {}
             try self.runCommand?.validate(name: "\(name).runCommand")
+            try self.runCommand?.forEach {}
             try self.stepFunctions?.validate(name: "\(name).stepFunctions")
+            try self.stepFunctions?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8962,6 +9363,7 @@ extension SSM {
                 try validate($0, name: "values[]", parent: name, max: 255)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
+            try self.values?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8978,6 +9380,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 4096)
             try self.validate(self.value, name: "value", parent: name, min: 1)
         }
@@ -9011,12 +9414,16 @@ extension SSM {
             try self.accountIdsToAdd?.forEach {
                 try validate($0, name: "accountIdsToAdd[]", parent: name, pattern: "(?i)all|[0-9]{12}")
             }
+            try self.accountIdsToAdd?.forEach {}
             try self.validate(self.accountIdsToAdd, name: "accountIdsToAdd", parent: name, max: 20)
             try self.accountIdsToRemove?.forEach {
                 try validate($0, name: "accountIdsToRemove[]", parent: name, pattern: "(?i)all|[0-9]{12}")
             }
+            try self.accountIdsToRemove?.forEach {}
             try self.validate(self.accountIdsToRemove, name: "accountIdsToRemove", parent: name, max: 20)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try self.sharedDocumentVersion?.forEach {}
             try self.validate(self.sharedDocumentVersion, name: "sharedDocumentVersion", parent: name, max: 8)
             try self.validate(self.sharedDocumentVersion, name: "sharedDocumentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|[$]ALL)")
         }
@@ -9099,18 +9506,23 @@ extension SSM {
             try self.aggregators?.forEach {
                 try $0.validate(name: "\(name).aggregators[]")
             }
+            try self.aggregators?.forEach {}
             try self.validate(self.aggregators, name: "aggregators", parent: name, max: 12)
             try self.validate(self.aggregators, name: "aggregators", parent: name, min: 1)
+            try self.aggregatorType?.forEach {}
             try self.validate(self.aggregatorType, name: "aggregatorType", parent: name, max: 20)
             try self.validate(self.aggregatorType, name: "aggregatorType", parent: name, min: 1)
             try self.validate(self.aggregatorType, name: "aggregatorType", parent: name, pattern: "^(range|count|sum)")
+            try self.attributeName?.forEach {}
             try self.validate(self.attributeName, name: "attributeName", parent: name, max: 128)
             try self.validate(self.attributeName, name: "attributeName", parent: name, min: 1)
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 5)
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.typeName?.forEach {}
             try self.validate(self.typeName, name: "typeName", parent: name, max: 100)
             try self.validate(self.typeName, name: "typeName", parent: name, min: 1)
             try self.validate(self.typeName, name: "typeName", parent: name, pattern: "^(AWS|Custom):.*$")
@@ -9181,12 +9593,14 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 200)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 256)
                 try validate($0, name: "values[]", parent: name, min: 0)
             }
+            try self.values.forEach {}
             try self.validate(self.values, name: "values", parent: name, max: 40)
             try self.validate(self.values, name: "values", parent: name, min: 1)
         }
@@ -9303,6 +9717,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, pattern: "[\\s\\S]*\\S[\\s\\S]*")
         }
 
@@ -9332,6 +9747,7 @@ extension SSM {
                 try validate($0, name: "values[]", parent: name, min: 1)
                 try validate($0, name: "values[]", parent: name, pattern: "^(oi)-[0-9a-f]{12}$")
             }
+            try self.values.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9543,6 +9959,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^(?!\\s*$).+")
@@ -9550,6 +9967,7 @@ extension SSM {
                 try validate($0, name: "values[]", parent: name, max: 1024)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
+            try self.values.forEach {}
             try self.validate(self.values, name: "values", parent: name, max: 10)
             try self.validate(self.values, name: "values", parent: name, min: 1)
         }
@@ -9569,6 +9987,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.typeName.forEach {}
             try self.validate(self.typeName, name: "typeName", parent: name, max: 100)
             try self.validate(self.typeName, name: "typeName", parent: name, min: 1)
             try self.validate(self.typeName, name: "typeName", parent: name, pattern: "^(AWS|Custom):.*$")
@@ -9791,15 +10210,18 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 132)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "tag:.+|Name|Type|KeyId|Path|Label|Tier|DataType")
+            try self.option?.forEach {}
             try self.validate(self.option, name: "option", parent: name, max: 10)
             try self.validate(self.option, name: "option", parent: name, min: 1)
             try self.values?.forEach {
                 try validate($0, name: "values[]", parent: name, max: 1024)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
+            try self.values?.forEach {}
             try self.validate(self.values, name: "values", parent: name, max: 50)
             try self.validate(self.values, name: "values", parent: name, min: 1)
         }
@@ -9827,6 +10249,7 @@ extension SSM {
                 try validate($0, name: "values[]", parent: name, max: 1024)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
+            try self.values.forEach {}
             try self.validate(self.values, name: "values", parent: name, max: 50)
             try self.validate(self.values, name: "values", parent: name, min: 1)
         }
@@ -10020,6 +10443,7 @@ extension SSM {
                 try validate($0, name: "values[]", parent: name, max: 64)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
+            try self.values.forEach {}
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)
         }
@@ -10042,6 +10466,7 @@ extension SSM {
             try self.patchFilters.forEach {
                 try $0.validate(name: "\(name).patchFilters[]")
             }
+            try self.patchFilters.forEach {}
             try self.validate(self.patchFilters, name: "patchFilters", parent: name, max: 4)
             try self.validate(self.patchFilters, name: "patchFilters", parent: name, min: 0)
         }
@@ -10080,12 +10505,14 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.values?.forEach {
                 try validate($0, name: "values[]", parent: name, max: 256)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
+            try self.values?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10095,9 +10522,9 @@ extension SSM {
     }
 
     public struct PatchRule: AWSEncodableShape & AWSDecodableShape {
-        /// The number of days after the release date of each patch matched by the rule that the patch is marked as approved in the patch baseline. For example, a value of 7 means that patches are approved seven days after they are released. Not supported on Ubuntu Server.
+        /// The number of days after the release date of each patch matched by the rule that the patch is marked as approved in the patch baseline. For example, a value of 7 means that patches are approved seven days after they are released. Not supported on Debian Server or Ubuntu Server.
         public let approveAfterDays: Int?
-        /// The cutoff date for auto approval of released patches. Any patches released on or before this date are installed automatically. Not supported on Ubuntu Server. Enter dates in the format YYYY-MM-DD. For example, 2020-12-31.
+        /// The cutoff date for auto approval of released patches. Any patches released on or before this date are installed automatically. Not supported on Debian Server or Ubuntu Server. Enter dates in the format YYYY-MM-DD. For example, 2020-12-31.
         public let approveUntilDate: String?
         /// A compliance severity level for all approved patches in a patch baseline.
         public let complianceLevel: PatchComplianceLevel?
@@ -10115,11 +10542,14 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.approveAfterDays?.forEach {}
             try self.validate(self.approveAfterDays, name: "approveAfterDays", parent: name, max: 100)
             try self.validate(self.approveAfterDays, name: "approveAfterDays", parent: name, min: 0)
+            try self.approveUntilDate?.forEach {}
             try self.validate(self.approveUntilDate, name: "approveUntilDate", parent: name, max: 10)
             try self.validate(self.approveUntilDate, name: "approveUntilDate", parent: name, min: 1)
             try self.patchFilterGroup.validate(name: "\(name).patchFilterGroup")
+            try self.patchFilterGroup.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10143,6 +10573,7 @@ extension SSM {
             try self.patchRules.forEach {
                 try $0.validate(name: "\(name).patchRules[]")
             }
+            try self.patchRules.forEach {}
             try self.validate(self.patchRules, name: "patchRules", parent: name, max: 10)
             try self.validate(self.patchRules, name: "patchRules", parent: name, min: 0)
         }
@@ -10167,13 +10598,16 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.configuration.forEach {}
             try self.validate(self.configuration, name: "configuration", parent: name, max: 1024)
             try self.validate(self.configuration, name: "configuration", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,50}$")
             try self.products.forEach {
                 try validate($0, name: "products[]", parent: name, max: 128)
                 try validate($0, name: "products[]", parent: name, min: 1)
             }
+            try self.products.forEach {}
             try self.validate(self.products, name: "products", parent: name, max: 20)
             try self.validate(self.products, name: "products", parent: name, min: 1)
         }
@@ -10262,18 +10696,24 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.complianceType.forEach {}
             try self.validate(self.complianceType, name: "complianceType", parent: name, max: 100)
             try self.validate(self.complianceType, name: "complianceType", parent: name, min: 1)
             try self.validate(self.complianceType, name: "complianceType", parent: name, pattern: "[A-Za-z0-9_\\-]\\w+|Custom:[a-zA-Z0-9_\\-]\\w+")
             try self.executionSummary.validate(name: "\(name).executionSummary")
+            try self.executionSummary.forEach {}
+            try self.itemContentHash?.forEach {}
             try self.validate(self.itemContentHash, name: "itemContentHash", parent: name, max: 256)
             try self.items.forEach {
                 try $0.validate(name: "\(name).items[]")
             }
+            try self.items.forEach {}
             try self.validate(self.items, name: "items", parent: name, max: 10000)
             try self.validate(self.items, name: "items", parent: name, min: 0)
+            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 100)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
+            try self.resourceType.forEach {}
             try self.validate(self.resourceType, name: "resourceType", parent: name, max: 50)
             try self.validate(self.resourceType, name: "resourceType", parent: name, min: 1)
         }
@@ -10305,10 +10745,12 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
             try self.items.forEach {
                 try $0.validate(name: "\(name).items[]")
             }
+            try self.items.forEach {}
             try self.validate(self.items, name: "items", parent: name, max: 30)
             try self.validate(self.items, name: "items", parent: name, min: 1)
         }
@@ -10341,7 +10783,7 @@ extension SSM {
         public let description: String?
         /// The KMS Key ID that you want to use to encrypt a parameter. Either the default AWS Key Management Service (AWS KMS) key automatically assigned to your AWS account or a custom key. Required for parameters that use the SecureString data type. If you don't specify a key ID, the system uses the default key associated with your AWS account.   To use your default AWS KMS key, choose the SecureString data type, and do not specify the Key ID when you create the parameter. The system automatically populates Key ID with your default KMS key.   To use a custom KMS key, choose the SecureString data type with the Key ID parameter.
         public let keyId: String?
-        /// The fully qualified name of the parameter that you want to add to the system. The fully qualified name includes the complete hierarchy of the parameter path and name. For parameters in a hierarchy, you must include a leading forward slash character (/) when you create or reference a parameter. For example: /Dev/DBServer/MySQL/db-string13  Naming Constraints:   Parameter names are case sensitive.   A parameter name must be unique within an AWS Region   A parameter name can't be prefixed with "aws" or "ssm" (case-insensitive).   Parameter names can include only the following symbols and letters: a-zA-Z0-9_.-/    A parameter name can't include spaces.   Parameter hierarchies are limited to a maximum depth of fifteen levels.   For additional information about valid values for parameter names, see About requirements and constraints for parameter names in the AWS Systems Manager User Guide.  The maximum length constraint listed below includes capacity for additional system attributes that are not part of the name. The maximum length for a parameter name, including the full length of the parameter ARN, is 1011 characters. For example, the length of the following parameter name is 65 characters, not 20 characters:  arn:aws:ssm:us-east-2:111122223333:parameter/ExampleParameterName
+        /// The fully qualified name of the parameter that you want to add to the system. The fully qualified name includes the complete hierarchy of the parameter path and name. For parameters in a hierarchy, you must include a leading forward slash character (/) when you create or reference a parameter. For example: /Dev/DBServer/MySQL/db-string13  Naming Constraints:   Parameter names are case sensitive.   A parameter name must be unique within an AWS Region   A parameter name can't be prefixed with "aws" or "ssm" (case-insensitive).   Parameter names can include only the following symbols and letters: a-zA-Z0-9_.-  In addition, the slash character ( / ) is used to delineate hierarchies in parameter names. For example: /Dev/Production/East/Project-ABC/MyParameter    A parameter name can't include spaces.   Parameter hierarchies are limited to a maximum depth of fifteen levels.   For additional information about valid values for parameter names, see Creating Systems Manager parameters in the AWS Systems Manager User Guide.  The maximum length constraint listed below includes capacity for additional system attributes that are not part of the name. The maximum length for a parameter name, including the full length of the parameter ARN, is 1011 characters. For example, the length of the following parameter name is 65 characters, not 20 characters:  arn:aws:ssm:us-east-2:111122223333:parameter/ExampleParameterName
         public let name: String
         /// Overwrite an existing parameter. If not specified, will default to "false".
         public let overwrite: Bool?
@@ -10371,22 +10813,29 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.allowedPattern?.forEach {}
             try self.validate(self.allowedPattern, name: "allowedPattern", parent: name, max: 1024)
             try self.validate(self.allowedPattern, name: "allowedPattern", parent: name, min: 0)
+            try self.dataType?.forEach {}
             try self.validate(self.dataType, name: "dataType", parent: name, max: 128)
             try self.validate(self.dataType, name: "dataType", parent: name, min: 0)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.keyId?.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 256)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
             try self.validate(self.keyId, name: "keyId", parent: name, pattern: "^([a-zA-Z0-9:/_-]+)$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 2048)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.policies?.forEach {}
             try self.validate(self.policies, name: "policies", parent: name, max: 4096)
             try self.validate(self.policies, name: "policies", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 1000)
         }
 
@@ -10431,6 +10880,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.baselineId.forEach {}
             try self.validate(self.baselineId, name: "baselineId", parent: name, max: 128)
             try self.validate(self.baselineId, name: "baselineId", parent: name, min: 20)
             try self.validate(self.baselineId, name: "baselineId", parent: name, pattern: "^[a-zA-Z0-9_\\-:/]{20,128}$")
@@ -10466,9 +10916,11 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.baselineId.forEach {}
             try self.validate(self.baselineId, name: "baselineId", parent: name, max: 128)
             try self.validate(self.baselineId, name: "baselineId", parent: name, min: 20)
             try self.validate(self.baselineId, name: "baselineId", parent: name, pattern: "^[a-zA-Z0-9_\\-:/]{20,128}$")
+            try self.patchGroup.forEach {}
             try self.validate(self.patchGroup, name: "patchGroup", parent: name, max: 256)
             try self.validate(self.patchGroup, name: "patchGroup", parent: name, min: 1)
             try self.validate(self.patchGroup, name: "patchGroup", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -10508,7 +10960,7 @@ extension SSM {
         public let ownerInformation: String?
         /// The type of target being registered with the maintenance window.
         public let resourceType: MaintenanceWindowResourceType
-        /// The targets to register with the maintenance window. In other words, the instances to run commands on when the maintenance window runs. You can specify targets using instance IDs, resource group names, or tags that have been applied to instances.  Example 1: Specify instance IDs  Key=InstanceIds,Values=instance-id-1,instance-id-2,instance-id-3    Example 2: Use tag key-pairs applied to instances  Key=tag:my-tag-key,Values=my-tag-value-1,my-tag-value-2    Example 3: Use tag-keys applied to instances  Key=tag-key,Values=my-tag-key-1,my-tag-key-2    Example 4: Use resource group names  Key=resource-groups:Name,Values=resource-group-name    Example 5: Use filters for resource group types  Key=resource-groups:ResourceTypeFilters,Values=resource-type-1,resource-type-2    For Key=resource-groups:ResourceTypeFilters, specify resource types in the following format  Key=resource-groups:ResourceTypeFilters,Values=AWS::EC2::INSTANCE,AWS::EC2::VPC    For more information about these examples formats, including the best use case for each one, see Examples: Register targets with a maintenance window in the AWS Systems Manager User Guide.
+        /// The targets to register with the maintenance window. In other words, the instances to run commands on when the maintenance window runs.  If a single maintenance window task is registered with multiple targets, its task invocations occur sequentially and not in parallel. If your task must run on multiple targets at the same time, register a task for each target individually and assign each task the same priority level.  You can specify targets using instance IDs, resource group names, or tags that have been applied to instances.  Example 1: Specify instance IDs  Key=InstanceIds,Values=instance-id-1,instance-id-2,instance-id-3    Example 2: Use tag key-pairs applied to instances  Key=tag:my-tag-key,Values=my-tag-value-1,my-tag-value-2    Example 3: Use tag-keys applied to instances  Key=tag-key,Values=my-tag-key-1,my-tag-key-2    Example 4: Use resource group names  Key=resource-groups:Name,Values=resource-group-name    Example 5: Use filters for resource group types  Key=resource-groups:ResourceTypeFilters,Values=resource-type-1,resource-type-2    For Key=resource-groups:ResourceTypeFilters, specify resource types in the following format  Key=resource-groups:ResourceTypeFilters,Values=AWS::EC2::INSTANCE,AWS::EC2::VPC    For more information about these examples formats, including the best use case for each one, see Examples: Register targets with a maintenance window in the AWS Systems Manager User Guide.
         public let targets: [Target]
         /// The ID of the maintenance window the target should be registered with.
         public let windowId: String
@@ -10524,20 +10976,26 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 128)
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try self.ownerInformation?.forEach {}
             try self.validate(self.ownerInformation, name: "ownerInformation", parent: name, max: 128)
             try self.validate(self.ownerInformation, name: "ownerInformation", parent: name, min: 1)
             try self.targets.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
+            try self.targets.forEach {}
             try self.validate(self.targets, name: "targets", parent: name, max: 5)
             try self.validate(self.targets, name: "targets", parent: name, min: 0)
+            try self.windowId.forEach {}
             try self.validate(self.windowId, name: "windowId", parent: name, max: 20)
             try self.validate(self.windowId, name: "windowId", parent: name, min: 20)
             try self.validate(self.windowId, name: "windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
@@ -10615,34 +11073,45 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 128)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.loggingInfo?.validate(name: "\(name).loggingInfo")
+            try self.loggingInfo?.forEach {}
+            try self.maxConcurrency?.forEach {}
             try self.validate(self.maxConcurrency, name: "maxConcurrency", parent: name, max: 7)
             try self.validate(self.maxConcurrency, name: "maxConcurrency", parent: name, min: 1)
             try self.validate(self.maxConcurrency, name: "maxConcurrency", parent: name, pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
+            try self.maxErrors?.forEach {}
             try self.validate(self.maxErrors, name: "maxErrors", parent: name, max: 7)
             try self.validate(self.maxErrors, name: "maxErrors", parent: name, min: 1)
             try self.validate(self.maxErrors, name: "maxErrors", parent: name, pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try self.priority?.forEach {}
             try self.validate(self.priority, name: "priority", parent: name, min: 0)
             try self.targets?.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
+            try self.targets?.forEach {}
             try self.validate(self.targets, name: "targets", parent: name, max: 5)
             try self.validate(self.targets, name: "targets", parent: name, min: 0)
+            try self.taskArn.forEach {}
             try self.validate(self.taskArn, name: "taskArn", parent: name, max: 1600)
             try self.validate(self.taskArn, name: "taskArn", parent: name, min: 1)
             try self.taskInvocationParameters?.validate(name: "\(name).taskInvocationParameters")
+            try self.taskInvocationParameters?.forEach {}
             try self.taskParameters?.forEach {
                 try validate($0.key, name: "taskParameters.key", parent: name, max: 255)
                 try validate($0.key, name: "taskParameters.key", parent: name, min: 1)
                 try $0.value.validate(name: "\(name).taskParameters[\"\($0.key)\"]")
             }
+            try self.windowId.forEach {}
             try self.validate(self.windowId, name: "windowId", parent: name, max: 20)
             try self.validate(self.windowId, name: "windowId", parent: name, min: 20)
             try self.validate(self.windowId, name: "windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
@@ -10693,7 +11162,7 @@ extension SSM {
     }
 
     public struct RemoveTagsFromResourceRequest: AWSEncodableShape {
-        /// The ID of the resource from which you want to remove tags. For example: ManagedInstance: mi-012345abcde MaintenanceWindow: mw-012345abcde PatchBaseline: pb-012345abcde For the Document and Parameter values, use the name of the resource.  The ManagedInstance type for this API action is only for on-premises managed instances. Specify the name of the managed instance in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
+        /// The ID of the resource from which you want to remove tags. For example: ManagedInstance: mi-012345abcde MaintenanceWindow: mw-012345abcde PatchBaseline: pb-012345abcde OpsMetadata object: ResourceID for tagging is created from the Amazon Resource Name (ARN) for the object. Specifically, ResourceID is created from the strings that come after the word opsmetadata in the ARN. For example, an OpsMetadata object with an ARN of arn:aws:ssm:us-east-2:1234567890:opsmetadata/aws/ssm/MyGroup/appmanager has a ResourceID of either aws/ssm/MyGroup/appmanager or /aws/ssm/MyGroup/appmanager. For the Document and Parameter values, use the name of the resource.  The ManagedInstance type for this API action is only for on-premises managed instances. Specify the name of the managed instance in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
         public let resourceId: String
         /// The type of resource from which you want to remove a tag.  The ManagedInstance type for this API action is only for on-premises managed instances. Specify the name of the managed instance in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
         public let resourceType: ResourceTypeForTagging
@@ -10712,6 +11181,7 @@ extension SSM {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
+            try self.tagKeys.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10726,7 +11196,7 @@ extension SSM {
     }
 
     public struct ResetServiceSettingRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the service setting to reset. The setting ID can be /ssm/parameter-store/default-parameter-tier, /ssm/parameter-store/high-throughput-enabled, or /ssm/managed-instance/activation-tier. For example, arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/parameter-store/high-throughput-enabled.
+        /// The Amazon Resource Name (ARN) of the service setting to reset. The setting ID can be /ssm/automation/customer-script-log-destination, /ssm/automation/customer-script-log-group-name, /ssm/parameter-store/default-parameter-tier, /ssm/parameter-store/high-throughput-enabled, or /ssm/managed-instance/activation-tier. For example, arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/parameter-store/high-throughput-enabled.
         public let settingId: String
 
         public init(settingId: String) {
@@ -10734,6 +11204,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.settingId.forEach {}
             try self.validate(self.settingId, name: "settingId", parent: name, max: 1000)
             try self.validate(self.settingId, name: "settingId", parent: name, min: 1)
         }
@@ -10829,8 +11300,10 @@ extension SSM {
             try self.organizationalUnits?.forEach {
                 try $0.validate(name: "\(name).organizationalUnits[]")
             }
+            try self.organizationalUnits?.forEach {}
             try self.validate(self.organizationalUnits, name: "organizationalUnits", parent: name, max: 1000)
             try self.validate(self.organizationalUnits, name: "organizationalUnits", parent: name, min: 1)
+            try self.organizationSourceType.forEach {}
             try self.validate(self.organizationSourceType, name: "organizationSourceType", parent: name, max: 64)
             try self.validate(self.organizationSourceType, name: "organizationSourceType", parent: name, min: 1)
         }
@@ -10850,6 +11323,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.destinationDataSharingType?.forEach {}
             try self.validate(self.destinationDataSharingType, name: "destinationDataSharingType", parent: name, max: 64)
             try self.validate(self.destinationDataSharingType, name: "destinationDataSharingType", parent: name, min: 1)
         }
@@ -10917,6 +11391,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.organizationalUnitId?.forEach {}
             try self.validate(self.organizationalUnitId, name: "organizationalUnitId", parent: name, max: 128)
             try self.validate(self.organizationalUnitId, name: "organizationalUnitId", parent: name, min: 1)
             try self.validate(self.organizationalUnitId, name: "organizationalUnitId", parent: name, pattern: "^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$")
@@ -10951,14 +11426,19 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.aWSKMSKeyARN?.forEach {}
             try self.validate(self.aWSKMSKeyARN, name: "aWSKMSKeyARN", parent: name, max: 512)
             try self.validate(self.aWSKMSKeyARN, name: "aWSKMSKeyARN", parent: name, min: 1)
             try self.validate(self.aWSKMSKeyARN, name: "aWSKMSKeyARN", parent: name, pattern: "arn:.*")
+            try self.bucketName.forEach {}
             try self.validate(self.bucketName, name: "bucketName", parent: name, max: 2048)
             try self.validate(self.bucketName, name: "bucketName", parent: name, min: 1)
             try self.destinationDataSharing?.validate(name: "\(name).destinationDataSharing")
+            try self.destinationDataSharing?.forEach {}
+            try self.prefix?.forEach {}
             try self.validate(self.prefix, name: "prefix", parent: name, max: 256)
             try self.validate(self.prefix, name: "prefix", parent: name, min: 1)
+            try self.region.forEach {}
             try self.validate(self.region, name: "region", parent: name, max: 64)
             try self.validate(self.region, name: "region", parent: name, min: 1)
         }
@@ -10976,6 +11456,8 @@ extension SSM {
     public struct ResourceDataSyncSource: AWSEncodableShape {
         /// Information about the AwsOrganizationsSource resource data sync source. A sync source of this type can synchronize data from AWS Organizations.
         public let awsOrganizationsSource: ResourceDataSyncAwsOrganizationsSource?
+        /// When you create a resource data sync, if you choose one of the AWS Organizations options, then Systems Manager automatically enables all OpsData sources in the selected AWS Regions for all AWS accounts in your organization (or in the selected organization units). For more information, see About multiple account and Region resource data syncs in the AWS Systems Manager User Guide.
+        public let enableAllOpsDataSources: Bool?
         /// Whether to automatically synchronize and aggregate data from new AWS Regions when those Regions come online.
         public let includeFutureRegions: Bool?
         /// The SyncSource AWS Regions included in the resource data sync.
@@ -10983,8 +11465,9 @@ extension SSM {
         /// The type of data source for the resource data sync. SourceType is either AwsOrganizations (if an organization is present in AWS Organizations) or singleAccountMultiRegions.
         public let sourceType: String
 
-        public init(awsOrganizationsSource: ResourceDataSyncAwsOrganizationsSource? = nil, includeFutureRegions: Bool? = nil, sourceRegions: [String], sourceType: String) {
+        public init(awsOrganizationsSource: ResourceDataSyncAwsOrganizationsSource? = nil, enableAllOpsDataSources: Bool? = nil, includeFutureRegions: Bool? = nil, sourceRegions: [String], sourceType: String) {
             self.awsOrganizationsSource = awsOrganizationsSource
+            self.enableAllOpsDataSources = enableAllOpsDataSources
             self.includeFutureRegions = includeFutureRegions
             self.sourceRegions = sourceRegions
             self.sourceType = sourceType
@@ -10992,16 +11475,20 @@ extension SSM {
 
         public func validate(name: String) throws {
             try self.awsOrganizationsSource?.validate(name: "\(name).awsOrganizationsSource")
+            try self.awsOrganizationsSource?.forEach {}
             try self.sourceRegions.forEach {
                 try validate($0, name: "sourceRegions[]", parent: name, max: 64)
                 try validate($0, name: "sourceRegions[]", parent: name, min: 1)
             }
+            try self.sourceRegions.forEach {}
+            try self.sourceType.forEach {}
             try self.validate(self.sourceType, name: "sourceType", parent: name, max: 64)
             try self.validate(self.sourceType, name: "sourceType", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case awsOrganizationsSource = "AwsOrganizationsSource"
+            case enableAllOpsDataSources = "EnableAllOpsDataSources"
             case includeFutureRegions = "IncludeFutureRegions"
             case sourceRegions = "SourceRegions"
             case sourceType = "SourceType"
@@ -11011,6 +11498,8 @@ extension SSM {
     public struct ResourceDataSyncSourceWithState: AWSDecodableShape {
         /// The field name in SyncSource for the ResourceDataSyncAwsOrganizationsSource type.
         public let awsOrganizationsSource: ResourceDataSyncAwsOrganizationsSource?
+        /// When you create a resource data sync, if you choose one of the AWS Organizations options, then Systems Manager automatically enables all OpsData sources in the selected AWS Regions for all AWS accounts in your organization (or in the selected organization units). For more information, see About multiple account and Region resource data syncs in the AWS Systems Manager User Guide.
+        public let enableAllOpsDataSources: Bool?
         /// Whether to automatically synchronize and aggregate data from new AWS Regions when those Regions come online.
         public let includeFutureRegions: Bool?
         /// The SyncSource AWS Regions included in the resource data sync.
@@ -11020,8 +11509,9 @@ extension SSM {
         /// The data type name for including resource data sync state. There are four sync states:  OrganizationNotExists: Your organization doesn't exist.  NoPermissions: The system can't locate the service-linked role. This role is automatically created when a user creates a resource data sync in Explorer.  InvalidOrganizationalUnit: You specified or selected an invalid unit in the resource data sync configuration.  TrustedAccessDisabled: You disabled Systems Manager access in the organization in AWS Organizations.
         public let state: String?
 
-        public init(awsOrganizationsSource: ResourceDataSyncAwsOrganizationsSource? = nil, includeFutureRegions: Bool? = nil, sourceRegions: [String]? = nil, sourceType: String? = nil, state: String? = nil) {
+        public init(awsOrganizationsSource: ResourceDataSyncAwsOrganizationsSource? = nil, enableAllOpsDataSources: Bool? = nil, includeFutureRegions: Bool? = nil, sourceRegions: [String]? = nil, sourceType: String? = nil, state: String? = nil) {
             self.awsOrganizationsSource = awsOrganizationsSource
+            self.enableAllOpsDataSources = enableAllOpsDataSources
             self.includeFutureRegions = includeFutureRegions
             self.sourceRegions = sourceRegions
             self.sourceType = sourceType
@@ -11030,6 +11520,7 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case awsOrganizationsSource = "AwsOrganizationsSource"
+            case enableAllOpsDataSources = "EnableAllOpsDataSources"
             case includeFutureRegions = "IncludeFutureRegions"
             case sourceRegions = "SourceRegions"
             case sourceType = "SourceType"
@@ -11046,6 +11537,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.typeName.forEach {}
             try self.validate(self.typeName, name: "typeName", parent: name, max: 100)
             try self.validate(self.typeName, name: "typeName", parent: name, min: 1)
             try self.validate(self.typeName, name: "typeName", parent: name, pattern: "^(AWS|Custom):.*$")
@@ -11065,6 +11557,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.sessionId.forEach {}
             try self.validate(self.sessionId, name: "sessionId", parent: name, max: 96)
             try self.validate(self.sessionId, name: "sessionId", parent: name, min: 1)
         }
@@ -11146,30 +11639,37 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.documentName.forEach {}
             try self.validate(self.documentName, name: "documentName", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
+            try self.documentVersion?.forEach {}
             try self.validate(self.documentVersion, name: "documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
+            try self.maxConcurrency?.forEach {}
             try self.validate(self.maxConcurrency, name: "maxConcurrency", parent: name, max: 7)
             try self.validate(self.maxConcurrency, name: "maxConcurrency", parent: name, min: 1)
             try self.validate(self.maxConcurrency, name: "maxConcurrency", parent: name, pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
+            try self.maxErrors?.forEach {}
             try self.validate(self.maxErrors, name: "maxErrors", parent: name, max: 7)
             try self.validate(self.maxErrors, name: "maxErrors", parent: name, min: 1)
             try self.validate(self.maxErrors, name: "maxErrors", parent: name, pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
             try self.parameters?.forEach {
                 try validate($0.key, name: "parameters.key", parent: name, max: 50)
                 try validate($0.key, name: "parameters.key", parent: name, min: 1)
-                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 10)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 50)
                 try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, min: 0)
             }
             try self.targetLocations?.forEach {
                 try $0.validate(name: "\(name).targetLocations[]")
             }
+            try self.targetLocations?.forEach {}
             try self.validate(self.targetLocations, name: "targetLocations", parent: name, max: 100)
             try self.validate(self.targetLocations, name: "targetLocations", parent: name, min: 1)
+            try self.targetParameterName?.forEach {}
             try self.validate(self.targetParameterName, name: "targetParameterName", parent: name, max: 50)
             try self.validate(self.targetParameterName, name: "targetParameterName", parent: name, min: 1)
             try self.targets?.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
+            try self.targets?.forEach {}
             try self.validate(self.targets, name: "targets", parent: name, max: 5)
             try self.validate(self.targets, name: "targets", parent: name, min: 0)
         }
@@ -11201,9 +11701,12 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.outputS3BucketName?.forEach {}
             try self.validate(self.outputS3BucketName, name: "outputS3BucketName", parent: name, max: 63)
             try self.validate(self.outputS3BucketName, name: "outputS3BucketName", parent: name, min: 3)
+            try self.outputS3KeyPrefix?.forEach {}
             try self.validate(self.outputS3KeyPrefix, name: "outputS3KeyPrefix", parent: name, max: 500)
+            try self.outputS3Region?.forEach {}
             try self.validate(self.outputS3Region, name: "outputS3Region", parent: name, max: 20)
             try self.validate(self.outputS3Region, name: "outputS3Region", parent: name, min: 3)
         }
@@ -11264,12 +11767,13 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.automationExecutionId.forEach {}
             try self.validate(self.automationExecutionId, name: "automationExecutionId", parent: name, max: 36)
             try self.validate(self.automationExecutionId, name: "automationExecutionId", parent: name, min: 36)
             try self.payload?.forEach {
                 try validate($0.key, name: "payload.key", parent: name, max: 50)
                 try validate($0.key, name: "payload.key", parent: name, min: 1)
-                try validate($0.value, name: "payload[\"\($0.key)\"]", parent: name, max: 10)
+                try validate($0.value, name: "payload[\"\($0.key)\"]", parent: name, max: 50)
                 try validate($0.value, name: "payload[\"\($0.key)\"]", parent: name, min: 0)
             }
         }
@@ -11343,31 +11847,44 @@ extension SSM {
 
         public func validate(name: String) throws {
             try self.cloudWatchOutputConfig?.validate(name: "\(name).cloudWatchOutputConfig")
+            try self.cloudWatchOutputConfig?.forEach {}
+            try self.comment?.forEach {}
             try self.validate(self.comment, name: "comment", parent: name, max: 100)
+            try self.documentHash?.forEach {}
             try self.validate(self.documentHash, name: "documentHash", parent: name, max: 256)
+            try self.documentName.forEach {}
             try self.validate(self.documentName, name: "documentName", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
+            try self.documentVersion?.forEach {}
             try self.validate(self.documentVersion, name: "documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
             try self.instanceIds?.forEach {
                 try validate($0, name: "instanceIds[]", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
             }
+            try self.instanceIds?.forEach {}
             try self.validate(self.instanceIds, name: "instanceIds", parent: name, max: 50)
             try self.validate(self.instanceIds, name: "instanceIds", parent: name, min: 0)
+            try self.maxConcurrency?.forEach {}
             try self.validate(self.maxConcurrency, name: "maxConcurrency", parent: name, max: 7)
             try self.validate(self.maxConcurrency, name: "maxConcurrency", parent: name, min: 1)
             try self.validate(self.maxConcurrency, name: "maxConcurrency", parent: name, pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
+            try self.maxErrors?.forEach {}
             try self.validate(self.maxErrors, name: "maxErrors", parent: name, max: 7)
             try self.validate(self.maxErrors, name: "maxErrors", parent: name, min: 1)
             try self.validate(self.maxErrors, name: "maxErrors", parent: name, pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
+            try self.outputS3BucketName?.forEach {}
             try self.validate(self.outputS3BucketName, name: "outputS3BucketName", parent: name, max: 63)
             try self.validate(self.outputS3BucketName, name: "outputS3BucketName", parent: name, min: 3)
+            try self.outputS3KeyPrefix?.forEach {}
             try self.validate(self.outputS3KeyPrefix, name: "outputS3KeyPrefix", parent: name, max: 500)
+            try self.outputS3Region?.forEach {}
             try self.validate(self.outputS3Region, name: "outputS3Region", parent: name, max: 20)
             try self.validate(self.outputS3Region, name: "outputS3Region", parent: name, min: 3)
             try self.targets?.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
+            try self.targets?.forEach {}
             try self.validate(self.targets, name: "targets", parent: name, max: 5)
             try self.validate(self.targets, name: "targets", parent: name, min: 0)
+            try self.timeoutSeconds?.forEach {}
             try self.validate(self.timeoutSeconds, name: "timeoutSeconds", parent: name, max: 2_592_000)
             try self.validate(self.timeoutSeconds, name: "timeoutSeconds", parent: name, min: 30)
         }
@@ -11496,6 +12013,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 400)
             try self.validate(self.value, name: "value", parent: name, min: 1)
         }
@@ -11568,6 +12086,7 @@ extension SSM {
             try self.associationIds.forEach {
                 try validate($0, name: "associationIds[]", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
             }
+            try self.associationIds.forEach {}
             try self.validate(self.associationIds, name: "associationIds", parent: name, max: 10)
             try self.validate(self.associationIds, name: "associationIds", parent: name, min: 1)
         }
@@ -11623,39 +12142,49 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}")
+            try self.documentName.forEach {}
             try self.validate(self.documentName, name: "documentName", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
+            try self.documentVersion?.forEach {}
             try self.validate(self.documentVersion, name: "documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
+            try self.maxConcurrency?.forEach {}
             try self.validate(self.maxConcurrency, name: "maxConcurrency", parent: name, max: 7)
             try self.validate(self.maxConcurrency, name: "maxConcurrency", parent: name, min: 1)
             try self.validate(self.maxConcurrency, name: "maxConcurrency", parent: name, pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
+            try self.maxErrors?.forEach {}
             try self.validate(self.maxErrors, name: "maxErrors", parent: name, max: 7)
             try self.validate(self.maxErrors, name: "maxErrors", parent: name, min: 1)
             try self.validate(self.maxErrors, name: "maxErrors", parent: name, pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
             try self.parameters?.forEach {
                 try validate($0.key, name: "parameters.key", parent: name, max: 50)
                 try validate($0.key, name: "parameters.key", parent: name, min: 1)
-                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 10)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 50)
                 try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, min: 0)
             }
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 1000)
             try self.targetLocations?.forEach {
                 try $0.validate(name: "\(name).targetLocations[]")
             }
+            try self.targetLocations?.forEach {}
             try self.validate(self.targetLocations, name: "targetLocations", parent: name, max: 100)
             try self.validate(self.targetLocations, name: "targetLocations", parent: name, min: 1)
+            try self.targetMaps?.forEach {}
             try self.validate(self.targetMaps, name: "targetMaps", parent: name, max: 300)
             try self.validate(self.targetMaps, name: "targetMaps", parent: name, min: 0)
+            try self.targetParameterName?.forEach {}
             try self.validate(self.targetParameterName, name: "targetParameterName", parent: name, max: 50)
             try self.validate(self.targetParameterName, name: "targetParameterName", parent: name, min: 1)
             try self.targets?.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
+            try self.targets?.forEach {}
             try self.validate(self.targets, name: "targets", parent: name, max: 5)
             try self.validate(self.targets, name: "targets", parent: name, min: 0)
         }
@@ -11719,27 +12248,33 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.changeRequestName?.forEach {}
             try self.validate(self.changeRequestName, name: "changeRequestName", parent: name, max: 1024)
             try self.validate(self.changeRequestName, name: "changeRequestName", parent: name, min: 1)
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}")
+            try self.documentName.forEach {}
             try self.validate(self.documentName, name: "documentName", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
+            try self.documentVersion?.forEach {}
             try self.validate(self.documentVersion, name: "documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
             try self.parameters?.forEach {
                 try validate($0.key, name: "parameters.key", parent: name, max: 50)
                 try validate($0.key, name: "parameters.key", parent: name, min: 1)
-                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 10)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 50)
                 try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, min: 0)
             }
             try self.runbooks.forEach {
                 try $0.validate(name: "\(name).runbooks[]")
             }
+            try self.runbooks.forEach {}
             try self.validate(self.runbooks, name: "runbooks", parent: name, max: 1)
             try self.validate(self.runbooks, name: "runbooks", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 1000)
         }
 
@@ -11783,11 +12318,13 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.documentName?.forEach {}
             try self.validate(self.documentName, name: "documentName", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
             try self.parameters?.forEach {
                 try validate($0.key, name: "parameters.key", parent: name, max: 255)
                 try validate($0.key, name: "parameters.key", parent: name, min: 1)
             }
+            try self.target.forEach {}
             try self.validate(self.target, name: "target", parent: name, max: 400)
             try self.validate(self.target, name: "target", parent: name, min: 1)
         }
@@ -11933,6 +12470,7 @@ extension SSM {
                 try validate($0, name: "values[]", parent: name, max: 150)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
+            try self.values.forEach {}
             try self.validate(self.values, name: "values", parent: name, max: 10)
             try self.validate(self.values, name: "values", parent: name, min: 1)
         }
@@ -11955,6 +12493,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.automationExecutionId.forEach {}
             try self.validate(self.automationExecutionId, name: "automationExecutionId", parent: name, max: 36)
             try self.validate(self.automationExecutionId, name: "automationExecutionId", parent: name, min: 36)
         }
@@ -11981,9 +12520,11 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 1)
             try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -11998,7 +12539,7 @@ extension SSM {
     public struct Target: AWSEncodableShape & AWSDecodableShape {
         /// User-defined criteria for sending commands that target instances that meet the criteria.
         public let key: String?
-        /// User-defined criteria that maps to Key. For example, if you specified tag:ServerRole, you could specify value:WebServer to run a command on instances that include EC2 tags of ServerRole,WebServer.
+        /// User-defined criteria that maps to Key. For example, if you specified tag:ServerRole, you could specify value:WebServer to run a command on instances that include EC2 tags of ServerRole,WebServer.  Depending on the type of Target, the maximum number of values for a Key might be lower than the global maximum of 50.
         public let values: [String]?
 
         public init(key: String? = nil, values: [String]? = nil) {
@@ -12007,9 +12548,11 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 163)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}_.:/=\\-@]*$|resource-groups:ResourceTypeFilters|resource-groups:Name")
+            try self.values?.forEach {}
             try self.validate(self.values, name: "values", parent: name, max: 50)
             try self.validate(self.values, name: "values", parent: name, min: 0)
         }
@@ -12041,16 +12584,21 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.accounts?.forEach {}
             try self.validate(self.accounts, name: "accounts", parent: name, max: 50)
             try self.validate(self.accounts, name: "accounts", parent: name, min: 1)
+            try self.executionRoleName?.forEach {}
             try self.validate(self.executionRoleName, name: "executionRoleName", parent: name, max: 64)
             try self.validate(self.executionRoleName, name: "executionRoleName", parent: name, min: 1)
             try self.validate(self.executionRoleName, name: "executionRoleName", parent: name, pattern: "[\\w+=,.@-]+")
+            try self.regions?.forEach {}
             try self.validate(self.regions, name: "regions", parent: name, max: 50)
             try self.validate(self.regions, name: "regions", parent: name, min: 1)
+            try self.targetLocationMaxConcurrency?.forEach {}
             try self.validate(self.targetLocationMaxConcurrency, name: "targetLocationMaxConcurrency", parent: name, max: 7)
             try self.validate(self.targetLocationMaxConcurrency, name: "targetLocationMaxConcurrency", parent: name, min: 1)
             try self.validate(self.targetLocationMaxConcurrency, name: "targetLocationMaxConcurrency", parent: name, pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
+            try self.targetLocationMaxErrors?.forEach {}
             try self.validate(self.targetLocationMaxErrors, name: "targetLocationMaxErrors", parent: name, max: 7)
             try self.validate(self.targetLocationMaxErrors, name: "targetLocationMaxErrors", parent: name, min: 1)
             try self.validate(self.targetLocationMaxErrors, name: "targetLocationMaxErrors", parent: name, pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
@@ -12074,6 +12622,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.sessionId.forEach {}
             try self.validate(self.sessionId, name: "sessionId", parent: name, max: 96)
             try self.validate(self.sessionId, name: "sessionId", parent: name, min: 1)
         }
@@ -12150,30 +12699,42 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.associationId.forEach {}
             try self.validate(self.associationId, name: "associationId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+            try self.associationName?.forEach {}
             try self.validate(self.associationName, name: "associationName", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try self.associationVersion?.forEach {}
             try self.validate(self.associationVersion, name: "associationVersion", parent: name, pattern: "([$]LATEST)|([1-9][0-9]*)")
+            try self.automationTargetParameterName?.forEach {}
             try self.validate(self.automationTargetParameterName, name: "automationTargetParameterName", parent: name, max: 50)
             try self.validate(self.automationTargetParameterName, name: "automationTargetParameterName", parent: name, min: 1)
+            try self.documentVersion?.forEach {}
             try self.validate(self.documentVersion, name: "documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
+            try self.maxConcurrency?.forEach {}
             try self.validate(self.maxConcurrency, name: "maxConcurrency", parent: name, max: 7)
             try self.validate(self.maxConcurrency, name: "maxConcurrency", parent: name, min: 1)
             try self.validate(self.maxConcurrency, name: "maxConcurrency", parent: name, pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
+            try self.maxErrors?.forEach {}
             try self.validate(self.maxErrors, name: "maxErrors", parent: name, max: 7)
             try self.validate(self.maxErrors, name: "maxErrors", parent: name, min: 1)
             try self.validate(self.maxErrors, name: "maxErrors", parent: name, pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
             try self.outputLocation?.validate(name: "\(name).outputLocation")
+            try self.outputLocation?.forEach {}
+            try self.scheduleExpression?.forEach {}
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, max: 256)
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, min: 1)
             try self.targetLocations?.forEach {
                 try $0.validate(name: "\(name).targetLocations[]")
             }
+            try self.targetLocations?.forEach {}
             try self.validate(self.targetLocations, name: "targetLocations", parent: name, max: 100)
             try self.validate(self.targetLocations, name: "targetLocations", parent: name, min: 1)
             try self.targets?.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
+            try self.targets?.forEach {}
             try self.validate(self.targets, name: "targets", parent: name, max: 5)
             try self.validate(self.targets, name: "targets", parent: name, min: 0)
         }
@@ -12227,7 +12788,10 @@ extension SSM {
 
         public func validate(name: String) throws {
             try self.associationStatus.validate(name: "\(name).associationStatus")
+            try self.associationStatus.forEach {}
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
         }
 
@@ -12263,7 +12827,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.documentVersion.forEach {}
             try self.validate(self.documentVersion, name: "documentVersion", parent: name, pattern: "(^[1-9][0-9]*$)")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
         }
 
@@ -12302,7 +12868,10 @@ extension SSM {
 
         public func validate(name: String) throws {
             try self.documentReviews.validate(name: "\(name).documentReviews")
+            try self.documentReviews.forEach {}
+            try self.documentVersion?.forEach {}
             try self.validate(self.documentVersion, name: "documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
         }
 
@@ -12347,13 +12916,19 @@ extension SSM {
             try self.attachments?.forEach {
                 try $0.validate(name: "\(name).attachments[]")
             }
+            try self.attachments?.forEach {}
             try self.validate(self.attachments, name: "attachments", parent: name, max: 20)
             try self.validate(self.attachments, name: "attachments", parent: name, min: 0)
+            try self.content.forEach {}
             try self.validate(self.content, name: "content", parent: name, min: 1)
+            try self.documentVersion?.forEach {}
             try self.validate(self.documentVersion, name: "documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try self.targetType?.forEach {}
             try self.validate(self.targetType, name: "targetType", parent: name, max: 200)
             try self.validate(self.targetType, name: "targetType", parent: name, pattern: "^\\/[\\w\\.\\-\\:\\/]*$")
+            try self.versionName?.forEach {}
             try self.validate(self.versionName, name: "versionName", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{1,128}$")
         }
 
@@ -12426,19 +13001,26 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.cutoff?.forEach {}
             try self.validate(self.cutoff, name: "cutoff", parent: name, max: 23)
             try self.validate(self.cutoff, name: "cutoff", parent: name, min: 0)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 128)
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.duration?.forEach {}
             try self.validate(self.duration, name: "duration", parent: name, max: 24)
             try self.validate(self.duration, name: "duration", parent: name, min: 1)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try self.schedule?.forEach {}
             try self.validate(self.schedule, name: "schedule", parent: name, max: 256)
             try self.validate(self.schedule, name: "schedule", parent: name, min: 1)
+            try self.scheduleOffset?.forEach {}
             try self.validate(self.scheduleOffset, name: "scheduleOffset", parent: name, max: 6)
             try self.validate(self.scheduleOffset, name: "scheduleOffset", parent: name, min: 1)
+            try self.windowId.forEach {}
             try self.validate(self.windowId, name: "windowId", parent: name, max: 20)
             try self.validate(self.windowId, name: "windowId", parent: name, min: 20)
             try self.validate(self.windowId, name: "windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
@@ -12545,21 +13127,27 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 128)
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try self.ownerInformation?.forEach {}
             try self.validate(self.ownerInformation, name: "ownerInformation", parent: name, max: 128)
             try self.validate(self.ownerInformation, name: "ownerInformation", parent: name, min: 1)
             try self.targets?.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
+            try self.targets?.forEach {}
             try self.validate(self.targets, name: "targets", parent: name, max: 5)
             try self.validate(self.targets, name: "targets", parent: name, min: 0)
+            try self.windowId.forEach {}
             try self.validate(self.windowId, name: "windowId", parent: name, max: 20)
             try self.validate(self.windowId, name: "windowId", parent: name, min: 20)
             try self.validate(self.windowId, name: "windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
+            try self.windowTargetId.forEach {}
             try self.validate(self.windowTargetId, name: "windowTargetId", parent: name, max: 36)
             try self.validate(self.windowTargetId, name: "windowTargetId", parent: name, min: 36)
             try self.validate(self.windowTargetId, name: "windowTargetId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
@@ -12657,35 +13245,46 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 128)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.loggingInfo?.validate(name: "\(name).loggingInfo")
+            try self.loggingInfo?.forEach {}
+            try self.maxConcurrency?.forEach {}
             try self.validate(self.maxConcurrency, name: "maxConcurrency", parent: name, max: 7)
             try self.validate(self.maxConcurrency, name: "maxConcurrency", parent: name, min: 1)
             try self.validate(self.maxConcurrency, name: "maxConcurrency", parent: name, pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
+            try self.maxErrors?.forEach {}
             try self.validate(self.maxErrors, name: "maxErrors", parent: name, max: 7)
             try self.validate(self.maxErrors, name: "maxErrors", parent: name, min: 1)
             try self.validate(self.maxErrors, name: "maxErrors", parent: name, pattern: "^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$")
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
+            try self.priority?.forEach {}
             try self.validate(self.priority, name: "priority", parent: name, min: 0)
             try self.targets?.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
+            try self.targets?.forEach {}
             try self.validate(self.targets, name: "targets", parent: name, max: 5)
             try self.validate(self.targets, name: "targets", parent: name, min: 0)
+            try self.taskArn?.forEach {}
             try self.validate(self.taskArn, name: "taskArn", parent: name, max: 1600)
             try self.validate(self.taskArn, name: "taskArn", parent: name, min: 1)
             try self.taskInvocationParameters?.validate(name: "\(name).taskInvocationParameters")
+            try self.taskInvocationParameters?.forEach {}
             try self.taskParameters?.forEach {
                 try validate($0.key, name: "taskParameters.key", parent: name, max: 255)
                 try validate($0.key, name: "taskParameters.key", parent: name, min: 1)
                 try $0.value.validate(name: "\(name).taskParameters[\"\($0.key)\"]")
             }
+            try self.windowId.forEach {}
             try self.validate(self.windowId, name: "windowId", parent: name, max: 20)
             try self.validate(self.windowId, name: "windowId", parent: name, min: 20)
             try self.validate(self.windowId, name: "windowId", parent: name, pattern: "^mw-[0-9a-f]{17}$")
+            try self.windowTaskId.forEach {}
             try self.validate(self.windowTaskId, name: "windowTaskId", parent: name, max: 36)
             try self.validate(self.windowTaskId, name: "windowTaskId", parent: name, min: 36)
             try self.validate(self.windowTaskId, name: "windowTaskId", parent: name, pattern: "^[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}$")
@@ -12782,7 +13381,9 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.iamRole.forEach {}
             try self.validate(self.iamRole, name: "iamRole", parent: name, max: 64)
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^mi-[0-9a-f]{17}$")
         }
 
@@ -12847,9 +13448,11 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.category?.forEach {}
             try self.validate(self.category, name: "category", parent: name, max: 64)
             try self.validate(self.category, name: "category", parent: name, min: 1)
             try self.validate(self.category, name: "category", parent: name, pattern: "^(?!\\s*$).+")
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\s\\S]*\\S[\\s\\S]*")
@@ -12859,12 +13462,16 @@ extension SSM {
                 try validate($0.key, name: "operationalData.key", parent: name, pattern: "^(?!\\s*$).+")
                 try $0.value.validate(name: "\(name).operationalData[\"\($0.key)\"]")
             }
+            try self.opsItemId.forEach {}
             try self.validate(self.opsItemId, name: "opsItemId", parent: name, pattern: "^(oi)-[0-9a-f]{12}$")
+            try self.priority?.forEach {}
             try self.validate(self.priority, name: "priority", parent: name, max: 5)
             try self.validate(self.priority, name: "priority", parent: name, min: 1)
+            try self.severity?.forEach {}
             try self.validate(self.severity, name: "severity", parent: name, max: 64)
             try self.validate(self.severity, name: "severity", parent: name, min: 1)
             try self.validate(self.severity, name: "severity", parent: name, pattern: "^(?!\\s*$).+")
+            try self.title?.forEach {}
             try self.validate(self.title, name: "title", parent: name, max: 1024)
             try self.validate(self.title, name: "title", parent: name, min: 1)
             try self.validate(self.title, name: "title", parent: name, pattern: "^(?!\\s*$).+")
@@ -12913,6 +13520,7 @@ extension SSM {
                 try validate($0, name: "keysToDelete[]", parent: name, min: 1)
                 try validate($0, name: "keysToDelete[]", parent: name, pattern: "^(?!\\s*$).+")
             }
+            try self.keysToDelete?.forEach {}
             try self.validate(self.keysToDelete, name: "keysToDelete", parent: name, max: 10)
             try self.validate(self.keysToDelete, name: "keysToDelete", parent: name, min: 1)
             try self.metadataToUpdate?.forEach {
@@ -12921,6 +13529,7 @@ extension SSM {
                 try validate($0.key, name: "metadataToUpdate.key", parent: name, pattern: "^(?!\\s*$).+")
                 try $0.value.validate(name: "\(name).metadataToUpdate[\"\($0.key)\"]")
             }
+            try self.opsMetadataArn.forEach {}
             try self.validate(self.opsMetadataArn, name: "opsMetadataArn", parent: name, max: 1011)
             try self.validate(self.opsMetadataArn, name: "opsMetadataArn", parent: name, min: 1)
             try self.validate(self.opsMetadataArn, name: "opsMetadataArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:ssm:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:opsmetadata\\/([a-zA-Z0-9-_\\.\\/]*)")
@@ -12989,18 +13598,24 @@ extension SSM {
 
         public func validate(name: String) throws {
             try self.approvalRules?.validate(name: "\(name).approvalRules")
+            try self.approvalRules?.forEach {}
             try self.approvedPatches?.forEach {
                 try validate($0, name: "approvedPatches[]", parent: name, max: 100)
                 try validate($0, name: "approvedPatches[]", parent: name, min: 1)
             }
+            try self.approvedPatches?.forEach {}
             try self.validate(self.approvedPatches, name: "approvedPatches", parent: name, max: 50)
             try self.validate(self.approvedPatches, name: "approvedPatches", parent: name, min: 0)
+            try self.baselineId.forEach {}
             try self.validate(self.baselineId, name: "baselineId", parent: name, max: 128)
             try self.validate(self.baselineId, name: "baselineId", parent: name, min: 20)
             try self.validate(self.baselineId, name: "baselineId", parent: name, pattern: "^[a-zA-Z0-9_\\-:/]{20,128}$")
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.globalFilters?.validate(name: "\(name).globalFilters")
+            try self.globalFilters?.forEach {}
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
@@ -13008,11 +13623,13 @@ extension SSM {
                 try validate($0, name: "rejectedPatches[]", parent: name, max: 100)
                 try validate($0, name: "rejectedPatches[]", parent: name, min: 1)
             }
+            try self.rejectedPatches?.forEach {}
             try self.validate(self.rejectedPatches, name: "rejectedPatches", parent: name, max: 50)
             try self.validate(self.rejectedPatches, name: "rejectedPatches", parent: name, min: 0)
             try self.sources?.forEach {
                 try $0.validate(name: "\(name).sources[]")
             }
+            try self.sources?.forEach {}
             try self.validate(self.sources, name: "sources", parent: name, max: 20)
             try self.validate(self.sources, name: "sources", parent: name, min: 0)
         }
@@ -13113,9 +13730,12 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.syncName.forEach {}
             try self.validate(self.syncName, name: "syncName", parent: name, max: 64)
             try self.validate(self.syncName, name: "syncName", parent: name, min: 1)
             try self.syncSource.validate(name: "\(name).syncSource")
+            try self.syncSource.forEach {}
+            try self.syncType.forEach {}
             try self.validate(self.syncType, name: "syncType", parent: name, max: 64)
             try self.validate(self.syncType, name: "syncType", parent: name, min: 1)
         }
@@ -13132,9 +13752,9 @@ extension SSM {
     }
 
     public struct UpdateServiceSettingRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the service setting to reset. For example, arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/parameter-store/high-throughput-enabled. The setting ID can be one of the following.    /ssm/parameter-store/default-parameter-tier     /ssm/parameter-store/high-throughput-enabled     /ssm/managed-instance/activation-tier
+        /// The Amazon Resource Name (ARN) of the service setting to reset. For example, arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/parameter-store/high-throughput-enabled. The setting ID can be one of the following.    /ssm/automation/customer-script-log-destination     /ssm/automation/customer-script-log-group-name     /ssm/parameter-store/default-parameter-tier     /ssm/parameter-store/high-throughput-enabled     /ssm/managed-instance/activation-tier
         public let settingId: String
-        /// The new value to specify for the service setting. For the /ssm/parameter-store/default-parameter-tier setting ID, the setting value can be one of the following.   Standard   Advanced   Intelligent-Tiering   For the /ssm/parameter-store/high-throughput-enabled, and /ssm/managed-instance/activation-tier setting IDs, the setting value can be true or false.
+        /// The new value to specify for the service setting. For the /ssm/parameter-store/default-parameter-tier setting ID, the setting value can be one of the following.   Standard   Advanced   Intelligent-Tiering   For the /ssm/parameter-store/high-throughput-enabled, and /ssm/managed-instance/activation-tier setting IDs, the setting value can be true or false. For the /ssm/automation/customer-script-log-destination setting ID, the setting value can be CloudWatch. For the /ssm/automation/customer-script-log-group-name setting ID, the setting value can be the name of a CloudWatch Logs log group.
         public let settingValue: String
 
         public init(settingId: String, settingValue: String) {
@@ -13143,8 +13763,10 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
+            try self.settingId.forEach {}
             try self.validate(self.settingId, name: "settingId", parent: name, max: 1000)
             try self.validate(self.settingId, name: "settingId", parent: name, min: 1)
+            try self.settingValue.forEach {}
             try self.validate(self.settingValue, name: "settingValue", parent: name, max: 4096)
             try self.validate(self.settingValue, name: "settingValue", parent: name, min: 1)
         }

@@ -242,8 +242,10 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.tags?.forEach {
@@ -291,13 +293,18 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
+            try self.applicationId.forEach {}
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "[a-z0-9]{4,7}")
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.locationUri.forEach {}
             try self.validate(self.locationUri, name: "locationUri", parent: name, max: 2048)
             try self.validate(self.locationUri, name: "locationUri", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.retrievalRoleArn?.forEach {}
             try self.validate(self.retrievalRoleArn, name: "retrievalRoleArn", parent: name, max: 2048)
             try self.validate(self.retrievalRoleArn, name: "retrievalRoleArn", parent: name, min: 20)
             try self.validate(self.retrievalRoleArn, name: "retrievalRoleArn", parent: name, pattern: "^((arn):(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):(iam)::\\d{12}:role[/].*)$")
@@ -309,6 +316,7 @@ extension AppConfig {
             try self.validators?.forEach {
                 try $0.validate(name: "\(name).validators[]")
             }
+            try self.validators?.forEach {}
             try self.validate(self.validators, name: "validators", parent: name, max: 2)
             try self.validate(self.validators, name: "validators", parent: name, min: 0)
         }
@@ -353,14 +361,19 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
+            try self.deploymentDurationInMinutes.forEach {}
             try self.validate(self.deploymentDurationInMinutes, name: "deploymentDurationInMinutes", parent: name, max: 1440)
             try self.validate(self.deploymentDurationInMinutes, name: "deploymentDurationInMinutes", parent: name, min: 0)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.finalBakeTimeInMinutes?.forEach {}
             try self.validate(self.finalBakeTimeInMinutes, name: "finalBakeTimeInMinutes", parent: name, max: 1440)
             try self.validate(self.finalBakeTimeInMinutes, name: "finalBakeTimeInMinutes", parent: name, min: 0)
+            try self.growthFactor.forEach {}
             try self.validate(self.growthFactor, name: "growthFactor", parent: name, max: 100)
             try self.validate(self.growthFactor, name: "growthFactor", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.tags?.forEach {
@@ -407,14 +420,18 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
+            try self.applicationId.forEach {}
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "[a-z0-9]{4,7}")
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.monitors?.forEach {
                 try $0.validate(name: "\(name).monitors[]")
             }
+            try self.monitors?.forEach {}
             try self.validate(self.monitors, name: "monitors", parent: name, max: 5)
             try self.validate(self.monitors, name: "monitors", parent: name, min: 0)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.tags?.forEach {
@@ -468,10 +485,14 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
+            try self.applicationId.forEach {}
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "[a-z0-9]{4,7}")
+            try self.configurationProfileId.forEach {}
             try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, pattern: "[a-z0-9]{4,7}")
+            try self.contentType.forEach {}
             try self.validate(self.contentType, name: "contentType", parent: name, max: 255)
             try self.validate(self.contentType, name: "contentType", parent: name, min: 1)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 0)
         }
@@ -492,6 +513,7 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
+            try self.applicationId.forEach {}
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "[a-z0-9]{4,7}")
         }
 
@@ -515,7 +537,9 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
+            try self.applicationId.forEach {}
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "[a-z0-9]{4,7}")
+            try self.configurationProfileId.forEach {}
             try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, pattern: "[a-z0-9]{4,7}")
         }
 
@@ -535,6 +559,7 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
+            try self.deploymentStrategyId.forEach {}
             try self.validate(self.deploymentStrategyId, name: "deploymentStrategyId", parent: name, pattern: "(^[a-z0-9]{4,7}$|^AppConfig\\.[A-Za-z0-9]{9,40}$)")
         }
 
@@ -558,7 +583,9 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
+            try self.applicationId.forEach {}
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "[a-z0-9]{4,7}")
+            try self.environmentId.forEach {}
             try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "[a-z0-9]{4,7}")
         }
 
@@ -586,7 +613,9 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
+            try self.applicationId.forEach {}
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "[a-z0-9]{4,7}")
+            try self.configurationProfileId.forEach {}
             try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, pattern: "[a-z0-9]{4,7}")
         }
 
@@ -895,6 +924,7 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
+            try self.applicationId.forEach {}
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "[a-z0-9]{4,7}")
         }
 
@@ -918,7 +948,9 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
+            try self.applicationId.forEach {}
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "[a-z0-9]{4,7}")
+            try self.configurationProfileId.forEach {}
             try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, pattern: "[a-z0-9]{4,7}")
         }
 
@@ -954,14 +986,19 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
+            try self.application.forEach {}
             try self.validate(self.application, name: "application", parent: name, max: 64)
             try self.validate(self.application, name: "application", parent: name, min: 1)
+            try self.clientConfigurationVersion?.forEach {}
             try self.validate(self.clientConfigurationVersion, name: "clientConfigurationVersion", parent: name, max: 1024)
             try self.validate(self.clientConfigurationVersion, name: "clientConfigurationVersion", parent: name, min: 1)
+            try self.clientId.forEach {}
             try self.validate(self.clientId, name: "clientId", parent: name, max: 64)
             try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
+            try self.configuration.forEach {}
             try self.validate(self.configuration, name: "configuration", parent: name, max: 64)
             try self.validate(self.configuration, name: "configuration", parent: name, min: 1)
+            try self.environment.forEach {}
             try self.validate(self.environment, name: "environment", parent: name, max: 64)
             try self.validate(self.environment, name: "environment", parent: name, min: 1)
         }
@@ -990,7 +1027,9 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
+            try self.applicationId.forEach {}
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "[a-z0-9]{4,7}")
+            try self.environmentId.forEach {}
             try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "[a-z0-9]{4,7}")
         }
 
@@ -1010,6 +1049,7 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
+            try self.deploymentStrategyId.forEach {}
             try self.validate(self.deploymentStrategyId, name: "deploymentStrategyId", parent: name, pattern: "(^[a-z0-9]{4,7}$|^AppConfig\\.[A-Za-z0-9]{9,40}$)")
         }
 
@@ -1033,7 +1073,9 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
+            try self.applicationId.forEach {}
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "[a-z0-9]{4,7}")
+            try self.environmentId.forEach {}
             try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "[a-z0-9]{4,7}")
         }
 
@@ -1061,7 +1103,9 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
+            try self.applicationId.forEach {}
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "[a-z0-9]{4,7}")
+            try self.configurationProfileId.forEach {}
             try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, pattern: "[a-z0-9]{4,7}")
         }
 
@@ -1176,8 +1220,10 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1206,9 +1252,12 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
+            try self.applicationId.forEach {}
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "[a-z0-9]{4,7}")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1233,8 +1282,10 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1267,10 +1318,14 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
+            try self.applicationId.forEach {}
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "[a-z0-9]{4,7}")
+            try self.environmentId.forEach {}
             try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "[a-z0-9]{4,7}")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1299,9 +1354,12 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
+            try self.applicationId.forEach {}
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "[a-z0-9]{4,7}")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1334,10 +1392,14 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
+            try self.applicationId.forEach {}
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "[a-z0-9]{4,7}")
+            try self.configurationProfileId.forEach {}
             try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, pattern: "[a-z0-9]{4,7}")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1358,6 +1420,7 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:[a-zA-Z0-9-_/:.]+")
@@ -1378,9 +1441,11 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
+            try self.alarmArn?.forEach {}
             try self.validate(self.alarmArn, name: "alarmArn", parent: name, max: 2048)
             try self.validate(self.alarmArn, name: "alarmArn", parent: name, min: 20)
             try self.validate(self.alarmArn, name: "alarmArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:[a-zA-Z0-9-_/:.]+")
+            try self.alarmRoleArn?.forEach {}
             try self.validate(self.alarmRoleArn, name: "alarmRoleArn", parent: name, max: 2048)
             try self.validate(self.alarmRoleArn, name: "alarmRoleArn", parent: name, min: 20)
             try self.validate(self.alarmRoleArn, name: "alarmRoleArn", parent: name, pattern: "^((arn):(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):(iam)::\\d{12}:role[/].*)$")
@@ -1437,13 +1502,19 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
+            try self.applicationId.forEach {}
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "[a-z0-9]{4,7}")
+            try self.configurationProfileId.forEach {}
             try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, pattern: "[a-z0-9]{4,7}")
+            try self.configurationVersion.forEach {}
             try self.validate(self.configurationVersion, name: "configurationVersion", parent: name, max: 1024)
             try self.validate(self.configurationVersion, name: "configurationVersion", parent: name, min: 1)
+            try self.deploymentStrategyId.forEach {}
             try self.validate(self.deploymentStrategyId, name: "deploymentStrategyId", parent: name, pattern: "(^[a-z0-9]{4,7}$|^AppConfig\\.[A-Za-z0-9]{9,40}$)")
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.environmentId.forEach {}
             try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "[a-z0-9]{4,7}")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -1482,7 +1553,9 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
+            try self.applicationId.forEach {}
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "[a-z0-9]{4,7}")
+            try self.environmentId.forEach {}
             try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "[a-z0-9]{4,7}")
         }
 
@@ -1505,6 +1578,7 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:[a-zA-Z0-9-_/:.]+")
@@ -1537,6 +1611,7 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:[a-z]+:([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1})?:(\\d{12})?:[a-zA-Z0-9-_/:.]+")
@@ -1544,6 +1619,7 @@ extension AppConfig {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
         }
@@ -1570,9 +1646,12 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
+            try self.applicationId.forEach {}
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "[a-z0-9]{4,7}")
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -1612,18 +1691,24 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
+            try self.applicationId.forEach {}
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "[a-z0-9]{4,7}")
+            try self.configurationProfileId.forEach {}
             try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, pattern: "[a-z0-9]{4,7}")
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.retrievalRoleArn?.forEach {}
             try self.validate(self.retrievalRoleArn, name: "retrievalRoleArn", parent: name, max: 2048)
             try self.validate(self.retrievalRoleArn, name: "retrievalRoleArn", parent: name, min: 20)
             try self.validate(self.retrievalRoleArn, name: "retrievalRoleArn", parent: name, pattern: "^((arn):(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):(iam)::\\d{12}:role[/].*)$")
             try self.validators?.forEach {
                 try $0.validate(name: "\(name).validators[]")
             }
+            try self.validators?.forEach {}
             try self.validate(self.validators, name: "validators", parent: name, max: 2)
             try self.validate(self.validators, name: "validators", parent: name, min: 0)
         }
@@ -1664,13 +1749,18 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
+            try self.deploymentDurationInMinutes?.forEach {}
             try self.validate(self.deploymentDurationInMinutes, name: "deploymentDurationInMinutes", parent: name, max: 1440)
             try self.validate(self.deploymentDurationInMinutes, name: "deploymentDurationInMinutes", parent: name, min: 0)
+            try self.deploymentStrategyId.forEach {}
             try self.validate(self.deploymentStrategyId, name: "deploymentStrategyId", parent: name, pattern: "(^[a-z0-9]{4,7}$|^AppConfig\\.[A-Za-z0-9]{9,40}$)")
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.finalBakeTimeInMinutes?.forEach {}
             try self.validate(self.finalBakeTimeInMinutes, name: "finalBakeTimeInMinutes", parent: name, max: 1440)
             try self.validate(self.finalBakeTimeInMinutes, name: "finalBakeTimeInMinutes", parent: name, min: 0)
+            try self.growthFactor?.forEach {}
             try self.validate(self.growthFactor, name: "growthFactor", parent: name, max: 100)
             try self.validate(self.growthFactor, name: "growthFactor", parent: name, min: 1)
         }
@@ -1710,15 +1800,20 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
+            try self.applicationId.forEach {}
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "[a-z0-9]{4,7}")
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.environmentId.forEach {}
             try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "[a-z0-9]{4,7}")
             try self.monitors?.forEach {
                 try $0.validate(name: "\(name).monitors[]")
             }
+            try self.monitors?.forEach {}
             try self.validate(self.monitors, name: "monitors", parent: name, max: 5)
             try self.validate(self.monitors, name: "monitors", parent: name, min: 0)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -1751,8 +1846,11 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
+            try self.applicationId.forEach {}
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "[a-z0-9]{4,7}")
+            try self.configurationProfileId.forEach {}
             try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, pattern: "[a-z0-9]{4,7}")
+            try self.configurationVersion.forEach {}
             try self.validate(self.configurationVersion, name: "configurationVersion", parent: name, max: 1024)
             try self.validate(self.configurationVersion, name: "configurationVersion", parent: name, min: 1)
         }
@@ -1772,6 +1870,7 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
+            try self.content.forEach {}
             try self.validate(self.content, name: "content", parent: name, max: 32768)
             try self.validate(self.content, name: "content", parent: name, min: 0)
         }

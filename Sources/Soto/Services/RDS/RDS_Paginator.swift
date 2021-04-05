@@ -814,6 +814,59 @@ extension RDS {
         )
     }
 
+    ///  Returns information about DB proxy endpoints.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeDBProxyEndpointsPaginator<Result>(
+        _ input: DescribeDBProxyEndpointsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeDBProxyEndpointsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeDBProxyEndpoints,
+            inputKey: \DescribeDBProxyEndpointsRequest.marker,
+            outputKey: \DescribeDBProxyEndpointsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeDBProxyEndpointsPaginator(
+        _ input: DescribeDBProxyEndpointsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeDBProxyEndpointsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeDBProxyEndpoints,
+            inputKey: \DescribeDBProxyEndpointsRequest.marker,
+            outputKey: \DescribeDBProxyEndpointsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Returns information about DB proxy target groups, represented by DBProxyTargetGroup data structures.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -1999,6 +2052,18 @@ extension RDS.DescribeDBParametersMessage: AWSPaginateToken {
 extension RDS.DescribeDBProxiesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBProxiesRequest {
         return .init(
+            dBProxyName: self.dBProxyName,
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords
+        )
+    }
+}
+
+extension RDS.DescribeDBProxyEndpointsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> RDS.DescribeDBProxyEndpointsRequest {
+        return .init(
+            dBProxyEndpointName: self.dBProxyEndpointName,
             dBProxyName: self.dBProxyName,
             filters: self.filters,
             marker: token,

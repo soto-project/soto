@@ -390,7 +390,7 @@ extension SageMaker {
         )
     }
 
-    ///  List the Candidates created for the job.
+    ///  List the candidates created for the job.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

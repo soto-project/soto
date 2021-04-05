@@ -71,10 +71,12 @@ extension SSOAdmin {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "[\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@]+")
             try self.value.validate(name: "\(name).value")
+            try self.value.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -97,6 +99,7 @@ extension SSOAdmin {
                 try validate($0, name: "source[]", parent: name, min: 0)
                 try validate($0, name: "source[]", parent: name, pattern: "[\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@\\[\\]\\{\\}\\$\\\\\"]*")
             }
+            try self.source.forEach {}
             try self.validate(self.source, name: "source", parent: name, max: 1)
             try self.validate(self.source, name: "source", parent: name, min: 1)
         }
@@ -212,11 +215,14 @@ extension SSOAdmin {
         }
 
         public func validate(name: String) throws {
+            try self.instanceArn.forEach {}
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}")
+            try self.managedPolicyArn.forEach {}
             try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, max: 2048)
             try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, min: 20)
+            try self.permissionSetArn.forEach {}
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}")
@@ -274,15 +280,19 @@ extension SSOAdmin {
         }
 
         public func validate(name: String) throws {
+            try self.instanceArn.forEach {}
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}")
+            try self.permissionSetArn.forEach {}
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}")
+            try self.principalId.forEach {}
             try self.validate(self.principalId, name: "principalId", parent: name, max: 47)
             try self.validate(self.principalId, name: "principalId", parent: name, min: 1)
             try self.validate(self.principalId, name: "principalId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
+            try self.targetId.forEach {}
             try self.validate(self.targetId, name: "targetId", parent: name, pattern: "\\d{12}")
         }
 
@@ -322,6 +332,8 @@ extension SSOAdmin {
 
         public func validate(name: String) throws {
             try self.instanceAccessControlAttributeConfiguration.validate(name: "\(name).instanceAccessControlAttributeConfiguration")
+            try self.instanceAccessControlAttributeConfiguration.forEach {}
+            try self.instanceArn.forEach {}
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}")
@@ -361,24 +373,30 @@ extension SSOAdmin {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 700)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\p{L}\\p{M}\\p{Z}\\p{S}\\p{N}\\p{P}]*")
+            try self.instanceArn.forEach {}
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 32)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\w+=,.@-]+")
+            try self.relayState?.forEach {}
             try self.validate(self.relayState, name: "relayState", parent: name, max: 240)
             try self.validate(self.relayState, name: "relayState", parent: name, min: 1)
             try self.validate(self.relayState, name: "relayState", parent: name, pattern: "[a-zA-Z0-9&$@#\\\\\\/%?=~\\-_'\"|!:,.;*+\\[\\]\\ \\(\\)\\{\\}]+")
+            try self.sessionDuration?.forEach {}
             try self.validate(self.sessionDuration, name: "sessionDuration", parent: name, max: 100)
             try self.validate(self.sessionDuration, name: "sessionDuration", parent: name, min: 1)
             try self.validate(self.sessionDuration, name: "sessionDuration", parent: name, pattern: "^(-?)P(?=\\d|T\\d)(?:(\\d+)Y)?(?:(\\d+)M)?(?:(\\d+)([DW]))?(?:T(?:(\\d+)H)?(?:(\\d+)M)?(?:(\\d+(?:\\.\\d+)?)S)?)?$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -430,15 +448,19 @@ extension SSOAdmin {
         }
 
         public func validate(name: String) throws {
+            try self.instanceArn.forEach {}
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}")
+            try self.permissionSetArn.forEach {}
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}")
+            try self.principalId.forEach {}
             try self.validate(self.principalId, name: "principalId", parent: name, max: 47)
             try self.validate(self.principalId, name: "principalId", parent: name, min: 1)
             try self.validate(self.principalId, name: "principalId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
+            try self.targetId.forEach {}
             try self.validate(self.targetId, name: "targetId", parent: name, pattern: "\\d{12}")
         }
 
@@ -477,9 +499,11 @@ extension SSOAdmin {
         }
 
         public func validate(name: String) throws {
+            try self.instanceArn.forEach {}
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}")
+            try self.permissionSetArn.forEach {}
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}")
@@ -504,6 +528,7 @@ extension SSOAdmin {
         }
 
         public func validate(name: String) throws {
+            try self.instanceArn.forEach {}
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}")
@@ -530,9 +555,11 @@ extension SSOAdmin {
         }
 
         public func validate(name: String) throws {
+            try self.instanceArn.forEach {}
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}")
+            try self.permissionSetArn.forEach {}
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}")
@@ -560,7 +587,9 @@ extension SSOAdmin {
         }
 
         public func validate(name: String) throws {
+            try self.accountAssignmentCreationRequestId.forEach {}
             try self.validate(self.accountAssignmentCreationRequestId, name: "accountAssignmentCreationRequestId", parent: name, pattern: "\\b[0-9a-f]{8}\\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\\b[0-9a-f]{12}\\b")
+            try self.instanceArn.forEach {}
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}")
@@ -597,7 +626,9 @@ extension SSOAdmin {
         }
 
         public func validate(name: String) throws {
+            try self.accountAssignmentDeletionRequestId.forEach {}
             try self.validate(self.accountAssignmentDeletionRequestId, name: "accountAssignmentDeletionRequestId", parent: name, pattern: "\\b[0-9a-f]{8}\\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\\b[0-9a-f]{12}\\b")
+            try self.instanceArn.forEach {}
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}")
@@ -631,6 +662,7 @@ extension SSOAdmin {
         }
 
         public func validate(name: String) throws {
+            try self.instanceArn.forEach {}
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}")
@@ -674,9 +706,11 @@ extension SSOAdmin {
         }
 
         public func validate(name: String) throws {
+            try self.instanceArn.forEach {}
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}")
+            try self.provisionPermissionSetRequestId.forEach {}
             try self.validate(self.provisionPermissionSetRequestId, name: "provisionPermissionSetRequestId", parent: name, pattern: "\\b[0-9a-f]{8}\\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\\b[0-9a-f]{12}\\b")
         }
 
@@ -711,9 +745,11 @@ extension SSOAdmin {
         }
 
         public func validate(name: String) throws {
+            try self.instanceArn.forEach {}
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}")
+            try self.permissionSetArn.forEach {}
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}")
@@ -753,11 +789,14 @@ extension SSOAdmin {
         }
 
         public func validate(name: String) throws {
+            try self.instanceArn.forEach {}
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}")
+            try self.managedPolicyArn.forEach {}
             try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, max: 2048)
             try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, min: 20)
+            try self.permissionSetArn.forEach {}
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}")
@@ -786,9 +825,11 @@ extension SSOAdmin {
         }
 
         public func validate(name: String) throws {
+            try self.instanceArn.forEach {}
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}")
+            try self.permissionSetArn.forEach {}
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}")
@@ -825,6 +866,7 @@ extension SSOAdmin {
             try self.accessControlAttributes.forEach {
                 try $0.validate(name: "\(name).accessControlAttributes[]")
             }
+            try self.accessControlAttributes.forEach {}
             try self.validate(self.accessControlAttributes, name: "accessControlAttributes", parent: name, max: 50)
             try self.validate(self.accessControlAttributes, name: "accessControlAttributes", parent: name, min: 0)
         }
@@ -869,11 +911,14 @@ extension SSOAdmin {
         }
 
         public func validate(name: String) throws {
+            try self.instanceArn.forEach {}
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*")
         }
@@ -921,11 +966,14 @@ extension SSOAdmin {
         }
 
         public func validate(name: String) throws {
+            try self.instanceArn.forEach {}
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*")
         }
@@ -976,14 +1024,19 @@ extension SSOAdmin {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "\\d{12}")
+            try self.instanceArn.forEach {}
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*")
+            try self.permissionSetArn.forEach {}
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}")
@@ -1036,13 +1089,17 @@ extension SSOAdmin {
         }
 
         public func validate(name: String) throws {
+            try self.instanceArn.forEach {}
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*")
+            try self.permissionSetArn.forEach {}
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}")
@@ -1086,8 +1143,10 @@ extension SSOAdmin {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*")
         }
@@ -1133,13 +1192,17 @@ extension SSOAdmin {
         }
 
         public func validate(name: String) throws {
+            try self.instanceArn.forEach {}
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*")
+            try self.permissionSetArn.forEach {}
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}")
@@ -1188,11 +1251,14 @@ extension SSOAdmin {
         }
 
         public func validate(name: String) throws {
+            try self.instanceArn.forEach {}
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*")
         }
@@ -1243,12 +1309,16 @@ extension SSOAdmin {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "\\d{12}")
+            try self.instanceArn.forEach {}
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*")
         }
@@ -1294,11 +1364,14 @@ extension SSOAdmin {
         }
 
         public func validate(name: String) throws {
+            try self.instanceArn.forEach {}
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*")
         }
@@ -1342,11 +1415,14 @@ extension SSOAdmin {
         }
 
         public func validate(name: String) throws {
+            try self.instanceArn.forEach {}
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}")
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*")
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 10)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws:sso:([a-zA-Z0-9-]+)?:(\\d{12})?:[a-zA-Z0-9-]+/[a-zA-Z0-9-/.]+")
@@ -1494,12 +1570,15 @@ extension SSOAdmin {
         }
 
         public func validate(name: String) throws {
+            try self.instanceArn.forEach {}
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}")
+            try self.permissionSetArn.forEach {}
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}")
+            try self.targetId?.forEach {}
             try self.validate(self.targetId, name: "targetId", parent: name, pattern: "\\d{12}")
         }
 
@@ -1539,12 +1618,15 @@ extension SSOAdmin {
         }
 
         public func validate(name: String) throws {
+            try self.inlinePolicy.forEach {}
             try self.validate(self.inlinePolicy, name: "inlinePolicy", parent: name, max: 10240)
             try self.validate(self.inlinePolicy, name: "inlinePolicy", parent: name, min: 1)
             try self.validate(self.inlinePolicy, name: "inlinePolicy", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
+            try self.instanceArn.forEach {}
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}")
+            try self.permissionSetArn.forEach {}
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}")
@@ -1573,9 +1655,11 @@ extension SSOAdmin {
         }
 
         public func validate(name: String) throws {
+            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
             try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -1602,15 +1686,18 @@ extension SSOAdmin {
         }
 
         public func validate(name: String) throws {
+            try self.instanceArn.forEach {}
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}")
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 10)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws:sso:([a-zA-Z0-9-]+)?:(\\d{12})?:[a-zA-Z0-9-]+/[a-zA-Z0-9-/.]+")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -1641,9 +1728,11 @@ extension SSOAdmin {
         }
 
         public func validate(name: String) throws {
+            try self.instanceArn.forEach {}
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}")
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 10)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws:sso:([a-zA-Z0-9-]+)?:(\\d{12})?:[a-zA-Z0-9-]+/[a-zA-Z0-9-/.]+")
@@ -1652,6 +1741,7 @@ extension SSOAdmin {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
@@ -1680,6 +1770,8 @@ extension SSOAdmin {
 
         public func validate(name: String) throws {
             try self.instanceAccessControlAttributeConfiguration.validate(name: "\(name).instanceAccessControlAttributeConfiguration")
+            try self.instanceAccessControlAttributeConfiguration.forEach {}
+            try self.instanceArn.forEach {}
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}")
@@ -1716,18 +1808,23 @@ extension SSOAdmin {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 700)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\p{L}\\p{M}\\p{Z}\\p{S}\\p{N}\\p{P}]*")
+            try self.instanceArn.forEach {}
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "arn:aws:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}")
+            try self.permissionSetArn.forEach {}
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "arn:aws:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}")
+            try self.relayState?.forEach {}
             try self.validate(self.relayState, name: "relayState", parent: name, max: 240)
             try self.validate(self.relayState, name: "relayState", parent: name, min: 1)
             try self.validate(self.relayState, name: "relayState", parent: name, pattern: "[a-zA-Z0-9&$@#\\\\\\/%?=~\\-_'\"|!:,.;*+\\[\\]\\ \\(\\)\\{\\}]+")
+            try self.sessionDuration?.forEach {}
             try self.validate(self.sessionDuration, name: "sessionDuration", parent: name, max: 100)
             try self.validate(self.sessionDuration, name: "sessionDuration", parent: name, min: 1)
             try self.validate(self.sessionDuration, name: "sessionDuration", parent: name, pattern: "^(-?)P(?=\\d|T\\d)(?:(\\d+)Y)?(?:(\\d+)M)?(?:(\\d+)([DW]))?(?:T(?:(\\d+)H)?(?:(\\d+)M)?(?:(\\d+(?:\\.\\d+)?)S)?)?$")

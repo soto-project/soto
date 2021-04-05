@@ -472,8 +472,10 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.apiKey.forEach {}
             try self.validate(self.apiKey, name: "apiKey", parent: name, max: 256)
             try self.validate(self.apiKey, name: "apiKey", parent: name, pattern: "\\S+")
+            try self.secretKey.forEach {}
             try self.validate(self.secretKey, name: "secretKey", parent: name, max: 256)
             try self.validate(self.secretKey, name: "secretKey", parent: name, pattern: "\\S+")
         }
@@ -501,6 +503,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.object.forEach {}
             try self.validate(self.object, name: "object", parent: name, max: 512)
             try self.validate(self.object, name: "object", parent: name, pattern: "\\S+")
         }
@@ -608,6 +611,7 @@ extension Appflow {
     public struct ConnectorMetadata: AWSDecodableShape {
         ///  The connector metadata specific to Amplitude.
         public let amplitude: AmplitudeMetadata?
+        ///  The connector metadata specific to Amazon Connect Customer Profiles.
         public let customerProfiles: CustomerProfilesMetadata?
         ///  The connector metadata specific to Datadog.
         public let datadog: DatadogMetadata?
@@ -617,6 +621,7 @@ extension Appflow {
         public let eventBridge: EventBridgeMetadata?
         ///  The connector metadata specific to Google Analytics.
         public let googleAnalytics: GoogleAnalyticsMetadata?
+        ///  The connector metadata specific to Amazon Honeycode.
         public let honeycode: HoneycodeMetadata?
         ///  The connector metadata specific to Infor Nexus.
         public let inforNexus: InforNexusMetadata?
@@ -704,8 +709,10 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.authCode?.forEach {}
             try self.validate(self.authCode, name: "authCode", parent: name, max: 512)
             try self.validate(self.authCode, name: "authCode", parent: name, pattern: "\\S+")
+            try self.redirectUri?.forEach {}
             try self.validate(self.redirectUri, name: "redirectUri", parent: name, max: 512)
             try self.validate(self.redirectUri, name: "redirectUri", parent: name, pattern: "\\S+")
         }
@@ -835,7 +842,9 @@ extension Appflow {
 
         public func validate(name: String) throws {
             try self.connectorProfileCredentials.validate(name: "\(name).connectorProfileCredentials")
+            try self.connectorProfileCredentials.forEach {}
             try self.connectorProfileProperties.validate(name: "\(name).connectorProfileProperties")
+            try self.connectorProfileProperties.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -853,6 +862,7 @@ extension Appflow {
         public let dynatrace: DynatraceConnectorProfileCredentials?
         ///  The connector-specific credentials required when using Google Analytics.
         public let googleAnalytics: GoogleAnalyticsConnectorProfileCredentials?
+        ///  The connector-specific credentials required when using Amazon Honeycode.
         public let honeycode: HoneycodeConnectorProfileCredentials?
         ///  The connector-specific credentials required when using Infor Nexus.
         public let inforNexus: InforNexusConnectorProfileCredentials?
@@ -898,21 +908,37 @@ extension Appflow {
 
         public func validate(name: String) throws {
             try self.amplitude?.validate(name: "\(name).amplitude")
+            try self.amplitude?.forEach {}
             try self.datadog?.validate(name: "\(name).datadog")
+            try self.datadog?.forEach {}
             try self.dynatrace?.validate(name: "\(name).dynatrace")
+            try self.dynatrace?.forEach {}
             try self.googleAnalytics?.validate(name: "\(name).googleAnalytics")
+            try self.googleAnalytics?.forEach {}
             try self.honeycode?.validate(name: "\(name).honeycode")
+            try self.honeycode?.forEach {}
             try self.inforNexus?.validate(name: "\(name).inforNexus")
+            try self.inforNexus?.forEach {}
             try self.marketo?.validate(name: "\(name).marketo")
+            try self.marketo?.forEach {}
             try self.redshift?.validate(name: "\(name).redshift")
+            try self.redshift?.forEach {}
             try self.salesforce?.validate(name: "\(name).salesforce")
+            try self.salesforce?.forEach {}
             try self.serviceNow?.validate(name: "\(name).serviceNow")
+            try self.serviceNow?.forEach {}
             try self.singular?.validate(name: "\(name).singular")
+            try self.singular?.forEach {}
             try self.slack?.validate(name: "\(name).slack")
+            try self.slack?.forEach {}
             try self.snowflake?.validate(name: "\(name).snowflake")
+            try self.snowflake?.forEach {}
             try self.trendmicro?.validate(name: "\(name).trendmicro")
+            try self.trendmicro?.forEach {}
             try self.veeva?.validate(name: "\(name).veeva")
+            try self.veeva?.forEach {}
             try self.zendesk?.validate(name: "\(name).zendesk")
+            try self.zendesk?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -944,6 +970,7 @@ extension Appflow {
         public let dynatrace: DynatraceConnectorProfileProperties?
         ///  The connector-specific properties required Google Analytics.
         public let googleAnalytics: GoogleAnalyticsConnectorProfileProperties?
+        ///  The connector-specific properties required by Amazon Honeycode.
         public let honeycode: HoneycodeConnectorProfileProperties?
         ///  The connector-specific properties required by Infor Nexus.
         public let inforNexus: InforNexusConnectorProfileProperties?
@@ -989,16 +1016,27 @@ extension Appflow {
 
         public func validate(name: String) throws {
             try self.datadog?.validate(name: "\(name).datadog")
+            try self.datadog?.forEach {}
             try self.dynatrace?.validate(name: "\(name).dynatrace")
+            try self.dynatrace?.forEach {}
             try self.inforNexus?.validate(name: "\(name).inforNexus")
+            try self.inforNexus?.forEach {}
             try self.marketo?.validate(name: "\(name).marketo")
+            try self.marketo?.forEach {}
             try self.redshift?.validate(name: "\(name).redshift")
+            try self.redshift?.forEach {}
             try self.salesforce?.validate(name: "\(name).salesforce")
+            try self.salesforce?.forEach {}
             try self.serviceNow?.validate(name: "\(name).serviceNow")
+            try self.serviceNow?.forEach {}
             try self.slack?.validate(name: "\(name).slack")
+            try self.slack?.forEach {}
             try self.snowflake?.validate(name: "\(name).snowflake")
+            try self.snowflake?.forEach {}
             try self.veeva?.validate(name: "\(name).veeva")
+            try self.veeva?.forEach {}
             try self.zendesk?.validate(name: "\(name).zendesk")
+            try self.zendesk?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1043,8 +1081,11 @@ extension Appflow {
 
         public func validate(name: String) throws {
             try self.connectorProfileConfig.validate(name: "\(name).connectorProfileConfig")
+            try self.connectorProfileConfig.forEach {}
+            try self.connectorProfileName.forEach {}
             try self.validate(self.connectorProfileName, name: "connectorProfileName", parent: name, max: 256)
             try self.validate(self.connectorProfileName, name: "connectorProfileName", parent: name, pattern: "[\\w/!@#+=.-]+")
+            try self.kmsArn?.forEach {}
             try self.validate(self.kmsArn, name: "kmsArn", parent: name, max: 2048)
             try self.validate(self.kmsArn, name: "kmsArn", parent: name, min: 20)
             try self.validate(self.kmsArn, name: "kmsArn", parent: name, pattern: "arn:aws:kms:.*:[0-9]+:.*")
@@ -1102,17 +1143,22 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\w!@#\\-.?,\\s]*")
             try self.destinationFlowConfigList.forEach {
                 try $0.validate(name: "\(name).destinationFlowConfigList[]")
             }
+            try self.destinationFlowConfigList.forEach {}
+            try self.flowName.forEach {}
             try self.validate(self.flowName, name: "flowName", parent: name, max: 256)
             try self.validate(self.flowName, name: "flowName", parent: name, pattern: "[a-zA-Z0-9][\\w!@#.-]+")
+            try self.kmsArn?.forEach {}
             try self.validate(self.kmsArn, name: "kmsArn", parent: name, max: 2048)
             try self.validate(self.kmsArn, name: "kmsArn", parent: name, min: 20)
             try self.validate(self.kmsArn, name: "kmsArn", parent: name, pattern: "arn:aws:kms:.*:[0-9]+:.*")
             try self.sourceFlowConfig.validate(name: "\(name).sourceFlowConfig")
+            try self.sourceFlowConfig.forEach {}
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1123,7 +1169,9 @@ extension Appflow {
             try self.tasks.forEach {
                 try $0.validate(name: "\(name).tasks[]")
             }
+            try self.tasks.forEach {}
             try self.triggerConfig.validate(name: "\(name).triggerConfig")
+            try self.triggerConfig.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1156,7 +1204,9 @@ extension Appflow {
     }
 
     public struct CustomerProfilesDestinationProperties: AWSEncodableShape & AWSDecodableShape {
+        ///  The unique name of the Amazon Connect Customer Profiles domain.
         public let domainName: String
+        ///  The object specified in the Amazon Connect Customer Profiles flow destination.
         public let objectTypeName: String?
 
         public init(domainName: String, objectTypeName: String? = nil) {
@@ -1165,8 +1215,10 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "\\S+")
+            try self.objectTypeName?.forEach {}
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, max: 255)
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, pattern: "\\S+")
         }
@@ -1193,8 +1245,10 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.apiKey.forEach {}
             try self.validate(self.apiKey, name: "apiKey", parent: name, max: 256)
             try self.validate(self.apiKey, name: "apiKey", parent: name, pattern: "\\S+")
+            try self.applicationKey.forEach {}
             try self.validate(self.applicationKey, name: "applicationKey", parent: name, max: 512)
             try self.validate(self.applicationKey, name: "applicationKey", parent: name, pattern: "\\S+")
         }
@@ -1214,6 +1268,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.instanceUrl.forEach {}
             try self.validate(self.instanceUrl, name: "instanceUrl", parent: name, max: 256)
             try self.validate(self.instanceUrl, name: "instanceUrl", parent: name, pattern: "\\S+")
         }
@@ -1236,6 +1291,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.object.forEach {}
             try self.validate(self.object, name: "object", parent: name, max: 512)
             try self.validate(self.object, name: "object", parent: name, pattern: "\\S+")
         }
@@ -1257,6 +1313,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.connectorProfileName.forEach {}
             try self.validate(self.connectorProfileName, name: "connectorProfileName", parent: name, max: 256)
             try self.validate(self.connectorProfileName, name: "connectorProfileName", parent: name, pattern: "[\\w/!@#+=.-]+")
         }
@@ -1283,6 +1340,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.flowName.forEach {}
             try self.validate(self.flowName, name: "flowName", parent: name, max: 256)
             try self.validate(self.flowName, name: "flowName", parent: name, pattern: "[a-zA-Z0-9][\\w!@#.-]+")
         }
@@ -1312,8 +1370,10 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.connectorEntityName.forEach {}
             try self.validate(self.connectorEntityName, name: "connectorEntityName", parent: name, max: 128)
             try self.validate(self.connectorEntityName, name: "connectorEntityName", parent: name, pattern: "\\S+")
+            try self.connectorProfileName?.forEach {}
             try self.validate(self.connectorProfileName, name: "connectorProfileName", parent: name, max: 256)
             try self.validate(self.connectorProfileName, name: "connectorProfileName", parent: name, pattern: "[\\w/!@#+=.-]+")
         }
@@ -1360,10 +1420,13 @@ extension Appflow {
                 try validate($0, name: "connectorProfileNames[]", parent: name, max: 256)
                 try validate($0, name: "connectorProfileNames[]", parent: name, pattern: "[\\w/!@#+=.-]+")
             }
+            try self.connectorProfileNames?.forEach {}
             try self.validate(self.connectorProfileNames, name: "connectorProfileNames", parent: name, max: 100)
             try self.validate(self.connectorProfileNames, name: "connectorProfileNames", parent: name, min: 0)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "\\S+")
         }
@@ -1394,7 +1457,7 @@ extension Appflow {
     }
 
     public struct DescribeConnectorsRequest: AWSEncodableShape {
-        ///  The type of connector, such as Salesforce, Amplitude, and so on.    Locke refers to a new destination known as Amazon Connect Customer Profiles. At this time, we recommend that you do not use this destination.
+        ///  The type of connector, such as Salesforce, Amplitude, and so on.
         public let connectorTypes: [ConnectorType]?
         ///  The pagination token for the next page of data.
         public let nextToken: String?
@@ -1405,8 +1468,10 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.connectorTypes?.forEach {}
             try self.validate(self.connectorTypes, name: "connectorTypes", parent: name, max: 100)
             try self.validate(self.connectorTypes, name: "connectorTypes", parent: name, min: 0)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "\\S+")
         }
@@ -1449,10 +1514,13 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.flowName.forEach {}
             try self.validate(self.flowName, name: "flowName", parent: name, max: 256)
             try self.validate(self.flowName, name: "flowName", parent: name, pattern: "[a-zA-Z0-9][\\w!@#.-]+")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "\\S+")
         }
@@ -1490,6 +1558,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.flowName.forEach {}
             try self.validate(self.flowName, name: "flowName", parent: name, max: 256)
             try self.validate(self.flowName, name: "flowName", parent: name, pattern: "[a-zA-Z0-9][\\w!@#.-]+")
         }
@@ -1573,10 +1642,13 @@ extension Appflow {
     }
 
     public struct DestinationConnectorProperties: AWSEncodableShape & AWSDecodableShape {
+        ///  The properties required to query Amazon Connect Customer Profiles.
         public let customerProfiles: CustomerProfilesDestinationProperties?
         ///  The properties required to query Amazon EventBridge.
         public let eventBridge: EventBridgeDestinationProperties?
+        ///  The properties required to query Amazon Honeycode.
         public let honeycode: HoneycodeDestinationProperties?
+        ///  The properties required to query Amazon Lookout for Metrics.
         public let lookoutMetrics: LookoutMetricsDestinationProperties?
         ///  The properties required to query Amazon Redshift.
         public let redshift: RedshiftDestinationProperties?
@@ -1603,13 +1675,21 @@ extension Appflow {
 
         public func validate(name: String) throws {
             try self.customerProfiles?.validate(name: "\(name).customerProfiles")
+            try self.customerProfiles?.forEach {}
             try self.eventBridge?.validate(name: "\(name).eventBridge")
+            try self.eventBridge?.forEach {}
             try self.honeycode?.validate(name: "\(name).honeycode")
+            try self.honeycode?.forEach {}
             try self.redshift?.validate(name: "\(name).redshift")
+            try self.redshift?.forEach {}
             try self.s3?.validate(name: "\(name).s3")
+            try self.s3?.forEach {}
             try self.salesforce?.validate(name: "\(name).salesforce")
+            try self.salesforce?.forEach {}
             try self.snowflake?.validate(name: "\(name).snowflake")
+            try self.snowflake?.forEach {}
             try self.upsolver?.validate(name: "\(name).upsolver")
+            try self.upsolver?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1669,9 +1749,11 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.connectorProfileName?.forEach {}
             try self.validate(self.connectorProfileName, name: "connectorProfileName", parent: name, max: 256)
             try self.validate(self.connectorProfileName, name: "connectorProfileName", parent: name, pattern: "[\\w/!@#+=.-]+")
             try self.destinationConnectorProperties.validate(name: "\(name).destinationConnectorProperties")
+            try self.destinationConnectorProperties.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1690,6 +1772,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.apiToken.forEach {}
             try self.validate(self.apiToken, name: "apiToken", parent: name, max: 256)
             try self.validate(self.apiToken, name: "apiToken", parent: name, pattern: "\\S+")
         }
@@ -1708,6 +1791,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.instanceUrl.forEach {}
             try self.validate(self.instanceUrl, name: "instanceUrl", parent: name, max: 256)
             try self.validate(self.instanceUrl, name: "instanceUrl", parent: name, pattern: "\\S+")
         }
@@ -1730,6 +1814,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.object.forEach {}
             try self.validate(self.object, name: "object", parent: name, max: 512)
             try self.validate(self.object, name: "object", parent: name, pattern: "\\S+")
         }
@@ -1754,9 +1839,11 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.bucketName?.forEach {}
             try self.validate(self.bucketName, name: "bucketName", parent: name, max: 63)
             try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
             try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "\\S+")
+            try self.bucketPrefix?.forEach {}
             try self.validate(self.bucketPrefix, name: "bucketPrefix", parent: name, max: 512)
             try self.validate(self.bucketPrefix, name: "bucketPrefix", parent: name, pattern: ".*")
         }
@@ -1797,6 +1884,8 @@ extension Appflow {
 
         public func validate(name: String) throws {
             try self.errorHandlingConfig?.validate(name: "\(name).errorHandlingConfig")
+            try self.errorHandlingConfig?.forEach {}
+            try self.object.forEach {}
             try self.validate(self.object, name: "object", parent: name, max: 512)
             try self.validate(self.object, name: "object", parent: name, pattern: "\\S+")
         }
@@ -1997,13 +2086,18 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.accessToken?.forEach {}
             try self.validate(self.accessToken, name: "accessToken", parent: name, max: 512)
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "\\S+")
+            try self.clientId.forEach {}
             try self.validate(self.clientId, name: "clientId", parent: name, max: 512)
             try self.validate(self.clientId, name: "clientId", parent: name, pattern: "\\S+")
+            try self.clientSecret.forEach {}
             try self.validate(self.clientSecret, name: "clientSecret", parent: name, max: 512)
             try self.validate(self.clientSecret, name: "clientSecret", parent: name, pattern: "\\S+")
             try self.oAuthRequest?.validate(name: "\(name).oAuthRequest")
+            try self.oAuthRequest?.forEach {}
+            try self.refreshToken?.forEach {}
             try self.validate(self.refreshToken, name: "refreshToken", parent: name, max: 512)
             try self.validate(self.refreshToken, name: "refreshToken", parent: name, pattern: "\\S+")
         }
@@ -2043,6 +2137,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.object.forEach {}
             try self.validate(self.object, name: "object", parent: name, max: 512)
             try self.validate(self.object, name: "object", parent: name, pattern: "\\S+")
         }
@@ -2053,8 +2148,10 @@ extension Appflow {
     }
 
     public struct HoneycodeConnectorProfileCredentials: AWSEncodableShape {
+        ///  The credentials used to access protected Amazon Honeycode resources.
         public let accessToken: String?
         public let oAuthRequest: ConnectorOAuthRequest?
+        ///  The credentials used to acquire new access tokens.
         public let refreshToken: String?
 
         public init(accessToken: String? = nil, oAuthRequest: ConnectorOAuthRequest? = nil, refreshToken: String? = nil) {
@@ -2064,9 +2161,12 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.accessToken?.forEach {}
             try self.validate(self.accessToken, name: "accessToken", parent: name, max: 512)
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "\\S+")
             try self.oAuthRequest?.validate(name: "\(name).oAuthRequest")
+            try self.oAuthRequest?.forEach {}
+            try self.refreshToken?.forEach {}
             try self.validate(self.refreshToken, name: "refreshToken", parent: name, max: 512)
             try self.validate(self.refreshToken, name: "refreshToken", parent: name, pattern: "\\S+")
         }
@@ -2084,6 +2184,7 @@ extension Appflow {
 
     public struct HoneycodeDestinationProperties: AWSEncodableShape & AWSDecodableShape {
         public let errorHandlingConfig: ErrorHandlingConfig?
+        ///  The object specified in the Amazon Honeycode flow destination.
         public let object: String
 
         public init(errorHandlingConfig: ErrorHandlingConfig? = nil, object: String) {
@@ -2093,6 +2194,8 @@ extension Appflow {
 
         public func validate(name: String) throws {
             try self.errorHandlingConfig?.validate(name: "\(name).errorHandlingConfig")
+            try self.errorHandlingConfig?.forEach {}
+            try self.object.forEach {}
             try self.validate(self.object, name: "object", parent: name, max: 512)
             try self.validate(self.object, name: "object", parent: name, pattern: "\\S+")
         }
@@ -2104,6 +2207,7 @@ extension Appflow {
     }
 
     public struct HoneycodeMetadata: AWSDecodableShape {
+        ///  The desired authorization scope for the Amazon Honeycode account.
         public let oAuthScopes: [String]?
 
         public init(oAuthScopes: [String]? = nil) {
@@ -2124,6 +2228,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.datetimeTypeFieldName?.forEach {}
             try self.validate(self.datetimeTypeFieldName, name: "datetimeTypeFieldName", parent: name, max: 256)
             try self.validate(self.datetimeTypeFieldName, name: "datetimeTypeFieldName", parent: name, pattern: ".*")
         }
@@ -2151,12 +2256,16 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.accessKeyId.forEach {}
             try self.validate(self.accessKeyId, name: "accessKeyId", parent: name, max: 256)
             try self.validate(self.accessKeyId, name: "accessKeyId", parent: name, pattern: "\\S+")
+            try self.datakey.forEach {}
             try self.validate(self.datakey, name: "datakey", parent: name, max: 512)
             try self.validate(self.datakey, name: "datakey", parent: name, pattern: "\\S+")
+            try self.secretAccessKey.forEach {}
             try self.validate(self.secretAccessKey, name: "secretAccessKey", parent: name, max: 512)
             try self.validate(self.secretAccessKey, name: "secretAccessKey", parent: name, pattern: "\\S+")
+            try self.userId.forEach {}
             try self.validate(self.userId, name: "userId", parent: name, max: 512)
             try self.validate(self.userId, name: "userId", parent: name, pattern: "\\S+")
         }
@@ -2178,6 +2287,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.instanceUrl.forEach {}
             try self.validate(self.instanceUrl, name: "instanceUrl", parent: name, max: 256)
             try self.validate(self.instanceUrl, name: "instanceUrl", parent: name, pattern: "\\S+")
         }
@@ -2200,6 +2310,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.object.forEach {}
             try self.validate(self.object, name: "object", parent: name, max: 512)
             try self.validate(self.object, name: "object", parent: name, pattern: "\\S+")
         }
@@ -2224,8 +2335,10 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.connectorProfileName?.forEach {}
             try self.validate(self.connectorProfileName, name: "connectorProfileName", parent: name, max: 256)
             try self.validate(self.connectorProfileName, name: "connectorProfileName", parent: name, pattern: "[\\w/!@#+=.-]+")
+            try self.entitiesPath?.forEach {}
             try self.validate(self.entitiesPath, name: "entitiesPath", parent: name, max: 256)
             try self.validate(self.entitiesPath, name: "entitiesPath", parent: name, pattern: "[\\s\\w/!@#+=.-]*")
         }
@@ -2262,8 +2375,10 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "\\S+")
         }
@@ -2304,6 +2419,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 512)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws:.*:.*:[0-9]+:.*")
         }
@@ -2346,13 +2462,17 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.accessToken?.forEach {}
             try self.validate(self.accessToken, name: "accessToken", parent: name, max: 512)
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "\\S+")
+            try self.clientId.forEach {}
             try self.validate(self.clientId, name: "clientId", parent: name, max: 512)
             try self.validate(self.clientId, name: "clientId", parent: name, pattern: "\\S+")
+            try self.clientSecret.forEach {}
             try self.validate(self.clientSecret, name: "clientSecret", parent: name, max: 512)
             try self.validate(self.clientSecret, name: "clientSecret", parent: name, pattern: "\\S+")
             try self.oAuthRequest?.validate(name: "\(name).oAuthRequest")
+            try self.oAuthRequest?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2372,6 +2492,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.instanceUrl.forEach {}
             try self.validate(self.instanceUrl, name: "instanceUrl", parent: name, max: 256)
             try self.validate(self.instanceUrl, name: "instanceUrl", parent: name, pattern: "\\S+")
         }
@@ -2394,6 +2515,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.object.forEach {}
             try self.validate(self.object, name: "object", parent: name, max: 512)
             try self.validate(self.object, name: "object", parent: name, pattern: "\\S+")
         }
@@ -2404,9 +2526,9 @@ extension Appflow {
     }
 
     public struct PrefixConfig: AWSEncodableShape & AWSDecodableShape {
-        ///  Determines the format of the prefix, and whether it applies to the file name, file path, or both.
-        public let prefixFormat: PrefixFormat?
         ///  Determines the level of granularity that's included in the prefix.
+        public let prefixFormat: PrefixFormat?
+        ///  Determines the format of the prefix, and whether it applies to the file name, file path, or both.
         public let prefixType: PrefixType?
 
         public init(prefixFormat: PrefixFormat? = nil, prefixType: PrefixType? = nil) {
@@ -2432,8 +2554,10 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.password.forEach {}
             try self.validate(self.password, name: "password", parent: name, max: 512)
             try self.validate(self.password, name: "password", parent: name, pattern: ".*")
+            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 512)
             try self.validate(self.username, name: "username", parent: name, pattern: "\\S+")
         }
@@ -2462,13 +2586,17 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.bucketName.forEach {}
             try self.validate(self.bucketName, name: "bucketName", parent: name, max: 63)
             try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
             try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "\\S+")
+            try self.bucketPrefix?.forEach {}
             try self.validate(self.bucketPrefix, name: "bucketPrefix", parent: name, max: 512)
             try self.validate(self.bucketPrefix, name: "bucketPrefix", parent: name, pattern: ".*")
+            try self.databaseUrl.forEach {}
             try self.validate(self.databaseUrl, name: "databaseUrl", parent: name, max: 512)
             try self.validate(self.databaseUrl, name: "databaseUrl", parent: name, pattern: "\\S+")
+            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 512)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:aws:iam:.*:[0-9]+:.*")
         }
@@ -2499,12 +2627,16 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.bucketPrefix?.forEach {}
             try self.validate(self.bucketPrefix, name: "bucketPrefix", parent: name, max: 512)
             try self.validate(self.bucketPrefix, name: "bucketPrefix", parent: name, pattern: ".*")
             try self.errorHandlingConfig?.validate(name: "\(name).errorHandlingConfig")
+            try self.errorHandlingConfig?.forEach {}
+            try self.intermediateBucketName.forEach {}
             try self.validate(self.intermediateBucketName, name: "intermediateBucketName", parent: name, max: 63)
             try self.validate(self.intermediateBucketName, name: "intermediateBucketName", parent: name, min: 3)
             try self.validate(self.intermediateBucketName, name: "intermediateBucketName", parent: name, pattern: "\\S+")
+            try self.object.forEach {}
             try self.validate(self.object, name: "object", parent: name, max: 512)
             try self.validate(self.object, name: "object", parent: name, pattern: "\\S+")
         }
@@ -2535,9 +2667,11 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.bucketName.forEach {}
             try self.validate(self.bucketName, name: "bucketName", parent: name, max: 63)
             try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
             try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "\\S+")
+            try self.bucketPrefix?.forEach {}
             try self.validate(self.bucketPrefix, name: "bucketPrefix", parent: name, max: 512)
             try self.validate(self.bucketPrefix, name: "bucketPrefix", parent: name, pattern: ".*")
         }
@@ -2585,9 +2719,11 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.bucketName.forEach {}
             try self.validate(self.bucketName, name: "bucketName", parent: name, max: 63)
             try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
             try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "\\S+")
+            try self.bucketPrefix?.forEach {}
             try self.validate(self.bucketPrefix, name: "bucketPrefix", parent: name, max: 512)
             try self.validate(self.bucketPrefix, name: "bucketPrefix", parent: name, pattern: ".*")
         }
@@ -2616,12 +2752,16 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.accessToken?.forEach {}
             try self.validate(self.accessToken, name: "accessToken", parent: name, max: 512)
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "\\S+")
+            try self.clientCredentialsArn?.forEach {}
             try self.validate(self.clientCredentialsArn, name: "clientCredentialsArn", parent: name, max: 2048)
             try self.validate(self.clientCredentialsArn, name: "clientCredentialsArn", parent: name, min: 20)
             try self.validate(self.clientCredentialsArn, name: "clientCredentialsArn", parent: name, pattern: "arn:aws:secretsmanager:.*:[0-9]+:.*")
             try self.oAuthRequest?.validate(name: "\(name).oAuthRequest")
+            try self.oAuthRequest?.forEach {}
+            try self.refreshToken?.forEach {}
             try self.validate(self.refreshToken, name: "refreshToken", parent: name, max: 512)
             try self.validate(self.refreshToken, name: "refreshToken", parent: name, pattern: "\\S+")
         }
@@ -2646,6 +2786,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.instanceUrl?.forEach {}
             try self.validate(self.instanceUrl, name: "instanceUrl", parent: name, max: 256)
             try self.validate(self.instanceUrl, name: "instanceUrl", parent: name, pattern: "\\S+")
         }
@@ -2675,12 +2816,15 @@ extension Appflow {
 
         public func validate(name: String) throws {
             try self.errorHandlingConfig?.validate(name: "\(name).errorHandlingConfig")
+            try self.errorHandlingConfig?.forEach {}
             try self.idFieldNames?.forEach {
                 try validate($0, name: "idFieldNames[]", parent: name, max: 128)
                 try validate($0, name: "idFieldNames[]", parent: name, pattern: "\\S+")
             }
+            try self.idFieldNames?.forEach {}
             try self.validate(self.idFieldNames, name: "idFieldNames", parent: name, max: 1)
             try self.validate(self.idFieldNames, name: "idFieldNames", parent: name, min: 0)
+            try self.object.forEach {}
             try self.validate(self.object, name: "object", parent: name, max: 512)
             try self.validate(self.object, name: "object", parent: name, pattern: "\\S+")
         }
@@ -2721,6 +2865,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.object.forEach {}
             try self.validate(self.object, name: "object", parent: name, max: 512)
             try self.validate(self.object, name: "object", parent: name, pattern: "\\S+")
         }
@@ -2735,6 +2880,7 @@ extension Appflow {
     public struct ScheduledTriggerProperties: AWSEncodableShape & AWSDecodableShape {
         ///  Specifies whether a scheduled flow has an incremental data transfer or a complete data transfer for each flow run.
         public let dataPullMode: DataPullMode?
+        ///  Specifies the date range for the records to import from the connector in the first flow run.
         public let firstExecutionFrom: Date?
         ///  Specifies the scheduled end time for a schedule-triggered flow.
         public let scheduleEndTime: Date?
@@ -2758,10 +2904,13 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.scheduleExpression.forEach {}
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, max: 256)
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, pattern: ".*")
+            try self.scheduleOffset?.forEach {}
             try self.validate(self.scheduleOffset, name: "scheduleOffset", parent: name, max: 36000)
             try self.validate(self.scheduleOffset, name: "scheduleOffset", parent: name, min: 0)
+            try self.timezone?.forEach {}
             try self.validate(self.timezone, name: "timezone", parent: name, max: 256)
             try self.validate(self.timezone, name: "timezone", parent: name, pattern: ".*")
         }
@@ -2789,8 +2938,10 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.password.forEach {}
             try self.validate(self.password, name: "password", parent: name, max: 512)
             try self.validate(self.password, name: "password", parent: name, pattern: ".*")
+            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 512)
             try self.validate(self.username, name: "username", parent: name, pattern: "\\S+")
         }
@@ -2810,6 +2961,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.instanceUrl.forEach {}
             try self.validate(self.instanceUrl, name: "instanceUrl", parent: name, max: 256)
             try self.validate(self.instanceUrl, name: "instanceUrl", parent: name, pattern: "\\S+")
         }
@@ -2832,6 +2984,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.object.forEach {}
             try self.validate(self.object, name: "object", parent: name, max: 512)
             try self.validate(self.object, name: "object", parent: name, pattern: "\\S+")
         }
@@ -2850,6 +3003,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.apiKey.forEach {}
             try self.validate(self.apiKey, name: "apiKey", parent: name, max: 256)
             try self.validate(self.apiKey, name: "apiKey", parent: name, pattern: "\\S+")
         }
@@ -2876,6 +3030,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.object.forEach {}
             try self.validate(self.object, name: "object", parent: name, max: 512)
             try self.validate(self.object, name: "object", parent: name, pattern: "\\S+")
         }
@@ -2903,13 +3058,17 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.accessToken?.forEach {}
             try self.validate(self.accessToken, name: "accessToken", parent: name, max: 512)
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "\\S+")
+            try self.clientId.forEach {}
             try self.validate(self.clientId, name: "clientId", parent: name, max: 512)
             try self.validate(self.clientId, name: "clientId", parent: name, pattern: "\\S+")
+            try self.clientSecret.forEach {}
             try self.validate(self.clientSecret, name: "clientSecret", parent: name, max: 512)
             try self.validate(self.clientSecret, name: "clientSecret", parent: name, pattern: "\\S+")
             try self.oAuthRequest?.validate(name: "\(name).oAuthRequest")
+            try self.oAuthRequest?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2929,6 +3088,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.instanceUrl.forEach {}
             try self.validate(self.instanceUrl, name: "instanceUrl", parent: name, max: 256)
             try self.validate(self.instanceUrl, name: "instanceUrl", parent: name, pattern: "\\S+")
         }
@@ -2960,6 +3120,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.object.forEach {}
             try self.validate(self.object, name: "object", parent: name, max: 512)
             try self.validate(self.object, name: "object", parent: name, pattern: "\\S+")
         }
@@ -2981,8 +3142,10 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.password.forEach {}
             try self.validate(self.password, name: "password", parent: name, max: 512)
             try self.validate(self.password, name: "password", parent: name, pattern: ".*")
+            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 512)
             try self.validate(self.username, name: "username", parent: name, pattern: "\\S+")
         }
@@ -3020,19 +3183,26 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.accountName?.forEach {}
             try self.validate(self.accountName, name: "accountName", parent: name, max: 512)
             try self.validate(self.accountName, name: "accountName", parent: name, pattern: "\\S+")
+            try self.bucketName.forEach {}
             try self.validate(self.bucketName, name: "bucketName", parent: name, max: 63)
             try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
             try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "\\S+")
+            try self.bucketPrefix?.forEach {}
             try self.validate(self.bucketPrefix, name: "bucketPrefix", parent: name, max: 512)
             try self.validate(self.bucketPrefix, name: "bucketPrefix", parent: name, pattern: ".*")
+            try self.privateLinkServiceName?.forEach {}
             try self.validate(self.privateLinkServiceName, name: "privateLinkServiceName", parent: name, max: 512)
             try self.validate(self.privateLinkServiceName, name: "privateLinkServiceName", parent: name, pattern: "\\S+")
+            try self.region?.forEach {}
             try self.validate(self.region, name: "region", parent: name, max: 64)
             try self.validate(self.region, name: "region", parent: name, pattern: "\\S+")
+            try self.stage.forEach {}
             try self.validate(self.stage, name: "stage", parent: name, max: 512)
             try self.validate(self.stage, name: "stage", parent: name, pattern: "\\S+")
+            try self.warehouse.forEach {}
             try self.validate(self.warehouse, name: "warehouse", parent: name, max: 512)
             try self.validate(self.warehouse, name: "warehouse", parent: name, pattern: "[\\s\\w/!@#+=.-]*")
         }
@@ -3066,12 +3236,16 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.bucketPrefix?.forEach {}
             try self.validate(self.bucketPrefix, name: "bucketPrefix", parent: name, max: 512)
             try self.validate(self.bucketPrefix, name: "bucketPrefix", parent: name, pattern: ".*")
             try self.errorHandlingConfig?.validate(name: "\(name).errorHandlingConfig")
+            try self.errorHandlingConfig?.forEach {}
+            try self.intermediateBucketName.forEach {}
             try self.validate(self.intermediateBucketName, name: "intermediateBucketName", parent: name, max: 63)
             try self.validate(self.intermediateBucketName, name: "intermediateBucketName", parent: name, min: 3)
             try self.validate(self.intermediateBucketName, name: "intermediateBucketName", parent: name, pattern: "\\S+")
+            try self.object.forEach {}
             try self.validate(self.object, name: "object", parent: name, max: 512)
             try self.validate(self.object, name: "object", parent: name, pattern: "\\S+")
         }
@@ -3146,19 +3320,33 @@ extension Appflow {
 
         public func validate(name: String) throws {
             try self.amplitude?.validate(name: "\(name).amplitude")
+            try self.amplitude?.forEach {}
             try self.datadog?.validate(name: "\(name).datadog")
+            try self.datadog?.forEach {}
             try self.dynatrace?.validate(name: "\(name).dynatrace")
+            try self.dynatrace?.forEach {}
             try self.googleAnalytics?.validate(name: "\(name).googleAnalytics")
+            try self.googleAnalytics?.forEach {}
             try self.inforNexus?.validate(name: "\(name).inforNexus")
+            try self.inforNexus?.forEach {}
             try self.marketo?.validate(name: "\(name).marketo")
+            try self.marketo?.forEach {}
             try self.s3?.validate(name: "\(name).s3")
+            try self.s3?.forEach {}
             try self.salesforce?.validate(name: "\(name).salesforce")
+            try self.salesforce?.forEach {}
             try self.serviceNow?.validate(name: "\(name).serviceNow")
+            try self.serviceNow?.forEach {}
             try self.singular?.validate(name: "\(name).singular")
+            try self.singular?.forEach {}
             try self.slack?.validate(name: "\(name).slack")
+            try self.slack?.forEach {}
             try self.trendmicro?.validate(name: "\(name).trendmicro")
+            try self.trendmicro?.forEach {}
             try self.veeva?.validate(name: "\(name).veeva")
+            try self.veeva?.forEach {}
             try self.zendesk?.validate(name: "\(name).zendesk")
+            try self.zendesk?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3214,10 +3402,13 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.connectorProfileName?.forEach {}
             try self.validate(self.connectorProfileName, name: "connectorProfileName", parent: name, max: 256)
             try self.validate(self.connectorProfileName, name: "connectorProfileName", parent: name, pattern: "[\\w/!@#+=.-]+")
             try self.incrementalPullConfig?.validate(name: "\(name).incrementalPullConfig")
+            try self.incrementalPullConfig?.forEach {}
             try self.sourceConnectorProperties.validate(name: "\(name).sourceConnectorProperties")
+            try self.sourceConnectorProperties.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3237,6 +3428,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.flowName.forEach {}
             try self.validate(self.flowName, name: "flowName", parent: name, max: 256)
             try self.validate(self.flowName, name: "flowName", parent: name, pattern: "[a-zA-Z0-9][\\w!@#.-]+")
         }
@@ -3276,6 +3468,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.flowName.forEach {}
             try self.validate(self.flowName, name: "flowName", parent: name, max: 256)
             try self.validate(self.flowName, name: "flowName", parent: name, pattern: "[a-zA-Z0-9][\\w!@#.-]+")
         }
@@ -3331,6 +3524,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 512)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws:.*:.*:[0-9]+:.*")
             try self.tags.forEach {
@@ -3372,12 +3566,14 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.destinationField?.forEach {}
             try self.validate(self.destinationField, name: "destinationField", parent: name, max: 256)
             try self.validate(self.destinationField, name: "destinationField", parent: name, pattern: ".*")
             try self.sourceFields.forEach {
                 try validate($0, name: "sourceFields[]", parent: name, max: 2048)
                 try validate($0, name: "sourceFields[]", parent: name, pattern: ".*")
             }
+            try self.sourceFields.forEach {}
             try self.taskProperties?.forEach {
                 try validate($0.value, name: "taskProperties[\"\($0.key)\"]", parent: name, max: 2048)
                 try validate($0.value, name: "taskProperties[\"\($0.key)\"]", parent: name, pattern: ".+")
@@ -3402,6 +3598,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.apiSecretKey.forEach {}
             try self.validate(self.apiSecretKey, name: "apiSecretKey", parent: name, max: 256)
             try self.validate(self.apiSecretKey, name: "apiSecretKey", parent: name, pattern: "\\S+")
         }
@@ -3428,6 +3625,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.object.forEach {}
             try self.validate(self.object, name: "object", parent: name, max: 512)
             try self.validate(self.object, name: "object", parent: name, pattern: "\\S+")
         }
@@ -3450,6 +3648,7 @@ extension Appflow {
 
         public func validate(name: String) throws {
             try self.triggerProperties?.validate(name: "\(name).triggerProperties")
+            try self.triggerProperties?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3468,6 +3667,7 @@ extension Appflow {
 
         public func validate(name: String) throws {
             try self.scheduled?.validate(name: "\(name).scheduled")
+            try self.scheduled?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3492,6 +3692,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 512)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws:.*:.*:[0-9]+:.*")
             try self.tagKeys.forEach {
@@ -3499,6 +3700,7 @@ extension Appflow {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
         }
@@ -3526,6 +3728,8 @@ extension Appflow {
 
         public func validate(name: String) throws {
             try self.connectorProfileConfig.validate(name: "\(name).connectorProfileConfig")
+            try self.connectorProfileConfig.forEach {}
+            try self.connectorProfileName.forEach {}
             try self.validate(self.connectorProfileName, name: "connectorProfileName", parent: name, max: 256)
             try self.validate(self.connectorProfileName, name: "connectorProfileName", parent: name, pattern: "[\\w/!@#+=.-]+")
         }
@@ -3573,18 +3777,24 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\w!@#\\-.?,\\s]*")
             try self.destinationFlowConfigList.forEach {
                 try $0.validate(name: "\(name).destinationFlowConfigList[]")
             }
+            try self.destinationFlowConfigList.forEach {}
+            try self.flowName.forEach {}
             try self.validate(self.flowName, name: "flowName", parent: name, max: 256)
             try self.validate(self.flowName, name: "flowName", parent: name, pattern: "[a-zA-Z0-9][\\w!@#.-]+")
             try self.sourceFlowConfig?.validate(name: "\(name).sourceFlowConfig")
+            try self.sourceFlowConfig?.forEach {}
             try self.tasks.forEach {
                 try $0.validate(name: "\(name).tasks[]")
             }
+            try self.tasks.forEach {}
             try self.triggerConfig.validate(name: "\(name).triggerConfig")
+            try self.triggerConfig.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3625,9 +3835,11 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.bucketName.forEach {}
             try self.validate(self.bucketName, name: "bucketName", parent: name, max: 63)
             try self.validate(self.bucketName, name: "bucketName", parent: name, min: 16)
             try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^(upsolver-appflow)\\S*")
+            try self.bucketPrefix?.forEach {}
             try self.validate(self.bucketPrefix, name: "bucketPrefix", parent: name, max: 512)
             try self.validate(self.bucketPrefix, name: "bucketPrefix", parent: name, pattern: ".*")
         }
@@ -3674,8 +3886,10 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.password.forEach {}
             try self.validate(self.password, name: "password", parent: name, max: 512)
             try self.validate(self.password, name: "password", parent: name, pattern: ".*")
+            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 512)
             try self.validate(self.username, name: "username", parent: name, pattern: "\\S+")
         }
@@ -3695,6 +3909,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.instanceUrl.forEach {}
             try self.validate(self.instanceUrl, name: "instanceUrl", parent: name, max: 256)
             try self.validate(self.instanceUrl, name: "instanceUrl", parent: name, pattern: "\\S+")
         }
@@ -3717,6 +3932,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.object.forEach {}
             try self.validate(self.object, name: "object", parent: name, max: 512)
             try self.validate(self.object, name: "object", parent: name, pattern: "\\S+")
         }
@@ -3744,13 +3960,17 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.accessToken?.forEach {}
             try self.validate(self.accessToken, name: "accessToken", parent: name, max: 512)
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "\\S+")
+            try self.clientId.forEach {}
             try self.validate(self.clientId, name: "clientId", parent: name, max: 512)
             try self.validate(self.clientId, name: "clientId", parent: name, pattern: "\\S+")
+            try self.clientSecret.forEach {}
             try self.validate(self.clientSecret, name: "clientSecret", parent: name, max: 512)
             try self.validate(self.clientSecret, name: "clientSecret", parent: name, pattern: "\\S+")
             try self.oAuthRequest?.validate(name: "\(name).oAuthRequest")
+            try self.oAuthRequest?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3770,6 +3990,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.instanceUrl.forEach {}
             try self.validate(self.instanceUrl, name: "instanceUrl", parent: name, max: 256)
             try self.validate(self.instanceUrl, name: "instanceUrl", parent: name, pattern: "\\S+")
         }
@@ -3801,6 +4022,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.object.forEach {}
             try self.validate(self.object, name: "object", parent: name, max: 512)
             try self.validate(self.object, name: "object", parent: name, pattern: "\\S+")
         }

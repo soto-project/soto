@@ -52,6 +52,7 @@ extension MediaStoreData {
         }
 
         public func validate(name: String) throws {
+            try self.path.forEach {}
             try self.validate(self.path, name: "path", parent: name, max: 900)
             try self.validate(self.path, name: "path", parent: name, min: 1)
             try self.validate(self.path, name: "path", parent: name, pattern: "(?:[A-Za-z0-9_\\.\\-\\~]+/){0,10}[A-Za-z0-9_\\.\\-\\~]+")
@@ -77,6 +78,7 @@ extension MediaStoreData {
         }
 
         public func validate(name: String) throws {
+            try self.path.forEach {}
             try self.validate(self.path, name: "path", parent: name, max: 900)
             try self.validate(self.path, name: "path", parent: name, min: 1)
             try self.validate(self.path, name: "path", parent: name, pattern: "(?:[A-Za-z0-9_\\.\\-\\~]+/){0,10}[A-Za-z0-9_\\.\\-\\~]+")
@@ -140,9 +142,11 @@ extension MediaStoreData {
         }
 
         public func validate(name: String) throws {
+            try self.path.forEach {}
             try self.validate(self.path, name: "path", parent: name, max: 900)
             try self.validate(self.path, name: "path", parent: name, min: 1)
             try self.validate(self.path, name: "path", parent: name, pattern: "(?:[A-Za-z0-9_\\.\\-\\~]+/){0,10}[A-Za-z0-9_\\.\\-\\~]+")
+            try self.range?.forEach {}
             try self.validate(self.range, name: "range", parent: name, pattern: "^bytes=(?:\\d+\\-\\d*|\\d*\\-\\d+)$")
         }
 
@@ -259,8 +263,10 @@ extension MediaStoreData {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.path?.forEach {}
             try self.validate(self.path, name: "path", parent: name, max: 900)
             try self.validate(self.path, name: "path", parent: name, min: 0)
             try self.validate(self.path, name: "path", parent: name, pattern: "/?(?:[A-Za-z0-9_\\.\\-\\~]+/){0,10}(?:[A-Za-z0-9_\\.\\-\\~]+)?/?")
@@ -322,7 +328,9 @@ extension MediaStoreData {
         }
 
         public func validate(name: String) throws {
+            try self.contentType?.forEach {}
             try self.validate(self.contentType, name: "contentType", parent: name, pattern: "^[\\w\\-\\/\\.\\+]{1,255}$")
+            try self.path.forEach {}
             try self.validate(self.path, name: "path", parent: name, max: 900)
             try self.validate(self.path, name: "path", parent: name, min: 1)
             try self.validate(self.path, name: "path", parent: name, pattern: "(?:[A-Za-z0-9_\\.\\-\\~]+/){0,10}[A-Za-z0-9_\\.\\-\\~]+")

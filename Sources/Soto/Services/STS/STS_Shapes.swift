@@ -61,30 +61,39 @@ extension STS {
         }
 
         public func validate(name: String) throws {
+            try self.durationSeconds?.forEach {}
             try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, max: 43200)
             try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, min: 900)
+            try self.externalId?.forEach {}
             try self.validate(self.externalId, name: "externalId", parent: name, max: 1224)
             try self.validate(self.externalId, name: "externalId", parent: name, min: 2)
             try self.validate(self.externalId, name: "externalId", parent: name, pattern: "[\\w+=,.@:\\/-]*")
+            try self.policy?.forEach {}
             try self.validate(self.policy, name: "policy", parent: name, max: 2048)
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
             try self.validate(self.policy, name: "policy", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
             try self.policyArns?.forEach {
                 try $0.validate(name: "\(name).policyArns[]")
             }
+            try self.policyArns?.forEach {}
+            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]+")
+            try self.roleSessionName.forEach {}
             try self.validate(self.roleSessionName, name: "roleSessionName", parent: name, max: 64)
             try self.validate(self.roleSessionName, name: "roleSessionName", parent: name, min: 2)
             try self.validate(self.roleSessionName, name: "roleSessionName", parent: name, pattern: "[\\w+=,.@-]*")
+            try self.serialNumber?.forEach {}
             try self.validate(self.serialNumber, name: "serialNumber", parent: name, max: 256)
             try self.validate(self.serialNumber, name: "serialNumber", parent: name, min: 9)
             try self.validate(self.serialNumber, name: "serialNumber", parent: name, pattern: "[\\w+=/:,.@-]*")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.tokenCode?.forEach {}
             try self.validate(self.tokenCode, name: "tokenCode", parent: name, max: 6)
             try self.validate(self.tokenCode, name: "tokenCode", parent: name, min: 6)
             try self.validate(self.tokenCode, name: "tokenCode", parent: name, pattern: "[\\d]*")
@@ -93,6 +102,7 @@ extension STS {
                 try validate($0, name: "transitiveTagKeys[]", parent: name, min: 1)
                 try validate($0, name: "transitiveTagKeys[]", parent: name, pattern: "[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+")
             }
+            try self.transitiveTagKeys?.forEach {}
             try self.validate(self.transitiveTagKeys, name: "transitiveTagKeys", parent: name, max: 50)
         }
 
@@ -156,20 +166,26 @@ extension STS {
         }
 
         public func validate(name: String) throws {
+            try self.durationSeconds?.forEach {}
             try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, max: 43200)
             try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, min: 900)
+            try self.policy?.forEach {}
             try self.validate(self.policy, name: "policy", parent: name, max: 2048)
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
             try self.validate(self.policy, name: "policy", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
             try self.policyArns?.forEach {
                 try $0.validate(name: "\(name).policyArns[]")
             }
+            try self.policyArns?.forEach {}
+            try self.principalArn.forEach {}
             try self.validate(self.principalArn, name: "principalArn", parent: name, max: 2048)
             try self.validate(self.principalArn, name: "principalArn", parent: name, min: 20)
             try self.validate(self.principalArn, name: "principalArn", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]+")
+            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]+")
+            try self.sAMLAssertion.forEach {}
             try self.validate(self.sAMLAssertion, name: "sAMLAssertion", parent: name, max: 100_000)
             try self.validate(self.sAMLAssertion, name: "sAMLAssertion", parent: name, min: 4)
         }
@@ -253,22 +269,29 @@ extension STS {
         }
 
         public func validate(name: String) throws {
+            try self.durationSeconds?.forEach {}
             try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, max: 43200)
             try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, min: 900)
+            try self.policy?.forEach {}
             try self.validate(self.policy, name: "policy", parent: name, max: 2048)
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
             try self.validate(self.policy, name: "policy", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
             try self.policyArns?.forEach {
                 try $0.validate(name: "\(name).policyArns[]")
             }
+            try self.policyArns?.forEach {}
+            try self.providerId?.forEach {}
             try self.validate(self.providerId, name: "providerId", parent: name, max: 2048)
             try self.validate(self.providerId, name: "providerId", parent: name, min: 4)
+            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]+")
+            try self.roleSessionName.forEach {}
             try self.validate(self.roleSessionName, name: "roleSessionName", parent: name, max: 64)
             try self.validate(self.roleSessionName, name: "roleSessionName", parent: name, min: 2)
             try self.validate(self.roleSessionName, name: "roleSessionName", parent: name, pattern: "[\\w+=,.@-]*")
+            try self.webIdentityToken.forEach {}
             try self.validate(self.webIdentityToken, name: "webIdentityToken", parent: name, max: 2048)
             try self.validate(self.webIdentityToken, name: "webIdentityToken", parent: name, min: 4)
         }
@@ -368,6 +391,7 @@ extension STS {
         }
 
         public func validate(name: String) throws {
+            try self.encodedMessage.forEach {}
             try self.validate(self.encodedMessage, name: "encodedMessage", parent: name, max: 10240)
             try self.validate(self.encodedMessage, name: "encodedMessage", parent: name, min: 1)
         }
@@ -416,6 +440,7 @@ extension STS {
         }
 
         public func validate(name: String) throws {
+            try self.accessKeyId.forEach {}
             try self.validate(self.accessKeyId, name: "accessKeyId", parent: name, max: 128)
             try self.validate(self.accessKeyId, name: "accessKeyId", parent: name, min: 16)
             try self.validate(self.accessKeyId, name: "accessKeyId", parent: name, pattern: "[\\w]*")
@@ -487,20 +512,25 @@ extension STS {
         }
 
         public func validate(name: String) throws {
+            try self.durationSeconds?.forEach {}
             try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, max: 129_600)
             try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, min: 900)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 32)
             try self.validate(self.name, name: "name", parent: name, min: 2)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\w+=,.@-]*")
+            try self.policy?.forEach {}
             try self.validate(self.policy, name: "policy", parent: name, max: 2048)
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
             try self.validate(self.policy, name: "policy", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
             try self.policyArns?.forEach {
                 try $0.validate(name: "\(name).policyArns[]")
             }
+            try self.policyArns?.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
 
@@ -549,11 +579,14 @@ extension STS {
         }
 
         public func validate(name: String) throws {
+            try self.durationSeconds?.forEach {}
             try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, max: 129_600)
             try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, min: 900)
+            try self.serialNumber?.forEach {}
             try self.validate(self.serialNumber, name: "serialNumber", parent: name, max: 256)
             try self.validate(self.serialNumber, name: "serialNumber", parent: name, min: 9)
             try self.validate(self.serialNumber, name: "serialNumber", parent: name, pattern: "[\\w+=/:,.@-]*")
+            try self.tokenCode?.forEach {}
             try self.validate(self.tokenCode, name: "tokenCode", parent: name, max: 6)
             try self.validate(self.tokenCode, name: "tokenCode", parent: name, min: 6)
             try self.validate(self.tokenCode, name: "tokenCode", parent: name, pattern: "[\\d]*")
@@ -588,6 +621,7 @@ extension STS {
         }
 
         public func validate(name: String) throws {
+            try self.arn?.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 2048)
             try self.validate(self.arn, name: "arn", parent: name, min: 20)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]+")
@@ -610,9 +644,11 @@ extension STS {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+")
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
             try self.validate(self.value, name: "value", parent: name, pattern: "[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*")

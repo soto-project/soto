@@ -45,6 +45,22 @@ extension RDS {
         public var description: String { return self.rawValue }
     }
 
+    public enum DBProxyEndpointStatus: String, CustomStringConvertible, Codable {
+        case available
+        case creating
+        case deleting
+        case incompatibleNetwork = "incompatible-network"
+        case insufficientResourceLimits = "insufficient-resource-limits"
+        case modifying
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DBProxyEndpointTargetRole: String, CustomStringConvertible, Codable {
+        case readOnly = "READ_ONLY"
+        case readWrite = "READ_WRITE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DBProxyStatus: String, CustomStringConvertible, Codable {
         case available
         case creating
@@ -96,8 +112,16 @@ extension RDS {
     public enum TargetHealthReason: String, CustomStringConvertible, Codable {
         case authFailure = "AUTH_FAILURE"
         case connectionFailed = "CONNECTION_FAILED"
+        case invalidReplicationState = "INVALID_REPLICATION_STATE"
         case pendingProxyCapacity = "PENDING_PROXY_CAPACITY"
         case unreachable = "UNREACHABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TargetRole: String, CustomStringConvertible, Codable {
+        case readOnly = "READ_ONLY"
+        case readWrite = "READ_WRITE"
+        case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
@@ -1532,6 +1556,67 @@ extension RDS {
 
         private enum CodingKeys: String, CodingKey {
             case dBParameterGroup = "DBParameterGroup"
+        }
+    }
+
+    public struct CreateDBProxyEndpointRequest: AWSEncodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+
+        /// The name of the DB proxy endpoint to create.
+        public let dBProxyEndpointName: String
+        /// The name of the DB proxy associated with the DB proxy endpoint that you create.
+        public let dBProxyName: String
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+        /// A value that indicates whether the DB proxy endpoint can be used for read/write or read-only operations. The default is READ_WRITE.
+        public let targetRole: DBProxyEndpointTargetRole?
+        /// The VPC security group IDs for the DB proxy endpoint that you create. You can specify a different set of security group IDs than for the original DB proxy. The default is the default security group for the VPC.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var vpcSecurityGroupIds: [String]?
+        /// The VPC subnet IDs for the DB proxy endpoint that you create. You can specify a different set of subnet IDs than for the original DB proxy.
+        @CustomCoding<StandardArrayCoder>
+        public var vpcSubnetIds: [String]
+
+        public init(dBProxyEndpointName: String, dBProxyName: String, tags: [Tag]? = nil, targetRole: DBProxyEndpointTargetRole? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
+            self.dBProxyEndpointName = dBProxyEndpointName
+            self.dBProxyName = dBProxyName
+            self.tags = tags
+            self.targetRole = targetRole
+            self.vpcSecurityGroupIds = vpcSecurityGroupIds
+            self.vpcSubnetIds = vpcSubnetIds
+        }
+
+        public func validate(name: String) throws {
+            try self.dBProxyEndpointName.forEach {}
+            try self.validate(self.dBProxyEndpointName, name: "dBProxyEndpointName", parent: name, max: 63)
+            try self.validate(self.dBProxyEndpointName, name: "dBProxyEndpointName", parent: name, min: 1)
+            try self.validate(self.dBProxyEndpointName, name: "dBProxyEndpointName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*")
+            try self.dBProxyName.forEach {}
+            try self.validate(self.dBProxyName, name: "dBProxyName", parent: name, max: 63)
+            try self.validate(self.dBProxyName, name: "dBProxyName", parent: name, min: 1)
+            try self.validate(self.dBProxyName, name: "dBProxyName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBProxyEndpointName = "DBProxyEndpointName"
+            case dBProxyName = "DBProxyName"
+            case tags = "Tags"
+            case targetRole = "TargetRole"
+            case vpcSecurityGroupIds = "VpcSecurityGroupIds"
+            case vpcSubnetIds = "VpcSubnetIds"
+        }
+    }
+
+    public struct CreateDBProxyEndpointResponse: AWSDecodableShape {
+        /// The DBProxyEndpoint object that is created by the API operation. The DB proxy endpoint that you create might provide capabilities such as read/write or read-only operations, or using a different VPC than the proxy's default VPC.
+        public let dBProxyEndpoint: DBProxyEndpoint?
+
+        public init(dBProxyEndpoint: DBProxyEndpoint? = nil) {
+            self.dBProxyEndpoint = dBProxyEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBProxyEndpoint = "DBProxyEndpoint"
         }
     }
 
@@ -3359,7 +3444,7 @@ extension RDS {
         public let dBProxyName: String?
         /// Whether the proxy includes detailed information about SQL statements in its logs. This information helps you to debug issues involving SQL behavior or the performance and scalability of the proxy connections. The debug information includes the text of SQL statements that you submit through the proxy. Thus, only enable this setting when needed for debugging, and only when you have security measures in place to safeguard any sensitive information that appears in the logs.
         public let debugLogging: Bool?
-        /// The endpoint that you can use to connect to the proxy. You include the endpoint value in the connection string for a database client application.
+        /// The endpoint that you can use to connect to the DB proxy. You include the endpoint value in the connection string for a database client application.
         public let endpoint: String?
         /// The engine family applies to MySQL and PostgreSQL for both RDS and Aurora.
         public let engineFamily: String?
@@ -3373,6 +3458,8 @@ extension RDS {
         public let status: DBProxyStatus?
         /// The date and time when the proxy was last updated.
         public let updatedDate: Date?
+        /// Provides the VPC ID of the DB proxy.
+        public let vpcId: String?
         /// Provides a list of VPC security groups that the proxy belongs to.
         @OptionalCustomCoding<StandardArrayCoder>
         public var vpcSecurityGroupIds: [String]?
@@ -3380,7 +3467,7 @@ extension RDS {
         @OptionalCustomCoding<StandardArrayCoder>
         public var vpcSubnetIds: [String]?
 
-        public init(auth: [UserAuthConfigInfo]? = nil, createdDate: Date? = nil, dBProxyArn: String? = nil, dBProxyName: String? = nil, debugLogging: Bool? = nil, endpoint: String? = nil, engineFamily: String? = nil, idleClientTimeout: Int? = nil, requireTLS: Bool? = nil, roleArn: String? = nil, status: DBProxyStatus? = nil, updatedDate: Date? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
+        public init(auth: [UserAuthConfigInfo]? = nil, createdDate: Date? = nil, dBProxyArn: String? = nil, dBProxyName: String? = nil, debugLogging: Bool? = nil, endpoint: String? = nil, engineFamily: String? = nil, idleClientTimeout: Int? = nil, requireTLS: Bool? = nil, roleArn: String? = nil, status: DBProxyStatus? = nil, updatedDate: Date? = nil, vpcId: String? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
             self.auth = auth
             self.createdDate = createdDate
             self.dBProxyArn = dBProxyArn
@@ -3393,6 +3480,7 @@ extension RDS {
             self.roleArn = roleArn
             self.status = status
             self.updatedDate = updatedDate
+            self.vpcId = vpcId
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
             self.vpcSubnetIds = vpcSubnetIds
         }
@@ -3410,6 +3498,62 @@ extension RDS {
             case roleArn = "RoleArn"
             case status = "Status"
             case updatedDate = "UpdatedDate"
+            case vpcId = "VpcId"
+            case vpcSecurityGroupIds = "VpcSecurityGroupIds"
+            case vpcSubnetIds = "VpcSubnetIds"
+        }
+    }
+
+    public struct DBProxyEndpoint: AWSDecodableShape {
+        /// The date and time when the DB proxy endpoint was first created.
+        public let createdDate: Date?
+        /// The Amazon Resource Name (ARN) for the DB proxy endpoint.
+        public let dBProxyEndpointArn: String?
+        /// The name for the DB proxy endpoint. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens.
+        public let dBProxyEndpointName: String?
+        /// The identifier for the DB proxy that is associated with this DB proxy endpoint.
+        public let dBProxyName: String?
+        /// The endpoint that you can use to connect to the DB proxy. You include the endpoint value in the connection string for a database client application.
+        public let endpoint: String?
+        /// A value that indicates whether this endpoint is the default endpoint for the associated DB proxy. Default DB proxy endpoints always have read/write capability. Other endpoints that you associate with the DB proxy can be either read/write or read-only.
+        public let isDefault: Bool?
+        /// The current status of this DB proxy endpoint. A status of available means the endpoint is ready to handle requests. Other values indicate that you must wait for the endpoint to be ready, or take some action to resolve an issue.
+        public let status: DBProxyEndpointStatus?
+        /// A value that indicates whether the DB proxy endpoint can be used for read/write or read-only operations.
+        public let targetRole: DBProxyEndpointTargetRole?
+        /// Provides the VPC ID of the DB proxy endpoint.
+        public let vpcId: String?
+        /// Provides a list of VPC security groups that the DB proxy endpoint belongs to.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var vpcSecurityGroupIds: [String]?
+        /// The EC2 subnet IDs for the DB proxy endpoint.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var vpcSubnetIds: [String]?
+
+        public init(createdDate: Date? = nil, dBProxyEndpointArn: String? = nil, dBProxyEndpointName: String? = nil, dBProxyName: String? = nil, endpoint: String? = nil, isDefault: Bool? = nil, status: DBProxyEndpointStatus? = nil, targetRole: DBProxyEndpointTargetRole? = nil, vpcId: String? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
+            self.createdDate = createdDate
+            self.dBProxyEndpointArn = dBProxyEndpointArn
+            self.dBProxyEndpointName = dBProxyEndpointName
+            self.dBProxyName = dBProxyName
+            self.endpoint = endpoint
+            self.isDefault = isDefault
+            self.status = status
+            self.targetRole = targetRole
+            self.vpcId = vpcId
+            self.vpcSecurityGroupIds = vpcSecurityGroupIds
+            self.vpcSubnetIds = vpcSubnetIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdDate = "CreatedDate"
+            case dBProxyEndpointArn = "DBProxyEndpointArn"
+            case dBProxyEndpointName = "DBProxyEndpointName"
+            case dBProxyName = "DBProxyName"
+            case endpoint = "Endpoint"
+            case isDefault = "IsDefault"
+            case status = "Status"
+            case targetRole = "TargetRole"
+            case vpcId = "VpcId"
             case vpcSecurityGroupIds = "VpcSecurityGroupIds"
             case vpcSubnetIds = "VpcSubnetIds"
         }
@@ -3422,6 +3566,8 @@ extension RDS {
         public let port: Int?
         /// The identifier representing the target. It can be the instance identifier for an RDS DB instance, or the cluster identifier for an Aurora DB cluster.
         public let rdsResourceId: String?
+        /// A value that indicates whether the target of the proxy can be used for read/write or read-only operations.
+        public let role: TargetRole?
         /// The Amazon Resource Name (ARN) for the RDS DB instance or Aurora DB cluster.
         public let targetArn: String?
         /// Information about the connection health of the RDS Proxy target.
@@ -3431,10 +3577,11 @@ extension RDS {
         /// Specifies the kind of database, such as an RDS DB instance or an Aurora DB cluster, that the target represents.
         public let type: TargetType?
 
-        public init(endpoint: String? = nil, port: Int? = nil, rdsResourceId: String? = nil, targetArn: String? = nil, targetHealth: TargetHealth? = nil, trackedClusterId: String? = nil, type: TargetType? = nil) {
+        public init(endpoint: String? = nil, port: Int? = nil, rdsResourceId: String? = nil, role: TargetRole? = nil, targetArn: String? = nil, targetHealth: TargetHealth? = nil, trackedClusterId: String? = nil, type: TargetType? = nil) {
             self.endpoint = endpoint
             self.port = port
             self.rdsResourceId = rdsResourceId
+            self.role = role
             self.targetArn = targetArn
             self.targetHealth = targetHealth
             self.trackedClusterId = trackedClusterId
@@ -3445,6 +3592,7 @@ extension RDS {
             case endpoint = "Endpoint"
             case port = "Port"
             case rdsResourceId = "RdsResourceId"
+            case role = "Role"
             case targetArn = "TargetArn"
             case targetHealth = "TargetHealth"
             case trackedClusterId = "TrackedClusterId"
@@ -4002,6 +4150,39 @@ extension RDS {
 
         private enum CodingKeys: String, CodingKey {
             case dBParameterGroupName = "DBParameterGroupName"
+        }
+    }
+
+    public struct DeleteDBProxyEndpointRequest: AWSEncodableShape {
+        /// The name of the DB proxy endpoint to delete.
+        public let dBProxyEndpointName: String
+
+        public init(dBProxyEndpointName: String) {
+            self.dBProxyEndpointName = dBProxyEndpointName
+        }
+
+        public func validate(name: String) throws {
+            try self.dBProxyEndpointName.forEach {}
+            try self.validate(self.dBProxyEndpointName, name: "dBProxyEndpointName", parent: name, max: 63)
+            try self.validate(self.dBProxyEndpointName, name: "dBProxyEndpointName", parent: name, min: 1)
+            try self.validate(self.dBProxyEndpointName, name: "dBProxyEndpointName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBProxyEndpointName = "DBProxyEndpointName"
+        }
+    }
+
+    public struct DeleteDBProxyEndpointResponse: AWSDecodableShape {
+        /// The data structure representing the details of the DB proxy endpoint that you delete.
+        public let dBProxyEndpoint: DBProxyEndpoint?
+
+        public init(dBProxyEndpoint: DBProxyEndpoint? = nil) {
+            self.dBProxyEndpoint = dBProxyEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBProxyEndpoint = "DBProxyEndpoint"
         }
     }
 
@@ -4734,7 +4915,7 @@ extension RDS {
     public struct DescribeDBProxiesRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
-        /// The name of the DB proxy.
+        /// The name of the DB proxy. If you omit this parameter, the output includes information about all DB proxies owned by your AWS account ID.
         public let dBProxyName: String?
         /// This parameter is not currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
@@ -4752,6 +4933,7 @@ extension RDS {
         }
 
         public func validate(name: String) throws {
+            try self.maxRecords?.forEach {}
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, max: 100)
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, min: 20)
         }
@@ -4782,6 +4964,70 @@ extension RDS {
         }
     }
 
+    public struct DescribeDBProxyEndpointsRequest: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+
+        /// The name of a DB proxy endpoint to describe. If you omit this parameter, the output includes information about all DB proxy endpoints associated with the specified proxy.
+        public let dBProxyEndpointName: String?
+        /// The name of the DB proxy whose endpoints you want to describe. If you omit this parameter, the output includes information about all DB proxy endpoints associated with all your DB proxies.
+        public let dBProxyName: String?
+        /// This parameter is not currently supported.
+        @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let marker: String?
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
+        public let maxRecords: Int?
+
+        public init(dBProxyEndpointName: String? = nil, dBProxyName: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
+            self.dBProxyEndpointName = dBProxyEndpointName
+            self.dBProxyName = dBProxyName
+            self.filters = filters
+            self.marker = marker
+            self.maxRecords = maxRecords
+        }
+
+        public func validate(name: String) throws {
+            try self.dBProxyEndpointName?.forEach {}
+            try self.validate(self.dBProxyEndpointName, name: "dBProxyEndpointName", parent: name, max: 63)
+            try self.validate(self.dBProxyEndpointName, name: "dBProxyEndpointName", parent: name, min: 1)
+            try self.validate(self.dBProxyEndpointName, name: "dBProxyEndpointName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*")
+            try self.dBProxyName?.forEach {}
+            try self.validate(self.dBProxyName, name: "dBProxyName", parent: name, max: 63)
+            try self.validate(self.dBProxyName, name: "dBProxyName", parent: name, min: 1)
+            try self.validate(self.dBProxyName, name: "dBProxyName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*")
+            try self.maxRecords?.forEach {}
+            try self.validate(self.maxRecords, name: "maxRecords", parent: name, max: 100)
+            try self.validate(self.maxRecords, name: "maxRecords", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBProxyEndpointName = "DBProxyEndpointName"
+            case dBProxyName = "DBProxyName"
+            case filters = "Filters"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+        }
+    }
+
+    public struct DescribeDBProxyEndpointsResponse: AWSDecodableShape {
+        /// The list of ProxyEndpoint objects returned by the API operation.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var dBProxyEndpoints: [DBProxyEndpoint]?
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let marker: String?
+
+        public init(dBProxyEndpoints: [DBProxyEndpoint]? = nil, marker: String? = nil) {
+            self.dBProxyEndpoints = dBProxyEndpoints
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBProxyEndpoints = "DBProxyEndpoints"
+            case marker = "Marker"
+        }
+    }
+
     public struct DescribeDBProxyTargetGroupsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
@@ -4806,6 +5052,7 @@ extension RDS {
         }
 
         public func validate(name: String) throws {
+            try self.maxRecords?.forEach {}
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, max: 100)
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, min: 20)
         }
@@ -4861,6 +5108,7 @@ extension RDS {
         }
 
         public func validate(name: String) throws {
+            try self.maxRecords?.forEach {}
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, max: 100)
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, min: 20)
         }
@@ -5223,6 +5471,7 @@ extension RDS {
         }
 
         public func validate(name: String) throws {
+            try self.maxRecords?.forEach {}
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, max: 100)
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, min: 20)
         }
@@ -6048,9 +6297,11 @@ extension RDS {
         }
 
         public func validate(name: String) throws {
+            try self.globalClusterIdentifier.forEach {}
             try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, max: 255)
             try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, min: 1)
             try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, pattern: "[A-Za-z][0-9A-Za-z-:._]*")
+            try self.targetDbClusterIdentifier.forEach {}
             try self.validate(self.targetDbClusterIdentifier, name: "targetDbClusterIdentifier", parent: name, max: 255)
             try self.validate(self.targetDbClusterIdentifier, name: "targetDbClusterIdentifier", parent: name, min: 1)
             try self.validate(self.targetDbClusterIdentifier, name: "targetDbClusterIdentifier", parent: name, pattern: "[A-Za-z][0-9A-Za-z-:._]*")
@@ -6785,6 +7036,7 @@ extension RDS {
         }
 
         public func validate(name: String) throws {
+            try self.awsBackupRecoveryPointArn?.forEach {}
             try self.validate(self.awsBackupRecoveryPointArn, name: "awsBackupRecoveryPointArn", parent: name, max: 350)
             try self.validate(self.awsBackupRecoveryPointArn, name: "awsBackupRecoveryPointArn", parent: name, min: 43)
             try self.validate(self.awsBackupRecoveryPointArn, name: "awsBackupRecoveryPointArn", parent: name, pattern: "^arn:aws[a-z-]*:backup:[-a-z0-9]+:[0-9]{12}:[-a-z]+:([a-z0-9\\-]+:)?[a-z][a-z0-9\\-]{0,255}$")
@@ -6868,6 +7120,52 @@ extension RDS {
         private enum CodingKeys: String, CodingKey {
             case dBParameterGroupName = "DBParameterGroupName"
             case parameters = "Parameters"
+        }
+    }
+
+    public struct ModifyDBProxyEndpointRequest: AWSEncodableShape {
+        /// The name of the DB proxy sociated with the DB proxy endpoint that you want to modify.
+        public let dBProxyEndpointName: String
+        /// The new identifier for the DBProxyEndpoint. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens.
+        public let newDBProxyEndpointName: String?
+        /// The VPC security group IDs for the DB proxy endpoint. When the DB proxy endpoint uses a different VPC than the original proxy, you also specify a different set of security group IDs than for the original proxy.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var vpcSecurityGroupIds: [String]?
+
+        public init(dBProxyEndpointName: String, newDBProxyEndpointName: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+            self.dBProxyEndpointName = dBProxyEndpointName
+            self.newDBProxyEndpointName = newDBProxyEndpointName
+            self.vpcSecurityGroupIds = vpcSecurityGroupIds
+        }
+
+        public func validate(name: String) throws {
+            try self.dBProxyEndpointName.forEach {}
+            try self.validate(self.dBProxyEndpointName, name: "dBProxyEndpointName", parent: name, max: 63)
+            try self.validate(self.dBProxyEndpointName, name: "dBProxyEndpointName", parent: name, min: 1)
+            try self.validate(self.dBProxyEndpointName, name: "dBProxyEndpointName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*")
+            try self.newDBProxyEndpointName?.forEach {}
+            try self.validate(self.newDBProxyEndpointName, name: "newDBProxyEndpointName", parent: name, max: 63)
+            try self.validate(self.newDBProxyEndpointName, name: "newDBProxyEndpointName", parent: name, min: 1)
+            try self.validate(self.newDBProxyEndpointName, name: "newDBProxyEndpointName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBProxyEndpointName = "DBProxyEndpointName"
+            case newDBProxyEndpointName = "NewDBProxyEndpointName"
+            case vpcSecurityGroupIds = "VpcSecurityGroupIds"
+        }
+    }
+
+    public struct ModifyDBProxyEndpointResponse: AWSDecodableShape {
+        /// The DBProxyEndpoint object representing the new settings for the DB proxy endpoint.
+        public let dBProxyEndpoint: DBProxyEndpoint?
+
+        public init(dBProxyEndpoint: DBProxyEndpoint? = nil) {
+            self.dBProxyEndpoint = dBProxyEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBProxyEndpoint = "DBProxyEndpoint"
         }
     }
 

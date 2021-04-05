@@ -369,6 +369,11 @@ extension GameLift {
         public var description: String { return self.rawValue }
     }
 
+    public enum LocationUpdateStatus: String, CustomStringConvertible, Codable {
+        case pendingUpdate = "PENDING_UPDATE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MatchmakingConfigurationStatus: String, CustomStringConvertible, Codable {
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
@@ -420,6 +425,14 @@ extension GameLift {
     public enum PolicyType: String, CustomStringConvertible, Codable {
         case rulebased = "RuleBased"
         case targetbased = "TargetBased"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PriorityType: String, CustomStringConvertible, Codable {
+        case cost = "COST"
+        case destination = "DESTINATION"
+        case latency = "LATENCY"
+        case location = "LOCATION"
         public var description: String { return self.rawValue }
     }
 
@@ -480,6 +493,8 @@ extension GameLift {
                 try validate($0, name: "playerIds[]", parent: name, max: 1024)
                 try validate($0, name: "playerIds[]", parent: name, min: 1)
             }
+            try self.playerIds.forEach {}
+            try self.ticketId.forEach {}
             try self.validate(self.ticketId, name: "ticketId", parent: name, max: 128)
             try self.validate(self.ticketId, name: "ticketId", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
         }
@@ -496,9 +511,9 @@ extension GameLift {
     }
 
     public struct Alias: AWSDecodableShape {
-        /// Amazon Resource Name (ARN) that is assigned to a GameLift alias resource and uniquely identifies it. ARNs are unique across all Regions. In a GameLift alias ARN, the resource ID matches the alias ID value.
+        /// The Amazon Resource Name (ARN) that is assigned to a GameLift alias resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:&lt;region&gt;::alias/alias-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912. In a GameLift alias ARN, the resource ID matches the alias ID value.
         public let aliasArn: String?
-        /// A unique identifier for an alias. Alias IDs are unique within a Region.
+        /// A unique identifier for the alias. Alias IDs are unique within a Region.
         public let aliasId: String?
         /// A time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let creationTime: Date?
@@ -550,6 +565,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.s?.forEach {}
             try self.validate(self.s, name: "s", parent: name, max: 1024)
             try self.validate(self.s, name: "s", parent: name, min: 1)
             try self.sdm?.forEach {
@@ -560,6 +576,7 @@ extension GameLift {
                 try validate($0, name: "sl[]", parent: name, max: 1024)
                 try validate($0, name: "sl[]", parent: name, min: 1)
             }
+            try self.sl?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -592,11 +609,11 @@ extension GameLift {
     }
 
     public struct Build: AWSDecodableShape {
-        /// Amazon Resource Name (ARN) that is assigned to a GameLift build resource and uniquely identifies it. ARNs are unique across all Regions. In a GameLift build ARN, the resource ID matches the BuildId value.
+        /// The Amazon Resource Name (ARN) that is assigned to a GameLift build resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:&lt;region&gt;::build/build-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912. In a GameLift build ARN, the resource ID matches the BuildId value.
         public let buildArn: String?
-        /// A unique identifier for a build.
+        /// A unique identifier for the build.
         public let buildId: String?
-        /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
+        /// A time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let creationTime: Date?
         /// A descriptive label that is associated with a build. Build names do not need to be unique. It can be set using CreateBuild or UpdateBuild.
         public let name: String?
@@ -633,7 +650,7 @@ extension GameLift {
     }
 
     public struct CertificateConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Indicates whether a TLS/SSL certificate was generated for a fleet.
+        /// Indicates whether a TLS/SSL certificate is generated for a fleet.  Valid values include:     GENERATED - Generate a TLS/SSL certificate for this fleet.    DISABLED - (default) Do not generate a TLS/SSL certificate for this fleet.
         public let certificateType: CertificateType
 
         public init(certificateType: CertificateType) {
@@ -648,7 +665,7 @@ extension GameLift {
     public struct ClaimGameServerInput: AWSEncodableShape {
         /// A set of custom game server properties, formatted as a single string value. This data is passed to a game client or service when it requests information on game servers using ListGameServers or ClaimGameServer.
         public let gameServerData: String?
-        /// A unique identifier for the game server group where the game server is running. Use either the GameServerGroup name or ARN value.. If you are not specifying a game server to claim, this value identifies where you want GameLift FleetIQ to look for an available game server to claim.
+        /// A unique identifier for the game server group where the game server is running. Use either the GameServerGroup name or ARN value. If you are not specifying a game server to claim, this value identifies where you want GameLift FleetIQ to look for an available game server to claim.
         public let gameServerGroupName: String
         /// A custom string that uniquely identifies the game server to claim. If this parameter is left empty, GameLift FleetIQ searches for an available game server in the specified game server group.
         public let gameServerId: String?
@@ -660,12 +677,15 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.gameServerData?.forEach {}
             try self.validate(self.gameServerData, name: "gameServerData", parent: name, max: 1024)
             try self.validate(self.gameServerData, name: "gameServerData", parent: name, min: 1)
             try self.validate(self.gameServerData, name: "gameServerData", parent: name, pattern: ".*\\S.*")
+            try self.gameServerGroupName.forEach {}
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+")
+            try self.gameServerId?.forEach {}
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, max: 128)
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, min: 3)
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, pattern: "[a-zA-Z0-9-\\.]+")
@@ -709,15 +729,19 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
             try self.routingStrategy.validate(name: "\(name).routingStrategy")
+            try self.routingStrategy.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -748,7 +772,7 @@ extension GameLift {
         public let name: String?
         /// The operating system that the game server binaries are built to run on. This value determines the type of fleet resources that you can use for this build. If your game build contains multiple executables, they all must run on the same operating system. If an operating system is not specified when creating a build, Amazon GameLift uses the default value (WINDOWS_2012). This value cannot be changed later.
         public let operatingSystem: OperatingSystem?
-        /// The location where your game build files are stored. Use this parameter only when creating a build using files that are stored in an S3 bucket that you own. Identify an S3 bucket name and key, which must in the same Region where you're creating a build. This parameter must also specify the ARN for an IAM role that you've set up to give Amazon GameLift access your S3 bucket. To call this operation with a storage location, you must have IAM PassRole permission. For more details on IAM roles and PassRole permissions, see  Set up a role for GameLift access.
+        /// Information indicating where your game build files are stored. Use this parameter only when creating a build with files stored in an Amazon S3 bucket that you own. The storage location must specify an Amazon S3 bucket name and key. The location must also specify a role ARN that you set up to allow Amazon GameLift to access your Amazon S3 bucket. The S3 bucket and your new build must be in the same Region.
         public let storageLocation: S3Location?
         /// A list of labels to assign to the new build resource. Tags are developer-defined key-value pairs. Tagging AWS resources are useful for resource management, access management and cost allocation. For more information, see  Tagging AWS Resources in the AWS General Reference. Once the resource is created, you can use TagResource, UntagResource, and ListTagsForResource to add, remove, and view tags. The maximum tag limit may be lower than stated. See the AWS General Reference for actual tagging limits.
         public let tags: [Tag]?
@@ -764,14 +788,18 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.storageLocation?.validate(name: "\(name).storageLocation")
+            try self.storageLocation?.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
+            try self.version?.forEach {}
             try self.validate(self.version, name: "version", parent: name, max: 1024)
             try self.validate(self.version, name: "version", parent: name, min: 1)
         }
@@ -790,7 +818,7 @@ extension GameLift {
         public let build: Build?
         /// Amazon S3 location for your game build file, including bucket name and key.
         public let storageLocation: S3Location?
-        /// This element is returned only when the operation is called without a storage location. It contains credentials to use when you are uploading a build file to an S3 bucket that is owned by Amazon GameLift. Credentials have a limited life span. To refresh these credentials, call RequestUploadCredentials.
+        /// This element is returned only when the operation is called without a storage location. It contains credentials to use when you are uploading a build file to an Amazon S3 bucket that is owned by Amazon GameLift. Credentials have a limited life span. To refresh these credentials, call RequestUploadCredentials.
         public let uploadCredentials: AwsCredentials?
 
         public init(build: Build? = nil, storageLocation: S3Location? = nil, uploadCredentials: AwsCredentials? = nil) {
@@ -807,46 +835,48 @@ extension GameLift {
     }
 
     public struct CreateFleetInput: AWSEncodableShape {
-        /// A unique identifier for a build to be deployed on the new fleet. You can use either the build ID or ARN value. The custom game server build must have been successfully uploaded to Amazon GameLift and be in a READY status. This fleet setting cannot be changed once the fleet is created.
+        /// The unique identifier for a custom game server build to be deployed on fleet instances. You can use either the build ID or ARN. The build must be uploaded to GameLift and in READY status. This fleet property cannot be changed later.
         public let buildId: String?
-        /// Indicates whether to generate a TLS/SSL certificate for the new fleet. TLS certificates are used for encrypting traffic between game clients and game servers running on GameLift. If this parameter is not specified, the default value, DISABLED, is used. This fleet setting cannot be changed once the fleet is created. Learn more at Securing Client/Server Communication.  Note: This feature requires the AWS Certificate Manager (ACM) service, which is available in the AWS global partition but not in all other partitions. When working in a partition that does not support this feature, a request for a new fleet with certificate generation results fails with a 4xx unsupported Region error. Valid values include:     GENERATED - Generate a TLS/SSL certificate for this fleet.    DISABLED - (default) Do not generate a TLS/SSL certificate for this fleet.
+        /// Prompts GameLift to generate a TLS/SSL certificate for the fleet. TLS certificates are used for encrypting traffic between game clients and the game servers that are running on GameLift. By default, the CertificateConfiguration is set to DISABLED. Learn more at Securing Client/Server Communication. This property cannot be changed after the fleet is created.  Note: This feature requires the AWS Certificate Manager (ACM) service, which is not available in all AWS regions. When working in a region that does not support this feature, a fleet creation request with certificate generation fails with a 4xx error.
         public let certificateConfiguration: CertificateConfiguration?
-        /// A human-readable description of a fleet.
+        /// A human-readable description of the fleet.
         public let description: String?
-        /// Range of IP addresses and port settings that permit inbound traffic to access game sessions that are running on the fleet. For fleets using a custom game build, this parameter is required before game sessions running on the fleet can accept connections. For Realtime Servers fleets, Amazon GameLift automatically sets TCP and UDP ranges for use by the Realtime servers. You can specify multiple permission settings or add more by updating the fleet.
+        /// The allowed IP address ranges and port settings that allow inbound traffic to access game sessions on this fleet. If the fleet is hosting a custom game build, this property must be set before players can connect to game sessions. For Realtime Servers fleets, GameLift automatically sets TCP and UDP ranges.
         public let eC2InboundPermissions: [IpPermission]?
-        /// The name of an EC2 instance type that is supported in Amazon GameLift. A fleet instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. Amazon GameLift supports the following EC2 instance types. See Amazon EC2 Instance Types for detailed descriptions.
+        /// The GameLift-supported EC2 instance type to use for all fleet instances. Instance type determines the computing resources that will be used to host your game servers, including CPU, memory, storage, and networking capacity. See Amazon EC2 Instance Types for detailed descriptions of EC2 instance types.
         public let eC2InstanceType: EC2InstanceType
-        /// Indicates whether to use On-Demand instances or Spot instances for this fleet. If empty, the default is ON_DEMAND. Both categories of instances use identical hardware and configurations based on the instance type selected for this fleet. Learn more about  On-Demand versus Spot Instances.
+        /// Indicates whether to use On-Demand or Spot instances for this fleet. By default, this property is set to ON_DEMAND. Learn more about when to use  On-Demand versus Spot Instances. This property cannot be changed after the fleet is created.
         public let fleetType: FleetType?
-        /// A unique identifier for an AWS IAM role that manages access to your AWS services. Fleets with an instance role ARN allow applications that are running on the fleet's instances to assume the role. Learn more about using on-box credentials for your game servers at  Access external resources from a game server. To call this operation with instance role ARN, you must have IAM PassRole permissions. See IAM policy examples for GameLift.
+        /// A unique identifier for an AWS IAM role that manages access to your AWS services. With an instance role ARN set, any application that runs on an instance in this fleet can assume the role, including install scripts, server processes, and daemons (background processes). Create a role or look up a role's ARN by using the IAM dashboard in the AWS Management Console. Learn more about using on-box credentials for your game servers at  Access external resources from a game server. This property cannot be changed after the fleet is created.
         public let instanceRoleArn: String?
-        /// This parameter is no longer used. Instead, to specify where Amazon GameLift should store log files once a server process shuts down, use the Amazon GameLift server API ProcessReady() and specify one or more directory paths in logParameters. See more information in the Server API Reference.
+        /// A set of remote locations to deploy additional instances to and manage as part of the fleet. This parameter can only be used when creating fleets in AWS Regions that support multiple locations. You can add any GameLift-supported AWS Region as a remote location, in the form of an AWS Region code such as us-west-2. To create a fleet with instances in the home Region only, omit this parameter.
+        public let locations: [LocationConfiguration]?
+        ///  This parameter is no longer used. To specify where GameLift should store log files once a server process shuts down, use the GameLift server API ProcessReady() and specify one or more directory paths in logParameters. See more information in the Server API Reference.
         public let logPaths: [String]?
-        /// The name of an Amazon CloudWatch metric group to add this fleet to. A metric group aggregates the metrics for all fleets in the group. Specify an existing metric group name, or provide a new name to create a new metric group. A fleet can only be included in one metric group at a time.
+        /// The name of an AWS CloudWatch metric group to add this fleet to. A metric group is used to aggregate the metrics for multiple fleets. You can specify an existing metric group name or set a new name to create a new metric group. A fleet can be included in only one metric group at a time.
         public let metricGroups: [String]?
         /// A descriptive label that is associated with a fleet. Fleet names do not need to be unique.
         public let name: String
-        /// A game session protection policy to apply to all instances in this fleet. If this parameter is not set, instances in this fleet default to no protection. You can change a fleet's protection policy using UpdateFleetAttributes, but this change will only affect sessions created after the policy change. You can also set protection for individual instances using UpdateGameSession.    NoProtection - The game session can be terminated during a scale-down event.    FullProtection - If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.
+        /// The status of termination protection for active game sessions on the fleet. By default, this property is set to NoProtection. You can also set game session protection for an individual game session by calling UpdateGameSession.    NoProtection - Game sessions can be terminated during active gameplay as a result of a scale-down event.     FullProtection - Game sessions in ACTIVE status cannot be terminated during a scale-down event.
         public let newGameSessionProtectionPolicy: ProtectionPolicy?
-        /// A unique identifier for the AWS account with the VPC that you want to peer your Amazon GameLift fleet with. You can find your account ID in the AWS Management Console under account settings.
+        /// Used when peering your GameLift fleet with a VPC, the unique identifier for the AWS account that owns the VPC. You can find your account ID in the AWS Management Console under account settings.
         public let peerVpcAwsAccountId: String?
-        /// A unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use the VPC Dashboard in the AWS Management Console. Learn more about VPC peering in VPC Peering with Amazon GameLift Fleets.
+        /// A unique identifier for a VPC with resources to be accessed by your GameLift fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use the VPC Dashboard in the AWS Management Console. Learn more about VPC peering in VPC Peering with GameLift Fleets.
         public let peerVpcId: String?
-        /// A policy that limits the number of game sessions an individual player can create over a span of time for this fleet.
+        /// A policy that limits the number of game sessions that an individual player can create on instances in this fleet within a specified span of time.
         public let resourceCreationLimitPolicy: ResourceCreationLimitPolicy?
-        /// Instructions for launching server processes on each instance in the fleet. Server processes run either a custom game build executable or a Realtime script. The runtime configuration defines the server executables or launch script file, launch parameters, and the number of processes to run concurrently on each instance. When creating a fleet, the runtime configuration must have at least one server process configuration; otherwise the request fails with an invalid request exception. (This parameter replaces the parameters ServerLaunchPath and ServerLaunchParameters, although requests that contain values for these parameters instead of a runtime configuration will continue to work.) This parameter is required unless the parameters ServerLaunchPath and ServerLaunchParameters are defined. Runtime configuration replaced these parameters, but fleets that use them will continue to work.
+        /// Instructions for how to launch and maintain server processes on instances in the fleet. The runtime configuration defines one or more server process configurations, each identifying a build executable or Realtime script file and the number of processes of that type to run concurrently.   The RuntimeConfiguration parameter is required unless the fleet is being configured using the older parameters ServerLaunchPath and ServerLaunchParameters, which are still supported for backward compatibility.
         public let runtimeConfiguration: RuntimeConfiguration?
-        /// A unique identifier for a Realtime script to be deployed on the new fleet. You can use either the script ID or ARN value. The Realtime script must have been successfully uploaded to Amazon GameLift. This fleet setting cannot be changed once the fleet is created.
+        /// The unique identifier for a Realtime configuration script to be deployed on fleet instances. You can use either the script ID or ARN. Scripts must be uploaded to GameLift prior to creating the fleet. This fleet property cannot be changed later.
         public let scriptId: String?
-        /// This parameter is no longer used. Instead, specify server launch parameters in the RuntimeConfiguration parameter. (Requests that specify a server launch path and launch parameters instead of a runtime configuration will continue to work.)
+        ///  This parameter is no longer used. Specify server launch parameters using the RuntimeConfiguration parameter. Requests that use this parameter instead continue to be valid.
         public let serverLaunchParameters: String?
-        /// This parameter is no longer used. Instead, specify a server launch path using the RuntimeConfiguration parameter. Requests that specify a server launch path and launch parameters instead of a runtime configuration will continue to work.
+        ///  This parameter is no longer used. Specify a server launch path using the RuntimeConfiguration parameter. Requests that use this parameter instead continue to be valid.
         public let serverLaunchPath: String?
-        /// A list of labels to assign to the new fleet resource. Tags are developer-defined key-value pairs. Tagging AWS resources are useful for resource management, access management and cost allocation. For more information, see  Tagging AWS Resources in the AWS General Reference. Once the resource is created, you can use TagResource, UntagResource, and ListTagsForResource to add, remove, and view tags. The maximum tag limit may be lower than stated. See the AWS General Reference for actual tagging limits.
+        /// A list of labels to assign to the new fleet resource. Tags are developer-defined key-value pairs. Tagging AWS resources are useful for resource management, access management and cost allocation. For more information, see  Tagging AWS Resources in the AWS General Reference. Once the fleet is created, you can use TagResource, UntagResource, and ListTagsForResource to add, remove, and view tags. The maximum tag limit may be lower than stated. See the AWS General Reference for actual tagging limits.
         public let tags: [Tag]?
 
-        public init(buildId: String? = nil, certificateConfiguration: CertificateConfiguration? = nil, description: String? = nil, eC2InboundPermissions: [IpPermission]? = nil, eC2InstanceType: EC2InstanceType, fleetType: FleetType? = nil, instanceRoleArn: String? = nil, logPaths: [String]? = nil, metricGroups: [String]? = nil, name: String, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, peerVpcAwsAccountId: String? = nil, peerVpcId: String? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, runtimeConfiguration: RuntimeConfiguration? = nil, scriptId: String? = nil, serverLaunchParameters: String? = nil, serverLaunchPath: String? = nil, tags: [Tag]? = nil) {
+        public init(buildId: String? = nil, certificateConfiguration: CertificateConfiguration? = nil, description: String? = nil, eC2InboundPermissions: [IpPermission]? = nil, eC2InstanceType: EC2InstanceType, fleetType: FleetType? = nil, instanceRoleArn: String? = nil, locations: [LocationConfiguration]? = nil, logPaths: [String]? = nil, metricGroups: [String]? = nil, name: String, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, peerVpcAwsAccountId: String? = nil, peerVpcId: String? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, runtimeConfiguration: RuntimeConfiguration? = nil, scriptId: String? = nil, serverLaunchParameters: String? = nil, serverLaunchPath: String? = nil, tags: [Tag]? = nil) {
             self.buildId = buildId
             self.certificateConfiguration = certificateConfiguration
             self.description = description
@@ -854,6 +884,7 @@ extension GameLift {
             self.eC2InstanceType = eC2InstanceType
             self.fleetType = fleetType
             self.instanceRoleArn = instanceRoleArn
+            self.locations = locations
             self.logPaths = logPaths
             self.metricGroups = metricGroups
             self.name = name
@@ -869,39 +900,60 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.buildId?.forEach {}
             try self.validate(self.buildId, name: "buildId", parent: name, pattern: "^build-\\S+|^arn:.*:build\\/build-\\S+")
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.eC2InboundPermissions?.forEach {
                 try $0.validate(name: "\(name).eC2InboundPermissions[]")
             }
+            try self.eC2InboundPermissions?.forEach {}
             try self.validate(self.eC2InboundPermissions, name: "eC2InboundPermissions", parent: name, max: 50)
+            try self.instanceRoleArn?.forEach {}
             try self.validate(self.instanceRoleArn, name: "instanceRoleArn", parent: name, min: 1)
+            try self.locations?.forEach {
+                try $0.validate(name: "\(name).locations[]")
+            }
+            try self.locations?.forEach {}
+            try self.validate(self.locations, name: "locations", parent: name, max: 100)
+            try self.validate(self.locations, name: "locations", parent: name, min: 1)
             try self.logPaths?.forEach {
                 try validate($0, name: "logPaths[]", parent: name, max: 1024)
                 try validate($0, name: "logPaths[]", parent: name, min: 1)
             }
+            try self.logPaths?.forEach {}
             try self.metricGroups?.forEach {
                 try validate($0, name: "metricGroups[]", parent: name, max: 255)
                 try validate($0, name: "metricGroups[]", parent: name, min: 1)
             }
+            try self.metricGroups?.forEach {}
             try self.validate(self.metricGroups, name: "metricGroups", parent: name, max: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.peerVpcAwsAccountId?.forEach {}
             try self.validate(self.peerVpcAwsAccountId, name: "peerVpcAwsAccountId", parent: name, max: 1024)
             try self.validate(self.peerVpcAwsAccountId, name: "peerVpcAwsAccountId", parent: name, min: 1)
+            try self.peerVpcId?.forEach {}
             try self.validate(self.peerVpcId, name: "peerVpcId", parent: name, max: 1024)
             try self.validate(self.peerVpcId, name: "peerVpcId", parent: name, min: 1)
             try self.resourceCreationLimitPolicy?.validate(name: "\(name).resourceCreationLimitPolicy")
+            try self.resourceCreationLimitPolicy?.forEach {}
             try self.runtimeConfiguration?.validate(name: "\(name).runtimeConfiguration")
+            try self.runtimeConfiguration?.forEach {}
+            try self.scriptId?.forEach {}
             try self.validate(self.scriptId, name: "scriptId", parent: name, pattern: "^script-\\S+|^arn:.*:script\\/script-\\S+")
+            try self.serverLaunchParameters?.forEach {}
             try self.validate(self.serverLaunchParameters, name: "serverLaunchParameters", parent: name, max: 1024)
             try self.validate(self.serverLaunchParameters, name: "serverLaunchParameters", parent: name, min: 1)
+            try self.serverLaunchPath?.forEach {}
             try self.validate(self.serverLaunchPath, name: "serverLaunchPath", parent: name, max: 1024)
             try self.validate(self.serverLaunchPath, name: "serverLaunchPath", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -914,6 +966,7 @@ extension GameLift {
             case eC2InstanceType = "EC2InstanceType"
             case fleetType = "FleetType"
             case instanceRoleArn = "InstanceRoleArn"
+            case locations = "Locations"
             case logPaths = "LogPaths"
             case metricGroups = "MetricGroups"
             case name = "Name"
@@ -929,16 +982,69 @@ extension GameLift {
         }
     }
 
-    public struct CreateFleetOutput: AWSDecodableShape {
-        /// Properties for the newly created fleet.
-        public let fleetAttributes: FleetAttributes?
+    public struct CreateFleetLocationsInput: AWSEncodableShape {
+        /// A unique identifier for the fleet to add locations to. You can use either the fleet ID or ARN value.
+        public let fleetId: String
+        /// A list of locations to deploy additional instances to and manage as part of the fleet. You can add any GameLift-supported AWS Region as a remote location, in the form of an AWS Region code such as us-west-2.
+        public let locations: [LocationConfiguration]
 
-        public init(fleetAttributes: FleetAttributes? = nil) {
+        public init(fleetId: String, locations: [LocationConfiguration]) {
+            self.fleetId = fleetId
+            self.locations = locations
+        }
+
+        public func validate(name: String) throws {
+            try self.fleetId.forEach {}
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
+            try self.locations.forEach {
+                try $0.validate(name: "\(name).locations[]")
+            }
+            try self.locations.forEach {}
+            try self.validate(self.locations, name: "locations", parent: name, max: 100)
+            try self.validate(self.locations, name: "locations", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetId = "FleetId"
+            case locations = "Locations"
+        }
+    }
+
+    public struct CreateFleetLocationsOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) that is assigned to a GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:&lt;region&gt;::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
+        public let fleetArn: String?
+        /// A unique identifier for the fleet that was updated with new locations.
+        public let fleetId: String?
+        /// The remote locations that are being added to the fleet, and the life-cycle status of each location. For new locations, the status is set to NEW. During location creation, GameLift updates each location's status as instances are deployed there and prepared for game hosting. This list does not include the fleet home Region or any remote locations that were already added to the fleet.
+        public let locationStates: [LocationState]?
+
+        public init(fleetArn: String? = nil, fleetId: String? = nil, locationStates: [LocationState]? = nil) {
+            self.fleetArn = fleetArn
+            self.fleetId = fleetId
+            self.locationStates = locationStates
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetArn = "FleetArn"
+            case fleetId = "FleetId"
+            case locationStates = "LocationStates"
+        }
+    }
+
+    public struct CreateFleetOutput: AWSDecodableShape {
+        /// The properties for the new fleet, including the current status. All fleets are placed in NEW status on creation.
+        public let fleetAttributes: FleetAttributes?
+        /// The fleet's locations and life-cycle status of each location. For new fleets, the status of all locations is set to NEW. During fleet creation, GameLift updates each location status as instances are deployed there and prepared for game hosting. This list includes an entry for the fleet's home Region. For fleets with no remote locations, only one entry, representing the home Region, is returned.
+        public let locationStates: [LocationState]?
+
+        public init(fleetAttributes: FleetAttributes? = nil, locationStates: [LocationState]? = nil) {
             self.fleetAttributes = fleetAttributes
+            self.locationStates = locationStates
         }
 
         private enum CodingKeys: String, CodingKey {
             case fleetAttributes = "FleetAttributes"
+            case locationStates = "LocationStates"
         }
     }
 
@@ -953,7 +1059,7 @@ extension GameLift {
         public let gameServerProtectionPolicy: GameServerProtectionPolicy?
         /// The EC2 instance types and sizes to use in the Auto Scaling group. The instance definitions must specify at least two different instance types that are supported by GameLift FleetIQ. For more information on instance types, see EC2 Instance Types in the Amazon EC2 User Guide. You can optionally specify capacity weighting for each instance type. If no weight value is specified for an instance type, it is set to the default value "1". For more information about capacity weighting, see  Instance Weighting for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
         public let instanceDefinitions: [InstanceDefinition]
-        /// The EC2 launch template that contains configuration settings and game server code to be deployed to all instances in the game server group. You can specify the template using either the template name or ID. For help with creating a launch template, see Creating a Launch Template for an Auto Scaling Group in the Amazon EC2 Auto Scaling User Guide. After the Auto Scaling group is created, update this value directly in the Auto Scaling group using the AWS console or APIs.
+        /// The EC2 launch template that contains configuration settings and game server code to be deployed to all instances in the game server group. You can specify the template using either the template name or ID. For help with creating a launch template, see Creating a Launch Template for an Auto Scaling Group in the Amazon EC2 Auto Scaling User Guide. After the Auto Scaling group is created, update this value directly in the Auto Scaling group using the AWS console or APIs.  If you specify network interfaces in your launch template, you must explicitly set the property AssociatePublicIpAddress to "true". If no network interface is specified in the launch template, GameLift FleetIQ uses your account's default VPC.
         public let launchTemplate: LaunchTemplateSpecification
         /// The maximum number of instances allowed in the EC2 Auto Scaling group. During automatic scaling events, GameLift FleetIQ and EC2 do not scale up the group above this maximum. After the Auto Scaling group is created, update this value directly in the Auto Scaling group using the AWS console or APIs.
         public let maxSize: Int
@@ -982,23 +1088,31 @@ extension GameLift {
 
         public func validate(name: String) throws {
             try self.autoScalingPolicy?.validate(name: "\(name).autoScalingPolicy")
+            try self.autoScalingPolicy?.forEach {}
+            try self.gameServerGroupName.forEach {}
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 128)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "[a-zA-Z0-9-\\.]+")
             try self.instanceDefinitions.forEach {
                 try $0.validate(name: "\(name).instanceDefinitions[]")
             }
+            try self.instanceDefinitions.forEach {}
             try self.validate(self.instanceDefinitions, name: "instanceDefinitions", parent: name, max: 20)
             try self.validate(self.instanceDefinitions, name: "instanceDefinitions", parent: name, min: 2)
             try self.launchTemplate.validate(name: "\(name).launchTemplate")
+            try self.launchTemplate.forEach {}
+            try self.maxSize.forEach {}
             try self.validate(self.maxSize, name: "maxSize", parent: name, min: 1)
+            try self.minSize.forEach {}
             try self.validate(self.minSize, name: "minSize", parent: name, min: 0)
+            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:.*:role\\/[\\w+=,.@-]+")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
             try self.vpcSubnets?.forEach {
@@ -1006,6 +1120,7 @@ extension GameLift {
                 try validate($0, name: "vpcSubnets[]", parent: name, min: 15)
                 try validate($0, name: "vpcSubnets[]", parent: name, pattern: "^subnet-[0-9a-z]+$")
             }
+            try self.vpcSubnets?.forEach {}
             try self.validate(self.vpcSubnets, name: "vpcSubnets", parent: name, max: 20)
             try self.validate(self.vpcSubnets, name: "vpcSubnets", parent: name, min: 1)
         }
@@ -1039,26 +1154,28 @@ extension GameLift {
     }
 
     public struct CreateGameSessionInput: AWSEncodableShape {
-        /// A unique identifier for an alias associated with the fleet to create a game session in. You can use either the alias ID or ARN value. Each request must reference either a fleet ID or alias ID, but not both.
+        /// A unique identifier for the alias associated with the fleet to create a game session in. You can use either the alias ID or ARN value. Each request must reference either a fleet ID or alias ID, but not both.
         public let aliasId: String?
-        /// A unique identifier for a player or entity creating the game session. This ID is used to enforce a resource protection policy (if one exists) that limits the number of concurrent active game sessions one player can have.
+        /// A unique identifier for a player or entity creating the game session. This parameter is required when requesting a new game session on a fleet with a resource creation limit policy. This type of policy limits the number of concurrent active game sessions that one player can create within a certain time span. GameLift uses the CreatorId to evaluate the new request against the policy.
         public let creatorId: String?
-        /// A unique identifier for a fleet to create a game session in. You can use either the fleet ID or ARN value. Each request must reference either a fleet ID or alias ID, but not both.
+        /// A unique identifier for the fleet to create a game session in. You can use either the fleet ID or ARN value. Each request must reference either a fleet ID or alias ID, but not both.
         public let fleetId: String?
-        /// Set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session).
+        /// A set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session.
         public let gameProperties: [GameProperty]?
-        /// Set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session).
+        /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session.
         public let gameSessionData: String?
-        ///  This parameter is no longer preferred. Please use IdempotencyToken instead. Custom string that uniquely identifies a request for a new game session. Maximum token length is 48 characters. If provided, this string is included in the new game session's ID. (A game session ARN has the following format: arn:aws:gamelift:&lt;region&gt;::gamesession/&lt;fleet ID&gt;/&lt;custom ID string or idempotency token&gt;.)
+        ///  This parameter is no longer preferred. Please use IdempotencyToken instead. Custom string that uniquely identifies a request for a new game session. Maximum token length is 48 characters. If provided, this string is included in the new game session's ID.
         public let gameSessionId: String?
-        /// Custom string that uniquely identifies a request for a new game session. Maximum token length is 48 characters. If provided, this string is included in the new game session's ID. (A game session ARN has the following format: arn:aws:gamelift:&lt;region&gt;::gamesession/&lt;fleet ID&gt;/&lt;custom ID string or idempotency token&gt;.) Idempotency tokens remain in use for 30 days after a game session has ended; game session objects are retained for this time period and then deleted.
+        /// Custom string that uniquely identifies the new game session request. This is useful for ensuring that game session requests with the same idempotency token are processed only once. Subsequent requests with the same string return the original GameSession object, with an updated status. Maximum token length is 48 characters. If provided, this string is included in the new game session's ID. A game session ARN has the following format: arn:aws:gamelift:&lt;region&gt;::gamesession/&lt;fleet ID&gt;/&lt;custom ID string or idempotency token&gt;. Idempotency tokens remain in use for 30 days after a game session has ended; game session objects are retained for this time period and then deleted.
         public let idempotencyToken: String?
+        /// A fleet's remote location to place the new game session in. If this parameter is not set, the new game session is placed in the fleet's home Region. Specify a remote location with an AWS Region code such as us-west-2.
+        public let location: String?
         /// The maximum number of players that can be connected simultaneously to the game session.
         public let maximumPlayerSessionCount: Int
         /// A descriptive label that is associated with a game session. Session names do not need to be unique.
         public let name: String?
 
-        public init(aliasId: String? = nil, creatorId: String? = nil, fleetId: String? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionId: String? = nil, idempotencyToken: String? = nil, maximumPlayerSessionCount: Int, name: String? = nil) {
+        public init(aliasId: String? = nil, creatorId: String? = nil, fleetId: String? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionId: String? = nil, idempotencyToken: String? = nil, location: String? = nil, maximumPlayerSessionCount: Int, name: String? = nil) {
             self.aliasId = aliasId
             self.creatorId = creatorId
             self.fleetId = fleetId
@@ -1066,28 +1183,42 @@ extension GameLift {
             self.gameSessionData = gameSessionData
             self.gameSessionId = gameSessionId
             self.idempotencyToken = idempotencyToken
+            self.location = location
             self.maximumPlayerSessionCount = maximumPlayerSessionCount
             self.name = name
         }
 
         public func validate(name: String) throws {
+            try self.aliasId?.forEach {}
             try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^alias-\\S+|^arn:.*:alias\\/alias-\\S+")
+            try self.creatorId?.forEach {}
             try self.validate(self.creatorId, name: "creatorId", parent: name, max: 1024)
             try self.validate(self.creatorId, name: "creatorId", parent: name, min: 1)
+            try self.fleetId?.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
             try self.gameProperties?.forEach {
                 try $0.validate(name: "\(name).gameProperties[]")
             }
+            try self.gameProperties?.forEach {}
             try self.validate(self.gameProperties, name: "gameProperties", parent: name, max: 16)
-            try self.validate(self.gameSessionData, name: "gameSessionData", parent: name, max: 4096)
+            try self.gameSessionData?.forEach {}
+            try self.validate(self.gameSessionData, name: "gameSessionData", parent: name, max: 262_144)
             try self.validate(self.gameSessionData, name: "gameSessionData", parent: name, min: 1)
+            try self.gameSessionId?.forEach {}
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, max: 48)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, min: 1)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, pattern: "[a-zA-Z0-9-]+")
+            try self.idempotencyToken?.forEach {}
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 48)
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, min: 1)
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, pattern: "[a-zA-Z0-9-]+")
+            try self.location?.forEach {}
+            try self.validate(self.location, name: "location", parent: name, max: 64)
+            try self.validate(self.location, name: "location", parent: name, min: 1)
+            try self.validate(self.location, name: "location", parent: name, pattern: "^[a-z]+(-([a-z]+|\\d))*")
+            try self.maximumPlayerSessionCount.forEach {}
             try self.validate(self.maximumPlayerSessionCount, name: "maximumPlayerSessionCount", parent: name, min: 0)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -1100,6 +1231,7 @@ extension GameLift {
             case gameSessionData = "GameSessionData"
             case gameSessionId = "GameSessionId"
             case idempotencyToken = "IdempotencyToken"
+            case location = "Location"
             case maximumPlayerSessionCount = "MaximumPlayerSessionCount"
             case name = "Name"
         }
@@ -1119,47 +1251,80 @@ extension GameLift {
     }
 
     public struct CreateGameSessionQueueInput: AWSEncodableShape {
-        /// A list of fleets that can be used to fulfill game session placement requests in the queue. Fleets are identified by either a fleet ARN or a fleet alias ARN. Destinations are listed in default preference order.
+        ///  Information to be added to all events that are related to this game session queue.
+        public let customEventData: String?
+        /// A list of fleets and/or fleet aliases that can be used to fulfill game session placement requests in the queue. Destinations are identified by either a fleet ARN or a fleet alias ARN, and are listed in order of placement preference.
         public let destinations: [GameSessionQueueDestination]?
+        /// A list of locations where a queue is allowed to place new game sessions. Locations are specified in the form of AWS Region codes, such as us-west-2. If this parameter is not set, game sessions can be placed in any queue location.
+        public let filterConfiguration: FilterConfiguration?
         /// A descriptive label that is associated with game session queue. Queue names must be unique within each Region.
         public let name: String
-        /// A collection of latency policies to apply when processing game sessions placement requests with player latency information. Multiple policies are evaluated in order of the maximum latency value, starting with the lowest latency values. With just one policy, the policy is enforced at the start of the game session placement for the duration period. With multiple policies, each policy is enforced consecutively for its duration period. For example, a queue might enforce a 60-second policy followed by a 120-second policy, and then no policy for the remainder of the placement. A player latency policy must set a value for MaximumIndividualPlayerLatencyMilliseconds. If none is set, this API request fails.
+        /// An SNS topic ARN that is set up to receive game session placement notifications. See  Setting up notifications for game session placement.
+        public let notificationTarget: String?
+        /// A set of policies that act as a sliding cap on player latency. FleetIQ works to deliver low latency for most players in a game session. These policies ensure that no individual player can be placed into a game with unreasonably high latency. Use multiple policies to gradually relax latency requirements a step at a time. Multiple policies are applied based on their maximum allowed latency, starting with the lowest value.
         public let playerLatencyPolicies: [PlayerLatencyPolicy]?
+        /// Custom settings to use when prioritizing destinations and locations for game session placements. This configuration replaces the FleetIQ default prioritization process. Priority types that are not explicitly named will be automatically applied at the end of the prioritization process.
+        public let priorityConfiguration: PriorityConfiguration?
         /// A list of labels to assign to the new game session queue resource. Tags are developer-defined key-value pairs. Tagging AWS resources are useful for resource management, access management and cost allocation. For more information, see  Tagging AWS Resources in the AWS General Reference. Once the resource is created, you can use TagResource, UntagResource, and ListTagsForResource to add, remove, and view tags. The maximum tag limit may be lower than stated. See the AWS General Reference for actual tagging limits.
         public let tags: [Tag]?
         /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status.
         public let timeoutInSeconds: Int?
 
-        public init(destinations: [GameSessionQueueDestination]? = nil, name: String, playerLatencyPolicies: [PlayerLatencyPolicy]? = nil, tags: [Tag]? = nil, timeoutInSeconds: Int? = nil) {
+        public init(customEventData: String? = nil, destinations: [GameSessionQueueDestination]? = nil, filterConfiguration: FilterConfiguration? = nil, name: String, notificationTarget: String? = nil, playerLatencyPolicies: [PlayerLatencyPolicy]? = nil, priorityConfiguration: PriorityConfiguration? = nil, tags: [Tag]? = nil, timeoutInSeconds: Int? = nil) {
+            self.customEventData = customEventData
             self.destinations = destinations
+            self.filterConfiguration = filterConfiguration
             self.name = name
+            self.notificationTarget = notificationTarget
             self.playerLatencyPolicies = playerLatencyPolicies
+            self.priorityConfiguration = priorityConfiguration
             self.tags = tags
             self.timeoutInSeconds = timeoutInSeconds
         }
 
         public func validate(name: String) throws {
+            try self.customEventData?.forEach {}
+            try self.validate(self.customEventData, name: "customEventData", parent: name, max: 256)
+            try self.validate(self.customEventData, name: "customEventData", parent: name, min: 0)
+            try self.validate(self.customEventData, name: "customEventData", parent: name, pattern: "[\\s\\S]*")
             try self.destinations?.forEach {
                 try $0.validate(name: "\(name).destinations[]")
             }
+            try self.destinations?.forEach {}
+            try self.filterConfiguration?.validate(name: "\(name).filterConfiguration")
+            try self.filterConfiguration?.forEach {}
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9-]+")
+            try self.notificationTarget?.forEach {}
+            try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, max: 300)
+            try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, min: 0)
+            try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, pattern: "[a-zA-Z0-9:_-]*(\\.fifo)?")
             try self.playerLatencyPolicies?.forEach {
                 try $0.validate(name: "\(name).playerLatencyPolicies[]")
             }
+            try self.playerLatencyPolicies?.forEach {}
+            try self.priorityConfiguration?.validate(name: "\(name).priorityConfiguration")
+            try self.priorityConfiguration?.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
+            try self.timeoutInSeconds?.forEach {}
             try self.validate(self.timeoutInSeconds, name: "timeoutInSeconds", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customEventData = "CustomEventData"
             case destinations = "Destinations"
+            case filterConfiguration = "FilterConfiguration"
             case name = "Name"
+            case notificationTarget = "NotificationTarget"
             case playerLatencyPolicies = "PlayerLatencyPolicies"
+            case priorityConfiguration = "PriorityConfiguration"
             case tags = "Tags"
             case timeoutInSeconds = "TimeoutInSeconds"
         }
@@ -1181,9 +1346,9 @@ extension GameLift {
     public struct CreateMatchmakingConfigurationInput: AWSEncodableShape {
         /// A flag that determines whether a match that was created with this configuration must be accepted by the matched players. To require acceptance, set to TRUE. With this option enabled, matchmaking tickets use the status REQUIRES_ACCEPTANCE to indicate when a completed potential match is waiting for player acceptance.
         public let acceptanceRequired: Bool
-        /// The length of time (in seconds) to wait for players to accept a proposed match, if acceptance is required. If any player rejects the match or fails to accept before the timeout, the tickets are returned to the ticket pool and continue to be evaluated for an acceptable match.
+        /// The length of time (in seconds) to wait for players to accept a proposed match, if acceptance is required.
         public let acceptanceTimeoutSeconds: Int?
-        /// The number of player slots in a match to keep open for future players. For example, assume that the configuration's rule set specifies a match for a single 12-person team. If the additional player count is set to 2, only 10 players are initially selected for the match. This parameter is not used if FlexMatchMode is set to STANDALONE.
+        /// The number of player slots in a match to keep open for future players. For example, if the configuration's rule set specifies a match for a single 12-person team, and the additional player count is set to 2, only 10 players are selected for the match. This parameter is not used if FlexMatchMode is set to STANDALONE.
         public let additionalPlayerCount: Int?
         /// The method used to backfill game sessions that are created with this matchmaking configuration. Specify MANUAL when your game manages backfill requests manually or does not use the match backfill feature. Specify AUTOMATIC to have GameLift create a StartMatchBackfill request whenever a game session has one or more open slots. Learn more about manual and automatic backfill in  Backfill Existing Games with FlexMatch. Automatic backfill is not available when FlexMatchMode is set to STANDALONE.
         public let backfillMode: BackfillMode?
@@ -1193,19 +1358,19 @@ extension GameLift {
         public let description: String?
         /// Indicates whether this matchmaking configuration is being used with GameLift hosting or as a standalone matchmaking solution.     STANDALONE - FlexMatch forms matches and returns match information, including players and team assignments, in a  MatchmakingSucceeded event.    WITH_QUEUE - FlexMatch forms matches and uses the specified GameLift queue to start a game session for the match.
         public let flexMatchMode: FlexMatchMode?
-        /// A set of custom properties for a game session, formatted as key-value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
+        /// A set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
         public let gameProperties: [GameProperty]?
         /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
         public let gameSessionData: String?
-        /// Amazon Resource Name (ARN) that is assigned to a GameLift game session queue resource and uniquely identifies it. ARNs are unique across all Regions. Queues can be located in any Region. Queues are used to start new GameLift-hosted game sessions for matches that are created with this matchmaking configuration. If FlexMatchMode is set to STANDALONE, do not set this parameter.
+        /// The Amazon Resource Name (ARN) that is assigned to a GameLift game session queue resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:&lt;region&gt;::gamesessionqueue/&lt;queue name&gt;. Queues can be located in any Region. Queues are used to start new GameLift-hosted game sessions for matches that are created with this matchmaking configuration. If FlexMatchMode is set to STANDALONE, do not set this parameter.
         public let gameSessionQueueArns: [String]?
-        /// A unique identifier for a matchmaking configuration. This name is used to identify the configuration associated with a matchmaking request or ticket.
+        /// A unique identifier for the matchmaking configuration. This name is used to identify the configuration associated with a matchmaking request or ticket.
         public let name: String
-        /// An SNS topic ARN that is set up to receive matchmaking notifications.
+        /// An SNS topic ARN that is set up to receive matchmaking notifications. See  Setting up notifications for matchmaking for more information.
         public let notificationTarget: String?
         /// The maximum duration, in seconds, that a matchmaking ticket can remain in process before timing out. Requests that fail due to timing out can be resubmitted as needed.
         public let requestTimeoutSeconds: Int
-        /// A unique identifier for a matchmaking rule set to use with this configuration. You can use either the rule set name or ARN value. A matchmaking configuration can only use rule sets that are defined in the same Region.
+        /// A unique identifier for the matchmaking rule set to use with this configuration. You can use either the rule set name or ARN value. A matchmaking configuration can only use rule sets that are defined in the same Region.
         public let ruleSetName: String
         /// A list of labels to assign to the new matchmaking configuration resource. Tags are developer-defined key-value pairs. Tagging AWS resources are useful for resource management, access management and cost allocation. For more information, see  Tagging AWS Resources in the AWS General Reference. Once the resource is created, you can use TagResource, UntagResource, and ListTagsForResource to add, remove, and view tags. The maximum tag limit may be lower than stated. See the AWS General Reference for actual tagging limits.
         public let tags: [Tag]?
@@ -1229,17 +1394,23 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.acceptanceTimeoutSeconds?.forEach {}
             try self.validate(self.acceptanceTimeoutSeconds, name: "acceptanceTimeoutSeconds", parent: name, max: 600)
             try self.validate(self.acceptanceTimeoutSeconds, name: "acceptanceTimeoutSeconds", parent: name, min: 1)
+            try self.additionalPlayerCount?.forEach {}
             try self.validate(self.additionalPlayerCount, name: "additionalPlayerCount", parent: name, min: 0)
+            try self.customEventData?.forEach {}
             try self.validate(self.customEventData, name: "customEventData", parent: name, max: 256)
             try self.validate(self.customEventData, name: "customEventData", parent: name, min: 0)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.gameProperties?.forEach {
                 try $0.validate(name: "\(name).gameProperties[]")
             }
+            try self.gameProperties?.forEach {}
             try self.validate(self.gameProperties, name: "gameProperties", parent: name, max: 16)
+            try self.gameSessionData?.forEach {}
             try self.validate(self.gameSessionData, name: "gameSessionData", parent: name, max: 4096)
             try self.validate(self.gameSessionData, name: "gameSessionData", parent: name, min: 1)
             try self.gameSessionQueueArns?.forEach {
@@ -1247,19 +1418,25 @@ extension GameLift {
                 try validate($0, name: "gameSessionQueueArns[]", parent: name, min: 1)
                 try validate($0, name: "gameSessionQueueArns[]", parent: name, pattern: "[a-zA-Z0-9:/-]+")
             }
+            try self.gameSessionQueueArns?.forEach {}
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
+            try self.notificationTarget?.forEach {}
             try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, max: 300)
             try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, min: 0)
             try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, pattern: "[a-zA-Z0-9:_/-]*(.fifo)?")
+            try self.requestTimeoutSeconds.forEach {}
             try self.validate(self.requestTimeoutSeconds, name: "requestTimeoutSeconds", parent: name, max: 43200)
             try self.validate(self.requestTimeoutSeconds, name: "requestTimeoutSeconds", parent: name, min: 1)
+            try self.ruleSetName.forEach {}
             try self.validate(self.ruleSetName, name: "ruleSetName", parent: name, max: 256)
             try self.validate(self.ruleSetName, name: "ruleSetName", parent: name, min: 1)
             try self.validate(self.ruleSetName, name: "ruleSetName", parent: name, pattern: "[a-zA-Z0-9-\\.]*|^arn:.*:matchmakingruleset\\/[a-zA-Z0-9-\\.]*")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -1297,7 +1474,7 @@ extension GameLift {
     }
 
     public struct CreateMatchmakingRuleSetInput: AWSEncodableShape {
-        /// A unique identifier for a matchmaking rule set. A matchmaking configuration identifies the rule set it uses by this name value. Note that the rule set name is different from the optional name field in the rule set body.
+        /// A unique identifier for the matchmaking rule set. A matchmaking configuration identifies the rule set it uses by this name value. Note that the rule set name is different from the optional name field in the rule set body.
         public let name: String
         /// A collection of matchmaking rules, formatted as a JSON string. Comments are not allowed in JSON, but most elements support a description field.
         public let ruleSetBody: String
@@ -1311,13 +1488,16 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
+            try self.ruleSetBody.forEach {}
             try self.validate(self.ruleSetBody, name: "ruleSetBody", parent: name, max: 65535)
             try self.validate(self.ruleSetBody, name: "ruleSetBody", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -1345,7 +1525,7 @@ extension GameLift {
     public struct CreatePlayerSessionInput: AWSEncodableShape {
         /// A unique identifier for the game session to add a player to.
         public let gameSessionId: String
-        /// Developer-defined information related to a player. Amazon GameLift does not use this data, so it can be formatted as needed for use in the game.
+        /// Developer-defined information related to a player. GameLift does not use this data, so it can be formatted as needed for use in the game.
         public let playerData: String?
         /// A unique identifier for a player. Player IDs are developer-defined.
         public let playerId: String
@@ -1357,11 +1537,14 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.gameSessionId.forEach {}
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, max: 256)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, min: 1)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, pattern: "[a-zA-Z0-9:/-]+")
+            try self.playerData?.forEach {}
             try self.validate(self.playerData, name: "playerData", parent: name, max: 2048)
             try self.validate(self.playerData, name: "playerData", parent: name, min: 1)
+            try self.playerId.forEach {}
             try self.validate(self.playerId, name: "playerId", parent: name, max: 1024)
             try self.validate(self.playerId, name: "playerId", parent: name, min: 1)
         }
@@ -1389,7 +1572,7 @@ extension GameLift {
     public struct CreatePlayerSessionsInput: AWSEncodableShape {
         /// A unique identifier for the game session to add players to.
         public let gameSessionId: String
-        /// Map of string pairs, each specifying a player ID and a set of developer-defined information related to the player. Amazon GameLift does not use this data, so it can be formatted as needed for use in the game. Player data strings for player IDs not included in the PlayerIds parameter are ignored.
+        /// Map of string pairs, each specifying a player ID and a set of developer-defined information related to the player. Amazon GameLift does not use this data, so it can be formatted as needed for use in the game. Any player data strings for player IDs that are not included in the PlayerIds parameter are ignored.
         public let playerDataMap: [String: String]?
         /// List of unique identifiers for the players to be added.
         public let playerIds: [String]
@@ -1401,6 +1584,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.gameSessionId.forEach {}
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, max: 256)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, min: 1)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, pattern: "[a-zA-Z0-9:/-]+")
@@ -1414,6 +1598,7 @@ extension GameLift {
                 try validate($0, name: "playerIds[]", parent: name, max: 1024)
                 try validate($0, name: "playerIds[]", parent: name, min: 1)
             }
+            try self.playerIds.forEach {}
             try self.validate(self.playerIds, name: "playerIds", parent: name, max: 25)
             try self.validate(self.playerIds, name: "playerIds", parent: name, min: 1)
         }
@@ -1441,11 +1626,11 @@ extension GameLift {
     public struct CreateScriptInput: AWSEncodableShape {
         /// A descriptive label that is associated with a script. Script names do not need to be unique. You can use UpdateScript to change this value later.
         public let name: String?
-        /// The Amazon S3 location of your Realtime scripts. The storage location must specify the S3 bucket name, the zip file name (the "key"), and an IAM role ARN that allows Amazon GameLift to access the S3 storage location. The S3 bucket must be in the same Region where you are creating a new script. By default, Amazon GameLift uploads the latest version of the zip file; if you have S3 object versioning turned on, you can use the ObjectVersion parameter to specify an earlier version. To call this operation with a storage location, you must have IAM PassRole permission. For more details on IAM roles and PassRole permissions, see  Set up a role for GameLift access.
+        /// The location of the Amazon S3 bucket where a zipped file containing your Realtime scripts is stored. The storage location must specify the Amazon S3 bucket name, the zip file name (the "key"), and a role ARN that allows Amazon GameLift to access the Amazon S3 storage location. The S3 bucket must be in the same Region where you want to create a new script. By default, Amazon GameLift uploads the latest version of the zip file; if you have S3 object versioning turned on, you can use the ObjectVersion parameter to specify an earlier version.
         public let storageLocation: S3Location?
         /// A list of labels to assign to the new script resource. Tags are developer-defined key-value pairs. Tagging AWS resources are useful for resource management, access management and cost allocation. For more information, see  Tagging AWS Resources in the AWS General Reference. Once the resource is created, you can use TagResource, UntagResource, and ListTagsForResource to add, remove, and view tags. The maximum tag limit may be lower than stated. See the AWS General Reference for actual tagging limits.
         public let tags: [Tag]?
-        /// The version that is associated with a build or script. Version strings do not need to be unique. You can use UpdateScript to change this value later.
+        /// Version information that is associated with a build or script. Version strings do not need to be unique. You can use UpdateScript to change this value later.
         public let version: String?
         /// A data object containing your Realtime scripts and dependencies as a zip file. The zip file can have one or multiple files. Maximum size of a zip file is 5 MB. When using the AWS CLI tool to create a script, this parameter is set to the zip file name. It must be prepended with the string "fileb://" to indicate that the file data is a binary object. For example: --zip-file fileb://myRealtimeScript.zip.
         public let zipFile: Data?
@@ -1459,16 +1644,21 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.storageLocation?.validate(name: "\(name).storageLocation")
+            try self.storageLocation?.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
+            try self.version?.forEach {}
             try self.validate(self.version, name: "version", parent: name, max: 1024)
             try self.validate(self.version, name: "version", parent: name, min: 1)
+            try self.zipFile?.forEach {}
             try self.validate(self.zipFile, name: "zipFile", parent: name, max: 5_000_000)
         }
 
@@ -1495,9 +1685,9 @@ extension GameLift {
     }
 
     public struct CreateVpcPeeringAuthorizationInput: AWSEncodableShape {
-        /// A unique identifier for the AWS account that you use to manage your Amazon GameLift fleet. You can find your Account ID in the AWS Management Console under account settings.
+        /// A unique identifier for the AWS account that you use to manage your GameLift fleet. You can find your Account ID in the AWS Management Console under account settings.
         public let gameLiftAwsAccountId: String
-        /// A unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same Region where your fleet is deployed. Look up a VPC ID using the VPC Dashboard in the AWS Management Console. Learn more about VPC peering in VPC Peering with Amazon GameLift Fleets.
+        /// A unique identifier for a VPC with resources to be accessed by your GameLift fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use the VPC Dashboard in the AWS Management Console. Learn more about VPC peering in VPC Peering with GameLift Fleets.
         public let peerVpcId: String
 
         public init(gameLiftAwsAccountId: String, peerVpcId: String) {
@@ -1506,8 +1696,10 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.gameLiftAwsAccountId.forEach {}
             try self.validate(self.gameLiftAwsAccountId, name: "gameLiftAwsAccountId", parent: name, max: 1024)
             try self.validate(self.gameLiftAwsAccountId, name: "gameLiftAwsAccountId", parent: name, min: 1)
+            try self.peerVpcId.forEach {}
             try self.validate(self.peerVpcId, name: "peerVpcId", parent: name, max: 1024)
             try self.validate(self.peerVpcId, name: "peerVpcId", parent: name, min: 1)
         }
@@ -1532,11 +1724,11 @@ extension GameLift {
     }
 
     public struct CreateVpcPeeringConnectionInput: AWSEncodableShape {
-        /// A unique identifier for a fleet. You can use either the fleet ID or ARN value. This tells Amazon GameLift which GameLift VPC to peer with.
+        /// A unique identifier for the fleet. You can use either the fleet ID or ARN value. This tells Amazon GameLift which GameLift VPC to peer with.
         public let fleetId: String
         /// A unique identifier for the AWS account with the VPC that you want to peer your Amazon GameLift fleet with. You can find your Account ID in the AWS Management Console under account settings.
         public let peerVpcAwsAccountId: String
-        /// A unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same Region where your fleet is deployed. Look up a VPC ID using the VPC Dashboard in the AWS Management Console. Learn more about VPC peering in VPC Peering with Amazon GameLift Fleets.
+        /// A unique identifier for a VPC with resources to be accessed by your GameLift fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use the VPC Dashboard in the AWS Management Console. Learn more about VPC peering in VPC Peering with GameLift Fleets.
         public let peerVpcId: String
 
         public init(fleetId: String, peerVpcAwsAccountId: String, peerVpcId: String) {
@@ -1546,9 +1738,12 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+")
+            try self.peerVpcAwsAccountId.forEach {}
             try self.validate(self.peerVpcAwsAccountId, name: "peerVpcAwsAccountId", parent: name, max: 1024)
             try self.validate(self.peerVpcAwsAccountId, name: "peerVpcAwsAccountId", parent: name, min: 1)
+            try self.peerVpcId.forEach {}
             try self.validate(self.peerVpcId, name: "peerVpcId", parent: name, max: 1024)
             try self.validate(self.peerVpcId, name: "peerVpcId", parent: name, min: 1)
         }
@@ -1573,6 +1768,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.aliasId.forEach {}
             try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^alias-\\S+|^arn:.*:alias\\/alias-\\S+")
         }
 
@@ -1582,7 +1778,7 @@ extension GameLift {
     }
 
     public struct DeleteBuildInput: AWSEncodableShape {
-        /// A unique identifier for a build to delete. You can use either the build ID or ARN value.
+        /// A unique identifier for the build to delete. You can use either the build ID or ARN value.
         public let buildId: String
 
         public init(buildId: String) {
@@ -1590,6 +1786,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.buildId.forEach {}
             try self.validate(self.buildId, name: "buildId", parent: name, pattern: "^build-\\S+|^arn:.*:build\\/build-\\S+")
         }
 
@@ -1599,7 +1796,7 @@ extension GameLift {
     }
 
     public struct DeleteFleetInput: AWSEncodableShape {
-        /// A unique identifier for a fleet to be deleted. You can use either the fleet ID or ARN value.
+        /// A unique identifier for the fleet to be deleted. You can use either the fleet ID or ARN value.
         public let fleetId: String
 
         public init(fleetId: String) {
@@ -1607,11 +1804,63 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
         }
 
         private enum CodingKeys: String, CodingKey {
             case fleetId = "FleetId"
+        }
+    }
+
+    public struct DeleteFleetLocationsInput: AWSEncodableShape {
+        /// A unique identifier for the fleet to delete locations for. You can use either the fleet ID or ARN value.
+        public let fleetId: String
+        /// The list of fleet locations to delete. Specify locations in the form of an AWS Region code, such as us-west-2.
+        public let locations: [String]
+
+        public init(fleetId: String, locations: [String]) {
+            self.fleetId = fleetId
+            self.locations = locations
+        }
+
+        public func validate(name: String) throws {
+            try self.fleetId.forEach {}
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
+            try self.locations.forEach {
+                try validate($0, name: "locations[]", parent: name, max: 64)
+                try validate($0, name: "locations[]", parent: name, min: 1)
+                try validate($0, name: "locations[]", parent: name, pattern: "^[a-z]+(-([a-z]+|\\d))*")
+            }
+            try self.locations.forEach {}
+            try self.validate(self.locations, name: "locations", parent: name, max: 100)
+            try self.validate(self.locations, name: "locations", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetId = "FleetId"
+            case locations = "Locations"
+        }
+    }
+
+    public struct DeleteFleetLocationsOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) that is assigned to a GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:&lt;region&gt;::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
+        public let fleetArn: String?
+        /// A unique identifier for the fleet that location attributes are being deleted for.
+        public let fleetId: String?
+        /// The remote locations that are being deleted, with each location status set to DELETING.
+        public let locationStates: [LocationState]?
+
+        public init(fleetArn: String? = nil, fleetId: String? = nil, locationStates: [LocationState]? = nil) {
+            self.fleetArn = fleetArn
+            self.fleetId = fleetId
+            self.locationStates = locationStates
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetArn = "FleetArn"
+            case fleetId = "FleetId"
+            case locationStates = "LocationStates"
         }
     }
 
@@ -1627,6 +1876,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.gameServerGroupName.forEach {}
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+")
@@ -1660,6 +1910,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9-]+|^arn:.*:gamesessionqueue\\/[a-zA-Z0-9-]+")
@@ -1675,7 +1926,7 @@ extension GameLift {
     }
 
     public struct DeleteMatchmakingConfigurationInput: AWSEncodableShape {
-        /// A unique identifier for a matchmaking configuration. You can use either the configuration name or ARN value.
+        /// A unique identifier for the matchmaking configuration. You can use either the configuration name or ARN value.
         public let name: String
 
         public init(name: String) {
@@ -1683,6 +1934,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9-\\.]*|^arn:.*:matchmakingconfiguration\\/[a-zA-Z0-9-\\.]*")
@@ -1698,7 +1950,7 @@ extension GameLift {
     }
 
     public struct DeleteMatchmakingRuleSetInput: AWSEncodableShape {
-        /// A unique identifier for a matchmaking rule set to be deleted. (Note: The rule set name is different from the optional "name" field in the rule set body.) You can use either the rule set name or ARN value.
+        /// A unique identifier for the matchmaking rule set to be deleted. (Note: The rule set name is different from the optional "name" field in the rule set body.) You can use either the rule set name or ARN value.
         public let name: String
 
         public init(name: String) {
@@ -1706,6 +1958,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9-\\.]*|^arn:.*:matchmakingruleset\\/[a-zA-Z0-9-\\.]*")
@@ -1721,9 +1974,9 @@ extension GameLift {
     }
 
     public struct DeleteScalingPolicyInput: AWSEncodableShape {
-        /// A unique identifier for a fleet to be deleted. You can use either the fleet ID or ARN value.
+        /// A unique identifier for the fleet to be deleted. You can use either the fleet ID or ARN value.
         public let fleetId: String
-        /// A descriptive label that is associated with a scaling policy. Policy names do not need to be unique.
+        /// A descriptive label that is associated with a fleet's scaling policy. Policy names do not need to be unique.
         public let name: String
 
         public init(fleetId: String, name: String) {
@@ -1732,7 +1985,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -1744,7 +1999,7 @@ extension GameLift {
     }
 
     public struct DeleteScriptInput: AWSEncodableShape {
-        /// A unique identifier for a Realtime script to delete. You can use either the script ID or ARN value.
+        /// A unique identifier for the Realtime script to delete. You can use either the script ID or ARN value.
         public let scriptId: String
 
         public init(scriptId: String) {
@@ -1752,6 +2007,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.scriptId.forEach {}
             try self.validate(self.scriptId, name: "scriptId", parent: name, pattern: "^script-\\S+|^arn:.*:script\\/script-\\S+")
         }
 
@@ -1761,9 +2017,9 @@ extension GameLift {
     }
 
     public struct DeleteVpcPeeringAuthorizationInput: AWSEncodableShape {
-        /// A unique identifier for the AWS account that you use to manage your Amazon GameLift fleet. You can find your Account ID in the AWS Management Console under account settings.
+        /// A unique identifier for the AWS account that you use to manage your GameLift fleet. You can find your Account ID in the AWS Management Console under account settings.
         public let gameLiftAwsAccountId: String
-        /// A unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same Region where your fleet is deployed. Look up a VPC ID using the VPC Dashboard in the AWS Management Console. Learn more about VPC peering in VPC Peering with Amazon GameLift Fleets.
+        /// A unique identifier for a VPC with resources to be accessed by your GameLift fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use the VPC Dashboard in the AWS Management Console. Learn more about VPC peering in VPC Peering with GameLift Fleets.
         public let peerVpcId: String
 
         public init(gameLiftAwsAccountId: String, peerVpcId: String) {
@@ -1772,8 +2028,10 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.gameLiftAwsAccountId.forEach {}
             try self.validate(self.gameLiftAwsAccountId, name: "gameLiftAwsAccountId", parent: name, max: 1024)
             try self.validate(self.gameLiftAwsAccountId, name: "gameLiftAwsAccountId", parent: name, min: 1)
+            try self.peerVpcId.forEach {}
             try self.validate(self.peerVpcId, name: "peerVpcId", parent: name, max: 1024)
             try self.validate(self.peerVpcId, name: "peerVpcId", parent: name, min: 1)
         }
@@ -1789,7 +2047,7 @@ extension GameLift {
     }
 
     public struct DeleteVpcPeeringConnectionInput: AWSEncodableShape {
-        /// A unique identifier for a fleet. This fleet specified must match the fleet referenced in the VPC peering connection record. You can use either the fleet ID or ARN value.
+        /// A unique identifier for the fleet. This fleet specified must match the fleet referenced in the VPC peering connection record. You can use either the fleet ID or ARN value.
         public let fleetId: String
         /// A unique identifier for a VPC peering connection. This value is included in the VpcPeeringConnection object, which can be retrieved by calling DescribeVpcPeeringConnections.
         public let vpcPeeringConnectionId: String
@@ -1800,7 +2058,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+")
+            try self.vpcPeeringConnectionId.forEach {}
             try self.validate(self.vpcPeeringConnectionId, name: "vpcPeeringConnectionId", parent: name, max: 1024)
             try self.validate(self.vpcPeeringConnectionId, name: "vpcPeeringConnectionId", parent: name, min: 1)
         }
@@ -1827,9 +2087,11 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.gameServerGroupName.forEach {}
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+")
+            try self.gameServerId.forEach {}
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, max: 128)
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, min: 3)
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, pattern: "[a-zA-Z0-9-\\.]+")
@@ -1850,6 +2112,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.aliasId.forEach {}
             try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^alias-\\S+|^arn:.*:alias\\/alias-\\S+")
         }
 
@@ -1872,7 +2135,7 @@ extension GameLift {
     }
 
     public struct DescribeBuildInput: AWSEncodableShape {
-        /// A unique identifier for a build to retrieve properties for. You can use either the build ID or ARN value.
+        /// A unique identifier for the build to retrieve properties for. You can use either the build ID or ARN value.
         public let buildId: String
 
         public init(buildId: String) {
@@ -1880,6 +2143,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.buildId.forEach {}
             try self.validate(self.buildId, name: "buildId", parent: name, pattern: "^build-\\S+|^arn:.*:build\\/build-\\S+")
         }
 
@@ -1902,15 +2166,26 @@ extension GameLift {
     }
 
     public struct DescribeEC2InstanceLimitsInput: AWSEncodableShape {
-        /// Name of an EC2 instance type that is supported in Amazon GameLift. A fleet instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. Amazon GameLift supports the following EC2 instance types. See Amazon EC2 Instance Types for detailed descriptions. Leave this parameter blank to retrieve limits for all types.
+        /// Name of an EC2 instance type that is supported in GameLift. A fleet instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. Do not specify a value for this parameter to retrieve limits for all instance types.
         public let eC2InstanceType: EC2InstanceType?
+        /// The name of a remote location to request instance limits for, in the form of an AWS Region code such as us-west-2.
+        public let location: String?
 
-        public init(eC2InstanceType: EC2InstanceType? = nil) {
+        public init(eC2InstanceType: EC2InstanceType? = nil, location: String? = nil) {
             self.eC2InstanceType = eC2InstanceType
+            self.location = location
+        }
+
+        public func validate(name: String) throws {
+            try self.location?.forEach {}
+            try self.validate(self.location, name: "location", parent: name, max: 64)
+            try self.validate(self.location, name: "location", parent: name, min: 1)
+            try self.validate(self.location, name: "location", parent: name, pattern: "^[a-z]+(-([a-z]+|\\d))*")
         }
 
         private enum CodingKeys: String, CodingKey {
             case eC2InstanceType = "EC2InstanceType"
+            case location = "Location"
         }
     }
 
@@ -1928,11 +2203,11 @@ extension GameLift {
     }
 
     public struct DescribeFleetAttributesInput: AWSEncodableShape {
-        /// A list of unique fleet identifiers to retrieve attributes for. You can use either the fleet ID or ARN value. To retrieve attributes for all current fleets, do not include this parameter. If the list of fleet identifiers includes fleets that don't currently exist, the request succeeds but no attributes for that fleet are returned.
+        /// A list of unique fleet identifiers to retrieve attributes for. You can use either the fleet ID or ARN value. To retrieve attributes for all current fleets, do not include this parameter.
         public let fleetIds: [String]?
         /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. This parameter is ignored when the request specifies one or a list of fleet IDs.
         public let limit: Int?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value. This parameter is ignored when the request specifies one or a list of fleet IDs.
+        /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value. This parameter is ignored when the request specifies one or a list of fleet IDs.
         public let nextToken: String?
 
         public init(fleetIds: [String]? = nil, limit: Int? = nil, nextToken: String? = nil) {
@@ -1945,8 +2220,11 @@ extension GameLift {
             try self.fleetIds?.forEach {
                 try validate($0, name: "fleetIds[]", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
             }
+            try self.fleetIds?.forEach {}
             try self.validate(self.fleetIds, name: "fleetIds", parent: name, min: 1)
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1961,7 +2239,7 @@ extension GameLift {
     public struct DescribeFleetAttributesOutput: AWSDecodableShape {
         /// A collection of objects containing attribute metadata for each requested fleet ID. Attribute objects are returned only for fleets that currently exist.
         public let fleetAttributes: [FleetAttributes]?
-        /// Token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
+        /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
         public init(fleetAttributes: [FleetAttributes]? = nil, nextToken: String? = nil) {
@@ -1976,11 +2254,11 @@ extension GameLift {
     }
 
     public struct DescribeFleetCapacityInput: AWSEncodableShape {
-        /// A unique identifier for a fleet(s) to retrieve capacity information for. You can use either the fleet ID or ARN value.
+        /// A unique identifier for the fleet(s) to retrieve capacity information for. You can use either the fleet ID or ARN value. Leave this parameter empty to retrieve capacity information for all fleets.
         public let fleetIds: [String]?
         /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. This parameter is ignored when the request specifies one or a list of fleet IDs.
         public let limit: Int?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value. This parameter is ignored when the request specifies one or a list of fleet IDs.
+        /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value. This parameter is ignored when the request specifies one or a list of fleet IDs.
         public let nextToken: String?
 
         public init(fleetIds: [String]? = nil, limit: Int? = nil, nextToken: String? = nil) {
@@ -1993,8 +2271,11 @@ extension GameLift {
             try self.fleetIds?.forEach {
                 try validate($0, name: "fleetIds[]", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
             }
+            try self.fleetIds?.forEach {}
             try self.validate(self.fleetIds, name: "fleetIds", parent: name, min: 1)
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2007,9 +2288,9 @@ extension GameLift {
     }
 
     public struct DescribeFleetCapacityOutput: AWSDecodableShape {
-        /// A collection of objects containing capacity information for each requested fleet ID. Leave this parameter empty to retrieve capacity information for all fleets.
+        /// A collection of objects that contains capacity information for each requested fleet ID. Capacity objects are returned only for fleets that currently exist.
         public let fleetCapacity: [FleetCapacity]?
-        /// Token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
+        /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
         public init(fleetCapacity: [FleetCapacity]? = nil, nextToken: String? = nil) {
@@ -2024,15 +2305,15 @@ extension GameLift {
     }
 
     public struct DescribeFleetEventsInput: AWSEncodableShape {
-        /// Most recent date to retrieve event logs for. If no end time is specified, this call returns entries from the specified start time up to the present. Format is a number expressed in Unix time as milliseconds (ex: "1469498468.057").
+        /// The most recent date to retrieve event logs for. If no end time is specified, this call returns entries from the specified start time up to the present. Format is a number expressed in Unix time as milliseconds (ex: "1469498468.057").
         public let endTime: Date?
-        /// A unique identifier for a fleet to get event logs for. You can use either the fleet ID or ARN value.
+        /// A unique identifier for the fleet to get event logs for. You can use either the fleet ID or ARN value.
         public let fleetId: String
         /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
+        /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
-        /// Earliest date to retrieve event logs for. If no start time is specified, this call returns entries starting from when the fleet was created to the specified end time. Format is a number expressed in Unix time as milliseconds (ex: "1469498468.057").
+        /// The earliest date to retrieve event logs for. If no start time is specified, this call returns entries starting from when the fleet was created to the specified end time. Format is a number expressed in Unix time as milliseconds (ex: "1469498468.057").
         public let startTime: Date?
 
         public init(endTime: Date? = nil, fleetId: String, limit: Int? = nil, nextToken: String? = nil, startTime: Date? = nil) {
@@ -2044,8 +2325,11 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2062,7 +2346,7 @@ extension GameLift {
     public struct DescribeFleetEventsOutput: AWSDecodableShape {
         /// A collection of objects containing event log entries for the specified fleet.
         public let events: [Event]?
-        /// Token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
+        /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
         public init(events: [Event]? = nil, nextToken: String? = nil) {
@@ -2076,42 +2360,213 @@ extension GameLift {
         }
     }
 
-    public struct DescribeFleetPortSettingsInput: AWSEncodableShape {
-        /// A unique identifier for a fleet to retrieve port settings for. You can use either the fleet ID or ARN value.
+    public struct DescribeFleetLocationAttributesInput: AWSEncodableShape {
+        /// A unique identifier for the fleet to retrieve remote locations for. You can use either the fleet ID or ARN value.
         public let fleetId: String
+        /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. This limit is not currently enforced.
+        public let limit: Int?
+        /// A list of fleet locations to retrieve information for. Specify locations in the form of an AWS Region code, such as us-west-2.
+        public let locations: [String]?
+        /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
+        public let nextToken: String?
 
-        public init(fleetId: String) {
+        public init(fleetId: String, limit: Int? = nil, locations: [String]? = nil, nextToken: String? = nil) {
             self.fleetId = fleetId
+            self.limit = limit
+            self.locations = locations
+            self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
+            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
+            try self.limit?.forEach {}
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.locations?.forEach {
+                try validate($0, name: "locations[]", parent: name, max: 64)
+                try validate($0, name: "locations[]", parent: name, min: 1)
+                try validate($0, name: "locations[]", parent: name, pattern: "^[a-z]+(-([a-z]+|\\d))*")
+            }
+            try self.locations?.forEach {}
+            try self.validate(self.locations, name: "locations", parent: name, max: 100)
+            try self.validate(self.locations, name: "locations", parent: name, min: 1)
+            try self.nextToken?.forEach {}
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case fleetId = "FleetId"
+            case limit = "Limit"
+            case locations = "Locations"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeFleetLocationAttributesOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) that is assigned to a GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:&lt;region&gt;::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
+        public let fleetArn: String?
+        /// A unique identifier for the fleet that location attributes were requested for.
+        public let fleetId: String?
+        ///  Location-specific information on the requested fleet's remote locations.
+        public let locationAttributes: [LocationAttributes]?
+        /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
+        public let nextToken: String?
+
+        public init(fleetArn: String? = nil, fleetId: String? = nil, locationAttributes: [LocationAttributes]? = nil, nextToken: String? = nil) {
+            self.fleetArn = fleetArn
+            self.fleetId = fleetId
+            self.locationAttributes = locationAttributes
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetArn = "FleetArn"
+            case fleetId = "FleetId"
+            case locationAttributes = "LocationAttributes"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeFleetLocationCapacityInput: AWSEncodableShape {
+        /// A unique identifier for the fleet to request location capacity for. You can use either the fleet ID or ARN value.
+        public let fleetId: String
+        /// The fleet location to retrieve capacity information for. Specify a location in the form of an AWS Region code, such as us-west-2.
+        public let location: String
+
+        public init(fleetId: String, location: String) {
+            self.fleetId = fleetId
+            self.location = location
+        }
+
+        public func validate(name: String) throws {
+            try self.fleetId.forEach {}
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
+            try self.location.forEach {}
+            try self.validate(self.location, name: "location", parent: name, max: 64)
+            try self.validate(self.location, name: "location", parent: name, min: 1)
+            try self.validate(self.location, name: "location", parent: name, pattern: "^[a-z]+(-([a-z]+|\\d))*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetId = "FleetId"
+            case location = "Location"
+        }
+    }
+
+    public struct DescribeFleetLocationCapacityOutput: AWSDecodableShape {
+        /// Resource capacity information for the requested fleet location. Capacity objects are returned only for fleets and locations that currently exist.
+        public let fleetCapacity: FleetCapacity?
+
+        public init(fleetCapacity: FleetCapacity? = nil) {
+            self.fleetCapacity = fleetCapacity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetCapacity = "FleetCapacity"
+        }
+    }
+
+    public struct DescribeFleetLocationUtilizationInput: AWSEncodableShape {
+        /// A unique identifier for the fleet to request location utilization for. You can use either the fleet ID or ARN value.
+        public let fleetId: String
+        /// The fleet location to retrieve utilization information for. Specify a location in the form of an AWS Region code, such as us-west-2.
+        public let location: String
+
+        public init(fleetId: String, location: String) {
+            self.fleetId = fleetId
+            self.location = location
+        }
+
+        public func validate(name: String) throws {
+            try self.fleetId.forEach {}
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
+            try self.location.forEach {}
+            try self.validate(self.location, name: "location", parent: name, max: 64)
+            try self.validate(self.location, name: "location", parent: name, min: 1)
+            try self.validate(self.location, name: "location", parent: name, pattern: "^[a-z]+(-([a-z]+|\\d))*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetId = "FleetId"
+            case location = "Location"
+        }
+    }
+
+    public struct DescribeFleetLocationUtilizationOutput: AWSDecodableShape {
+        /// Utilization information for the requested fleet location. Utilization objects are returned only for fleets and locations that currently exist.
+        public let fleetUtilization: FleetUtilization?
+
+        public init(fleetUtilization: FleetUtilization? = nil) {
+            self.fleetUtilization = fleetUtilization
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetUtilization = "FleetUtilization"
+        }
+    }
+
+    public struct DescribeFleetPortSettingsInput: AWSEncodableShape {
+        /// A unique identifier for the fleet to retrieve port settings for. You can use either the fleet ID or ARN value.
+        public let fleetId: String
+        /// A remote location to check for status of port setting updates. Use the AWS Region code format, such as us-west-2.
+        public let location: String?
+
+        public init(fleetId: String, location: String? = nil) {
+            self.fleetId = fleetId
+            self.location = location
+        }
+
+        public func validate(name: String) throws {
+            try self.fleetId.forEach {}
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
+            try self.location?.forEach {}
+            try self.validate(self.location, name: "location", parent: name, max: 64)
+            try self.validate(self.location, name: "location", parent: name, min: 1)
+            try self.validate(self.location, name: "location", parent: name, pattern: "^[a-z]+(-([a-z]+|\\d))*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetId = "FleetId"
+            case location = "Location"
         }
     }
 
     public struct DescribeFleetPortSettingsOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) that is assigned to a GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:&lt;region&gt;::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
+        public let fleetArn: String?
+        /// A unique identifier for the fleet that was requested.
+        public let fleetId: String?
         /// The port settings for the requested fleet ID.
         public let inboundPermissions: [IpPermission]?
+        /// The requested fleet location, expressed as an AWS Region code, such as us-west-2.
+        public let location: String?
+        /// The current status of updates to the fleet's port settings in the requested fleet location. A status of PENDING_UPDATE indicates that an update was requested for the fleet but has not yet been completed for the location.
+        public let updateStatus: LocationUpdateStatus?
 
-        public init(inboundPermissions: [IpPermission]? = nil) {
+        public init(fleetArn: String? = nil, fleetId: String? = nil, inboundPermissions: [IpPermission]? = nil, location: String? = nil, updateStatus: LocationUpdateStatus? = nil) {
+            self.fleetArn = fleetArn
+            self.fleetId = fleetId
             self.inboundPermissions = inboundPermissions
+            self.location = location
+            self.updateStatus = updateStatus
         }
 
         private enum CodingKeys: String, CodingKey {
+            case fleetArn = "FleetArn"
+            case fleetId = "FleetId"
             case inboundPermissions = "InboundPermissions"
+            case location = "Location"
+            case updateStatus = "UpdateStatus"
         }
     }
 
     public struct DescribeFleetUtilizationInput: AWSEncodableShape {
-        /// A unique identifier for a fleet(s) to retrieve utilization data for. You can use either the fleet ID or ARN value. To retrieve attributes for all current fleets, do not include this parameter. If the list of fleet identifiers includes fleets that don't currently exist, the request succeeds but no attributes for that fleet are returned.
+        /// A unique identifier for the fleet(s) to retrieve utilization data for. You can use either the fleet ID or ARN value. To retrieve attributes for all current fleets, do not include this parameter.
         public let fleetIds: [String]?
         /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. This parameter is ignored when the request specifies one or a list of fleet IDs.
         public let limit: Int?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value. This parameter is ignored when the request specifies one or a list of fleet IDs.
+        /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value. This parameter is ignored when the request specifies one or a list of fleet IDs.
         public let nextToken: String?
 
         public init(fleetIds: [String]? = nil, limit: Int? = nil, nextToken: String? = nil) {
@@ -2124,8 +2579,11 @@ extension GameLift {
             try self.fleetIds?.forEach {
                 try validate($0, name: "fleetIds[]", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
             }
+            try self.fleetIds?.forEach {}
             try self.validate(self.fleetIds, name: "fleetIds", parent: name, min: 1)
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2138,9 +2596,9 @@ extension GameLift {
     }
 
     public struct DescribeFleetUtilizationOutput: AWSDecodableShape {
-        /// A collection of objects containing utilization information for each requested fleet ID.
+        /// A collection of objects containing utilization information for each requested fleet ID. Utilization objects are returned only for fleets that currently exist.
         public let fleetUtilization: [FleetUtilization]?
-        /// Token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
+        /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
         public init(fleetUtilization: [FleetUtilization]? = nil, nextToken: String? = nil) {
@@ -2163,6 +2621,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.gameServerGroupName.forEach {}
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+")
@@ -2198,9 +2657,11 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.gameServerGroupName.forEach {}
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+")
+            try self.gameServerId.forEach {}
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, max: 128)
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, min: 3)
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, pattern: "[a-zA-Z0-9-\\.]+")
@@ -2217,9 +2678,9 @@ extension GameLift {
         public let gameServerGroupName: String
         /// The EC2 instance IDs that you want to retrieve status on. EC2 instance IDs use a 17-character format, for example: i-1234567890abcdef0. To retrieve all instances in the game server group, leave this parameter empty.
         public let instanceIds: [String]?
-        ///  The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential segments.
+        ///  The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int?
-        ///  A token that indicates the start of the next sequential segment of results. Use the token returned with the previous call to this operation. To start at the beginning of the result set, do not specify a value.
+        ///  A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
 
         public init(gameServerGroupName: String, instanceIds: [String]? = nil, limit: Int? = nil, nextToken: String? = nil) {
@@ -2230,6 +2691,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.gameServerGroupName.forEach {}
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+")
@@ -2238,9 +2700,12 @@ extension GameLift {
                 try validate($0, name: "instanceIds[]", parent: name, min: 19)
                 try validate($0, name: "instanceIds[]", parent: name, pattern: "^i-[0-9a-zA-Z]{17}$")
             }
+            try self.instanceIds?.forEach {}
             try self.validate(self.instanceIds, name: "instanceIds", parent: name, max: 20)
             try self.validate(self.instanceIds, name: "instanceIds", parent: name, min: 1)
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2284,37 +2749,50 @@ extension GameLift {
     }
 
     public struct DescribeGameSessionDetailsInput: AWSEncodableShape {
-        /// A unique identifier for an alias associated with the fleet to retrieve all game sessions for. You can use either the alias ID or ARN value.
+        /// A unique identifier for the alias associated with the fleet to retrieve all game sessions for. You can use either the alias ID or ARN value.
         public let aliasId: String?
-        /// A unique identifier for a fleet to retrieve all game sessions active on the fleet. You can use either the fleet ID or ARN value.
+        /// A unique identifier for the fleet to retrieve all game sessions active on the fleet. You can use either the fleet ID or ARN value.
         public let fleetId: String?
         /// A unique identifier for the game session to retrieve.
         public let gameSessionId: String?
         /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
+        /// A fleet location to get game sessions for. You can specify a fleet's home Region or a remote location. Use the AWS Region code format, such as us-west-2.
+        public let location: String?
+        /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
         /// Game session status to filter results on. Possible game session statuses include ACTIVE, TERMINATED, ACTIVATING and TERMINATING (the last two are transitory).
         public let statusFilter: String?
 
-        public init(aliasId: String? = nil, fleetId: String? = nil, gameSessionId: String? = nil, limit: Int? = nil, nextToken: String? = nil, statusFilter: String? = nil) {
+        public init(aliasId: String? = nil, fleetId: String? = nil, gameSessionId: String? = nil, limit: Int? = nil, location: String? = nil, nextToken: String? = nil, statusFilter: String? = nil) {
             self.aliasId = aliasId
             self.fleetId = fleetId
             self.gameSessionId = gameSessionId
             self.limit = limit
+            self.location = location
             self.nextToken = nextToken
             self.statusFilter = statusFilter
         }
 
         public func validate(name: String) throws {
+            try self.aliasId?.forEach {}
             try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^alias-\\S+|^arn:.*:alias\\/alias-\\S+")
+            try self.fleetId?.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
+            try self.gameSessionId?.forEach {}
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, max: 256)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, min: 1)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, pattern: "[a-zA-Z0-9:/-]+")
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.location?.forEach {}
+            try self.validate(self.location, name: "location", parent: name, max: 64)
+            try self.validate(self.location, name: "location", parent: name, min: 1)
+            try self.validate(self.location, name: "location", parent: name, pattern: "^[a-z]+(-([a-z]+|\\d))*")
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.statusFilter?.forEach {}
             try self.validate(self.statusFilter, name: "statusFilter", parent: name, max: 1024)
             try self.validate(self.statusFilter, name: "statusFilter", parent: name, min: 1)
         }
@@ -2324,15 +2802,16 @@ extension GameLift {
             case fleetId = "FleetId"
             case gameSessionId = "GameSessionId"
             case limit = "Limit"
+            case location = "Location"
             case nextToken = "NextToken"
             case statusFilter = "StatusFilter"
         }
     }
 
     public struct DescribeGameSessionDetailsOutput: AWSDecodableShape {
-        /// A collection of objects containing game session properties and the protection policy currently in force for each session matching the request.
+        /// A collection of properties for each game session that matches the request.
         public let gameSessionDetails: [GameSessionDetail]?
-        /// Token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
+        /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
         public init(gameSessionDetails: [GameSessionDetail]? = nil, nextToken: String? = nil) {
@@ -2355,6 +2834,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.placementId.forEach {}
             try self.validate(self.placementId, name: "placementId", parent: name, max: 48)
             try self.validate(self.placementId, name: "placementId", parent: name, min: 1)
             try self.validate(self.placementId, name: "placementId", parent: name, pattern: "[a-zA-Z0-9-]+")
@@ -2393,12 +2873,15 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.names?.forEach {
                 try validate($0, name: "names[]", parent: name, max: 256)
                 try validate($0, name: "names[]", parent: name, min: 1)
                 try validate($0, name: "names[]", parent: name, pattern: "[a-zA-Z0-9-]+|^arn:.*:gamesessionqueue\\/[a-zA-Z0-9-]+")
             }
+            try self.names?.forEach {}
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2428,37 +2911,50 @@ extension GameLift {
     }
 
     public struct DescribeGameSessionsInput: AWSEncodableShape {
-        /// A unique identifier for an alias associated with the fleet to retrieve all game sessions for. You can use either the alias ID or ARN value.
+        /// A unique identifier for the alias associated with the fleet to retrieve game sessions for. You can use either the alias ID or ARN value.
         public let aliasId: String?
-        /// A unique identifier for a fleet to retrieve all game sessions for. You can use either the fleet ID or ARN value.
+        /// A unique identifier for the fleet to retrieve game sessions for. You can use either the fleet ID or ARN value.
         public let fleetId: String?
         /// A unique identifier for the game session to retrieve.
         public let gameSessionId: String?
         /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
+        /// A fleet location to get game session details for. You can specify a fleet's home Region or a remote location. Use the AWS Region code format, such as us-west-2.
+        public let location: String?
+        /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
-        /// Game session status to filter results on. Possible game session statuses include ACTIVE, TERMINATED, ACTIVATING, and TERMINATING (the last two are transitory).
+        /// Game session status to filter results on. You can filter on the following states: ACTIVE, TERMINATED, ACTIVATING, and TERMINATING. The last two are transitory and used for only very brief periods of time.
         public let statusFilter: String?
 
-        public init(aliasId: String? = nil, fleetId: String? = nil, gameSessionId: String? = nil, limit: Int? = nil, nextToken: String? = nil, statusFilter: String? = nil) {
+        public init(aliasId: String? = nil, fleetId: String? = nil, gameSessionId: String? = nil, limit: Int? = nil, location: String? = nil, nextToken: String? = nil, statusFilter: String? = nil) {
             self.aliasId = aliasId
             self.fleetId = fleetId
             self.gameSessionId = gameSessionId
             self.limit = limit
+            self.location = location
             self.nextToken = nextToken
             self.statusFilter = statusFilter
         }
 
         public func validate(name: String) throws {
+            try self.aliasId?.forEach {}
             try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^alias-\\S+|^arn:.*:alias\\/alias-\\S+")
+            try self.fleetId?.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
+            try self.gameSessionId?.forEach {}
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, max: 256)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, min: 1)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, pattern: "[a-zA-Z0-9:/-]+")
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.location?.forEach {}
+            try self.validate(self.location, name: "location", parent: name, max: 64)
+            try self.validate(self.location, name: "location", parent: name, min: 1)
+            try self.validate(self.location, name: "location", parent: name, pattern: "^[a-z]+(-([a-z]+|\\d))*")
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.statusFilter?.forEach {}
             try self.validate(self.statusFilter, name: "statusFilter", parent: name, max: 1024)
             try self.validate(self.statusFilter, name: "statusFilter", parent: name, min: 1)
         }
@@ -2468,15 +2964,16 @@ extension GameLift {
             case fleetId = "FleetId"
             case gameSessionId = "GameSessionId"
             case limit = "Limit"
+            case location = "Location"
             case nextToken = "NextToken"
             case statusFilter = "StatusFilter"
         }
     }
 
     public struct DescribeGameSessionsOutput: AWSDecodableShape {
-        /// A collection of objects containing game session properties for each session matching the request.
+        /// A collection of properties for each game session that matches the request.
         public let gameSessions: [GameSession]?
-        /// Token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
+        /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
         public init(gameSessions: [GameSession]? = nil, nextToken: String? = nil) {
@@ -2491,26 +2988,37 @@ extension GameLift {
     }
 
     public struct DescribeInstancesInput: AWSEncodableShape {
-        /// A unique identifier for a fleet to retrieve instance information for. You can use either the fleet ID or ARN value.
+        /// A unique identifier for the fleet to retrieve instance information for. You can use either the fleet ID or ARN value.
         public let fleetId: String
         /// A unique identifier for an instance to retrieve. Specify an instance ID or leave blank to retrieve all instances in the fleet.
         public let instanceId: String?
         /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
+        /// The name of a location to retrieve instance information for, in the form of an AWS Region code such as us-west-2.
+        public let location: String?
+        /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
 
-        public init(fleetId: String, instanceId: String? = nil, limit: Int? = nil, nextToken: String? = nil) {
+        public init(fleetId: String, instanceId: String? = nil, limit: Int? = nil, location: String? = nil, nextToken: String? = nil) {
             self.fleetId = fleetId
             self.instanceId = instanceId
             self.limit = limit
+            self.location = location
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
+            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
+            try self.instanceId?.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "[a-zA-Z0-9\\.-]+")
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.location?.forEach {}
+            try self.validate(self.location, name: "location", parent: name, max: 64)
+            try self.validate(self.location, name: "location", parent: name, min: 1)
+            try self.validate(self.location, name: "location", parent: name, pattern: "^[a-z]+(-([a-z]+|\\d))*")
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2519,6 +3027,7 @@ extension GameLift {
             case fleetId = "FleetId"
             case instanceId = "InstanceId"
             case limit = "Limit"
+            case location = "Location"
             case nextToken = "NextToken"
         }
     }
@@ -2526,7 +3035,7 @@ extension GameLift {
     public struct DescribeInstancesOutput: AWSDecodableShape {
         /// A collection of objects containing properties for each instance returned.
         public let instances: [Instance]?
-        /// Token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
+        /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
         public init(instances: [Instance]? = nil, nextToken: String? = nil) {
@@ -2543,11 +3052,11 @@ extension GameLift {
     public struct DescribeMatchmakingConfigurationsInput: AWSEncodableShape {
         /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. This parameter is limited to 10.
         public let limit: Int?
-        /// A unique identifier for a matchmaking configuration(s) to retrieve. You can use either the configuration name or ARN value. To request all existing configurations, leave this parameter empty.
+        /// A unique identifier for the matchmaking configuration(s) to retrieve. You can use either the configuration name or ARN value. To request all existing configurations, leave this parameter empty.
         public let names: [String]?
         /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
-        /// A unique identifier for a matchmaking rule set. You can use either the rule set name or ARN value. Use this parameter to retrieve all matchmaking configurations that use this rule set.
+        /// A unique identifier for the matchmaking rule set. You can use either the rule set name or ARN value. Use this parameter to retrieve all matchmaking configurations that use this rule set.
         public let ruleSetName: String?
 
         public init(limit: Int? = nil, names: [String]? = nil, nextToken: String? = nil, ruleSetName: String? = nil) {
@@ -2558,14 +3067,18 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.names?.forEach {
                 try validate($0, name: "names[]", parent: name, max: 256)
                 try validate($0, name: "names[]", parent: name, min: 1)
                 try validate($0, name: "names[]", parent: name, pattern: "[a-zA-Z0-9-\\.]*|^arn:.*:matchmakingconfiguration\\/[a-zA-Z0-9-\\.]*")
             }
+            try self.names?.forEach {}
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.ruleSetName?.forEach {}
             try self.validate(self.ruleSetName, name: "ruleSetName", parent: name, max: 256)
             try self.validate(self.ruleSetName, name: "ruleSetName", parent: name, min: 1)
             try self.validate(self.ruleSetName, name: "ruleSetName", parent: name, pattern: "[a-zA-Z0-9-\\.]*|^arn:.*:matchmakingruleset\\/[a-zA-Z0-9-\\.]*")
@@ -2609,6 +3122,7 @@ extension GameLift {
                 try validate($0, name: "ticketIds[]", parent: name, max: 128)
                 try validate($0, name: "ticketIds[]", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
             }
+            try self.ticketIds.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2644,6 +3158,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 10)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.names?.forEach {
@@ -2651,8 +3166,10 @@ extension GameLift {
                 try validate($0, name: "names[]", parent: name, min: 1)
                 try validate($0, name: "names[]", parent: name, pattern: "[a-zA-Z0-9-\\.]*|^arn:.*:matchmakingruleset\\/[a-zA-Z0-9-\\.]*")
             }
+            try self.names?.forEach {}
             try self.validate(self.names, name: "names", parent: name, max: 10)
             try self.validate(self.names, name: "names", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2686,7 +3203,7 @@ extension GameLift {
         public let gameSessionId: String?
         /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. If a player session ID is specified, this parameter is ignored.
         public let limit: Int?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value. If a player session ID is specified, this parameter is ignored.
+        /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value. If a player session ID is specified, this parameter is ignored.
         public let nextToken: String?
         /// A unique identifier for a player to retrieve player sessions for.
         public let playerId: String?
@@ -2705,15 +3222,21 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.gameSessionId?.forEach {}
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, max: 256)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, min: 1)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, pattern: "[a-zA-Z0-9:/-]+")
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.playerId?.forEach {}
             try self.validate(self.playerId, name: "playerId", parent: name, max: 1024)
             try self.validate(self.playerId, name: "playerId", parent: name, min: 1)
+            try self.playerSessionId?.forEach {}
             try self.validate(self.playerSessionId, name: "playerSessionId", parent: name, pattern: "^psess-\\S+")
+            try self.playerSessionStatusFilter?.forEach {}
             try self.validate(self.playerSessionStatusFilter, name: "playerSessionStatusFilter", parent: name, max: 1024)
             try self.validate(self.playerSessionStatusFilter, name: "playerSessionStatusFilter", parent: name, min: 1)
         }
@@ -2729,7 +3252,7 @@ extension GameLift {
     }
 
     public struct DescribePlayerSessionsOutput: AWSDecodableShape {
-        /// Token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
+        /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
         /// A collection of objects containing properties for each player session that matches the request.
         public let playerSessions: [PlayerSession]?
@@ -2746,7 +3269,7 @@ extension GameLift {
     }
 
     public struct DescribeRuntimeConfigurationInput: AWSEncodableShape {
-        /// A unique identifier for a fleet to get the runtime configuration for. You can use either the fleet ID or ARN value.
+        /// A unique identifier for the fleet to get the runtime configuration for. You can use either the fleet ID or ARN value.
         public let fleetId: String
 
         public init(fleetId: String) {
@@ -2754,6 +3277,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
         }
 
@@ -2763,7 +3287,7 @@ extension GameLift {
     }
 
     public struct DescribeRuntimeConfigurationOutput: AWSDecodableShape {
-        /// Instructions describing how server processes should be launched and maintained on each instance in the fleet.
+        /// Instructions that describe how server processes should be launched and maintained on each instance in the fleet.
         public let runtimeConfiguration: RuntimeConfiguration?
 
         public init(runtimeConfiguration: RuntimeConfiguration? = nil) {
@@ -2776,25 +3300,35 @@ extension GameLift {
     }
 
     public struct DescribeScalingPoliciesInput: AWSEncodableShape {
-        /// A unique identifier for a fleet to retrieve scaling policies for. You can use either the fleet ID or ARN value.
+        /// A unique identifier for the fleet to retrieve scaling policies for. You can use either the fleet ID or ARN value.
         public let fleetId: String
         /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
+        ///  CONTENT TODO
+        public let location: String?
+        /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
         /// Scaling policy status to filter results on. A scaling policy is only in force when in an ACTIVE status.    ACTIVE -- The scaling policy is currently in force.    UPDATEREQUESTED -- A request to update the scaling policy has been received.    UPDATING -- A change is being made to the scaling policy.    DELETEREQUESTED -- A request to delete the scaling policy has been received.    DELETING -- The scaling policy is being deleted.    DELETED -- The scaling policy has been deleted.    ERROR -- An error occurred in creating the policy. It should be removed and recreated.
         public let statusFilter: ScalingStatusType?
 
-        public init(fleetId: String, limit: Int? = nil, nextToken: String? = nil, statusFilter: ScalingStatusType? = nil) {
+        public init(fleetId: String, limit: Int? = nil, location: String? = nil, nextToken: String? = nil, statusFilter: ScalingStatusType? = nil) {
             self.fleetId = fleetId
             self.limit = limit
+            self.location = location
             self.nextToken = nextToken
             self.statusFilter = statusFilter
         }
 
         public func validate(name: String) throws {
+            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.location?.forEach {}
+            try self.validate(self.location, name: "location", parent: name, max: 64)
+            try self.validate(self.location, name: "location", parent: name, min: 1)
+            try self.validate(self.location, name: "location", parent: name, pattern: "^[a-z]+(-([a-z]+|\\d))*")
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2802,13 +3336,14 @@ extension GameLift {
         private enum CodingKeys: String, CodingKey {
             case fleetId = "FleetId"
             case limit = "Limit"
+            case location = "Location"
             case nextToken = "NextToken"
             case statusFilter = "StatusFilter"
         }
     }
 
     public struct DescribeScalingPoliciesOutput: AWSDecodableShape {
-        /// Token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
+        /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
         /// A collection of objects containing the scaling policies matching the request.
         public let scalingPolicies: [ScalingPolicy]?
@@ -2825,7 +3360,7 @@ extension GameLift {
     }
 
     public struct DescribeScriptInput: AWSEncodableShape {
-        /// A unique identifier for a Realtime script to retrieve properties for. You can use either the script ID or ARN value.
+        /// A unique identifier for the Realtime script to retrieve properties for. You can use either the script ID or ARN value.
         public let scriptId: String
 
         public init(scriptId: String) {
@@ -2833,6 +3368,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.scriptId.forEach {}
             try self.validate(self.scriptId, name: "scriptId", parent: name, pattern: "^script-\\S+|^arn:.*:script\\/script-\\S+")
         }
 
@@ -2872,7 +3408,7 @@ extension GameLift {
     }
 
     public struct DescribeVpcPeeringConnectionsInput: AWSEncodableShape {
-        /// A unique identifier for a fleet. You can use either the fleet ID or ARN value.
+        /// A unique identifier for the fleet. You can use either the fleet ID or ARN value.
         public let fleetId: String?
 
         public init(fleetId: String? = nil) {
@@ -2880,6 +3416,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.fleetId?.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+")
         }
 
@@ -2902,7 +3439,7 @@ extension GameLift {
     }
 
     public struct DesiredPlayerSession: AWSEncodableShape {
-        /// Developer-defined information related to a player. Amazon GameLift does not use this data, so it can be formatted as needed for use in the game.
+        /// Developer-defined information related to a player. GameLift does not use this data, so it can be formatted as needed for use in the game.
         public let playerData: String?
         /// A unique identifier for a player to associate with the player session.
         public let playerId: String?
@@ -2913,8 +3450,10 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.playerData?.forEach {}
             try self.validate(self.playerData, name: "playerData", parent: name, max: 2048)
             try self.validate(self.playerData, name: "playerData", parent: name, min: 1)
+            try self.playerId?.forEach {}
             try self.validate(self.playerId, name: "playerId", parent: name, max: 1024)
             try self.validate(self.playerId, name: "playerId", parent: name, min: 1)
         }
@@ -2926,19 +3465,19 @@ extension GameLift {
     }
 
     public struct EC2InstanceCounts: AWSDecodableShape {
-        /// Actual number of active instances in the fleet.
+        /// Actual number of instances that are ready to host game sessions.
         public let active: Int?
-        /// Ideal number of active instances in the fleet.
+        /// Ideal number of active instances. GameLift will always try to maintain the desired number of instances. Capacity is scaled up or down by changing the desired instances.
         public let desired: Int?
-        /// Number of active instances in the fleet that are not currently hosting a game session.
+        /// Number of active instances that are not currently hosting a game session.
         public let idle: Int?
-        /// The maximum value allowed for the fleet's instance count.
+        /// The maximum instance count value allowed.
         public let maximum: Int?
-        /// The minimum value allowed for the fleet's instance count.
+        /// The minimum instance count value allowed.
         public let minimum: Int?
-        /// Number of instances in the fleet that are starting but not yet active.
+        /// Number of instances that are starting but not yet active.
         public let pending: Int?
-        /// Number of instances in the fleet that are no longer active but haven't yet been terminated.
+        /// Number of instances that are no longer active but haven't yet been terminated.
         public let terminating: Int?
 
         public init(active: Int? = nil, desired: Int? = nil, idle: Int? = nil, maximum: Int? = nil, minimum: Int? = nil, pending: Int? = nil, terminating: Int? = nil) {
@@ -2963,28 +3502,32 @@ extension GameLift {
     }
 
     public struct EC2InstanceLimit: AWSDecodableShape {
-        /// Number of instances of the specified type that are currently in use by this AWS account.
+        /// The number of instances for the specified type and location that are currently being used by the AWS account.
         public let currentInstances: Int?
-        /// Name of an EC2 instance type that is supported in Amazon GameLift. A fleet instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. Amazon GameLift supports the following EC2 instance types. See Amazon EC2 Instance Types for detailed descriptions.
+        /// The name of an EC2 instance type. See Amazon EC2 Instance Types for detailed descriptions.
         public let eC2InstanceType: EC2InstanceType?
-        /// Number of instances allowed.
+        /// The number of instances that is allowed for the specified instance type and location.
         public let instanceLimit: Int?
+        /// An AWS Region code, such as us-west-2.
+        public let location: String?
 
-        public init(currentInstances: Int? = nil, eC2InstanceType: EC2InstanceType? = nil, instanceLimit: Int? = nil) {
+        public init(currentInstances: Int? = nil, eC2InstanceType: EC2InstanceType? = nil, instanceLimit: Int? = nil, location: String? = nil) {
             self.currentInstances = currentInstances
             self.eC2InstanceType = eC2InstanceType
             self.instanceLimit = instanceLimit
+            self.location = location
         }
 
         private enum CodingKeys: String, CodingKey {
             case currentInstances = "CurrentInstances"
             case eC2InstanceType = "EC2InstanceType"
             case instanceLimit = "InstanceLimit"
+            case location = "Location"
         }
     }
 
     public struct Event: AWSDecodableShape {
-        /// The type of event being logged.   Fleet creation events (ordered by fleet creation activity):    FLEET_CREATED -- A fleet resource was successfully created with a status of NEW. Event messaging includes the fleet ID.   FLEET_STATE_DOWNLOADING -- Fleet status changed from NEW to DOWNLOADING. The compressed build has started downloading to a fleet instance for installation.    FLEET_BINARY_DOWNLOAD_FAILED -- The build failed to download to the fleet instance.   FLEET_CREATION_EXTRACTING_BUILD – The game server build was successfully downloaded to an instance, and the build files are now being extracted from the uploaded build and saved to an instance. Failure at this stage prevents a fleet from moving to ACTIVE status. Logs for this stage display a list of the files that are extracted and saved on the instance. Access the logs by using the URL in PreSignedLogUrl.   FLEET_CREATION_RUNNING_INSTALLER – The game server build files were successfully extracted, and the Amazon GameLift is now running the build's install script (if one is included). Failure in this stage prevents a fleet from moving to ACTIVE status. Logs for this stage list the installation steps and whether or not the install completed successfully. Access the logs by using the URL in PreSignedLogUrl.    FLEET_CREATION_VALIDATING_RUNTIME_CONFIG -- The build process was successful, and the Amazon GameLift is now verifying that the game server launch paths, which are specified in the fleet's runtime configuration, exist. If any listed launch path exists, Amazon GameLift tries to launch a game server process and waits for the process to report ready. Failures in this stage prevent a fleet from moving to ACTIVE status. Logs for this stage list the launch paths in the runtime configuration and indicate whether each is found. Access the logs by using the URL in PreSignedLogUrl.    FLEET_STATE_VALIDATING -- Fleet status changed from DOWNLOADING to VALIDATING.    FLEET_VALIDATION_LAUNCH_PATH_NOT_FOUND -- Validation of the runtime configuration failed because the executable specified in a launch path does not exist on the instance.   FLEET_STATE_BUILDING -- Fleet status changed from VALIDATING to BUILDING.   FLEET_VALIDATION_EXECUTABLE_RUNTIME_FAILURE -- Validation of the runtime configuration failed because the executable specified in a launch path failed to run on the fleet instance.   FLEET_STATE_ACTIVATING -- Fleet status changed from BUILDING to ACTIVATING.     FLEET_ACTIVATION_FAILED - The fleet failed to successfully complete one of the steps in the fleet activation process. This event code indicates that the game build was successfully downloaded to a fleet instance, built, and validated, but was not able to start a server process. Learn more at  Debug Fleet Creation Issues    FLEET_STATE_ACTIVE -- The fleet's status changed from ACTIVATING to ACTIVE. The fleet is now ready to host game sessions.    VPC peering events:    FLEET_VPC_PEERING_SUCCEEDED -- A VPC peering connection has been established between the VPC for an Amazon GameLift fleet and a VPC in your AWS account.   FLEET_VPC_PEERING_FAILED -- A requested VPC peering connection has failed. Event details and status information (see DescribeVpcPeeringConnections) provide additional detail. A common reason for peering failure is that the two VPCs have overlapping CIDR blocks of IPv4 addresses. To resolve this, change the CIDR block for the VPC in your AWS account. For more information on VPC peering failures, see https://docs.aws.amazon.com/AmazonVPC/latest/PeeringGuide/invalid-peering-configurations.html    FLEET_VPC_PEERING_DELETED -- A VPC peering connection has been successfully deleted.    Spot instance events:     INSTANCE_INTERRUPTED -- A spot instance was interrupted by EC2 with a two-minute notification.    Other fleet events:    FLEET_SCALING_EVENT -- A change was made to the fleet's capacity settings (desired instances, minimum/maximum scaling limits). Event messaging includes the new capacity settings.   FLEET_NEW_GAME_SESSION_PROTECTION_POLICY_UPDATED -- A change was made to the fleet's game session protection policy setting. Event messaging includes both the old and new policy setting.    FLEET_DELETED -- A request to delete a fleet was initiated.    GENERIC_EVENT -- An unspecified event has occurred.
+        /// The type of event being logged.   Fleet creation events (ordered by fleet creation activity):    FLEET_CREATED -- A fleet resource was successfully created with a status of NEW. Event messaging includes the fleet ID.   FLEET_STATE_DOWNLOADING -- Fleet status changed from NEW to DOWNLOADING. The compressed build has started downloading to a fleet instance for installation.    FLEET_BINARY_DOWNLOAD_FAILED -- The build failed to download to the fleet instance.   FLEET_CREATION_EXTRACTING_BUILD – The game server build was successfully downloaded to an instance, and the build files are now being extracted from the uploaded build and saved to an instance. Failure at this stage prevents a fleet from moving to ACTIVE status. Logs for this stage display a list of the files that are extracted and saved on the instance. Access the logs by using the URL in PreSignedLogUrl.   FLEET_CREATION_RUNNING_INSTALLER – The game server build files were successfully extracted, and the GameLift is now running the build's install script (if one is included). Failure in this stage prevents a fleet from moving to ACTIVE status. Logs for this stage list the installation steps and whether or not the install completed successfully. Access the logs by using the URL in PreSignedLogUrl.    FLEET_CREATION_VALIDATING_RUNTIME_CONFIG -- The build process was successful, and the GameLift is now verifying that the game server launch paths, which are specified in the fleet's runtime configuration, exist. If any listed launch path exists, GameLift tries to launch a game server process and waits for the process to report ready. Failures in this stage prevent a fleet from moving to ACTIVE status. Logs for this stage list the launch paths in the runtime configuration and indicate whether each is found. Access the logs by using the URL in PreSignedLogUrl.    FLEET_STATE_VALIDATING -- Fleet status changed from DOWNLOADING to VALIDATING.    FLEET_VALIDATION_LAUNCH_PATH_NOT_FOUND -- Validation of the runtime configuration failed because the executable specified in a launch path does not exist on the instance.   FLEET_STATE_BUILDING -- Fleet status changed from VALIDATING to BUILDING.   FLEET_VALIDATION_EXECUTABLE_RUNTIME_FAILURE -- Validation of the runtime configuration failed because the executable specified in a launch path failed to run on the fleet instance.   FLEET_STATE_ACTIVATING -- Fleet status changed from BUILDING to ACTIVATING.     FLEET_ACTIVATION_FAILED - The fleet failed to successfully complete one of the steps in the fleet activation process. This event code indicates that the game build was successfully downloaded to a fleet instance, built, and validated, but was not able to start a server process. Learn more at  Debug Fleet Creation Issues    FLEET_STATE_ACTIVE -- The fleet's status changed from ACTIVATING to ACTIVE. The fleet is now ready to host game sessions.    VPC peering events:    FLEET_VPC_PEERING_SUCCEEDED -- A VPC peering connection has been established between the VPC for an GameLift fleet and a VPC in your AWS account.   FLEET_VPC_PEERING_FAILED -- A requested VPC peering connection has failed. Event details and status information (see DescribeVpcPeeringConnections) provide additional detail. A common reason for peering failure is that the two VPCs have overlapping CIDR blocks of IPv4 addresses. To resolve this, change the CIDR block for the VPC in your AWS account. For more information on VPC peering failures, see https://docs.aws.amazon.com/AmazonVPC/latest/PeeringGuide/invalid-peering-configurations.html    FLEET_VPC_PEERING_DELETED -- A VPC peering connection has been successfully deleted.    Spot instance events:     INSTANCE_INTERRUPTED -- A spot instance was interrupted by EC2 with a two-minute notification.    Other fleet events:    FLEET_SCALING_EVENT -- A change was made to the fleet's capacity settings (desired instances, minimum/maximum scaling limits). Event messaging includes the new capacity settings.   FLEET_NEW_GAME_SESSION_PROTECTION_POLICY_UPDATED -- A change was made to the fleet's game session protection policy setting. Event messaging includes both the old and new policy setting.    FLEET_DELETED -- A request to delete a fleet was initiated.    GENERIC_EVENT -- An unspecified event has occurred.
         public let eventCode: EventCode?
         /// A unique identifier for a fleet event.
         public let eventId: String?
@@ -2992,7 +3535,7 @@ extension GameLift {
         public let eventTime: Date?
         /// Additional information related to the event.
         public let message: String?
-        /// Location of stored logs with additional detail that is related to the event. This is useful for debugging issues. The URL is valid for 15 minutes. You can also access fleet creation logs through the Amazon GameLift console.
+        /// Location of stored logs with additional detail that is related to the event. This is useful for debugging issues. The URL is valid for 15 minutes. You can also access fleet creation logs through the GameLift console.
         public let preSignedLogUrl: String?
         /// A unique identifier for an event resource, such as a fleet ID.
         public let resourceId: String?
@@ -3016,52 +3559,76 @@ extension GameLift {
         }
     }
 
+    public struct FilterConfiguration: AWSEncodableShape & AWSDecodableShape {
+        ///  A list of locations to allow game session placement in, in the form of AWS Region codes such as us-west-2.
+        public let allowedLocations: [String]?
+
+        public init(allowedLocations: [String]? = nil) {
+            self.allowedLocations = allowedLocations
+        }
+
+        public func validate(name: String) throws {
+            try self.allowedLocations?.forEach {
+                try validate($0, name: "allowedLocations[]", parent: name, max: 64)
+                try validate($0, name: "allowedLocations[]", parent: name, min: 1)
+                try validate($0, name: "allowedLocations[]", parent: name, pattern: "^[a-z]+(-([a-z]+|\\d))*")
+            }
+            try self.allowedLocations?.forEach {}
+            try self.validate(self.allowedLocations, name: "allowedLocations", parent: name, max: 100)
+            try self.validate(self.allowedLocations, name: "allowedLocations", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedLocations = "AllowedLocations"
+        }
+    }
+
     public struct FleetAttributes: AWSDecodableShape {
         ///  The Amazon Resource Name (ARN) associated with the GameLift build resource that is deployed on instances in this fleet. In a GameLift build ARN, the resource ID matches the BuildId value.
         public let buildArn: String?
-        /// A unique identifier for a build.
+        /// A unique identifier for the build resource that is deployed on instances in this fleet.
         public let buildId: String?
         /// Indicates whether a TLS/SSL certificate was generated for the fleet.
         public let certificateConfiguration: CertificateConfiguration?
-        /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
+        /// A time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let creationTime: Date?
-        /// Human-readable description of the fleet.
+        /// A human-readable description of the fleet.
         public let description: String?
-        /// The Amazon Resource Name (ARN) that is assigned to a GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. In a GameLift fleet ARN, the resource ID matches the FleetId value.
+        /// The Amazon Resource Name (ARN) that is assigned to a GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:&lt;region&gt;::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912. In a GameLift fleet ARN, the resource ID matches the FleetId value.
         public let fleetArn: String?
-        /// A unique identifier for a fleet.
+        /// A unique identifier for the fleet.
         public let fleetId: String?
-        /// Indicates whether the fleet uses on-demand or spot instances. A spot instance in use may be interrupted with a two-minute notification.
+        /// The kind of instances, On-Demand or Spot, that this fleet uses.
         public let fleetType: FleetType?
-        /// A unique identifier for an AWS IAM role that manages access to your AWS services.
+        /// A unique identifier for an AWS IAM role that manages access to your AWS services. With an instance role ARN set, any application that runs on an instance in this fleet can assume the role, including install scripts, server processes, and daemons (background processes). Create a role or look up a role's ARN by using the IAM dashboard in the AWS Management Console. Learn more about using on-box credentials for your game servers at  Access external resources from a game server.
         public let instanceRoleArn: String?
-        /// EC2 instance type indicating the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. See Amazon EC2 Instance Types for detailed descriptions.
+        /// The EC2 instance type that determines the computing resources of each instance in the fleet. Instance type defines the CPU, memory, storage, and networking capacity. See Amazon EC2 Instance Types for detailed descriptions.
         public let instanceType: EC2InstanceType?
-        /// Location of default log files. When a server process is shut down, Amazon GameLift captures and stores any log files in this location. These logs are in addition to game session logs; see more on game session logs in the Amazon GameLift Developer Guide. If no default log path for a fleet is specified, Amazon GameLift automatically uploads logs that are stored on each instance at C:\game\logs (for Windows) or /local/game/logs (for Linux). Use the Amazon GameLift console to access stored logs.
+        ///  This parameter is no longer used. Game session log paths are now defined using the GameLift server API ProcessReady() logParameters. See more information in the Server API Reference.
         public let logPaths: [String]?
-        /// Names of metric groups that this fleet is included in. In Amazon CloudWatch, you can view metrics for an individual fleet or aggregated metrics for fleets that are in a fleet metric group. A fleet can be included in only one metric group at a time.
+        /// Name of a metric group that metrics for this fleet are added to. In Amazon CloudWatch, you can view aggregated metrics for fleets that are in a metric group. A fleet can be included in only one metric group at a time.
         public let metricGroups: [String]?
         /// A descriptive label that is associated with a fleet. Fleet names do not need to be unique.
         public let name: String?
-        /// The type of game session protection to set for all new instances started in the fleet.    NoProtection -- The game session can be terminated during a scale-down event.    FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.
+        /// The type of game session protection to set on all new instances that are started in the fleet.    NoProtection -- The game session can be terminated during a scale-down event.    FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.
         public let newGameSessionProtectionPolicy: ProtectionPolicy?
-        /// Operating system of the fleet's computing resources. A fleet's operating system depends on the OS specified for the build that is deployed on this fleet.
+        /// The operating system of the fleet's computing resources. A fleet's operating system is determined by the OS of the build or script that is deployed on this fleet.
         public let operatingSystem: OperatingSystem?
-        /// Fleet policy to limit the number of game sessions an individual player can create over a span of time.
+        /// The fleet policy that limits the number of game sessions an individual player can create over a span of time.
         public let resourceCreationLimitPolicy: ResourceCreationLimitPolicy?
         ///  The Amazon Resource Name (ARN) associated with the GameLift script resource that is deployed on instances in this fleet. In a GameLift script ARN, the resource ID matches the ScriptId value.
         public let scriptArn: String?
-        /// A unique identifier for a Realtime script.
+        /// A unique identifier for the Realtime script resource that is deployed on instances in this fleet.
         public let scriptId: String?
-        /// Game server launch parameters specified for fleets created before 2016-08-04 (or AWS SDK v. 0.12.16). Server launch parameters for fleets created after this date are specified in the fleet's RuntimeConfiguration.
+        ///  This parameter is no longer used. Server launch parameters are now defined using the fleet's RuntimeConfiguration parameter. Requests that use this parameter instead continue to be valid.
         public let serverLaunchParameters: String?
-        /// Path to a game server executable in the fleet's build, specified for fleets created before 2016-08-04 (or AWS SDK v. 0.12.16). Server launch paths for fleets created after this date are specified in the fleet's RuntimeConfiguration.
+        ///  This parameter is no longer used. Server launch paths are now defined using the fleet's RuntimeConfiguration parameter. Requests that use this parameter instead continue to be valid.
         public let serverLaunchPath: String?
-        /// Current status of the fleet. Possible fleet statuses include the following:    NEW -- A new fleet has been defined and desired instances is set to 1.     DOWNLOADING/VALIDATING/BUILDING/ACTIVATING -- Amazon GameLift is setting up the new fleet, creating new instances with the game build or Realtime script and starting server processes.    ACTIVE -- Hosts can now accept game sessions.    ERROR -- An error occurred when downloading, validating, building, or activating the fleet.    DELETING -- Hosts are responding to a delete fleet request.    TERMINATED -- The fleet no longer exists.
+        /// Current status of the fleet. Possible fleet statuses include the following:    NEW -- A new fleet has been defined and desired instances is set to 1.     DOWNLOADING/VALIDATING/BUILDING/ACTIVATING -- GameLift is setting up the new fleet, creating new instances with the game build or Realtime script and starting server processes.    ACTIVE -- Hosts can now accept game sessions.    ERROR -- An error occurred when downloading, validating, building, or activating the fleet.    DELETING -- Hosts are responding to a delete fleet request.    TERMINATED -- The fleet no longer exists.
         public let status: FleetStatus?
-        /// List of fleet activity that have been suspended using StopFleetActions. This includes auto-scaling.
+        /// A list of fleet activity that has been suspended using StopFleetActions. This includes fleet auto-scaling.
         public let stoppedActions: [FleetAction]?
-        /// Time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
+        /// A time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let terminationTime: Date?
 
         public init(buildArn: String? = nil, buildId: String? = nil, certificateConfiguration: CertificateConfiguration? = nil, creationTime: Date? = nil, description: String? = nil, fleetArn: String? = nil, fleetId: String? = nil, fleetType: FleetType? = nil, instanceRoleArn: String? = nil, instanceType: EC2InstanceType? = nil, logPaths: [String]? = nil, metricGroups: [String]? = nil, name: String? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, operatingSystem: OperatingSystem? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, scriptArn: String? = nil, scriptId: String? = nil, serverLaunchParameters: String? = nil, serverLaunchPath: String? = nil, status: FleetStatus? = nil, stoppedActions: [FleetAction]? = nil, terminationTime: Date? = nil) {
@@ -3118,43 +3685,57 @@ extension GameLift {
     }
 
     public struct FleetCapacity: AWSDecodableShape {
-        /// A unique identifier for a fleet.
+        /// The Amazon Resource Name (ARN) that is assigned to a GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:&lt;region&gt;::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
+        public let fleetArn: String?
+        /// A unique identifier for the fleet associated with the location.
         public let fleetId: String?
-        /// Current status of fleet capacity.
+        /// The current instance count and capacity settings for the fleet location.
         public let instanceCounts: EC2InstanceCounts?
-        /// Name of an EC2 instance type that is supported in Amazon GameLift. A fleet instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. Amazon GameLift supports the following EC2 instance types. See Amazon EC2 Instance Types for detailed descriptions.
+        /// The EC2 instance type that is used for all instances in a fleet. The instance type determines the computing resources in use, including CPU, memory, storage, and networking capacity. See Amazon EC2 Instance Types for detailed descriptions.
         public let instanceType: EC2InstanceType?
+        /// The fleet location for the instance count information, expressed as an AWS Region code, such as us-west-2.
+        public let location: String?
 
-        public init(fleetId: String? = nil, instanceCounts: EC2InstanceCounts? = nil, instanceType: EC2InstanceType? = nil) {
+        public init(fleetArn: String? = nil, fleetId: String? = nil, instanceCounts: EC2InstanceCounts? = nil, instanceType: EC2InstanceType? = nil, location: String? = nil) {
+            self.fleetArn = fleetArn
             self.fleetId = fleetId
             self.instanceCounts = instanceCounts
             self.instanceType = instanceType
+            self.location = location
         }
 
         private enum CodingKeys: String, CodingKey {
+            case fleetArn = "FleetArn"
             case fleetId = "FleetId"
             case instanceCounts = "InstanceCounts"
             case instanceType = "InstanceType"
+            case location = "Location"
         }
     }
 
     public struct FleetUtilization: AWSDecodableShape {
-        /// Number of active game sessions currently being hosted on all instances in the fleet.
+        /// The number of active game sessions that are currently being hosted across all instances in the fleet location.
         public let activeGameSessionCount: Int?
-        /// Number of server processes in an ACTIVE status currently running across all instances in the fleet
+        /// The number of server processes in ACTIVE status that are currently running across all instances in the fleet location.
         public let activeServerProcessCount: Int?
-        /// Number of active player sessions currently being hosted on all instances in the fleet.
+        /// The number of active player sessions that are currently being hosted across all instances in the fleet location.
         public let currentPlayerSessionCount: Int?
-        /// A unique identifier for a fleet.
+        /// The Amazon Resource Name (ARN) that is assigned to a GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:&lt;region&gt;::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
+        public let fleetArn: String?
+        /// A unique identifier for the fleet associated with the location.
         public let fleetId: String?
-        /// The maximum number of players allowed across all game sessions currently being hosted on all instances in the fleet.
+        /// The fleet location for the fleet utilization information, expressed as an AWS Region code, such as us-west-2.
+        public let location: String?
+        /// The maximum number of players allowed across all game sessions that are currently being hosted across all instances in the fleet location.
         public let maximumPlayerSessionCount: Int?
 
-        public init(activeGameSessionCount: Int? = nil, activeServerProcessCount: Int? = nil, currentPlayerSessionCount: Int? = nil, fleetId: String? = nil, maximumPlayerSessionCount: Int? = nil) {
+        public init(activeGameSessionCount: Int? = nil, activeServerProcessCount: Int? = nil, currentPlayerSessionCount: Int? = nil, fleetArn: String? = nil, fleetId: String? = nil, location: String? = nil, maximumPlayerSessionCount: Int? = nil) {
             self.activeGameSessionCount = activeGameSessionCount
             self.activeServerProcessCount = activeServerProcessCount
             self.currentPlayerSessionCount = currentPlayerSessionCount
+            self.fleetArn = fleetArn
             self.fleetId = fleetId
+            self.location = location
             self.maximumPlayerSessionCount = maximumPlayerSessionCount
         }
 
@@ -3162,7 +3743,9 @@ extension GameLift {
             case activeGameSessionCount = "ActiveGameSessionCount"
             case activeServerProcessCount = "ActiveServerProcessCount"
             case currentPlayerSessionCount = "CurrentPlayerSessionCount"
+            case fleetArn = "FleetArn"
             case fleetId = "FleetId"
+            case location = "Location"
             case maximumPlayerSessionCount = "MaximumPlayerSessionCount"
         }
     }
@@ -3179,7 +3762,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 32)
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 96)
         }
 
@@ -3247,7 +3832,7 @@ extension GameLift {
         public let autoScalingGroupArn: String?
         /// Indicates how GameLift FleetIQ balances the use of Spot Instances and On-Demand Instances in the game server group. Method options include the following:    SPOT_ONLY - Only Spot Instances are used in the game server group. If Spot Instances are unavailable or not viable for game hosting, the game server group provides no hosting capacity until Spot Instances can again be used. Until then, no new instances are started, and the existing nonviable Spot Instances are terminated (after current gameplay ends) and are not replaced.    SPOT_PREFERRED - (default value) Spot Instances are used whenever available in the game server group. If Spot Instances are unavailable, the game server group continues to provide hosting capacity by falling back to On-Demand Instances. Existing nonviable Spot Instances are terminated (after current gameplay ends) and are replaced with new On-Demand Instances.    ON_DEMAND_ONLY - Only On-Demand Instances are used in the game server group. No Spot Instances are used, even when available, while this balancing strategy is in force.
         public let balancingStrategy: BalancingStrategy?
-        /// A timestamp that indicates when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
+        /// A time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let creationTime: Date?
         /// A generated unique ID for the game server group.
         public let gameServerGroupArn: String?
@@ -3311,8 +3896,10 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.estimatedInstanceWarmup?.forEach {}
             try self.validate(self.estimatedInstanceWarmup, name: "estimatedInstanceWarmup", parent: name, min: 1)
             try self.targetTrackingConfiguration.validate(name: "\(name).targetTrackingConfiguration")
+            try self.targetTrackingConfiguration.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3347,26 +3934,28 @@ extension GameLift {
     }
 
     public struct GameSession: AWSDecodableShape {
-        /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
+        /// A time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let creationTime: Date?
         /// A unique identifier for a player. This ID is used to enforce a resource protection policy (if one exists), that limits the number of game sessions a player can create.
         public let creatorId: String?
         /// Number of players currently in the game session.
         public let currentPlayerSessionCount: Int?
-        /// DNS identifier assigned to the instance that is running the game session. Values have the following format:   TLS-enabled fleets: &lt;unique identifier&gt;.&lt;region identifier&gt;.amazongamelift.com.   Non-TLS-enabled fleets: ec2-&lt;unique identifier&gt;.compute.amazonaws.com. (See Amazon EC2 Instance IP Addressing.)   When connecting to a game session that is running on a TLS-enabled fleet, you must use the DNS name, not the IP address.
+        /// The DNS identifier assigned to the instance that is running the game session. Values have the following format:   TLS-enabled fleets: &lt;unique identifier&gt;.&lt;region identifier&gt;.amazongamelift.com.   Non-TLS-enabled fleets: ec2-&lt;unique identifier&gt;.compute.amazonaws.com. (See Amazon EC2 Instance IP Addressing.)   When connecting to a game session that is running on a TLS-enabled fleet, you must use the DNS name, not the IP address.
         public let dnsName: String?
         ///  The Amazon Resource Name (ARN) associated with the GameLift fleet that this game session is running on.
         public let fleetArn: String?
-        /// A unique identifier for a fleet that the game session is running on.
+        /// A unique identifier for the fleet that the game session is running on.
         public let fleetId: String?
-        /// Set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). You can search for active game sessions based on this custom data with SearchGameSessions.
+        /// A set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session. You can search for active game sessions based on this custom data with SearchGameSessions.
         public let gameProperties: [GameProperty]?
-        /// Set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session).
+        /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session.
         public let gameSessionData: String?
         /// A unique identifier for the game session. A game session ARN has the following format: arn:aws:gamelift:&lt;region&gt;::gamesession/&lt;fleet ID&gt;/&lt;custom ID string or idempotency token&gt;.
         public let gameSessionId: String?
-        /// IP address of the instance that is running the game session. When connecting to a Amazon GameLift game server, a client needs to reference an IP address (or DNS name) and port number.
+        /// The IP address of the game session. To connect to a GameLift game server, an app needs both the IP address and port number.
         public let ipAddress: String?
+        /// The fleet location where the game session is running. This value might specify the fleet's home Region or a remote location. Location is expressed as an AWS Region code such as us-west-2.
+        public let location: String?
         /// Information about the matchmaking process that was used to create the game session. It is in JSON syntax, formatted as a string. In addition the matchmaking configuration used, it contains data on all players assigned to the match, including player attributes and team assignments. For more details on matchmaker data, see Match Data. Matchmaker data is useful when requesting match backfills, and is updated whenever new players are added during a successful backfill (see StartMatchBackfill).
         public let matchmakerData: String?
         /// The maximum number of players that can be connected simultaneously to the game session.
@@ -3375,16 +3964,16 @@ extension GameLift {
         public let name: String?
         /// Indicates whether or not the game session is accepting new players.
         public let playerSessionCreationPolicy: PlayerSessionCreationPolicy?
-        /// Port number for the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number.
+        /// The port number for the game session. To connect to a GameLift game server, an app needs both the IP address and port number.
         public let port: Int?
         /// Current status of the game session. A game session must have an ACTIVE status to have player sessions.
         public let status: GameSessionStatus?
         /// Provides additional information about game session status. INTERRUPTED indicates that the game session was hosted on a spot instance that was reclaimed, causing the active game session to be terminated.
         public let statusReason: GameSessionStatusReason?
-        /// Time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
+        /// A time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let terminationTime: Date?
 
-        public init(creationTime: Date? = nil, creatorId: String? = nil, currentPlayerSessionCount: Int? = nil, dnsName: String? = nil, fleetArn: String? = nil, fleetId: String? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionId: String? = nil, ipAddress: String? = nil, matchmakerData: String? = nil, maximumPlayerSessionCount: Int? = nil, name: String? = nil, playerSessionCreationPolicy: PlayerSessionCreationPolicy? = nil, port: Int? = nil, status: GameSessionStatus? = nil, statusReason: GameSessionStatusReason? = nil, terminationTime: Date? = nil) {
+        public init(creationTime: Date? = nil, creatorId: String? = nil, currentPlayerSessionCount: Int? = nil, dnsName: String? = nil, fleetArn: String? = nil, fleetId: String? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionId: String? = nil, ipAddress: String? = nil, location: String? = nil, matchmakerData: String? = nil, maximumPlayerSessionCount: Int? = nil, name: String? = nil, playerSessionCreationPolicy: PlayerSessionCreationPolicy? = nil, port: Int? = nil, status: GameSessionStatus? = nil, statusReason: GameSessionStatusReason? = nil, terminationTime: Date? = nil) {
             self.creationTime = creationTime
             self.creatorId = creatorId
             self.currentPlayerSessionCount = currentPlayerSessionCount
@@ -3395,6 +3984,7 @@ extension GameLift {
             self.gameSessionData = gameSessionData
             self.gameSessionId = gameSessionId
             self.ipAddress = ipAddress
+            self.location = location
             self.matchmakerData = matchmakerData
             self.maximumPlayerSessionCount = maximumPlayerSessionCount
             self.name = name
@@ -3416,6 +4006,7 @@ extension GameLift {
             case gameSessionData = "GameSessionData"
             case gameSessionId = "GameSessionId"
             case ipAddress = "IpAddress"
+            case location = "Location"
             case matchmakerData = "MatchmakerData"
             case maximumPlayerSessionCount = "MaximumPlayerSessionCount"
             case name = "Name"
@@ -3428,15 +4019,15 @@ extension GameLift {
     }
 
     public struct GameSessionConnectionInfo: AWSDecodableShape {
-        /// DNS identifier assigned to the instance that is running the game session. Values have the following format:   TLS-enabled fleets: &lt;unique identifier&gt;.&lt;region identifier&gt;.amazongamelift.com.   Non-TLS-enabled fleets: ec2-&lt;unique identifier&gt;.compute.amazonaws.com. (See Amazon EC2 Instance IP Addressing.)   When connecting to a game session that is running on a TLS-enabled fleet, you must use the DNS name, not the IP address.
+        /// The DNS identifier assigned to the instance that is running the game session. Values have the following format:   TLS-enabled fleets: &lt;unique identifier&gt;.&lt;region identifier&gt;.amazongamelift.com.   Non-TLS-enabled fleets: ec2-&lt;unique identifier&gt;.compute.amazonaws.com. (See Amazon EC2 Instance IP Addressing.)   When connecting to a game session that is running on a TLS-enabled fleet, you must use the DNS name, not the IP address.
         public let dnsName: String?
-        /// Amazon Resource Name (ARN) that is assigned to a game session and uniquely identifies it.
+        /// A unique identifier for the game session. Use the game session ID.
         public let gameSessionArn: String?
-        /// IP address of the instance that is running the game session. When connecting to a Amazon GameLift game server, a client needs to reference an IP address (or DNS name) and port number.
+        /// The IP address of the game session. To connect to a GameLift game server, an app needs both the IP address and port number.
         public let ipAddress: String?
         /// A collection of player session IDs, one for each player ID that was included in the original matchmaking request.
         public let matchedPlayerSessions: [MatchedPlayerSession]?
-        /// Port number for the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number.
+        /// The port number for the game session. To connect to a GameLift game server, an app needs both the IP address and port number.
         public let port: Int?
 
         public init(dnsName: String? = nil, gameSessionArn: String? = nil, ipAddress: String? = nil, matchedPlayerSessions: [MatchedPlayerSession]? = nil, port: Int? = nil) {
@@ -3474,15 +4065,15 @@ extension GameLift {
     }
 
     public struct GameSessionPlacement: AWSDecodableShape {
-        /// DNS identifier assigned to the instance that is running the game session. Values have the following format:   TLS-enabled fleets: &lt;unique identifier&gt;.&lt;region identifier&gt;.amazongamelift.com.   Non-TLS-enabled fleets: ec2-&lt;unique identifier&gt;.compute.amazonaws.com. (See Amazon EC2 Instance IP Addressing.)   When connecting to a game session that is running on a TLS-enabled fleet, you must use the DNS name, not the IP address.
+        /// The DNS identifier assigned to the instance that is running the game session. Values have the following format:   TLS-enabled fleets: &lt;unique identifier&gt;.&lt;region identifier&gt;.amazongamelift.com.   Non-TLS-enabled fleets: ec2-&lt;unique identifier&gt;.compute.amazonaws.com. (See Amazon EC2 Instance IP Addressing.)   When connecting to a game session that is running on a TLS-enabled fleet, you must use the DNS name, not the IP address.
         public let dnsName: String?
         /// Time stamp indicating when this request was completed, canceled, or timed out.
         public let endTime: Date?
-        /// Set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session).
+        /// A set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session).
         public let gameProperties: [GameProperty]?
         /// Identifier for the game session created by this placement request. This value is set once the new game session is placed (placement status is FULFILLED). This identifier is unique across all Regions. You can use this value as a GameSessionId value as needed.
         public let gameSessionArn: String?
-        /// Set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session).
+        /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session).
         public let gameSessionData: String?
         /// A unique identifier for the game session. This value is set once the new game session is placed (placement status is FULFILLED).
         public let gameSessionId: String?
@@ -3492,7 +4083,7 @@ extension GameLift {
         public let gameSessionQueueName: String?
         /// Name of the Region where the game session created by this placement request is running. This value is set once the new game session is placed (placement status is FULFILLED).
         public let gameSessionRegion: String?
-        /// IP address of the instance that is running the game session. When connecting to a Amazon GameLift game server, a client needs to reference an IP address (or DNS name) and port number. This value is set once the new game session is placed (placement status is FULFILLED).
+        /// The IP address of the game session. To connect to a GameLift game server, an app needs both the IP address and port number. This value is set once the new game session is placed (placement status is FULFILLED).
         public let ipAddress: String?
         /// Information on the matchmaking process for this game. Data is in JSON syntax, formatted as a string. It identifies the matchmaking configuration used to create the match, and contains data on all players assigned to the match, including player attributes and team assignments. For more details on matchmaker data, see Match Data.
         public let matchmakerData: String?
@@ -3502,9 +4093,9 @@ extension GameLift {
         public let placedPlayerSessions: [PlacedPlayerSession]?
         /// A unique identifier for a game session placement.
         public let placementId: String?
-        /// Set of values, expressed in milliseconds, indicating the amount of latency that a player experiences when connected to AWS Regions.
+        /// A set of values, expressed in milliseconds, that indicates the amount of latency that a player experiences when connected to AWS Regions.
         public let playerLatencies: [PlayerLatency]?
-        /// Port number for the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number. This value is set once the new game session is placed (placement status is FULFILLED).
+        /// The port number for the game session. To connect to a GameLift game server, an app needs both the IP address and port number. This value is set once the new game session is placed (placement status is FULFILLED).
         public let port: Int?
         /// Time stamp indicating when this request was placed in the queue. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let startTime: Date?
@@ -3555,30 +4146,46 @@ extension GameLift {
     }
 
     public struct GameSessionQueue: AWSDecodableShape {
-        /// A list of fleets that can be used to fulfill game session placement requests in the queue. Fleets are identified by either a fleet ARN or a fleet alias ARN. Destinations are listed in default preference order.
+        ///  Information that is added to all events that are related to this game session queue.
+        public let customEventData: String?
+        /// A list of fleets and/or fleet aliases that can be used to fulfill game session placement requests in the queue. Destinations are identified by either a fleet ARN or a fleet alias ARN, and are listed in order of placement preference.
         public let destinations: [GameSessionQueueDestination]?
-        /// Amazon Resource Name (ARN) that is assigned to a GameLift game session queue resource and uniquely identifies it. ARNs are unique across all Regions. In a GameLift game session queue ARN, the resource ID matches the Name value.
+        /// A list of locations where a queue is allowed to place new game sessions. Locations are specified in the form of AWS Region codes, such as us-west-2. If this parameter is not set, game sessions can be placed in any queue location.
+        public let filterConfiguration: FilterConfiguration?
+        /// The Amazon Resource Name (ARN) that is assigned to a GameLift game session queue resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:&lt;region&gt;::gamesessionqueue/&lt;queue name&gt;. In a GameLift game session queue ARN, the resource ID matches the Name value.
         public let gameSessionQueueArn: String?
         /// A descriptive label that is associated with game session queue. Queue names must be unique within each Region.
         public let name: String?
-        /// A collection of latency policies to apply when processing game sessions placement requests with player latency information. Multiple policies are evaluated in order of the maximum latency value, starting with the lowest latency values. With just one policy, the policy is enforced at the start of the game session placement for the duration period. With multiple policies, each policy is enforced consecutively for its duration period. For example, a queue might enforce a 60-second policy followed by a 120-second policy, and then no policy for the remainder of the placement.
+        /// An SNS topic ARN that is set up to receive game session placement notifications. See  Setting up notifications for game session placement.
+        public let notificationTarget: String?
+        /// A set of policies that act as a sliding cap on player latency. FleetIQ works to deliver low latency for most players in a game session. These policies ensure that no individual player can be placed into a game with unreasonably high latency. Use multiple policies to gradually relax latency requirements a step at a time. Multiple policies are applied based on their maximum allowed latency, starting with the lowest value.
         public let playerLatencyPolicies: [PlayerLatencyPolicy]?
+        /// Custom settings to use when prioritizing destinations and locations for game session placements. This configuration replaces the FleetIQ default prioritization process. Priority types that are not explicitly named will be automatically applied at the end of the prioritization process.
+        public let priorityConfiguration: PriorityConfiguration?
         /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status.
         public let timeoutInSeconds: Int?
 
-        public init(destinations: [GameSessionQueueDestination]? = nil, gameSessionQueueArn: String? = nil, name: String? = nil, playerLatencyPolicies: [PlayerLatencyPolicy]? = nil, timeoutInSeconds: Int? = nil) {
+        public init(customEventData: String? = nil, destinations: [GameSessionQueueDestination]? = nil, filterConfiguration: FilterConfiguration? = nil, gameSessionQueueArn: String? = nil, name: String? = nil, notificationTarget: String? = nil, playerLatencyPolicies: [PlayerLatencyPolicy]? = nil, priorityConfiguration: PriorityConfiguration? = nil, timeoutInSeconds: Int? = nil) {
+            self.customEventData = customEventData
             self.destinations = destinations
+            self.filterConfiguration = filterConfiguration
             self.gameSessionQueueArn = gameSessionQueueArn
             self.name = name
+            self.notificationTarget = notificationTarget
             self.playerLatencyPolicies = playerLatencyPolicies
+            self.priorityConfiguration = priorityConfiguration
             self.timeoutInSeconds = timeoutInSeconds
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customEventData = "CustomEventData"
             case destinations = "Destinations"
+            case filterConfiguration = "FilterConfiguration"
             case gameSessionQueueArn = "GameSessionQueueArn"
             case name = "Name"
+            case notificationTarget = "NotificationTarget"
             case playerLatencyPolicies = "PlayerLatencyPolicies"
+            case priorityConfiguration = "PriorityConfiguration"
             case timeoutInSeconds = "TimeoutInSeconds"
         }
     }
@@ -3592,6 +4199,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.destinationArn?.forEach {}
             try self.validate(self.destinationArn, name: "destinationArn", parent: name, max: 256)
             try self.validate(self.destinationArn, name: "destinationArn", parent: name, min: 1)
             try self.validate(self.destinationArn, name: "destinationArn", parent: name, pattern: "[a-zA-Z0-9:/-]+")
@@ -3611,6 +4219,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.gameSessionId.forEach {}
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, max: 256)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, min: 1)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, pattern: "[a-zA-Z0-9:/-]+")
@@ -3635,9 +4244,9 @@ extension GameLift {
     }
 
     public struct GetInstanceAccessInput: AWSEncodableShape {
-        /// A unique identifier for a fleet that contains the instance you want access to. You can use either the fleet ID or ARN value. The fleet can be in any of the following statuses: ACTIVATING, ACTIVE, or ERROR. Fleets with an ERROR status may be accessible for a short time before they are deleted.
+        /// A unique identifier for the fleet that contains the instance you want access to. You can use either the fleet ID or ARN value. The fleet can be in any of the following statuses: ACTIVATING, ACTIVE, or ERROR. Fleets with an ERROR status may be accessible for a short time before they are deleted.
         public let fleetId: String
-        /// A unique identifier for an instance you want to get access to. You can access an instance in any status.
+        /// A unique identifier for the instance you want to get access to. You can access an instance in any status.
         public let instanceId: String
 
         public init(fleetId: String, instanceId: String) {
@@ -3646,7 +4255,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "[a-zA-Z0-9\\.-]+")
         }
 
@@ -3670,29 +4281,35 @@ extension GameLift {
     }
 
     public struct Instance: AWSDecodableShape {
-        /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
+        /// A time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let creationTime: Date?
-        /// DNS identifier assigned to the instance that is running the game session. Values have the following format:   TLS-enabled fleets: &lt;unique identifier&gt;.&lt;region identifier&gt;.amazongamelift.com.   Non-TLS-enabled fleets: ec2-&lt;unique identifier&gt;.compute.amazonaws.com. (See Amazon EC2 Instance IP Addressing.)   When connecting to a game session that is running on a TLS-enabled fleet, you must use the DNS name, not the IP address.
+        /// The DNS identifier assigned to the instance that is running the game session. Values have the following format:   TLS-enabled fleets: &lt;unique identifier&gt;.&lt;region identifier&gt;.amazongamelift.com.   Non-TLS-enabled fleets: ec2-&lt;unique identifier&gt;.compute.amazonaws.com. (See Amazon EC2 Instance IP Addressing.)   When connecting to a game session that is running on a TLS-enabled fleet, you must use the DNS name, not the IP address.
         public let dnsName: String?
-        /// A unique identifier for a fleet that the instance is in.
+        /// The Amazon Resource Name (ARN) that is assigned to a GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:&lt;region&gt;::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
+        public let fleetArn: String?
+        /// A unique identifier for the fleet that the instance is in.
         public let fleetId: String?
-        /// A unique identifier for an instance.
+        /// A unique identifier for the instance.
         public let instanceId: String?
         /// IP address that is assigned to the instance.
         public let ipAddress: String?
+        /// The fleet location of the instance, expressed as an AWS Region code, such as us-west-2.
+        public let location: String?
         /// Operating system that is running on this instance.
         public let operatingSystem: OperatingSystem?
-        /// Current status of the instance. Possible statuses include the following:    PENDING -- The instance is in the process of being created and launching server processes as defined in the fleet's run-time configuration.     ACTIVE -- The instance has been successfully created and at least one server process has successfully launched and reported back to Amazon GameLift that it is ready to host a game session. The instance is now considered ready to host game sessions.     TERMINATING -- The instance is in the process of shutting down. This may happen to reduce capacity during a scaling down event or to recycle resources in the event of a problem.
+        /// Current status of the instance. Possible statuses include the following:    PENDING -- The instance is in the process of being created and launching server processes as defined in the fleet's run-time configuration.     ACTIVE -- The instance has been successfully created and at least one server process has successfully launched and reported back to GameLift that it is ready to host a game session. The instance is now considered ready to host game sessions.     TERMINATING -- The instance is in the process of shutting down. This may happen to reduce capacity during a scaling down event or to recycle resources in the event of a problem.
         public let status: InstanceStatus?
         /// EC2 instance type that defines the computing resources of this instance.
         public let type: EC2InstanceType?
 
-        public init(creationTime: Date? = nil, dnsName: String? = nil, fleetId: String? = nil, instanceId: String? = nil, ipAddress: String? = nil, operatingSystem: OperatingSystem? = nil, status: InstanceStatus? = nil, type: EC2InstanceType? = nil) {
+        public init(creationTime: Date? = nil, dnsName: String? = nil, fleetArn: String? = nil, fleetId: String? = nil, instanceId: String? = nil, ipAddress: String? = nil, location: String? = nil, operatingSystem: OperatingSystem? = nil, status: InstanceStatus? = nil, type: EC2InstanceType? = nil) {
             self.creationTime = creationTime
             self.dnsName = dnsName
+            self.fleetArn = fleetArn
             self.fleetId = fleetId
             self.instanceId = instanceId
             self.ipAddress = ipAddress
+            self.location = location
             self.operatingSystem = operatingSystem
             self.status = status
             self.type = type
@@ -3701,9 +4318,11 @@ extension GameLift {
         private enum CodingKeys: String, CodingKey {
             case creationTime = "CreationTime"
             case dnsName = "DnsName"
+            case fleetArn = "FleetArn"
             case fleetId = "FleetId"
             case instanceId = "InstanceId"
             case ipAddress = "IpAddress"
+            case location = "Location"
             case operatingSystem = "OperatingSystem"
             case status = "Status"
             case type = "Type"
@@ -3713,9 +4332,9 @@ extension GameLift {
     public struct InstanceAccess: AWSDecodableShape {
         /// Credentials required to access the instance.
         public let credentials: InstanceCredentials?
-        /// A unique identifier for a fleet containing the instance being accessed.
+        /// A unique identifier for the fleet containing the instance being accessed.
         public let fleetId: String?
-        /// A unique identifier for an instance being accessed.
+        /// A unique identifier for the instance being accessed.
         public let instanceId: String?
         /// IP address that is assigned to the instance.
         public let ipAddress: String?
@@ -3768,6 +4387,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.weightedCapacity?.forEach {}
             try self.validate(self.weightedCapacity, name: "weightedCapacity", parent: name, max: 3)
             try self.validate(self.weightedCapacity, name: "weightedCapacity", parent: name, min: 1)
             try self.validate(self.weightedCapacity, name: "weightedCapacity", parent: name, pattern: "^[\\u0031-\\u0039][\\u0030-\\u0039]{0,2}$")
@@ -3797,9 +4417,12 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.fromPort.forEach {}
             try self.validate(self.fromPort, name: "fromPort", parent: name, max: 60000)
             try self.validate(self.fromPort, name: "fromPort", parent: name, min: 1)
+            try self.ipRange.forEach {}
             try self.validate(self.ipRange, name: "ipRange", parent: name, pattern: "[^\\s]+")
+            try self.toPort.forEach {}
             try self.validate(self.toPort, name: "toPort", parent: name, max: 60000)
             try self.validate(self.toPort, name: "toPort", parent: name, min: 1)
         }
@@ -3827,12 +4450,15 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.launchTemplateId?.forEach {}
             try self.validate(self.launchTemplateId, name: "launchTemplateId", parent: name, max: 255)
             try self.validate(self.launchTemplateId, name: "launchTemplateId", parent: name, min: 1)
             try self.validate(self.launchTemplateId, name: "launchTemplateId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]+")
+            try self.launchTemplateName?.forEach {}
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, max: 128)
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, min: 3)
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, pattern: "[a-zA-Z0-9\\(\\)\\.\\-/_]+")
+            try self.version?.forEach {}
             try self.validate(self.version, name: "version", parent: name, max: 128)
             try self.validate(self.version, name: "version", parent: name, min: 1)
             try self.validate(self.version, name: "version", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]+")
@@ -3863,8 +4489,11 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -3896,7 +4525,7 @@ extension GameLift {
     public struct ListBuildsInput: AWSEncodableShape {
         /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
+        /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
         /// Build status to filter results by. To retrieve all builds, leave this parameter empty. Possible build statuses include the following:    INITIALIZED -- A new build has been defined, but no files have been uploaded. You cannot create fleets for builds that are in this status. When a build is successfully created, the build status is set to this value.     READY -- The game build has been successfully uploaded. You can now create new fleets for this build.    FAILED -- The game build upload failed. You cannot create new fleets for this build.
         public let status: BuildStatus?
@@ -3908,7 +4537,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -3922,7 +4553,7 @@ extension GameLift {
     public struct ListBuildsOutput: AWSDecodableShape {
         /// A collection of build resources that match the request.
         public let builds: [Build]?
-        /// Token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
+        /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
         public init(builds: [Build]? = nil, nextToken: String? = nil) {
@@ -3937,13 +4568,13 @@ extension GameLift {
     }
 
     public struct ListFleetsInput: AWSEncodableShape {
-        /// A unique identifier for a build to return fleets for. Use this parameter to return only fleets using a specified build. Use either the build ID or ARN value. To retrieve all fleets, do not include either a BuildId and ScriptID parameter.
+        /// A unique identifier for the build to request fleets for. Use this parameter to return only fleets using a specified build. Use either the build ID or ARN value.
         public let buildId: String?
         /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
+        /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
-        /// A unique identifier for a Realtime script to return fleets for. Use this parameter to return only fleets using a specified script. Use either the script ID or ARN value. To retrieve all fleets, leave this parameter empty.
+        /// A unique identifier for the Realtime script to request fleets for. Use this parameter to return only fleets using a specified script. Use either the script ID or ARN value.
         public let scriptId: String?
 
         public init(buildId: String? = nil, limit: Int? = nil, nextToken: String? = nil, scriptId: String? = nil) {
@@ -3954,10 +4585,14 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.buildId?.forEach {}
             try self.validate(self.buildId, name: "buildId", parent: name, pattern: "^build-\\S+|^arn:.*:build\\/build-\\S+")
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.scriptId?.forEach {}
             try self.validate(self.scriptId, name: "scriptId", parent: name, pattern: "^script-\\S+|^arn:.*:script\\/script-\\S+")
         }
 
@@ -3970,9 +4605,9 @@ extension GameLift {
     }
 
     public struct ListFleetsOutput: AWSDecodableShape {
-        /// Set of fleet IDs matching the list request. You can retrieve additional information about all returned fleets by passing this result set to a call to DescribeFleetAttributes, DescribeFleetCapacity, or DescribeFleetUtilization.
+        /// A set of fleet IDs that match the list request. You can retrieve additional information about all returned fleets by passing this result set to a DescribeFleetAttributes, DescribeFleetCapacity, or DescribeFleetUtilization call.
         public let fleetIds: [String]?
-        /// Token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
+        /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
         public init(fleetIds: [String]? = nil, nextToken: String? = nil) {
@@ -3987,9 +4622,9 @@ extension GameLift {
     }
 
     public struct ListGameServerGroupsInput: AWSEncodableShape {
-        /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential segments.
+        /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int?
-        /// A token that indicates the start of the next sequential segment of results. Use the token returned with the previous call to this operation. To start at the beginning of the result set, do not specify a value.
+        /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
 
         public init(limit: Int? = nil, nextToken: String? = nil) {
@@ -3998,7 +4633,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -4029,9 +4666,9 @@ extension GameLift {
     public struct ListGameServersInput: AWSEncodableShape {
         /// An identifier for the game server group to retrieve a list of game servers from. Use either the GameServerGroup name or ARN value.
         public let gameServerGroupName: String
-        /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential segments.
+        /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int?
-        /// A token that indicates the start of the next sequential segment of results. Use the token returned with the previous call to this operation. To start at the beginning of the result set, do not specify a value.
+        /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
         /// Indicates how to sort the returned data based on game server registration timestamp. Use ASCENDING to retrieve oldest game servers first, or use DESCENDING to retrieve newest game servers first. If this parameter is left empty, game servers are returned in no particular order.
         public let sortOrder: SortOrder?
@@ -4044,10 +4681,13 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.gameServerGroupName.forEach {}
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+")
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -4089,7 +4729,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -4125,6 +4767,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
         }
@@ -4144,6 +4787,64 @@ extension GameLift {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
+        }
+    }
+
+    public struct LocationAttributes: AWSDecodableShape {
+        /// A fleet location and its current life-cycle state.
+        public let locationState: LocationState?
+        /// A list of fleet actions that have been suspended in the fleet location.
+        public let stoppedActions: [FleetAction]?
+        /// The status of fleet activity updates to the location. The status PENDING_UPDATE indicates that StopFleetActions or StartFleetActions has been requested but the update has not yet been completed for the location.
+        public let updateStatus: LocationUpdateStatus?
+
+        public init(locationState: LocationState? = nil, stoppedActions: [FleetAction]? = nil, updateStatus: LocationUpdateStatus? = nil) {
+            self.locationState = locationState
+            self.stoppedActions = stoppedActions
+            self.updateStatus = updateStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationState = "LocationState"
+            case stoppedActions = "StoppedActions"
+            case updateStatus = "UpdateStatus"
+        }
+    }
+
+    public struct LocationConfiguration: AWSEncodableShape {
+        /// An AWS Region code, such as us-west-2.
+        public let location: String?
+
+        public init(location: String? = nil) {
+            self.location = location
+        }
+
+        public func validate(name: String) throws {
+            try self.location?.forEach {}
+            try self.validate(self.location, name: "location", parent: name, max: 64)
+            try self.validate(self.location, name: "location", parent: name, min: 1)
+            try self.validate(self.location, name: "location", parent: name, pattern: "^[a-z]+(-([a-z]+|\\d))*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case location = "Location"
+        }
+    }
+
+    public struct LocationState: AWSDecodableShape {
+        /// The fleet location, expressed as an AWS Region code such as us-west-2.
+        public let location: String?
+        /// The life-cycle status of a fleet location.
+        public let status: FleetStatus?
+
+        public init(location: String? = nil, status: FleetStatus? = nil) {
+            self.location = location
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case location = "Location"
+            case status = "Status"
         }
     }
 
@@ -4167,15 +4868,15 @@ extension GameLift {
     public struct MatchmakingConfiguration: AWSDecodableShape {
         /// A flag that indicates whether a match that was created with this configuration must be accepted by the matched players. To require acceptance, set to TRUE. When this option is enabled, matchmaking tickets use the status REQUIRES_ACCEPTANCE to indicate when a completed potential match is waiting for player acceptance.
         public let acceptanceRequired: Bool?
-        /// The length of time (in seconds) to wait for players to accept a proposed match, if acceptance is required. If any player rejects the match or fails to accept before the timeout, the tickets are returned to the ticket pool and continue to be evaluated for an acceptable match.
+        /// The length of time (in seconds) to wait for players to accept a proposed match, if acceptance is required. If any player rejects the match or fails to accept before the timeout, the ticket continues to look for an acceptable match.
         public let acceptanceTimeoutSeconds: Int?
-        /// The number of player slots in a match to keep open for future players. For example, assume that the configuration's rule set specifies a match for a single 12-person team. If the additional player count is set to 2, only 10 players are initially selected for the match. This parameter is not used when FlexMatchMode is set to STANDALONE.
+        /// The number of player slots in a match to keep open for future players. For example, if the configuration's rule set specifies a match for a single 12-person team, and the additional player count is set to 2, only 10 players are selected for the match. This parameter is not used when FlexMatchMode is set to STANDALONE.
         public let additionalPlayerCount: Int?
-        /// The method used to backfill game sessions created with this matchmaking configuration. MANUAL indicates that the game makes backfill requests or does not use the match backfill feature. AUTOMATIC indicates that GameLift creates StartMatchBackfill requests whenever a game session has one or more open slots. Learn more about manual and automatic backfill in Backfill Existing Games with FlexMatch. Automatic backfill is not available when FlexMatchMode is set to STANDALONE.
+        /// The method used to backfill game sessions created with this matchmaking configuration. MANUAL indicates that the game makes backfill requests or does not use the match backfill feature. AUTOMATIC indicates that GameLift creates StartMatchBackfill requests whenever a game session has one or more open slots. Learn more about manual and automatic backfill in Backfill existing games with FlexMatch. Automatic backfill is not available when FlexMatchMode is set to STANDALONE.
         public let backfillMode: BackfillMode?
-        /// Amazon Resource Name (ARN) that is assigned to a GameLift matchmaking configuration resource and uniquely identifies it. ARNs are unique across all Regions. In a GameLift configuration ARN, the resource ID matches the Name value.
+        /// The Amazon Resource Name (ARN) that is assigned to a GameLift matchmaking configuration resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:&lt;region&gt;::matchmakingconfiguration/&lt;matchmaking configuration name&gt;. In a GameLift configuration ARN, the resource ID matches the Name value.
         public let configurationArn: String?
-        /// The time stamp indicating when this data object was created. The format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
+        /// A time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let creationTime: Date?
         /// Information to attach to all events related to the matchmaking configuration.
         public let customEventData: String?
@@ -4183,13 +4884,13 @@ extension GameLift {
         public let description: String?
         /// Indicates whether this matchmaking configuration is being used with GameLift hosting or as a standalone matchmaking solution.     STANDALONE - FlexMatch forms matches and returns match information, including players and team assignments, in a  MatchmakingSucceeded event.    WITH_QUEUE - FlexMatch forms matches and uses the specified GameLift queue to start a game session for the match.
         public let flexMatchMode: FlexMatchMode?
-        /// A set of custom properties for a game session, formatted as key-value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. This parameter is not used when FlexMatchMode is set to STANDALONE.
+        /// A set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. This parameter is not used when FlexMatchMode is set to STANDALONE.
         public let gameProperties: [GameProperty]?
         /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. This parameter is not used when FlexMatchMode is set to STANDALONE.
         public let gameSessionData: String?
-        /// Amazon Resource Name (ARN) that is assigned to a GameLift game session queue resource and uniquely identifies it. ARNs are unique across all Regions. Queues can be located in any Region. Queues are used to start new GameLift-hosted game sessions for matches that are created with this matchmaking configuration. Thais property is not set when FlexMatchMode is set to STANDALONE.
+        /// The Amazon Resource Name (ARN) that is assigned to a GameLift game session queue resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:&lt;region&gt;::gamesessionqueue/&lt;queue name&gt;. Queues can be located in any Region. Queues are used to start new GameLift-hosted game sessions for matches that are created with this matchmaking configuration. This property is not set when FlexMatchMode is set to STANDALONE.
         public let gameSessionQueueArns: [String]?
-        /// A unique identifier for a matchmaking configuration. This name is used to identify the configuration associated with a matchmaking request or ticket.
+        /// A unique identifier for the matchmaking configuration. This name is used to identify the configuration associated with a matchmaking request or ticket.
         public let name: String?
         /// An SNS topic ARN that is set up to receive matchmaking notifications.
         public let notificationTarget: String?
@@ -4197,7 +4898,7 @@ extension GameLift {
         public let requestTimeoutSeconds: Int?
         /// The Amazon Resource Name (ARN) associated with the GameLift matchmaking rule set resource that this configuration uses.
         public let ruleSetArn: String?
-        /// A unique identifier for a matchmaking rule set to use with this configuration. A matchmaking configuration can only use rule sets that are defined in the same Region.
+        /// A unique identifier for the matchmaking rule set to use with this configuration. A matchmaking configuration can only use rule sets that are defined in the same Region.
         public let ruleSetName: String?
 
         public init(acceptanceRequired: Bool? = nil, acceptanceTimeoutSeconds: Int? = nil, additionalPlayerCount: Int? = nil, backfillMode: BackfillMode? = nil, configurationArn: String? = nil, creationTime: Date? = nil, customEventData: String? = nil, description: String? = nil, flexMatchMode: FlexMatchMode? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionQueueArns: [String]? = nil, name: String? = nil, notificationTarget: String? = nil, requestTimeoutSeconds: Int? = nil, ruleSetArn: String? = nil, ruleSetName: String? = nil) {
@@ -4242,13 +4943,13 @@ extension GameLift {
     }
 
     public struct MatchmakingRuleSet: AWSDecodableShape {
-        /// The time stamp indicating when this data object was created. The format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
+        /// A time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let creationTime: Date?
-        /// Amazon Resource Name (ARN) that is assigned to a GameLift matchmaking rule set resource and uniquely identifies it. ARNs are unique across all Regions. In a GameLift rule set ARN, the resource ID matches the RuleSetName value.
+        /// The Amazon Resource Name (ARN) that is assigned to a GameLift matchmaking rule set resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:&lt;region&gt;::matchmakingruleset/&lt;ruleset name&gt;. In a GameLift rule set ARN, the resource ID matches the RuleSetName value.
         public let ruleSetArn: String?
         /// A collection of matchmaking rules, formatted as a JSON string. Comments are not allowed in JSON, but most elements support a description field.
         public let ruleSetBody: String
-        /// A unique identifier for a matchmaking rule set
+        /// A unique identifier for the matchmaking rule set
         public let ruleSetName: String?
 
         public init(creationTime: Date? = nil, ruleSetArn: String? = nil, ruleSetBody: String, ruleSetName: String? = nil) {
@@ -4337,7 +5038,7 @@ extension GameLift {
     }
 
     public struct Player: AWSEncodableShape & AWSDecodableShape {
-        /// Set of values, expressed in milliseconds, indicating the amount of latency that a player experiences when connected to AWS Regions. If this property is present, FlexMatch considers placing the match only in Regions for which latency is reported.  If a matchmaker has a rule that evaluates player latency, players must report latency in order to be matched. If no latency is reported in this scenario, FlexMatch assumes that no Regions are available to the player and the ticket is not matchable.
+        /// A set of values, expressed in milliseconds, that indicates the amount of latency that a player experiences when connected to AWS Regions. If this property is present, FlexMatch considers placing the match only in Regions for which latency is reported.  If a matchmaker has a rule that evaluates player latency, players must report latency in order to be matched. If no latency is reported in this scenario, FlexMatch assumes that no Regions are available to the player and the ticket is not matchable.
         public let latencyInMs: [String: Int]?
         /// A collection of key:value pairs containing player information for use in matchmaking. Player attribute keys must match the playerAttributes used in a matchmaking rule set. Example: "PlayerAttributes": {"skill": {"N": "23"}, "gameMode": {"S": "deathmatch"}}.
         public let playerAttributes: [String: AttributeValue]?
@@ -4363,8 +5064,10 @@ extension GameLift {
                 try validate($0.key, name: "playerAttributes.key", parent: name, min: 1)
                 try $0.value.validate(name: "\(name).playerAttributes[\"\($0.key)\"]")
             }
+            try self.playerId?.forEach {}
             try self.validate(self.playerId, name: "playerId", parent: name, max: 1024)
             try self.validate(self.playerId, name: "playerId", parent: name, min: 1)
+            try self.team?.forEach {}
             try self.validate(self.team, name: "team", parent: name, max: 1024)
             try self.validate(self.team, name: "team", parent: name, min: 1)
         }
@@ -4392,8 +5095,10 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.playerId?.forEach {}
             try self.validate(self.playerId, name: "playerId", parent: name, max: 1024)
             try self.validate(self.playerId, name: "playerId", parent: name, min: 1)
+            try self.regionIdentifier?.forEach {}
             try self.validate(self.regionIdentifier, name: "regionIdentifier", parent: name, max: 1024)
             try self.validate(self.regionIdentifier, name: "regionIdentifier", parent: name, min: 1)
         }
@@ -4417,7 +5122,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.maximumIndividualPlayerLatencyMilliseconds?.forEach {}
             try self.validate(self.maximumIndividualPlayerLatencyMilliseconds, name: "maximumIndividualPlayerLatencyMilliseconds", parent: name, min: 0)
+            try self.policyDurationSeconds?.forEach {}
             try self.validate(self.policyDurationSeconds, name: "policyDurationSeconds", parent: name, min: 0)
         }
 
@@ -4428,19 +5135,19 @@ extension GameLift {
     }
 
     public struct PlayerSession: AWSDecodableShape {
-        /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
+        /// A time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let creationTime: Date?
-        /// DNS identifier assigned to the instance that is running the game session. Values have the following format:   TLS-enabled fleets: &lt;unique identifier&gt;.&lt;region identifier&gt;.amazongamelift.com.   Non-TLS-enabled fleets: ec2-&lt;unique identifier&gt;.compute.amazonaws.com. (See Amazon EC2 Instance IP Addressing.)   When connecting to a game session that is running on a TLS-enabled fleet, you must use the DNS name, not the IP address.
+        /// The DNS identifier assigned to the instance that is running the game session. Values have the following format:   TLS-enabled fleets: &lt;unique identifier&gt;.&lt;region identifier&gt;.amazongamelift.com.   Non-TLS-enabled fleets: ec2-&lt;unique identifier&gt;.compute.amazonaws.com. (See Amazon EC2 Instance IP Addressing.)   When connecting to a game session that is running on a TLS-enabled fleet, you must use the DNS name, not the IP address.
         public let dnsName: String?
         ///  The Amazon Resource Name (ARN) associated with the GameLift fleet that the player's game session is running on.
         public let fleetArn: String?
-        /// A unique identifier for a fleet that the player's game session is running on.
+        /// A unique identifier for the fleet that the player's game session is running on.
         public let fleetId: String?
         /// A unique identifier for the game session that the player session is connected to.
         public let gameSessionId: String?
-        /// IP address of the instance that is running the game session. When connecting to a Amazon GameLift game server, a client needs to reference an IP address (or DNS name) and port number.
+        /// The IP address of the game session. To connect to a GameLift game server, an app needs both the IP address and port number.
         public let ipAddress: String?
-        /// Developer-defined information related to a player. Amazon GameLift does not use this data, so it can be formatted as needed for use in the game.
+        /// Developer-defined information related to a player. GameLift does not use this data, so it can be formatted as needed for use in the game.
         public let playerData: String?
         /// A unique identifier for a player that is associated with this player session.
         public let playerId: String?
@@ -4450,7 +5157,7 @@ extension GameLift {
         public let port: Int?
         /// Current status of the player session. Possible player session statuses include the following:    RESERVED -- The player session request has been received, but the player has not yet connected to the server process and/or been validated.     ACTIVE -- The player has been validated by the server process and is currently connected.    COMPLETED -- The player connection has been dropped.    TIMEDOUT -- A player session request was received, but the player did not connect and/or was not validated within the timeout limit (60 seconds).
         public let status: PlayerSessionStatus?
-        /// Time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
+        /// A time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let terminationTime: Date?
 
         public init(creationTime: Date? = nil, dnsName: String? = nil, fleetArn: String? = nil, fleetId: String? = nil, gameSessionId: String? = nil, ipAddress: String? = nil, playerData: String? = nil, playerId: String? = nil, playerSessionId: String? = nil, port: Int? = nil, status: PlayerSessionStatus? = nil, terminationTime: Date? = nil) {
@@ -4484,16 +5191,47 @@ extension GameLift {
         }
     }
 
+    public struct PriorityConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The prioritization order to use for fleet locations, when the PriorityOrder property includes LOCATION. Locations are identified by AWS Region codes such as us-west-2. Each location can only be listed once.
+        public let locationOrder: [String]?
+        /// The recommended sequence to use when prioritizing where to place new game sessions. Each type can only be listed once.    LATENCY -- FleetIQ prioritizes locations where the average player latency (provided in each game session request) is lowest.     COST -- FleetIQ prioritizes destinations with the lowest current hosting costs. Cost is evaluated based on the location, instance type, and fleet type (Spot or On-Demand) for each destination in the queue.    DESTINATION -- FleetIQ prioritizes based on the order that destinations are listed in the queue configuration.    LOCATION -- FleetIQ prioritizes based on the provided order of locations, as defined in LocationOrder.
+        public let priorityOrder: [PriorityType]?
+
+        public init(locationOrder: [String]? = nil, priorityOrder: [PriorityType]? = nil) {
+            self.locationOrder = locationOrder
+            self.priorityOrder = priorityOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.locationOrder?.forEach {
+                try validate($0, name: "locationOrder[]", parent: name, max: 64)
+                try validate($0, name: "locationOrder[]", parent: name, min: 1)
+                try validate($0, name: "locationOrder[]", parent: name, pattern: "^[a-z]+(-([a-z]+|\\d))*")
+            }
+            try self.locationOrder?.forEach {}
+            try self.validate(self.locationOrder, name: "locationOrder", parent: name, max: 100)
+            try self.validate(self.locationOrder, name: "locationOrder", parent: name, min: 1)
+            try self.priorityOrder?.forEach {}
+            try self.validate(self.priorityOrder, name: "priorityOrder", parent: name, max: 4)
+            try self.validate(self.priorityOrder, name: "priorityOrder", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationOrder = "LocationOrder"
+            case priorityOrder = "PriorityOrder"
+        }
+    }
+
     public struct PutScalingPolicyInput: AWSEncodableShape {
         /// Comparison operator to use when measuring the metric against the threshold value.
         public let comparisonOperator: ComparisonOperatorType?
         /// Length of time (in minutes) the metric must be at or beyond the threshold before a scaling event is triggered.
         public let evaluationPeriods: Int?
-        /// A unique identifier for a fleet to apply this policy to. You can use either the fleet ID or ARN value. The fleet cannot be in any of the following statuses: ERROR or DELETING.
+        /// A unique identifier for the fleet to apply this policy to. You can use either the fleet ID or ARN value. The fleet cannot be in any of the following statuses: ERROR or DELETING.
         public let fleetId: String
         /// Name of the Amazon GameLift-defined metric that is used to trigger a scaling adjustment. For detailed descriptions of fleet metrics, see Monitor Amazon GameLift with Amazon CloudWatch.     ActivatingGameSessions -- Game sessions in the process of being created.    ActiveGameSessions -- Game sessions that are currently running.    ActiveInstances -- Fleet instances that are currently running at least one game session.    AvailableGameSessions -- Additional game sessions that fleet could host simultaneously, given current capacity.    AvailablePlayerSessions -- Empty player slots in currently active game sessions. This includes game sessions that are not currently accepting players. Reserved player slots are not included.    CurrentPlayerSessions -- Player slots in active game sessions that are being used by a player or are reserved for a player.     IdleInstances -- Active instances that are currently hosting zero game sessions.     PercentAvailableGameSessions -- Unused percentage of the total number of game sessions that a fleet could host simultaneously, given current capacity. Use this metric for a target-based scaling policy.    PercentIdleInstances -- Percentage of the total number of active instances that are hosting zero game sessions.    QueueDepth -- Pending game session placement requests, in any queue, where the current fleet is the top-priority destination.    WaitTime -- Current wait time for pending game session placement requests, in any queue, where the current fleet is the top-priority destination.
         public let metricName: MetricName
-        /// A descriptive label that is associated with a scaling policy. Policy names do not need to be unique. A fleet can have only one scaling policy with the same name.
+        /// A descriptive label that is associated with a fleet's scaling policy. Policy names do not need to be unique. A fleet can have only one scaling policy with the same name.
         public let name: String
         /// The type of scaling policy to create. For a target-based policy, set the parameter MetricName to 'PercentAvailableGameSessions' and specify a TargetConfiguration. For a rule-based policy set the following parameters: MetricName, ComparisonOperator, Threshold, EvaluationPeriods, ScalingAdjustmentType, and ScalingAdjustment.
         public let policyType: PolicyType?
@@ -4501,7 +5239,7 @@ extension GameLift {
         public let scalingAdjustment: Int?
         /// The type of adjustment to make to a fleet's instance count (see FleetCapacity):    ChangeInCapacity -- add (or subtract) the scaling adjustment value from the current instance count. Positive values scale up while negative values scale down.    ExactCapacity -- set the instance count to the scaling adjustment value.    PercentChangeInCapacity -- increase or reduce the current instance count by the scaling adjustment, read as a percentage. Positive values scale up while negative values scale down; for example, a value of "-10" scales the fleet down by 10%.
         public let scalingAdjustmentType: ScalingAdjustmentType?
-        /// The settings for a target-based scaling policy.
+        /// An object that contains settings for a target-based scaling policy.
         public let targetConfiguration: TargetConfiguration?
         /// Metric value used to trigger a scaling event.
         public let threshold: Double?
@@ -4520,8 +5258,11 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.evaluationPeriods?.forEach {}
             try self.validate(self.evaluationPeriods, name: "evaluationPeriods", parent: name, min: 1)
+            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -4541,7 +5282,7 @@ extension GameLift {
     }
 
     public struct PutScalingPolicyOutput: AWSDecodableShape {
-        /// A descriptive label that is associated with a scaling policy. Policy names do not need to be unique.
+        /// A descriptive label that is associated with a fleet's scaling policy. Policy names do not need to be unique.
         public let name: String?
 
         public init(name: String? = nil) {
@@ -4574,18 +5315,23 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.connectionInfo?.forEach {}
             try self.validate(self.connectionInfo, name: "connectionInfo", parent: name, max: 512)
             try self.validate(self.connectionInfo, name: "connectionInfo", parent: name, min: 1)
             try self.validate(self.connectionInfo, name: "connectionInfo", parent: name, pattern: ".*\\S.*")
+            try self.gameServerData?.forEach {}
             try self.validate(self.gameServerData, name: "gameServerData", parent: name, max: 1024)
             try self.validate(self.gameServerData, name: "gameServerData", parent: name, min: 1)
             try self.validate(self.gameServerData, name: "gameServerData", parent: name, pattern: ".*\\S.*")
+            try self.gameServerGroupName.forEach {}
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+")
+            try self.gameServerId.forEach {}
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, max: 128)
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, min: 3)
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, pattern: "[a-zA-Z0-9-\\.]+")
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 19)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 19)
             try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^i-[0-9a-zA-Z]{17}$")
@@ -4614,7 +5360,7 @@ extension GameLift {
     }
 
     public struct RequestUploadCredentialsInput: AWSEncodableShape {
-        /// A unique identifier for a build to get credentials for. You can use either the build ID or ARN value.
+        /// A unique identifier for the build to get credentials for. You can use either the build ID or ARN value.
         public let buildId: String
 
         public init(buildId: String) {
@@ -4622,6 +5368,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.buildId.forEach {}
             try self.validate(self.buildId, name: "buildId", parent: name, pattern: "^build-\\S+|^arn:.*:build\\/build-\\S+")
         }
 
@@ -4656,6 +5403,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.aliasId.forEach {}
             try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^alias-\\S+|^arn:.*:alias\\/alias-\\S+")
         }
 
@@ -4693,7 +5441,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.newGameSessionsPerCreator?.forEach {}
             try self.validate(self.newGameSessionsPerCreator, name: "newGameSessionsPerCreator", parent: name, min: 0)
+            try self.policyPeriodInMinutes?.forEach {}
             try self.validate(self.policyPeriodInMinutes, name: "policyPeriodInMinutes", parent: name, min: 0)
         }
 
@@ -4715,9 +5465,11 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.gameServerGroupName.forEach {}
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+")
+            try self.resumeActions.forEach {}
             try self.validate(self.resumeActions, name: "resumeActions", parent: name, max: 1)
             try self.validate(self.resumeActions, name: "resumeActions", parent: name, min: 1)
         }
@@ -4742,7 +5494,7 @@ extension GameLift {
     }
 
     public struct RoutingStrategy: AWSEncodableShape & AWSDecodableShape {
-        /// The unique identifier for a fleet that the alias points to. This value is the fleet ID, not the fleet ARN.
+        /// A unique identifier for the fleet that the alias points to. This value is the fleet ID, not the fleet ARN.
         public let fleetId: String?
         /// The message text to be used with a terminal routing strategy.
         public let message: String?
@@ -4756,6 +5508,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.fleetId?.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+")
         }
 
@@ -4767,11 +5520,11 @@ extension GameLift {
     }
 
     public struct RuntimeConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The maximum amount of time (in seconds) that a game session can remain in status ACTIVATING. If the game session is not active before the timeout, activation is terminated and the game session status is changed to TERMINATED.
+        /// The maximum amount of time (in seconds) allowed to launch a new game session and have it report ready to host players. During this time, the game session is in status ACTIVATING. If the game session does not become active before the timeout, it is ended and the game session status is changed to TERMINATED.
         public let gameSessionActivationTimeoutSeconds: Int?
-        /// The maximum number of game sessions with status ACTIVATING to allow on an instance simultaneously. This setting limits the amount of instance resources that can be used for new game activations at any one time.
+        /// The number of game sessions in status ACTIVATING to allow on an instance. This setting limits the instance resources that can be used for new game activations at any one time.
         public let maxConcurrentGameSessionActivations: Int?
-        /// A collection of server process configurations that describe which server processes to run on each instance in a fleet.
+        /// A collection of server process configurations that identify what server processes to run on each instance in a fleet.
         public let serverProcesses: [ServerProcess]?
 
         public init(gameSessionActivationTimeoutSeconds: Int? = nil, maxConcurrentGameSessionActivations: Int? = nil, serverProcesses: [ServerProcess]? = nil) {
@@ -4781,13 +5534,16 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.gameSessionActivationTimeoutSeconds?.forEach {}
             try self.validate(self.gameSessionActivationTimeoutSeconds, name: "gameSessionActivationTimeoutSeconds", parent: name, max: 600)
             try self.validate(self.gameSessionActivationTimeoutSeconds, name: "gameSessionActivationTimeoutSeconds", parent: name, min: 1)
+            try self.maxConcurrentGameSessionActivations?.forEach {}
             try self.validate(self.maxConcurrentGameSessionActivations, name: "maxConcurrentGameSessionActivations", parent: name, max: 2_147_483_647)
             try self.validate(self.maxConcurrentGameSessionActivations, name: "maxConcurrentGameSessionActivations", parent: name, min: 1)
             try self.serverProcesses?.forEach {
                 try $0.validate(name: "\(name).serverProcesses[]")
             }
+            try self.serverProcesses?.forEach {}
             try self.validate(self.serverProcesses, name: "serverProcesses", parent: name, max: 50)
             try self.validate(self.serverProcesses, name: "serverProcesses", parent: name, min: 1)
         }
@@ -4800,7 +5556,7 @@ extension GameLift {
     }
 
     public struct S3Location: AWSEncodableShape & AWSDecodableShape {
-        /// An S3 bucket identifier. This is the name of the S3 bucket.  GameLift currently does not support uploading from S3 buckets with names that contain a dot (.).
+        /// An Amazon S3 bucket identifier. This is the name of the S3 bucket.  GameLift currently does not support uploading from Amazon S3 buckets with names that contain a dot (.).
         public let bucket: String?
         /// The name of the zip file that contains the build files or script files.
         public let key: String?
@@ -4817,9 +5573,13 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.bucket?.forEach {}
             try self.validate(self.bucket, name: "bucket", parent: name, min: 1)
+            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.objectVersion?.forEach {}
             try self.validate(self.objectVersion, name: "objectVersion", parent: name, min: 1)
+            try self.roleArn?.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
         }
 
@@ -4836,11 +5596,14 @@ extension GameLift {
         public let comparisonOperator: ComparisonOperatorType?
         /// Length of time (in minutes) the metric must be at or beyond the threshold before a scaling event is triggered.
         public let evaluationPeriods: Int?
-        /// A unique identifier for a fleet that is associated with this scaling policy.
+        /// The Amazon Resource Name (ARN) that is assigned to a GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:&lt;region&gt;::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
+        public let fleetArn: String?
+        /// A unique identifier for the fleet that is associated with this scaling policy.
         public let fleetId: String?
+        public let location: String?
         /// Name of the Amazon GameLift-defined metric that is used to trigger a scaling adjustment. For detailed descriptions of fleet metrics, see Monitor Amazon GameLift with Amazon CloudWatch.     ActivatingGameSessions -- Game sessions in the process of being created.    ActiveGameSessions -- Game sessions that are currently running.    ActiveInstances -- Fleet instances that are currently running at least one game session.    AvailableGameSessions -- Additional game sessions that fleet could host simultaneously, given current capacity.    AvailablePlayerSessions -- Empty player slots in currently active game sessions. This includes game sessions that are not currently accepting players. Reserved player slots are not included.    CurrentPlayerSessions -- Player slots in active game sessions that are being used by a player or are reserved for a player.     IdleInstances -- Active instances that are currently hosting zero game sessions.     PercentAvailableGameSessions -- Unused percentage of the total number of game sessions that a fleet could host simultaneously, given current capacity. Use this metric for a target-based scaling policy.    PercentIdleInstances -- Percentage of the total number of active instances that are hosting zero game sessions.    QueueDepth -- Pending game session placement requests, in any queue, where the current fleet is the top-priority destination.    WaitTime -- Current wait time for pending game session placement requests, in any queue, where the current fleet is the top-priority destination.
         public let metricName: MetricName?
-        /// A descriptive label that is associated with a scaling policy. Policy names do not need to be unique.
+        /// A descriptive label that is associated with a fleet's scaling policy. Policy names do not need to be unique.
         public let name: String?
         /// The type of scaling policy to create. For a target-based policy, set the parameter MetricName to 'PercentAvailableGameSessions' and specify a TargetConfiguration. For a rule-based policy set the following parameters: MetricName, ComparisonOperator, Threshold, EvaluationPeriods, ScalingAdjustmentType, and ScalingAdjustment.
         public let policyType: PolicyType?
@@ -4850,15 +5613,19 @@ extension GameLift {
         public let scalingAdjustmentType: ScalingAdjustmentType?
         /// Current status of the scaling policy. The scaling policy can be in force only when in an ACTIVE status. Scaling policies can be suspended for individual fleets (see StopFleetActions; if suspended for a fleet, the policy status does not change. View a fleet's stopped actions by calling DescribeFleetCapacity.    ACTIVE -- The scaling policy can be used for auto-scaling a fleet.    UPDATE_REQUESTED -- A request to update the scaling policy has been received.    UPDATING -- A change is being made to the scaling policy.    DELETE_REQUESTED -- A request to delete the scaling policy has been received.    DELETING -- The scaling policy is being deleted.    DELETED -- The scaling policy has been deleted.    ERROR -- An error occurred in creating the policy. It should be removed and recreated.
         public let status: ScalingStatusType?
-        /// The settings for a target-based scaling policy.
+        /// An object that contains settings for a target-based scaling policy.
         public let targetConfiguration: TargetConfiguration?
         /// Metric value used to trigger a scaling event.
         public let threshold: Double?
+        /// The current status of the fleet's scaling policies in a requested fleet location. The status PENDING_UPDATE indicates that an update was requested for the fleet but has not yet been completed for the location.
+        public let updateStatus: LocationUpdateStatus?
 
-        public init(comparisonOperator: ComparisonOperatorType? = nil, evaluationPeriods: Int? = nil, fleetId: String? = nil, metricName: MetricName? = nil, name: String? = nil, policyType: PolicyType? = nil, scalingAdjustment: Int? = nil, scalingAdjustmentType: ScalingAdjustmentType? = nil, status: ScalingStatusType? = nil, targetConfiguration: TargetConfiguration? = nil, threshold: Double? = nil) {
+        public init(comparisonOperator: ComparisonOperatorType? = nil, evaluationPeriods: Int? = nil, fleetArn: String? = nil, fleetId: String? = nil, location: String? = nil, metricName: MetricName? = nil, name: String? = nil, policyType: PolicyType? = nil, scalingAdjustment: Int? = nil, scalingAdjustmentType: ScalingAdjustmentType? = nil, status: ScalingStatusType? = nil, targetConfiguration: TargetConfiguration? = nil, threshold: Double? = nil, updateStatus: LocationUpdateStatus? = nil) {
             self.comparisonOperator = comparisonOperator
             self.evaluationPeriods = evaluationPeriods
+            self.fleetArn = fleetArn
             self.fleetId = fleetId
+            self.location = location
             self.metricName = metricName
             self.name = name
             self.policyType = policyType
@@ -4867,12 +5634,15 @@ extension GameLift {
             self.status = status
             self.targetConfiguration = targetConfiguration
             self.threshold = threshold
+            self.updateStatus = updateStatus
         }
 
         private enum CodingKeys: String, CodingKey {
             case comparisonOperator = "ComparisonOperator"
             case evaluationPeriods = "EvaluationPeriods"
+            case fleetArn = "FleetArn"
             case fleetId = "FleetId"
+            case location = "Location"
             case metricName = "MetricName"
             case name = "Name"
             case policyType = "PolicyType"
@@ -4881,22 +5651,23 @@ extension GameLift {
             case status = "Status"
             case targetConfiguration = "TargetConfiguration"
             case threshold = "Threshold"
+            case updateStatus = "UpdateStatus"
         }
     }
 
     public struct Script: AWSDecodableShape {
-        /// A time stamp indicating when this data object was created. The format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
+        /// A time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let creationTime: Date?
         /// A descriptive label that is associated with a script. Script names do not need to be unique.
         public let name: String?
-        /// Amazon Resource Name (ARN) that is assigned to a GameLift script resource and uniquely identifies it. ARNs are unique across all Regions. In a GameLift script ARN, the resource ID matches the ScriptId value.
+        /// The Amazon Resource Name (ARN) that is assigned to a GameLift script resource and uniquely identifies it. ARNs are unique across all Regions. In a GameLift script ARN, the resource ID matches the ScriptId value.
         public let scriptArn: String?
-        /// A unique identifier for a Realtime script
+        /// A unique identifier for the Realtime script
         public let scriptId: String?
         /// The file size of the uploaded Realtime script, expressed in bytes. When files are uploaded from an S3 location, this value remains at "0".
         public let sizeOnDisk: Int64?
         public let storageLocation: S3Location?
-        /// The version that is associated with a build or script. Version strings do not need to be unique.
+        /// Version information that is associated with a build or script. Version strings do not need to be unique.
         public let version: String?
 
         public init(creationTime: Date? = nil, name: String? = nil, scriptArn: String? = nil, scriptId: String? = nil, sizeOnDisk: Int64? = nil, storageLocation: S3Location? = nil, version: String? = nil) {
@@ -4921,36 +5692,49 @@ extension GameLift {
     }
 
     public struct SearchGameSessionsInput: AWSEncodableShape {
-        /// A unique identifier for an alias associated with the fleet to search for active game sessions. You can use either the alias ID or ARN value. Each request must reference either a fleet ID or alias ID, but not both.
+        /// A unique identifier for the alias associated with the fleet to search for active game sessions. You can use either the alias ID or ARN value. Each request must reference either a fleet ID or alias ID, but not both.
         public let aliasId: String?
         /// String containing the search criteria for the session search. If no filter expression is included, the request returns results for all game sessions in the fleet that are in ACTIVE status. A filter expression can contain one or multiple conditions. Each condition consists of the following:    Operand -- Name of a game session attribute. Valid values are gameSessionName, gameSessionId, gameSessionProperties, maximumSessions, creationTimeMillis, playerSessionCount, hasAvailablePlayerSessions.    Comparator -- Valid comparators are: =, &lt;&gt;, &lt;, &gt;, &lt;=, &gt;=.     Value -- Value to be searched for. Values may be numbers, boolean values (true/false) or strings depending on the operand. String values are case sensitive and must be enclosed in single quotes. Special characters must be escaped. Boolean and string values can only be used with the comparators = and &lt;&gt;. For example, the following filter expression searches on gameSessionName: "FilterExpression": "gameSessionName = 'Matt\\'s Awesome Game 1'".    To chain multiple conditions in a single expression, use the logical keywords AND, OR, and NOT and parentheses as needed. For example: x AND y AND NOT z, NOT (x OR y). Session search evaluates conditions from left to right using the following precedence rules:    =, &lt;&gt;, &lt;, &gt;, &lt;=, &gt;=    Parentheses   NOT   AND   OR   For example, this filter expression retrieves game sessions hosting at least ten players that have an open player slot: "maximumSessions&gt;=10 AND hasAvailablePlayerSessions=true".
         public let filterExpression: String?
-        /// A unique identifier for a fleet to search for active game sessions. You can use either the fleet ID or ARN value. Each request must reference either a fleet ID or alias ID, but not both.
+        /// A unique identifier for the fleet to search for active game sessions. You can use either the fleet ID or ARN value. Each request must reference either a fleet ID or alias ID, but not both.
         public let fleetId: String?
         /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. The maximum number of results returned is 20, even if this value is not set or is set higher than 20.
         public let limit: Int?
-        /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
+        /// A fleet location to search for game sessions. You can specify a fleet's home Region or a remote location. Use the AWS Region code format, such as us-west-2.
+        public let location: String?
+        /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
         /// Instructions on how to sort the search results. If no sort expression is included, the request returns results in random order. A sort expression consists of the following elements:    Operand -- Name of a game session attribute. Valid values are gameSessionName, gameSessionId, gameSessionProperties, maximumSessions, creationTimeMillis, playerSessionCount, hasAvailablePlayerSessions.    Order -- Valid sort orders are ASC (ascending) and DESC (descending).   For example, this sort expression returns the oldest active sessions first: "SortExpression": "creationTimeMillis ASC". Results with a null value for the sort operand are returned at the end of the list.
         public let sortExpression: String?
 
-        public init(aliasId: String? = nil, filterExpression: String? = nil, fleetId: String? = nil, limit: Int? = nil, nextToken: String? = nil, sortExpression: String? = nil) {
+        public init(aliasId: String? = nil, filterExpression: String? = nil, fleetId: String? = nil, limit: Int? = nil, location: String? = nil, nextToken: String? = nil, sortExpression: String? = nil) {
             self.aliasId = aliasId
             self.filterExpression = filterExpression
             self.fleetId = fleetId
             self.limit = limit
+            self.location = location
             self.nextToken = nextToken
             self.sortExpression = sortExpression
         }
 
         public func validate(name: String) throws {
+            try self.aliasId?.forEach {}
             try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^alias-\\S+|^arn:.*:alias\\/alias-\\S+")
+            try self.filterExpression?.forEach {}
             try self.validate(self.filterExpression, name: "filterExpression", parent: name, max: 1024)
             try self.validate(self.filterExpression, name: "filterExpression", parent: name, min: 1)
+            try self.fleetId?.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.location?.forEach {}
+            try self.validate(self.location, name: "location", parent: name, max: 64)
+            try self.validate(self.location, name: "location", parent: name, min: 1)
+            try self.validate(self.location, name: "location", parent: name, pattern: "^[a-z]+(-([a-z]+|\\d))*")
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.sortExpression?.forEach {}
             try self.validate(self.sortExpression, name: "sortExpression", parent: name, max: 1024)
             try self.validate(self.sortExpression, name: "sortExpression", parent: name, min: 1)
         }
@@ -4960,15 +5744,16 @@ extension GameLift {
             case filterExpression = "FilterExpression"
             case fleetId = "FleetId"
             case limit = "Limit"
+            case location = "Location"
             case nextToken = "NextToken"
             case sortExpression = "SortExpression"
         }
     }
 
     public struct SearchGameSessionsOutput: AWSDecodableShape {
-        /// A collection of objects containing game session properties for each session matching the request.
+        /// A collection of objects containing game session properties for each session that matches the request.
         public let gameSessions: [GameSession]?
-        /// Token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
+        /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
         public init(gameSessions: [GameSession]? = nil, nextToken: String? = nil) {
@@ -4983,9 +5768,9 @@ extension GameLift {
     }
 
     public struct ServerProcess: AWSEncodableShape & AWSDecodableShape {
-        /// The number of server processes that use this configuration to run concurrently on an instance.
+        /// The number of server processes using this configuration that run concurrently on each instance.
         public let concurrentExecutions: Int
-        /// The location of the server executable in a custom game build or the name of the Realtime script file that contains the Init() function. Game builds and Realtime scripts are installed on instances at the root:    Windows (for custom game builds only): C:\game. Example: "C:\game\MyGame\server.exe"    Linux: /local/game. Examples: "/local/game/MyGame/server.exe" or "/local/game/MyRealtimeScript.js"
+        /// The location of a game build executable or the Realtime script file that contains the Init() function. Game builds and Realtime scripts are installed on instances at the root:    Windows (custom game builds only): C:\game. Example: "C:\game\MyGame\server.exe"    Linux: /local/game. Examples: "/local/game/MyGame/server.exe" or "/local/game/MyRealtimeScript.js"
         public let launchPath: String
         /// An optional list of parameters to pass to the server executable or Realtime script on launch.
         public let parameters: String?
@@ -4997,9 +5782,12 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.concurrentExecutions.forEach {}
             try self.validate(self.concurrentExecutions, name: "concurrentExecutions", parent: name, min: 1)
+            try self.launchPath.forEach {}
             try self.validate(self.launchPath, name: "launchPath", parent: name, max: 1024)
             try self.validate(self.launchPath, name: "launchPath", parent: name, min: 1)
+            try self.parameters?.forEach {}
             try self.validate(self.parameters, name: "parameters", parent: name, max: 1024)
             try self.validate(self.parameters, name: "parameters", parent: name, min: 1)
         }
@@ -5014,36 +5802,59 @@ extension GameLift {
     public struct StartFleetActionsInput: AWSEncodableShape {
         /// List of actions to restart on the fleet.
         public let actions: [FleetAction]
-        /// A unique identifier for a fleet to start actions on. You can use either the fleet ID or ARN value.
+        /// A unique identifier for the fleet to restart actions on. You can use either the fleet ID or ARN value.
         public let fleetId: String
+        /// The fleet location to restart fleet actions for. Specify a location in the form of an AWS Region code, such as us-west-2.
+        public let location: String?
 
-        public init(actions: [FleetAction], fleetId: String) {
+        public init(actions: [FleetAction], fleetId: String, location: String? = nil) {
             self.actions = actions
             self.fleetId = fleetId
+            self.location = location
         }
 
         public func validate(name: String) throws {
+            try self.actions.forEach {}
             try self.validate(self.actions, name: "actions", parent: name, max: 1)
             try self.validate(self.actions, name: "actions", parent: name, min: 1)
+            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
+            try self.location?.forEach {}
+            try self.validate(self.location, name: "location", parent: name, max: 64)
+            try self.validate(self.location, name: "location", parent: name, min: 1)
+            try self.validate(self.location, name: "location", parent: name, pattern: "^[a-z]+(-([a-z]+|\\d))*")
         }
 
         private enum CodingKeys: String, CodingKey {
             case actions = "Actions"
             case fleetId = "FleetId"
+            case location = "Location"
         }
     }
 
     public struct StartFleetActionsOutput: AWSDecodableShape {
-        public init() {}
+        /// The Amazon Resource Name (ARN) that is assigned to a GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:&lt;region&gt;::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
+        public let fleetArn: String?
+        /// A unique identifier for the fleet to restart actions on.
+        public let fleetId: String?
+
+        public init(fleetArn: String? = nil, fleetId: String? = nil) {
+            self.fleetArn = fleetArn
+            self.fleetId = fleetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetArn = "FleetArn"
+            case fleetId = "FleetId"
+        }
     }
 
     public struct StartGameSessionPlacementInput: AWSEncodableShape {
         /// Set of information on each player to create a player session for.
         public let desiredPlayerSessions: [DesiredPlayerSession]?
-        /// Set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session).
+        /// A set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session).
         public let gameProperties: [GameProperty]?
-        /// Set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session).
+        /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session).
         public let gameSessionData: String?
         /// A descriptive label that is associated with a game session. Session names do not need to be unique.
         public let gameSessionName: String?
@@ -5053,7 +5864,7 @@ extension GameLift {
         public let maximumPlayerSessionCount: Int
         /// A unique identifier to assign to the new game session placement. This value is developer-defined. The value must be unique across all Regions and cannot be reused unless you are resubmitting a canceled or timed-out placement request.
         public let placementId: String
-        /// Set of values, expressed in milliseconds, indicating the amount of latency that a player experiences when connected to AWS Regions. This information is used to try to place the new game session where it can offer the best possible gameplay experience for the players.
+        /// A set of values, expressed in milliseconds, that indicates the amount of latency that a player experiences when connected to AWS Regions. This information is used to try to place the new game session where it can offer the best possible gameplay experience for the players.
         public let playerLatencies: [PlayerLatency]?
 
         public init(desiredPlayerSessions: [DesiredPlayerSession]? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionName: String? = nil, gameSessionQueueName: String, maximumPlayerSessionCount: Int, placementId: String, playerLatencies: [PlayerLatency]? = nil) {
@@ -5071,24 +5882,32 @@ extension GameLift {
             try self.desiredPlayerSessions?.forEach {
                 try $0.validate(name: "\(name).desiredPlayerSessions[]")
             }
+            try self.desiredPlayerSessions?.forEach {}
             try self.gameProperties?.forEach {
                 try $0.validate(name: "\(name).gameProperties[]")
             }
+            try self.gameProperties?.forEach {}
             try self.validate(self.gameProperties, name: "gameProperties", parent: name, max: 16)
-            try self.validate(self.gameSessionData, name: "gameSessionData", parent: name, max: 4096)
+            try self.gameSessionData?.forEach {}
+            try self.validate(self.gameSessionData, name: "gameSessionData", parent: name, max: 262_144)
             try self.validate(self.gameSessionData, name: "gameSessionData", parent: name, min: 1)
+            try self.gameSessionName?.forEach {}
             try self.validate(self.gameSessionName, name: "gameSessionName", parent: name, max: 1024)
             try self.validate(self.gameSessionName, name: "gameSessionName", parent: name, min: 1)
+            try self.gameSessionQueueName.forEach {}
             try self.validate(self.gameSessionQueueName, name: "gameSessionQueueName", parent: name, max: 256)
             try self.validate(self.gameSessionQueueName, name: "gameSessionQueueName", parent: name, min: 1)
             try self.validate(self.gameSessionQueueName, name: "gameSessionQueueName", parent: name, pattern: "[a-zA-Z0-9-]+|^arn:.*:gamesessionqueue\\/[a-zA-Z0-9-]+")
+            try self.maximumPlayerSessionCount.forEach {}
             try self.validate(self.maximumPlayerSessionCount, name: "maximumPlayerSessionCount", parent: name, min: 0)
+            try self.placementId.forEach {}
             try self.validate(self.placementId, name: "placementId", parent: name, max: 48)
             try self.validate(self.placementId, name: "placementId", parent: name, min: 1)
             try self.validate(self.placementId, name: "placementId", parent: name, pattern: "[a-zA-Z0-9-]+")
             try self.playerLatencies?.forEach {
                 try $0.validate(name: "\(name).playerLatencies[]")
             }
+            try self.playerLatencies?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5119,9 +5938,9 @@ extension GameLift {
     public struct StartMatchBackfillInput: AWSEncodableShape {
         /// Name of the matchmaker to use for this request. You can use either the configuration name or ARN value. The ARN of the matchmaker that was used with the original game session is listed in the GameSession object, MatchmakerData property.
         public let configurationName: String
-        /// Amazon Resource Name (ARN) that is assigned to a game session and uniquely identifies it. This is the same as the game session ID.
+        /// A unique identifier for the game session. Use the game session ID. When using FlexMatch as a standalone matchmaking solution, this parameter is not needed.
         public let gameSessionArn: String?
-        /// Match information on all players that are currently assigned to the game session. This information is used by the matchmaker to find new players and add them to the existing game.   PlayerID, PlayerAttributes, Team -\\- This information is maintained in the GameSession object, MatchmakerData property, for all players who are currently assigned to the game session. The matchmaker data is in JSON syntax, formatted as a string. For more details, see  Match Data.    LatencyInMs -\\- If the matchmaker uses player latency, include a latency value, in milliseconds, for the Region that the game session is currently in. Do not include latency values for any other Region.
+        /// Match information on all players that are currently assigned to the game session. This information is used by the matchmaker to find new players and add them to the existing game.   PlayerID, PlayerAttributes, Team -- This information is maintained in the GameSession object, MatchmakerData property, for all players who are currently assigned to the game session. The matchmaker data is in JSON syntax, formatted as a string. For more details, see  Match Data.    LatencyInMs -- If the matchmaker uses player latency, include a latency value, in milliseconds, for the Region that the game session is currently in. Do not include latency values for any other Region.
         public let players: [Player]
         /// A unique identifier for a matchmaking ticket. If no ticket ID is specified here, Amazon GameLift will generate one in the form of a UUID. Use this identifier to track the match backfill ticket status and retrieve match results.
         public let ticketId: String?
@@ -5134,15 +5953,19 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.configurationName.forEach {}
             try self.validate(self.configurationName, name: "configurationName", parent: name, max: 256)
             try self.validate(self.configurationName, name: "configurationName", parent: name, min: 1)
             try self.validate(self.configurationName, name: "configurationName", parent: name, pattern: "[a-zA-Z0-9-\\.]*|^arn:.*:matchmakingconfiguration\\/[a-zA-Z0-9-\\.]*")
+            try self.gameSessionArn?.forEach {}
             try self.validate(self.gameSessionArn, name: "gameSessionArn", parent: name, max: 256)
             try self.validate(self.gameSessionArn, name: "gameSessionArn", parent: name, min: 1)
             try self.validate(self.gameSessionArn, name: "gameSessionArn", parent: name, pattern: "[a-zA-Z0-9:/-]+")
             try self.players.forEach {
                 try $0.validate(name: "\(name).players[]")
             }
+            try self.players.forEach {}
+            try self.ticketId?.forEach {}
             try self.validate(self.ticketId, name: "ticketId", parent: name, max: 128)
             try self.validate(self.ticketId, name: "ticketId", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
         }
@@ -5183,12 +6006,15 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.configurationName.forEach {}
             try self.validate(self.configurationName, name: "configurationName", parent: name, max: 256)
             try self.validate(self.configurationName, name: "configurationName", parent: name, min: 1)
             try self.validate(self.configurationName, name: "configurationName", parent: name, pattern: "[a-zA-Z0-9-\\.]*|^arn:.*:matchmakingconfiguration\\/[a-zA-Z0-9-\\.]*")
             try self.players.forEach {
                 try $0.validate(name: "\(name).players[]")
             }
+            try self.players.forEach {}
+            try self.ticketId?.forEach {}
             try self.validate(self.ticketId, name: "ticketId", parent: name, max: 128)
             try self.validate(self.ticketId, name: "ticketId", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
         }
@@ -5216,28 +6042,51 @@ extension GameLift {
     public struct StopFleetActionsInput: AWSEncodableShape {
         /// List of actions to suspend on the fleet.
         public let actions: [FleetAction]
-        /// A unique identifier for a fleet to stop actions on. You can use either the fleet ID or ARN value.
+        /// A unique identifier for the fleet to stop actions on. You can use either the fleet ID or ARN value.
         public let fleetId: String
+        /// The fleet location to stop fleet actions for. Specify a location in the form of an AWS Region code, such as us-west-2.
+        public let location: String?
 
-        public init(actions: [FleetAction], fleetId: String) {
+        public init(actions: [FleetAction], fleetId: String, location: String? = nil) {
             self.actions = actions
             self.fleetId = fleetId
+            self.location = location
         }
 
         public func validate(name: String) throws {
+            try self.actions.forEach {}
             try self.validate(self.actions, name: "actions", parent: name, max: 1)
             try self.validate(self.actions, name: "actions", parent: name, min: 1)
+            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
+            try self.location?.forEach {}
+            try self.validate(self.location, name: "location", parent: name, max: 64)
+            try self.validate(self.location, name: "location", parent: name, min: 1)
+            try self.validate(self.location, name: "location", parent: name, pattern: "^[a-z]+(-([a-z]+|\\d))*")
         }
 
         private enum CodingKeys: String, CodingKey {
             case actions = "Actions"
             case fleetId = "FleetId"
+            case location = "Location"
         }
     }
 
     public struct StopFleetActionsOutput: AWSDecodableShape {
-        public init() {}
+        /// The Amazon Resource Name (ARN) that is assigned to a GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:&lt;region&gt;::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
+        public let fleetArn: String?
+        /// A unique identifier for the fleet to stop actions on.
+        public let fleetId: String?
+
+        public init(fleetArn: String? = nil, fleetId: String? = nil) {
+            self.fleetArn = fleetArn
+            self.fleetId = fleetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetArn = "FleetArn"
+            case fleetId = "FleetId"
+        }
     }
 
     public struct StopGameSessionPlacementInput: AWSEncodableShape {
@@ -5249,6 +6098,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.placementId.forEach {}
             try self.validate(self.placementId, name: "placementId", parent: name, max: 48)
             try self.validate(self.placementId, name: "placementId", parent: name, min: 1)
             try self.validate(self.placementId, name: "placementId", parent: name, pattern: "[a-zA-Z0-9-]+")
@@ -5281,6 +6131,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.ticketId.forEach {}
             try self.validate(self.ticketId, name: "ticketId", parent: name, max: 128)
             try self.validate(self.ticketId, name: "ticketId", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
         }
@@ -5306,9 +6157,11 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.gameServerGroupName.forEach {}
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+")
+            try self.suspendActions.forEach {}
             try self.validate(self.suspendActions, name: "suspendActions", parent: name, max: 1)
             try self.validate(self.suspendActions, name: "suspendActions", parent: name, min: 1)
         }
@@ -5344,8 +6197,10 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
         }
@@ -5368,11 +6223,13 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -5409,6 +6266,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.targetValue.forEach {}
             try self.validate(self.targetValue, name: "targetValue", parent: name, min: 0)
         }
 
@@ -5429,12 +6287,14 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
         }
@@ -5467,13 +6327,17 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.aliasId.forEach {}
             try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^alias-\\S+|^arn:.*:alias\\/alias-\\S+")
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
             try self.routingStrategy?.validate(name: "\(name).routingStrategy")
+            try self.routingStrategy?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5498,7 +6362,7 @@ extension GameLift {
     }
 
     public struct UpdateBuildInput: AWSEncodableShape {
-        /// A unique identifier for a build to update. You can use either the build ID or ARN value.
+        /// A unique identifier for the build to update. You can use either the build ID or ARN value.
         public let buildId: String
         /// A descriptive label that is associated with a build. Build names do not need to be unique.
         public let name: String?
@@ -5512,9 +6376,12 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.buildId.forEach {}
             try self.validate(self.buildId, name: "buildId", parent: name, pattern: "^build-\\S+|^arn:.*:build\\/build-\\S+")
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.version?.forEach {}
             try self.validate(self.version, name: "version", parent: name, max: 1024)
             try self.validate(self.version, name: "version", parent: name, min: 1)
         }
@@ -5540,17 +6407,17 @@ extension GameLift {
     }
 
     public struct UpdateFleetAttributesInput: AWSEncodableShape {
-        /// Human-readable description of a fleet.
+        /// A human-readable description of a fleet.
         public let description: String?
-        /// A unique identifier for a fleet to update attribute metadata for. You can use either the fleet ID or ARN value.
+        /// A unique identifier for the fleet to update attribute metadata for. You can use either the fleet ID or ARN value.
         public let fleetId: String
-        /// Names of metric groups to include this fleet in. Amazon CloudWatch uses a fleet metric group is to aggregate metrics from multiple fleets. Use an existing metric group name to add this fleet to the group. Or use a new name to create a new metric group. A fleet can only be included in one metric group at a time.
+        /// The name of a metric group to add this fleet to. Use a metric group in Amazon CloudWatch to aggregate the metrics from multiple fleets. Provide an existing metric group name, or create a new metric group by providing a new name. A fleet can only be in one metric group at a time.
         public let metricGroups: [String]?
         /// A descriptive label that is associated with a fleet. Fleet names do not need to be unique.
         public let name: String?
-        /// Game session protection policy to apply to all new instances created in this fleet. Instances that already exist are not affected. You can set protection for individual instances using UpdateGameSession.    NoProtection -- The game session can be terminated during a scale-down event.    FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.
+        /// The game session protection policy to apply to all new instances created in this fleet. Instances that already exist are not affected. You can set protection for individual instances using UpdateGameSession.    NoProtection -- The game session can be terminated during a scale-down event.    FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.
         public let newGameSessionProtectionPolicy: ProtectionPolicy?
-        /// Policy that limits the number of game sessions an individual player can create over a span of time.
+        /// Policy settings that limit the number of game sessions an individual player can create over a span of time.
         public let resourceCreationLimitPolicy: ResourceCreationLimitPolicy?
 
         public init(description: String? = nil, fleetId: String, metricGroups: [String]? = nil, name: String? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil) {
@@ -5563,17 +6430,22 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
             try self.metricGroups?.forEach {
                 try validate($0, name: "metricGroups[]", parent: name, max: 255)
                 try validate($0, name: "metricGroups[]", parent: name, min: 1)
             }
+            try self.metricGroups?.forEach {}
             try self.validate(self.metricGroups, name: "metricGroups", parent: name, max: 1)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.resourceCreationLimitPolicy?.validate(name: "\(name).resourceCreationLimitPolicy")
+            try self.resourceCreationLimitPolicy?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5587,7 +6459,7 @@ extension GameLift {
     }
 
     public struct UpdateFleetAttributesOutput: AWSDecodableShape {
-        /// A unique identifier for a fleet that was updated. Use either the fleet ID or ARN value.
+        /// A unique identifier for the fleet that was updated.
         public let fleetId: String?
 
         public init(fleetId: String? = nil) {
@@ -5600,52 +6472,72 @@ extension GameLift {
     }
 
     public struct UpdateFleetCapacityInput: AWSEncodableShape {
-        /// Number of EC2 instances you want this fleet to host.
+        /// The number of EC2 instances you want to maintain in the specified fleet location. This value must fall between the minimum and maximum size limits.
         public let desiredInstances: Int?
-        /// A unique identifier for a fleet to update capacity for. You can use either the fleet ID or ARN value.
+        /// A unique identifier for the fleet to update capacity settings for. You can use either the fleet ID or ARN value.
         public let fleetId: String
-        /// The maximum value allowed for the fleet's instance count. Default if not set is 1.
+        /// The name of a remote location to update fleet capacity settings for, in the form of an AWS Region code such as us-west-2.
+        public let location: String?
+        /// The maximum number of instances that are allowed in the specified fleet location. If this parameter is not set, the default is 1.
         public let maxSize: Int?
-        /// The minimum value allowed for the fleet's instance count. Default if not set is 0.
+        /// The minimum number of instances that are allowed in the specified fleet location. If this parameter is not set, the default is 0.
         public let minSize: Int?
 
-        public init(desiredInstances: Int? = nil, fleetId: String, maxSize: Int? = nil, minSize: Int? = nil) {
+        public init(desiredInstances: Int? = nil, fleetId: String, location: String? = nil, maxSize: Int? = nil, minSize: Int? = nil) {
             self.desiredInstances = desiredInstances
             self.fleetId = fleetId
+            self.location = location
             self.maxSize = maxSize
             self.minSize = minSize
         }
 
         public func validate(name: String) throws {
+            try self.desiredInstances?.forEach {}
             try self.validate(self.desiredInstances, name: "desiredInstances", parent: name, min: 0)
+            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
+            try self.location?.forEach {}
+            try self.validate(self.location, name: "location", parent: name, max: 64)
+            try self.validate(self.location, name: "location", parent: name, min: 1)
+            try self.validate(self.location, name: "location", parent: name, pattern: "^[a-z]+(-([a-z]+|\\d))*")
+            try self.maxSize?.forEach {}
             try self.validate(self.maxSize, name: "maxSize", parent: name, min: 0)
+            try self.minSize?.forEach {}
             try self.validate(self.minSize, name: "minSize", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case desiredInstances = "DesiredInstances"
             case fleetId = "FleetId"
+            case location = "Location"
             case maxSize = "MaxSize"
             case minSize = "MinSize"
         }
     }
 
     public struct UpdateFleetCapacityOutput: AWSDecodableShape {
-        /// A unique identifier for a fleet that was updated.
+        /// The Amazon Resource Name (ARN) that is assigned to a GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:&lt;region&gt;::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
+        public let fleetArn: String?
+        /// A unique identifier for the fleet that was updated.
         public let fleetId: String?
+        /// The remote location being updated, expressed as an AWS Region code, such as us-west-2.
+        public let location: String?
 
-        public init(fleetId: String? = nil) {
+        public init(fleetArn: String? = nil, fleetId: String? = nil, location: String? = nil) {
+            self.fleetArn = fleetArn
             self.fleetId = fleetId
+            self.location = location
         }
 
         private enum CodingKeys: String, CodingKey {
+            case fleetArn = "FleetArn"
             case fleetId = "FleetId"
+            case location = "Location"
         }
     }
 
     public struct UpdateFleetPortSettingsInput: AWSEncodableShape {
-        /// A unique identifier for a fleet to update port settings for. You can use either the fleet ID or ARN value.
+        /// A unique identifier for the fleet to update port settings for. You can use either the fleet ID or ARN value.
         public let fleetId: String
         /// A collection of port settings to be added to the fleet resource.
         public let inboundPermissionAuthorizations: [IpPermission]?
@@ -5659,14 +6551,17 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
             try self.inboundPermissionAuthorizations?.forEach {
                 try $0.validate(name: "\(name).inboundPermissionAuthorizations[]")
             }
+            try self.inboundPermissionAuthorizations?.forEach {}
             try self.validate(self.inboundPermissionAuthorizations, name: "inboundPermissionAuthorizations", parent: name, max: 50)
             try self.inboundPermissionRevocations?.forEach {
                 try $0.validate(name: "\(name).inboundPermissionRevocations[]")
             }
+            try self.inboundPermissionRevocations?.forEach {}
             try self.validate(self.inboundPermissionRevocations, name: "inboundPermissionRevocations", parent: name, max: 50)
         }
 
@@ -5678,7 +6573,7 @@ extension GameLift {
     }
 
     public struct UpdateFleetPortSettingsOutput: AWSDecodableShape {
-        /// A unique identifier for a fleet that was updated.
+        /// A unique identifier for the fleet that was updated.
         public let fleetId: String?
 
         public init(fleetId: String? = nil) {
@@ -5711,14 +6606,17 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.gameServerGroupName.forEach {}
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+")
             try self.instanceDefinitions?.forEach {
                 try $0.validate(name: "\(name).instanceDefinitions[]")
             }
+            try self.instanceDefinitions?.forEach {}
             try self.validate(self.instanceDefinitions, name: "instanceDefinitions", parent: name, max: 20)
             try self.validate(self.instanceDefinitions, name: "instanceDefinitions", parent: name, min: 2)
+            try self.roleArn?.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:.*:role\\/[\\w+=,.@-]+")
@@ -5767,12 +6665,15 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.gameServerData?.forEach {}
             try self.validate(self.gameServerData, name: "gameServerData", parent: name, max: 1024)
             try self.validate(self.gameServerData, name: "gameServerData", parent: name, min: 1)
             try self.validate(self.gameServerData, name: "gameServerData", parent: name, pattern: ".*\\S.*")
+            try self.gameServerGroupName.forEach {}
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+")
+            try self.gameServerId.forEach {}
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, max: 128)
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, min: 3)
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, pattern: "[a-zA-Z0-9-\\.]+")
@@ -5807,7 +6708,7 @@ extension GameLift {
         public let maximumPlayerSessionCount: Int?
         /// A descriptive label that is associated with a game session. Session names do not need to be unique.
         public let name: String?
-        /// Policy determining whether or not the game session accepts new players.
+        /// A policy that determines whether the game session is accepting new players.
         public let playerSessionCreationPolicy: PlayerSessionCreationPolicy?
         /// Game session protection policy to apply to this game session only.    NoProtection -- The game session can be terminated during a scale-down event.    FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.
         public let protectionPolicy: ProtectionPolicy?
@@ -5821,10 +6722,13 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.gameSessionId.forEach {}
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, max: 256)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, min: 1)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, pattern: "[a-zA-Z0-9:/-]+")
+            try self.maximumPlayerSessionCount?.forEach {}
             try self.validate(self.maximumPlayerSessionCount, name: "maximumPlayerSessionCount", parent: name, min: 0)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -5839,7 +6743,7 @@ extension GameLift {
     }
 
     public struct UpdateGameSessionOutput: AWSDecodableShape {
-        /// The updated game session metadata.
+        /// The updated game session properties.
         public let gameSession: GameSession?
 
         public init(gameSession: GameSession? = nil) {
@@ -5852,39 +6756,71 @@ extension GameLift {
     }
 
     public struct UpdateGameSessionQueueInput: AWSEncodableShape {
-        /// A list of fleets that can be used to fulfill game session placement requests in the queue. Fleets are identified by either a fleet ARN or a fleet alias ARN. Destinations are listed in default preference order. When updating this list, provide a complete list of destinations.
+        ///  Information to be added to all events that are related to this game session queue.
+        public let customEventData: String?
+        /// A list of fleets and/or fleet aliases that can be used to fulfill game session placement requests in the queue. Destinations are identified by either a fleet ARN or a fleet alias ARN, and are listed in order of placement preference. When updating this list, provide a complete list of destinations.
         public let destinations: [GameSessionQueueDestination]?
+        /// A list of locations where a queue is allowed to place new game sessions. Locations are specified in the form of AWS Region codes, such as us-west-2. If this parameter is not set, game sessions can be placed in any queue location. To remove an existing filter configuration, pass in an empty set.
+        public let filterConfiguration: FilterConfiguration?
         /// A descriptive label that is associated with game session queue. Queue names must be unique within each Region. You can use either the queue ID or ARN value.
         public let name: String
-        /// A collection of latency policies to apply when processing game sessions placement requests with player latency information. Multiple policies are evaluated in order of the maximum latency value, starting with the lowest latency values. With just one policy, the policy is enforced at the start of the game session placement for the duration period. With multiple policies, each policy is enforced consecutively for its duration period. For example, a queue might enforce a 60-second policy followed by a 120-second policy, and then no policy for the remainder of the placement. When updating policies, provide a complete collection of policies.
+        /// An SNS topic ARN that is set up to receive game session placement notifications. See  Setting up notifications for game session placement.
+        public let notificationTarget: String?
+        /// A set of policies that act as a sliding cap on player latency. FleetIQ works to deliver low latency for most players in a game session. These policies ensure that no individual player can be placed into a game with unreasonably high latency. Use multiple policies to gradually relax latency requirements a step at a time. Multiple policies are applied based on their maximum allowed latency, starting with the lowest value. When updating policies, provide a complete collection of policies.
         public let playerLatencyPolicies: [PlayerLatencyPolicy]?
+        /// Custom settings to use when prioritizing destinations and locations for game session placements. This configuration replaces the FleetIQ default prioritization process. Priority types that are not explicitly named will be automatically applied at the end of the prioritization process. To remove an existing priority configuration, pass in an empty set.
+        public let priorityConfiguration: PriorityConfiguration?
         /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status.
         public let timeoutInSeconds: Int?
 
-        public init(destinations: [GameSessionQueueDestination]? = nil, name: String, playerLatencyPolicies: [PlayerLatencyPolicy]? = nil, timeoutInSeconds: Int? = nil) {
+        public init(customEventData: String? = nil, destinations: [GameSessionQueueDestination]? = nil, filterConfiguration: FilterConfiguration? = nil, name: String, notificationTarget: String? = nil, playerLatencyPolicies: [PlayerLatencyPolicy]? = nil, priorityConfiguration: PriorityConfiguration? = nil, timeoutInSeconds: Int? = nil) {
+            self.customEventData = customEventData
             self.destinations = destinations
+            self.filterConfiguration = filterConfiguration
             self.name = name
+            self.notificationTarget = notificationTarget
             self.playerLatencyPolicies = playerLatencyPolicies
+            self.priorityConfiguration = priorityConfiguration
             self.timeoutInSeconds = timeoutInSeconds
         }
 
         public func validate(name: String) throws {
+            try self.customEventData?.forEach {}
+            try self.validate(self.customEventData, name: "customEventData", parent: name, max: 256)
+            try self.validate(self.customEventData, name: "customEventData", parent: name, min: 0)
+            try self.validate(self.customEventData, name: "customEventData", parent: name, pattern: "[\\s\\S]*")
             try self.destinations?.forEach {
                 try $0.validate(name: "\(name).destinations[]")
             }
+            try self.destinations?.forEach {}
+            try self.filterConfiguration?.validate(name: "\(name).filterConfiguration")
+            try self.filterConfiguration?.forEach {}
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9-]+|^arn:.*:gamesessionqueue\\/[a-zA-Z0-9-]+")
+            try self.notificationTarget?.forEach {}
+            try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, max: 300)
+            try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, min: 0)
+            try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, pattern: "[a-zA-Z0-9:_-]*(\\.fifo)?")
             try self.playerLatencyPolicies?.forEach {
                 try $0.validate(name: "\(name).playerLatencyPolicies[]")
             }
+            try self.playerLatencyPolicies?.forEach {}
+            try self.priorityConfiguration?.validate(name: "\(name).priorityConfiguration")
+            try self.priorityConfiguration?.forEach {}
+            try self.timeoutInSeconds?.forEach {}
             try self.validate(self.timeoutInSeconds, name: "timeoutInSeconds", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customEventData = "CustomEventData"
             case destinations = "Destinations"
+            case filterConfiguration = "FilterConfiguration"
             case name = "Name"
+            case notificationTarget = "NotificationTarget"
             case playerLatencyPolicies = "PlayerLatencyPolicies"
+            case priorityConfiguration = "PriorityConfiguration"
             case timeoutInSeconds = "TimeoutInSeconds"
         }
     }
@@ -5905,9 +6841,9 @@ extension GameLift {
     public struct UpdateMatchmakingConfigurationInput: AWSEncodableShape {
         /// A flag that indicates whether a match that was created with this configuration must be accepted by the matched players. To require acceptance, set to TRUE. With this option enabled, matchmaking tickets use the status REQUIRES_ACCEPTANCE to indicate when a completed potential match is waiting for player acceptance.
         public let acceptanceRequired: Bool?
-        /// The length of time (in seconds) to wait for players to accept a proposed match, if acceptance is required. If any player rejects the match or fails to accept before the timeout, the tickets are returned to the ticket pool and continue to be evaluated for an acceptable match.
+        /// The length of time (in seconds) to wait for players to accept a proposed match, if acceptance is required.
         public let acceptanceTimeoutSeconds: Int?
-        /// The number of player slots in a match to keep open for future players. For example, assume that the configuration's rule set specifies a match for a single 12-person team. If the additional player count is set to 2, only 10 players are initially selected for the match. This parameter is not used if FlexMatchMode is set to STANDALONE.
+        /// The number of player slots in a match to keep open for future players. For example, if the configuration's rule set specifies a match for a single 12-person team, and the additional player count is set to 2, only 10 players are selected for the match. This parameter is not used if FlexMatchMode is set to STANDALONE.
         public let additionalPlayerCount: Int?
         /// The method that is used to backfill game sessions created with this matchmaking configuration. Specify MANUAL when your game manages backfill requests manually or does not use the match backfill feature. Specify AUTOMATIC to have GameLift create a StartMatchBackfill request whenever a game session has one or more open slots. Learn more about manual and automatic backfill in Backfill Existing Games with FlexMatch. Automatic backfill is not available when FlexMatchMode is set to STANDALONE.
         public let backfillMode: BackfillMode?
@@ -5917,19 +6853,19 @@ extension GameLift {
         public let description: String?
         /// Indicates whether this matchmaking configuration is being used with GameLift hosting or as a standalone matchmaking solution.     STANDALONE - FlexMatch forms matches and returns match information, including players and team assignments, in a  MatchmakingSucceeded event.    WITH_QUEUE - FlexMatch forms matches and uses the specified GameLift queue to start a game session for the match.
         public let flexMatchMode: FlexMatchMode?
-        /// A set of custom properties for a game session, formatted as key-value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
+        /// A set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
         public let gameProperties: [GameProperty]?
         /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see Start a Game Session). This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
         public let gameSessionData: String?
-        /// Amazon Resource Name (ARN) that is assigned to a GameLift game session queue resource and uniquely identifies it. ARNs are unique across all Regions. Queues can be located in any Region. Queues are used to start new GameLift-hosted game sessions for matches that are created with this matchmaking configuration. If FlexMatchMode is set to STANDALONE, do not set this parameter.
+        /// The Amazon Resource Name (ARN) that is assigned to a GameLift game session queue resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:&lt;region&gt;::gamesessionqueue/&lt;queue name&gt;. Queues can be located in any Region. Queues are used to start new GameLift-hosted game sessions for matches that are created with this matchmaking configuration. If FlexMatchMode is set to STANDALONE, do not set this parameter.
         public let gameSessionQueueArns: [String]?
-        /// A unique identifier for a matchmaking configuration to update. You can use either the configuration name or ARN value.
+        /// A unique identifier for the matchmaking configuration to update. You can use either the configuration name or ARN value.
         public let name: String
-        /// An SNS topic ARN that is set up to receive matchmaking notifications. See  Setting up Notifications for Matchmaking for more information.
+        /// An SNS topic ARN that is set up to receive matchmaking notifications. See  Setting up notifications for matchmaking for more information.
         public let notificationTarget: String?
         /// The maximum duration, in seconds, that a matchmaking ticket can remain in process before timing out. Requests that fail due to timing out can be resubmitted as needed.
         public let requestTimeoutSeconds: Int?
-        /// A unique identifier for a matchmaking rule set to use with this configuration. You can use either the rule set name or ARN value. A matchmaking configuration can only use rule sets that are defined in the same Region.
+        /// A unique identifier for the matchmaking rule set to use with this configuration. You can use either the rule set name or ARN value. A matchmaking configuration can only use rule sets that are defined in the same Region.
         public let ruleSetName: String?
 
         public init(acceptanceRequired: Bool? = nil, acceptanceTimeoutSeconds: Int? = nil, additionalPlayerCount: Int? = nil, backfillMode: BackfillMode? = nil, customEventData: String? = nil, description: String? = nil, flexMatchMode: FlexMatchMode? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionQueueArns: [String]? = nil, name: String, notificationTarget: String? = nil, requestTimeoutSeconds: Int? = nil, ruleSetName: String? = nil) {
@@ -5950,17 +6886,23 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.acceptanceTimeoutSeconds?.forEach {}
             try self.validate(self.acceptanceTimeoutSeconds, name: "acceptanceTimeoutSeconds", parent: name, max: 600)
             try self.validate(self.acceptanceTimeoutSeconds, name: "acceptanceTimeoutSeconds", parent: name, min: 1)
+            try self.additionalPlayerCount?.forEach {}
             try self.validate(self.additionalPlayerCount, name: "additionalPlayerCount", parent: name, min: 0)
+            try self.customEventData?.forEach {}
             try self.validate(self.customEventData, name: "customEventData", parent: name, max: 256)
             try self.validate(self.customEventData, name: "customEventData", parent: name, min: 0)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.gameProperties?.forEach {
                 try $0.validate(name: "\(name).gameProperties[]")
             }
+            try self.gameProperties?.forEach {}
             try self.validate(self.gameProperties, name: "gameProperties", parent: name, max: 16)
+            try self.gameSessionData?.forEach {}
             try self.validate(self.gameSessionData, name: "gameSessionData", parent: name, max: 4096)
             try self.validate(self.gameSessionData, name: "gameSessionData", parent: name, min: 1)
             try self.gameSessionQueueArns?.forEach {
@@ -5968,14 +6910,19 @@ extension GameLift {
                 try validate($0, name: "gameSessionQueueArns[]", parent: name, min: 1)
                 try validate($0, name: "gameSessionQueueArns[]", parent: name, pattern: "[a-zA-Z0-9:/-]+")
             }
+            try self.gameSessionQueueArns?.forEach {}
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9-\\.]*|^arn:.*:matchmakingconfiguration\\/[a-zA-Z0-9-\\.]*")
+            try self.notificationTarget?.forEach {}
             try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, max: 300)
             try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, min: 0)
             try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, pattern: "[a-zA-Z0-9:_/-]*(.fifo)?")
+            try self.requestTimeoutSeconds?.forEach {}
             try self.validate(self.requestTimeoutSeconds, name: "requestTimeoutSeconds", parent: name, max: 43200)
             try self.validate(self.requestTimeoutSeconds, name: "requestTimeoutSeconds", parent: name, min: 1)
+            try self.ruleSetName?.forEach {}
             try self.validate(self.ruleSetName, name: "ruleSetName", parent: name, max: 256)
             try self.validate(self.ruleSetName, name: "ruleSetName", parent: name, min: 1)
             try self.validate(self.ruleSetName, name: "ruleSetName", parent: name, pattern: "[a-zA-Z0-9-\\.]*|^arn:.*:matchmakingruleset\\/[a-zA-Z0-9-\\.]*")
@@ -6013,9 +6960,9 @@ extension GameLift {
     }
 
     public struct UpdateRuntimeConfigurationInput: AWSEncodableShape {
-        /// A unique identifier for a fleet to update runtime configuration for. You can use either the fleet ID or ARN value.
+        /// A unique identifier for the fleet to update runtime configuration for. You can use either the fleet ID or ARN value.
         public let fleetId: String
-        /// Instructions for launching server processes on each instance in the fleet. Server processes run either a custom game build executable or a Realtime Servers script. The runtime configuration lists the types of server processes to run on an instance and includes the following configuration settings: the server executable or launch script file, launch parameters, and the number of processes to run concurrently on each instance. A CreateFleet request must include a runtime configuration with at least one server process configuration.
+        /// Instructions for launching server processes on each instance in the fleet. Server processes run either a custom game build executable or a Realtime Servers script. The runtime configuration lists the types of server processes to run on an instance, how to launch them, and the number of processes to run concurrently.
         public let runtimeConfiguration: RuntimeConfiguration
 
         public init(fleetId: String, runtimeConfiguration: RuntimeConfiguration) {
@@ -6024,8 +6971,10 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
             try self.runtimeConfiguration.validate(name: "\(name).runtimeConfiguration")
+            try self.runtimeConfiguration.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6035,7 +6984,7 @@ extension GameLift {
     }
 
     public struct UpdateRuntimeConfigurationOutput: AWSDecodableShape {
-        /// The runtime configuration currently in force. If the update was successful, this object matches the one in the request.
+        /// The runtime configuration currently in use by all instances in the fleet. If the update was successful, all property changes are shown.
         public let runtimeConfiguration: RuntimeConfiguration?
 
         public init(runtimeConfiguration: RuntimeConfiguration? = nil) {
@@ -6050,11 +6999,11 @@ extension GameLift {
     public struct UpdateScriptInput: AWSEncodableShape {
         /// A descriptive label that is associated with a script. Script names do not need to be unique.
         public let name: String?
-        /// A unique identifier for a Realtime script to update. You can use either the script ID or ARN value.
+        /// A unique identifier for the Realtime script to update. You can use either the script ID or ARN value.
         public let scriptId: String
-        /// The Amazon S3 location of your Realtime scripts. The storage location must specify the S3 bucket name, the zip file name (the "key"), and an IAM role ARN that allows Amazon GameLift to access the S3 storage location. The S3 bucket must be in the same Region as the script you're updating. By default, Amazon GameLift uploads the latest version of the zip file; if you have S3 object versioning turned on, you can use the ObjectVersion parameter to specify an earlier version. To call this operation with a storage location, you must have IAM PassRole permission. For more details on IAM roles and PassRole permissions, see  Set up a role for GameLift access.
+        /// The location of the Amazon S3 bucket where a zipped file containing your Realtime scripts is stored. The storage location must specify the Amazon S3 bucket name, the zip file name (the "key"), and a role ARN that allows Amazon GameLift to access the Amazon S3 storage location. The S3 bucket must be in the same Region where you want to create a new script. By default, Amazon GameLift uploads the latest version of the zip file; if you have S3 object versioning turned on, you can use the ObjectVersion parameter to specify an earlier version.
         public let storageLocation: S3Location?
-        /// The version that is associated with a build or script. Version strings do not need to be unique.
+        /// Version information that is associated with a build or script. Version strings do not need to be unique.
         public let version: String?
         /// A data object containing your Realtime scripts and dependencies as a zip file. The zip file can have one or multiple files. Maximum size of a zip file is 5 MB. When using the AWS CLI tool to create a script, this parameter is set to the zip file name. It must be prepended with the string "fileb://" to indicate that the file data is a binary object. For example: --zip-file fileb://myRealtimeScript.zip.
         public let zipFile: Data?
@@ -6068,12 +7017,17 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.scriptId.forEach {}
             try self.validate(self.scriptId, name: "scriptId", parent: name, pattern: "^script-\\S+|^arn:.*:script\\/script-\\S+")
             try self.storageLocation?.validate(name: "\(name).storageLocation")
+            try self.storageLocation?.forEach {}
+            try self.version?.forEach {}
             try self.validate(self.version, name: "version", parent: name, max: 1024)
             try self.validate(self.version, name: "version", parent: name, min: 1)
+            try self.zipFile?.forEach {}
             try self.validate(self.zipFile, name: "zipFile", parent: name, max: 5_000_000)
         }
 
@@ -6108,6 +7062,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
+            try self.ruleSetBody.forEach {}
             try self.validate(self.ruleSetBody, name: "ruleSetBody", parent: name, max: 65535)
             try self.validate(self.ruleSetBody, name: "ruleSetBody", parent: name, min: 1)
         }
@@ -6135,10 +7090,10 @@ extension GameLift {
         public let creationTime: Date?
         /// Time stamp indicating when this authorization expires (24 hours after issuance). Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let expirationTime: Date?
-        /// A unique identifier for the AWS account that you use to manage your Amazon GameLift fleet. You can find your Account ID in the AWS Management Console under account settings.
+        /// A unique identifier for the AWS account that you use to manage your GameLift fleet. You can find your Account ID in the AWS Management Console under account settings.
         public let gameLiftAwsAccountId: String?
         public let peerVpcAwsAccountId: String?
-        /// A unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same Region where your fleet is deployed. Look up a VPC ID using the VPC Dashboard in the AWS Management Console. Learn more about VPC peering in VPC Peering with Amazon GameLift Fleets.
+        /// A unique identifier for a VPC with resources to be accessed by your GameLift fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use the VPC Dashboard in the AWS Management Console. Learn more about VPC peering in VPC Peering with GameLift Fleets.
         public let peerVpcId: String?
 
         public init(creationTime: Date? = nil, expirationTime: Date? = nil, gameLiftAwsAccountId: String? = nil, peerVpcAwsAccountId: String? = nil, peerVpcId: String? = nil) {
@@ -6161,13 +7116,13 @@ extension GameLift {
     public struct VpcPeeringConnection: AWSDecodableShape {
         ///  The Amazon Resource Name (ARN) associated with the GameLift fleet resource for this connection.
         public let fleetArn: String?
-        /// A unique identifier for a fleet. This ID determines the ID of the Amazon GameLift VPC for your fleet.
+        /// A unique identifier for the fleet. This ID determines the ID of the Amazon GameLift VPC for your fleet.
         public let fleetId: String?
         /// A unique identifier for the VPC that contains the Amazon GameLift fleet for this connection. This VPC is managed by Amazon GameLift and does not appear in your AWS account.
         public let gameLiftVpcId: String?
         /// CIDR block of IPv4 addresses assigned to the VPC peering connection for the GameLift VPC. The peered VPC also has an IPv4 CIDR block associated with it; these blocks cannot overlap or the peering connection cannot be created.
         public let ipV4CidrBlock: String?
-        /// A unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same Region where your fleet is deployed. Look up a VPC ID using the VPC Dashboard in the AWS Management Console. Learn more about VPC peering in VPC Peering with Amazon GameLift Fleets.
+        /// A unique identifier for a VPC with resources to be accessed by your GameLift fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use the VPC Dashboard in the AWS Management Console. Learn more about VPC peering in VPC Peering with GameLift Fleets.
         public let peerVpcId: String?
         /// The status information about the connection. Status indicates if a connection is pending, successful, or failed.
         public let status: VpcPeeringConnectionStatus?

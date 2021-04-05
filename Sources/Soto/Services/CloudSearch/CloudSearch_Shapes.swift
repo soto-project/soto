@@ -178,6 +178,7 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.analysisSchemeName.forEach {}
             try self.validate(self.analysisSchemeName, name: "analysisSchemeName", parent: name, max: 64)
             try self.validate(self.analysisSchemeName, name: "analysisSchemeName", parent: name, min: 1)
             try self.validate(self.analysisSchemeName, name: "analysisSchemeName", parent: name, pattern: "[a-z][a-z0-9_]*")
@@ -229,6 +230,7 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
@@ -261,6 +263,7 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
@@ -304,8 +307,10 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.defaultValue?.forEach {}
             try self.validate(self.defaultValue, name: "defaultValue", parent: name, max: 1024)
             try self.validate(self.defaultValue, name: "defaultValue", parent: name, min: 0)
+            try self.sourceFields?.forEach {}
             try self.validate(self.sourceFields, name: "sourceFields", parent: name, pattern: "\\s*[a-z*][a-z0-9_]*\\*?\\s*(,\\s*[a-z*][a-z0-9_]*\\*?\\s*)*")
         }
 
@@ -341,8 +346,10 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.defaultValue?.forEach {}
             try self.validate(self.defaultValue, name: "defaultValue", parent: name, max: 1024)
             try self.validate(self.defaultValue, name: "defaultValue", parent: name, min: 0)
+            try self.sourceField?.forEach {}
             try self.validate(self.sourceField, name: "sourceField", parent: name, max: 64)
             try self.validate(self.sourceField, name: "sourceField", parent: name, min: 1)
             try self.validate(self.sourceField, name: "sourceField", parent: name, pattern: "[a-z][a-z0-9_]*")
@@ -369,6 +376,8 @@ extension CloudSearch {
 
         public func validate(name: String) throws {
             try self.analysisScheme.validate(name: "\(name).analysisScheme")
+            try self.analysisScheme.forEach {}
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
@@ -402,10 +411,12 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
             try self.expression.validate(name: "\(name).expression")
+            try self.expression.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -437,10 +448,12 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
             try self.indexField.validate(name: "\(name).indexField")
+            try self.indexField.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -471,10 +484,12 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
             try self.suggester.validate(name: "\(name).suggester")
+            try self.suggester.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -506,9 +521,11 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.analysisSchemeName.forEach {}
             try self.validate(self.analysisSchemeName, name: "analysisSchemeName", parent: name, max: 64)
             try self.validate(self.analysisSchemeName, name: "analysisSchemeName", parent: name, min: 1)
             try self.validate(self.analysisSchemeName, name: "analysisSchemeName", parent: name, pattern: "[a-z][a-z0-9_]*")
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
@@ -542,6 +559,7 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
@@ -575,9 +593,11 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
+            try self.expressionName.forEach {}
             try self.validate(self.expressionName, name: "expressionName", parent: name, max: 64)
             try self.validate(self.expressionName, name: "expressionName", parent: name, min: 1)
             try self.validate(self.expressionName, name: "expressionName", parent: name, pattern: "[a-z][a-z0-9_]*")
@@ -613,9 +633,11 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
+            try self.indexFieldName.forEach {}
             try self.validate(self.indexFieldName, name: "indexFieldName", parent: name, max: 64)
             try self.validate(self.indexFieldName, name: "indexFieldName", parent: name, min: 1)
             try self.validate(self.indexFieldName, name: "indexFieldName", parent: name, pattern: "([a-z][a-z0-9_]*\\*?|\\*[a-z0-9_]*)")
@@ -651,9 +673,11 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
+            try self.suggesterName.forEach {}
             try self.validate(self.suggesterName, name: "suggesterName", parent: name, max: 64)
             try self.validate(self.suggesterName, name: "suggesterName", parent: name, min: 1)
             try self.validate(self.suggesterName, name: "suggesterName", parent: name, pattern: "[a-z][a-z0-9_]*")
@@ -699,6 +723,8 @@ extension CloudSearch {
                 try validate($0, name: "analysisSchemeNames[]", parent: name, min: 1)
                 try validate($0, name: "analysisSchemeNames[]", parent: name, pattern: "[a-z][a-z0-9_]*")
             }
+            try self.analysisSchemeNames?.forEach {}
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
@@ -737,6 +763,7 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
@@ -773,6 +800,7 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
@@ -812,6 +840,7 @@ extension CloudSearch {
                 try validate($0, name: "domainNames[]", parent: name, min: 3)
                 try validate($0, name: "domainNames[]", parent: name, pattern: "[a-z][a-z0-9\\-]+")
             }
+            try self.domainNames?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -848,6 +877,7 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
@@ -856,6 +886,7 @@ extension CloudSearch {
                 try validate($0, name: "expressionNames[]", parent: name, min: 1)
                 try validate($0, name: "expressionNames[]", parent: name, pattern: "[a-z][a-z0-9_]*")
             }
+            try self.expressionNames?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -895,6 +926,7 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
@@ -903,6 +935,7 @@ extension CloudSearch {
                 try validate($0, name: "fieldNames[]", parent: name, min: 1)
                 try validate($0, name: "fieldNames[]", parent: name, pattern: "([a-z][a-z0-9_]*\\*?|\\*[a-z0-9_]*)")
             }
+            try self.fieldNames?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -934,6 +967,7 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
@@ -968,6 +1002,7 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
@@ -1008,6 +1043,7 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
@@ -1016,6 +1052,7 @@ extension CloudSearch {
                 try validate($0, name: "suggesterNames[]", parent: name, min: 1)
                 try validate($0, name: "suggesterNames[]", parent: name, pattern: "[a-z][a-z0-9_]*")
             }
+            try self.suggesterNames?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1054,6 +1091,7 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.sourceField.forEach {}
             try self.validate(self.sourceField, name: "sourceField", parent: name, max: 64)
             try self.validate(self.sourceField, name: "sourceField", parent: name, min: 1)
             try self.validate(self.sourceField, name: "sourceField", parent: name, pattern: "[a-z][a-z0-9_]*")
@@ -1178,6 +1216,7 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.sourceFields?.forEach {}
             try self.validate(self.sourceFields, name: "sourceFields", parent: name, pattern: "\\s*[a-z*][a-z0-9_]*\\*?\\s*(,\\s*[a-z*][a-z0-9_]*\\*?\\s*)*")
         }
 
@@ -1214,6 +1253,7 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.sourceField?.forEach {}
             try self.validate(self.sourceField, name: "sourceField", parent: name, max: 64)
             try self.validate(self.sourceField, name: "sourceField", parent: name, min: 1)
             try self.validate(self.sourceField, name: "sourceField", parent: name, pattern: "[a-z][a-z0-9_]*")
@@ -1239,9 +1279,11 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.expressionName.forEach {}
             try self.validate(self.expressionName, name: "expressionName", parent: name, max: 64)
             try self.validate(self.expressionName, name: "expressionName", parent: name, min: 1)
             try self.validate(self.expressionName, name: "expressionName", parent: name, pattern: "[a-z][a-z0-9_]*")
+            try self.expressionValue.forEach {}
             try self.validate(self.expressionValue, name: "expressionValue", parent: name, max: 10240)
             try self.validate(self.expressionValue, name: "expressionValue", parent: name, min: 1)
         }
@@ -1276,6 +1318,7 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
@@ -1334,19 +1377,31 @@ extension CloudSearch {
 
         public func validate(name: String) throws {
             try self.dateArrayOptions?.validate(name: "\(name).dateArrayOptions")
+            try self.dateArrayOptions?.forEach {}
             try self.dateOptions?.validate(name: "\(name).dateOptions")
+            try self.dateOptions?.forEach {}
             try self.doubleArrayOptions?.validate(name: "\(name).doubleArrayOptions")
+            try self.doubleArrayOptions?.forEach {}
             try self.doubleOptions?.validate(name: "\(name).doubleOptions")
+            try self.doubleOptions?.forEach {}
+            try self.indexFieldName.forEach {}
             try self.validate(self.indexFieldName, name: "indexFieldName", parent: name, max: 64)
             try self.validate(self.indexFieldName, name: "indexFieldName", parent: name, min: 1)
             try self.validate(self.indexFieldName, name: "indexFieldName", parent: name, pattern: "([a-z][a-z0-9_]*\\*?|\\*[a-z0-9_]*)")
             try self.intArrayOptions?.validate(name: "\(name).intArrayOptions")
+            try self.intArrayOptions?.forEach {}
             try self.intOptions?.validate(name: "\(name).intOptions")
+            try self.intOptions?.forEach {}
             try self.latLonOptions?.validate(name: "\(name).latLonOptions")
+            try self.latLonOptions?.forEach {}
             try self.literalArrayOptions?.validate(name: "\(name).literalArrayOptions")
+            try self.literalArrayOptions?.forEach {}
             try self.literalOptions?.validate(name: "\(name).literalOptions")
+            try self.literalOptions?.forEach {}
             try self.textArrayOptions?.validate(name: "\(name).textArrayOptions")
+            try self.textArrayOptions?.forEach {}
             try self.textOptions?.validate(name: "\(name).textOptions")
+            try self.textOptions?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1402,6 +1457,7 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.sourceFields?.forEach {}
             try self.validate(self.sourceFields, name: "sourceFields", parent: name, pattern: "\\s*[a-z*][a-z0-9_]*\\*?\\s*(,\\s*[a-z*][a-z0-9_]*\\*?\\s*)*")
         }
 
@@ -1438,6 +1494,7 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.sourceField?.forEach {}
             try self.validate(self.sourceField, name: "sourceField", parent: name, max: 64)
             try self.validate(self.sourceField, name: "sourceField", parent: name, min: 1)
             try self.validate(self.sourceField, name: "sourceField", parent: name, pattern: "[a-z][a-z0-9_]*")
@@ -1476,8 +1533,10 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.defaultValue?.forEach {}
             try self.validate(self.defaultValue, name: "defaultValue", parent: name, max: 1024)
             try self.validate(self.defaultValue, name: "defaultValue", parent: name, min: 0)
+            try self.sourceField?.forEach {}
             try self.validate(self.sourceField, name: "sourceField", parent: name, max: 64)
             try self.validate(self.sourceField, name: "sourceField", parent: name, min: 1)
             try self.validate(self.sourceField, name: "sourceField", parent: name, pattern: "[a-z][a-z0-9_]*")
@@ -1543,8 +1602,10 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.defaultValue?.forEach {}
             try self.validate(self.defaultValue, name: "defaultValue", parent: name, max: 1024)
             try self.validate(self.defaultValue, name: "defaultValue", parent: name, min: 0)
+            try self.sourceFields?.forEach {}
             try self.validate(self.sourceFields, name: "sourceFields", parent: name, pattern: "\\s*[a-z*][a-z0-9_]*\\*?\\s*(,\\s*[a-z*][a-z0-9_]*\\*?\\s*)*")
         }
 
@@ -1580,8 +1641,10 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.defaultValue?.forEach {}
             try self.validate(self.defaultValue, name: "defaultValue", parent: name, max: 1024)
             try self.validate(self.defaultValue, name: "defaultValue", parent: name, min: 0)
+            try self.sourceField?.forEach {}
             try self.validate(self.sourceField, name: "sourceField", parent: name, max: 64)
             try self.validate(self.sourceField, name: "sourceField", parent: name, min: 1)
             try self.validate(self.sourceField, name: "sourceField", parent: name, pattern: "[a-z][a-z0-9_]*")
@@ -1641,7 +1704,9 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.desiredPartitionCount?.forEach {}
             try self.validate(self.desiredPartitionCount, name: "desiredPartitionCount", parent: name, min: 0)
+            try self.desiredReplicationCount?.forEach {}
             try self.validate(self.desiredReplicationCount, name: "desiredReplicationCount", parent: name, min: 0)
         }
 
@@ -1690,6 +1755,8 @@ extension CloudSearch {
 
         public func validate(name: String) throws {
             try self.documentSuggesterOptions.validate(name: "\(name).documentSuggesterOptions")
+            try self.documentSuggesterOptions.forEach {}
+            try self.suggesterName.forEach {}
             try self.validate(self.suggesterName, name: "suggesterName", parent: name, max: 64)
             try self.validate(self.suggesterName, name: "suggesterName", parent: name, min: 1)
             try self.validate(self.suggesterName, name: "suggesterName", parent: name, pattern: "[a-z][a-z0-9_]*")
@@ -1737,9 +1804,12 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.analysisScheme?.forEach {}
             try self.validate(self.analysisScheme, name: "analysisScheme", parent: name, pattern: "[\\S]+")
+            try self.defaultValue?.forEach {}
             try self.validate(self.defaultValue, name: "defaultValue", parent: name, max: 1024)
             try self.validate(self.defaultValue, name: "defaultValue", parent: name, min: 0)
+            try self.sourceFields?.forEach {}
             try self.validate(self.sourceFields, name: "sourceFields", parent: name, pattern: "\\s*[a-z*][a-z0-9_]*\\*?\\s*(,\\s*[a-z*][a-z0-9_]*\\*?\\s*)*")
         }
 
@@ -1775,9 +1845,12 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.analysisScheme?.forEach {}
             try self.validate(self.analysisScheme, name: "analysisScheme", parent: name, pattern: "[\\S]+")
+            try self.defaultValue?.forEach {}
             try self.validate(self.defaultValue, name: "defaultValue", parent: name, max: 1024)
             try self.validate(self.defaultValue, name: "defaultValue", parent: name, min: 0)
+            try self.sourceField?.forEach {}
             try self.validate(self.sourceField, name: "sourceField", parent: name, max: 64)
             try self.validate(self.sourceField, name: "sourceField", parent: name, min: 1)
             try self.validate(self.sourceField, name: "sourceField", parent: name, pattern: "[a-z][a-z0-9_]*")
@@ -1804,6 +1877,7 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
@@ -1840,6 +1914,7 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
@@ -1874,10 +1949,12 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
             try self.scalingParameters.validate(name: "\(name).scalingParameters")
+            try self.scalingParameters.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1909,6 +1986,7 @@ extension CloudSearch {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")

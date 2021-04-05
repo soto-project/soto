@@ -41,18 +41,23 @@ extension Outposts {
         }
 
         public func validate(name: String) throws {
+            try self.availabilityZone?.forEach {}
             try self.validate(self.availabilityZone, name: "availabilityZone", parent: name, max: 1000)
             try self.validate(self.availabilityZone, name: "availabilityZone", parent: name, min: 1)
             try self.validate(self.availabilityZone, name: "availabilityZone", parent: name, pattern: "[a-z\\d-]+")
+            try self.availabilityZoneId?.forEach {}
             try self.validate(self.availabilityZoneId, name: "availabilityZoneId", parent: name, max: 255)
             try self.validate(self.availabilityZoneId, name: "availabilityZoneId", parent: name, min: 1)
             try self.validate(self.availabilityZoneId, name: "availabilityZoneId", parent: name, pattern: "[a-z]+[0-9]+-az[0-9]+")
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\S ]+$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\S ]+$")
+            try self.siteId.forEach {}
             try self.validate(self.siteId, name: "siteId", parent: name, max: 255)
             try self.validate(self.siteId, name: "siteId", parent: name, min: 1)
             try self.validate(self.siteId, name: "siteId", parent: name, pattern: "os-[a-f0-9]{17}")
@@ -99,6 +104,7 @@ extension Outposts {
         }
 
         public func validate(name: String) throws {
+            try self.outpostId.forEach {}
             try self.validate(self.outpostId, name: "outpostId", parent: name, max: 180)
             try self.validate(self.outpostId, name: "outpostId", parent: name, min: 1)
             try self.validate(self.outpostId, name: "outpostId", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/)?op-[a-f0-9]{17}$")
@@ -123,6 +129,7 @@ extension Outposts {
         }
 
         public func validate(name: String) throws {
+            try self.siteId.forEach {}
             try self.validate(self.siteId, name: "siteId", parent: name, max: 255)
             try self.validate(self.siteId, name: "siteId", parent: name, min: 1)
             try self.validate(self.siteId, name: "siteId", parent: name, pattern: "os-[a-f0-9]{17}")
@@ -147,6 +154,7 @@ extension Outposts {
         }
 
         public func validate(name: String) throws {
+            try self.outpostId.forEach {}
             try self.validate(self.outpostId, name: "outpostId", parent: name, max: 180)
             try self.validate(self.outpostId, name: "outpostId", parent: name, min: 1)
             try self.validate(self.outpostId, name: "outpostId", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/)?op-[a-f0-9]{17}$")
@@ -173,11 +181,14 @@ extension Outposts {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1005)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*\\S.*")
+            try self.outpostId.forEach {}
             try self.validate(self.outpostId, name: "outpostId", parent: name, max: 180)
             try self.validate(self.outpostId, name: "outpostId", parent: name, min: 1)
             try self.validate(self.outpostId, name: "outpostId", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/)?op-[a-f0-9]{17}$")
@@ -246,8 +257,10 @@ extension Outposts {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1005)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*\\S.*")
@@ -286,8 +299,10 @@ extension Outposts {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1005)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*\\S.*")
@@ -324,6 +339,7 @@ extension Outposts {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:([a-z\\d-]+)/)[a-z]{2,8}-[a-f0-9]{17}$")
         }
@@ -425,6 +441,7 @@ extension Outposts {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:([a-z\\d-]+)/)[a-z]{2,8}-[a-f0-9]{17}$")
             try self.tags.forEach {
@@ -462,6 +479,7 @@ extension Outposts {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:([a-z\\d-]+)/)[a-z]{2,8}-[a-f0-9]{17}$")
             try self.tagKeys.forEach {
@@ -469,6 +487,7 @@ extension Outposts {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }

@@ -105,6 +105,7 @@ extension ApiGatewayManagementApi {
         }
 
         public func validate(name: String) throws {
+            try self.data.forEach {}
             try self.validate(self.data, name: "data", parent: name, max: 131_072)
         }
 

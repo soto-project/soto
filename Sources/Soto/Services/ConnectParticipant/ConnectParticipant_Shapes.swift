@@ -116,10 +116,13 @@ extension ConnectParticipant {
                 try validate($0, name: "attachmentIds[]", parent: name, max: 256)
                 try validate($0, name: "attachmentIds[]", parent: name, min: 1)
             }
+            try self.attachmentIds.forEach {}
             try self.validate(self.attachmentIds, name: "attachmentIds", parent: name, max: 1)
             try self.validate(self.attachmentIds, name: "attachmentIds", parent: name, min: 1)
+            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.connectionToken.forEach {}
             try self.validate(self.connectionToken, name: "connectionToken", parent: name, max: 1000)
             try self.validate(self.connectionToken, name: "connectionToken", parent: name, min: 1)
         }
@@ -167,8 +170,10 @@ extension ConnectParticipant {
         }
 
         public func validate(name: String) throws {
+            try self.participantToken.forEach {}
             try self.validate(self.participantToken, name: "participantToken", parent: name, max: 1000)
             try self.validate(self.participantToken, name: "participantToken", parent: name, min: 1)
+            try self.type.forEach {}
             try self.validate(self.type, name: "type", parent: name, min: 1)
         }
 
@@ -210,7 +215,9 @@ extension ConnectParticipant {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
+            try self.connectionToken.forEach {}
             try self.validate(self.connectionToken, name: "connectionToken", parent: name, max: 1000)
             try self.validate(self.connectionToken, name: "connectionToken", parent: name, min: 1)
         }
@@ -240,8 +247,10 @@ extension ConnectParticipant {
         }
 
         public func validate(name: String) throws {
+            try self.attachmentId.forEach {}
             try self.validate(self.attachmentId, name: "attachmentId", parent: name, max: 256)
             try self.validate(self.attachmentId, name: "attachmentId", parent: name, min: 1)
+            try self.connectionToken.forEach {}
             try self.validate(self.connectionToken, name: "connectionToken", parent: name, max: 1000)
             try self.validate(self.connectionToken, name: "connectionToken", parent: name, min: 1)
         }
@@ -299,15 +308,20 @@ extension ConnectParticipant {
         }
 
         public func validate(name: String) throws {
+            try self.connectionToken.forEach {}
             try self.validate(self.connectionToken, name: "connectionToken", parent: name, max: 1000)
             try self.validate(self.connectionToken, name: "connectionToken", parent: name, min: 1)
+            try self.contactId?.forEach {}
             try self.validate(self.contactId, name: "contactId", parent: name, max: 256)
             try self.validate(self.contactId, name: "contactId", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.startPosition?.validate(name: "\(name).startPosition")
+            try self.startPosition?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -408,11 +422,15 @@ extension ConnectParticipant {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
+            try self.connectionToken.forEach {}
             try self.validate(self.connectionToken, name: "connectionToken", parent: name, max: 1000)
             try self.validate(self.connectionToken, name: "connectionToken", parent: name, min: 1)
+            try self.content?.forEach {}
             try self.validate(self.content, name: "content", parent: name, max: 1024)
             try self.validate(self.content, name: "content", parent: name, min: 1)
+            try self.contentType.forEach {}
             try self.validate(self.contentType, name: "contentType", parent: name, max: 100)
             try self.validate(self.contentType, name: "contentType", parent: name, min: 1)
         }
@@ -463,11 +481,15 @@ extension ConnectParticipant {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
+            try self.connectionToken.forEach {}
             try self.validate(self.connectionToken, name: "connectionToken", parent: name, max: 1000)
             try self.validate(self.connectionToken, name: "connectionToken", parent: name, min: 1)
+            try self.content.forEach {}
             try self.validate(self.content, name: "content", parent: name, max: 1024)
             try self.validate(self.content, name: "content", parent: name, min: 1)
+            try self.contentType.forEach {}
             try self.validate(self.contentType, name: "contentType", parent: name, max: 100)
             try self.validate(self.contentType, name: "contentType", parent: name, min: 1)
         }
@@ -521,13 +543,18 @@ extension ConnectParticipant {
         }
 
         public func validate(name: String) throws {
+            try self.attachmentName.forEach {}
             try self.validate(self.attachmentName, name: "attachmentName", parent: name, max: 256)
             try self.validate(self.attachmentName, name: "attachmentName", parent: name, min: 1)
+            try self.attachmentSizeInBytes.forEach {}
             try self.validate(self.attachmentSizeInBytes, name: "attachmentSizeInBytes", parent: name, min: 1)
+            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.connectionToken.forEach {}
             try self.validate(self.connectionToken, name: "connectionToken", parent: name, max: 1000)
             try self.validate(self.connectionToken, name: "connectionToken", parent: name, min: 1)
+            try self.contentType.forEach {}
             try self.validate(self.contentType, name: "contentType", parent: name, max: 255)
             try self.validate(self.contentType, name: "contentType", parent: name, min: 1)
         }
@@ -572,10 +599,13 @@ extension ConnectParticipant {
         }
 
         public func validate(name: String) throws {
+            try self.absoluteTime?.forEach {}
             try self.validate(self.absoluteTime, name: "absoluteTime", parent: name, max: 100)
             try self.validate(self.absoluteTime, name: "absoluteTime", parent: name, min: 1)
+            try self.id?.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 256)
             try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.mostRecent?.forEach {}
             try self.validate(self.mostRecent, name: "mostRecent", parent: name, max: 100)
             try self.validate(self.mostRecent, name: "mostRecent", parent: name, min: 0)
         }

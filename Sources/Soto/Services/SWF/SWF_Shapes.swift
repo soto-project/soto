@@ -515,8 +515,10 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.version.forEach {}
             try self.validate(self.version, name: "version", parent: name, max: 64)
             try self.validate(self.version, name: "version", parent: name, min: 1)
         }
@@ -632,6 +634,7 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.timerId.forEach {}
             try self.validate(self.timerId, name: "timerId", parent: name, max: 256)
             try self.validate(self.timerId, name: "timerId", parent: name, min: 1)
         }
@@ -671,6 +674,7 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.details?.forEach {}
             try self.validate(self.details, name: "details", parent: name, max: 32768)
         }
 
@@ -884,6 +888,7 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.result?.forEach {}
             try self.validate(self.result, name: "result", parent: name, max: 32768)
         }
 
@@ -942,17 +947,24 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.executionStartToCloseTimeout?.forEach {}
             try self.validate(self.executionStartToCloseTimeout, name: "executionStartToCloseTimeout", parent: name, max: 8)
+            try self.input?.forEach {}
             try self.validate(self.input, name: "input", parent: name, max: 32768)
+            try self.lambdaRole?.forEach {}
             try self.validate(self.lambdaRole, name: "lambdaRole", parent: name, max: 1600)
             try self.validate(self.lambdaRole, name: "lambdaRole", parent: name, min: 1)
             try self.tagList?.forEach {
                 try validate($0, name: "tagList[]", parent: name, max: 256)
                 try validate($0, name: "tagList[]", parent: name, min: 0)
             }
+            try self.tagList?.forEach {}
             try self.validate(self.tagList, name: "tagList", parent: name, max: 5)
             try self.taskList?.validate(name: "\(name).taskList")
+            try self.taskList?.forEach {}
+            try self.taskStartToCloseTimeout?.forEach {}
             try self.validate(self.taskStartToCloseTimeout, name: "taskStartToCloseTimeout", parent: name, max: 8)
+            try self.workflowTypeVersion?.forEach {}
             try self.validate(self.workflowTypeVersion, name: "workflowTypeVersion", parent: name, max: 64)
             try self.validate(self.workflowTypeVersion, name: "workflowTypeVersion", parent: name, min: 1)
         }
@@ -1014,11 +1026,15 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 256)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
             try self.executionFilter?.validate(name: "\(name).executionFilter")
+            try self.executionFilter?.forEach {}
             try self.tagFilter?.validate(name: "\(name).tagFilter")
+            try self.tagFilter?.forEach {}
             try self.typeFilter?.validate(name: "\(name).typeFilter")
+            try self.typeFilter?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1053,11 +1069,15 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 256)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
             try self.executionFilter?.validate(name: "\(name).executionFilter")
+            try self.executionFilter?.forEach {}
             try self.tagFilter?.validate(name: "\(name).tagFilter")
+            try self.tagFilter?.forEach {}
             try self.typeFilter?.validate(name: "\(name).typeFilter")
+            try self.typeFilter?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1081,9 +1101,11 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 256)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
             try self.taskList.validate(name: "\(name).taskList")
+            try self.taskList.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1104,9 +1126,11 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 256)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
             try self.taskList.validate(name: "\(name).taskList")
+            try self.taskList.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1164,18 +1188,31 @@ extension SWF {
 
         public func validate(name: String) throws {
             try self.cancelTimerDecisionAttributes?.validate(name: "\(name).cancelTimerDecisionAttributes")
+            try self.cancelTimerDecisionAttributes?.forEach {}
             try self.cancelWorkflowExecutionDecisionAttributes?.validate(name: "\(name).cancelWorkflowExecutionDecisionAttributes")
+            try self.cancelWorkflowExecutionDecisionAttributes?.forEach {}
             try self.completeWorkflowExecutionDecisionAttributes?.validate(name: "\(name).completeWorkflowExecutionDecisionAttributes")
+            try self.completeWorkflowExecutionDecisionAttributes?.forEach {}
             try self.continueAsNewWorkflowExecutionDecisionAttributes?.validate(name: "\(name).continueAsNewWorkflowExecutionDecisionAttributes")
+            try self.continueAsNewWorkflowExecutionDecisionAttributes?.forEach {}
             try self.failWorkflowExecutionDecisionAttributes?.validate(name: "\(name).failWorkflowExecutionDecisionAttributes")
+            try self.failWorkflowExecutionDecisionAttributes?.forEach {}
             try self.recordMarkerDecisionAttributes?.validate(name: "\(name).recordMarkerDecisionAttributes")
+            try self.recordMarkerDecisionAttributes?.forEach {}
             try self.requestCancelActivityTaskDecisionAttributes?.validate(name: "\(name).requestCancelActivityTaskDecisionAttributes")
+            try self.requestCancelActivityTaskDecisionAttributes?.forEach {}
             try self.requestCancelExternalWorkflowExecutionDecisionAttributes?.validate(name: "\(name).requestCancelExternalWorkflowExecutionDecisionAttributes")
+            try self.requestCancelExternalWorkflowExecutionDecisionAttributes?.forEach {}
             try self.scheduleActivityTaskDecisionAttributes?.validate(name: "\(name).scheduleActivityTaskDecisionAttributes")
+            try self.scheduleActivityTaskDecisionAttributes?.forEach {}
             try self.scheduleLambdaFunctionDecisionAttributes?.validate(name: "\(name).scheduleLambdaFunctionDecisionAttributes")
+            try self.scheduleLambdaFunctionDecisionAttributes?.forEach {}
             try self.signalExternalWorkflowExecutionDecisionAttributes?.validate(name: "\(name).signalExternalWorkflowExecutionDecisionAttributes")
+            try self.signalExternalWorkflowExecutionDecisionAttributes?.forEach {}
             try self.startChildWorkflowExecutionDecisionAttributes?.validate(name: "\(name).startChildWorkflowExecutionDecisionAttributes")
+            try self.startChildWorkflowExecutionDecisionAttributes?.forEach {}
             try self.startTimerDecisionAttributes?.validate(name: "\(name).startTimerDecisionAttributes")
+            try self.startTimerDecisionAttributes?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1326,6 +1363,8 @@ extension SWF {
 
         public func validate(name: String) throws {
             try self.activityType.validate(name: "\(name).activityType")
+            try self.activityType.forEach {}
+            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 256)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
         }
@@ -1345,6 +1384,7 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -1366,9 +1406,11 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 256)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
             try self.workflowType.validate(name: "\(name).workflowType")
+            try self.workflowType.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1390,6 +1432,8 @@ extension SWF {
 
         public func validate(name: String) throws {
             try self.activityType.validate(name: "\(name).activityType")
+            try self.activityType.forEach {}
+            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 256)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
         }
@@ -1409,6 +1453,7 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -1430,9 +1475,11 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 256)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
             try self.execution.validate(name: "\(name).execution")
+            try self.execution.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1453,9 +1500,11 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 256)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
             try self.workflowType.validate(name: "\(name).workflowType")
+            try self.workflowType.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1599,7 +1648,9 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.details?.forEach {}
             try self.validate(self.details, name: "details", parent: name, max: 32768)
+            try self.reason?.forEach {}
             try self.validate(self.reason, name: "reason", parent: name, max: 256)
         }
 
@@ -1647,11 +1698,15 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 256)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
             try self.execution.validate(name: "\(name).execution")
+            try self.execution.forEach {}
+            try self.maximumPageSize?.forEach {}
             try self.validate(self.maximumPageSize, name: "maximumPageSize", parent: name, max: 1000)
             try self.validate(self.maximumPageSize, name: "maximumPageSize", parent: name, min: 0)
+            try self.nextPageToken?.forEach {}
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 2048)
         }
 
@@ -2055,12 +2110,16 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 256)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
+            try self.maximumPageSize?.forEach {}
             try self.validate(self.maximumPageSize, name: "maximumPageSize", parent: name, max: 1000)
             try self.validate(self.maximumPageSize, name: "maximumPageSize", parent: name, min: 0)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.nextPageToken?.forEach {}
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 2048)
         }
 
@@ -2110,14 +2169,20 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 256)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
             try self.executionFilter?.validate(name: "\(name).executionFilter")
+            try self.executionFilter?.forEach {}
+            try self.maximumPageSize?.forEach {}
             try self.validate(self.maximumPageSize, name: "maximumPageSize", parent: name, max: 1000)
             try self.validate(self.maximumPageSize, name: "maximumPageSize", parent: name, min: 0)
+            try self.nextPageToken?.forEach {}
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 2048)
             try self.tagFilter?.validate(name: "\(name).tagFilter")
+            try self.tagFilter?.forEach {}
             try self.typeFilter?.validate(name: "\(name).typeFilter")
+            try self.typeFilter?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2152,8 +2217,10 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.maximumPageSize?.forEach {}
             try self.validate(self.maximumPageSize, name: "maximumPageSize", parent: name, max: 1000)
             try self.validate(self.maximumPageSize, name: "maximumPageSize", parent: name, min: 0)
+            try self.nextPageToken?.forEach {}
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 2048)
         }
 
@@ -2195,14 +2262,20 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 256)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
             try self.executionFilter?.validate(name: "\(name).executionFilter")
+            try self.executionFilter?.forEach {}
+            try self.maximumPageSize?.forEach {}
             try self.validate(self.maximumPageSize, name: "maximumPageSize", parent: name, max: 1000)
             try self.validate(self.maximumPageSize, name: "maximumPageSize", parent: name, min: 0)
+            try self.nextPageToken?.forEach {}
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 2048)
             try self.tagFilter?.validate(name: "\(name).tagFilter")
+            try self.tagFilter?.forEach {}
             try self.typeFilter?.validate(name: "\(name).typeFilter")
+            try self.typeFilter?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2226,6 +2299,7 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1600)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
         }
@@ -2272,12 +2346,16 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 256)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
+            try self.maximumPageSize?.forEach {}
             try self.validate(self.maximumPageSize, name: "maximumPageSize", parent: name, max: 1000)
             try self.validate(self.maximumPageSize, name: "maximumPageSize", parent: name, min: 0)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.nextPageToken?.forEach {}
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 2048)
         }
 
@@ -2344,10 +2422,13 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 256)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
+            try self.identity?.forEach {}
             try self.validate(self.identity, name: "identity", parent: name, max: 256)
             try self.taskList.validate(name: "\(name).taskList")
+            try self.taskList.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2381,13 +2462,18 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 256)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
+            try self.identity?.forEach {}
             try self.validate(self.identity, name: "identity", parent: name, max: 256)
+            try self.maximumPageSize?.forEach {}
             try self.validate(self.maximumPageSize, name: "maximumPageSize", parent: name, max: 1000)
             try self.validate(self.maximumPageSize, name: "maximumPageSize", parent: name, min: 0)
+            try self.nextPageToken?.forEach {}
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 2048)
             try self.taskList.validate(name: "\(name).taskList")
+            try self.taskList.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2412,7 +2498,9 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.details?.forEach {}
             try self.validate(self.details, name: "details", parent: name, max: 2048)
+            try self.taskToken.forEach {}
             try self.validate(self.taskToken, name: "taskToken", parent: name, max: 1024)
             try self.validate(self.taskToken, name: "taskToken", parent: name, min: 1)
         }
@@ -2435,7 +2523,9 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.details?.forEach {}
             try self.validate(self.details, name: "details", parent: name, max: 32768)
+            try self.markerName.forEach {}
             try self.validate(self.markerName, name: "markerName", parent: name, max: 256)
             try self.validate(self.markerName, name: "markerName", parent: name, min: 1)
         }
@@ -2503,16 +2593,25 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.defaultTaskHeartbeatTimeout?.forEach {}
             try self.validate(self.defaultTaskHeartbeatTimeout, name: "defaultTaskHeartbeatTimeout", parent: name, max: 8)
             try self.defaultTaskList?.validate(name: "\(name).defaultTaskList")
+            try self.defaultTaskList?.forEach {}
+            try self.defaultTaskScheduleToCloseTimeout?.forEach {}
             try self.validate(self.defaultTaskScheduleToCloseTimeout, name: "defaultTaskScheduleToCloseTimeout", parent: name, max: 8)
+            try self.defaultTaskScheduleToStartTimeout?.forEach {}
             try self.validate(self.defaultTaskScheduleToStartTimeout, name: "defaultTaskScheduleToStartTimeout", parent: name, max: 8)
+            try self.defaultTaskStartToCloseTimeout?.forEach {}
             try self.validate(self.defaultTaskStartToCloseTimeout, name: "defaultTaskStartToCloseTimeout", parent: name, max: 8)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 256)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.version.forEach {}
             try self.validate(self.version, name: "version", parent: name, max: 64)
             try self.validate(self.version, name: "version", parent: name, min: 1)
         }
@@ -2549,12 +2648,16 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
+            try self.workflowExecutionRetentionPeriodInDays.forEach {}
             try self.validate(self.workflowExecutionRetentionPeriodInDays, name: "workflowExecutionRetentionPeriodInDays", parent: name, max: 8)
             try self.validate(self.workflowExecutionRetentionPeriodInDays, name: "workflowExecutionRetentionPeriodInDays", parent: name, min: 1)
         }
@@ -2603,16 +2706,24 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.defaultExecutionStartToCloseTimeout?.forEach {}
             try self.validate(self.defaultExecutionStartToCloseTimeout, name: "defaultExecutionStartToCloseTimeout", parent: name, max: 8)
+            try self.defaultLambdaRole?.forEach {}
             try self.validate(self.defaultLambdaRole, name: "defaultLambdaRole", parent: name, max: 1600)
             try self.validate(self.defaultLambdaRole, name: "defaultLambdaRole", parent: name, min: 1)
             try self.defaultTaskList?.validate(name: "\(name).defaultTaskList")
+            try self.defaultTaskList?.forEach {}
+            try self.defaultTaskStartToCloseTimeout?.forEach {}
             try self.validate(self.defaultTaskStartToCloseTimeout, name: "defaultTaskStartToCloseTimeout", parent: name, max: 8)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 256)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.version.forEach {}
             try self.validate(self.version, name: "version", parent: name, max: 64)
             try self.validate(self.version, name: "version", parent: name, min: 1)
         }
@@ -2640,6 +2751,7 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.activityId.forEach {}
             try self.validate(self.activityId, name: "activityId", parent: name, max: 256)
             try self.validate(self.activityId, name: "activityId", parent: name, min: 1)
         }
@@ -2685,8 +2797,11 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.control?.forEach {}
             try self.validate(self.control, name: "control", parent: name, max: 32768)
+            try self.runId?.forEach {}
             try self.validate(self.runId, name: "runId", parent: name, max: 64)
+            try self.workflowId.forEach {}
             try self.validate(self.workflowId, name: "workflowId", parent: name, max: 256)
             try self.validate(self.workflowId, name: "workflowId", parent: name, min: 1)
         }
@@ -2771,9 +2886,12 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 256)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
+            try self.runId?.forEach {}
             try self.validate(self.runId, name: "runId", parent: name, max: 64)
+            try self.workflowId.forEach {}
             try self.validate(self.workflowId, name: "workflowId", parent: name, max: 256)
             try self.validate(self.workflowId, name: "workflowId", parent: name, min: 1)
         }
@@ -2797,8 +2915,10 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
         }
 
@@ -2820,7 +2940,9 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.details?.forEach {}
             try self.validate(self.details, name: "details", parent: name, max: 32768)
+            try self.taskToken.forEach {}
             try self.validate(self.taskToken, name: "taskToken", parent: name, max: 1024)
             try self.validate(self.taskToken, name: "taskToken", parent: name, min: 1)
         }
@@ -2843,7 +2965,9 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.result?.forEach {}
             try self.validate(self.result, name: "result", parent: name, max: 32768)
+            try self.taskToken.forEach {}
             try self.validate(self.taskToken, name: "taskToken", parent: name, max: 1024)
             try self.validate(self.taskToken, name: "taskToken", parent: name, min: 1)
         }
@@ -2869,8 +2993,11 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.details?.forEach {}
             try self.validate(self.details, name: "details", parent: name, max: 32768)
+            try self.reason?.forEach {}
             try self.validate(self.reason, name: "reason", parent: name, max: 256)
+            try self.taskToken.forEach {}
             try self.validate(self.taskToken, name: "taskToken", parent: name, max: 1024)
             try self.validate(self.taskToken, name: "taskToken", parent: name, min: 1)
         }
@@ -2900,7 +3027,10 @@ extension SWF {
             try self.decisions?.forEach {
                 try $0.validate(name: "\(name).decisions[]")
             }
+            try self.decisions?.forEach {}
+            try self.executionContext?.forEach {}
             try self.validate(self.executionContext, name: "executionContext", parent: name, max: 32768)
+            try self.taskToken.forEach {}
             try self.validate(self.taskToken, name: "taskToken", parent: name, max: 1024)
             try self.validate(self.taskToken, name: "taskToken", parent: name, min: 1)
         }
@@ -2961,16 +3091,25 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.activityId.forEach {}
             try self.validate(self.activityId, name: "activityId", parent: name, max: 256)
             try self.validate(self.activityId, name: "activityId", parent: name, min: 1)
             try self.activityType.validate(name: "\(name).activityType")
+            try self.activityType.forEach {}
+            try self.control?.forEach {}
             try self.validate(self.control, name: "control", parent: name, max: 32768)
+            try self.heartbeatTimeout?.forEach {}
             try self.validate(self.heartbeatTimeout, name: "heartbeatTimeout", parent: name, max: 8)
+            try self.input?.forEach {}
             try self.validate(self.input, name: "input", parent: name, max: 32768)
+            try self.scheduleToCloseTimeout?.forEach {}
             try self.validate(self.scheduleToCloseTimeout, name: "scheduleToCloseTimeout", parent: name, max: 8)
+            try self.scheduleToStartTimeout?.forEach {}
             try self.validate(self.scheduleToStartTimeout, name: "scheduleToStartTimeout", parent: name, max: 8)
+            try self.startToCloseTimeout?.forEach {}
             try self.validate(self.startToCloseTimeout, name: "startToCloseTimeout", parent: name, max: 8)
             try self.taskList?.validate(name: "\(name).taskList")
+            try self.taskList?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3033,13 +3172,18 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.control?.forEach {}
             try self.validate(self.control, name: "control", parent: name, max: 32768)
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 256)
             try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.input?.forEach {}
             try self.validate(self.input, name: "input", parent: name, max: 32768)
             try self.validate(self.input, name: "input", parent: name, min: 0)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.startToCloseTimeout?.forEach {}
             try self.validate(self.startToCloseTimeout, name: "startToCloseTimeout", parent: name, max: 8)
         }
 
@@ -3098,11 +3242,16 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.control?.forEach {}
             try self.validate(self.control, name: "control", parent: name, max: 32768)
+            try self.input?.forEach {}
             try self.validate(self.input, name: "input", parent: name, max: 32768)
+            try self.runId?.forEach {}
             try self.validate(self.runId, name: "runId", parent: name, max: 64)
+            try self.signalName.forEach {}
             try self.validate(self.signalName, name: "signalName", parent: name, max: 256)
             try self.validate(self.signalName, name: "signalName", parent: name, min: 1)
+            try self.workflowId.forEach {}
             try self.validate(self.workflowId, name: "workflowId", parent: name, max: 256)
             try self.validate(self.workflowId, name: "workflowId", parent: name, min: 1)
         }
@@ -3203,12 +3352,17 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 256)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
+            try self.input?.forEach {}
             try self.validate(self.input, name: "input", parent: name, max: 32768)
+            try self.runId?.forEach {}
             try self.validate(self.runId, name: "runId", parent: name, max: 64)
+            try self.signalName.forEach {}
             try self.validate(self.signalName, name: "signalName", parent: name, max: 256)
             try self.validate(self.signalName, name: "signalName", parent: name, min: 1)
+            try self.workflowId.forEach {}
             try self.validate(self.workflowId, name: "workflowId", parent: name, max: 256)
             try self.validate(self.workflowId, name: "workflowId", parent: name, min: 1)
         }
@@ -3261,21 +3415,30 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.control?.forEach {}
             try self.validate(self.control, name: "control", parent: name, max: 32768)
+            try self.executionStartToCloseTimeout?.forEach {}
             try self.validate(self.executionStartToCloseTimeout, name: "executionStartToCloseTimeout", parent: name, max: 8)
+            try self.input?.forEach {}
             try self.validate(self.input, name: "input", parent: name, max: 32768)
+            try self.lambdaRole?.forEach {}
             try self.validate(self.lambdaRole, name: "lambdaRole", parent: name, max: 1600)
             try self.validate(self.lambdaRole, name: "lambdaRole", parent: name, min: 1)
             try self.tagList?.forEach {
                 try validate($0, name: "tagList[]", parent: name, max: 256)
                 try validate($0, name: "tagList[]", parent: name, min: 0)
             }
+            try self.tagList?.forEach {}
             try self.validate(self.tagList, name: "tagList", parent: name, max: 5)
             try self.taskList?.validate(name: "\(name).taskList")
+            try self.taskList?.forEach {}
+            try self.taskStartToCloseTimeout?.forEach {}
             try self.validate(self.taskStartToCloseTimeout, name: "taskStartToCloseTimeout", parent: name, max: 8)
+            try self.workflowId.forEach {}
             try self.validate(self.workflowId, name: "workflowId", parent: name, max: 256)
             try self.validate(self.workflowId, name: "workflowId", parent: name, min: 1)
             try self.workflowType.validate(name: "\(name).workflowType")
+            try self.workflowType.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3419,9 +3582,12 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.control?.forEach {}
             try self.validate(self.control, name: "control", parent: name, max: 32768)
+            try self.startToFireTimeout.forEach {}
             try self.validate(self.startToFireTimeout, name: "startToFireTimeout", parent: name, max: 8)
             try self.validate(self.startToFireTimeout, name: "startToFireTimeout", parent: name, min: 1)
+            try self.timerId.forEach {}
             try self.validate(self.timerId, name: "timerId", parent: name, max: 256)
             try self.validate(self.timerId, name: "timerId", parent: name, min: 1)
         }
@@ -3493,22 +3659,31 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 256)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
+            try self.executionStartToCloseTimeout?.forEach {}
             try self.validate(self.executionStartToCloseTimeout, name: "executionStartToCloseTimeout", parent: name, max: 8)
+            try self.input?.forEach {}
             try self.validate(self.input, name: "input", parent: name, max: 32768)
+            try self.lambdaRole?.forEach {}
             try self.validate(self.lambdaRole, name: "lambdaRole", parent: name, max: 1600)
             try self.validate(self.lambdaRole, name: "lambdaRole", parent: name, min: 1)
             try self.tagList?.forEach {
                 try validate($0, name: "tagList[]", parent: name, max: 256)
                 try validate($0, name: "tagList[]", parent: name, min: 0)
             }
+            try self.tagList?.forEach {}
             try self.validate(self.tagList, name: "tagList", parent: name, max: 5)
             try self.taskList?.validate(name: "\(name).taskList")
+            try self.taskList?.forEach {}
+            try self.taskStartToCloseTimeout?.forEach {}
             try self.validate(self.taskStartToCloseTimeout, name: "taskStartToCloseTimeout", parent: name, max: 8)
+            try self.workflowId.forEach {}
             try self.validate(self.workflowId, name: "workflowId", parent: name, max: 256)
             try self.validate(self.workflowId, name: "workflowId", parent: name, min: 1)
             try self.workflowType.validate(name: "\(name).workflowType")
+            try self.workflowType.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3535,6 +3710,7 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.tag.forEach {}
             try self.validate(self.tag, name: "tag", parent: name, max: 256)
             try self.validate(self.tag, name: "tag", parent: name, min: 0)
         }
@@ -3556,11 +3732,13 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1600)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3578,6 +3756,7 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -3611,11 +3790,16 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.details?.forEach {}
             try self.validate(self.details, name: "details", parent: name, max: 32768)
+            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 256)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
+            try self.reason?.forEach {}
             try self.validate(self.reason, name: "reason", parent: name, max: 256)
+            try self.runId?.forEach {}
             try self.validate(self.runId, name: "runId", parent: name, max: 64)
+            try self.workflowId.forEach {}
             try self.validate(self.workflowId, name: "workflowId", parent: name, max: 256)
             try self.validate(self.workflowId, name: "workflowId", parent: name, min: 1)
         }
@@ -3706,6 +3890,8 @@ extension SWF {
 
         public func validate(name: String) throws {
             try self.activityType.validate(name: "\(name).activityType")
+            try self.activityType.forEach {}
+            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 256)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
         }
@@ -3725,6 +3911,7 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -3746,9 +3933,11 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 256)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
             try self.workflowType.validate(name: "\(name).workflowType")
+            try self.workflowType.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3769,12 +3958,14 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1600)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
+            try self.tagKeys.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3795,8 +3986,10 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.runId.forEach {}
             try self.validate(self.runId, name: "runId", parent: name, max: 64)
             try self.validate(self.runId, name: "runId", parent: name, min: 1)
+            try self.workflowId.forEach {}
             try self.validate(self.workflowId, name: "workflowId", parent: name, max: 256)
             try self.validate(self.workflowId, name: "workflowId", parent: name, min: 1)
         }
@@ -4024,6 +4217,7 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.workflowId.forEach {}
             try self.validate(self.workflowId, name: "workflowId", parent: name, max: 256)
             try self.validate(self.workflowId, name: "workflowId", parent: name, min: 1)
         }
@@ -4260,8 +4454,10 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.version.forEach {}
             try self.validate(self.version, name: "version", parent: name, max: 64)
             try self.validate(self.version, name: "version", parent: name, min: 1)
         }
@@ -4334,8 +4530,10 @@ extension SWF {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.version?.forEach {}
             try self.validate(self.version, name: "version", parent: name, max: 64)
         }
 

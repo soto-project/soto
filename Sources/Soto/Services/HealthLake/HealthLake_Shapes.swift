@@ -66,9 +66,11 @@ extension HealthLake {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.datastoreName?.forEach {}
             try self.validate(self.datastoreName, name: "datastoreName", parent: name, max: 256)
             try self.validate(self.datastoreName, name: "datastoreName", parent: name, min: 1)
             try self.validate(self.datastoreName, name: "datastoreName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
@@ -125,6 +127,7 @@ extension HealthLake {
         }
 
         public func validate(name: String) throws {
+            try self.datastoreName?.forEach {}
             try self.validate(self.datastoreName, name: "datastoreName", parent: name, max: 256)
             try self.validate(self.datastoreName, name: "datastoreName", parent: name, min: 1)
             try self.validate(self.datastoreName, name: "datastoreName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
@@ -188,6 +191,7 @@ extension HealthLake {
         }
 
         public func validate(name: String) throws {
+            try self.datastoreId?.forEach {}
             try self.validate(self.datastoreId, name: "datastoreId", parent: name, max: 32)
             try self.validate(self.datastoreId, name: "datastoreId", parent: name, min: 1)
             try self.validate(self.datastoreId, name: "datastoreId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
@@ -232,6 +236,7 @@ extension HealthLake {
         }
 
         public func validate(name: String) throws {
+            try self.datastoreId?.forEach {}
             try self.validate(self.datastoreId, name: "datastoreId", parent: name, max: 32)
             try self.validate(self.datastoreId, name: "datastoreId", parent: name, min: 1)
             try self.validate(self.datastoreId, name: "datastoreId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
@@ -267,9 +272,11 @@ extension HealthLake {
         }
 
         public func validate(name: String) throws {
+            try self.datastoreId.forEach {}
             try self.validate(self.datastoreId, name: "datastoreId", parent: name, max: 32)
             try self.validate(self.datastoreId, name: "datastoreId", parent: name, min: 1)
             try self.validate(self.datastoreId, name: "datastoreId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 32)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
@@ -306,9 +313,11 @@ extension HealthLake {
         }
 
         public func validate(name: String) throws {
+            try self.datastoreId.forEach {}
             try self.validate(self.datastoreId, name: "datastoreId", parent: name, max: 32)
             try self.validate(self.datastoreId, name: "datastoreId", parent: name, min: 1)
             try self.validate(self.datastoreId, name: "datastoreId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 32)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
@@ -432,6 +441,7 @@ extension HealthLake {
         }
 
         public func validate(name: String) throws {
+            try self.s3Uri?.forEach {}
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
         }
@@ -457,8 +467,11 @@ extension HealthLake {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
+            try self.filter?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "\\p{ASCII}{0,8192}")
         }
@@ -496,6 +509,7 @@ extension HealthLake {
         }
 
         public func validate(name: String) throws {
+            try self.s3Uri?.forEach {}
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
         }
@@ -539,19 +553,24 @@ extension HealthLake {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.dataAccessRoleArn.forEach {}
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, max: 2048)
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, min: 20)
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
+            try self.datastoreId.forEach {}
             try self.validate(self.datastoreId, name: "datastoreId", parent: name, max: 32)
             try self.validate(self.datastoreId, name: "datastoreId", parent: name, min: 1)
             try self.validate(self.datastoreId, name: "datastoreId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+            try self.jobName?.forEach {}
             try self.validate(self.jobName, name: "jobName", parent: name, max: 64)
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
             try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
+            try self.outputDataConfig.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -605,16 +624,21 @@ extension HealthLake {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.dataAccessRoleArn.forEach {}
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, max: 2048)
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, min: 20)
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
+            try self.datastoreId.forEach {}
             try self.validate(self.datastoreId, name: "datastoreId", parent: name, max: 32)
             try self.validate(self.datastoreId, name: "datastoreId", parent: name, min: 1)
             try self.validate(self.datastoreId, name: "datastoreId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
             try self.inputDataConfig.validate(name: "\(name).inputDataConfig")
+            try self.inputDataConfig.forEach {}
+            try self.jobName?.forEach {}
             try self.validate(self.jobName, name: "jobName", parent: name, max: 64)
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")

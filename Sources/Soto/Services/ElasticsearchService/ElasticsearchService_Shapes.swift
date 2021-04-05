@@ -312,6 +312,7 @@ extension ElasticsearchService {
             try self.tagList.forEach {
                 try $0.validate(name: "\(name).tagList[]")
             }
+            try self.tagList.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -394,7 +395,9 @@ extension ElasticsearchService {
 
         public func validate(name: String) throws {
             try self.masterUserOptions?.validate(name: "\(name).masterUserOptions")
+            try self.masterUserOptions?.forEach {}
             try self.sAMLOptions?.validate(name: "\(name).sAMLOptions")
+            try self.sAMLOptions?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -439,6 +442,7 @@ extension ElasticsearchService {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
@@ -505,6 +509,7 @@ extension ElasticsearchService {
 
         public func validate(name: String) throws {
             try self.duration?.validate(name: "\(name).duration")
+            try self.duration?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -532,6 +537,7 @@ extension ElasticsearchService {
             try self.maintenanceSchedules?.forEach {
                 try $0.validate(name: "\(name).maintenanceSchedules[]")
             }
+            try self.maintenanceSchedules?.forEach {}
             try self.validate(self.maintenanceSchedules, name: "maintenanceSchedules", parent: name, max: 100)
         }
 
@@ -557,6 +563,7 @@ extension ElasticsearchService {
             try self.maintenanceSchedules?.forEach {
                 try $0.validate(name: "\(name).maintenanceSchedules[]")
             }
+            try self.maintenanceSchedules?.forEach {}
             try self.validate(self.maintenanceSchedules, name: "maintenanceSchedules", parent: name, max: 100)
         }
 
@@ -642,6 +649,7 @@ extension ElasticsearchService {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
@@ -683,11 +691,14 @@ extension ElasticsearchService {
         }
 
         public func validate(name: String) throws {
+            try self.identityPoolId?.forEach {}
             try self.validate(self.identityPoolId, name: "identityPoolId", parent: name, max: 55)
             try self.validate(self.identityPoolId, name: "identityPoolId", parent: name, min: 1)
             try self.validate(self.identityPoolId, name: "identityPoolId", parent: name, pattern: "[\\w-]+:[0-9a-f-]+")
+            try self.roleArn?.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.userPoolId?.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -763,10 +774,12 @@ extension ElasticsearchService {
         public let nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions?
         /// Option to set time, in UTC format, of the daily automated snapshot. Default value is 0 hours.
         public let snapshotOptions: SnapshotOptions?
+        /// A list of Tag added during domain creation.
+        public let tagList: [Tag]?
         /// Options to specify the subnets and security groups for VPC endpoint. For more information, see Creating a VPC in VPC Endpoints for Amazon Elasticsearch Service Domains
         public let vPCOptions: VPCOptions?
 
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, autoTuneOptions: AutoTuneOptionsInput? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, eBSOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil, elasticsearchVersion: String? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, vPCOptions: VPCOptions? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, autoTuneOptions: AutoTuneOptionsInput? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, eBSOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil, elasticsearchVersion: String? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, tagList: [Tag]? = nil, vPCOptions: VPCOptions? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
@@ -781,18 +794,29 @@ extension ElasticsearchService {
             self.logPublishingOptions = logPublishingOptions
             self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
             self.snapshotOptions = snapshotOptions
+            self.tagList = tagList
             self.vPCOptions = vPCOptions
         }
 
         public func validate(name: String) throws {
             try self.advancedSecurityOptions?.validate(name: "\(name).advancedSecurityOptions")
+            try self.advancedSecurityOptions?.forEach {}
             try self.autoTuneOptions?.validate(name: "\(name).autoTuneOptions")
+            try self.autoTuneOptions?.forEach {}
             try self.cognitoOptions?.validate(name: "\(name).cognitoOptions")
+            try self.cognitoOptions?.forEach {}
             try self.domainEndpointOptions?.validate(name: "\(name).domainEndpointOptions")
+            try self.domainEndpointOptions?.forEach {}
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
             try self.encryptionAtRestOptions?.validate(name: "\(name).encryptionAtRestOptions")
+            try self.encryptionAtRestOptions?.forEach {}
+            try self.tagList?.forEach {
+                try $0.validate(name: "\(name).tagList[]")
+            }
+            try self.tagList?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -810,6 +834,7 @@ extension ElasticsearchService {
             case logPublishingOptions = "LogPublishingOptions"
             case nodeToNodeEncryptionOptions = "NodeToNodeEncryptionOptions"
             case snapshotOptions = "SnapshotOptions"
+            case tagList = "TagList"
             case vPCOptions = "VPCOptions"
         }
     }
@@ -842,9 +867,12 @@ extension ElasticsearchService {
         }
 
         public func validate(name: String) throws {
+            try self.connectionAlias.forEach {}
             try self.validate(self.connectionAlias, name: "connectionAlias", parent: name, max: 20)
             try self.destinationDomainInfo.validate(name: "\(name).destinationDomainInfo")
+            try self.destinationDomainInfo.forEach {}
             try self.sourceDomainInfo.validate(name: "\(name).sourceDomainInfo")
+            try self.sourceDomainInfo.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -901,11 +929,14 @@ extension ElasticsearchService {
         }
 
         public func validate(name: String) throws {
+            try self.packageDescription?.forEach {}
             try self.validate(self.packageDescription, name: "packageDescription", parent: name, max: 1024)
+            try self.packageName.forEach {}
             try self.validate(self.packageName, name: "packageName", parent: name, max: 28)
             try self.validate(self.packageName, name: "packageName", parent: name, min: 3)
             try self.validate(self.packageName, name: "packageName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
             try self.packageSource.validate(name: "\(name).packageSource")
+            try self.packageSource.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -942,6 +973,7 @@ extension ElasticsearchService {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
@@ -1066,9 +1098,11 @@ extension ElasticsearchService {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
         }
 
@@ -1108,6 +1142,7 @@ extension ElasticsearchService {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
@@ -1142,6 +1177,7 @@ extension ElasticsearchService {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
@@ -1177,6 +1213,7 @@ extension ElasticsearchService {
                 try validate($0, name: "domainNames[]", parent: name, min: 3)
                 try validate($0, name: "domainNames[]", parent: name, pattern: "[a-z][a-z0-9\\-]+")
             }
+            try self.domainNames.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1218,6 +1255,7 @@ extension ElasticsearchService {
         }
 
         public func validate(name: String) throws {
+            try self.domainName?.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
@@ -1256,6 +1294,8 @@ extension ElasticsearchService {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
         }
 
@@ -1301,6 +1341,8 @@ extension ElasticsearchService {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
         }
 
@@ -1343,6 +1385,7 @@ extension ElasticsearchService {
             try self.value?.forEach {
                 try validate($0, name: "value[]", parent: name, pattern: "^[0-9a-zA-Z\\*\\.\\\\/\\?-]*$")
             }
+            try self.value?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1369,6 +1412,8 @@ extension ElasticsearchService {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
         }
 
@@ -1416,7 +1461,9 @@ extension ElasticsearchService {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.reservedElasticsearchInstanceOfferingId?.forEach {}
             try self.validate(self.reservedElasticsearchInstanceOfferingId, name: "reservedElasticsearchInstanceOfferingId", parent: name, pattern: "\\p{XDigit}{8}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{12}")
         }
 
@@ -1461,7 +1508,9 @@ extension ElasticsearchService {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.reservedElasticsearchInstanceId?.forEach {}
             try self.validate(self.reservedElasticsearchInstanceId, name: "reservedElasticsearchInstanceId", parent: name, pattern: "\\p{XDigit}{8}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{12}")
         }
 
@@ -1502,6 +1551,7 @@ extension ElasticsearchService {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
@@ -1544,6 +1594,7 @@ extension ElasticsearchService {
         }
 
         public func validate(name: String) throws {
+            try self.customEndpoint?.forEach {}
             try self.validate(self.customEndpoint, name: "customEndpoint", parent: name, max: 255)
             try self.validate(self.customEndpoint, name: "customEndpoint", parent: name, min: 1)
             try self.validate(self.customEndpoint, name: "customEndpoint", parent: name, pattern: "^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
@@ -1600,9 +1651,11 @@ extension ElasticsearchService {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
+            try self.ownerId?.forEach {}
             try self.validate(self.ownerId, name: "ownerId", parent: name, max: 12)
             try self.validate(self.ownerId, name: "ownerId", parent: name, min: 12)
         }
@@ -1670,6 +1723,7 @@ extension ElasticsearchService {
         }
 
         public func validate(name: String) throws {
+            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 24)
             try self.validate(self.value, name: "value", parent: name, min: 1)
         }
@@ -1986,6 +2040,7 @@ extension ElasticsearchService {
         }
 
         public func validate(name: String) throws {
+            try self.kmsKeyId?.forEach {}
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 500)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
         }
@@ -2040,10 +2095,12 @@ extension ElasticsearchService {
         }
 
         public func validate(name: String) throws {
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.values?.forEach {
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
+            try self.values?.forEach {}
             try self.validate(self.values, name: "values", parent: name, min: 1)
         }
 
@@ -2065,6 +2122,7 @@ extension ElasticsearchService {
         }
 
         public func validate(name: String) throws {
+            try self.domainName?.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
@@ -2107,6 +2165,7 @@ extension ElasticsearchService {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
         }
 
@@ -2150,9 +2209,11 @@ extension ElasticsearchService {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
         }
 
@@ -2188,6 +2249,7 @@ extension ElasticsearchService {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
@@ -2340,6 +2402,7 @@ extension ElasticsearchService {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
         }
 
@@ -2387,9 +2450,11 @@ extension ElasticsearchService {
         }
 
         public func validate(name: String) throws {
+            try self.domainName?.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
         }
 
@@ -2429,6 +2494,7 @@ extension ElasticsearchService {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
         }
 
@@ -2471,9 +2537,11 @@ extension ElasticsearchService {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
         }
 
@@ -2573,7 +2641,9 @@ extension ElasticsearchService {
         }
 
         public func validate(name: String) throws {
+            try self.masterUserName?.forEach {}
             try self.validate(self.masterUserName, name: "masterUserName", parent: name, min: 1)
+            try self.masterUserPassword?.forEach {}
             try self.validate(self.masterUserPassword, name: "masterUserPassword", parent: name, min: 8)
         }
 
@@ -2744,6 +2814,7 @@ extension ElasticsearchService {
         }
 
         public func validate(name: String) throws {
+            try self.s3BucketName?.forEach {}
             try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, max: 63)
             try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, min: 3)
         }
@@ -2790,9 +2861,12 @@ extension ElasticsearchService {
         }
 
         public func validate(name: String) throws {
+            try self.instanceCount?.forEach {}
             try self.validate(self.instanceCount, name: "instanceCount", parent: name, min: 1)
+            try self.reservationName.forEach {}
             try self.validate(self.reservationName, name: "reservationName", parent: name, max: 64)
             try self.validate(self.reservationName, name: "reservationName", parent: name, min: 5)
+            try self.reservedElasticsearchInstanceOfferingId.forEach {}
             try self.validate(self.reservedElasticsearchInstanceOfferingId, name: "reservedElasticsearchInstanceOfferingId", parent: name, pattern: "\\p{XDigit}{8}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{12}")
         }
 
@@ -2996,8 +3070,10 @@ extension ElasticsearchService {
         }
 
         public func validate(name: String) throws {
+            try self.entityId.forEach {}
             try self.validate(self.entityId, name: "entityId", parent: name, max: 512)
             try self.validate(self.entityId, name: "entityId", parent: name, min: 8)
+            try self.metadataContent.forEach {}
             try self.validate(self.metadataContent, name: "metadataContent", parent: name, max: 1_048_576)
             try self.validate(self.metadataContent, name: "metadataContent", parent: name, min: 1)
         }
@@ -3036,8 +3112,11 @@ extension ElasticsearchService {
 
         public func validate(name: String) throws {
             try self.idp?.validate(name: "\(name).idp")
+            try self.idp?.forEach {}
+            try self.masterBackendRole?.forEach {}
             try self.validate(self.masterBackendRole, name: "masterBackendRole", parent: name, max: 256)
             try self.validate(self.masterBackendRole, name: "masterBackendRole", parent: name, min: 1)
+            try self.masterUserName?.forEach {}
             try self.validate(self.masterUserName, name: "masterUserName", parent: name, min: 1)
         }
 
@@ -3186,6 +3265,7 @@ extension ElasticsearchService {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
@@ -3257,8 +3337,10 @@ extension ElasticsearchService {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
         }
@@ -3322,13 +3404,19 @@ extension ElasticsearchService {
 
         public func validate(name: String) throws {
             try self.advancedSecurityOptions?.validate(name: "\(name).advancedSecurityOptions")
+            try self.advancedSecurityOptions?.forEach {}
             try self.autoTuneOptions?.validate(name: "\(name).autoTuneOptions")
+            try self.autoTuneOptions?.forEach {}
             try self.cognitoOptions?.validate(name: "\(name).cognitoOptions")
+            try self.cognitoOptions?.forEach {}
             try self.domainEndpointOptions?.validate(name: "\(name).domainEndpointOptions")
+            try self.domainEndpointOptions?.forEach {}
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
             try self.encryptionAtRestOptions?.validate(name: "\(name).encryptionAtRestOptions")
+            try self.encryptionAtRestOptions?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3378,9 +3466,12 @@ extension ElasticsearchService {
         }
 
         public func validate(name: String) throws {
+            try self.commitMessage?.forEach {}
             try self.validate(self.commitMessage, name: "commitMessage", parent: name, max: 160)
+            try self.packageDescription?.forEach {}
             try self.validate(self.packageDescription, name: "packageDescription", parent: name, max: 1024)
             try self.packageSource.validate(name: "\(name).packageSource")
+            try self.packageSource.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3418,6 +3509,7 @@ extension ElasticsearchService {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")

@@ -241,6 +241,7 @@ extension DirectConnect {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
@@ -270,6 +271,7 @@ extension DirectConnect {
 
         public func validate(name: String) throws {
             try self.newPrivateVirtualInterfaceAllocation.validate(name: "\(name).newPrivateVirtualInterfaceAllocation")
+            try self.newPrivateVirtualInterfaceAllocation.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -295,6 +297,7 @@ extension DirectConnect {
 
         public func validate(name: String) throws {
             try self.newPublicVirtualInterfaceAllocation.validate(name: "\(name).newPublicVirtualInterfaceAllocation")
+            try self.newPublicVirtualInterfaceAllocation.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -320,6 +323,7 @@ extension DirectConnect {
 
         public func validate(name: String) throws {
             try self.newTransitVirtualInterfaceAllocation.validate(name: "\(name).newTransitVirtualInterfaceAllocation")
+            try self.newTransitVirtualInterfaceAllocation.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -372,6 +376,48 @@ extension DirectConnect {
         private enum CodingKeys: String, CodingKey {
             case connectionId
             case parentConnectionId
+        }
+    }
+
+    public struct AssociateMacSecKeyRequest: AWSEncodableShape {
+        /// The MAC Security (MACsec) CAK to associate with the dedicated connection. You can create the CKN/CAK pair using an industry standard tool.  The valid values are 64 hexadecimal characters (0-9, A-E). If you use this request parameter, you must use the ckn request parameter and not use the secretARN request parameter.
+        public let cak: String?
+        /// The MAC Security (MACsec) CKN to associate with the dedicated connection. You can create the CKN/CAK pair using an industry standard tool.  The valid values are 64 hexadecimal characters (0-9, A-E). If you use this request parameter, you must use the cak request parameter and not use the secretARN request parameter.
+        public let ckn: String?
+        /// The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG (dxlag-xxxx). You can use DescribeConnections or DescribeLags to retrieve connection ID.
+        public let connectionId: String
+        /// The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key to associate with the dedicated connection. You can use DescribeConnections or DescribeLags to retrieve the MAC Security (MACsec) secret key. If you use this request parameter, you do not use the ckn and cak request parameters.
+        public let secretARN: String?
+
+        public init(cak: String? = nil, ckn: String? = nil, connectionId: String, secretARN: String? = nil) {
+            self.cak = cak
+            self.ckn = ckn
+            self.connectionId = connectionId
+            self.secretARN = secretARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cak
+            case ckn
+            case connectionId
+            case secretARN
+        }
+    }
+
+    public struct AssociateMacSecKeyResponse: AWSDecodableShape {
+        /// The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG (dxlag-xxxx).
+        public let connectionId: String?
+        /// The MAC Security (MACsec) security keys associated with the dedicated connection.
+        public let macSecKeys: [MacSecKey]?
+
+        public init(connectionId: String? = nil, macSecKeys: [MacSecKey]? = nil) {
+            self.connectionId = connectionId
+            self.macSecKeys = macSecKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionId
+            case macSecKeys
         }
     }
 
@@ -591,6 +637,8 @@ extension DirectConnect {
         public let connectionName: String?
         /// The state of the connection. The following are the possible values:    ordering: The initial state of a hosted connection provisioned on an interconnect. The connection stays in the ordering state until the owner of the hosted connection confirms or declines the connection order.    requested: The initial state of a standard connection. The connection stays in the requested state until the Letter of Authorization (LOA) is sent to the customer.    pending: The connection has been approved and is being initialized.    available: The network link is up and the connection is ready for use.    down: The network link is down.    deleting: The connection is being deleted.    deleted: The connection has been deleted.    rejected: A hosted connection in the ordering state enters the rejected state if it is deleted by the customer.    unknown: The state of the connection is not available.
         public let connectionState: ConnectionState?
+        /// The MAC Security (MACsec) connection encryption mode. The valid values are no_encrypt, should_encrypt, and must_encrypt.
+        public let encryptionMode: String?
         /// Indicates whether the connection supports a secondary BGP peer in the same address family (IPv4/IPv6).
         public let hasLogicalRedundancy: HasLogicalRedundancy?
         /// Indicates whether jumbo frames (9001 MTU) are supported.
@@ -601,10 +649,16 @@ extension DirectConnect {
         public let loaIssueTime: Date?
         /// The location of the connection.
         public let location: String?
+        /// Indicates whether the connection supports MAC Security (MACsec).
+        public let macSecCapable: Bool?
+        /// The MAC Security (MACsec) security keys associated with the connection.
+        public let macSecKeys: [MacSecKey]?
         /// The ID of the AWS account that owns the connection.
         public let ownerAccount: String?
         /// The name of the AWS Direct Connect service provider associated with the connection.
         public let partnerName: String?
+        /// The MAC Security (MACsec) port link status of the connection. The valid values are Encryption Up, which means that there is an active Connection Key Name, or Encryption Down.
+        public let portEncryptionStatus: String?
         /// The name of the service provider associated with the connection.
         public let providerName: String?
         /// The AWS Region where the connection is located.
@@ -614,20 +668,24 @@ extension DirectConnect {
         /// The ID of the VLAN.
         public let vlan: Int?
 
-        public init(awsDevice: String? = nil, awsDeviceV2: String? = nil, bandwidth: String? = nil, connectionId: String? = nil, connectionName: String? = nil, connectionState: ConnectionState? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, loaIssueTime: Date? = nil, location: String? = nil, ownerAccount: String? = nil, partnerName: String? = nil, providerName: String? = nil, region: String? = nil, tags: [Tag]? = nil, vlan: Int? = nil) {
+        public init(awsDevice: String? = nil, awsDeviceV2: String? = nil, bandwidth: String? = nil, connectionId: String? = nil, connectionName: String? = nil, connectionState: ConnectionState? = nil, encryptionMode: String? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, loaIssueTime: Date? = nil, location: String? = nil, macSecCapable: Bool? = nil, macSecKeys: [MacSecKey]? = nil, ownerAccount: String? = nil, partnerName: String? = nil, portEncryptionStatus: String? = nil, providerName: String? = nil, region: String? = nil, tags: [Tag]? = nil, vlan: Int? = nil) {
             self.awsDevice = awsDevice
             self.awsDeviceV2 = awsDeviceV2
             self.bandwidth = bandwidth
             self.connectionId = connectionId
             self.connectionName = connectionName
             self.connectionState = connectionState
+            self.encryptionMode = encryptionMode
             self.hasLogicalRedundancy = hasLogicalRedundancy
             self.jumboFrameCapable = jumboFrameCapable
             self.lagId = lagId
             self.loaIssueTime = loaIssueTime
             self.location = location
+            self.macSecCapable = macSecCapable
+            self.macSecKeys = macSecKeys
             self.ownerAccount = ownerAccount
             self.partnerName = partnerName
+            self.portEncryptionStatus = portEncryptionStatus
             self.providerName = providerName
             self.region = region
             self.tags = tags
@@ -641,13 +699,17 @@ extension DirectConnect {
             case connectionId
             case connectionName
             case connectionState
+            case encryptionMode
             case hasLogicalRedundancy
             case jumboFrameCapable
             case lagId
             case loaIssueTime
             case location
+            case macSecCapable
+            case macSecKeys
             case ownerAccount
             case partnerName
+            case portEncryptionStatus
             case providerName
             case region
             case tags
@@ -709,15 +771,18 @@ extension DirectConnect {
         public let location: String
         /// The name of the service provider associated with the requested connection.
         public let providerName: String?
+        /// Indicates whether you want the connection to support MAC Security (MACsec). MAC Security (MACsec) is only available on dedicated connections. For information about MAC Security (MACsec) prerequisties, see MACsec prerequisties in the AWS Direct Connect User Guide.
+        public let requestMACSec: Bool?
         /// The tags to associate with the lag.
         public let tags: [Tag]?
 
-        public init(bandwidth: String, connectionName: String, lagId: String? = nil, location: String, providerName: String? = nil, tags: [Tag]? = nil) {
+        public init(bandwidth: String, connectionName: String, lagId: String? = nil, location: String, providerName: String? = nil, requestMACSec: Bool? = nil, tags: [Tag]? = nil) {
             self.bandwidth = bandwidth
             self.connectionName = connectionName
             self.lagId = lagId
             self.location = location
             self.providerName = providerName
+            self.requestMACSec = requestMACSec
             self.tags = tags
         }
 
@@ -725,6 +790,7 @@ extension DirectConnect {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
@@ -734,6 +800,7 @@ extension DirectConnect {
             case lagId
             case location
             case providerName
+            case requestMACSec
             case tags
         }
     }
@@ -875,6 +942,7 @@ extension DirectConnect {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
@@ -903,10 +971,12 @@ extension DirectConnect {
         public let numberOfConnections: Int
         /// The name of the service provider associated with the LAG.
         public let providerName: String?
+        /// Indicates whether the connection will support MAC Security (MACsec).  All connections in the LAG must be capable of supporting MAC Security (MACsec). For information about MAC Security (MACsec) prerequisties, see MACsec prerequisties in the AWS Direct Connect User Guide.
+        public let requestMACSec: Bool?
         /// The tags to associate with the LAG.
         public let tags: [Tag]?
 
-        public init(childConnectionTags: [Tag]? = nil, connectionId: String? = nil, connectionsBandwidth: String, lagName: String, location: String, numberOfConnections: Int, providerName: String? = nil, tags: [Tag]? = nil) {
+        public init(childConnectionTags: [Tag]? = nil, connectionId: String? = nil, connectionsBandwidth: String, lagName: String, location: String, numberOfConnections: Int, providerName: String? = nil, requestMACSec: Bool? = nil, tags: [Tag]? = nil) {
             self.childConnectionTags = childConnectionTags
             self.connectionId = connectionId
             self.connectionsBandwidth = connectionsBandwidth
@@ -914,6 +984,7 @@ extension DirectConnect {
             self.location = location
             self.numberOfConnections = numberOfConnections
             self.providerName = providerName
+            self.requestMACSec = requestMACSec
             self.tags = tags
         }
 
@@ -921,10 +992,12 @@ extension DirectConnect {
             try self.childConnectionTags?.forEach {
                 try $0.validate(name: "\(name).childConnectionTags[]")
             }
+            try self.childConnectionTags?.forEach {}
             try self.validate(self.childConnectionTags, name: "childConnectionTags", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
@@ -936,6 +1009,7 @@ extension DirectConnect {
             case location
             case numberOfConnections
             case providerName
+            case requestMACSec
             case tags
         }
     }
@@ -953,6 +1027,7 @@ extension DirectConnect {
 
         public func validate(name: String) throws {
             try self.newPrivateVirtualInterface.validate(name: "\(name).newPrivateVirtualInterface")
+            try self.newPrivateVirtualInterface.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -974,6 +1049,7 @@ extension DirectConnect {
 
         public func validate(name: String) throws {
             try self.newPublicVirtualInterface.validate(name: "\(name).newPublicVirtualInterface")
+            try self.newPublicVirtualInterface.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -995,6 +1071,7 @@ extension DirectConnect {
 
         public func validate(name: String) throws {
             try self.newTransitVirtualInterface.validate(name: "\(name).newTransitVirtualInterface")
+            try self.newTransitVirtualInterface.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1334,7 +1411,7 @@ extension DirectConnect {
         public let maxResults: Int?
         /// The token provided in the previous call to retrieve the next page.
         public let nextToken: String?
-        /// The ID of the virtual private gateway.
+        /// The ID of the virtual private gateway or transit gateway.
         public let virtualGatewayId: String?
 
         public init(associatedGatewayId: String? = nil, associationId: String? = nil, directConnectGatewayId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, virtualGatewayId: String? = nil) {
@@ -1763,6 +1840,40 @@ extension DirectConnect {
         }
     }
 
+    public struct DisassociateMacSecKeyRequest: AWSEncodableShape {
+        /// The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG (dxlag-xxxx). You can use DescribeConnections or DescribeLags to retrieve connection ID.
+        public let connectionId: String
+        /// The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key. You can use DescribeConnections to retrieve the ARN of the MAC Security (MACsec) secret key.
+        public let secretARN: String
+
+        public init(connectionId: String, secretARN: String) {
+            self.connectionId = connectionId
+            self.secretARN = secretARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionId
+            case secretARN
+        }
+    }
+
+    public struct DisassociateMacSecKeyResponse: AWSDecodableShape {
+        /// The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG (dxlag-xxxx).
+        public let connectionId: String?
+        /// The MAC Security (MACsec) security keys no longer associated with the dedicated connection.
+        public let macSecKeys: [MacSecKey]?
+
+        public init(connectionId: String? = nil, macSecKeys: [MacSecKey]? = nil) {
+            self.connectionId = connectionId
+            self.macSecKeys = macSecKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionId
+            case macSecKeys
+        }
+    }
+
     public struct Interconnect: AWSDecodableShape {
         /// The Direct Connect endpoint on which the physical connection terminates.
         public let awsDevice: String?
@@ -1852,6 +1963,8 @@ extension DirectConnect {
         public let connections: [Connection]?
         /// The individual bandwidth of the physical connections bundled by the LAG. The possible values are 1Gbps and 10Gbps.
         public let connectionsBandwidth: String?
+        /// The LAG MAC Security (MACsec) encryption mode. The valid values are no_encrypt, should_encrypt, and must_encrypt.
+        public let encryptionMode: String?
         /// Indicates whether the LAG supports a secondary BGP peer in the same address family (IPv4/IPv6).
         public let hasLogicalRedundancy: HasLogicalRedundancy?
         /// Indicates whether jumbo frames (9001 MTU) are supported.
@@ -1864,6 +1977,10 @@ extension DirectConnect {
         public let lagState: LagState?
         /// The location of the LAG.
         public let location: String?
+        /// Indicates whether the LAG supports MAC Security (MACsec).
+        public let macSecCapable: Bool?
+        /// The MAC Security (MACsec) security keys associated with the LAG.
+        public let macSecKeys: [MacSecKey]?
         /// The minimum number of physical dedicated connections that must be operational for the LAG itself to be operational.
         public let minimumLinks: Int?
         /// The number of physical dedicated connections bundled by the LAG, up to a maximum of 10.
@@ -1877,18 +1994,21 @@ extension DirectConnect {
         /// The tags associated with the LAG.
         public let tags: [Tag]?
 
-        public init(allowsHostedConnections: Bool? = nil, awsDevice: String? = nil, awsDeviceV2: String? = nil, connections: [Connection]? = nil, connectionsBandwidth: String? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, lagName: String? = nil, lagState: LagState? = nil, location: String? = nil, minimumLinks: Int? = nil, numberOfConnections: Int? = nil, ownerAccount: String? = nil, providerName: String? = nil, region: String? = nil, tags: [Tag]? = nil) {
+        public init(allowsHostedConnections: Bool? = nil, awsDevice: String? = nil, awsDeviceV2: String? = nil, connections: [Connection]? = nil, connectionsBandwidth: String? = nil, encryptionMode: String? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, lagName: String? = nil, lagState: LagState? = nil, location: String? = nil, macSecCapable: Bool? = nil, macSecKeys: [MacSecKey]? = nil, minimumLinks: Int? = nil, numberOfConnections: Int? = nil, ownerAccount: String? = nil, providerName: String? = nil, region: String? = nil, tags: [Tag]? = nil) {
             self.allowsHostedConnections = allowsHostedConnections
             self.awsDevice = awsDevice
             self.awsDeviceV2 = awsDeviceV2
             self.connections = connections
             self.connectionsBandwidth = connectionsBandwidth
+            self.encryptionMode = encryptionMode
             self.hasLogicalRedundancy = hasLogicalRedundancy
             self.jumboFrameCapable = jumboFrameCapable
             self.lagId = lagId
             self.lagName = lagName
             self.lagState = lagState
             self.location = location
+            self.macSecCapable = macSecCapable
+            self.macSecKeys = macSecKeys
             self.minimumLinks = minimumLinks
             self.numberOfConnections = numberOfConnections
             self.ownerAccount = ownerAccount
@@ -1903,12 +2023,15 @@ extension DirectConnect {
             case awsDeviceV2
             case connections
             case connectionsBandwidth
+            case encryptionMode
             case hasLogicalRedundancy
             case jumboFrameCapable
             case lagId
             case lagName
             case lagState
             case location
+            case macSecCapable
+            case macSecKeys
             case minimumLinks
             case numberOfConnections
             case ownerAccount
@@ -1999,6 +2122,8 @@ extension DirectConnect {
     }
 
     public struct Location: AWSDecodableShape {
+        /// The available MAC Security (MACsec) port speeds for the location.
+        public let availableMacSecPortSpeeds: [String]?
         /// The available port speeds for the location.
         public let availablePortSpeeds: [String]?
         /// The name of the service provider for the location.
@@ -2010,7 +2135,8 @@ extension DirectConnect {
         /// The AWS Region for the location.
         public let region: String?
 
-        public init(availablePortSpeeds: [String]? = nil, availableProviders: [String]? = nil, locationCode: String? = nil, locationName: String? = nil, region: String? = nil) {
+        public init(availableMacSecPortSpeeds: [String]? = nil, availablePortSpeeds: [String]? = nil, availableProviders: [String]? = nil, locationCode: String? = nil, locationName: String? = nil, region: String? = nil) {
+            self.availableMacSecPortSpeeds = availableMacSecPortSpeeds
             self.availablePortSpeeds = availablePortSpeeds
             self.availableProviders = availableProviders
             self.locationCode = locationCode
@@ -2019,6 +2145,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case availableMacSecPortSpeeds
             case availablePortSpeeds
             case availableProviders
             case locationCode
@@ -2037,6 +2164,31 @@ extension DirectConnect {
 
         private enum CodingKeys: String, CodingKey {
             case locations
+        }
+    }
+
+    public struct MacSecKey: AWSDecodableShape {
+        /// The Connection Key Name (CKN) for the MAC Security secret key.
+        public let ckn: String?
+        /// The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key.
+        public let secretARN: String?
+        /// The date that the MAC Security (MACsec) secret key takes effect. The value is displayed in UTC format.
+        public let startOn: String?
+        /// The state of the MAC Security (MACsec) secret key. The possible values are:    associating: The MAC Security (MACsec) secret key is being validated and not yet associated with the connection or LAG.    associated: The MAC Security (MACsec) secret key is validated and associated with the connection or LAG.    disassociating: The MAC Security (MACsec) secret key is being disassociated from the connection or LAG    disassociated: The MAC Security (MACsec) secret key is no longer associated with the connection or LAG.
+        public let state: String?
+
+        public init(ckn: String? = nil, secretARN: String? = nil, startOn: String? = nil, state: String? = nil) {
+            self.ckn = ckn
+            self.secretARN = secretARN
+            self.startOn = startOn
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ckn
+            case secretARN
+            case startOn
+            case state
         }
     }
 
@@ -2111,6 +2263,7 @@ extension DirectConnect {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
@@ -2165,6 +2318,7 @@ extension DirectConnect {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
@@ -2217,6 +2371,7 @@ extension DirectConnect {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
@@ -2269,6 +2424,7 @@ extension DirectConnect {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
@@ -2324,6 +2480,7 @@ extension DirectConnect {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
@@ -2377,6 +2534,7 @@ extension DirectConnect {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
@@ -2495,9 +2653,11 @@ extension DirectConnect {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
             try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -2524,6 +2684,7 @@ extension DirectConnect {
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
@@ -2554,6 +2715,7 @@ extension DirectConnect {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
+            try self.tagKeys.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2564,6 +2726,27 @@ extension DirectConnect {
 
     public struct UntagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateConnectionRequest: AWSEncodableShape {
+        /// The ID of the dedicated connection. You can use DescribeConnections to retrieve the connection ID.
+        public let connectionId: String
+        /// The name of the connection.
+        public let connectionName: String?
+        /// The connection MAC Security (MACsec) encryption mode. The valid values are no_encrypt, should_encrypt, and must_encrypt.
+        public let encryptionMode: String?
+
+        public init(connectionId: String, connectionName: String? = nil, encryptionMode: String? = nil) {
+            self.connectionId = connectionId
+            self.connectionName = connectionName
+            self.encryptionMode = encryptionMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionId
+            case connectionName
+            case encryptionMode
+        }
     }
 
     public struct UpdateDirectConnectGatewayAssociationRequest: AWSEncodableShape {
@@ -2600,6 +2783,8 @@ extension DirectConnect {
     }
 
     public struct UpdateLagRequest: AWSEncodableShape {
+        /// The LAG MAC Security (MACsec) encryption mode. AWS applies the value to all connections which are part of the LAG.
+        public let encryptionMode: String?
         /// The ID of the LAG.
         public let lagId: String
         /// The name of the LAG.
@@ -2607,13 +2792,15 @@ extension DirectConnect {
         /// The minimum number of physical connections that must be operational for the LAG itself to be operational.
         public let minimumLinks: Int?
 
-        public init(lagId: String, lagName: String? = nil, minimumLinks: Int? = nil) {
+        public init(encryptionMode: String? = nil, lagId: String, lagName: String? = nil, minimumLinks: Int? = nil) {
+            self.encryptionMode = encryptionMode
             self.lagId = lagId
             self.lagName = lagName
             self.minimumLinks = minimumLinks
         }
 
         private enum CodingKeys: String, CodingKey {
+            case encryptionMode
             case lagId
             case lagName
             case minimumLinks

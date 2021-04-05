@@ -383,15 +383,19 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
             try self.properties?.forEach {
                 try $0.validate(name: "\(name).properties[]")
             }
+            try self.properties?.forEach {}
+            try self.type.forEach {}
             try self.validate(self.type, name: "type", parent: name, max: 256)
             try self.validate(self.type, name: "type", parent: name, min: 1)
             try self.validate(self.type, name: "type", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
@@ -423,15 +427,19 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
             try self.properties?.forEach {
                 try $0.validate(name: "\(name).properties[]")
             }
+            try self.properties?.forEach {}
+            try self.type.forEach {}
             try self.validate(self.type, name: "type", parent: name, max: 256)
             try self.validate(self.type, name: "type", parent: name, min: 1)
             try self.validate(self.type, name: "type", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
@@ -460,12 +468,15 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.childAssetModelId.forEach {}
             try self.validate(self.childAssetModelId, name: "childAssetModelId", parent: name, max: 36)
             try self.validate(self.childAssetModelId, name: "childAssetModelId", parent: name, min: 36)
             try self.validate(self.childAssetModelId, name: "childAssetModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.id?.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 36)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
@@ -490,9 +501,11 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.childAssetModelId.forEach {}
             try self.validate(self.childAssetModelId, name: "childAssetModelId", parent: name, max: 36)
             try self.validate(self.childAssetModelId, name: "childAssetModelId", parent: name, min: 36)
             try self.validate(self.childAssetModelId, name: "childAssetModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
@@ -528,16 +541,21 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.dataTypeSpec?.forEach {}
             try self.validate(self.dataTypeSpec, name: "dataTypeSpec", parent: name, max: 256)
             try self.validate(self.dataTypeSpec, name: "dataTypeSpec", parent: name, min: 1)
             try self.validate(self.dataTypeSpec, name: "dataTypeSpec", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
+            try self.id?.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 36)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
             try self.type.validate(name: "\(name).type")
+            try self.type.forEach {}
+            try self.unit?.forEach {}
             try self.validate(self.unit, name: "unit", parent: name, max: 256)
             try self.validate(self.unit, name: "unit", parent: name, min: 1)
             try self.validate(self.unit, name: "unit", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
@@ -574,13 +592,17 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.dataTypeSpec?.forEach {}
             try self.validate(self.dataTypeSpec, name: "dataTypeSpec", parent: name, max: 256)
             try self.validate(self.dataTypeSpec, name: "dataTypeSpec", parent: name, min: 1)
             try self.validate(self.dataTypeSpec, name: "dataTypeSpec", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
             try self.type.validate(name: "\(name).type")
+            try self.type.forEach {}
+            try self.unit?.forEach {}
             try self.validate(self.unit, name: "unit", parent: name, max: 256)
             try self.validate(self.unit, name: "unit", parent: name, min: 1)
             try self.validate(self.unit, name: "unit", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
@@ -702,7 +724,9 @@ extension IoTSiteWise {
 
         public func validate(name: String) throws {
             try self.timestamp.validate(name: "\(name).timestamp")
+            try self.timestamp.forEach {}
             try self.value.validate(name: "\(name).value")
+            try self.value.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -809,15 +833,19 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.assetId.forEach {}
             try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.childAssetId.forEach {}
             try self.validate(self.childAssetId, name: "childAssetId", parent: name, max: 36)
             try self.validate(self.childAssetId, name: "childAssetId", parent: name, min: 36)
             try self.validate(self.childAssetId, name: "childAssetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S{36,64}")
+            try self.hierarchyId.forEach {}
             try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, max: 36)
             try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, min: 36)
             try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -880,6 +908,7 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.defaultValue?.forEach {}
             try self.validate(self.defaultValue, name: "defaultValue", parent: name, max: 1024)
             try self.validate(self.defaultValue, name: "defaultValue", parent: name, min: 1)
             try self.validate(self.defaultValue, name: "defaultValue", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
@@ -914,11 +943,14 @@ extension IoTSiteWise {
                 try validate($0, name: "assetIds[]", parent: name, min: 36)
                 try validate($0, name: "assetIds[]", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             }
+            try self.assetIds.forEach {}
             try self.validate(self.assetIds, name: "assetIds", parent: name, max: 100)
             try self.validate(self.assetIds, name: "assetIds", parent: name, min: 1)
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S{36,64}")
+            try self.projectId.forEach {}
             try self.validate(self.projectId, name: "projectId", parent: name, max: 36)
             try self.validate(self.projectId, name: "projectId", parent: name, min: 36)
             try self.validate(self.projectId, name: "projectId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -967,11 +999,14 @@ extension IoTSiteWise {
                 try validate($0, name: "assetIds[]", parent: name, min: 36)
                 try validate($0, name: "assetIds[]", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             }
+            try self.assetIds.forEach {}
             try self.validate(self.assetIds, name: "assetIds", parent: name, max: 100)
             try self.validate(self.assetIds, name: "assetIds", parent: name, min: 1)
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S{36,64}")
+            try self.projectId.forEach {}
             try self.validate(self.projectId, name: "projectId", parent: name, max: 36)
             try self.validate(self.projectId, name: "projectId", parent: name, min: 36)
             try self.validate(self.projectId, name: "projectId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -1046,6 +1081,7 @@ extension IoTSiteWise {
             try self.entries.forEach {
                 try $0.validate(name: "\(name).entries[]")
             }
+            try self.entries.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1142,7 +1178,10 @@ extension IoTSiteWise {
 
         public func validate(name: String) throws {
             try self.accessPolicyIdentity.validate(name: "\(name).accessPolicyIdentity")
+            try self.accessPolicyIdentity.forEach {}
             try self.accessPolicyResource.validate(name: "\(name).accessPolicyResource")
+            try self.accessPolicyResource.forEach {}
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S{36,64}")
@@ -1210,18 +1249,24 @@ extension IoTSiteWise {
             try self.assetModelCompositeModels?.forEach {
                 try $0.validate(name: "\(name).assetModelCompositeModels[]")
             }
+            try self.assetModelCompositeModels?.forEach {}
+            try self.assetModelDescription?.forEach {}
             try self.validate(self.assetModelDescription, name: "assetModelDescription", parent: name, max: 2048)
             try self.validate(self.assetModelDescription, name: "assetModelDescription", parent: name, min: 1)
             try self.validate(self.assetModelDescription, name: "assetModelDescription", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
             try self.assetModelHierarchies?.forEach {
                 try $0.validate(name: "\(name).assetModelHierarchies[]")
             }
+            try self.assetModelHierarchies?.forEach {}
+            try self.assetModelName.forEach {}
             try self.validate(self.assetModelName, name: "assetModelName", parent: name, max: 256)
             try self.validate(self.assetModelName, name: "assetModelName", parent: name, min: 1)
             try self.validate(self.assetModelName, name: "assetModelName", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
             try self.assetModelProperties?.forEach {
                 try $0.validate(name: "\(name).assetModelProperties[]")
             }
+            try self.assetModelProperties?.forEach {}
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S{36,64}")
@@ -1283,12 +1328,15 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.assetModelId.forEach {}
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, max: 36)
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, min: 36)
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.assetName.forEach {}
             try self.validate(self.assetName, name: "assetName", parent: name, max: 256)
             try self.validate(self.assetName, name: "assetName", parent: name, min: 1)
             try self.validate(self.assetName, name: "assetName", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S{36,64}")
@@ -1353,18 +1401,23 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S{36,64}")
+            try self.dashboardDefinition.forEach {}
             try self.validate(self.dashboardDefinition, name: "dashboardDefinition", parent: name, max: 204_800)
             try self.validate(self.dashboardDefinition, name: "dashboardDefinition", parent: name, min: 0)
             try self.validate(self.dashboardDefinition, name: "dashboardDefinition", parent: name, pattern: ".+")
+            try self.dashboardDescription?.forEach {}
             try self.validate(self.dashboardDescription, name: "dashboardDescription", parent: name, max: 2048)
             try self.validate(self.dashboardDescription, name: "dashboardDescription", parent: name, min: 1)
             try self.validate(self.dashboardDescription, name: "dashboardDescription", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
+            try self.dashboardName.forEach {}
             try self.validate(self.dashboardName, name: "dashboardName", parent: name, max: 256)
             try self.validate(self.dashboardName, name: "dashboardName", parent: name, min: 1)
             try self.validate(self.dashboardName, name: "dashboardName", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
+            try self.projectId.forEach {}
             try self.validate(self.projectId, name: "projectId", parent: name, max: 36)
             try self.validate(self.projectId, name: "projectId", parent: name, min: 36)
             try self.validate(self.projectId, name: "projectId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -1418,10 +1471,12 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.gatewayName.forEach {}
             try self.validate(self.gatewayName, name: "gatewayName", parent: name, max: 256)
             try self.validate(self.gatewayName, name: "gatewayName", parent: name, min: 1)
             try self.validate(self.gatewayName, name: "gatewayName", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
             try self.gatewayPlatform.validate(name: "\(name).gatewayPlatform")
+            try self.gatewayPlatform.forEach {}
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1484,19 +1539,25 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S{36,64}")
+            try self.portalContactEmail.forEach {}
             try self.validate(self.portalContactEmail, name: "portalContactEmail", parent: name, max: 255)
             try self.validate(self.portalContactEmail, name: "portalContactEmail", parent: name, min: 1)
             try self.validate(self.portalContactEmail, name: "portalContactEmail", parent: name, pattern: "[^@]+@[^@]+")
+            try self.portalDescription?.forEach {}
             try self.validate(self.portalDescription, name: "portalDescription", parent: name, max: 2048)
             try self.validate(self.portalDescription, name: "portalDescription", parent: name, min: 1)
             try self.validate(self.portalDescription, name: "portalDescription", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
             try self.portalLogoImageFile?.validate(name: "\(name).portalLogoImageFile")
+            try self.portalLogoImageFile?.forEach {}
+            try self.portalName.forEach {}
             try self.validate(self.portalName, name: "portalName", parent: name, max: 256)
             try self.validate(self.portalName, name: "portalName", parent: name, min: 1)
             try self.validate(self.portalName, name: "portalName", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
+            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1600)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: ".*")
@@ -1570,15 +1631,19 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S{36,64}")
+            try self.portalId.forEach {}
             try self.validate(self.portalId, name: "portalId", parent: name, max: 36)
             try self.validate(self.portalId, name: "portalId", parent: name, min: 36)
             try self.validate(self.portalId, name: "portalId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.projectDescription?.forEach {}
             try self.validate(self.projectDescription, name: "projectDescription", parent: name, max: 2048)
             try self.validate(self.projectDescription, name: "projectDescription", parent: name, min: 1)
             try self.validate(self.projectDescription, name: "projectDescription", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
+            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, max: 256)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
@@ -1662,9 +1727,11 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.accessPolicyId.forEach {}
             try self.validate(self.accessPolicyId, name: "accessPolicyId", parent: name, max: 36)
             try self.validate(self.accessPolicyId, name: "accessPolicyId", parent: name, min: 36)
             try self.validate(self.accessPolicyId, name: "accessPolicyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S{36,64}")
@@ -1694,9 +1761,11 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.assetModelId.forEach {}
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, max: 36)
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, min: 36)
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S{36,64}")
@@ -1735,9 +1804,11 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.assetId.forEach {}
             try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S{36,64}")
@@ -1776,9 +1847,11 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S{36,64}")
+            try self.dashboardId.forEach {}
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 36)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, min: 36)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -1804,6 +1877,7 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.gatewayId.forEach {}
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 36)
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 36)
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -1829,9 +1903,11 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S{36,64}")
+            try self.portalId.forEach {}
             try self.validate(self.portalId, name: "portalId", parent: name, max: 36)
             try self.validate(self.portalId, name: "portalId", parent: name, min: 36)
             try self.validate(self.portalId, name: "portalId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -1870,9 +1946,11 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S{36,64}")
+            try self.projectId.forEach {}
             try self.validate(self.projectId, name: "projectId", parent: name, max: 36)
             try self.validate(self.projectId, name: "projectId", parent: name, min: 36)
             try self.validate(self.projectId, name: "projectId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -1898,6 +1976,7 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.accessPolicyId.forEach {}
             try self.validate(self.accessPolicyId, name: "accessPolicyId", parent: name, max: 36)
             try self.validate(self.accessPolicyId, name: "accessPolicyId", parent: name, min: 36)
             try self.validate(self.accessPolicyId, name: "accessPolicyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -1956,6 +2035,7 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.assetModelId.forEach {}
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, max: 36)
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, min: 36)
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -2030,9 +2110,11 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.assetId.forEach {}
             try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.propertyId.forEach {}
             try self.validate(self.propertyId, name: "propertyId", parent: name, max: 36)
             try self.validate(self.propertyId, name: "propertyId", parent: name, min: 36)
             try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -2083,6 +2165,7 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.assetId.forEach {}
             try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -2153,6 +2236,7 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.dashboardId.forEach {}
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 36)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, min: 36)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -2244,9 +2328,11 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.capabilityNamespace.forEach {}
             try self.validate(self.capabilityNamespace, name: "capabilityNamespace", parent: name, max: 512)
             try self.validate(self.capabilityNamespace, name: "capabilityNamespace", parent: name, min: 1)
             try self.validate(self.capabilityNamespace, name: "capabilityNamespace", parent: name, pattern: "^[a-zA-Z]+:[a-zA-Z]+:[0-9]+$")
+            try self.gatewayId.forEach {}
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 36)
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 36)
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -2293,6 +2379,7 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.gatewayId.forEach {}
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 36)
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 36)
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -2368,6 +2455,7 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.portalId.forEach {}
             try self.validate(self.portalId, name: "portalId", parent: name, max: 36)
             try self.validate(self.portalId, name: "portalId", parent: name, min: 36)
             try self.validate(self.portalId, name: "portalId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -2450,6 +2538,7 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.projectId.forEach {}
             try self.validate(self.projectId, name: "projectId", parent: name, max: 36)
             try self.validate(self.projectId, name: "projectId", parent: name, min: 36)
             try self.validate(self.projectId, name: "projectId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -2517,15 +2606,19 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.assetId.forEach {}
             try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.childAssetId.forEach {}
             try self.validate(self.childAssetId, name: "childAssetId", parent: name, max: 36)
             try self.validate(self.childAssetId, name: "childAssetId", parent: name, min: 36)
             try self.validate(self.childAssetId, name: "childAssetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S{36,64}")
+            try self.hierarchyId.forEach {}
             try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, max: 36)
             try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, min: 36)
             try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -2567,10 +2660,12 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z][a-z0-9_]*$")
             try self.value.validate(name: "\(name).value")
+            try self.value.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2606,6 +2701,7 @@ extension IoTSiteWise {
 
         public func validate(name: String) throws {
             try self.greengrass.validate(name: "\(name).greengrass")
+            try self.greengrass.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2695,23 +2791,31 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.aggregateTypes.forEach {}
             try self.validate(self.aggregateTypes, name: "aggregateTypes", parent: name, min: 1)
+            try self.assetId?.forEach {}
             try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[A-Za-z0-9+/=]+")
+            try self.propertyAlias?.forEach {}
             try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, max: 2048)
             try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, min: 1)
             try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
+            try self.propertyId?.forEach {}
             try self.validate(self.propertyId, name: "propertyId", parent: name, max: 36)
             try self.validate(self.propertyId, name: "propertyId", parent: name, min: 36)
             try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.qualities?.forEach {}
             try self.validate(self.qualities, name: "qualities", parent: name, max: 1)
             try self.validate(self.qualities, name: "qualities", parent: name, min: 1)
+            try self.resolution.forEach {}
             try self.validate(self.resolution, name: "resolution", parent: name, max: 2)
             try self.validate(self.resolution, name: "resolution", parent: name, min: 2)
             try self.validate(self.resolution, name: "resolution", parent: name, pattern: "1m|1h|1d")
@@ -2782,20 +2886,26 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.assetId?.forEach {}
             try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[A-Za-z0-9+/=]+")
+            try self.propertyAlias?.forEach {}
             try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, max: 2048)
             try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, min: 1)
             try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
+            try self.propertyId?.forEach {}
             try self.validate(self.propertyId, name: "propertyId", parent: name, max: 36)
             try self.validate(self.propertyId, name: "propertyId", parent: name, min: 36)
             try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.qualities?.forEach {}
             try self.validate(self.qualities, name: "qualities", parent: name, max: 1)
             try self.validate(self.qualities, name: "qualities", parent: name, min: 1)
         }
@@ -2841,12 +2951,15 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.assetId?.forEach {}
             try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.propertyAlias?.forEach {}
             try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, max: 2048)
             try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, min: 1)
             try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
+            try self.propertyId?.forEach {}
             try self.validate(self.propertyId, name: "propertyId", parent: name, max: 36)
             try self.validate(self.propertyId, name: "propertyId", parent: name, min: 36)
             try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -2877,6 +2990,7 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.groupArn.forEach {}
             try self.validate(self.groupArn, name: "groupArn", parent: name, max: 1600)
             try self.validate(self.groupArn, name: "groupArn", parent: name, min: 1)
             try self.validate(self.groupArn, name: "groupArn", parent: name, pattern: ".*")
@@ -2896,6 +3010,7 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 256)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "\\S+")
@@ -2915,6 +3030,7 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1600)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
             try self.validate(self.arn, name: "arn", parent: name, pattern: ".*")
@@ -2934,6 +3050,7 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1600)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
             try self.validate(self.arn, name: "arn", parent: name, pattern: ".*")
@@ -2963,9 +3080,13 @@ extension IoTSiteWise {
 
         public func validate(name: String) throws {
             try self.group?.validate(name: "\(name).group")
+            try self.group?.forEach {}
             try self.iamRole?.validate(name: "\(name).iamRole")
+            try self.iamRole?.forEach {}
             try self.iamUser?.validate(name: "\(name).iamUser")
+            try self.iamUser?.forEach {}
             try self.user?.validate(name: "\(name).user")
+            try self.user?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2988,6 +3109,8 @@ extension IoTSiteWise {
 
         public func validate(name: String) throws {
             try self.file?.validate(name: "\(name).file")
+            try self.file?.forEach {}
+            try self.id?.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 36)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -3011,6 +3134,7 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.data.forEach {}
             try self.validate(self.data, name: "data", parent: name, max: 1_500_000)
             try self.validate(self.data, name: "data", parent: name, min: 1)
         }
@@ -3075,17 +3199,22 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.iamArn?.forEach {}
             try self.validate(self.iamArn, name: "iamArn", parent: name, max: 1600)
             try self.validate(self.iamArn, name: "iamArn", parent: name, min: 1)
             try self.validate(self.iamArn, name: "iamArn", parent: name, pattern: ".*")
+            try self.identityId?.forEach {}
             try self.validate(self.identityId, name: "identityId", parent: name, max: 256)
             try self.validate(self.identityId, name: "identityId", parent: name, min: 1)
             try self.validate(self.identityId, name: "identityId", parent: name, pattern: "\\S+")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[A-Za-z0-9+/=]+")
+            try self.resourceId?.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 36)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 36)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -3128,8 +3257,10 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[A-Za-z0-9+/=]+")
@@ -3180,11 +3311,14 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.assetId.forEach {}
             try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[A-Za-z0-9+/=]+")
@@ -3235,11 +3369,14 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.assetModelId?.forEach {}
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, max: 36)
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, min: 36)
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[A-Za-z0-9+/=]+")
@@ -3294,14 +3431,18 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.assetId.forEach {}
             try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.hierarchyId?.forEach {}
             try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, max: 36)
             try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, min: 36)
             try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[A-Za-z0-9+/=]+")
@@ -3348,11 +3489,14 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[A-Za-z0-9+/=]+")
+            try self.projectId.forEach {}
             try self.validate(self.projectId, name: "projectId", parent: name, max: 36)
             try self.validate(self.projectId, name: "projectId", parent: name, min: 36)
             try self.validate(self.projectId, name: "projectId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -3395,8 +3539,10 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[A-Za-z0-9+/=]+")
@@ -3439,8 +3585,10 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[A-Za-z0-9+/=]+")
@@ -3487,11 +3635,14 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[A-Za-z0-9+/=]+")
+            try self.projectId.forEach {}
             try self.validate(self.projectId, name: "projectId", parent: name, max: 36)
             try self.validate(self.projectId, name: "projectId", parent: name, min: 36)
             try self.validate(self.projectId, name: "projectId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -3538,11 +3689,14 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[A-Za-z0-9+/=]+")
+            try self.portalId.forEach {}
             try self.validate(self.portalId, name: "portalId", parent: name, max: 36)
             try self.validate(self.portalId, name: "portalId", parent: name, min: 36)
             try self.validate(self.portalId, name: "portalId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -3581,6 +3735,7 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
         }
@@ -3633,12 +3788,15 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.expression.forEach {}
             try self.validate(self.expression, name: "expression", parent: name, max: 1024)
             try self.validate(self.expression, name: "expression", parent: name, min: 1)
             try self.variables.forEach {
                 try $0.validate(name: "\(name).variables[]")
             }
+            try self.variables.forEach {}
             try self.window.validate(name: "\(name).window")
+            try self.window.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3658,6 +3816,7 @@ extension IoTSiteWise {
 
         public func validate(name: String) throws {
             try self.tumbling?.validate(name: "\(name).tumbling")
+            try self.tumbling?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3691,6 +3850,7 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 36)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -3767,6 +3927,7 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 36)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -3879,8 +4040,11 @@ extension IoTSiteWise {
 
         public func validate(name: String) throws {
             try self.attribute?.validate(name: "\(name).attribute")
+            try self.attribute?.forEach {}
             try self.metric?.validate(name: "\(name).metric")
+            try self.metric?.forEach {}
             try self.transform?.validate(name: "\(name).transform")
+            try self.transform?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3912,21 +4076,26 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.assetId?.forEach {}
             try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.entryId.forEach {}
             try self.validate(self.entryId, name: "entryId", parent: name, max: 64)
             try self.validate(self.entryId, name: "entryId", parent: name, min: 1)
             try self.validate(self.entryId, name: "entryId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.propertyAlias?.forEach {}
             try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, max: 2048)
             try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, min: 1)
             try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
+            try self.propertyId?.forEach {}
             try self.validate(self.propertyId, name: "propertyId", parent: name, max: 36)
             try self.validate(self.propertyId, name: "propertyId", parent: name, min: 36)
             try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.propertyValues.forEach {
                 try $0.validate(name: "\(name).propertyValues[]")
             }
+            try self.propertyValues.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3950,6 +4119,7 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.kmsKeyId?.forEach {}
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
         }
@@ -4011,7 +4181,9 @@ extension IoTSiteWise {
 
         public func validate(name: String) throws {
             try self.portal?.validate(name: "\(name).portal")
+            try self.portal?.forEach {}
             try self.project?.validate(name: "\(name).project")
+            try self.project?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4036,6 +4208,7 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.tags.forEach {
@@ -4067,8 +4240,10 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.offsetInNanos?.forEach {}
             try self.validate(self.offsetInNanos, name: "offsetInNanos", parent: name, max: 999_999_999)
             try self.validate(self.offsetInNanos, name: "offsetInNanos", parent: name, min: 0)
+            try self.timeInSeconds.forEach {}
             try self.validate(self.timeInSeconds, name: "timeInSeconds", parent: name, max: 31_556_889_864_403_199)
             try self.validate(self.timeInSeconds, name: "timeInSeconds", parent: name, min: 1)
         }
@@ -4091,11 +4266,13 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.expression.forEach {}
             try self.validate(self.expression, name: "expression", parent: name, max: 1024)
             try self.validate(self.expression, name: "expression", parent: name, min: 1)
             try self.variables.forEach {
                 try $0.validate(name: "\(name).variables[]")
             }
+            try self.variables.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4113,6 +4290,7 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.interval.forEach {}
             try self.validate(self.interval, name: "interval", parent: name, max: 3)
             try self.validate(self.interval, name: "interval", parent: name, min: 2)
             try self.validate(self.interval, name: "interval", parent: name, pattern: "1w|1d|1h|15m|5m|1m")
@@ -4140,12 +4318,14 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
         }
@@ -4182,11 +4362,15 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.accessPolicyId.forEach {}
             try self.validate(self.accessPolicyId, name: "accessPolicyId", parent: name, max: 36)
             try self.validate(self.accessPolicyId, name: "accessPolicyId", parent: name, min: 36)
             try self.validate(self.accessPolicyId, name: "accessPolicyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.accessPolicyIdentity.validate(name: "\(name).accessPolicyIdentity")
+            try self.accessPolicyIdentity.forEach {}
             try self.accessPolicyResource.validate(name: "\(name).accessPolicyResource")
+            try self.accessPolicyResource.forEach {}
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S{36,64}")
@@ -4238,21 +4422,28 @@ extension IoTSiteWise {
             try self.assetModelCompositeModels?.forEach {
                 try $0.validate(name: "\(name).assetModelCompositeModels[]")
             }
+            try self.assetModelCompositeModels?.forEach {}
+            try self.assetModelDescription?.forEach {}
             try self.validate(self.assetModelDescription, name: "assetModelDescription", parent: name, max: 2048)
             try self.validate(self.assetModelDescription, name: "assetModelDescription", parent: name, min: 1)
             try self.validate(self.assetModelDescription, name: "assetModelDescription", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
             try self.assetModelHierarchies?.forEach {
                 try $0.validate(name: "\(name).assetModelHierarchies[]")
             }
+            try self.assetModelHierarchies?.forEach {}
+            try self.assetModelId.forEach {}
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, max: 36)
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, min: 36)
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.assetModelName.forEach {}
             try self.validate(self.assetModelName, name: "assetModelName", parent: name, max: 256)
             try self.validate(self.assetModelName, name: "assetModelName", parent: name, min: 1)
             try self.validate(self.assetModelName, name: "assetModelName", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
             try self.assetModelProperties?.forEach {
                 try $0.validate(name: "\(name).assetModelProperties[]")
             }
+            try self.assetModelProperties?.forEach {}
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S{36,64}")
@@ -4307,14 +4498,18 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.assetId.forEach {}
             try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S{36,64}")
+            try self.propertyAlias?.forEach {}
             try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, min: 1)
             try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
+            try self.propertyId.forEach {}
             try self.validate(self.propertyId, name: "propertyId", parent: name, max: 36)
             try self.validate(self.propertyId, name: "propertyId", parent: name, min: 36)
             try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -4346,12 +4541,15 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.assetId.forEach {}
             try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.assetName.forEach {}
             try self.validate(self.assetName, name: "assetName", parent: name, max: 256)
             try self.validate(self.assetName, name: "assetName", parent: name, min: 1)
             try self.validate(self.assetName, name: "assetName", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S{36,64}")
@@ -4401,18 +4599,23 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S{36,64}")
+            try self.dashboardDefinition.forEach {}
             try self.validate(self.dashboardDefinition, name: "dashboardDefinition", parent: name, max: 204_800)
             try self.validate(self.dashboardDefinition, name: "dashboardDefinition", parent: name, min: 0)
             try self.validate(self.dashboardDefinition, name: "dashboardDefinition", parent: name, pattern: ".+")
+            try self.dashboardDescription?.forEach {}
             try self.validate(self.dashboardDescription, name: "dashboardDescription", parent: name, max: 2048)
             try self.validate(self.dashboardDescription, name: "dashboardDescription", parent: name, min: 1)
             try self.validate(self.dashboardDescription, name: "dashboardDescription", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
+            try self.dashboardId.forEach {}
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 36)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, min: 36)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.dashboardName.forEach {}
             try self.validate(self.dashboardName, name: "dashboardName", parent: name, max: 256)
             try self.validate(self.dashboardName, name: "dashboardName", parent: name, min: 1)
             try self.validate(self.dashboardName, name: "dashboardName", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
@@ -4449,11 +4652,14 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.capabilityConfiguration.forEach {}
             try self.validate(self.capabilityConfiguration, name: "capabilityConfiguration", parent: name, max: 104_857_600)
             try self.validate(self.capabilityConfiguration, name: "capabilityConfiguration", parent: name, min: 1)
+            try self.capabilityNamespace.forEach {}
             try self.validate(self.capabilityNamespace, name: "capabilityNamespace", parent: name, max: 512)
             try self.validate(self.capabilityNamespace, name: "capabilityNamespace", parent: name, min: 1)
             try self.validate(self.capabilityNamespace, name: "capabilityNamespace", parent: name, pattern: "^[a-zA-Z]+:[a-zA-Z]+:[0-9]+$")
+            try self.gatewayId.forEach {}
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 36)
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 36)
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -4498,9 +4704,11 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.gatewayId.forEach {}
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 36)
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 36)
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.gatewayName.forEach {}
             try self.validate(self.gatewayName, name: "gatewayName", parent: name, max: 256)
             try self.validate(self.gatewayName, name: "gatewayName", parent: name, min: 1)
             try self.validate(self.gatewayName, name: "gatewayName", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
@@ -4541,22 +4749,29 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S{36,64}")
+            try self.portalContactEmail.forEach {}
             try self.validate(self.portalContactEmail, name: "portalContactEmail", parent: name, max: 255)
             try self.validate(self.portalContactEmail, name: "portalContactEmail", parent: name, min: 1)
             try self.validate(self.portalContactEmail, name: "portalContactEmail", parent: name, pattern: "[^@]+@[^@]+")
+            try self.portalDescription?.forEach {}
             try self.validate(self.portalDescription, name: "portalDescription", parent: name, max: 2048)
             try self.validate(self.portalDescription, name: "portalDescription", parent: name, min: 1)
             try self.validate(self.portalDescription, name: "portalDescription", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
+            try self.portalId.forEach {}
             try self.validate(self.portalId, name: "portalId", parent: name, max: 36)
             try self.validate(self.portalId, name: "portalId", parent: name, min: 36)
             try self.validate(self.portalId, name: "portalId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.portalLogoImage?.validate(name: "\(name).portalLogoImage")
+            try self.portalLogoImage?.forEach {}
+            try self.portalName.forEach {}
             try self.validate(self.portalName, name: "portalName", parent: name, max: 256)
             try self.validate(self.portalName, name: "portalName", parent: name, min: 1)
             try self.validate(self.portalName, name: "portalName", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
+            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1600)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: ".*")
@@ -4607,15 +4822,19 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S{36,64}")
+            try self.projectDescription?.forEach {}
             try self.validate(self.projectDescription, name: "projectDescription", parent: name, max: 2048)
             try self.validate(self.projectDescription, name: "projectDescription", parent: name, min: 1)
             try self.validate(self.projectDescription, name: "projectDescription", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
+            try self.projectId.forEach {}
             try self.validate(self.projectId, name: "projectId", parent: name, max: 36)
             try self.validate(self.projectId, name: "projectId", parent: name, min: 36)
             try self.validate(self.projectId, name: "projectId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, max: 256)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
@@ -4641,6 +4860,7 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 256)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "\\S+")
@@ -4663,9 +4883,11 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.hierarchyId?.forEach {}
             try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, max: 256)
             try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, min: 1)
             try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
+            try self.propertyId.forEach {}
             try self.validate(self.propertyId, name: "propertyId", parent: name, max: 256)
             try self.validate(self.propertyId, name: "propertyId", parent: name, min: 1)
             try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
@@ -4695,6 +4917,7 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.stringValue?.forEach {}
             try self.validate(self.stringValue, name: "stringValue", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
         }
 

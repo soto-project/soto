@@ -96,6 +96,7 @@ extension CostandUsageReportService {
         }
 
         public func validate(name: String) throws {
+            try self.reportName?.forEach {}
             try self.validate(self.reportName, name: "reportName", parent: name, max: 256)
             try self.validate(self.reportName, name: "reportName", parent: name, pattern: "[0-9A-Za-z!\\-_.*\\'()]+")
         }
@@ -127,8 +128,10 @@ extension CostandUsageReportService {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 5)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 256)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[A-Za-z0-9_\\.\\-=]*")
         }
@@ -166,6 +169,8 @@ extension CostandUsageReportService {
 
         public func validate(name: String) throws {
             try self.reportDefinition.validate(name: "\(name).reportDefinition")
+            try self.reportDefinition.forEach {}
+            try self.reportName.forEach {}
             try self.validate(self.reportName, name: "reportName", parent: name, max: 256)
             try self.validate(self.reportName, name: "reportName", parent: name, pattern: "[0-9A-Za-z!\\-_.*\\'()]+")
         }
@@ -190,6 +195,7 @@ extension CostandUsageReportService {
 
         public func validate(name: String) throws {
             try self.reportDefinition.validate(name: "\(name).reportDefinition")
+            try self.reportDefinition.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -206,6 +212,8 @@ extension CostandUsageReportService {
         public let additionalArtifacts: [AdditionalArtifact]?
         /// A list of strings that indicate additional content that Amazon Web Services includes in the report, such as individual resource IDs.
         public let additionalSchemaElements: [SchemaElement]
+        ///  The Amazon resource name of the billing view. You can get this value by using the billing view service public APIs.
+        public let billingViewArn: String?
         public let compression: CompressionFormat
         public let format: ReportFormat
         /// Whether you want Amazon Web Services to update your reports after they have been finalized if Amazon Web Services detects charges related to previous months. These charges can include refunds, credits, or support fees.
@@ -218,9 +226,10 @@ extension CostandUsageReportService {
         public let s3Region: AWSRegion
         public let timeUnit: TimeUnit
 
-        public init(additionalArtifacts: [AdditionalArtifact]? = nil, additionalSchemaElements: [SchemaElement], compression: CompressionFormat, format: ReportFormat, refreshClosedReports: Bool? = nil, reportName: String, reportVersioning: ReportVersioning? = nil, s3Bucket: String, s3Prefix: String, s3Region: AWSRegion, timeUnit: TimeUnit) {
+        public init(additionalArtifacts: [AdditionalArtifact]? = nil, additionalSchemaElements: [SchemaElement], billingViewArn: String? = nil, compression: CompressionFormat, format: ReportFormat, refreshClosedReports: Bool? = nil, reportName: String, reportVersioning: ReportVersioning? = nil, s3Bucket: String, s3Prefix: String, s3Region: AWSRegion, timeUnit: TimeUnit) {
             self.additionalArtifacts = additionalArtifacts
             self.additionalSchemaElements = additionalSchemaElements
+            self.billingViewArn = billingViewArn
             self.compression = compression
             self.format = format
             self.refreshClosedReports = refreshClosedReports
@@ -233,10 +242,16 @@ extension CostandUsageReportService {
         }
 
         public func validate(name: String) throws {
+            try self.billingViewArn?.forEach {}
+            try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, max: 128)
+            try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, pattern: "(arn:aws(-cn)?:billing::[0-9]{12}:billingview/)?[a-zA-Z0-9_\\+=\\.\\-@].{1,30}")
+            try self.reportName.forEach {}
             try self.validate(self.reportName, name: "reportName", parent: name, max: 256)
             try self.validate(self.reportName, name: "reportName", parent: name, pattern: "[0-9A-Za-z!\\-_.*\\'()]+")
+            try self.s3Bucket.forEach {}
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, max: 256)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "[A-Za-z0-9_\\.\\-]+")
+            try self.s3Prefix.forEach {}
             try self.validate(self.s3Prefix, name: "s3Prefix", parent: name, max: 256)
             try self.validate(self.s3Prefix, name: "s3Prefix", parent: name, pattern: "[0-9A-Za-z!\\-_.*\\'()/]*")
         }
@@ -244,6 +259,7 @@ extension CostandUsageReportService {
         private enum CodingKeys: String, CodingKey {
             case additionalArtifacts = "AdditionalArtifacts"
             case additionalSchemaElements = "AdditionalSchemaElements"
+            case billingViewArn = "BillingViewArn"
             case compression = "Compression"
             case format = "Format"
             case refreshClosedReports = "RefreshClosedReports"

@@ -123,9 +123,12 @@ extension DynamoDBStreams {
         }
 
         public func validate(name: String) throws {
+            try self.exclusiveStartShardId?.forEach {}
             try self.validate(self.exclusiveStartShardId, name: "exclusiveStartShardId", parent: name, max: 65)
             try self.validate(self.exclusiveStartShardId, name: "exclusiveStartShardId", parent: name, min: 28)
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.streamArn.forEach {}
             try self.validate(self.streamArn, name: "streamArn", parent: name, max: 1024)
             try self.validate(self.streamArn, name: "streamArn", parent: name, min: 37)
         }
@@ -162,7 +165,9 @@ extension DynamoDBStreams {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.shardIterator.forEach {}
             try self.validate(self.shardIterator, name: "shardIterator", parent: name, max: 2048)
             try self.validate(self.shardIterator, name: "shardIterator", parent: name, min: 1)
         }
@@ -208,10 +213,13 @@ extension DynamoDBStreams {
         }
 
         public func validate(name: String) throws {
+            try self.sequenceNumber?.forEach {}
             try self.validate(self.sequenceNumber, name: "sequenceNumber", parent: name, max: 40)
             try self.validate(self.sequenceNumber, name: "sequenceNumber", parent: name, min: 21)
+            try self.shardId.forEach {}
             try self.validate(self.shardId, name: "shardId", parent: name, max: 65)
             try self.validate(self.shardId, name: "shardId", parent: name, min: 28)
+            try self.streamArn.forEach {}
             try self.validate(self.streamArn, name: "streamArn", parent: name, max: 1024)
             try self.validate(self.streamArn, name: "streamArn", parent: name, min: 37)
         }
@@ -286,9 +294,12 @@ extension DynamoDBStreams {
         }
 
         public func validate(name: String) throws {
+            try self.exclusiveStartStreamArn?.forEach {}
             try self.validate(self.exclusiveStartStreamArn, name: "exclusiveStartStreamArn", parent: name, max: 1024)
             try self.validate(self.exclusiveStartStreamArn, name: "exclusiveStartStreamArn", parent: name, min: 37)
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.tableName?.forEach {}
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 3)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")

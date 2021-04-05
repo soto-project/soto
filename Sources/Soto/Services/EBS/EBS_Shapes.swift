@@ -106,9 +106,12 @@ extension EBS {
         }
 
         public func validate(name: String) throws {
+            try self.changedBlocksCount.forEach {}
             try self.validate(self.changedBlocksCount, name: "changedBlocksCount", parent: name, min: 0)
+            try self.checksum?.forEach {}
             try self.validate(self.checksum, name: "checksum", parent: name, max: 64)
             try self.validate(self.checksum, name: "checksum", parent: name, pattern: "^[A-Za-z0-9+/=]+$")
+            try self.snapshotId.forEach {}
             try self.validate(self.snapshotId, name: "snapshotId", parent: name, max: 64)
             try self.validate(self.snapshotId, name: "snapshotId", parent: name, min: 1)
             try self.validate(self.snapshotId, name: "snapshotId", parent: name, pattern: "^snap-[0-9a-f]+$")
@@ -151,9 +154,12 @@ extension EBS {
         }
 
         public func validate(name: String) throws {
+            try self.blockIndex.forEach {}
             try self.validate(self.blockIndex, name: "blockIndex", parent: name, min: 0)
+            try self.blockToken.forEach {}
             try self.validate(self.blockToken, name: "blockToken", parent: name, max: 256)
             try self.validate(self.blockToken, name: "blockToken", parent: name, pattern: "^[A-Za-z0-9+/=]+$")
+            try self.snapshotId.forEach {}
             try self.validate(self.snapshotId, name: "snapshotId", parent: name, max: 64)
             try self.validate(self.snapshotId, name: "snapshotId", parent: name, min: 1)
             try self.validate(self.snapshotId, name: "snapshotId", parent: name, pattern: "^snap-[0-9a-f]+$")
@@ -226,16 +232,21 @@ extension EBS {
         }
 
         public func validate(name: String) throws {
+            try self.firstSnapshotId?.forEach {}
             try self.validate(self.firstSnapshotId, name: "firstSnapshotId", parent: name, max: 64)
             try self.validate(self.firstSnapshotId, name: "firstSnapshotId", parent: name, min: 1)
             try self.validate(self.firstSnapshotId, name: "firstSnapshotId", parent: name, pattern: "^snap-[0-9a-f]+$")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 100)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 256)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+/=]+$")
+            try self.secondSnapshotId.forEach {}
             try self.validate(self.secondSnapshotId, name: "secondSnapshotId", parent: name, max: 64)
             try self.validate(self.secondSnapshotId, name: "secondSnapshotId", parent: name, min: 1)
             try self.validate(self.secondSnapshotId, name: "secondSnapshotId", parent: name, pattern: "^snap-[0-9a-f]+$")
+            try self.startingBlockIndex?.forEach {}
             try self.validate(self.startingBlockIndex, name: "startingBlockIndex", parent: name, min: 0)
         }
 
@@ -296,13 +307,17 @@ extension EBS {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 100)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 256)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+/=]+$")
+            try self.snapshotId.forEach {}
             try self.validate(self.snapshotId, name: "snapshotId", parent: name, max: 64)
             try self.validate(self.snapshotId, name: "snapshotId", parent: name, min: 1)
             try self.validate(self.snapshotId, name: "snapshotId", parent: name, pattern: "^snap-[0-9a-f]+$")
+            try self.startingBlockIndex?.forEach {}
             try self.validate(self.startingBlockIndex, name: "startingBlockIndex", parent: name, min: 0)
         }
 
@@ -378,11 +393,15 @@ extension EBS {
         }
 
         public func validate(name: String) throws {
+            try self.blockIndex.forEach {}
             try self.validate(self.blockIndex, name: "blockIndex", parent: name, min: 0)
+            try self.checksum.forEach {}
             try self.validate(self.checksum, name: "checksum", parent: name, max: 64)
             try self.validate(self.checksum, name: "checksum", parent: name, pattern: "^[A-Za-z0-9+/=]+$")
+            try self.progress?.forEach {}
             try self.validate(self.progress, name: "progress", parent: name, max: 100)
             try self.validate(self.progress, name: "progress", parent: name, min: 0)
+            try self.snapshotId.forEach {}
             try self.validate(self.snapshotId, name: "snapshotId", parent: name, max: 64)
             try self.validate(self.snapshotId, name: "snapshotId", parent: name, min: 1)
             try self.validate(self.snapshotId, name: "snapshotId", parent: name, pattern: "^snap-[0-9a-f]+$")
@@ -443,21 +462,28 @@ extension EBS {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 255)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\S]+$")
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 255)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\S\\s]+$")
+            try self.kmsKeyArn?.forEach {}
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 1)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "arn:aws[a-z\\-]*:kms:.*:[0-9]{12}:key/.*")
+            try self.parentSnapshotId?.forEach {}
             try self.validate(self.parentSnapshotId, name: "parentSnapshotId", parent: name, max: 64)
             try self.validate(self.parentSnapshotId, name: "parentSnapshotId", parent: name, min: 1)
             try self.validate(self.parentSnapshotId, name: "parentSnapshotId", parent: name, pattern: "^snap-[0-9a-f]+$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
+            try self.timeout?.forEach {}
             try self.validate(self.timeout, name: "timeout", parent: name, max: 60)
             try self.validate(self.timeout, name: "timeout", parent: name, min: 10)
+            try self.volumeSize.forEach {}
             try self.validate(self.volumeSize, name: "volumeSize", parent: name, min: 1)
         }
 
@@ -534,8 +560,10 @@ extension EBS {
         }
 
         public func validate(name: String) throws {
+            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 127)
             try self.validate(self.key, name: "key", parent: name, pattern: "^[\\S\\s]+$")
+            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 255)
             try self.validate(self.value, name: "value", parent: name, pattern: "^[\\S\\s]+$")
         }

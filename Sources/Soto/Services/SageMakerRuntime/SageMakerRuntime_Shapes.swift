@@ -70,23 +70,32 @@ extension SageMakerRuntime {
         }
 
         public func validate(name: String) throws {
+            try self.accept?.forEach {}
             try self.validate(self.accept, name: "accept", parent: name, max: 1024)
             try self.validate(self.accept, name: "accept", parent: name, pattern: "\\p{ASCII}*")
+            try self.body.forEach {}
             try self.validate(self.body, name: "body", parent: name, max: 6_291_456)
+            try self.contentType?.forEach {}
             try self.validate(self.contentType, name: "contentType", parent: name, max: 1024)
             try self.validate(self.contentType, name: "contentType", parent: name, pattern: "\\p{ASCII}*")
+            try self.customAttributes?.forEach {}
             try self.validate(self.customAttributes, name: "customAttributes", parent: name, max: 1024)
             try self.validate(self.customAttributes, name: "customAttributes", parent: name, pattern: "\\p{ASCII}*")
+            try self.endpointName.forEach {}
             try self.validate(self.endpointName, name: "endpointName", parent: name, max: 63)
             try self.validate(self.endpointName, name: "endpointName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.inferenceId?.forEach {}
             try self.validate(self.inferenceId, name: "inferenceId", parent: name, max: 64)
             try self.validate(self.inferenceId, name: "inferenceId", parent: name, min: 1)
             try self.validate(self.inferenceId, name: "inferenceId", parent: name, pattern: "\\A\\S[\\p{Print}]*\\z")
+            try self.targetContainerHostname?.forEach {}
             try self.validate(self.targetContainerHostname, name: "targetContainerHostname", parent: name, max: 63)
             try self.validate(self.targetContainerHostname, name: "targetContainerHostname", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.targetModel?.forEach {}
             try self.validate(self.targetModel, name: "targetModel", parent: name, max: 1024)
             try self.validate(self.targetModel, name: "targetModel", parent: name, min: 1)
             try self.validate(self.targetModel, name: "targetModel", parent: name, pattern: "\\A\\S[\\p{Print}]*\\z")
+            try self.targetVariant?.forEach {}
             try self.validate(self.targetVariant, name: "targetVariant", parent: name, max: 63)
             try self.validate(self.targetVariant, name: "targetVariant", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
         }

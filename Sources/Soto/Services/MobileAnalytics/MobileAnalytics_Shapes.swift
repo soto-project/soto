@@ -52,6 +52,7 @@ extension MobileAnalytics {
                 try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, max: 1000)
                 try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, min: 0)
             }
+            try self.eventType.forEach {}
             try self.validate(self.eventType, name: "eventType", parent: name, max: 50)
             try self.validate(self.eventType, name: "eventType", parent: name, min: 1)
             try self.metrics?.forEach {
@@ -59,6 +60,8 @@ extension MobileAnalytics {
                 try validate($0.key, name: "metrics.key", parent: name, min: 1)
             }
             try self.session?.validate(name: "\(name).session")
+            try self.session?.forEach {}
+            try self.version?.forEach {}
             try self.validate(self.version, name: "version", parent: name, max: 10)
             try self.validate(self.version, name: "version", parent: name, min: 1)
         }
@@ -96,6 +99,7 @@ extension MobileAnalytics {
             try self.events.forEach {
                 try $0.validate(name: "\(name).events[]")
             }
+            try self.events.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -121,6 +125,7 @@ extension MobileAnalytics {
         }
 
         public func validate(name: String) throws {
+            try self.id?.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 50)
             try self.validate(self.id, name: "id", parent: name, min: 1)
         }

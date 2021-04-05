@@ -151,9 +151,12 @@ extension ECR {
                 try validate($0, name: "layerDigests[]", parent: name, max: 1000)
                 try validate($0, name: "layerDigests[]", parent: name, min: 0)
             }
+            try self.layerDigests.forEach {}
             try self.validate(self.layerDigests, name: "layerDigests", parent: name, max: 100)
             try self.validate(self.layerDigests, name: "layerDigests", parent: name, min: 1)
+            try self.registryId?.forEach {}
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "[0-9]{12}")
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
@@ -201,9 +204,12 @@ extension ECR {
             try self.imageIds.forEach {
                 try $0.validate(name: "\(name).imageIds[]")
             }
+            try self.imageIds.forEach {}
             try self.validate(self.imageIds, name: "imageIds", parent: name, max: 100)
             try self.validate(self.imageIds, name: "imageIds", parent: name, min: 1)
+            try self.registryId?.forEach {}
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "[0-9]{12}")
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
@@ -251,14 +257,18 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
+            try self.acceptedMediaTypes?.forEach {}
             try self.validate(self.acceptedMediaTypes, name: "acceptedMediaTypes", parent: name, max: 100)
             try self.validate(self.acceptedMediaTypes, name: "acceptedMediaTypes", parent: name, min: 1)
             try self.imageIds.forEach {
                 try $0.validate(name: "\(name).imageIds[]")
             }
+            try self.imageIds.forEach {}
             try self.validate(self.imageIds, name: "imageIds", parent: name, max: 100)
             try self.validate(self.imageIds, name: "imageIds", parent: name, min: 1)
+            try self.registryId?.forEach {}
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "[0-9]{12}")
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
@@ -310,12 +320,16 @@ extension ECR {
             try self.layerDigests.forEach {
                 try validate($0, name: "layerDigests[]", parent: name, pattern: "[a-zA-Z0-9-_+.]+:[a-fA-F0-9]+")
             }
+            try self.layerDigests.forEach {}
             try self.validate(self.layerDigests, name: "layerDigests", parent: name, max: 100)
             try self.validate(self.layerDigests, name: "layerDigests", parent: name, min: 1)
+            try self.registryId?.forEach {}
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "[0-9]{12}")
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+            try self.uploadId.forEach {}
             try self.validate(self.uploadId, name: "uploadId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
         }
 
@@ -374,6 +388,8 @@ extension ECR {
 
         public func validate(name: String) throws {
             try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try self.encryptionConfiguration?.forEach {}
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
@@ -413,7 +429,9 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
+            try self.registryId?.forEach {}
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "[0-9]{12}")
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
@@ -483,7 +501,9 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
+            try self.registryId?.forEach {}
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "[0-9]{12}")
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
@@ -531,7 +551,9 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
+            try self.registryId?.forEach {}
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "[0-9]{12}")
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
@@ -578,9 +600,13 @@ extension ECR {
 
         public func validate(name: String) throws {
             try self.imageId.validate(name: "\(name).imageId")
+            try self.imageId.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.registryId?.forEach {}
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "[0-9]{12}")
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
@@ -667,11 +693,15 @@ extension ECR {
             try self.imageIds?.forEach {
                 try $0.validate(name: "\(name).imageIds[]")
             }
+            try self.imageIds?.forEach {}
             try self.validate(self.imageIds, name: "imageIds", parent: name, max: 100)
             try self.validate(self.imageIds, name: "imageIds", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.registryId?.forEach {}
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "[0-9]{12}")
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
@@ -743,14 +773,17 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.registryId?.forEach {}
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "[0-9]{12}")
             try self.repositoryNames?.forEach {
                 try validate($0, name: "repositoryNames[]", parent: name, max: 256)
                 try validate($0, name: "repositoryNames[]", parent: name, min: 2)
                 try validate($0, name: "repositoryNames[]", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
             }
+            try self.repositoryNames?.forEach {}
             try self.validate(self.repositoryNames, name: "repositoryNames", parent: name, max: 100)
             try self.validate(self.repositoryNames, name: "repositoryNames", parent: name, min: 1)
         }
@@ -792,6 +825,7 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
+            try self.kmsKey?.forEach {}
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 1)
         }
@@ -834,8 +868,11 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
+            try self.layerDigest.forEach {}
             try self.validate(self.layerDigest, name: "layerDigest", parent: name, pattern: "[a-zA-Z0-9-_+.]+:[a-fA-F0-9]+")
+            try self.registryId?.forEach {}
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "[0-9]{12}")
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
@@ -892,11 +929,15 @@ extension ECR {
             try self.imageIds?.forEach {
                 try $0.validate(name: "\(name).imageIds[]")
             }
+            try self.imageIds?.forEach {}
             try self.validate(self.imageIds, name: "imageIds", parent: name, max: 100)
             try self.validate(self.imageIds, name: "imageIds", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.registryId?.forEach {}
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "[0-9]{12}")
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
@@ -961,7 +1002,9 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
+            try self.registryId?.forEach {}
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "[0-9]{12}")
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
@@ -1031,7 +1074,9 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
+            try self.registryId?.forEach {}
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "[0-9]{12}")
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
@@ -1175,6 +1220,7 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
+            try self.imageTag?.forEach {}
             try self.validate(self.imageTag, name: "imageTag", parent: name, max: 300)
             try self.validate(self.imageTag, name: "imageTag", parent: name, min: 1)
         }
@@ -1302,7 +1348,9 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
+            try self.registryId?.forEach {}
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "[0-9]{12}")
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
@@ -1479,9 +1527,12 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.registryId?.forEach {}
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "[0-9]{12}")
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
@@ -1563,11 +1614,15 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
+            try self.imageManifest.forEach {}
             try self.validate(self.imageManifest, name: "imageManifest", parent: name, max: 4_194_304)
             try self.validate(self.imageManifest, name: "imageManifest", parent: name, min: 1)
+            try self.imageTag?.forEach {}
             try self.validate(self.imageTag, name: "imageTag", parent: name, max: 300)
             try self.validate(self.imageTag, name: "imageTag", parent: name, min: 1)
+            try self.registryId?.forEach {}
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "[0-9]{12}")
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
@@ -1611,7 +1666,9 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
+            try self.registryId?.forEach {}
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "[0-9]{12}")
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
@@ -1660,7 +1717,9 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
+            try self.registryId?.forEach {}
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "[0-9]{12}")
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
@@ -1709,9 +1768,12 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
+            try self.lifecyclePolicyText.forEach {}
             try self.validate(self.lifecyclePolicyText, name: "lifecyclePolicyText", parent: name, max: 30720)
             try self.validate(self.lifecyclePolicyText, name: "lifecyclePolicyText", parent: name, min: 100)
+            try self.registryId?.forEach {}
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "[0-9]{12}")
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
@@ -1754,6 +1816,7 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
+            try self.policyText.forEach {}
             try self.validate(self.policyText, name: "policyText", parent: name, max: 10240)
             try self.validate(self.policyText, name: "policyText", parent: name, min: 0)
         }
@@ -1790,6 +1853,7 @@ extension ECR {
 
         public func validate(name: String) throws {
             try self.replicationConfiguration.validate(name: "\(name).replicationConfiguration")
+            try self.replicationConfiguration.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1822,6 +1886,7 @@ extension ECR {
             try self.rules.forEach {
                 try $0.validate(name: "\(name).rules[]")
             }
+            try self.rules.forEach {}
             try self.validate(self.rules, name: "rules", parent: name, max: 1)
             try self.validate(self.rules, name: "rules", parent: name, min: 0)
         }
@@ -1843,9 +1908,11 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
+            try self.region.forEach {}
             try self.validate(self.region, name: "region", parent: name, max: 25)
             try self.validate(self.region, name: "region", parent: name, min: 2)
             try self.validate(self.region, name: "region", parent: name, pattern: "[0-9a-z-]{2,25}")
+            try self.registryId.forEach {}
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "[0-9]{12}")
         }
 
@@ -1867,6 +1934,7 @@ extension ECR {
             try self.destinations.forEach {
                 try $0.validate(name: "\(name).destinations[]")
             }
+            try self.destinations.forEach {}
             try self.validate(self.destinations, name: "destinations", parent: name, max: 25)
             try self.validate(self.destinations, name: "destinations", parent: name, min: 0)
         }
@@ -1934,9 +2002,12 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
+            try self.policyText.forEach {}
             try self.validate(self.policyText, name: "policyText", parent: name, max: 10240)
             try self.validate(self.policyText, name: "policyText", parent: name, min: 0)
+            try self.registryId?.forEach {}
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "[0-9]{12}")
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
@@ -1986,7 +2057,10 @@ extension ECR {
 
         public func validate(name: String) throws {
             try self.imageId.validate(name: "\(name).imageId")
+            try self.imageId.forEach {}
+            try self.registryId?.forEach {}
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "[0-9]{12}")
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
@@ -2038,9 +2112,12 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
+            try self.lifecyclePolicyText?.forEach {}
             try self.validate(self.lifecyclePolicyText, name: "lifecyclePolicyText", parent: name, max: 30720)
             try self.validate(self.lifecyclePolicyText, name: "lifecyclePolicyText", parent: name, min: 100)
+            try self.registryId?.forEach {}
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "[0-9]{12}")
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
@@ -2161,14 +2238,20 @@ extension ECR {
         }
 
         public func validate(name: String) throws {
+            try self.layerPartBlob.forEach {}
             try self.validate(self.layerPartBlob, name: "layerPartBlob", parent: name, max: 20_971_520)
             try self.validate(self.layerPartBlob, name: "layerPartBlob", parent: name, min: 0)
+            try self.partFirstByte.forEach {}
             try self.validate(self.partFirstByte, name: "partFirstByte", parent: name, min: 0)
+            try self.partLastByte.forEach {}
             try self.validate(self.partLastByte, name: "partLastByte", parent: name, min: 0)
+            try self.registryId?.forEach {}
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "[0-9]{12}")
+            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+            try self.uploadId.forEach {}
             try self.validate(self.uploadId, name: "uploadId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
         }
 

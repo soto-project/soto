@@ -89,15 +89,19 @@ extension IoTFleetHub {
         }
 
         public func validate(name: String) throws {
+            try self.applicationDescription?.forEach {}
             try self.validate(self.applicationDescription, name: "applicationDescription", parent: name, max: 2048)
             try self.validate(self.applicationDescription, name: "applicationDescription", parent: name, min: 1)
             try self.validate(self.applicationDescription, name: "applicationDescription", parent: name, pattern: "^[ -~]*$")
+            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
             try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "^[ -~]*$")
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1600)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:[!-~]+$")
@@ -153,9 +157,11 @@ extension IoTFleetHub {
         }
 
         public func validate(name: String) throws {
+            try self.applicationId.forEach {}
             try self.validate(self.applicationId, name: "applicationId", parent: name, max: 36)
             try self.validate(self.applicationId, name: "applicationId", parent: name, min: 36)
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
@@ -181,6 +187,7 @@ extension IoTFleetHub {
         }
 
         public func validate(name: String) throws {
+            try self.applicationId.forEach {}
             try self.validate(self.applicationId, name: "applicationId", parent: name, max: 36)
             try self.validate(self.applicationId, name: "applicationId", parent: name, min: 36)
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -259,6 +266,7 @@ extension IoTFleetHub {
         }
 
         public func validate(name: String) throws {
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+/=]+$")
@@ -368,6 +376,7 @@ extension IoTFleetHub {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
+            try self.tagKeys.forEach {}
         }
 
         private enum CodingKeys: CodingKey {}
@@ -399,15 +408,19 @@ extension IoTFleetHub {
         }
 
         public func validate(name: String) throws {
+            try self.applicationDescription?.forEach {}
             try self.validate(self.applicationDescription, name: "applicationDescription", parent: name, max: 2048)
             try self.validate(self.applicationDescription, name: "applicationDescription", parent: name, min: 1)
             try self.validate(self.applicationDescription, name: "applicationDescription", parent: name, pattern: "^[ -~]*$")
+            try self.applicationId.forEach {}
             try self.validate(self.applicationId, name: "applicationId", parent: name, max: 36)
             try self.validate(self.applicationId, name: "applicationId", parent: name, min: 36)
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.applicationName?.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
             try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "^[ -~]*$")
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")

@@ -40,9 +40,11 @@ extension SagemakerEdgeManager {
         }
 
         public func validate(name: String) throws {
+            try self.dimension?.forEach {}
             try self.validate(self.dimension, name: "dimension", parent: name, max: 1000)
             try self.validate(self.dimension, name: "dimension", parent: name, min: 1)
             try self.validate(self.dimension, name: "dimension", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9\\/])*$")
+            try self.metricName?.forEach {}
             try self.validate(self.metricName, name: "metricName", parent: name, max: 100)
             try self.validate(self.metricName, name: "metricName", parent: name, min: 4)
             try self.validate(self.metricName, name: "metricName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
@@ -68,9 +70,11 @@ extension SagemakerEdgeManager {
         }
 
         public func validate(name: String) throws {
+            try self.deviceFleetName.forEach {}
             try self.validate(self.deviceFleetName, name: "deviceFleetName", parent: name, max: 63)
             try self.validate(self.deviceFleetName, name: "deviceFleetName", parent: name, min: 1)
             try self.validate(self.deviceFleetName, name: "deviceFleetName", parent: name, pattern: "^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$")
+            try self.deviceName.forEach {}
             try self.validate(self.deviceName, name: "deviceName", parent: name, max: 63)
             try self.validate(self.deviceName, name: "deviceName", parent: name, min: 1)
             try self.validate(self.deviceName, name: "deviceName", parent: name, pattern: "^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$")
@@ -123,9 +127,12 @@ extension SagemakerEdgeManager {
             try self.modelMetrics?.forEach {
                 try $0.validate(name: "\(name).modelMetrics[]")
             }
+            try self.modelMetrics?.forEach {}
+            try self.modelName?.forEach {}
             try self.validate(self.modelName, name: "modelName", parent: name, max: 255)
             try self.validate(self.modelName, name: "modelName", parent: name, min: 4)
             try self.validate(self.modelName, name: "modelName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.modelVersion?.forEach {}
             try self.validate(self.modelVersion, name: "modelVersion", parent: name, max: 64)
             try self.validate(self.modelVersion, name: "modelVersion", parent: name, min: 1)
             try self.validate(self.modelVersion, name: "modelVersion", parent: name, pattern: "[a-zA-Z0-9\\ \\_\\.]+")
@@ -164,18 +171,23 @@ extension SagemakerEdgeManager {
             try self.agentMetrics?.forEach {
                 try $0.validate(name: "\(name).agentMetrics[]")
             }
+            try self.agentMetrics?.forEach {}
+            try self.agentVersion.forEach {}
             try self.validate(self.agentVersion, name: "agentVersion", parent: name, max: 64)
             try self.validate(self.agentVersion, name: "agentVersion", parent: name, min: 1)
             try self.validate(self.agentVersion, name: "agentVersion", parent: name, pattern: "[a-zA-Z0-9\\ \\_\\.]+")
+            try self.deviceFleetName.forEach {}
             try self.validate(self.deviceFleetName, name: "deviceFleetName", parent: name, max: 63)
             try self.validate(self.deviceFleetName, name: "deviceFleetName", parent: name, min: 1)
             try self.validate(self.deviceFleetName, name: "deviceFleetName", parent: name, pattern: "^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$")
+            try self.deviceName.forEach {}
             try self.validate(self.deviceName, name: "deviceName", parent: name, max: 63)
             try self.validate(self.deviceName, name: "deviceName", parent: name, min: 1)
             try self.validate(self.deviceName, name: "deviceName", parent: name, pattern: "^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$")
             try self.models?.forEach {
                 try $0.validate(name: "\(name).models[]")
             }
+            try self.models?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {

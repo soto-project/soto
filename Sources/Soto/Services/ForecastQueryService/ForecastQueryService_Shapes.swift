@@ -78,8 +78,10 @@ extension ForecastQueryService {
                 try validate($0.key, name: "filters.key", parent: name, pattern: "^[a-zA-Z0-9\\_\\-]+$")
                 try validate($0.value, name: "filters[\"\($0.key)\"]", parent: name, max: 256)
             }
+            try self.forecastArn.forEach {}
             try self.validate(self.forecastArn, name: "forecastArn", parent: name, max: 256)
             try self.validate(self.forecastArn, name: "forecastArn", parent: name, pattern: "arn:([a-z\\d-]+):forecast:.*:.*:.+")
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }

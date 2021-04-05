@@ -43,12 +43,15 @@ extension S3Outposts {
         }
 
         public func validate(name: String) throws {
+            try self.outpostId.forEach {}
             try self.validate(self.outpostId, name: "outpostId", parent: name, max: 100)
             try self.validate(self.outpostId, name: "outpostId", parent: name, min: 1)
             try self.validate(self.outpostId, name: "outpostId", parent: name, pattern: "^(op-[a-f0-9]{17}|\\d{12}|ec2)$")
+            try self.securityGroupId.forEach {}
             try self.validate(self.securityGroupId, name: "securityGroupId", parent: name, max: 100)
             try self.validate(self.securityGroupId, name: "securityGroupId", parent: name, min: 1)
             try self.validate(self.securityGroupId, name: "securityGroupId", parent: name, pattern: "^sg-([0-9a-f]{8}|[0-9a-f]{17})$")
+            try self.subnetId.forEach {}
             try self.validate(self.subnetId, name: "subnetId", parent: name, max: 100)
             try self.validate(self.subnetId, name: "subnetId", parent: name, min: 1)
             try self.validate(self.subnetId, name: "subnetId", parent: name, pattern: "^subnet-([0-9a-f]{8}|[0-9a-f]{17})$")
@@ -91,9 +94,11 @@ extension S3Outposts {
         }
 
         public func validate(name: String) throws {
+            try self.endpointId.forEach {}
             try self.validate(self.endpointId, name: "endpointId", parent: name, max: 500)
             try self.validate(self.endpointId, name: "endpointId", parent: name, min: 5)
             try self.validate(self.endpointId, name: "endpointId", parent: name, pattern: "^[a-zA-Z0-9]{19}$")
+            try self.outpostId.forEach {}
             try self.validate(self.outpostId, name: "outpostId", parent: name, max: 100)
             try self.validate(self.outpostId, name: "outpostId", parent: name, min: 1)
             try self.validate(self.outpostId, name: "outpostId", parent: name, pattern: "^(op-[a-f0-9]{17}|\\d{12}|ec2)$")
@@ -152,8 +157,10 @@ extension S3Outposts {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9\\+\\:\\/\\=\\?\\#-_]+$")

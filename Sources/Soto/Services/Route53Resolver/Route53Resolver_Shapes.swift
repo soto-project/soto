@@ -20,6 +20,66 @@ import SotoCore
 extension Route53Resolver {
     // MARK: Enums
 
+    public enum Action: String, CustomStringConvertible, Codable {
+        case alert = "ALERT"
+        case allow = "ALLOW"
+        case block = "BLOCK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BlockOverrideDnsType: String, CustomStringConvertible, Codable {
+        case cname = "CNAME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BlockResponse: String, CustomStringConvertible, Codable {
+        case nodata = "NODATA"
+        case nxdomain = "NXDOMAIN"
+        case override = "OVERRIDE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FirewallDomainImportOperation: String, CustomStringConvertible, Codable {
+        case replace = "REPLACE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FirewallDomainListStatus: String, CustomStringConvertible, Codable {
+        case complete = "COMPLETE"
+        case completeImportFailed = "COMPLETE_IMPORT_FAILED"
+        case deleting = "DELETING"
+        case importing = "IMPORTING"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FirewallDomainUpdateOperation: String, CustomStringConvertible, Codable {
+        case add = "ADD"
+        case remove = "REMOVE"
+        case replace = "REPLACE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FirewallFailOpenStatus: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FirewallRuleGroupAssociationStatus: String, CustomStringConvertible, Codable {
+        case complete = "COMPLETE"
+        case deleting = "DELETING"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FirewallRuleGroupStatus: String, CustomStringConvertible, Codable {
+        case complete = "COMPLETE"
+        case deleting = "DELETING"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IpAddressStatus: String, CustomStringConvertible, Codable {
         case attached = "ATTACHED"
         case attaching = "ATTACHING"
@@ -31,6 +91,12 @@ extension Route53Resolver {
         case failedResourceGone = "FAILED_RESOURCE_GONE"
         case remapAttaching = "REMAP_ATTACHING"
         case remapDetaching = "REMAP_DETACHING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MutationProtectionStatus: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -128,6 +194,76 @@ extension Route53Resolver {
 
     // MARK: Shapes
 
+    public struct AssociateFirewallRuleGroupRequest: AWSEncodableShape {
+        /// A unique string that identifies the request and that allows failed requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
+        public let creatorRequestId: String
+        /// The unique identifier of the firewall rule group.
+        public let firewallRuleGroupId: String
+        /// If enabled, this setting disallows modification or removal of the association, to help prevent against accidentally altering DNS firewall protections. When you create the association, the default setting is DISABLED.
+        public let mutationProtection: MutationProtectionStatus?
+        /// A name that lets you identify the association, to manage and use it.
+        public let name: String
+        /// The setting that determines the processing order of the rule group among the rule groups that you associate with the specified VPC. DNS Firewall filters VPC traffic starting from rule group with the lowest numeric priority setting.  You must specify a unique priority for each rule group that you associate with a single VPC. To make it easier to insert rule groups later, leave space between the numbers, for example, use 100, 200, and so on. You can change the priority setting for a rule group association after you create it.
+        public let priority: Int
+        /// A list of the tag keys and values that you want to associate with the rule group association.
+        public let tags: [Tag]?
+        /// The unique identifier of the VPC that you want to associate with the rule group.
+        public let vpcId: String
+
+        public init(creatorRequestId: String = AssociateFirewallRuleGroupRequest.idempotencyToken(), firewallRuleGroupId: String, mutationProtection: MutationProtectionStatus? = nil, name: String, priority: Int, tags: [Tag]? = nil, vpcId: String) {
+            self.creatorRequestId = creatorRequestId
+            self.firewallRuleGroupId = firewallRuleGroupId
+            self.mutationProtection = mutationProtection
+            self.name = name
+            self.priority = priority
+            self.tags = tags
+            self.vpcId = vpcId
+        }
+
+        public func validate(name: String) throws {
+            try self.creatorRequestId.forEach {}
+            try self.validate(self.creatorRequestId, name: "creatorRequestId", parent: name, max: 255)
+            try self.validate(self.creatorRequestId, name: "creatorRequestId", parent: name, min: 1)
+            try self.firewallRuleGroupId.forEach {}
+            try self.validate(self.firewallRuleGroupId, name: "firewallRuleGroupId", parent: name, max: 64)
+            try self.validate(self.firewallRuleGroupId, name: "firewallRuleGroupId", parent: name, min: 1)
+            try self.name.forEach {}
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9\\-_' ']+)")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.tags?.forEach {}
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.vpcId.forEach {}
+            try self.validate(self.vpcId, name: "vpcId", parent: name, max: 64)
+            try self.validate(self.vpcId, name: "vpcId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creatorRequestId = "CreatorRequestId"
+            case firewallRuleGroupId = "FirewallRuleGroupId"
+            case mutationProtection = "MutationProtection"
+            case name = "Name"
+            case priority = "Priority"
+            case tags = "Tags"
+            case vpcId = "VpcId"
+        }
+    }
+
+    public struct AssociateFirewallRuleGroupResponse: AWSDecodableShape {
+        /// The association that you just created. The association has an Id that you can use to identify it in other requests, like update and delete.
+        public let firewallRuleGroupAssociation: FirewallRuleGroupAssociation?
+
+        public init(firewallRuleGroupAssociation: FirewallRuleGroupAssociation? = nil) {
+            self.firewallRuleGroupAssociation = firewallRuleGroupAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallRuleGroupAssociation = "FirewallRuleGroupAssociation"
+        }
+    }
+
     public struct AssociateResolverEndpointIpAddressRequest: AWSEncodableShape {
         /// Either the IPv4 address that you want to add to a Resolver endpoint or a subnet ID. If you specify a subnet ID, Resolver chooses an IP address for you from the available IPs in the specified subnet.
         public let ipAddress: IpAddressUpdate
@@ -141,6 +277,8 @@ extension Route53Resolver {
 
         public func validate(name: String) throws {
             try self.ipAddress.validate(name: "\(name).ipAddress")
+            try self.ipAddress.forEach {}
+            try self.resolverEndpointId.forEach {}
             try self.validate(self.resolverEndpointId, name: "resolverEndpointId", parent: name, max: 64)
             try self.validate(self.resolverEndpointId, name: "resolverEndpointId", parent: name, min: 1)
         }
@@ -176,8 +314,10 @@ extension Route53Resolver {
         }
 
         public func validate(name: String) throws {
+            try self.resolverQueryLogConfigId.forEach {}
             try self.validate(self.resolverQueryLogConfigId, name: "resolverQueryLogConfigId", parent: name, max: 64)
             try self.validate(self.resolverQueryLogConfigId, name: "resolverQueryLogConfigId", parent: name, min: 1)
+            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 64)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
         }
@@ -216,10 +356,13 @@ extension Route53Resolver {
         }
 
         public func validate(name: String) throws {
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9\\-_' ']+)")
+            try self.resolverRuleId.forEach {}
             try self.validate(self.resolverRuleId, name: "resolverRuleId", parent: name, max: 64)
             try self.validate(self.resolverRuleId, name: "resolverRuleId", parent: name, min: 1)
+            try self.vPCId.forEach {}
             try self.validate(self.vPCId, name: "vPCId", parent: name, max: 64)
             try self.validate(self.vPCId, name: "vPCId", parent: name, min: 1)
         }
@@ -241,6 +384,185 @@ extension Route53Resolver {
 
         private enum CodingKeys: String, CodingKey {
             case resolverRuleAssociation = "ResolverRuleAssociation"
+        }
+    }
+
+    public struct CreateFirewallDomainListRequest: AWSEncodableShape {
+        /// A unique string that identifies the request and that allows you to retry failed requests without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
+        public let creatorRequestId: String
+        /// A name that lets you identify the domain list to manage and use it.
+        public let name: String
+        /// A list of the tag keys and values that you want to associate with the domain list.
+        public let tags: [Tag]?
+
+        public init(creatorRequestId: String = CreateFirewallDomainListRequest.idempotencyToken(), name: String, tags: [Tag]? = nil) {
+            self.creatorRequestId = creatorRequestId
+            self.name = name
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.creatorRequestId.forEach {}
+            try self.validate(self.creatorRequestId, name: "creatorRequestId", parent: name, max: 255)
+            try self.validate(self.creatorRequestId, name: "creatorRequestId", parent: name, min: 1)
+            try self.name.forEach {}
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9\\-_' ']+)")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.tags?.forEach {}
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creatorRequestId = "CreatorRequestId"
+            case name = "Name"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateFirewallDomainListResponse: AWSDecodableShape {
+        /// The domain list that you just created.
+        public let firewallDomainList: FirewallDomainList?
+
+        public init(firewallDomainList: FirewallDomainList? = nil) {
+            self.firewallDomainList = firewallDomainList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallDomainList = "FirewallDomainList"
+        }
+    }
+
+    public struct CreateFirewallRuleGroupRequest: AWSEncodableShape {
+        /// A unique string defined by you to identify the request. This allows you to retry failed requests without the risk of executing the operation twice. This can be any unique string, for example, a timestamp.
+        public let creatorRequestId: String
+        /// A name that lets you identify the rule group, to manage and use it.
+        public let name: String
+        /// A list of the tag keys and values that you want to associate with the rule group.
+        public let tags: [Tag]?
+
+        public init(creatorRequestId: String = CreateFirewallRuleGroupRequest.idempotencyToken(), name: String, tags: [Tag]? = nil) {
+            self.creatorRequestId = creatorRequestId
+            self.name = name
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.creatorRequestId.forEach {}
+            try self.validate(self.creatorRequestId, name: "creatorRequestId", parent: name, max: 255)
+            try self.validate(self.creatorRequestId, name: "creatorRequestId", parent: name, min: 1)
+            try self.name.forEach {}
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9\\-_' ']+)")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.tags?.forEach {}
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creatorRequestId = "CreatorRequestId"
+            case name = "Name"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateFirewallRuleGroupResponse: AWSDecodableShape {
+        /// A collection of rules used to filter DNS network traffic.
+        public let firewallRuleGroup: FirewallRuleGroup?
+
+        public init(firewallRuleGroup: FirewallRuleGroup? = nil) {
+            self.firewallRuleGroup = firewallRuleGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallRuleGroup = "FirewallRuleGroup"
+        }
+    }
+
+    public struct CreateFirewallRuleRequest: AWSEncodableShape {
+        /// The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list:    ALLOW - Permit the request to go through.    ALERT - Permit the request and send metrics and log to Cloud Watch.    BLOCK - Disallow the request. This option requires additional details in the rule's BlockResponse.
+        public let action: Action
+        /// The DNS record's type. This determines the format of the record value that you provided in BlockOverrideDomain. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE. This setting is required if the BlockResponse setting is OVERRIDE.
+        public let blockOverrideDnsType: BlockOverrideDnsType?
+        /// The custom DNS record to send back in response to the query. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE. This setting is required if the BlockResponse setting is OVERRIDE.
+        public let blockOverrideDomain: String?
+        /// The recommended amount of time, in seconds, for the DNS resolver or web browser to cache the provided override record. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE. This setting is required if the BlockResponse setting is OVERRIDE.
+        public let blockOverrideTtl: Int?
+        /// The way that you want DNS Firewall to block the request, used with the rule aciton setting BLOCK.     NODATA - Respond indicating that the query was successful, but no response is available for it.    NXDOMAIN - Respond indicating that the domain name that's in the query doesn't exist.    OVERRIDE - Provide a custom override in the response. This option requires custom handling details in the rule's BlockOverride* settings.    This setting is required if the rule action setting is BLOCK.
+        public let blockResponse: BlockResponse?
+        /// A unique string that identifies the request and that allows you to retry failed requests without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
+        public let creatorRequestId: String
+        /// The ID of the domain list that you want to use in the rule.
+        public let firewallDomainListId: String
+        /// The unique identifier of the firewall rule group where you want to create the rule.
+        public let firewallRuleGroupId: String
+        /// A name that lets you identify the rule in the rule group.
+        public let name: String
+        /// The setting that determines the processing order of the rule in the rule group. DNS Firewall processes the rules in a rule group by order of priority, starting from the lowest setting. You must specify a unique priority for each rule in a rule group. To make it easier to insert rules later, leave space between the numbers, for example, use 100, 200, and so on. You can change the priority setting for the rules in a rule group at any time.
+        public let priority: Int
+
+        public init(action: Action, blockOverrideDnsType: BlockOverrideDnsType? = nil, blockOverrideDomain: String? = nil, blockOverrideTtl: Int? = nil, blockResponse: BlockResponse? = nil, creatorRequestId: String = CreateFirewallRuleRequest.idempotencyToken(), firewallDomainListId: String, firewallRuleGroupId: String, name: String, priority: Int) {
+            self.action = action
+            self.blockOverrideDnsType = blockOverrideDnsType
+            self.blockOverrideDomain = blockOverrideDomain
+            self.blockOverrideTtl = blockOverrideTtl
+            self.blockResponse = blockResponse
+            self.creatorRequestId = creatorRequestId
+            self.firewallDomainListId = firewallDomainListId
+            self.firewallRuleGroupId = firewallRuleGroupId
+            self.name = name
+            self.priority = priority
+        }
+
+        public func validate(name: String) throws {
+            try self.blockOverrideDomain?.forEach {}
+            try self.validate(self.blockOverrideDomain, name: "blockOverrideDomain", parent: name, max: 255)
+            try self.validate(self.blockOverrideDomain, name: "blockOverrideDomain", parent: name, min: 1)
+            try self.blockOverrideTtl?.forEach {}
+            try self.validate(self.blockOverrideTtl, name: "blockOverrideTtl", parent: name, max: 604_800)
+            try self.validate(self.blockOverrideTtl, name: "blockOverrideTtl", parent: name, min: 0)
+            try self.creatorRequestId.forEach {}
+            try self.validate(self.creatorRequestId, name: "creatorRequestId", parent: name, max: 255)
+            try self.validate(self.creatorRequestId, name: "creatorRequestId", parent: name, min: 1)
+            try self.firewallDomainListId.forEach {}
+            try self.validate(self.firewallDomainListId, name: "firewallDomainListId", parent: name, max: 64)
+            try self.validate(self.firewallDomainListId, name: "firewallDomainListId", parent: name, min: 1)
+            try self.firewallRuleGroupId.forEach {}
+            try self.validate(self.firewallRuleGroupId, name: "firewallRuleGroupId", parent: name, max: 64)
+            try self.validate(self.firewallRuleGroupId, name: "firewallRuleGroupId", parent: name, min: 1)
+            try self.name.forEach {}
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9\\-_' ']+)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case blockOverrideDnsType = "BlockOverrideDnsType"
+            case blockOverrideDomain = "BlockOverrideDomain"
+            case blockOverrideTtl = "BlockOverrideTtl"
+            case blockResponse = "BlockResponse"
+            case creatorRequestId = "CreatorRequestId"
+            case firewallDomainListId = "FirewallDomainListId"
+            case firewallRuleGroupId = "FirewallRuleGroupId"
+            case name = "Name"
+            case priority = "Priority"
+        }
+    }
+
+    public struct CreateFirewallRuleResponse: AWSDecodableShape {
+        /// The firewall rule that you just created.
+        public let firewallRule: FirewallRule?
+
+        public init(firewallRule: FirewallRule? = nil) {
+            self.firewallRule = firewallRule
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallRule = "FirewallRule"
         }
     }
 
@@ -268,22 +590,27 @@ extension Route53Resolver {
         }
 
         public func validate(name: String) throws {
+            try self.creatorRequestId.forEach {}
             try self.validate(self.creatorRequestId, name: "creatorRequestId", parent: name, max: 255)
             try self.validate(self.creatorRequestId, name: "creatorRequestId", parent: name, min: 1)
             try self.ipAddresses.forEach {
                 try $0.validate(name: "\(name).ipAddresses[]")
             }
+            try self.ipAddresses.forEach {}
             try self.validate(self.ipAddresses, name: "ipAddresses", parent: name, max: 10)
             try self.validate(self.ipAddresses, name: "ipAddresses", parent: name, min: 1)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9\\-_' ']+)")
             try self.securityGroupIds.forEach {
                 try validate($0, name: "securityGroupIds[]", parent: name, max: 64)
                 try validate($0, name: "securityGroupIds[]", parent: name, min: 1)
             }
+            try self.securityGroupIds.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
         }
 
@@ -328,16 +655,20 @@ extension Route53Resolver {
         }
 
         public func validate(name: String) throws {
+            try self.creatorRequestId.forEach {}
             try self.validate(self.creatorRequestId, name: "creatorRequestId", parent: name, max: 255)
             try self.validate(self.creatorRequestId, name: "creatorRequestId", parent: name, min: 1)
+            try self.destinationArn.forEach {}
             try self.validate(self.destinationArn, name: "destinationArn", parent: name, max: 600)
             try self.validate(self.destinationArn, name: "destinationArn", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9\\-_' ']+)")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
         }
 
@@ -389,21 +720,27 @@ extension Route53Resolver {
         }
 
         public func validate(name: String) throws {
+            try self.creatorRequestId.forEach {}
             try self.validate(self.creatorRequestId, name: "creatorRequestId", parent: name, max: 255)
             try self.validate(self.creatorRequestId, name: "creatorRequestId", parent: name, min: 1)
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 256)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9\\-_' ']+)")
+            try self.resolverEndpointId?.forEach {}
             try self.validate(self.resolverEndpointId, name: "resolverEndpointId", parent: name, max: 64)
             try self.validate(self.resolverEndpointId, name: "resolverEndpointId", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.targetIps?.forEach {
                 try $0.validate(name: "\(name).targetIps[]")
             }
+            try self.targetIps?.forEach {}
             try self.validate(self.targetIps, name: "targetIps", parent: name, min: 1)
         }
 
@@ -431,6 +768,109 @@ extension Route53Resolver {
         }
     }
 
+    public struct DeleteFirewallDomainListRequest: AWSEncodableShape {
+        /// The ID of the domain list that you want to delete.
+        public let firewallDomainListId: String
+
+        public init(firewallDomainListId: String) {
+            self.firewallDomainListId = firewallDomainListId
+        }
+
+        public func validate(name: String) throws {
+            try self.firewallDomainListId.forEach {}
+            try self.validate(self.firewallDomainListId, name: "firewallDomainListId", parent: name, max: 64)
+            try self.validate(self.firewallDomainListId, name: "firewallDomainListId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallDomainListId = "FirewallDomainListId"
+        }
+    }
+
+    public struct DeleteFirewallDomainListResponse: AWSDecodableShape {
+        /// The domain list that you just deleted.
+        public let firewallDomainList: FirewallDomainList?
+
+        public init(firewallDomainList: FirewallDomainList? = nil) {
+            self.firewallDomainList = firewallDomainList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallDomainList = "FirewallDomainList"
+        }
+    }
+
+    public struct DeleteFirewallRuleGroupRequest: AWSEncodableShape {
+        /// The unique identifier of the firewall rule group that you want to delete.
+        public let firewallRuleGroupId: String
+
+        public init(firewallRuleGroupId: String) {
+            self.firewallRuleGroupId = firewallRuleGroupId
+        }
+
+        public func validate(name: String) throws {
+            try self.firewallRuleGroupId.forEach {}
+            try self.validate(self.firewallRuleGroupId, name: "firewallRuleGroupId", parent: name, max: 64)
+            try self.validate(self.firewallRuleGroupId, name: "firewallRuleGroupId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallRuleGroupId = "FirewallRuleGroupId"
+        }
+    }
+
+    public struct DeleteFirewallRuleGroupResponse: AWSDecodableShape {
+        /// A collection of rules used to filter DNS network traffic.
+        public let firewallRuleGroup: FirewallRuleGroup?
+
+        public init(firewallRuleGroup: FirewallRuleGroup? = nil) {
+            self.firewallRuleGroup = firewallRuleGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallRuleGroup = "FirewallRuleGroup"
+        }
+    }
+
+    public struct DeleteFirewallRuleRequest: AWSEncodableShape {
+        /// The ID of the domain list that's used in the rule.
+        public let firewallDomainListId: String
+        /// The unique identifier of the firewall rule group that you want to delete the rule from.
+        public let firewallRuleGroupId: String
+
+        public init(firewallDomainListId: String, firewallRuleGroupId: String) {
+            self.firewallDomainListId = firewallDomainListId
+            self.firewallRuleGroupId = firewallRuleGroupId
+        }
+
+        public func validate(name: String) throws {
+            try self.firewallDomainListId.forEach {}
+            try self.validate(self.firewallDomainListId, name: "firewallDomainListId", parent: name, max: 64)
+            try self.validate(self.firewallDomainListId, name: "firewallDomainListId", parent: name, min: 1)
+            try self.firewallRuleGroupId.forEach {}
+            try self.validate(self.firewallRuleGroupId, name: "firewallRuleGroupId", parent: name, max: 64)
+            try self.validate(self.firewallRuleGroupId, name: "firewallRuleGroupId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallDomainListId = "FirewallDomainListId"
+            case firewallRuleGroupId = "FirewallRuleGroupId"
+        }
+    }
+
+    public struct DeleteFirewallRuleResponse: AWSDecodableShape {
+        /// The specification for the firewall rule that you just deleted.
+        public let firewallRule: FirewallRule?
+
+        public init(firewallRule: FirewallRule? = nil) {
+            self.firewallRule = firewallRule
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallRule = "FirewallRule"
+        }
+    }
+
     public struct DeleteResolverEndpointRequest: AWSEncodableShape {
         /// The ID of the Resolver endpoint that you want to delete.
         public let resolverEndpointId: String
@@ -440,6 +880,7 @@ extension Route53Resolver {
         }
 
         public func validate(name: String) throws {
+            try self.resolverEndpointId.forEach {}
             try self.validate(self.resolverEndpointId, name: "resolverEndpointId", parent: name, max: 64)
             try self.validate(self.resolverEndpointId, name: "resolverEndpointId", parent: name, min: 1)
         }
@@ -471,6 +912,7 @@ extension Route53Resolver {
         }
 
         public func validate(name: String) throws {
+            try self.resolverQueryLogConfigId.forEach {}
             try self.validate(self.resolverQueryLogConfigId, name: "resolverQueryLogConfigId", parent: name, max: 64)
             try self.validate(self.resolverQueryLogConfigId, name: "resolverQueryLogConfigId", parent: name, min: 1)
         }
@@ -502,6 +944,7 @@ extension Route53Resolver {
         }
 
         public func validate(name: String) throws {
+            try self.resolverRuleId.forEach {}
             try self.validate(self.resolverRuleId, name: "resolverRuleId", parent: name, max: 64)
             try self.validate(self.resolverRuleId, name: "resolverRuleId", parent: name, min: 1)
         }
@@ -524,6 +967,38 @@ extension Route53Resolver {
         }
     }
 
+    public struct DisassociateFirewallRuleGroupRequest: AWSEncodableShape {
+        /// The identifier of the FirewallRuleGroupAssociation.
+        public let firewallRuleGroupAssociationId: String
+
+        public init(firewallRuleGroupAssociationId: String) {
+            self.firewallRuleGroupAssociationId = firewallRuleGroupAssociationId
+        }
+
+        public func validate(name: String) throws {
+            try self.firewallRuleGroupAssociationId.forEach {}
+            try self.validate(self.firewallRuleGroupAssociationId, name: "firewallRuleGroupAssociationId", parent: name, max: 64)
+            try self.validate(self.firewallRuleGroupAssociationId, name: "firewallRuleGroupAssociationId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallRuleGroupAssociationId = "FirewallRuleGroupAssociationId"
+        }
+    }
+
+    public struct DisassociateFirewallRuleGroupResponse: AWSDecodableShape {
+        /// The firewall rule group association that you just removed.
+        public let firewallRuleGroupAssociation: FirewallRuleGroupAssociation?
+
+        public init(firewallRuleGroupAssociation: FirewallRuleGroupAssociation? = nil) {
+            self.firewallRuleGroupAssociation = firewallRuleGroupAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallRuleGroupAssociation = "FirewallRuleGroupAssociation"
+        }
+    }
+
     public struct DisassociateResolverEndpointIpAddressRequest: AWSEncodableShape {
         /// The IPv4 address that you want to remove from a Resolver endpoint.
         public let ipAddress: IpAddressUpdate
@@ -537,6 +1012,8 @@ extension Route53Resolver {
 
         public func validate(name: String) throws {
             try self.ipAddress.validate(name: "\(name).ipAddress")
+            try self.ipAddress.forEach {}
+            try self.resolverEndpointId.forEach {}
             try self.validate(self.resolverEndpointId, name: "resolverEndpointId", parent: name, max: 64)
             try self.validate(self.resolverEndpointId, name: "resolverEndpointId", parent: name, min: 1)
         }
@@ -572,8 +1049,10 @@ extension Route53Resolver {
         }
 
         public func validate(name: String) throws {
+            try self.resolverQueryLogConfigId.forEach {}
             try self.validate(self.resolverQueryLogConfigId, name: "resolverQueryLogConfigId", parent: name, max: 64)
             try self.validate(self.resolverQueryLogConfigId, name: "resolverQueryLogConfigId", parent: name, min: 1)
+            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 64)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
         }
@@ -609,8 +1088,10 @@ extension Route53Resolver {
         }
 
         public func validate(name: String) throws {
+            try self.resolverRuleId.forEach {}
             try self.validate(self.resolverRuleId, name: "resolverRuleId", parent: name, max: 64)
             try self.validate(self.resolverRuleId, name: "resolverRuleId", parent: name, min: 1)
+            try self.vPCId.forEach {}
             try self.validate(self.vPCId, name: "vPCId", parent: name, max: 64)
             try self.validate(self.vPCId, name: "vPCId", parent: name, min: 1)
         }
@@ -646,17 +1127,486 @@ extension Route53Resolver {
         }
 
         public func validate(name: String) throws {
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.values?.forEach {
                 try validate($0, name: "values[]", parent: name, max: 600)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
+            try self.values?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case values = "Values"
+        }
+    }
+
+    public struct FirewallConfig: AWSDecodableShape {
+        /// Determines how DNS Firewall operates during failures, for example when all traffic that is sent to DNS Firewall fails to receive a reply.    By default, fail open is disabled, which means the failure mode is closed. This approach favors security over availability. DNS Firewall returns a failure error when it is unable to properly evaluate a query.    If you enable this option, the failure mode is open. This approach favors availability over security. DNS Firewall allows queries to proceed if it is unable to properly evaluate them.    This behavior is only enforced for VPCs that have at least one DNS Firewall rule group association.
+        public let firewallFailOpen: FirewallFailOpenStatus?
+        /// The Id of the firewall configuration.
+        public let id: String?
+        /// The AWS account ID of the owner of the VPC that this firewall configuration applies to.
+        public let ownerId: String?
+        /// The ID of the VPC that this firewall configuration applies to.
+        public let resourceId: String?
+
+        public init(firewallFailOpen: FirewallFailOpenStatus? = nil, id: String? = nil, ownerId: String? = nil, resourceId: String? = nil) {
+            self.firewallFailOpen = firewallFailOpen
+            self.id = id
+            self.ownerId = ownerId
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallFailOpen = "FirewallFailOpen"
+            case id = "Id"
+            case ownerId = "OwnerId"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct FirewallDomainList: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the firewall domain list.
+        public let arn: String?
+        /// The date and time that the domain list was created, in Unix time format and Coordinated Universal Time (UTC).
+        public let creationTime: String?
+        /// A unique string defined by you to identify the request. This allows you to retry failed requests without the risk of executing the operation twice. This can be any unique string, for example, a timestamp.
+        public let creatorRequestId: String?
+        /// The number of domain names that are specified in the domain list.
+        public let domainCount: Int?
+        /// The ID of the domain list.
+        public let id: String?
+        /// The owner of the list, used only for lists that are not managed by you. For example, the managed domain list AWSManagedDomainsMalwareDomainList has the managed owner name Route 53 Resolver DNS Firewall.
+        public let managedOwnerName: String?
+        /// The date and time that the domain list was last modified, in Unix time format and Coordinated Universal Time (UTC).
+        public let modificationTime: String?
+        /// The name of the domain list.
+        public let name: String?
+        /// The status of the domain list.
+        public let status: FirewallDomainListStatus?
+        /// Additional information about the status of the list, if available.
+        public let statusMessage: String?
+
+        public init(arn: String? = nil, creationTime: String? = nil, creatorRequestId: String? = nil, domainCount: Int? = nil, id: String? = nil, managedOwnerName: String? = nil, modificationTime: String? = nil, name: String? = nil, status: FirewallDomainListStatus? = nil, statusMessage: String? = nil) {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.creatorRequestId = creatorRequestId
+            self.domainCount = domainCount
+            self.id = id
+            self.managedOwnerName = managedOwnerName
+            self.modificationTime = modificationTime
+            self.name = name
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTime = "CreationTime"
+            case creatorRequestId = "CreatorRequestId"
+            case domainCount = "DomainCount"
+            case id = "Id"
+            case managedOwnerName = "ManagedOwnerName"
+            case modificationTime = "ModificationTime"
+            case name = "Name"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
+    public struct FirewallDomainListMetadata: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the firewall domain list metadata.
+        public let arn: String?
+        /// A unique string defined by you to identify the request. This allows you to retry failed requests without the risk of executing the operation twice. This can be any unique string, for example, a timestamp.
+        public let creatorRequestId: String?
+        /// The ID of the domain list.
+        public let id: String?
+        /// The owner of the list, used only for lists that are not managed by you. For example, the managed domain list AWSManagedDomainsMalwareDomainList has the managed owner name Route 53 Resolver DNS Firewall.
+        public let managedOwnerName: String?
+        /// The name of the domain list.
+        public let name: String?
+
+        public init(arn: String? = nil, creatorRequestId: String? = nil, id: String? = nil, managedOwnerName: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.creatorRequestId = creatorRequestId
+            self.id = id
+            self.managedOwnerName = managedOwnerName
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creatorRequestId = "CreatorRequestId"
+            case id = "Id"
+            case managedOwnerName = "ManagedOwnerName"
+            case name = "Name"
+        }
+    }
+
+    public struct FirewallRule: AWSDecodableShape {
+        /// The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list:    ALLOW - Permit the request to go through.    ALERT - Permit the request to go through but send an alert to the logs.    BLOCK - Disallow the request. If this is specified, additional handling details are provided in the rule's BlockResponse setting.
+        public let action: Action?
+        /// The DNS record's type. This determines the format of the record value that you provided in BlockOverrideDomain. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE.
+        public let blockOverrideDnsType: BlockOverrideDnsType?
+        /// The custom DNS record to send back in response to the query. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE.
+        public let blockOverrideDomain: String?
+        /// The recommended amount of time, in seconds, for the DNS resolver or web browser to cache the provided override record. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE.
+        public let blockOverrideTtl: Int?
+        /// The way that you want DNS Firewall to block the request. Used for the rule action setting BLOCK.    NODATA - Respond indicating that the query was successful, but no response is available for it.    NXDOMAIN - Respond indicating that the domain name that's in the query doesn't exist.    OVERRIDE - Provide a custom override in the response. This option requires custom handling details in the rule's BlockOverride* settings.
+        public let blockResponse: BlockResponse?
+        /// The date and time that the rule was created, in Unix time format and Coordinated Universal Time (UTC).
+        public let creationTime: String?
+        /// A unique string defined by you to identify the request. This allows you to retry failed requests without the risk of executing the operation twice. This can be any unique string, for example, a timestamp.
+        public let creatorRequestId: String?
+        /// The ID of the domain list that's used in the rule.
+        public let firewallDomainListId: String?
+        /// The unique identifier of the firewall rule group of the rule.
+        public let firewallRuleGroupId: String?
+        /// The date and time that the rule was last modified, in Unix time format and Coordinated Universal Time (UTC).
+        public let modificationTime: String?
+        /// The name of the rule.
+        public let name: String?
+        /// The priority of the rule in the rule group. This value must be unique within the rule group. DNS Firewall processes the rules in a rule group by order of priority, starting from the lowest setting.
+        public let priority: Int?
+
+        public init(action: Action? = nil, blockOverrideDnsType: BlockOverrideDnsType? = nil, blockOverrideDomain: String? = nil, blockOverrideTtl: Int? = nil, blockResponse: BlockResponse? = nil, creationTime: String? = nil, creatorRequestId: String? = nil, firewallDomainListId: String? = nil, firewallRuleGroupId: String? = nil, modificationTime: String? = nil, name: String? = nil, priority: Int? = nil) {
+            self.action = action
+            self.blockOverrideDnsType = blockOverrideDnsType
+            self.blockOverrideDomain = blockOverrideDomain
+            self.blockOverrideTtl = blockOverrideTtl
+            self.blockResponse = blockResponse
+            self.creationTime = creationTime
+            self.creatorRequestId = creatorRequestId
+            self.firewallDomainListId = firewallDomainListId
+            self.firewallRuleGroupId = firewallRuleGroupId
+            self.modificationTime = modificationTime
+            self.name = name
+            self.priority = priority
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case blockOverrideDnsType = "BlockOverrideDnsType"
+            case blockOverrideDomain = "BlockOverrideDomain"
+            case blockOverrideTtl = "BlockOverrideTtl"
+            case blockResponse = "BlockResponse"
+            case creationTime = "CreationTime"
+            case creatorRequestId = "CreatorRequestId"
+            case firewallDomainListId = "FirewallDomainListId"
+            case firewallRuleGroupId = "FirewallRuleGroupId"
+            case modificationTime = "ModificationTime"
+            case name = "Name"
+            case priority = "Priority"
+        }
+    }
+
+    public struct FirewallRuleGroup: AWSDecodableShape {
+        /// The ARN (Amazon Resource Name) of the rule group.
+        public let arn: String?
+        /// The date and time that the rule group was created, in Unix time format and Coordinated Universal Time (UTC).
+        public let creationTime: String?
+        /// A unique string defined by you to identify the request. This allows you to retry failed requests without the risk of executing the operation twice. This can be any unique string, for example, a timestamp.
+        public let creatorRequestId: String?
+        /// The ID of the rule group.
+        public let id: String?
+        /// The date and time that the rule group was last modified, in Unix time format and Coordinated Universal Time (UTC).
+        public let modificationTime: String?
+        /// The name of the rule group.
+        public let name: String?
+        /// The AWS account ID for the account that created the rule group. When a rule group is shared with your account, this is the account that has shared the rule group with you.
+        public let ownerId: String?
+        /// The number of rules in the rule group.
+        public let ruleCount: Int?
+        /// Whether the rule group is shared with other AWS accounts, or was shared with the current account by another AWS account. Sharing is configured through AWS Resource Access Manager (AWS RAM).
+        public let shareStatus: ShareStatus?
+        /// The status of the domain list.
+        public let status: FirewallRuleGroupStatus?
+        /// Additional information about the status of the rule group, if available.
+        public let statusMessage: String?
+
+        public init(arn: String? = nil, creationTime: String? = nil, creatorRequestId: String? = nil, id: String? = nil, modificationTime: String? = nil, name: String? = nil, ownerId: String? = nil, ruleCount: Int? = nil, shareStatus: ShareStatus? = nil, status: FirewallRuleGroupStatus? = nil, statusMessage: String? = nil) {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.creatorRequestId = creatorRequestId
+            self.id = id
+            self.modificationTime = modificationTime
+            self.name = name
+            self.ownerId = ownerId
+            self.ruleCount = ruleCount
+            self.shareStatus = shareStatus
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTime = "CreationTime"
+            case creatorRequestId = "CreatorRequestId"
+            case id = "Id"
+            case modificationTime = "ModificationTime"
+            case name = "Name"
+            case ownerId = "OwnerId"
+            case ruleCount = "RuleCount"
+            case shareStatus = "ShareStatus"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
+    public struct FirewallRuleGroupAssociation: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the firewall rule group association.
+        public let arn: String?
+        /// The date and time that the association was created, in Unix time format and Coordinated Universal Time (UTC).
+        public let creationTime: String?
+        /// A unique string defined by you to identify the request. This allows you to retry failed requests without the risk of executing the operation twice. This can be any unique string, for example, a timestamp.
+        public let creatorRequestId: String?
+        /// The unique identifier of the firewall rule group.
+        public let firewallRuleGroupId: String?
+        /// The identifier for the association.
+        public let id: String?
+        /// The owner of the association, used only for associations that are not managed by you. If you use AWS Firewall Manager to manage your DNS Firewalls, then this reports Firewall Manager as the managed owner.
+        public let managedOwnerName: String?
+        /// The date and time that the association was last modified, in Unix time format and Coordinated Universal Time (UTC).
+        public let modificationTime: String?
+        /// If enabled, this setting disallows modification or removal of the association, to help prevent against accidentally altering DNS firewall protections.
+        public let mutationProtection: MutationProtectionStatus?
+        /// The name of the association.
+        public let name: String?
+        /// The setting that determines the processing order of the rule group among the rule groups that are associated with a single VPC. DNS Firewall filters VPC traffic starting from rule group with the lowest numeric priority setting.
+        public let priority: Int?
+        /// The current status of the association.
+        public let status: FirewallRuleGroupAssociationStatus?
+        /// Additional information about the status of the response, if available.
+        public let statusMessage: String?
+        /// The unique identifier of the VPC that is associated with the rule group.
+        public let vpcId: String?
+
+        public init(arn: String? = nil, creationTime: String? = nil, creatorRequestId: String? = nil, firewallRuleGroupId: String? = nil, id: String? = nil, managedOwnerName: String? = nil, modificationTime: String? = nil, mutationProtection: MutationProtectionStatus? = nil, name: String? = nil, priority: Int? = nil, status: FirewallRuleGroupAssociationStatus? = nil, statusMessage: String? = nil, vpcId: String? = nil) {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.creatorRequestId = creatorRequestId
+            self.firewallRuleGroupId = firewallRuleGroupId
+            self.id = id
+            self.managedOwnerName = managedOwnerName
+            self.modificationTime = modificationTime
+            self.mutationProtection = mutationProtection
+            self.name = name
+            self.priority = priority
+            self.status = status
+            self.statusMessage = statusMessage
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTime = "CreationTime"
+            case creatorRequestId = "CreatorRequestId"
+            case firewallRuleGroupId = "FirewallRuleGroupId"
+            case id = "Id"
+            case managedOwnerName = "ManagedOwnerName"
+            case modificationTime = "ModificationTime"
+            case mutationProtection = "MutationProtection"
+            case name = "Name"
+            case priority = "Priority"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+            case vpcId = "VpcId"
+        }
+    }
+
+    public struct FirewallRuleGroupMetadata: AWSDecodableShape {
+        /// The ARN (Amazon Resource Name) of the rule group.
+        public let arn: String?
+        /// A unique string defined by you to identify the request. This allows you to retry failed requests without the risk of executing the operation twice. This can be any unique string, for example, a timestamp.
+        public let creatorRequestId: String?
+        /// The ID of the rule group.
+        public let id: String?
+        /// The name of the rule group.
+        public let name: String?
+        /// The AWS account ID for the account that created the rule group. When a rule group is shared with your account, this is the account that has shared the rule group with you.
+        public let ownerId: String?
+        /// Whether the rule group is shared with other AWS accounts, or was shared with the current account by another AWS account. Sharing is configured through AWS Resource Access Manager (AWS RAM).
+        public let shareStatus: ShareStatus?
+
+        public init(arn: String? = nil, creatorRequestId: String? = nil, id: String? = nil, name: String? = nil, ownerId: String? = nil, shareStatus: ShareStatus? = nil) {
+            self.arn = arn
+            self.creatorRequestId = creatorRequestId
+            self.id = id
+            self.name = name
+            self.ownerId = ownerId
+            self.shareStatus = shareStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creatorRequestId = "CreatorRequestId"
+            case id = "Id"
+            case name = "Name"
+            case ownerId = "OwnerId"
+            case shareStatus = "ShareStatus"
+        }
+    }
+
+    public struct GetFirewallConfigRequest: AWSEncodableShape {
+        /// The ID of the Amazon virtual private cloud (VPC) that the configuration is for.
+        public let resourceId: String
+
+        public init(resourceId: String) {
+            self.resourceId = resourceId
+        }
+
+        public func validate(name: String) throws {
+            try self.resourceId.forEach {}
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 64)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct GetFirewallConfigResponse: AWSDecodableShape {
+        /// Configuration of the firewall behavior provided by DNS Firewall for a single Amazon virtual private cloud (VPC).
+        public let firewallConfig: FirewallConfig?
+
+        public init(firewallConfig: FirewallConfig? = nil) {
+            self.firewallConfig = firewallConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallConfig = "FirewallConfig"
+        }
+    }
+
+    public struct GetFirewallDomainListRequest: AWSEncodableShape {
+        /// The ID of the domain list.
+        public let firewallDomainListId: String
+
+        public init(firewallDomainListId: String) {
+            self.firewallDomainListId = firewallDomainListId
+        }
+
+        public func validate(name: String) throws {
+            try self.firewallDomainListId.forEach {}
+            try self.validate(self.firewallDomainListId, name: "firewallDomainListId", parent: name, max: 64)
+            try self.validate(self.firewallDomainListId, name: "firewallDomainListId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallDomainListId = "FirewallDomainListId"
+        }
+    }
+
+    public struct GetFirewallDomainListResponse: AWSDecodableShape {
+        /// The domain list that you requested.
+        public let firewallDomainList: FirewallDomainList?
+
+        public init(firewallDomainList: FirewallDomainList? = nil) {
+            self.firewallDomainList = firewallDomainList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallDomainList = "FirewallDomainList"
+        }
+    }
+
+    public struct GetFirewallRuleGroupAssociationRequest: AWSEncodableShape {
+        /// The identifier of the FirewallRuleGroupAssociation.
+        public let firewallRuleGroupAssociationId: String
+
+        public init(firewallRuleGroupAssociationId: String) {
+            self.firewallRuleGroupAssociationId = firewallRuleGroupAssociationId
+        }
+
+        public func validate(name: String) throws {
+            try self.firewallRuleGroupAssociationId.forEach {}
+            try self.validate(self.firewallRuleGroupAssociationId, name: "firewallRuleGroupAssociationId", parent: name, max: 64)
+            try self.validate(self.firewallRuleGroupAssociationId, name: "firewallRuleGroupAssociationId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallRuleGroupAssociationId = "FirewallRuleGroupAssociationId"
+        }
+    }
+
+    public struct GetFirewallRuleGroupAssociationResponse: AWSDecodableShape {
+        /// The association that you requested.
+        public let firewallRuleGroupAssociation: FirewallRuleGroupAssociation?
+
+        public init(firewallRuleGroupAssociation: FirewallRuleGroupAssociation? = nil) {
+            self.firewallRuleGroupAssociation = firewallRuleGroupAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallRuleGroupAssociation = "FirewallRuleGroupAssociation"
+        }
+    }
+
+    public struct GetFirewallRuleGroupPolicyRequest: AWSEncodableShape {
+        /// The ARN (Amazon Resource Name) for the rule group.
+        public let arn: String
+
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try self.arn.forEach {}
+            try self.validate(self.arn, name: "arn", parent: name, max: 255)
+            try self.validate(self.arn, name: "arn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+        }
+    }
+
+    public struct GetFirewallRuleGroupPolicyResponse: AWSDecodableShape {
+        /// The AWS Identity and Access Management (AWS IAM) policy for sharing the specified rule group. You can use the policy to share the rule group using AWS Resource Access Manager (RAM).
+        public let firewallRuleGroupPolicy: String?
+
+        public init(firewallRuleGroupPolicy: String? = nil) {
+            self.firewallRuleGroupPolicy = firewallRuleGroupPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallRuleGroupPolicy = "FirewallRuleGroupPolicy"
+        }
+    }
+
+    public struct GetFirewallRuleGroupRequest: AWSEncodableShape {
+        /// The unique identifier of the firewall rule group.
+        public let firewallRuleGroupId: String
+
+        public init(firewallRuleGroupId: String) {
+            self.firewallRuleGroupId = firewallRuleGroupId
+        }
+
+        public func validate(name: String) throws {
+            try self.firewallRuleGroupId.forEach {}
+            try self.validate(self.firewallRuleGroupId, name: "firewallRuleGroupId", parent: name, max: 64)
+            try self.validate(self.firewallRuleGroupId, name: "firewallRuleGroupId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallRuleGroupId = "FirewallRuleGroupId"
+        }
+    }
+
+    public struct GetFirewallRuleGroupResponse: AWSDecodableShape {
+        /// A collection of rules used to filter DNS network traffic.
+        public let firewallRuleGroup: FirewallRuleGroup?
+
+        public init(firewallRuleGroup: FirewallRuleGroup? = nil) {
+            self.firewallRuleGroup = firewallRuleGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallRuleGroup = "FirewallRuleGroup"
         }
     }
 
@@ -669,6 +1619,7 @@ extension Route53Resolver {
         }
 
         public func validate(name: String) throws {
+            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 64)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
         }
@@ -700,6 +1651,7 @@ extension Route53Resolver {
         }
 
         public func validate(name: String) throws {
+            try self.resolverEndpointId.forEach {}
             try self.validate(self.resolverEndpointId, name: "resolverEndpointId", parent: name, max: 64)
             try self.validate(self.resolverEndpointId, name: "resolverEndpointId", parent: name, min: 1)
         }
@@ -731,6 +1683,7 @@ extension Route53Resolver {
         }
 
         public func validate(name: String) throws {
+            try self.resolverQueryLogConfigAssociationId.forEach {}
             try self.validate(self.resolverQueryLogConfigAssociationId, name: "resolverQueryLogConfigAssociationId", parent: name, max: 64)
             try self.validate(self.resolverQueryLogConfigAssociationId, name: "resolverQueryLogConfigAssociationId", parent: name, min: 1)
         }
@@ -762,6 +1715,7 @@ extension Route53Resolver {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 255)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
         }
@@ -793,6 +1747,7 @@ extension Route53Resolver {
         }
 
         public func validate(name: String) throws {
+            try self.resolverQueryLogConfigId.forEach {}
             try self.validate(self.resolverQueryLogConfigId, name: "resolverQueryLogConfigId", parent: name, max: 64)
             try self.validate(self.resolverQueryLogConfigId, name: "resolverQueryLogConfigId", parent: name, min: 1)
         }
@@ -824,6 +1779,7 @@ extension Route53Resolver {
         }
 
         public func validate(name: String) throws {
+            try self.resolverRuleAssociationId.forEach {}
             try self.validate(self.resolverRuleAssociationId, name: "resolverRuleAssociationId", parent: name, max: 64)
             try self.validate(self.resolverRuleAssociationId, name: "resolverRuleAssociationId", parent: name, min: 1)
         }
@@ -855,6 +1811,7 @@ extension Route53Resolver {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 255)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
         }
@@ -886,6 +1843,7 @@ extension Route53Resolver {
         }
 
         public func validate(name: String) throws {
+            try self.resolverRuleId.forEach {}
             try self.validate(self.resolverRuleId, name: "resolverRuleId", parent: name, max: 64)
             try self.validate(self.resolverRuleId, name: "resolverRuleId", parent: name, min: 1)
         }
@@ -908,6 +1866,60 @@ extension Route53Resolver {
         }
     }
 
+    public struct ImportFirewallDomainsRequest: AWSEncodableShape {
+        /// The fully qualified URL or URI of the file stored in Amazon Simple Storage Service (S3) that contains the list of domains to import. The file must be in an S3 bucket that's in the same Region as your DNS Firewall. The file must be a text file and must contain a single domain per line.
+        public let domainFileUrl: String
+        /// The ID of the domain list that you want to modify with the import operation.
+        public let firewallDomainListId: String
+        /// What you want DNS Firewall to do with the domains that are listed in the file. This must be set to REPLACE, which updates the domain list to exactly match the list in the file.
+        public let operation: FirewallDomainImportOperation
+
+        public init(domainFileUrl: String, firewallDomainListId: String, operation: FirewallDomainImportOperation) {
+            self.domainFileUrl = domainFileUrl
+            self.firewallDomainListId = firewallDomainListId
+            self.operation = operation
+        }
+
+        public func validate(name: String) throws {
+            try self.domainFileUrl.forEach {}
+            try self.validate(self.domainFileUrl, name: "domainFileUrl", parent: name, max: 1024)
+            try self.validate(self.domainFileUrl, name: "domainFileUrl", parent: name, min: 1)
+            try self.firewallDomainListId.forEach {}
+            try self.validate(self.firewallDomainListId, name: "firewallDomainListId", parent: name, max: 64)
+            try self.validate(self.firewallDomainListId, name: "firewallDomainListId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainFileUrl = "DomainFileUrl"
+            case firewallDomainListId = "FirewallDomainListId"
+            case operation = "Operation"
+        }
+    }
+
+    public struct ImportFirewallDomainsResponse: AWSDecodableShape {
+        /// The Id of the firewall domain list that DNS Firewall just updated.
+        public let id: String?
+        /// The name of the domain list.
+        public let name: String?
+        public let status: FirewallDomainListStatus?
+        /// Additional information about the status of the list, if available.
+        public let statusMessage: String?
+
+        public init(id: String? = nil, name: String? = nil, status: FirewallDomainListStatus? = nil, statusMessage: String? = nil) {
+            self.id = id
+            self.name = name
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case name = "Name"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
     public struct IpAddressRequest: AWSEncodableShape {
         /// The IP address that you want to use for DNS queries.
         public let ip: String?
@@ -920,8 +1932,10 @@ extension Route53Resolver {
         }
 
         public func validate(name: String) throws {
+            try self.ip?.forEach {}
             try self.validate(self.ip, name: "ip", parent: name, max: 36)
             try self.validate(self.ip, name: "ip", parent: name, min: 7)
+            try self.subnetId.forEach {}
             try self.validate(self.subnetId, name: "subnetId", parent: name, max: 32)
             try self.validate(self.subnetId, name: "subnetId", parent: name, min: 1)
         }
@@ -984,10 +1998,13 @@ extension Route53Resolver {
         }
 
         public func validate(name: String) throws {
+            try self.ip?.forEach {}
             try self.validate(self.ip, name: "ip", parent: name, max: 36)
             try self.validate(self.ip, name: "ip", parent: name, min: 7)
+            try self.ipId?.forEach {}
             try self.validate(self.ipId, name: "ipId", parent: name, max: 64)
             try self.validate(self.ipId, name: "ipId", parent: name, min: 1)
+            try self.subnetId?.forEach {}
             try self.validate(self.subnetId, name: "subnetId", parent: name, max: 32)
             try self.validate(self.subnetId, name: "subnetId", parent: name, min: 1)
         }
@@ -996,6 +2013,290 @@ extension Route53Resolver {
             case ip = "Ip"
             case ipId = "IpId"
             case subnetId = "SubnetId"
+        }
+    }
+
+    public struct ListFirewallConfigsRequest: AWSEncodableShape {
+        /// The maximum number of objects that you want Resolver to return for this request. If more objects are available, in the response, Resolver provides a NextToken value that you can use in a subsequent call to get the next batch of objects. If you don't specify a value for MaxResults, Resolver returns up to 100 objects.
+        public let maxResults: Int?
+        /// For the first call to this list request, omit this value. When you request a list of objects, Resolver returns at most the number of objects specified in MaxResults. If more objects are available for retrieval, Resolver returns a NextToken value in the response. To retrieve the next batch of objects, use the token that was returned for the prior request in your next request.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListFirewallConfigsResponse: AWSDecodableShape {
+        /// The configurations for the firewall behavior provided by DNS Firewall for Amazon virtual private clouds (VPC).
+        public let firewallConfigs: [FirewallConfig]?
+        /// If objects are still available for retrieval, Resolver returns this token in the response. To retrieve the next batch of objects, provide this token in your next request.
+        public let nextToken: String?
+
+        public init(firewallConfigs: [FirewallConfig]? = nil, nextToken: String? = nil) {
+            self.firewallConfigs = firewallConfigs
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallConfigs = "FirewallConfigs"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListFirewallDomainListsRequest: AWSEncodableShape {
+        /// The maximum number of objects that you want Resolver to return for this request. If more objects are available, in the response, Resolver provides a NextToken value that you can use in a subsequent call to get the next batch of objects. If you don't specify a value for MaxResults, Resolver returns up to 100 objects.
+        public let maxResults: Int?
+        /// For the first call to this list request, omit this value. When you request a list of objects, Resolver returns at most the number of objects specified in MaxResults. If more objects are available for retrieval, Resolver returns a NextToken value in the response. To retrieve the next batch of objects, use the token that was returned for the prior request in your next request.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListFirewallDomainListsResponse: AWSDecodableShape {
+        /// A list of the domain lists that you have defined.  This might be a parital list of the domain lists that you've defined. For information, see MaxResults.
+        public let firewallDomainLists: [FirewallDomainListMetadata]?
+        /// If objects are still available for retrieval, Resolver returns this token in the response. To retrieve the next batch of objects, provide this token in your next request.
+        public let nextToken: String?
+
+        public init(firewallDomainLists: [FirewallDomainListMetadata]? = nil, nextToken: String? = nil) {
+            self.firewallDomainLists = firewallDomainLists
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallDomainLists = "FirewallDomainLists"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListFirewallDomainsRequest: AWSEncodableShape {
+        /// The ID of the domain list whose domains you want to retrieve.
+        public let firewallDomainListId: String
+        /// The maximum number of objects that you want Resolver to return for this request. If more objects are available, in the response, Resolver provides a NextToken value that you can use in a subsequent call to get the next batch of objects. If you don't specify a value for MaxResults, Resolver returns up to 100 objects.
+        public let maxResults: Int?
+        /// For the first call to this list request, omit this value. When you request a list of objects, Resolver returns at most the number of objects specified in MaxResults. If more objects are available for retrieval, Resolver returns a NextToken value in the response. To retrieve the next batch of objects, use the token that was returned for the prior request in your next request.
+        public let nextToken: String?
+
+        public init(firewallDomainListId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.firewallDomainListId = firewallDomainListId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.firewallDomainListId.forEach {}
+            try self.validate(self.firewallDomainListId, name: "firewallDomainListId", parent: name, max: 64)
+            try self.validate(self.firewallDomainListId, name: "firewallDomainListId", parent: name, min: 1)
+            try self.maxResults?.forEach {}
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 5000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallDomainListId = "FirewallDomainListId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListFirewallDomainsResponse: AWSDecodableShape {
+        /// A list of the domains in the firewall domain list.  This might be a parital list of the domains that you've defined in the domain list. For information, see MaxResults.
+        public let domains: [String]?
+        /// If objects are still available for retrieval, Resolver returns this token in the response. To retrieve the next batch of objects, provide this token in your next request.
+        public let nextToken: String?
+
+        public init(domains: [String]? = nil, nextToken: String? = nil) {
+            self.domains = domains
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domains = "Domains"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListFirewallRuleGroupAssociationsRequest: AWSEncodableShape {
+        /// The unique identifier of the firewall rule group that you want to retrieve the associations for. Leave this blank to retrieve associations for any rule group.
+        public let firewallRuleGroupId: String?
+        /// The maximum number of objects that you want Resolver to return for this request. If more objects are available, in the response, Resolver provides a NextToken value that you can use in a subsequent call to get the next batch of objects. If you don't specify a value for MaxResults, Resolver returns up to 100 objects.
+        public let maxResults: Int?
+        /// For the first call to this list request, omit this value. When you request a list of objects, Resolver returns at most the number of objects specified in MaxResults. If more objects are available for retrieval, Resolver returns a NextToken value in the response. To retrieve the next batch of objects, use the token that was returned for the prior request in your next request.
+        public let nextToken: String?
+        /// The setting that determines the processing order of the rule group among the rule groups that are associated with a single VPC. DNS Firewall filters VPC traffic starting from rule group with the lowest numeric priority setting.
+        public let priority: Int?
+        /// The association Status setting that you want DNS Firewall to filter on for the list. If you don't specify this, then DNS Firewall returns all associations, regardless of status.
+        public let status: FirewallRuleGroupAssociationStatus?
+        /// The unique identifier of the VPC that you want to retrieve the associations for. Leave this blank to retrieve associations for any VPC.
+        public let vpcId: String?
+
+        public init(firewallRuleGroupId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, priority: Int? = nil, status: FirewallRuleGroupAssociationStatus? = nil, vpcId: String? = nil) {
+            self.firewallRuleGroupId = firewallRuleGroupId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.priority = priority
+            self.status = status
+            self.vpcId = vpcId
+        }
+
+        public func validate(name: String) throws {
+            try self.firewallRuleGroupId?.forEach {}
+            try self.validate(self.firewallRuleGroupId, name: "firewallRuleGroupId", parent: name, max: 64)
+            try self.validate(self.firewallRuleGroupId, name: "firewallRuleGroupId", parent: name, min: 1)
+            try self.maxResults?.forEach {}
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.vpcId?.forEach {}
+            try self.validate(self.vpcId, name: "vpcId", parent: name, max: 64)
+            try self.validate(self.vpcId, name: "vpcId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallRuleGroupId = "FirewallRuleGroupId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case priority = "Priority"
+            case status = "Status"
+            case vpcId = "VpcId"
+        }
+    }
+
+    public struct ListFirewallRuleGroupAssociationsResponse: AWSDecodableShape {
+        /// A list of your firewall rule group associations. This might be a partial list of the associations that you have defined. For information, see MaxResults.
+        public let firewallRuleGroupAssociations: [FirewallRuleGroupAssociation]?
+        /// If objects are still available for retrieval, Resolver returns this token in the response. To retrieve the next batch of objects, provide this token in your next request.
+        public let nextToken: String?
+
+        public init(firewallRuleGroupAssociations: [FirewallRuleGroupAssociation]? = nil, nextToken: String? = nil) {
+            self.firewallRuleGroupAssociations = firewallRuleGroupAssociations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallRuleGroupAssociations = "FirewallRuleGroupAssociations"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListFirewallRuleGroupsRequest: AWSEncodableShape {
+        /// The maximum number of objects that you want Resolver to return for this request. If more objects are available, in the response, Resolver provides a NextToken value that you can use in a subsequent call to get the next batch of objects. If you don't specify a value for MaxResults, Resolver returns up to 100 objects.
+        public let maxResults: Int?
+        /// For the first call to this list request, omit this value. When you request a list of objects, Resolver returns at most the number of objects specified in MaxResults. If more objects are available for retrieval, Resolver returns a NextToken value in the response. To retrieve the next batch of objects, use the token that was returned for the prior request in your next request.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListFirewallRuleGroupsResponse: AWSDecodableShape {
+        /// A list of your firewall rule groups. This might be a partial list of the rule groups that you have defined. For information, see MaxResults.
+        public let firewallRuleGroups: [FirewallRuleGroupMetadata]?
+        /// If objects are still available for retrieval, Resolver returns this token in the response. To retrieve the next batch of objects, provide this token in your next request.
+        public let nextToken: String?
+
+        public init(firewallRuleGroups: [FirewallRuleGroupMetadata]? = nil, nextToken: String? = nil) {
+            self.firewallRuleGroups = firewallRuleGroups
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallRuleGroups = "FirewallRuleGroups"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListFirewallRulesRequest: AWSEncodableShape {
+        /// Optional additional filter for the rules to retrieve. The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list:    ALLOW - Permit the request to go through.    ALERT - Permit the request to go through but send an alert to the logs.    BLOCK - Disallow the request. If this is specified, additional handling details are provided in the rule's BlockResponse setting.
+        public let action: Action?
+        /// The unique identifier of the firewall rule group that you want to retrieve the rules for.
+        public let firewallRuleGroupId: String
+        /// The maximum number of objects that you want Resolver to return for this request. If more objects are available, in the response, Resolver provides a NextToken value that you can use in a subsequent call to get the next batch of objects. If you don't specify a value for MaxResults, Resolver returns up to 100 objects.
+        public let maxResults: Int?
+        /// For the first call to this list request, omit this value. When you request a list of objects, Resolver returns at most the number of objects specified in MaxResults. If more objects are available for retrieval, Resolver returns a NextToken value in the response. To retrieve the next batch of objects, use the token that was returned for the prior request in your next request.
+        public let nextToken: String?
+        /// Optional additional filter for the rules to retrieve. The setting that determines the processing order of the rules in a rule group. DNS Firewall processes the rules in a rule group by order of priority, starting from the lowest setting.
+        public let priority: Int?
+
+        public init(action: Action? = nil, firewallRuleGroupId: String, maxResults: Int? = nil, nextToken: String? = nil, priority: Int? = nil) {
+            self.action = action
+            self.firewallRuleGroupId = firewallRuleGroupId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.priority = priority
+        }
+
+        public func validate(name: String) throws {
+            try self.firewallRuleGroupId.forEach {}
+            try self.validate(self.firewallRuleGroupId, name: "firewallRuleGroupId", parent: name, max: 64)
+            try self.validate(self.firewallRuleGroupId, name: "firewallRuleGroupId", parent: name, min: 1)
+            try self.maxResults?.forEach {}
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case firewallRuleGroupId = "FirewallRuleGroupId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case priority = "Priority"
+        }
+    }
+
+    public struct ListFirewallRulesResponse: AWSDecodableShape {
+        /// A list of the rules that you have defined.  This might be a parital list of the firewall rules that you've defined. For information, see MaxResults.
+        public let firewallRules: [FirewallRule]?
+        /// If objects are still available for retrieval, Resolver returns this token in the response. To retrieve the next batch of objects, provide this token in your next request.
+        public let nextToken: String?
+
+        public init(firewallRules: [FirewallRule]? = nil, nextToken: String? = nil) {
+            self.firewallRules = firewallRules
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallRules = "FirewallRules"
+            case nextToken = "NextToken"
         }
     }
 
@@ -1017,6 +2318,8 @@ extension Route53Resolver {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1060,8 +2363,10 @@ extension Route53Resolver {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.resolverEndpointId.forEach {}
             try self.validate(self.resolverEndpointId, name: "resolverEndpointId", parent: name, max: 64)
             try self.validate(self.resolverEndpointId, name: "resolverEndpointId", parent: name, min: 1)
         }
@@ -1112,6 +2417,8 @@ extension Route53Resolver {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1168,8 +2475,11 @@ extension Route53Resolver {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.sortBy?.forEach {}
             try self.validate(self.sortBy, name: "sortBy", parent: name, max: 64)
             try self.validate(self.sortBy, name: "sortBy", parent: name, min: 1)
         }
@@ -1232,8 +2542,11 @@ extension Route53Resolver {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.sortBy?.forEach {}
             try self.validate(self.sortBy, name: "sortBy", parent: name, max: 64)
             try self.validate(self.sortBy, name: "sortBy", parent: name, min: 1)
         }
@@ -1290,6 +2603,8 @@ extension Route53Resolver {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1340,6 +2655,8 @@ extension Route53Resolver {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1387,8 +2704,10 @@ extension Route53Resolver {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 255)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
         }
@@ -1417,6 +2736,43 @@ extension Route53Resolver {
         }
     }
 
+    public struct PutFirewallRuleGroupPolicyRequest: AWSEncodableShape {
+        /// The ARN (Amazon Resource Name) for the rule group that you want to share.
+        public let arn: String
+        /// The AWS Identity and Access Management (AWS IAM) policy to attach to the rule group.
+        public let firewallRuleGroupPolicy: String
+
+        public init(arn: String, firewallRuleGroupPolicy: String) {
+            self.arn = arn
+            self.firewallRuleGroupPolicy = firewallRuleGroupPolicy
+        }
+
+        public func validate(name: String) throws {
+            try self.arn.forEach {}
+            try self.validate(self.arn, name: "arn", parent: name, max: 255)
+            try self.validate(self.arn, name: "arn", parent: name, min: 1)
+            try self.firewallRuleGroupPolicy.forEach {}
+            try self.validate(self.firewallRuleGroupPolicy, name: "firewallRuleGroupPolicy", parent: name, max: 5000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case firewallRuleGroupPolicy = "FirewallRuleGroupPolicy"
+        }
+    }
+
+    public struct PutFirewallRuleGroupPolicyResponse: AWSDecodableShape {
+        public let returnValue: Bool?
+
+        public init(returnValue: Bool? = nil) {
+            self.returnValue = returnValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case returnValue = "ReturnValue"
+        }
+    }
+
     public struct PutResolverQueryLogConfigPolicyRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the account that you want to share rules with.
         public let arn: String
@@ -1429,8 +2785,10 @@ extension Route53Resolver {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 255)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
+            try self.resolverQueryLogConfigPolicy.forEach {}
             try self.validate(self.resolverQueryLogConfigPolicy, name: "resolverQueryLogConfigPolicy", parent: name, max: 5000)
         }
 
@@ -1465,8 +2823,10 @@ extension Route53Resolver {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 255)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
+            try self.resolverRulePolicy.forEach {}
             try self.validate(self.resolverRulePolicy, name: "resolverRulePolicy", parent: name, max: 5000)
         }
 
@@ -1770,13 +3130,16 @@ extension Route53Resolver {
         }
 
         public func validate(name: String) throws {
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9\\-_' ']+)")
+            try self.resolverEndpointId?.forEach {}
             try self.validate(self.resolverEndpointId, name: "resolverEndpointId", parent: name, max: 64)
             try self.validate(self.resolverEndpointId, name: "resolverEndpointId", parent: name, min: 1)
             try self.targetIps?.forEach {
                 try $0.validate(name: "\(name).targetIps[]")
             }
+            try self.targetIps?.forEach {}
             try self.validate(self.targetIps, name: "targetIps", parent: name, min: 1)
         }
 
@@ -1799,8 +3162,10 @@ extension Route53Resolver {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
         }
@@ -1823,11 +3188,13 @@ extension Route53Resolver {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 255)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
         }
 
@@ -1853,8 +3220,10 @@ extension Route53Resolver {
         }
 
         public func validate(name: String) throws {
+            try self.ip.forEach {}
             try self.validate(self.ip, name: "ip", parent: name, max: 36)
             try self.validate(self.ip, name: "ip", parent: name, min: 7)
+            try self.port?.forEach {}
             try self.validate(self.port, name: "port", parent: name, max: 65535)
             try self.validate(self.port, name: "port", parent: name, min: 0)
         }
@@ -1877,12 +3246,14 @@ extension Route53Resolver {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 255)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
         }
 
@@ -1894,6 +3265,221 @@ extension Route53Resolver {
 
     public struct UntagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateFirewallConfigRequest: AWSEncodableShape {
+        /// Determines how Route 53 Resolver handles queries during failures, for example when all traffic that is sent to DNS Firewall fails to receive a reply.    By default, fail open is disabled, which means the failure mode is closed. This approach favors security over availability. DNS Firewall blocks queries that it is unable to evaluate properly.    If you enable this option, the failure mode is open. This approach favors availability over security. DNS Firewall allows queries to proceed if it is unable to properly evaluate them.    This behavior is only enforced for VPCs that have at least one DNS Firewall rule group association.
+        public let firewallFailOpen: FirewallFailOpenStatus
+        /// The ID of the Amazon virtual private cloud (VPC) that the configuration is for.
+        public let resourceId: String
+
+        public init(firewallFailOpen: FirewallFailOpenStatus, resourceId: String) {
+            self.firewallFailOpen = firewallFailOpen
+            self.resourceId = resourceId
+        }
+
+        public func validate(name: String) throws {
+            try self.resourceId.forEach {}
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 64)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallFailOpen = "FirewallFailOpen"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct UpdateFirewallConfigResponse: AWSDecodableShape {
+        /// Configuration of the firewall behavior provided by DNS Firewall for a single Amazon virtual private cloud (VPC).
+        public let firewallConfig: FirewallConfig?
+
+        public init(firewallConfig: FirewallConfig? = nil) {
+            self.firewallConfig = firewallConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallConfig = "FirewallConfig"
+        }
+    }
+
+    public struct UpdateFirewallDomainsRequest: AWSEncodableShape {
+        /// A list of domains to use in the update operation. Each domain specification in your domain list must satisfy the following requirements:    It can optionally start with * (asterisk).   With the exception of the optional starting asterisk, it must only contain the following characters: A-Z, a-z, 0-9, - (hyphen).   It must be from 1-255 characters in length.
+        public let domains: [String]
+        /// The ID of the domain list whose domains you want to update.
+        public let firewallDomainListId: String
+        /// What you want DNS Firewall to do with the domains that you are providing:     ADD - Add the domains to the ones that are already in the domain list.     REMOVE - Search the domain list for the domains and remove them from the list.    REPLACE - Update the domain list to exactly match the list that you are providing.
+        public let operation: FirewallDomainUpdateOperation
+
+        public init(domains: [String], firewallDomainListId: String, operation: FirewallDomainUpdateOperation) {
+            self.domains = domains
+            self.firewallDomainListId = firewallDomainListId
+            self.operation = operation
+        }
+
+        public func validate(name: String) throws {
+            try self.domains.forEach {
+                try validate($0, name: "domains[]", parent: name, max: 255)
+                try validate($0, name: "domains[]", parent: name, min: 1)
+            }
+            try self.domains.forEach {}
+            try self.firewallDomainListId.forEach {}
+            try self.validate(self.firewallDomainListId, name: "firewallDomainListId", parent: name, max: 64)
+            try self.validate(self.firewallDomainListId, name: "firewallDomainListId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domains = "Domains"
+            case firewallDomainListId = "FirewallDomainListId"
+            case operation = "Operation"
+        }
+    }
+
+    public struct UpdateFirewallDomainsResponse: AWSDecodableShape {
+        /// The Id of the firewall domain list that DNS Firewall just updated.
+        public let id: String?
+        /// The name of the domain list.
+        public let name: String?
+        public let status: FirewallDomainListStatus?
+        /// Additional information about the status of the list, if available.
+        public let statusMessage: String?
+
+        public init(id: String? = nil, name: String? = nil, status: FirewallDomainListStatus? = nil, statusMessage: String? = nil) {
+            self.id = id
+            self.name = name
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case name = "Name"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
+    public struct UpdateFirewallRuleGroupAssociationRequest: AWSEncodableShape {
+        /// The identifier of the FirewallRuleGroupAssociation.
+        public let firewallRuleGroupAssociationId: String
+        /// If enabled, this setting disallows modification or removal of the association, to help prevent against accidentally altering DNS firewall protections.
+        public let mutationProtection: MutationProtectionStatus?
+        /// The name of the rule group association.
+        public let name: String?
+        /// The setting that determines the processing order of the rule group among the rule groups that you associate with the specified VPC. DNS Firewall filters VPC traffic starting from rule group with the lowest numeric priority setting.  You must specify a unique priority for each rule group that you associate with a single VPC. To make it easier to insert rule groups later, leave space between the numbers, for example, use 100, 200, and so on. You can change the priority setting for a rule group association after you create it.
+        public let priority: Int?
+
+        public init(firewallRuleGroupAssociationId: String, mutationProtection: MutationProtectionStatus? = nil, name: String? = nil, priority: Int? = nil) {
+            self.firewallRuleGroupAssociationId = firewallRuleGroupAssociationId
+            self.mutationProtection = mutationProtection
+            self.name = name
+            self.priority = priority
+        }
+
+        public func validate(name: String) throws {
+            try self.firewallRuleGroupAssociationId.forEach {}
+            try self.validate(self.firewallRuleGroupAssociationId, name: "firewallRuleGroupAssociationId", parent: name, max: 64)
+            try self.validate(self.firewallRuleGroupAssociationId, name: "firewallRuleGroupAssociationId", parent: name, min: 1)
+            try self.name?.forEach {}
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9\\-_' ']+)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallRuleGroupAssociationId = "FirewallRuleGroupAssociationId"
+            case mutationProtection = "MutationProtection"
+            case name = "Name"
+            case priority = "Priority"
+        }
+    }
+
+    public struct UpdateFirewallRuleGroupAssociationResponse: AWSDecodableShape {
+        /// The association that you just updated.
+        public let firewallRuleGroupAssociation: FirewallRuleGroupAssociation?
+
+        public init(firewallRuleGroupAssociation: FirewallRuleGroupAssociation? = nil) {
+            self.firewallRuleGroupAssociation = firewallRuleGroupAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallRuleGroupAssociation = "FirewallRuleGroupAssociation"
+        }
+    }
+
+    public struct UpdateFirewallRuleRequest: AWSEncodableShape {
+        /// The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list:    ALLOW - Permit the request to go through.    ALERT - Permit the request to go through but send an alert to the logs.    BLOCK - Disallow the request. This option requires additional details in the rule's BlockResponse.
+        public let action: Action?
+        /// The DNS record's type. This determines the format of the record value that you provided in BlockOverrideDomain. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE.
+        public let blockOverrideDnsType: BlockOverrideDnsType?
+        /// The custom DNS record to send back in response to the query. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE.
+        public let blockOverrideDomain: String?
+        /// The recommended amount of time, in seconds, for the DNS resolver or web browser to cache the provided override record. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE.
+        public let blockOverrideTtl: Int?
+        /// The way that you want DNS Firewall to block the request. Used for the rule action setting BLOCK.    NODATA - Respond indicating that the query was successful, but no response is available for it.    NXDOMAIN - Respond indicating that the domain name that's in the query doesn't exist.    OVERRIDE - Provide a custom override in the response. This option requires custom handling details in the rule's BlockOverride* settings.
+        public let blockResponse: BlockResponse?
+        /// The ID of the domain list to use in the rule.
+        public let firewallDomainListId: String
+        /// The unique identifier of the firewall rule group for the rule.
+        public let firewallRuleGroupId: String
+        /// The name of the rule.
+        public let name: String?
+        /// The setting that determines the processing order of the rule in the rule group. DNS Firewall processes the rules in a rule group by order of priority, starting from the lowest setting. You must specify a unique priority for each rule in a rule group. To make it easier to insert rules later, leave space between the numbers, for example, use 100, 200, and so on. You can change the priority setting for the rules in a rule group at any time.
+        public let priority: Int?
+
+        public init(action: Action? = nil, blockOverrideDnsType: BlockOverrideDnsType? = nil, blockOverrideDomain: String? = nil, blockOverrideTtl: Int? = nil, blockResponse: BlockResponse? = nil, firewallDomainListId: String, firewallRuleGroupId: String, name: String? = nil, priority: Int? = nil) {
+            self.action = action
+            self.blockOverrideDnsType = blockOverrideDnsType
+            self.blockOverrideDomain = blockOverrideDomain
+            self.blockOverrideTtl = blockOverrideTtl
+            self.blockResponse = blockResponse
+            self.firewallDomainListId = firewallDomainListId
+            self.firewallRuleGroupId = firewallRuleGroupId
+            self.name = name
+            self.priority = priority
+        }
+
+        public func validate(name: String) throws {
+            try self.blockOverrideDomain?.forEach {}
+            try self.validate(self.blockOverrideDomain, name: "blockOverrideDomain", parent: name, max: 255)
+            try self.validate(self.blockOverrideDomain, name: "blockOverrideDomain", parent: name, min: 1)
+            try self.blockOverrideTtl?.forEach {}
+            try self.validate(self.blockOverrideTtl, name: "blockOverrideTtl", parent: name, max: 604_800)
+            try self.validate(self.blockOverrideTtl, name: "blockOverrideTtl", parent: name, min: 0)
+            try self.firewallDomainListId.forEach {}
+            try self.validate(self.firewallDomainListId, name: "firewallDomainListId", parent: name, max: 64)
+            try self.validate(self.firewallDomainListId, name: "firewallDomainListId", parent: name, min: 1)
+            try self.firewallRuleGroupId.forEach {}
+            try self.validate(self.firewallRuleGroupId, name: "firewallRuleGroupId", parent: name, max: 64)
+            try self.validate(self.firewallRuleGroupId, name: "firewallRuleGroupId", parent: name, min: 1)
+            try self.name?.forEach {}
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9\\-_' ']+)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case blockOverrideDnsType = "BlockOverrideDnsType"
+            case blockOverrideDomain = "BlockOverrideDomain"
+            case blockOverrideTtl = "BlockOverrideTtl"
+            case blockResponse = "BlockResponse"
+            case firewallDomainListId = "FirewallDomainListId"
+            case firewallRuleGroupId = "FirewallRuleGroupId"
+            case name = "Name"
+            case priority = "Priority"
+        }
+    }
+
+    public struct UpdateFirewallRuleResponse: AWSDecodableShape {
+        /// The firewall rule that you just updated.
+        public let firewallRule: FirewallRule?
+
+        public init(firewallRule: FirewallRule? = nil) {
+            self.firewallRule = firewallRule
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallRule = "FirewallRule"
+        }
     }
 
     public struct UpdateResolverDnssecConfigRequest: AWSEncodableShape {
@@ -1908,6 +3494,7 @@ extension Route53Resolver {
         }
 
         public func validate(name: String) throws {
+            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 64)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
         }
@@ -1943,8 +3530,10 @@ extension Route53Resolver {
         }
 
         public func validate(name: String) throws {
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9\\-_' ']+)")
+            try self.resolverEndpointId.forEach {}
             try self.validate(self.resolverEndpointId, name: "resolverEndpointId", parent: name, max: 64)
             try self.validate(self.resolverEndpointId, name: "resolverEndpointId", parent: name, min: 1)
         }
@@ -1981,6 +3570,8 @@ extension Route53Resolver {
 
         public func validate(name: String) throws {
             try self.config.validate(name: "\(name).config")
+            try self.config.forEach {}
+            try self.resolverRuleId.forEach {}
             try self.validate(self.resolverRuleId, name: "resolverRuleId", parent: name, max: 64)
             try self.validate(self.resolverRuleId, name: "resolverRuleId", parent: name, min: 1)
         }

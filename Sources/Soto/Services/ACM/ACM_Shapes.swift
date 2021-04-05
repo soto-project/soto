@@ -155,7 +155,7 @@ extension ACM {
     // MARK: Shapes
 
     public struct AddTagsToCertificateRequest: AWSEncodableShape {
-        /// String that contains the ARN of the ACM certificate to which the tag is to be applied. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        /// String that contains the ARN of the ACM certificate to which the tag is to be applied. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs).
         public let certificateArn: String
         /// The key-value pair that defines the tag. The tag value is optional.
         public let tags: [Tag]
@@ -166,12 +166,14 @@ extension ACM {
         }
 
         public func validate(name: String) throws {
+            try self.certificateArn.forEach {}
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
@@ -183,11 +185,11 @@ extension ACM {
     }
 
     public struct CertificateDetail: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the certificate. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+        /// The Amazon Resource Name (ARN) of the certificate. For more information about ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
         public let certificateArn: String?
         /// The Amazon Resource Name (ARN) of the ACM PCA private certificate authority (CA) that issued the certificate. This has the following format:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
         public let certificateAuthorityArn: String?
-        /// The time at which the certificate was requested. This value exists only when the certificate type is AMAZON_ISSUED.
+        /// The time at which the certificate was requested.
         public let createdAt: Date?
         /// The fully qualified domain name for the certificate, such as www.example.com or example.com.
         public let domainName: String?
@@ -309,7 +311,7 @@ extension ACM {
     }
 
     public struct CertificateSummary: AWSDecodableShape {
-        /// Amazon Resource Name (ARN) of the certificate. This is of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        /// Amazon Resource Name (ARN) of the certificate. This is of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs).
         public let certificateArn: String?
         /// Fully qualified domain name (FQDN), such as www.example.com or example.com, for the certificate.
         public let domainName: String?
@@ -326,7 +328,7 @@ extension ACM {
     }
 
     public struct DeleteCertificateRequest: AWSEncodableShape {
-        /// String that contains the ARN of the ACM certificate to be deleted. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        /// String that contains the ARN of the ACM certificate to be deleted. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs).
         public let certificateArn: String
 
         public init(certificateArn: String) {
@@ -334,6 +336,7 @@ extension ACM {
         }
 
         public func validate(name: String) throws {
+            try self.certificateArn.forEach {}
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
@@ -345,7 +348,7 @@ extension ACM {
     }
 
     public struct DescribeCertificateRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the ACM certificate. The ARN must have the following form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        /// The Amazon Resource Name (ARN) of the ACM certificate. The ARN must have the following form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs).
         public let certificateArn: String
 
         public init(certificateArn: String) {
@@ -353,6 +356,7 @@ extension ACM {
         }
 
         public func validate(name: String) throws {
+            try self.certificateArn.forEach {}
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
@@ -421,9 +425,11 @@ extension ACM {
         }
 
         public func validate(name: String) throws {
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 253)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^(\\*\\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
+            try self.validationDomain.forEach {}
             try self.validate(self.validationDomain, name: "validationDomain", parent: name, max: 253)
             try self.validate(self.validationDomain, name: "validationDomain", parent: name, min: 1)
             try self.validate(self.validationDomain, name: "validationDomain", parent: name, pattern: "^(\\*\\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
@@ -432,6 +438,24 @@ extension ACM {
         private enum CodingKeys: String, CodingKey {
             case domainName = "DomainName"
             case validationDomain = "ValidationDomain"
+        }
+    }
+
+    public struct ExpiryEventsConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the number of days prior to certificate expiration when ACM starts generating EventBridge events. ACM sends one event per day per certificate until the certificate expires. By default, accounts receive events starting 45 days before certificate expiration.
+        public let daysBeforeExpiry: Int?
+
+        public init(daysBeforeExpiry: Int? = nil) {
+            self.daysBeforeExpiry = daysBeforeExpiry
+        }
+
+        public func validate(name: String) throws {
+            try self.daysBeforeExpiry?.forEach {}
+            try self.validate(self.daysBeforeExpiry, name: "daysBeforeExpiry", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case daysBeforeExpiry = "DaysBeforeExpiry"
         }
     }
 
@@ -447,9 +471,11 @@ extension ACM {
         }
 
         public func validate(name: String) throws {
+            try self.certificateArn.forEach {}
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
+            try self.passphrase.forEach {}
             try self.validate(self.passphrase, name: "passphrase", parent: name, max: 128)
             try self.validate(self.passphrase, name: "passphrase", parent: name, min: 4)
         }
@@ -501,7 +527,7 @@ extension ACM {
     public struct Filters: AWSEncodableShape {
         /// Specify one or more ExtendedKeyUsage extension values.
         public let extendedKeyUsage: [ExtendedKeyUsageName]?
-        /// Specify one or more algorithms that can be used to generate key pairs. Default filtering returns only RSA_2048 certificates. To return other certificate types, provide the desired type signatures in a comma-separated list. For example, "keyTypes": ["RSA_2048,RSA_4096"] returns both RSA_2048 and RSA_4096 certificates.
+        /// Specify one or more algorithms that can be used to generate key pairs. Default filtering returns only RSA_1024 and RSA_2048 certificates that have at least one domain. To return other certificate types, provide the desired type signatures in a comma-separated list. For example, "keyTypes": ["RSA_2048,RSA_4096"] returns both RSA_2048 and RSA_4096 certificates.
         public let keyTypes: [KeyAlgorithm]?
         /// Specify one or more KeyUsage extension values.
         public let keyUsage: [KeyUsageName]?
@@ -519,8 +545,21 @@ extension ACM {
         }
     }
 
+    public struct GetAccountConfigurationResponse: AWSDecodableShape {
+        /// Expiration events configuration options associated with the AWS account.
+        public let expiryEvents: ExpiryEventsConfiguration?
+
+        public init(expiryEvents: ExpiryEventsConfiguration? = nil) {
+            self.expiryEvents = expiryEvents
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expiryEvents = "ExpiryEvents"
+        }
+    }
+
     public struct GetCertificateRequest: AWSEncodableShape {
-        /// String that contains a certificate ARN in the following format:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        /// String that contains a certificate ARN in the following format:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs).
         public let certificateArn: String
 
         public init(certificateArn: String) {
@@ -528,6 +567,7 @@ extension ACM {
         }
 
         public func validate(name: String) throws {
+            try self.certificateArn.forEach {}
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
@@ -576,18 +616,23 @@ extension ACM {
         }
 
         public func validate(name: String) throws {
+            try self.certificate.forEach {}
             try self.validate(self.certificate, name: "certificate", parent: name, max: 32768)
             try self.validate(self.certificate, name: "certificate", parent: name, min: 1)
+            try self.certificateArn?.forEach {}
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
+            try self.certificateChain?.forEach {}
             try self.validate(self.certificateChain, name: "certificateChain", parent: name, max: 2_097_152)
             try self.validate(self.certificateChain, name: "certificateChain", parent: name, min: 1)
+            try self.privateKey.forEach {}
             try self.validate(self.privateKey, name: "privateKey", parent: name, max: 5120)
             try self.validate(self.privateKey, name: "privateKey", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
@@ -645,8 +690,10 @@ extension ACM {
         }
 
         public func validate(name: String) throws {
+            try self.maxItems?.forEach {}
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 1000)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 10000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]*")
@@ -678,7 +725,7 @@ extension ACM {
     }
 
     public struct ListTagsForCertificateRequest: AWSEncodableShape {
-        /// String that contains the ARN of the ACM certificate for which you want to list the tags. This must have the following form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        /// String that contains the ARN of the ACM certificate for which you want to list the tags. This must have the following form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs).
         public let certificateArn: String
 
         public init(certificateArn: String) {
@@ -686,6 +733,7 @@ extension ACM {
         }
 
         public func validate(name: String) throws {
+            try self.certificateArn.forEach {}
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
@@ -709,8 +757,34 @@ extension ACM {
         }
     }
 
+    public struct PutAccountConfigurationRequest: AWSEncodableShape {
+        /// Specifies expiration events associated with an account.
+        public let expiryEvents: ExpiryEventsConfiguration?
+        /// Customer-chosen string used to distinguish between calls to PutAccountConfiguration. Idempotency tokens time out after one hour. If you call PutAccountConfiguration multiple times with the same unexpired idempotency token, ACM treats it as the same request and returns the original result. If you change the idempotency token for each call, ACM treats each call as a new request.
+        public let idempotencyToken: String
+
+        public init(expiryEvents: ExpiryEventsConfiguration? = nil, idempotencyToken: String) {
+            self.expiryEvents = expiryEvents
+            self.idempotencyToken = idempotencyToken
+        }
+
+        public func validate(name: String) throws {
+            try self.expiryEvents?.validate(name: "\(name).expiryEvents")
+            try self.expiryEvents?.forEach {}
+            try self.idempotencyToken.forEach {}
+            try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 32)
+            try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, min: 1)
+            try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, pattern: "\\w+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expiryEvents = "ExpiryEvents"
+            case idempotencyToken = "IdempotencyToken"
+        }
+    }
+
     public struct RemoveTagsFromCertificateRequest: AWSEncodableShape {
-        /// String that contains the ARN of the ACM Certificate with one or more tags that you want to remove. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        /// String that contains the ARN of the ACM Certificate with one or more tags that you want to remove. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs).
         public let certificateArn: String
         /// The key-value pair that defines the tag to remove.
         public let tags: [Tag]
@@ -721,12 +795,14 @@ extension ACM {
         }
 
         public func validate(name: String) throws {
+            try self.certificateArn.forEach {}
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
@@ -738,7 +814,7 @@ extension ACM {
     }
 
     public struct RenewCertificateRequest: AWSEncodableShape {
-        /// String that contains the ARN of the ACM certificate to be renewed. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
+        /// String that contains the ARN of the ACM certificate to be renewed. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs).
         public let certificateArn: String
 
         public init(certificateArn: String) {
@@ -746,6 +822,7 @@ extension ACM {
         }
 
         public func validate(name: String) throws {
+            try self.certificateArn.forEach {}
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
@@ -811,17 +888,21 @@ extension ACM {
         }
 
         public func validate(name: String) throws {
+            try self.certificateAuthorityArn?.forEach {}
             try self.validate(self.certificateAuthorityArn, name: "certificateAuthorityArn", parent: name, max: 2048)
             try self.validate(self.certificateAuthorityArn, name: "certificateAuthorityArn", parent: name, min: 20)
             try self.validate(self.certificateAuthorityArn, name: "certificateAuthorityArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
+            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 253)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^(\\*\\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
             try self.domainValidationOptions?.forEach {
                 try $0.validate(name: "\(name).domainValidationOptions[]")
             }
+            try self.domainValidationOptions?.forEach {}
             try self.validate(self.domainValidationOptions, name: "domainValidationOptions", parent: name, max: 100)
             try self.validate(self.domainValidationOptions, name: "domainValidationOptions", parent: name, min: 1)
+            try self.idempotencyToken?.forEach {}
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 32)
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, min: 1)
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, pattern: "\\w+")
@@ -830,11 +911,13 @@ extension ACM {
                 try validate($0, name: "subjectAlternativeNames[]", parent: name, min: 1)
                 try validate($0, name: "subjectAlternativeNames[]", parent: name, pattern: "^(\\*\\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
             }
+            try self.subjectAlternativeNames?.forEach {}
             try self.validate(self.subjectAlternativeNames, name: "subjectAlternativeNames", parent: name, max: 100)
             try self.validate(self.subjectAlternativeNames, name: "subjectAlternativeNames", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
@@ -879,12 +962,15 @@ extension ACM {
         }
 
         public func validate(name: String) throws {
+            try self.certificateArn.forEach {}
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
+            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 253)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "^(\\*\\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
+            try self.validationDomain.forEach {}
             try self.validate(self.validationDomain, name: "validationDomain", parent: name, max: 253)
             try self.validate(self.validationDomain, name: "validationDomain", parent: name, min: 1)
             try self.validate(self.validationDomain, name: "validationDomain", parent: name, pattern: "^(\\*\\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
@@ -930,9 +1016,11 @@ extension ACM {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "[\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@]*")
+            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
             try self.validate(self.value, name: "value", parent: name, pattern: "[\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@]*")
@@ -956,6 +1044,7 @@ extension ACM {
         }
 
         public func validate(name: String) throws {
+            try self.certificateArn.forEach {}
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")

@@ -46,6 +46,7 @@ extension PersonalizeRuntime {
         }
 
         public func validate(name: String) throws {
+            try self.campaignArn.forEach {}
             try self.validate(self.campaignArn, name: "campaignArn", parent: name, max: 256)
             try self.validate(self.campaignArn, name: "campaignArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
             try self.context?.forEach {
@@ -53,6 +54,7 @@ extension PersonalizeRuntime {
                 try validate($0.key, name: "context.key", parent: name, pattern: "[A-Za-z\\d_]+")
                 try validate($0.value, name: "context[\"\($0.key)\"]", parent: name, max: 1000)
             }
+            try self.filterArn?.forEach {}
             try self.validate(self.filterArn, name: "filterArn", parent: name, max: 256)
             try self.validate(self.filterArn, name: "filterArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
             try self.filterValues?.forEach {
@@ -63,6 +65,8 @@ extension PersonalizeRuntime {
             try self.inputList.forEach {
                 try validate($0, name: "inputList[]", parent: name, max: 256)
             }
+            try self.inputList.forEach {}
+            try self.userId.forEach {}
             try self.validate(self.userId, name: "userId", parent: name, max: 256)
         }
 
@@ -120,6 +124,7 @@ extension PersonalizeRuntime {
         }
 
         public func validate(name: String) throws {
+            try self.campaignArn.forEach {}
             try self.validate(self.campaignArn, name: "campaignArn", parent: name, max: 256)
             try self.validate(self.campaignArn, name: "campaignArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
             try self.context?.forEach {
@@ -127,6 +132,7 @@ extension PersonalizeRuntime {
                 try validate($0.key, name: "context.key", parent: name, pattern: "[A-Za-z\\d_]+")
                 try validate($0.value, name: "context[\"\($0.key)\"]", parent: name, max: 1000)
             }
+            try self.filterArn?.forEach {}
             try self.validate(self.filterArn, name: "filterArn", parent: name, max: 256)
             try self.validate(self.filterArn, name: "filterArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
             try self.filterValues?.forEach {
@@ -134,8 +140,11 @@ extension PersonalizeRuntime {
                 try validate($0.key, name: "filterValues.key", parent: name, pattern: "[A-Za-z0-9_]+")
                 try validate($0.value, name: "filterValues[\"\($0.key)\"]", parent: name, max: 1000)
             }
+            try self.itemId?.forEach {}
             try self.validate(self.itemId, name: "itemId", parent: name, max: 256)
+            try self.numResults?.forEach {}
             try self.validate(self.numResults, name: "numResults", parent: name, min: 0)
+            try self.userId?.forEach {}
             try self.validate(self.userId, name: "userId", parent: name, max: 256)
         }
 

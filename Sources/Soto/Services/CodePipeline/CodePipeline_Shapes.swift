@@ -189,7 +189,9 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try self.nonce.forEach {}
             try self.validate(self.nonce, name: "nonce", parent: name, max: 50)
             try self.validate(self.nonce, name: "nonce", parent: name, min: 1)
         }
@@ -228,10 +230,13 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 512)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
+            try self.nonce.forEach {}
             try self.validate(self.nonce, name: "nonce", parent: name, max: 50)
             try self.validate(self.nonce, name: "nonce", parent: name, min: 1)
         }
@@ -296,8 +301,10 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 160)
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 50)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -364,6 +371,7 @@ extension CodePipeline {
 
         public func validate(name: String) throws {
             try self.actionTypeId.validate(name: "\(name).actionTypeId")
+            try self.actionTypeId.forEach {}
             try self.configuration?.forEach {
                 try validate($0.key, name: "configuration.key", parent: name, max: 50)
                 try validate($0.key, name: "configuration.key", parent: name, min: 1)
@@ -373,19 +381,26 @@ extension CodePipeline {
             try self.inputArtifacts?.forEach {
                 try $0.validate(name: "\(name).inputArtifacts[]")
             }
+            try self.inputArtifacts?.forEach {}
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try self.namespace?.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 100)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "[A-Za-z0-9@\\-_]+")
             try self.outputArtifacts?.forEach {
                 try $0.validate(name: "\(name).outputArtifacts[]")
             }
+            try self.outputArtifacts?.forEach {}
+            try self.region?.forEach {}
             try self.validate(self.region, name: "region", parent: name, max: 30)
             try self.validate(self.region, name: "region", parent: name, min: 4)
+            try self.roleArn?.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1024)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:aws(-[\\w]+)*:iam::[0-9]{12}:role/.*")
+            try self.runOrder?.forEach {}
             try self.validate(self.runOrder, name: "runOrder", parent: name, max: 999)
             try self.validate(self.runOrder, name: "runOrder", parent: name, min: 1)
         }
@@ -510,6 +525,7 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.pipelineExecutionId?.forEach {}
             try self.validate(self.pipelineExecutionId, name: "pipelineExecutionId", parent: name, pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
         }
 
@@ -611,8 +627,10 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.revisionChangeId.forEach {}
             try self.validate(self.revisionChangeId, name: "revisionChangeId", parent: name, max: 100)
             try self.validate(self.revisionChangeId, name: "revisionChangeId", parent: name, min: 1)
+            try self.revisionId.forEach {}
             try self.validate(self.revisionId, name: "revisionId", parent: name, max: 1500)
             try self.validate(self.revisionId, name: "revisionId", parent: name, min: 1)
         }
@@ -683,9 +701,9 @@ extension CodePipeline {
     }
 
     public struct ActionTypeArtifactDetails: AWSEncodableShape & AWSDecodableShape {
-        /// The maximum allowed number of artifacts that can be used with the actiontype. For example, you should specify a minimum and maximum of zero input artifacts for an action type with a category of source.
+        /// The maximum number of artifacts that can be used with the actiontype. For example, you should specify a minimum and maximum of zero input artifacts for an action type with a category of source.
         public let maximumCount: Int
-        /// The minimum allowed number of artifacts that can be used with the action type. For example, you should specify a minimum and maximum of zero input artifacts for an action type with a category of source.
+        /// The minimum number of artifacts that can be used with the action type. For example, you should specify a minimum and maximum of zero input artifacts for an action type with a category of source.
         public let minimumCount: Int
 
         public init(maximumCount: Int, minimumCount: Int) {
@@ -694,8 +712,10 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.maximumCount.forEach {}
             try self.validate(self.maximumCount, name: "maximumCount", parent: name, max: 10)
             try self.validate(self.maximumCount, name: "maximumCount", parent: name, min: 0)
+            try self.minimumCount.forEach {}
             try self.validate(self.minimumCount, name: "minimumCount", parent: name, max: 10)
             try self.validate(self.minimumCount, name: "minimumCount", parent: name, min: 0)
         }
@@ -711,7 +731,7 @@ extension CodePipeline {
         public let description: String?
         /// Information about the executor for an action type that was created with any supported integration model.
         public let executor: ActionTypeExecutor
-        /// The action ID is composed of the action category, owner, provider, and version of the action type to be updated.
+        /// The action category, owner, provider, and version of the action type to be updated.
         public let id: ActionTypeIdentifier
         /// Details for the artifacts, such as application files, to be worked on by the action. For example, the minimum and maximum number of input artifacts allowed.
         public let inputArtifactDetails: ActionTypeArtifactDetails
@@ -736,18 +756,26 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.executor.validate(name: "\(name).executor")
+            try self.executor.forEach {}
             try self.id.validate(name: "\(name).id")
+            try self.id.forEach {}
             try self.inputArtifactDetails.validate(name: "\(name).inputArtifactDetails")
+            try self.inputArtifactDetails.forEach {}
             try self.outputArtifactDetails.validate(name: "\(name).outputArtifactDetails")
+            try self.outputArtifactDetails.forEach {}
             try self.permissions?.validate(name: "\(name).permissions")
+            try self.permissions?.forEach {}
             try self.properties?.forEach {
                 try $0.validate(name: "\(name).properties[]")
             }
+            try self.properties?.forEach {}
             try self.validate(self.properties, name: "properties", parent: name, max: 10)
             try self.urls?.validate(name: "\(name).urls")
+            try self.urls?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -765,11 +793,11 @@ extension CodePipeline {
     public struct ActionTypeExecutor: AWSEncodableShape & AWSDecodableShape {
         /// The action configuration properties for the action type. These properties are specified in the action definition when the action type is created.
         public let configuration: ExecutorConfiguration
-        /// The timeout in seconds for the job. An action execution can consist of multiple jobs. This is the timeout for a single job, and not for the entire action execution.
+        /// The timeout in seconds for the job. An action execution can have multiple jobs. This is the timeout for a single job, not the entire action execution.
         public let jobTimeout: Int?
-        /// The policy statement that specifies the permissions in the CodePipeline customer’s account that are needed to successfully run an action execution. To grant permission to another account, specify the account ID as the Principal. For AWS services, the Principal is a domain-style identifier defined by the service, like codepipeline.amazonaws.com.  The size of the passed JSON policy document cannot exceed 2048 characters.
+        /// The policy statement that specifies the permissions in the CodePipeline customer’s account that are needed to successfully run an action. To grant permission to another account, specify the account ID as the Principal, a domain-style identifier defined by the service, for example codepipeline.amazonaws.com.  The size of the passed JSON policy document cannot exceed 2048 characters.
         public let policyStatementsTemplate: String?
-        /// The integration model used to create and update the action type, such as the Lambda integration model. Each integration type has a related action engine, or executor. The available executor types are Lambda and JobWorker.
+        /// The integration model used to create and update the action type, Lambda or JobWorker.
         public let type: ExecutorType
 
         public init(configuration: ExecutorConfiguration, jobTimeout: Int? = nil, policyStatementsTemplate: String? = nil, type: ExecutorType) {
@@ -781,8 +809,11 @@ extension CodePipeline {
 
         public func validate(name: String) throws {
             try self.configuration.validate(name: "\(name).configuration")
+            try self.configuration.forEach {}
+            try self.jobTimeout?.forEach {}
             try self.validate(self.jobTimeout, name: "jobTimeout", parent: name, max: 43200)
             try self.validate(self.jobTimeout, name: "jobTimeout", parent: name, min: 60)
+            try self.policyStatementsTemplate?.forEach {}
             try self.validate(self.policyStatementsTemplate, name: "policyStatementsTemplate", parent: name, max: 2048)
             try self.validate(self.policyStatementsTemplate, name: "policyStatementsTemplate", parent: name, min: 1)
         }
@@ -813,9 +844,11 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.provider.forEach {}
             try self.validate(self.provider, name: "provider", parent: name, max: 35)
             try self.validate(self.provider, name: "provider", parent: name, min: 1)
             try self.validate(self.provider, name: "provider", parent: name, pattern: "[0-9A-Za-z_-]+")
+            try self.version.forEach {}
             try self.validate(self.version, name: "version", parent: name, max: 9)
             try self.validate(self.version, name: "version", parent: name, min: 1)
             try self.validate(self.version, name: "version", parent: name, pattern: "[0-9A-Za-z_-]+")
@@ -830,9 +863,9 @@ extension CodePipeline {
     }
 
     public struct ActionTypeIdentifier: AWSEncodableShape & AWSDecodableShape {
-        /// A category defines what kind of action can be taken in the stage. Valid categories are limited to one of the following values:    Source     Build     Test     Deploy     Approval     Invoke
+        /// Defines what kind of action can be taken in the stage, one of the following:    Source     Build     Test     Deploy     Approval     Invoke
         public let category: ActionCategory
-        /// The creator of the action type being called. There are two valid values for the owner field: AWS and ThirdParty.
+        /// The creator of the action type being called: AWS or ThirdParty.
         public let owner: String
         /// The provider of the action type being called. The provider name is supplied when the action type is created.
         public let provider: String
@@ -847,10 +880,13 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.owner.forEach {}
             try self.validate(self.owner, name: "owner", parent: name, pattern: "AWS|ThirdParty")
+            try self.provider.forEach {}
             try self.validate(self.provider, name: "provider", parent: name, max: 35)
             try self.validate(self.provider, name: "provider", parent: name, min: 1)
             try self.validate(self.provider, name: "provider", parent: name, pattern: "[0-9A-Za-z_-]+")
+            try self.version.forEach {}
             try self.validate(self.version, name: "version", parent: name, max: 9)
             try self.validate(self.version, name: "version", parent: name, min: 1)
             try self.validate(self.version, name: "version", parent: name, pattern: "[0-9A-Za-z_-]+")
@@ -865,7 +901,7 @@ extension CodePipeline {
     }
 
     public struct ActionTypePermissions: AWSEncodableShape & AWSDecodableShape {
-        /// A list of AWS account IDs with allow access to use the action type in their pipelines.
+        /// A list of AWS account IDs with access to use the action type in their pipelines.
         public let allowedAccounts: [String]
 
         public init(allowedAccounts: [String]) {
@@ -876,6 +912,7 @@ extension CodePipeline {
             try self.allowedAccounts.forEach {
                 try validate($0, name: "allowedAccounts[]", parent: name, pattern: "[0-9]{12}|\\*")
             }
+            try self.allowedAccounts.forEach {}
             try self.validate(self.allowedAccounts, name: "allowedAccounts", parent: name, max: 1000)
             try self.validate(self.allowedAccounts, name: "allowedAccounts", parent: name, min: 1)
         }
@@ -890,9 +927,9 @@ extension CodePipeline {
         public let description: String?
         /// Whether the configuration property is a key.
         public let key: Bool
-        /// The property name. This represents a field name that is displayed to users.
+        /// The property name that is displayed to users.
         public let name: String
-        /// Determines whether the field value entered by the customer is logged. If noEcho is true, the value is not shown in CloudTrail logs for the action execution.
+        /// Whether to omit the field value entered by the customer in the log. If true, the value is not saved in CloudTrail logs for the action execution.
         public let noEcho: Bool
         /// Whether the configuration property is an optional value.
         public let optional: Bool
@@ -909,8 +946,10 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 250)
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 50)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -943,12 +982,16 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.entityUrlTemplate?.forEach {}
             try self.validate(self.entityUrlTemplate, name: "entityUrlTemplate", parent: name, max: 2048)
             try self.validate(self.entityUrlTemplate, name: "entityUrlTemplate", parent: name, min: 1)
+            try self.executionUrlTemplate?.forEach {}
             try self.validate(self.executionUrlTemplate, name: "executionUrlTemplate", parent: name, max: 2048)
             try self.validate(self.executionUrlTemplate, name: "executionUrlTemplate", parent: name, min: 1)
+            try self.revisionUrlTemplate?.forEach {}
             try self.validate(self.revisionUrlTemplate, name: "revisionUrlTemplate", parent: name, max: 2048)
             try self.validate(self.revisionUrlTemplate, name: "revisionUrlTemplate", parent: name, min: 1)
+            try self.thirdPartyConfigurationUrl?.forEach {}
             try self.validate(self.thirdPartyConfigurationUrl, name: "thirdPartyConfigurationUrl", parent: name, max: 2048)
             try self.validate(self.thirdPartyConfigurationUrl, name: "thirdPartyConfigurationUrl", parent: name, min: 1)
         }
@@ -979,12 +1022,16 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.configurationUrl?.forEach {}
             try self.validate(self.configurationUrl, name: "configurationUrl", parent: name, max: 2048)
             try self.validate(self.configurationUrl, name: "configurationUrl", parent: name, min: 1)
+            try self.entityUrlTemplate?.forEach {}
             try self.validate(self.entityUrlTemplate, name: "entityUrlTemplate", parent: name, max: 2048)
             try self.validate(self.entityUrlTemplate, name: "entityUrlTemplate", parent: name, min: 1)
+            try self.executionUrlTemplate?.forEach {}
             try self.validate(self.executionUrlTemplate, name: "executionUrlTemplate", parent: name, max: 2048)
             try self.validate(self.executionUrlTemplate, name: "executionUrlTemplate", parent: name, min: 1)
+            try self.revisionUrlTemplate?.forEach {}
             try self.validate(self.revisionUrlTemplate, name: "revisionUrlTemplate", parent: name, max: 2048)
             try self.validate(self.revisionUrlTemplate, name: "revisionUrlTemplate", parent: name, min: 1)
         }
@@ -1009,6 +1056,7 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.summary.forEach {}
             try self.validate(self.summary, name: "summary", parent: name, max: 512)
             try self.validate(self.summary, name: "summary", parent: name, min: 0)
         }
@@ -1069,8 +1117,10 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.maximumCount.forEach {}
             try self.validate(self.maximumCount, name: "maximumCount", parent: name, max: 5)
             try self.validate(self.maximumCount, name: "maximumCount", parent: name, min: 0)
+            try self.minimumCount.forEach {}
             try self.validate(self.minimumCount, name: "minimumCount", parent: name, max: 5)
             try self.validate(self.minimumCount, name: "minimumCount", parent: name, min: 0)
         }
@@ -1147,6 +1197,8 @@ extension CodePipeline {
 
         public func validate(name: String) throws {
             try self.encryptionKey?.validate(name: "\(name).encryptionKey")
+            try self.encryptionKey?.forEach {}
+            try self.location.forEach {}
             try self.validate(self.location, name: "location", parent: name, max: 63)
             try self.validate(self.location, name: "location", parent: name, min: 3)
             try self.validate(self.location, name: "location", parent: name, pattern: "[a-zA-Z0-9\\-\\.]+")
@@ -1171,6 +1223,7 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -1214,16 +1267,23 @@ extension CodePipeline {
             try self.configurationProperties?.forEach {
                 try $0.validate(name: "\(name).configurationProperties[]")
             }
+            try self.configurationProperties?.forEach {}
             try self.validate(self.configurationProperties, name: "configurationProperties", parent: name, max: 10)
             try self.inputArtifactDetails.validate(name: "\(name).inputArtifactDetails")
+            try self.inputArtifactDetails.forEach {}
             try self.outputArtifactDetails.validate(name: "\(name).outputArtifactDetails")
+            try self.outputArtifactDetails.forEach {}
+            try self.provider.forEach {}
             try self.validate(self.provider, name: "provider", parent: name, max: 35)
             try self.validate(self.provider, name: "provider", parent: name, min: 1)
             try self.validate(self.provider, name: "provider", parent: name, pattern: "[0-9A-Za-z_-]+")
             try self.settings?.validate(name: "\(name).settings")
+            try self.settings?.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
+            try self.version.forEach {}
             try self.validate(self.version, name: "version", parent: name, max: 9)
             try self.validate(self.version, name: "version", parent: name, min: 1)
             try self.validate(self.version, name: "version", parent: name, pattern: "[0-9A-Za-z_-]+")
@@ -1271,9 +1331,11 @@ extension CodePipeline {
 
         public func validate(name: String) throws {
             try self.pipeline.validate(name: "\(name).pipeline")
+            try self.pipeline.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1317,10 +1379,13 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.changeIdentifier.forEach {}
             try self.validate(self.changeIdentifier, name: "changeIdentifier", parent: name, max: 100)
             try self.validate(self.changeIdentifier, name: "changeIdentifier", parent: name, min: 1)
+            try self.revision.forEach {}
             try self.validate(self.revision, name: "revision", parent: name, max: 1500)
             try self.validate(self.revision, name: "revision", parent: name, min: 1)
+            try self.revisionSummary?.forEach {}
             try self.validate(self.revisionSummary, name: "revisionSummary", parent: name, max: 2048)
             try self.validate(self.revisionSummary, name: "revisionSummary", parent: name, min: 1)
         }
@@ -1348,9 +1413,11 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.provider.forEach {}
             try self.validate(self.provider, name: "provider", parent: name, max: 35)
             try self.validate(self.provider, name: "provider", parent: name, min: 1)
             try self.validate(self.provider, name: "provider", parent: name, pattern: "[0-9A-Za-z_-]+")
+            try self.version.forEach {}
             try self.validate(self.version, name: "version", parent: name, max: 9)
             try self.validate(self.version, name: "version", parent: name, min: 1)
             try self.validate(self.version, name: "version", parent: name, pattern: "[0-9A-Za-z_-]+")
@@ -1372,6 +1439,7 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
@@ -1391,6 +1459,7 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
@@ -1414,6 +1483,7 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.webhookName?.forEach {}
             try self.validate(self.webhookName, name: "webhookName", parent: name, max: 100)
             try self.validate(self.webhookName, name: "webhookName", parent: name, min: 1)
             try self.validate(self.webhookName, name: "webhookName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
@@ -1446,12 +1516,15 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.pipelineName.forEach {}
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 100)
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, min: 1)
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try self.reason.forEach {}
             try self.validate(self.reason, name: "reason", parent: name, max: 300)
             try self.validate(self.reason, name: "reason", parent: name, min: 1)
             try self.validate(self.reason, name: "reason", parent: name, pattern: "[a-zA-Z0-9!@ \\(\\)\\.\\*\\?\\-]+")
+            try self.stageName.forEach {}
             try self.validate(self.stageName, name: "stageName", parent: name, max: 100)
             try self.validate(self.stageName, name: "stageName", parent: name, min: 1)
             try self.validate(self.stageName, name: "stageName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
@@ -1480,9 +1553,11 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.pipelineName.forEach {}
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 100)
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, min: 1)
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try self.stageName.forEach {}
             try self.validate(self.stageName, name: "stageName", parent: name, max: 100)
             try self.validate(self.stageName, name: "stageName", parent: name, min: 1)
             try self.validate(self.stageName, name: "stageName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
@@ -1507,6 +1582,7 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 400)
             try self.validate(self.id, name: "id", parent: name, min: 1)
         }
@@ -1549,10 +1625,13 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.externalExecutionId?.forEach {}
             try self.validate(self.externalExecutionId, name: "externalExecutionId", parent: name, max: 1500)
             try self.validate(self.externalExecutionId, name: "externalExecutionId", parent: name, min: 1)
+            try self.percentComplete?.forEach {}
             try self.validate(self.percentComplete, name: "percentComplete", parent: name, max: 100)
             try self.validate(self.percentComplete, name: "percentComplete", parent: name, min: 0)
+            try self.summary?.forEach {}
             try self.validate(self.summary, name: "summary", parent: name, max: 2048)
             try self.validate(self.summary, name: "summary", parent: name, min: 1)
         }
@@ -1594,7 +1673,9 @@ extension CodePipeline {
 
         public func validate(name: String) throws {
             try self.jobWorkerExecutorConfiguration?.validate(name: "\(name).jobWorkerExecutorConfiguration")
+            try self.jobWorkerExecutorConfiguration?.forEach {}
             try self.lambdaExecutorConfiguration?.validate(name: "\(name).lambdaExecutorConfiguration")
+            try self.lambdaExecutorConfiguration?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1618,8 +1699,10 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.externalExecutionId?.forEach {}
             try self.validate(self.externalExecutionId, name: "externalExecutionId", parent: name, max: 1500)
             try self.validate(self.externalExecutionId, name: "externalExecutionId", parent: name, min: 1)
+            try self.message.forEach {}
             try self.validate(self.message, name: "message", parent: name, max: 5000)
             try self.validate(self.message, name: "message", parent: name, min: 1)
         }
@@ -1632,9 +1715,9 @@ extension CodePipeline {
     }
 
     public struct GetActionTypeInput: AWSEncodableShape {
-        /// A category defines what kind of action can be taken in the stage. Valid categories are limited to one of the following values:    Source     Build     Test     Deploy     Approval     Invoke
+        /// Defines what kind of action can be taken in the stage. The following are the valid values:    Source     Build     Test     Deploy     Approval     Invoke
         public let category: ActionCategory
-        /// The creator of an action type that has been created with any supported integration model. There are two valid values for the owner field in the action type category: AWS and ThirdParty.
+        /// The creator of an action type that was created with any supported integration model. There are two valid values: AWS and ThirdParty.
         public let owner: String
         /// The provider of the action type being called. The provider name is specified when the action type is created.
         public let provider: String
@@ -1649,10 +1732,13 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.owner.forEach {}
             try self.validate(self.owner, name: "owner", parent: name, pattern: "AWS|ThirdParty")
+            try self.provider.forEach {}
             try self.validate(self.provider, name: "provider", parent: name, max: 35)
             try self.validate(self.provider, name: "provider", parent: name, min: 1)
             try self.validate(self.provider, name: "provider", parent: name, pattern: "[0-9A-Za-z_-]+")
+            try self.version.forEach {}
             try self.validate(self.version, name: "version", parent: name, max: 9)
             try self.validate(self.version, name: "version", parent: name, min: 1)
             try self.validate(self.version, name: "version", parent: name, pattern: "[0-9A-Za-z_-]+")
@@ -1688,6 +1774,7 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
         }
 
@@ -1721,7 +1808,9 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.pipelineExecutionId.forEach {}
             try self.validate(self.pipelineExecutionId, name: "pipelineExecutionId", parent: name, pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try self.pipelineName.forEach {}
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 100)
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, min: 1)
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
@@ -1758,9 +1847,11 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try self.version?.forEach {}
             try self.validate(self.version, name: "version", parent: name, min: 1)
         }
 
@@ -1796,6 +1887,7 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
@@ -1847,8 +1939,10 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 512)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
         }
@@ -1881,6 +1975,7 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9_\\-]+")
@@ -1993,12 +2088,14 @@ extension CodePipeline {
             try self.pollingAccounts?.forEach {
                 try validate($0, name: "pollingAccounts[]", parent: name, pattern: "[0-9]{12}")
             }
+            try self.pollingAccounts?.forEach {}
             try self.validate(self.pollingAccounts, name: "pollingAccounts", parent: name, max: 1000)
             try self.validate(self.pollingAccounts, name: "pollingAccounts", parent: name, min: 1)
             try self.pollingServicePrincipals?.forEach {
                 try validate($0, name: "pollingServicePrincipals[]", parent: name, max: 128)
                 try validate($0, name: "pollingServicePrincipals[]", parent: name, min: 1)
             }
+            try self.pollingServicePrincipals?.forEach {}
             try self.validate(self.pollingServicePrincipals, name: "pollingServicePrincipals", parent: name, max: 10)
             try self.validate(self.pollingServicePrincipals, name: "pollingServicePrincipals", parent: name, min: 1)
         }
@@ -2018,6 +2115,7 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.lambdaFunctionArn.forEach {}
             try self.validate(self.lambdaFunctionArn, name: "lambdaFunctionArn", parent: name, max: 140)
             try self.validate(self.lambdaFunctionArn, name: "lambdaFunctionArn", parent: name, min: 1)
             try self.validate(self.lambdaFunctionArn, name: "lambdaFunctionArn", parent: name, pattern: "arn:aws(-[\\w]+)*:lambda:.+:[0-9]{12}:function:.+")
@@ -2047,10 +2145,14 @@ extension CodePipeline {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
+            try self.filter?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.pipelineName.forEach {}
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 100)
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, min: 1)
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
@@ -2096,8 +2198,10 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.regionFilter?.forEach {}
             try self.validate(self.regionFilter, name: "regionFilter", parent: name, max: 30)
             try self.validate(self.regionFilter, name: "regionFilter", parent: name, min: 4)
         }
@@ -2141,10 +2245,13 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.pipelineName.forEach {}
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 100)
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, min: 1)
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
@@ -2175,19 +2282,27 @@ extension CodePipeline {
     }
 
     public struct ListPipelinesInput: AWSEncodableShape {
+        /// The maximum number of pipelines to return in a single call. To retrieve the remaining pipelines, make another call with the returned nextToken value. The minimum value you can specify is 1. The maximum accepted value is 1000.
+        public let maxResults: Int?
         /// An identifier that was returned from the previous list pipelines call. It can be used to return the next set of pipelines in the list.
         public let nextToken: String?
 
-        public init(nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case maxResults
             case nextToken
         }
     }
@@ -2224,10 +2339,13 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws(-[\\w]+)*:codepipeline:.+:[0-9]{12}:.+")
         }
 
@@ -2304,8 +2422,10 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2342,6 +2462,7 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9_\\-]+")
@@ -2406,19 +2527,24 @@ extension CodePipeline {
 
         public func validate(name: String) throws {
             try self.artifactStore?.validate(name: "\(name).artifactStore")
+            try self.artifactStore?.forEach {}
             try self.artifactStores?.forEach {
                 try validate($0.key, name: "artifactStores.key", parent: name, max: 30)
                 try validate($0.key, name: "artifactStores.key", parent: name, min: 4)
                 try $0.value.validate(name: "\(name).artifactStores[\"\($0.key)\"]")
             }
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1024)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:aws(-[\\w]+)*:iam::[0-9]{12}:role/.*")
             try self.stages.forEach {
                 try $0.validate(name: "\(name).stages[]")
             }
+            try self.stages.forEach {}
+            try self.version?.forEach {}
             try self.validate(self.version, name: "version", parent: name, min: 1)
         }
 
@@ -2564,6 +2690,8 @@ extension CodePipeline {
 
         public func validate(name: String) throws {
             try self.actionTypeId.validate(name: "\(name).actionTypeId")
+            try self.actionTypeId.forEach {}
+            try self.maxBatchSize?.forEach {}
             try self.validate(self.maxBatchSize, name: "maxBatchSize", parent: name, min: 1)
             try self.queryParam?.forEach {
                 try validate($0.key, name: "queryParam.key", parent: name, max: 50)
@@ -2607,6 +2735,8 @@ extension CodePipeline {
 
         public func validate(name: String) throws {
             try self.actionTypeId.validate(name: "\(name).actionTypeId")
+            try self.actionTypeId.forEach {}
+            try self.maxBatchSize?.forEach {}
             try self.validate(self.maxBatchSize, name: "maxBatchSize", parent: name, min: 1)
         }
 
@@ -2647,13 +2777,17 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.actionName.forEach {}
             try self.validate(self.actionName, name: "actionName", parent: name, max: 100)
             try self.validate(self.actionName, name: "actionName", parent: name, min: 1)
             try self.validate(self.actionName, name: "actionName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
             try self.actionRevision.validate(name: "\(name).actionRevision")
+            try self.actionRevision.forEach {}
+            try self.pipelineName.forEach {}
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 100)
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, min: 1)
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try self.stageName.forEach {}
             try self.validate(self.stageName, name: "stageName", parent: name, max: 100)
             try self.validate(self.stageName, name: "stageName", parent: name, min: 1)
             try self.validate(self.stageName, name: "stageName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
@@ -2705,16 +2839,21 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.actionName.forEach {}
             try self.validate(self.actionName, name: "actionName", parent: name, max: 100)
             try self.validate(self.actionName, name: "actionName", parent: name, min: 1)
             try self.validate(self.actionName, name: "actionName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try self.pipelineName.forEach {}
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 100)
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, min: 1)
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
             try self.result.validate(name: "\(name).result")
+            try self.result.forEach {}
+            try self.stageName.forEach {}
             try self.validate(self.stageName, name: "stageName", parent: name, max: 100)
             try self.validate(self.stageName, name: "stageName", parent: name, min: 1)
             try self.validate(self.stageName, name: "stageName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try self.token.forEach {}
             try self.validate(self.token, name: "token", parent: name, pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
         }
 
@@ -2753,6 +2892,8 @@ extension CodePipeline {
 
         public func validate(name: String) throws {
             try self.failureDetails.validate(name: "\(name).failureDetails")
+            try self.failureDetails.forEach {}
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
         }
 
@@ -2783,10 +2924,14 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.continuationToken?.forEach {}
             try self.validate(self.continuationToken, name: "continuationToken", parent: name, max: 2048)
             try self.validate(self.continuationToken, name: "continuationToken", parent: name, min: 1)
             try self.currentRevision?.validate(name: "\(name).currentRevision")
+            try self.currentRevision?.forEach {}
             try self.executionDetails?.validate(name: "\(name).executionDetails")
+            try self.executionDetails?.forEach {}
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
             try self.outputVariables?.forEach {
                 try validate($0.key, name: "outputVariables.key", parent: name, pattern: "[A-Za-z0-9@\\-_]+")
@@ -2817,9 +2962,12 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.failureDetails.validate(name: "\(name).failureDetails")
+            try self.failureDetails.forEach {}
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 512)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
         }
@@ -2852,12 +3000,17 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.continuationToken?.forEach {}
             try self.validate(self.continuationToken, name: "continuationToken", parent: name, max: 2048)
             try self.validate(self.continuationToken, name: "continuationToken", parent: name, min: 1)
             try self.currentRevision?.validate(name: "\(name).currentRevision")
+            try self.currentRevision?.forEach {}
             try self.executionDetails?.validate(name: "\(name).executionDetails")
+            try self.executionDetails?.forEach {}
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 512)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
         }
@@ -2886,7 +3039,9 @@ extension CodePipeline {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.webhook.validate(name: "\(name).webhook")
+            try self.webhook.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2917,6 +3072,7 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.webhookName?.forEach {}
             try self.validate(self.webhookName, name: "webhookName", parent: name, max: 100)
             try self.validate(self.webhookName, name: "webhookName", parent: name, min: 1)
             try self.validate(self.webhookName, name: "webhookName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
@@ -2949,10 +3105,13 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.pipelineExecutionId.forEach {}
             try self.validate(self.pipelineExecutionId, name: "pipelineExecutionId", parent: name, pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try self.pipelineName.forEach {}
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 100)
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, min: 1)
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try self.stageName.forEach {}
             try self.validate(self.stageName, name: "stageName", parent: name, max: 100)
             try self.validate(self.stageName, name: "stageName", parent: name, min: 1)
             try self.validate(self.stageName, name: "stageName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
@@ -3069,9 +3228,12 @@ extension CodePipeline {
             try self.actions.forEach {
                 try $0.validate(name: "\(name).actions[]")
             }
+            try self.actions.forEach {}
             try self.blockers?.forEach {
                 try $0.validate(name: "\(name).blockers[]")
             }
+            try self.blockers?.forEach {}
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
@@ -3141,9 +3303,11 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 128)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
@@ -3199,10 +3363,13 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.pipelineExecutionId.forEach {}
             try self.validate(self.pipelineExecutionId, name: "pipelineExecutionId", parent: name, pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try self.pipelineName.forEach {}
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 100)
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, min: 1)
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try self.reason?.forEach {}
             try self.validate(self.reason, name: "reason", parent: name, max: 200)
         }
 
@@ -3239,8 +3406,10 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
         }
@@ -3263,10 +3432,12 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws(-[\\w]+)*:codepipeline:.+:[0-9]{12}:.+")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3395,11 +3566,13 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws(-[\\w]+)*:codepipeline:.+:[0-9]{12}:.+")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
+            try self.tagKeys.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3414,14 +3587,15 @@ extension CodePipeline {
 
     public struct UpdateActionTypeInput: AWSEncodableShape {
         /// The action type definition for the action type to be updated.
-        public let actionType: ActionTypeDeclaration?
+        public let actionType: ActionTypeDeclaration
 
-        public init(actionType: ActionTypeDeclaration? = nil) {
+        public init(actionType: ActionTypeDeclaration) {
             self.actionType = actionType
         }
 
         public func validate(name: String) throws {
-            try self.actionType?.validate(name: "\(name).actionType")
+            try self.actionType.validate(name: "\(name).actionType")
+            try self.actionType.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3439,6 +3613,7 @@ extension CodePipeline {
 
         public func validate(name: String) throws {
             try self.pipeline.validate(name: "\(name).pipeline")
+            try self.pipeline.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3471,8 +3646,10 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.allowedIPRange?.forEach {}
             try self.validate(self.allowedIPRange, name: "allowedIPRange", parent: name, max: 100)
             try self.validate(self.allowedIPRange, name: "allowedIPRange", parent: name, min: 1)
+            try self.secretToken?.forEach {}
             try self.validate(self.secretToken, name: "secretToken", parent: name, max: 100)
             try self.validate(self.secretToken, name: "secretToken", parent: name, min: 1)
         }
@@ -3508,16 +3685,21 @@ extension CodePipeline {
 
         public func validate(name: String) throws {
             try self.authenticationConfiguration.validate(name: "\(name).authenticationConfiguration")
+            try self.authenticationConfiguration.forEach {}
             try self.filters.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 5)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try self.targetAction.forEach {}
             try self.validate(self.targetAction, name: "targetAction", parent: name, max: 100)
             try self.validate(self.targetAction, name: "targetAction", parent: name, min: 1)
             try self.validate(self.targetAction, name: "targetAction", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
+            try self.targetPipeline.forEach {}
             try self.validate(self.targetPipeline, name: "targetPipeline", parent: name, max: 100)
             try self.validate(self.targetPipeline, name: "targetPipeline", parent: name, min: 1)
             try self.validate(self.targetPipeline, name: "targetPipeline", parent: name, pattern: "[A-Za-z0-9.@\\-_]+")
@@ -3545,8 +3727,10 @@ extension CodePipeline {
         }
 
         public func validate(name: String) throws {
+            try self.jsonPath.forEach {}
             try self.validate(self.jsonPath, name: "jsonPath", parent: name, max: 150)
             try self.validate(self.jsonPath, name: "jsonPath", parent: name, min: 1)
+            try self.matchEquals?.forEach {}
             try self.validate(self.matchEquals, name: "matchEquals", parent: name, max: 150)
             try self.validate(self.matchEquals, name: "matchEquals", parent: name, min: 1)
         }

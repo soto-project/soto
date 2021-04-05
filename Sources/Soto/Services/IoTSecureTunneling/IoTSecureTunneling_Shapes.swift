@@ -46,6 +46,7 @@ extension IoTSecureTunneling {
         }
 
         public func validate(name: String) throws {
+            try self.tunnelId.forEach {}
             try self.validate(self.tunnelId, name: "tunnelId", parent: name, pattern: "[a-zA-Z0-9_\\-+=:]{1,128}")
         }
 
@@ -85,6 +86,7 @@ extension IoTSecureTunneling {
         }
 
         public func validate(name: String) throws {
+            try self.tunnelId.forEach {}
             try self.validate(self.tunnelId, name: "tunnelId", parent: name, pattern: "[a-zA-Z0-9_\\-+=:]{1,128}")
         }
 
@@ -123,7 +125,9 @@ extension IoTSecureTunneling {
                 try validate($0, name: "services[]", parent: name, min: 1)
                 try validate($0, name: "services[]", parent: name, pattern: "[a-zA-Z0-9:_-]+")
             }
+            try self.services.forEach {}
             try self.validate(self.services, name: "services", parent: name, min: 1)
+            try self.thingName?.forEach {}
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
             try self.validate(self.thingName, name: "thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -144,6 +148,7 @@ extension IoTSecureTunneling {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
         }
@@ -181,9 +186,12 @@ extension IoTSecureTunneling {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9_=-]{1,4096}")
+            try self.thingName?.forEach {}
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
             try self.validate(self.thingName, name: "thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -231,14 +239,18 @@ extension IoTSecureTunneling {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, pattern: "[^\\p{C}]{1,2048}")
             try self.destinationConfig?.validate(name: "\(name).destinationConfig")
+            try self.destinationConfig?.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
             try self.timeoutConfig?.validate(name: "\(name).timeoutConfig")
+            try self.timeoutConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -286,9 +298,11 @@ extension IoTSecureTunneling {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
             try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -312,11 +326,13 @@ extension IoTSecureTunneling {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
@@ -340,6 +356,7 @@ extension IoTSecureTunneling {
         }
 
         public func validate(name: String) throws {
+            try self.maxLifetimeTimeoutMinutes?.forEach {}
             try self.validate(self.maxLifetimeTimeoutMinutes, name: "maxLifetimeTimeoutMinutes", parent: name, max: 720)
             try self.validate(self.maxLifetimeTimeoutMinutes, name: "maxLifetimeTimeoutMinutes", parent: name, min: 1)
         }
@@ -447,6 +464,7 @@ extension IoTSecureTunneling {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.tagKeys.forEach {
@@ -454,6 +472,7 @@ extension IoTSecureTunneling {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
         }

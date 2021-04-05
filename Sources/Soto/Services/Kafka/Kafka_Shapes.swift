@@ -203,9 +203,11 @@ extension Kafka {
         }
 
         public func validate(name: String) throws {
+            try self.instanceType.forEach {}
             try self.validate(self.instanceType, name: "instanceType", parent: name, max: 32)
             try self.validate(self.instanceType, name: "instanceType", parent: name, min: 5)
             try self.storageInfo?.validate(name: "\(name).storageInfo")
+            try self.storageInfo?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -597,10 +599,14 @@ extension Kafka {
 
         public func validate(name: String) throws {
             try self.brokerNodeGroupInfo.validate(name: "\(name).brokerNodeGroupInfo")
+            try self.brokerNodeGroupInfo.forEach {}
+            try self.clusterName.forEach {}
             try self.validate(self.clusterName, name: "clusterName", parent: name, max: 64)
             try self.validate(self.clusterName, name: "clusterName", parent: name, min: 1)
+            try self.kafkaVersion.forEach {}
             try self.validate(self.kafkaVersion, name: "kafkaVersion", parent: name, max: 128)
             try self.validate(self.kafkaVersion, name: "kafkaVersion", parent: name, min: 1)
+            try self.numberOfBrokerNodes.forEach {}
             try self.validate(self.numberOfBrokerNodes, name: "numberOfBrokerNodes", parent: name, max: 15)
             try self.validate(self.numberOfBrokerNodes, name: "numberOfBrokerNodes", parent: name, min: 1)
         }
@@ -922,6 +928,7 @@ extension Kafka {
         }
 
         public func validate(name: String) throws {
+            try self.volumeSize?.forEach {}
             try self.validate(self.volumeSize, name: "volumeSize", parent: name, max: 16384)
             try self.validate(self.volumeSize, name: "volumeSize", parent: name, min: 1)
         }
@@ -1139,6 +1146,7 @@ extension Kafka {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1181,6 +1189,7 @@ extension Kafka {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1223,6 +1232,7 @@ extension Kafka {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1262,6 +1272,7 @@ extension Kafka {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1301,6 +1312,7 @@ extension Kafka {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1343,6 +1355,7 @@ extension Kafka {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1385,6 +1398,7 @@ extension Kafka {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1699,6 +1713,7 @@ extension Kafka {
 
         public func validate(name: String) throws {
             try self.ebsStorageInfo?.validate(name: "\(name).ebsStorageInfo")
+            try self.ebsStorageInfo?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1791,6 +1806,7 @@ extension Kafka {
         }
 
         public func validate(name: String) throws {
+            try self.targetNumberOfBrokerNodes.forEach {}
             try self.validate(self.targetNumberOfBrokerNodes, name: "targetNumberOfBrokerNodes", parent: name, max: 15)
             try self.validate(self.targetNumberOfBrokerNodes, name: "targetNumberOfBrokerNodes", parent: name, min: 1)
         }

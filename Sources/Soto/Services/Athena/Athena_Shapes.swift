@@ -74,6 +74,7 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
+            try self.namedQueryIds.forEach {}
             try self.validate(self.namedQueryIds, name: "namedQueryIds", parent: name, max: 50)
             try self.validate(self.namedQueryIds, name: "namedQueryIds", parent: name, min: 1)
         }
@@ -109,6 +110,7 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
+            try self.queryExecutionIds.forEach {}
             try self.validate(self.queryExecutionIds, name: "queryExecutionIds", parent: name, max: 50)
             try self.validate(self.queryExecutionIds, name: "queryExecutionIds", parent: name, min: 1)
         }
@@ -226,8 +228,10 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -240,6 +244,7 @@ extension Athena {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -279,16 +284,22 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
+            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 128)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
+            try self.database.forEach {}
             try self.validate(self.database, name: "database", parent: name, max: 255)
             try self.validate(self.database, name: "database", parent: name, min: 1)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.queryString.forEach {}
             try self.validate(self.queryString, name: "queryString", parent: name, max: 262_144)
             try self.validate(self.queryString, name: "queryString", parent: name, min: 1)
+            try self.workGroup?.forEach {}
             try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
         }
 
@@ -315,6 +326,50 @@ extension Athena {
         }
     }
 
+    public struct CreatePreparedStatementInput: AWSEncodableShape {
+        /// The description of the prepared statement.
+        public let description: String?
+        /// The query string for the prepared statement.
+        public let queryStatement: String
+        /// The name of the prepared statement.
+        public let statementName: String
+        /// The name of the workgroup to which the prepared statement belongs.
+        public let workGroup: String
+
+        public init(description: String? = nil, queryStatement: String, statementName: String, workGroup: String) {
+            self.description = description
+            self.queryStatement = queryStatement
+            self.statementName = statementName
+            self.workGroup = workGroup
+        }
+
+        public func validate(name: String) throws {
+            try self.description?.forEach {}
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.queryStatement.forEach {}
+            try self.validate(self.queryStatement, name: "queryStatement", parent: name, max: 262_144)
+            try self.validate(self.queryStatement, name: "queryStatement", parent: name, min: 1)
+            try self.statementName.forEach {}
+            try self.validate(self.statementName, name: "statementName", parent: name, max: 256)
+            try self.validate(self.statementName, name: "statementName", parent: name, min: 1)
+            try self.validate(self.statementName, name: "statementName", parent: name, pattern: "[a-zA-Z_][a-zA-Z0-9_@:]{1,256}")
+            try self.workGroup.forEach {}
+            try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case queryStatement = "QueryStatement"
+            case statementName = "StatementName"
+            case workGroup = "WorkGroup"
+        }
+    }
+
+    public struct CreatePreparedStatementOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct CreateWorkGroupInput: AWSEncodableShape {
         /// The configuration for the workgroup, which includes the location in Amazon S3 where query results are stored, the encryption configuration, if any, used for encrypting query results, whether the Amazon CloudWatch Metrics are enabled for the workgroup, the limit for the amount of bytes scanned (cutoff) per query, if it is specified, and whether workgroup's settings (specified with EnforceWorkGroupConfiguration) in the WorkGroupConfiguration override client-side settings. See WorkGroupConfiguration$EnforceWorkGroupConfiguration.
         public let configuration: WorkGroupConfiguration?
@@ -334,12 +389,16 @@ extension Athena {
 
         public func validate(name: String) throws {
             try self.configuration?.validate(name: "\(name).configuration")
+            try self.configuration?.forEach {}
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -439,6 +498,7 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -470,6 +530,36 @@ extension Athena {
         public init() {}
     }
 
+    public struct DeletePreparedStatementInput: AWSEncodableShape {
+        /// The name of the prepared statement to delete.
+        public let statementName: String
+        /// The workgroup to which the statement to be deleted belongs.
+        public let workGroup: String
+
+        public init(statementName: String, workGroup: String) {
+            self.statementName = statementName
+            self.workGroup = workGroup
+        }
+
+        public func validate(name: String) throws {
+            try self.statementName.forEach {}
+            try self.validate(self.statementName, name: "statementName", parent: name, max: 256)
+            try self.validate(self.statementName, name: "statementName", parent: name, min: 1)
+            try self.validate(self.statementName, name: "statementName", parent: name, pattern: "[a-zA-Z_][a-zA-Z0-9_@:]{1,256}")
+            try self.workGroup.forEach {}
+            try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statementName = "StatementName"
+            case workGroup = "WorkGroup"
+        }
+    }
+
+    public struct DeletePreparedStatementOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteWorkGroupInput: AWSEncodableShape {
         /// The option to delete the workgroup and its contents even if the workgroup contains any named queries or query executions.
         public let recursiveDeleteOption: Bool?
@@ -482,6 +572,7 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
+            try self.workGroup.forEach {}
             try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
         }
 
@@ -524,8 +615,10 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
+            try self.effectiveEngineVersion?.forEach {}
             try self.validate(self.effectiveEngineVersion, name: "effectiveEngineVersion", parent: name, max: 128)
             try self.validate(self.effectiveEngineVersion, name: "effectiveEngineVersion", parent: name, min: 1)
+            try self.selectedEngineVersion?.forEach {}
             try self.validate(self.selectedEngineVersion, name: "selectedEngineVersion", parent: name, max: 128)
             try self.validate(self.selectedEngineVersion, name: "selectedEngineVersion", parent: name, min: 1)
         }
@@ -545,6 +638,7 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -580,9 +674,11 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
+            try self.catalogName.forEach {}
             try self.validate(self.catalogName, name: "catalogName", parent: name, max: 256)
             try self.validate(self.catalogName, name: "catalogName", parent: name, min: 1)
             try self.validate(self.catalogName, name: "catalogName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 128)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
         }
@@ -632,6 +728,45 @@ extension Athena {
         }
     }
 
+    public struct GetPreparedStatementInput: AWSEncodableShape {
+        /// The name of the prepared statement to retrieve.
+        public let statementName: String
+        /// The workgroup to which the statement to be retrieved belongs.
+        public let workGroup: String
+
+        public init(statementName: String, workGroup: String) {
+            self.statementName = statementName
+            self.workGroup = workGroup
+        }
+
+        public func validate(name: String) throws {
+            try self.statementName.forEach {}
+            try self.validate(self.statementName, name: "statementName", parent: name, max: 256)
+            try self.validate(self.statementName, name: "statementName", parent: name, min: 1)
+            try self.validate(self.statementName, name: "statementName", parent: name, pattern: "[a-zA-Z_][a-zA-Z0-9_@:]{1,256}")
+            try self.workGroup.forEach {}
+            try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statementName = "StatementName"
+            case workGroup = "WorkGroup"
+        }
+    }
+
+    public struct GetPreparedStatementOutput: AWSDecodableShape {
+        /// The name of the prepared statement that was retrieved.
+        public let preparedStatement: PreparedStatement?
+
+        public init(preparedStatement: PreparedStatement? = nil) {
+            self.preparedStatement = preparedStatement
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case preparedStatement = "PreparedStatement"
+        }
+    }
+
     public struct GetQueryExecutionInput: AWSEncodableShape {
         /// The unique ID of the query execution.
         public let queryExecutionId: String
@@ -673,8 +808,10 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -722,11 +859,14 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
+            try self.catalogName.forEach {}
             try self.validate(self.catalogName, name: "catalogName", parent: name, max: 256)
             try self.validate(self.catalogName, name: "catalogName", parent: name, min: 1)
             try self.validate(self.catalogName, name: "catalogName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 128)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try self.tableName.forEach {}
             try self.validate(self.tableName, name: "tableName", parent: name, max: 128)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
         }
@@ -760,6 +900,7 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
+            try self.workGroup.forEach {}
             try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
         }
 
@@ -793,8 +934,10 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 2)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -837,11 +980,14 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
+            try self.catalogName.forEach {}
             try self.validate(self.catalogName, name: "catalogName", parent: name, max: 256)
             try self.validate(self.catalogName, name: "catalogName", parent: name, min: 1)
             try self.validate(self.catalogName, name: "catalogName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -882,8 +1028,10 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -926,10 +1074,13 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.workGroup?.forEach {}
             try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
         }
 
@@ -957,6 +1108,55 @@ extension Athena {
         }
     }
 
+    public struct ListPreparedStatementsInput: AWSEncodableShape {
+        /// The maximum number of results to return in this request.
+        public let maxResults: Int?
+        /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+        public let nextToken: String?
+        /// The workgroup to list the prepared statements for.
+        public let workGroup: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, workGroup: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.workGroup = workGroup
+        }
+
+        public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.workGroup.forEach {}
+            try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case workGroup = "WorkGroup"
+        }
+    }
+
+    public struct ListPreparedStatementsOutput: AWSDecodableShape {
+        /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+        public let nextToken: String?
+        /// The list of prepared statements for the workgroup.
+        public let preparedStatements: [PreparedStatementSummary]?
+
+        public init(nextToken: String? = nil, preparedStatements: [PreparedStatementSummary]? = nil) {
+            self.nextToken = nextToken
+            self.preparedStatements = preparedStatements
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case preparedStatements = "PreparedStatements"
+        }
+    }
+
     public struct ListQueryExecutionsInput: AWSEncodableShape {
         /// The maximum number of query executions to return in this request.
         public let maxResults: Int?
@@ -972,10 +1172,13 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.workGroup?.forEach {}
             try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
         }
 
@@ -1024,15 +1227,20 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
+            try self.catalogName.forEach {}
             try self.validate(self.catalogName, name: "catalogName", parent: name, max: 256)
             try self.validate(self.catalogName, name: "catalogName", parent: name, min: 1)
             try self.validate(self.catalogName, name: "catalogName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 128)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try self.expression?.forEach {}
             try self.validate(self.expression, name: "expression", parent: name, max: 256)
             try self.validate(self.expression, name: "expression", parent: name, min: 0)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1078,9 +1286,12 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 75)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
         }
@@ -1121,8 +1332,10 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1183,6 +1396,52 @@ extension Athena {
         }
     }
 
+    public struct PreparedStatement: AWSDecodableShape {
+        /// The description of the prepared statement.
+        public let description: String?
+        /// The last modified time of the prepared statement.
+        public let lastModifiedTime: Date?
+        /// The query string for the prepared statement.
+        public let queryStatement: String?
+        /// The name of the prepared statement.
+        public let statementName: String?
+        /// The name of the workgroup to which the prepared statement belongs.
+        public let workGroupName: String?
+
+        public init(description: String? = nil, lastModifiedTime: Date? = nil, queryStatement: String? = nil, statementName: String? = nil, workGroupName: String? = nil) {
+            self.description = description
+            self.lastModifiedTime = lastModifiedTime
+            self.queryStatement = queryStatement
+            self.statementName = statementName
+            self.workGroupName = workGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case lastModifiedTime = "LastModifiedTime"
+            case queryStatement = "QueryStatement"
+            case statementName = "StatementName"
+            case workGroupName = "WorkGroupName"
+        }
+    }
+
+    public struct PreparedStatementSummary: AWSDecodableShape {
+        /// The last modified time of the prepared statement.
+        public let lastModifiedTime: Date?
+        /// The name of the prepared statement.
+        public let statementName: String?
+
+        public init(lastModifiedTime: Date? = nil, statementName: String? = nil) {
+            self.lastModifiedTime = lastModifiedTime
+            self.statementName = statementName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastModifiedTime = "LastModifiedTime"
+            case statementName = "StatementName"
+        }
+    }
+
     public struct QueryExecution: AWSDecodableShape {
         /// The engine version that executed the query.
         public let engineVersion: EngineVersion?
@@ -1240,9 +1499,11 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
+            try self.catalog?.forEach {}
             try self.validate(self.catalog, name: "catalog", parent: name, max: 256)
             try self.validate(self.catalog, name: "catalog", parent: name, min: 1)
             try self.validate(self.catalog, name: "catalog", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.database?.forEach {}
             try self.validate(self.database, name: "database", parent: name, max: 255)
             try self.validate(self.database, name: "database", parent: name, min: 1)
         }
@@ -1421,11 +1682,15 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
+            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 128)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
             try self.queryExecutionContext?.validate(name: "\(name).queryExecutionContext")
+            try self.queryExecutionContext?.forEach {}
+            try self.queryString.forEach {}
             try self.validate(self.queryString, name: "queryString", parent: name, max: 262_144)
             try self.validate(self.queryString, name: "queryString", parent: name, min: 1)
+            try self.workGroup?.forEach {}
             try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
         }
 
@@ -1517,8 +1782,10 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
+            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
         }
@@ -1541,11 +1808,13 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1612,12 +1881,14 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
+            try self.tagKeys.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1648,8 +1919,10 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -1673,6 +1946,50 @@ extension Athena {
         public init() {}
     }
 
+    public struct UpdatePreparedStatementInput: AWSEncodableShape {
+        /// The description of the prepared statement.
+        public let description: String?
+        /// The query string for the prepared statement.
+        public let queryStatement: String
+        /// The name of the prepared statement.
+        public let statementName: String
+        /// The workgroup for the prepared statement.
+        public let workGroup: String
+
+        public init(description: String? = nil, queryStatement: String, statementName: String, workGroup: String) {
+            self.description = description
+            self.queryStatement = queryStatement
+            self.statementName = statementName
+            self.workGroup = workGroup
+        }
+
+        public func validate(name: String) throws {
+            try self.description?.forEach {}
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.queryStatement.forEach {}
+            try self.validate(self.queryStatement, name: "queryStatement", parent: name, max: 262_144)
+            try self.validate(self.queryStatement, name: "queryStatement", parent: name, min: 1)
+            try self.statementName.forEach {}
+            try self.validate(self.statementName, name: "statementName", parent: name, max: 256)
+            try self.validate(self.statementName, name: "statementName", parent: name, min: 1)
+            try self.validate(self.statementName, name: "statementName", parent: name, pattern: "[a-zA-Z_][a-zA-Z0-9_@:]{1,256}")
+            try self.workGroup.forEach {}
+            try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case queryStatement = "QueryStatement"
+            case statementName = "StatementName"
+            case workGroup = "WorkGroup"
+        }
+    }
+
+    public struct UpdatePreparedStatementOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateWorkGroupInput: AWSEncodableShape {
         /// The workgroup configuration that will be updated for the given workgroup.
         public let configurationUpdates: WorkGroupConfigurationUpdates?
@@ -1692,8 +2009,11 @@ extension Athena {
 
         public func validate(name: String) throws {
             try self.configurationUpdates?.validate(name: "\(name).configurationUpdates")
+            try self.configurationUpdates?.forEach {}
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.workGroup.forEach {}
             try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
         }
 
@@ -1762,8 +2082,10 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
+            try self.bytesScannedCutoffPerQuery?.forEach {}
             try self.validate(self.bytesScannedCutoffPerQuery, name: "bytesScannedCutoffPerQuery", parent: name, min: 10_000_000)
             try self.engineVersion?.validate(name: "\(name).engineVersion")
+            try self.engineVersion?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1803,8 +2125,10 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
+            try self.bytesScannedCutoffPerQuery?.forEach {}
             try self.validate(self.bytesScannedCutoffPerQuery, name: "bytesScannedCutoffPerQuery", parent: name, min: 10_000_000)
             try self.engineVersion?.validate(name: "\(name).engineVersion")
+            try self.engineVersion?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {

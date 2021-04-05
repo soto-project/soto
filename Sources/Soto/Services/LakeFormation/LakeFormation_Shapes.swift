@@ -78,12 +78,14 @@ extension LakeFormation {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.entries.forEach {
                 try $0.validate(name: "\(name).entries[]")
             }
+            try self.entries.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -143,10 +145,13 @@ extension LakeFormation {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 255)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.principal?.validate(name: "\(name).principal")
+            try self.principal?.forEach {}
             try self.resource?.validate(name: "\(name).resource")
+            try self.resource?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -170,12 +175,14 @@ extension LakeFormation {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.entries.forEach {
                 try $0.validate(name: "\(name).entries[]")
             }
+            try self.entries.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -215,6 +222,7 @@ extension LakeFormation {
                 try validate($0, name: "excludedColumnNames[]", parent: name, min: 1)
                 try validate($0, name: "excludedColumnNames[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             }
+            try self.excludedColumnNames?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -231,6 +239,7 @@ extension LakeFormation {
         }
 
         public func validate(name: String) throws {
+            try self.dataLakePrincipalIdentifier?.forEach {}
             try self.validate(self.dataLakePrincipalIdentifier, name: "dataLakePrincipalIdentifier", parent: name, max: 255)
             try self.validate(self.dataLakePrincipalIdentifier, name: "dataLakePrincipalIdentifier", parent: name, min: 1)
         }
@@ -261,12 +270,15 @@ extension LakeFormation {
             try self.createDatabaseDefaultPermissions?.forEach {
                 try $0.validate(name: "\(name).createDatabaseDefaultPermissions[]")
             }
+            try self.createDatabaseDefaultPermissions?.forEach {}
             try self.createTableDefaultPermissions?.forEach {
                 try $0.validate(name: "\(name).createTableDefaultPermissions[]")
             }
+            try self.createTableDefaultPermissions?.forEach {}
             try self.dataLakeAdmins?.forEach {
                 try $0.validate(name: "\(name).dataLakeAdmins[]")
             }
+            try self.dataLakeAdmins?.forEach {}
             try self.validate(self.dataLakeAdmins, name: "dataLakeAdmins", parent: name, max: 10)
             try self.validate(self.dataLakeAdmins, name: "dataLakeAdmins", parent: name, min: 0)
             try self.trustedResourceOwners?.forEach {
@@ -274,6 +286,7 @@ extension LakeFormation {
                 try validate($0, name: "trustedResourceOwners[]", parent: name, min: 1)
                 try validate($0, name: "trustedResourceOwners[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             }
+            try self.trustedResourceOwners?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -296,6 +309,7 @@ extension LakeFormation {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -319,9 +333,11 @@ extension LakeFormation {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -436,6 +452,7 @@ extension LakeFormation {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -477,9 +494,11 @@ extension LakeFormation {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -530,11 +549,14 @@ extension LakeFormation {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.principal.validate(name: "\(name).principal")
+            try self.principal.forEach {}
             try self.resource.validate(name: "\(name).resource")
+            try self.resource.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -574,13 +596,17 @@ extension LakeFormation {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.principal?.validate(name: "\(name).principal")
+            try self.principal?.forEach {}
             try self.resource?.validate(name: "\(name).resource")
+            try self.resource?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -625,8 +651,10 @@ extension LakeFormation {
         }
 
         public func validate(name: String) throws {
+            try self.filterConditionList?.forEach {}
             try self.validate(self.filterConditionList, name: "filterConditionList", parent: name, max: 20)
             try self.validate(self.filterConditionList, name: "filterConditionList", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -668,6 +696,7 @@ extension LakeFormation {
 
         public func validate(name: String) throws {
             try self.principal?.validate(name: "\(name).principal")
+            try self.principal?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -717,10 +746,12 @@ extension LakeFormation {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.dataLakeSettings.validate(name: "\(name).dataLakeSettings")
+            try self.dataLakeSettings.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -748,6 +779,7 @@ extension LakeFormation {
         }
 
         public func validate(name: String) throws {
+            try self.roleArn?.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:aws:iam::[0-9]*:role/.*")
         }
 
@@ -784,9 +816,13 @@ extension LakeFormation {
 
         public func validate(name: String) throws {
             try self.database?.validate(name: "\(name).database")
+            try self.database?.forEach {}
             try self.dataLocation?.validate(name: "\(name).dataLocation")
+            try self.dataLocation?.forEach {}
             try self.table?.validate(name: "\(name).table")
+            try self.table?.forEach {}
             try self.tableWithColumns?.validate(name: "\(name).tableWithColumns")
+            try self.tableWithColumns?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -840,11 +876,14 @@ extension LakeFormation {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.principal.validate(name: "\(name).principal")
+            try self.principal.forEach {}
             try self.resource.validate(name: "\(name).resource")
+            try self.resource.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -878,12 +917,15 @@ extension LakeFormation {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -922,6 +964,7 @@ extension LakeFormation {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -930,10 +973,14 @@ extension LakeFormation {
                 try validate($0, name: "columnNames[]", parent: name, min: 1)
                 try validate($0, name: "columnNames[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             }
+            try self.columnNames?.forEach {}
             try self.columnWildcard?.validate(name: "\(name).columnWildcard")
+            try self.columnWildcard?.forEach {}
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -960,6 +1007,7 @@ extension LakeFormation {
         }
 
         public func validate(name: String) throws {
+            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:aws:iam::[0-9]*:role/.*")
         }
 

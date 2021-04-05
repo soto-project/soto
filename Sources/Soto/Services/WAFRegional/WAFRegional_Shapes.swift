@@ -408,6 +408,8 @@ extension WAFRegional {
             try self.excludedRules?.forEach {
                 try $0.validate(name: "\(name).excludedRules[]")
             }
+            try self.excludedRules?.forEach {}
+            try self.ruleId.forEach {}
             try self.validate(self.ruleId, name: "ruleId", parent: name, max: 128)
             try self.validate(self.ruleId, name: "ruleId", parent: name, min: 1)
             try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: ".*\\S.*")
@@ -435,9 +437,11 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1224)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: ".*\\S.*")
+            try self.webACLId.forEach {}
             try self.validate(self.webACLId, name: "webACLId", parent: name, max: 128)
             try self.validate(self.webACLId, name: "webACLId", parent: name, min: 1)
             try self.validate(self.webACLId, name: "webACLId", parent: name, pattern: ".*\\S.*")
@@ -504,6 +508,7 @@ extension WAFRegional {
 
         public func validate(name: String) throws {
             try self.byteMatchTuple.validate(name: "\(name).byteMatchTuple")
+            try self.byteMatchTuple.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -531,6 +536,7 @@ extension WAFRegional {
 
         public func validate(name: String) throws {
             try self.fieldToMatch.validate(name: "\(name).fieldToMatch")
+            try self.fieldToMatch.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -553,9 +559,11 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
@@ -596,9 +604,11 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
@@ -639,9 +649,11 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
@@ -693,20 +705,25 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.metricName.forEach {}
             try self.validate(self.metricName, name: "metricName", parent: name, max: 128)
             try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
             try self.validate(self.metricName, name: "metricName", parent: name, pattern: ".*\\S.*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+            try self.rateLimit.forEach {}
             try self.validate(self.rateLimit, name: "rateLimit", parent: name, max: 2_000_000_000)
             try self.validate(self.rateLimit, name: "rateLimit", parent: name, min: 100)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
@@ -749,9 +766,11 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
@@ -792,9 +811,11 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
@@ -840,18 +861,22 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.metricName.forEach {}
             try self.validate(self.metricName, name: "metricName", parent: name, max: 128)
             try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
             try self.validate(self.metricName, name: "metricName", parent: name, pattern: ".*\\S.*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
@@ -897,18 +922,22 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.metricName.forEach {}
             try self.validate(self.metricName, name: "metricName", parent: name, max: 128)
             try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
             try self.validate(self.metricName, name: "metricName", parent: name, pattern: ".*\\S.*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
@@ -949,9 +978,11 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
@@ -992,9 +1023,11 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
@@ -1038,9 +1071,11 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.s3BucketName.forEach {}
             try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, max: 63)
             try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, min: 3)
             try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, pattern: "^aws-waf-migration-[0-9A-Za-z\\.\\-_]*")
+            try self.webACLId.forEach {}
             try self.validate(self.webACLId, name: "webACLId", parent: name, max: 128)
             try self.validate(self.webACLId, name: "webACLId", parent: name, min: 1)
             try self.validate(self.webACLId, name: "webACLId", parent: name, pattern: ".*\\S.*")
@@ -1086,18 +1121,22 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.metricName.forEach {}
             try self.validate(self.metricName, name: "metricName", parent: name, max: 128)
             try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
             try self.validate(self.metricName, name: "metricName", parent: name, pattern: ".*\\S.*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
@@ -1139,9 +1178,11 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
@@ -1182,9 +1223,11 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.byteMatchSetId.forEach {}
             try self.validate(self.byteMatchSetId, name: "byteMatchSetId", parent: name, max: 128)
             try self.validate(self.byteMatchSetId, name: "byteMatchSetId", parent: name, min: 1)
             try self.validate(self.byteMatchSetId, name: "byteMatchSetId", parent: name, pattern: ".*\\S.*")
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
@@ -1221,9 +1264,11 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.geoMatchSetId.forEach {}
             try self.validate(self.geoMatchSetId, name: "geoMatchSetId", parent: name, max: 128)
             try self.validate(self.geoMatchSetId, name: "geoMatchSetId", parent: name, min: 1)
             try self.validate(self.geoMatchSetId, name: "geoMatchSetId", parent: name, pattern: ".*\\S.*")
@@ -1260,9 +1305,11 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.iPSetId.forEach {}
             try self.validate(self.iPSetId, name: "iPSetId", parent: name, max: 128)
             try self.validate(self.iPSetId, name: "iPSetId", parent: name, min: 1)
             try self.validate(self.iPSetId, name: "iPSetId", parent: name, pattern: ".*\\S.*")
@@ -1296,6 +1343,7 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1224)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: ".*\\S.*")
@@ -1319,6 +1367,7 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1224)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: ".*\\S.*")
@@ -1345,9 +1394,11 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.ruleId.forEach {}
             try self.validate(self.ruleId, name: "ruleId", parent: name, max: 128)
             try self.validate(self.ruleId, name: "ruleId", parent: name, min: 1)
             try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: ".*\\S.*")
@@ -1384,9 +1435,11 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.regexMatchSetId.forEach {}
             try self.validate(self.regexMatchSetId, name: "regexMatchSetId", parent: name, max: 128)
             try self.validate(self.regexMatchSetId, name: "regexMatchSetId", parent: name, min: 1)
             try self.validate(self.regexMatchSetId, name: "regexMatchSetId", parent: name, pattern: ".*\\S.*")
@@ -1423,9 +1476,11 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.regexPatternSetId.forEach {}
             try self.validate(self.regexPatternSetId, name: "regexPatternSetId", parent: name, max: 128)
             try self.validate(self.regexPatternSetId, name: "regexPatternSetId", parent: name, min: 1)
             try self.validate(self.regexPatternSetId, name: "regexPatternSetId", parent: name, pattern: ".*\\S.*")
@@ -1462,9 +1517,11 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.ruleGroupId.forEach {}
             try self.validate(self.ruleGroupId, name: "ruleGroupId", parent: name, max: 128)
             try self.validate(self.ruleGroupId, name: "ruleGroupId", parent: name, min: 1)
             try self.validate(self.ruleGroupId, name: "ruleGroupId", parent: name, pattern: ".*\\S.*")
@@ -1501,9 +1558,11 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.ruleId.forEach {}
             try self.validate(self.ruleId, name: "ruleId", parent: name, max: 128)
             try self.validate(self.ruleId, name: "ruleId", parent: name, min: 1)
             try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: ".*\\S.*")
@@ -1540,9 +1599,11 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.sizeConstraintSetId.forEach {}
             try self.validate(self.sizeConstraintSetId, name: "sizeConstraintSetId", parent: name, max: 128)
             try self.validate(self.sizeConstraintSetId, name: "sizeConstraintSetId", parent: name, min: 1)
             try self.validate(self.sizeConstraintSetId, name: "sizeConstraintSetId", parent: name, pattern: ".*\\S.*")
@@ -1579,9 +1640,11 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.sqlInjectionMatchSetId.forEach {}
             try self.validate(self.sqlInjectionMatchSetId, name: "sqlInjectionMatchSetId", parent: name, max: 128)
             try self.validate(self.sqlInjectionMatchSetId, name: "sqlInjectionMatchSetId", parent: name, min: 1)
             try self.validate(self.sqlInjectionMatchSetId, name: "sqlInjectionMatchSetId", parent: name, pattern: ".*\\S.*")
@@ -1618,9 +1681,11 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.webACLId.forEach {}
             try self.validate(self.webACLId, name: "webACLId", parent: name, max: 128)
             try self.validate(self.webACLId, name: "webACLId", parent: name, min: 1)
             try self.validate(self.webACLId, name: "webACLId", parent: name, pattern: ".*\\S.*")
@@ -1657,9 +1722,11 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.xssMatchSetId.forEach {}
             try self.validate(self.xssMatchSetId, name: "xssMatchSetId", parent: name, max: 128)
             try self.validate(self.xssMatchSetId, name: "xssMatchSetId", parent: name, min: 1)
             try self.validate(self.xssMatchSetId, name: "xssMatchSetId", parent: name, pattern: ".*\\S.*")
@@ -1693,6 +1760,7 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1224)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: ".*\\S.*")
@@ -1716,6 +1784,7 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.ruleId.forEach {}
             try self.validate(self.ruleId, name: "ruleId", parent: name, max: 128)
             try self.validate(self.ruleId, name: "ruleId", parent: name, min: 1)
             try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: ".*\\S.*")
@@ -1738,6 +1807,7 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.data?.forEach {}
             try self.validate(self.data, name: "data", parent: name, max: 128)
             try self.validate(self.data, name: "data", parent: name, min: 1)
             try self.validate(self.data, name: "data", parent: name, pattern: ".*\\S.*")
@@ -1830,6 +1900,7 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.byteMatchSetId.forEach {}
             try self.validate(self.byteMatchSetId, name: "byteMatchSetId", parent: name, max: 128)
             try self.validate(self.byteMatchSetId, name: "byteMatchSetId", parent: name, min: 1)
             try self.validate(self.byteMatchSetId, name: "byteMatchSetId", parent: name, pattern: ".*\\S.*")
@@ -1879,6 +1950,7 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
@@ -1911,6 +1983,7 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.geoMatchSetId.forEach {}
             try self.validate(self.geoMatchSetId, name: "geoMatchSetId", parent: name, max: 128)
             try self.validate(self.geoMatchSetId, name: "geoMatchSetId", parent: name, min: 1)
             try self.validate(self.geoMatchSetId, name: "geoMatchSetId", parent: name, pattern: ".*\\S.*")
@@ -1943,6 +2016,7 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.iPSetId.forEach {}
             try self.validate(self.iPSetId, name: "iPSetId", parent: name, max: 128)
             try self.validate(self.iPSetId, name: "iPSetId", parent: name, min: 1)
             try self.validate(self.iPSetId, name: "iPSetId", parent: name, pattern: ".*\\S.*")
@@ -1975,6 +2049,7 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1224)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: ".*\\S.*")
@@ -2007,6 +2082,7 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1224)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: ".*\\S.*")
@@ -2042,9 +2118,11 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.nextMarker?.forEach {}
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 1224)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
+            try self.ruleId.forEach {}
             try self.validate(self.ruleId, name: "ruleId", parent: name, max: 128)
             try self.validate(self.ruleId, name: "ruleId", parent: name, min: 1)
             try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: ".*\\S.*")
@@ -2082,6 +2160,7 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.ruleId.forEach {}
             try self.validate(self.ruleId, name: "ruleId", parent: name, max: 128)
             try self.validate(self.ruleId, name: "ruleId", parent: name, min: 1)
             try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: ".*\\S.*")
@@ -2114,6 +2193,7 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.regexMatchSetId.forEach {}
             try self.validate(self.regexMatchSetId, name: "regexMatchSetId", parent: name, max: 128)
             try self.validate(self.regexMatchSetId, name: "regexMatchSetId", parent: name, min: 1)
             try self.validate(self.regexMatchSetId, name: "regexMatchSetId", parent: name, pattern: ".*\\S.*")
@@ -2146,6 +2226,7 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.regexPatternSetId.forEach {}
             try self.validate(self.regexPatternSetId, name: "regexPatternSetId", parent: name, max: 128)
             try self.validate(self.regexPatternSetId, name: "regexPatternSetId", parent: name, min: 1)
             try self.validate(self.regexPatternSetId, name: "regexPatternSetId", parent: name, pattern: ".*\\S.*")
@@ -2178,6 +2259,7 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.ruleGroupId.forEach {}
             try self.validate(self.ruleGroupId, name: "ruleGroupId", parent: name, max: 128)
             try self.validate(self.ruleGroupId, name: "ruleGroupId", parent: name, min: 1)
             try self.validate(self.ruleGroupId, name: "ruleGroupId", parent: name, pattern: ".*\\S.*")
@@ -2210,6 +2292,7 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.ruleId.forEach {}
             try self.validate(self.ruleId, name: "ruleId", parent: name, max: 128)
             try self.validate(self.ruleId, name: "ruleId", parent: name, min: 1)
             try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: ".*\\S.*")
@@ -2251,11 +2334,14 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.maxItems.forEach {}
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 500)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
+            try self.ruleId.forEach {}
             try self.validate(self.ruleId, name: "ruleId", parent: name, max: 128)
             try self.validate(self.ruleId, name: "ruleId", parent: name, min: 1)
             try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: ".*\\S.*")
+            try self.webAclId.forEach {}
             try self.validate(self.webAclId, name: "webAclId", parent: name, max: 128)
             try self.validate(self.webAclId, name: "webAclId", parent: name, min: 1)
             try self.validate(self.webAclId, name: "webAclId", parent: name, pattern: ".*\\S.*")
@@ -2299,6 +2385,7 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.sizeConstraintSetId.forEach {}
             try self.validate(self.sizeConstraintSetId, name: "sizeConstraintSetId", parent: name, max: 128)
             try self.validate(self.sizeConstraintSetId, name: "sizeConstraintSetId", parent: name, min: 1)
             try self.validate(self.sizeConstraintSetId, name: "sizeConstraintSetId", parent: name, pattern: ".*\\S.*")
@@ -2331,6 +2418,7 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.sqlInjectionMatchSetId.forEach {}
             try self.validate(self.sqlInjectionMatchSetId, name: "sqlInjectionMatchSetId", parent: name, max: 128)
             try self.validate(self.sqlInjectionMatchSetId, name: "sqlInjectionMatchSetId", parent: name, min: 1)
             try self.validate(self.sqlInjectionMatchSetId, name: "sqlInjectionMatchSetId", parent: name, pattern: ".*\\S.*")
@@ -2363,6 +2451,7 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1224)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: ".*\\S.*")
@@ -2395,6 +2484,7 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.webACLId.forEach {}
             try self.validate(self.webACLId, name: "webACLId", parent: name, max: 128)
             try self.validate(self.webACLId, name: "webACLId", parent: name, min: 1)
             try self.validate(self.webACLId, name: "webACLId", parent: name, pattern: ".*\\S.*")
@@ -2427,6 +2517,7 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.xssMatchSetId.forEach {}
             try self.validate(self.xssMatchSetId, name: "xssMatchSetId", parent: name, max: 128)
             try self.validate(self.xssMatchSetId, name: "xssMatchSetId", parent: name, min: 1)
             try self.validate(self.xssMatchSetId, name: "xssMatchSetId", parent: name, pattern: ".*\\S.*")
@@ -2533,6 +2624,7 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 50)
             try self.validate(self.value, name: "value", parent: name, min: 1)
             try self.validate(self.value, name: "value", parent: name, pattern: ".*\\S.*")
@@ -2574,6 +2666,7 @@ extension WAFRegional {
 
         public func validate(name: String) throws {
             try self.iPSetDescriptor.validate(name: "\(name).iPSetDescriptor")
+            try self.iPSetDescriptor.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2597,11 +2690,14 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
+            try self.nextMarker?.forEach {}
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 1224)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
+            try self.ruleGroupId?.forEach {}
             try self.validate(self.ruleGroupId, name: "ruleGroupId", parent: name, max: 128)
             try self.validate(self.ruleGroupId, name: "ruleGroupId", parent: name, min: 1)
             try self.validate(self.ruleGroupId, name: "ruleGroupId", parent: name, pattern: ".*\\S.*")
@@ -2643,8 +2739,10 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
+            try self.nextMarker?.forEach {}
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 1224)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
@@ -2685,8 +2783,10 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
+            try self.nextMarker?.forEach {}
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 1224)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
@@ -2727,8 +2827,10 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
+            try self.nextMarker?.forEach {}
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 1224)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
@@ -2769,8 +2871,10 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
+            try self.nextMarker?.forEach {}
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 1224)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
@@ -2811,8 +2915,10 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
+            try self.nextMarker?.forEach {}
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 1224)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
@@ -2853,8 +2959,10 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
+            try self.nextMarker?.forEach {}
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 1224)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
@@ -2895,8 +3003,10 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
+            try self.nextMarker?.forEach {}
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 1224)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
@@ -2937,6 +3047,7 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.webACLId.forEach {}
             try self.validate(self.webACLId, name: "webACLId", parent: name, max: 128)
             try self.validate(self.webACLId, name: "webACLId", parent: name, min: 1)
             try self.validate(self.webACLId, name: "webACLId", parent: name, pattern: ".*\\S.*")
@@ -2973,8 +3084,10 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
+            try self.nextMarker?.forEach {}
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 1224)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
@@ -3015,8 +3128,10 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
+            try self.nextMarker?.forEach {}
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 1224)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
@@ -3057,8 +3172,10 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
+            try self.nextMarker?.forEach {}
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 1224)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
@@ -3099,8 +3216,10 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
+            try self.nextMarker?.forEach {}
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 1224)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
@@ -3141,8 +3260,10 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
+            try self.nextMarker?.forEach {}
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 1224)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
@@ -3183,11 +3304,14 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
+            try self.nextMarker?.forEach {}
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 1224)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1224)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: ".*\\S.*")
@@ -3227,8 +3351,10 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
+            try self.nextMarker?.forEach {}
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 1224)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
@@ -3269,8 +3395,10 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
+            try self.nextMarker?.forEach {}
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 1224)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
@@ -3319,11 +3447,14 @@ extension WAFRegional {
                 try validate($0, name: "logDestinationConfigs[]", parent: name, min: 1)
                 try validate($0, name: "logDestinationConfigs[]", parent: name, pattern: ".*\\S.*")
             }
+            try self.logDestinationConfigs.forEach {}
             try self.validate(self.logDestinationConfigs, name: "logDestinationConfigs", parent: name, max: 1)
             try self.validate(self.logDestinationConfigs, name: "logDestinationConfigs", parent: name, min: 1)
             try self.redactedFields?.forEach {
                 try $0.validate(name: "\(name).redactedFields[]")
             }
+            try self.redactedFields?.forEach {}
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1224)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: ".*\\S.*")
@@ -3351,6 +3482,7 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.dataId.forEach {}
             try self.validate(self.dataId, name: "dataId", parent: name, max: 128)
             try self.validate(self.dataId, name: "dataId", parent: name, min: 1)
             try self.validate(self.dataId, name: "dataId", parent: name, pattern: ".*\\S.*")
@@ -3373,6 +3505,7 @@ extension WAFRegional {
 
         public func validate(name: String) throws {
             try self.loggingConfiguration.validate(name: "\(name).loggingConfiguration")
+            try self.loggingConfiguration.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3405,9 +3538,11 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.policy.forEach {}
             try self.validate(self.policy, name: "policy", parent: name, max: 395_000)
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
             try self.validate(self.policy, name: "policy", parent: name, pattern: ".*\\S.*")
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1224)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: ".*\\S.*")
@@ -3507,6 +3642,7 @@ extension WAFRegional {
 
         public func validate(name: String) throws {
             try self.regexMatchTuple.validate(name: "\(name).regexMatchTuple")
+            try self.regexMatchTuple.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3531,6 +3667,8 @@ extension WAFRegional {
 
         public func validate(name: String) throws {
             try self.fieldToMatch.validate(name: "\(name).fieldToMatch")
+            try self.fieldToMatch.forEach {}
+            try self.regexPatternSetId.forEach {}
             try self.validate(self.regexPatternSetId, name: "regexPatternSetId", parent: name, max: 128)
             try self.validate(self.regexPatternSetId, name: "regexPatternSetId", parent: name, min: 1)
             try self.validate(self.regexPatternSetId, name: "regexPatternSetId", parent: name, pattern: ".*\\S.*")
@@ -3593,6 +3731,7 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.regexPatternString.forEach {}
             try self.validate(self.regexPatternString, name: "regexPatternString", parent: name, max: 512)
             try self.validate(self.regexPatternString, name: "regexPatternString", parent: name, min: 1)
             try self.validate(self.regexPatternString, name: "regexPatternString", parent: name, pattern: ".*")
@@ -3680,6 +3819,7 @@ extension WAFRegional {
 
         public func validate(name: String) throws {
             try self.activatedRule.validate(name: "\(name).activatedRule")
+            try self.activatedRule.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3718,6 +3858,7 @@ extension WAFRegional {
 
         public func validate(name: String) throws {
             try self.predicate.validate(name: "\(name).predicate")
+            try self.predicate.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3774,6 +3915,8 @@ extension WAFRegional {
 
         public func validate(name: String) throws {
             try self.fieldToMatch.validate(name: "\(name).fieldToMatch")
+            try self.fieldToMatch.forEach {}
+            try self.size.forEach {}
             try self.validate(self.size, name: "size", parent: name, max: 21_474_836_480)
             try self.validate(self.size, name: "size", parent: name, min: 0)
         }
@@ -3837,6 +3980,7 @@ extension WAFRegional {
 
         public func validate(name: String) throws {
             try self.sizeConstraint.validate(name: "\(name).sizeConstraint")
+            try self.sizeConstraint.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3896,6 +4040,7 @@ extension WAFRegional {
 
         public func validate(name: String) throws {
             try self.sqlInjectionMatchTuple.validate(name: "\(name).sqlInjectionMatchTuple")
+            try self.sqlInjectionMatchTuple.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3917,6 +4062,7 @@ extension WAFRegional {
 
         public func validate(name: String) throws {
             try self.fieldToMatch.validate(name: "\(name).fieldToMatch")
+            try self.fieldToMatch.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3956,9 +4102,11 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: ".*\\S.*")
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
             try self.validate(self.value, name: "value", parent: name, pattern: ".*")
@@ -3995,12 +4143,14 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1224)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: ".*\\S.*")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
@@ -4041,6 +4191,7 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1224)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: ".*\\S.*")
@@ -4049,6 +4200,7 @@ extension WAFRegional {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: ".*\\S.*")
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
 
@@ -4077,15 +4229,18 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.byteMatchSetId.forEach {}
             try self.validate(self.byteMatchSetId, name: "byteMatchSetId", parent: name, max: 128)
             try self.validate(self.byteMatchSetId, name: "byteMatchSetId", parent: name, min: 1)
             try self.validate(self.byteMatchSetId, name: "byteMatchSetId", parent: name, pattern: ".*\\S.*")
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
             try self.updates.forEach {
                 try $0.validate(name: "\(name).updates[]")
             }
+            try self.updates.forEach {}
             try self.validate(self.updates, name: "updates", parent: name, min: 1)
         }
 
@@ -4124,12 +4279,15 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.geoMatchSetId.forEach {}
             try self.validate(self.geoMatchSetId, name: "geoMatchSetId", parent: name, max: 128)
             try self.validate(self.geoMatchSetId, name: "geoMatchSetId", parent: name, min: 1)
             try self.validate(self.geoMatchSetId, name: "geoMatchSetId", parent: name, pattern: ".*\\S.*")
+            try self.updates.forEach {}
             try self.validate(self.updates, name: "updates", parent: name, min: 1)
         }
 
@@ -4168,15 +4326,18 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.iPSetId.forEach {}
             try self.validate(self.iPSetId, name: "iPSetId", parent: name, max: 128)
             try self.validate(self.iPSetId, name: "iPSetId", parent: name, min: 1)
             try self.validate(self.iPSetId, name: "iPSetId", parent: name, pattern: ".*\\S.*")
             try self.updates.forEach {
                 try $0.validate(name: "\(name).updates[]")
             }
+            try self.updates.forEach {}
             try self.validate(self.updates, name: "updates", parent: name, min: 1)
         }
 
@@ -4218,17 +4379,21 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.rateLimit.forEach {}
             try self.validate(self.rateLimit, name: "rateLimit", parent: name, max: 2_000_000_000)
             try self.validate(self.rateLimit, name: "rateLimit", parent: name, min: 100)
+            try self.ruleId.forEach {}
             try self.validate(self.ruleId, name: "ruleId", parent: name, max: 128)
             try self.validate(self.ruleId, name: "ruleId", parent: name, min: 1)
             try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: ".*\\S.*")
             try self.updates.forEach {
                 try $0.validate(name: "\(name).updates[]")
             }
+            try self.updates.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4267,15 +4432,18 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.regexMatchSetId.forEach {}
             try self.validate(self.regexMatchSetId, name: "regexMatchSetId", parent: name, max: 128)
             try self.validate(self.regexMatchSetId, name: "regexMatchSetId", parent: name, min: 1)
             try self.validate(self.regexMatchSetId, name: "regexMatchSetId", parent: name, pattern: ".*\\S.*")
             try self.updates.forEach {
                 try $0.validate(name: "\(name).updates[]")
             }
+            try self.updates.forEach {}
             try self.validate(self.updates, name: "updates", parent: name, min: 1)
         }
 
@@ -4314,15 +4482,18 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.regexPatternSetId.forEach {}
             try self.validate(self.regexPatternSetId, name: "regexPatternSetId", parent: name, max: 128)
             try self.validate(self.regexPatternSetId, name: "regexPatternSetId", parent: name, min: 1)
             try self.validate(self.regexPatternSetId, name: "regexPatternSetId", parent: name, pattern: ".*\\S.*")
             try self.updates.forEach {
                 try $0.validate(name: "\(name).updates[]")
             }
+            try self.updates.forEach {}
             try self.validate(self.updates, name: "updates", parent: name, min: 1)
         }
 
@@ -4361,15 +4532,18 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.ruleGroupId.forEach {}
             try self.validate(self.ruleGroupId, name: "ruleGroupId", parent: name, max: 128)
             try self.validate(self.ruleGroupId, name: "ruleGroupId", parent: name, min: 1)
             try self.validate(self.ruleGroupId, name: "ruleGroupId", parent: name, pattern: ".*\\S.*")
             try self.updates.forEach {
                 try $0.validate(name: "\(name).updates[]")
             }
+            try self.updates.forEach {}
             try self.validate(self.updates, name: "updates", parent: name, min: 1)
         }
 
@@ -4408,15 +4582,18 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.ruleId.forEach {}
             try self.validate(self.ruleId, name: "ruleId", parent: name, max: 128)
             try self.validate(self.ruleId, name: "ruleId", parent: name, min: 1)
             try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: ".*\\S.*")
             try self.updates.forEach {
                 try $0.validate(name: "\(name).updates[]")
             }
+            try self.updates.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4454,15 +4631,18 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.sizeConstraintSetId.forEach {}
             try self.validate(self.sizeConstraintSetId, name: "sizeConstraintSetId", parent: name, max: 128)
             try self.validate(self.sizeConstraintSetId, name: "sizeConstraintSetId", parent: name, min: 1)
             try self.validate(self.sizeConstraintSetId, name: "sizeConstraintSetId", parent: name, pattern: ".*\\S.*")
             try self.updates.forEach {
                 try $0.validate(name: "\(name).updates[]")
             }
+            try self.updates.forEach {}
             try self.validate(self.updates, name: "updates", parent: name, min: 1)
         }
 
@@ -4501,15 +4681,18 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
+            try self.sqlInjectionMatchSetId.forEach {}
             try self.validate(self.sqlInjectionMatchSetId, name: "sqlInjectionMatchSetId", parent: name, max: 128)
             try self.validate(self.sqlInjectionMatchSetId, name: "sqlInjectionMatchSetId", parent: name, min: 1)
             try self.validate(self.sqlInjectionMatchSetId, name: "sqlInjectionMatchSetId", parent: name, pattern: ".*\\S.*")
             try self.updates.forEach {
                 try $0.validate(name: "\(name).updates[]")
             }
+            try self.updates.forEach {}
             try self.validate(self.updates, name: "updates", parent: name, min: 1)
         }
 
@@ -4551,12 +4734,15 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
             try self.updates?.forEach {
                 try $0.validate(name: "\(name).updates[]")
             }
+            try self.updates?.forEach {}
+            try self.webACLId.forEach {}
             try self.validate(self.webACLId, name: "webACLId", parent: name, max: 128)
             try self.validate(self.webACLId, name: "webACLId", parent: name, min: 1)
             try self.validate(self.webACLId, name: "webACLId", parent: name, pattern: ".*\\S.*")
@@ -4598,13 +4784,16 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
+            try self.changeToken.forEach {}
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
             try self.updates.forEach {
                 try $0.validate(name: "\(name).updates[]")
             }
+            try self.updates.forEach {}
             try self.validate(self.updates, name: "updates", parent: name, min: 1)
+            try self.xssMatchSetId.forEach {}
             try self.validate(self.xssMatchSetId, name: "xssMatchSetId", parent: name, max: 128)
             try self.validate(self.xssMatchSetId, name: "xssMatchSetId", parent: name, min: 1)
             try self.validate(self.xssMatchSetId, name: "xssMatchSetId", parent: name, pattern: ".*\\S.*")
@@ -4719,6 +4908,7 @@ extension WAFRegional {
 
         public func validate(name: String) throws {
             try self.activatedRule.validate(name: "\(name).activatedRule")
+            try self.activatedRule.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4778,6 +4968,7 @@ extension WAFRegional {
 
         public func validate(name: String) throws {
             try self.xssMatchTuple.validate(name: "\(name).xssMatchTuple")
+            try self.xssMatchTuple.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4799,6 +4990,7 @@ extension WAFRegional {
 
         public func validate(name: String) throws {
             try self.fieldToMatch.validate(name: "\(name).fieldToMatch")
+            try self.fieldToMatch.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -18,7 +18,7 @@
 
 /// Service object for interacting with AWS EC2InstanceConnect service.
 ///
-/// AWS EC2 Connect Service is a service that enables system administrators to publish temporary SSH keys to their EC2 instances in order to establish connections to their instances without leaving a permanent authentication option.
+/// Amazon EC2 Instance Connect enables system administrators to publish one-time use SSH public keys to EC2, providing users a simple and secure way to connect to their instances.
 public struct EC2InstanceConnect: AWSService {
     // MARK: Member variables
 
@@ -63,9 +63,14 @@ public struct EC2InstanceConnect: AWSService {
 
     // MARK: API Calls
 
-    /// Pushes an SSH public key to a particular OS user on a given EC2 instance for 60 seconds.
+    /// Pushes an SSH public key to the specified EC2 instance for use by the specified user. The key remains for 60 seconds. For more information, see Connect to your Linux instance using EC2 Instance Connect in the Amazon EC2 User Guide.
     public func sendSSHPublicKey(_ input: SendSSHPublicKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendSSHPublicKeyResponse> {
         return self.client.execute(operation: "SendSSHPublicKey", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Pushes an SSH public key to the specified EC2 instance. The key remains for 60 seconds, which gives you 60 seconds to establish a serial console connection to the instance using SSH. For more information, see EC2 Serial Console in the Amazon EC2 User Guide.
+    public func sendSerialConsoleSSHPublicKey(_ input: SendSerialConsoleSSHPublicKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendSerialConsoleSSHPublicKeyResponse> {
+        return self.client.execute(operation: "SendSerialConsoleSSHPublicKey", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 

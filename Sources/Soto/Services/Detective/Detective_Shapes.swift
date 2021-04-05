@@ -46,6 +46,7 @@ extension Detective {
         }
 
         public func validate(name: String) throws {
+            try self.graphArn.forEach {}
             try self.validate(self.graphArn, name: "graphArn", parent: name, pattern: "^arn:aws[-\\w]{0,10}?:detective:[-\\w]{2,20}?:\\d{12}?:graph:[abcdef\\d]{32}?$")
         }
 
@@ -66,9 +67,11 @@ extension Detective {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^[0-9]+$")
+            try self.emailAddress.forEach {}
             try self.validate(self.emailAddress, name: "emailAddress", parent: name, max: 64)
             try self.validate(self.emailAddress, name: "emailAddress", parent: name, min: 1)
             try self.validate(self.emailAddress, name: "emailAddress", parent: name, pattern: "^.+@.+$")
@@ -77,6 +80,28 @@ extension Detective {
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
             case emailAddress = "EmailAddress"
+        }
+    }
+
+    public struct CreateGraphRequest: AWSEncodableShape {
+        /// The tags to assign to the new behavior graph. For each tag, you provide the tag key and the tag value.
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
         }
     }
 
@@ -114,9 +139,12 @@ extension Detective {
             try self.accounts.forEach {
                 try $0.validate(name: "\(name).accounts[]")
             }
+            try self.accounts.forEach {}
             try self.validate(self.accounts, name: "accounts", parent: name, max: 50)
             try self.validate(self.accounts, name: "accounts", parent: name, min: 1)
+            try self.graphArn.forEach {}
             try self.validate(self.graphArn, name: "graphArn", parent: name, pattern: "^arn:aws[-\\w]{0,10}?:detective:[-\\w]{2,20}?:\\d{12}?:graph:[abcdef\\d]{32}?$")
+            try self.message?.forEach {}
             try self.validate(self.message, name: "message", parent: name, max: 1000)
             try self.validate(self.message, name: "message", parent: name, min: 1)
         }
@@ -155,6 +183,7 @@ extension Detective {
         }
 
         public func validate(name: String) throws {
+            try self.graphArn.forEach {}
             try self.validate(self.graphArn, name: "graphArn", parent: name, pattern: "^arn:aws[-\\w]{0,10}?:detective:[-\\w]{2,20}?:\\d{12}?:graph:[abcdef\\d]{32}?$")
         }
 
@@ -180,8 +209,10 @@ extension Detective {
                 try validate($0, name: "accountIds[]", parent: name, min: 12)
                 try validate($0, name: "accountIds[]", parent: name, pattern: "^[0-9]+$")
             }
+            try self.accountIds.forEach {}
             try self.validate(self.accountIds, name: "accountIds", parent: name, max: 50)
             try self.validate(self.accountIds, name: "accountIds", parent: name, min: 1)
+            try self.graphArn.forEach {}
             try self.validate(self.graphArn, name: "graphArn", parent: name, pattern: "^arn:aws[-\\w]{0,10}?:detective:[-\\w]{2,20}?:\\d{12}?:graph:[abcdef\\d]{32}?$")
         }
 
@@ -217,6 +248,7 @@ extension Detective {
         }
 
         public func validate(name: String) throws {
+            try self.graphArn.forEach {}
             try self.validate(self.graphArn, name: "graphArn", parent: name, pattern: "^arn:aws[-\\w]{0,10}?:detective:[-\\w]{2,20}?:\\d{12}?:graph:[abcdef\\d]{32}?$")
         }
 
@@ -242,8 +274,10 @@ extension Detective {
                 try validate($0, name: "accountIds[]", parent: name, min: 12)
                 try validate($0, name: "accountIds[]", parent: name, pattern: "^[0-9]+$")
             }
+            try self.accountIds.forEach {}
             try self.validate(self.accountIds, name: "accountIds", parent: name, max: 50)
             try self.validate(self.accountIds, name: "accountIds", parent: name, min: 1)
+            try self.graphArn.forEach {}
             try self.validate(self.graphArn, name: "graphArn", parent: name, pattern: "^arn:aws[-\\w]{0,10}?:detective:[-\\w]{2,20}?:\\d{12}?:graph:[abcdef\\d]{32}?$")
         }
 
@@ -300,8 +334,10 @@ extension Detective {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 200)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -341,8 +377,10 @@ extension Detective {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 200)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -385,9 +423,12 @@ extension Detective {
         }
 
         public func validate(name: String) throws {
+            try self.graphArn.forEach {}
             try self.validate(self.graphArn, name: "graphArn", parent: name, pattern: "^arn:aws[-\\w]{0,10}?:detective:[-\\w]{2,20}?:\\d{12}?:graph:[abcdef\\d]{32}?$")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 200)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -413,6 +454,39 @@ extension Detective {
         private enum CodingKeys: String, CodingKey {
             case memberDetails = "MemberDetails"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+        ]
+
+        /// The ARN of the behavior graph for which to retrieve the tag values.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[-\\w]{0,10}?:detective:[-\\w]{2,20}?:\\d{12}?:graph:[abcdef\\d]{32}?$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        /// The tag values that are assigned to the behavior graph.
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
         }
     }
 
@@ -477,6 +551,7 @@ extension Detective {
         }
 
         public func validate(name: String) throws {
+            try self.graphArn.forEach {}
             try self.validate(self.graphArn, name: "graphArn", parent: name, pattern: "^arn:aws[-\\w]{0,10}?:detective:[-\\w]{2,20}?:\\d{12}?:graph:[abcdef\\d]{32}?$")
         }
 
@@ -497,9 +572,11 @@ extension Detective {
         }
 
         public func validate(name: String) throws {
+            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^[0-9]+$")
+            try self.graphArn.forEach {}
             try self.validate(self.graphArn, name: "graphArn", parent: name, pattern: "^arn:aws[-\\w]{0,10}?:detective:[-\\w]{2,20}?:\\d{12}?:graph:[abcdef\\d]{32}?$")
         }
 
@@ -507,6 +584,41 @@ extension Detective {
             case accountId = "AccountId"
             case graphArn = "GraphArn"
         }
+    }
+
+    public struct TagResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+        ]
+
+        /// The ARN of the behavior graph to assign the tags to.
+        public let resourceArn: String
+        /// The tag values to assign to the behavior graph.
+        public let tags: [String: String]
+
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[-\\w]{0,10}?:detective:[-\\w]{2,20}?:\\d{12}?:graph:[abcdef\\d]{32}?$")
+            try self.tags.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UnprocessedAccount: AWSDecodableShape {
@@ -524,5 +636,41 @@ extension Detective {
             case accountId = "AccountId"
             case reason = "Reason"
         }
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+        ]
+
+        /// The ARN of the behavior graph to remove the tags from.
+        public let resourceArn: String
+        /// The tag keys of the tags to remove from the behavior graph.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[-\\w]{0,10}?:detective:[-\\w]{2,20}?:\\d{12}?:graph:[abcdef\\d]{32}?$")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+            }
+            try self.tagKeys.forEach {}
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
     }
 }

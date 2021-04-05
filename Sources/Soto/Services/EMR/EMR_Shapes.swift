@@ -232,6 +232,17 @@ extension EMR {
         public var description: String { return self.rawValue }
     }
 
+    public enum OnDemandCapacityReservationPreference: String, CustomStringConvertible, Codable {
+        case none
+        case open
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OnDemandCapacityReservationUsageStrategy: String, CustomStringConvertible, Codable {
+        case useCapacityReservationsFirst = "use-capacity-reservations-first"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OnDemandProvisioningAllocationStrategy: String, CustomStringConvertible, Codable {
         case lowestPrice = "lowest-price"
         public var description: String { return self.rawValue }
@@ -355,10 +366,12 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.clusterId.forEach {}
             try self.validate(self.clusterId, name: "clusterId", parent: name, max: 256)
             try self.validate(self.clusterId, name: "clusterId", parent: name, min: 0)
             try self.validate(self.clusterId, name: "clusterId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.instanceFleet.validate(name: "\(name).instanceFleet")
+            try self.instanceFleet.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -403,6 +416,8 @@ extension EMR {
             try self.instanceGroups.forEach {
                 try $0.validate(name: "\(name).instanceGroups[]")
             }
+            try self.instanceGroups.forEach {}
+            try self.jobFlowId.forEach {}
             try self.validate(self.jobFlowId, name: "jobFlowId", parent: name, max: 256)
             try self.validate(self.jobFlowId, name: "jobFlowId", parent: name, min: 0)
             try self.validate(self.jobFlowId, name: "jobFlowId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -447,12 +462,14 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.jobFlowId.forEach {}
             try self.validate(self.jobFlowId, name: "jobFlowId", parent: name, max: 256)
             try self.validate(self.jobFlowId, name: "jobFlowId", parent: name, min: 0)
             try self.validate(self.jobFlowId, name: "jobFlowId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.steps.forEach {
                 try $0.validate(name: "\(name).steps[]")
             }
+            try self.steps.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -535,6 +552,7 @@ extension EMR {
             try self.rules.forEach {
                 try $0.validate(name: "\(name).rules[]")
             }
+            try self.rules.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -613,6 +631,7 @@ extension EMR {
             try self.permittedPublicSecurityGroupRuleRanges?.forEach {
                 try $0.validate(name: "\(name).permittedPublicSecurityGroupRuleRanges[]")
             }
+            try self.permittedPublicSecurityGroupRuleRanges?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -650,10 +669,12 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 0)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.scriptBootstrapAction.validate(name: "\(name).scriptBootstrapAction")
+            try self.scriptBootstrapAction.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -711,6 +732,7 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.clusterId.forEach {}
             try self.validate(self.clusterId, name: "clusterId", parent: name, max: 256)
             try self.validate(self.clusterId, name: "clusterId", parent: name, min: 0)
             try self.validate(self.clusterId, name: "clusterId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -719,6 +741,7 @@ extension EMR {
                 try validate($0, name: "stepIds[]", parent: name, min: 0)
                 try validate($0, name: "stepIds[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             }
+            try self.stepIds.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -774,6 +797,7 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.threshold.forEach {}
             try self.validate(self.threshold, name: "threshold", parent: name, min: 0)
         }
 
@@ -1094,6 +1118,7 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 10280)
             try self.validate(self.name, name: "name", parent: name, min: 0)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -1125,7 +1150,7 @@ extension EMR {
     public struct CreateStudioInput: AWSEncodableShape {
         /// Specifies whether the Studio authenticates users using single sign-on (SSO) or IAM. Amazon EMR Studio currently only supports SSO authentication.
         public let authMode: AuthMode
-        /// The default Amazon S3 location to back up Amazon EMR Studio Workspaces and notebook files. A Studio user can select an alternative Amazon S3 location when creating a Workspace.
+        /// The Amazon S3 location to back up Amazon EMR Studio Workspaces and notebook files.
         public let defaultS3Location: String
         /// A detailed description of the Amazon EMR Studio.
         public let description: String?
@@ -1161,27 +1186,35 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.defaultS3Location.forEach {}
             try self.validate(self.defaultS3Location, name: "defaultS3Location", parent: name, max: 10280)
             try self.validate(self.defaultS3Location, name: "defaultS3Location", parent: name, min: 0)
             try self.validate(self.defaultS3Location, name: "defaultS3Location", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.engineSecurityGroupId.forEach {}
             try self.validate(self.engineSecurityGroupId, name: "engineSecurityGroupId", parent: name, max: 256)
             try self.validate(self.engineSecurityGroupId, name: "engineSecurityGroupId", parent: name, min: 0)
             try self.validate(self.engineSecurityGroupId, name: "engineSecurityGroupId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 0)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.serviceRole.forEach {}
             try self.validate(self.serviceRole, name: "serviceRole", parent: name, max: 10280)
             try self.validate(self.serviceRole, name: "serviceRole", parent: name, min: 0)
             try self.validate(self.serviceRole, name: "serviceRole", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.userRole.forEach {}
             try self.validate(self.userRole, name: "userRole", parent: name, max: 10280)
             try self.validate(self.userRole, name: "userRole", parent: name, min: 0)
             try self.validate(self.userRole, name: "userRole", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.vpcId.forEach {}
             try self.validate(self.vpcId, name: "vpcId", parent: name, max: 256)
             try self.validate(self.vpcId, name: "vpcId", parent: name, min: 0)
             try self.validate(self.vpcId, name: "vpcId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.workspaceSecurityGroupId.forEach {}
             try self.validate(self.workspaceSecurityGroupId, name: "workspaceSecurityGroupId", parent: name, max: 256)
             try self.validate(self.workspaceSecurityGroupId, name: "workspaceSecurityGroupId", parent: name, min: 0)
             try self.validate(self.workspaceSecurityGroupId, name: "workspaceSecurityGroupId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -1240,15 +1273,19 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.identityId?.forEach {}
             try self.validate(self.identityId, name: "identityId", parent: name, max: 256)
             try self.validate(self.identityId, name: "identityId", parent: name, min: 0)
             try self.validate(self.identityId, name: "identityId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.identityName?.forEach {}
             try self.validate(self.identityName, name: "identityName", parent: name, max: 256)
             try self.validate(self.identityName, name: "identityName", parent: name, min: 0)
             try self.validate(self.identityName, name: "identityName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.sessionPolicyArn.forEach {}
             try self.validate(self.sessionPolicyArn, name: "sessionPolicyArn", parent: name, max: 256)
             try self.validate(self.sessionPolicyArn, name: "sessionPolicyArn", parent: name, min: 0)
             try self.validate(self.sessionPolicyArn, name: "sessionPolicyArn", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.studioId.forEach {}
             try self.validate(self.studioId, name: "studioId", parent: name, max: 256)
             try self.validate(self.studioId, name: "studioId", parent: name, min: 0)
             try self.validate(self.studioId, name: "studioId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -1272,6 +1309,7 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 10280)
             try self.validate(self.name, name: "name", parent: name, min: 0)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -1295,6 +1333,7 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.studioId.forEach {}
             try self.validate(self.studioId, name: "studioId", parent: name, max: 256)
             try self.validate(self.studioId, name: "studioId", parent: name, min: 0)
             try self.validate(self.studioId, name: "studioId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -1323,12 +1362,15 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.identityId?.forEach {}
             try self.validate(self.identityId, name: "identityId", parent: name, max: 256)
             try self.validate(self.identityId, name: "identityId", parent: name, min: 0)
             try self.validate(self.identityId, name: "identityId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.identityName?.forEach {}
             try self.validate(self.identityName, name: "identityName", parent: name, max: 256)
             try self.validate(self.identityName, name: "identityName", parent: name, min: 0)
             try self.validate(self.identityName, name: "identityName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.studioId.forEach {}
             try self.validate(self.studioId, name: "studioId", parent: name, max: 256)
             try self.validate(self.studioId, name: "studioId", parent: name, min: 0)
             try self.validate(self.studioId, name: "studioId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -1391,6 +1433,7 @@ extension EMR {
                 try validate($0, name: "jobFlowIds[]", parent: name, min: 0)
                 try validate($0, name: "jobFlowIds[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             }
+            try self.jobFlowIds?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1423,6 +1466,7 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.notebookExecutionId.forEach {}
             try self.validate(self.notebookExecutionId, name: "notebookExecutionId", parent: name, max: 256)
             try self.validate(self.notebookExecutionId, name: "notebookExecutionId", parent: name, min: 0)
             try self.validate(self.notebookExecutionId, name: "notebookExecutionId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -1455,6 +1499,7 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 10280)
             try self.validate(self.name, name: "name", parent: name, min: 0)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -1525,6 +1570,7 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.studioId.forEach {}
             try self.validate(self.studioId, name: "studioId", parent: name, max: 256)
             try self.validate(self.studioId, name: "studioId", parent: name, min: 0)
             try self.validate(self.studioId, name: "studioId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -1684,9 +1730,11 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 256)
             try self.validate(self.id, name: "id", parent: name, min: 0)
             try self.validate(self.id, name: "id", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.masterInstanceSecurityGroupId?.forEach {}
             try self.validate(self.masterInstanceSecurityGroupId, name: "masterInstanceSecurityGroupId", parent: name, max: 256)
             try self.validate(self.masterInstanceSecurityGroupId, name: "masterInstanceSecurityGroupId", parent: name, min: 0)
             try self.validate(self.masterInstanceSecurityGroupId, name: "masterInstanceSecurityGroupId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -1785,12 +1833,15 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.identityId?.forEach {}
             try self.validate(self.identityId, name: "identityId", parent: name, max: 256)
             try self.validate(self.identityId, name: "identityId", parent: name, min: 0)
             try self.validate(self.identityId, name: "identityId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.identityName?.forEach {}
             try self.validate(self.identityName, name: "identityName", parent: name, max: 256)
             try self.validate(self.identityName, name: "identityName", parent: name, min: 0)
             try self.validate(self.identityName, name: "identityName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.studioId.forEach {}
             try self.validate(self.studioId, name: "studioId", parent: name, max: 256)
             try self.validate(self.studioId, name: "studioId", parent: name, min: 0)
             try self.validate(self.studioId, name: "studioId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -1840,15 +1891,19 @@ extension EMR {
                 try validate($0, name: "args[]", parent: name, min: 0)
                 try validate($0, name: "args[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             }
+            try self.args?.forEach {}
+            try self.jar.forEach {}
             try self.validate(self.jar, name: "jar", parent: name, max: 10280)
             try self.validate(self.jar, name: "jar", parent: name, min: 0)
             try self.validate(self.jar, name: "jar", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.mainClass?.forEach {}
             try self.validate(self.mainClass, name: "mainClass", parent: name, max: 10280)
             try self.validate(self.mainClass, name: "mainClass", parent: name, min: 0)
             try self.validate(self.mainClass, name: "mainClass", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.properties?.forEach {
                 try $0.validate(name: "\(name).properties[]")
             }
+            try self.properties?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2017,11 +2072,16 @@ extension EMR {
             try self.instanceTypeConfigs?.forEach {
                 try $0.validate(name: "\(name).instanceTypeConfigs[]")
             }
+            try self.instanceTypeConfigs?.forEach {}
             try self.launchSpecifications?.validate(name: "\(name).launchSpecifications")
+            try self.launchSpecifications?.forEach {}
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 0)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.targetOnDemandCapacity?.forEach {}
             try self.validate(self.targetOnDemandCapacity, name: "targetOnDemandCapacity", parent: name, min: 0)
+            try self.targetSpotCapacity?.forEach {}
             try self.validate(self.targetSpotCapacity, name: "targetSpotCapacity", parent: name, min: 0)
         }
 
@@ -2050,7 +2110,9 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.targetOnDemandCapacity?.forEach {}
             try self.validate(self.targetOnDemandCapacity, name: "targetOnDemandCapacity", parent: name, min: 0)
+            try self.targetSpotCapacity?.forEach {}
             try self.validate(self.targetSpotCapacity, name: "targetSpotCapacity", parent: name, min: 0)
         }
 
@@ -2073,7 +2135,10 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.onDemandSpecification?.validate(name: "\(name).onDemandSpecification")
+            try self.onDemandSpecification?.forEach {}
             try self.spotSpecification?.validate(name: "\(name).spotSpecification")
+            try self.spotSpecification?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2144,7 +2209,7 @@ extension EMR {
     public struct InstanceGroup: AWSDecodableShape {
         /// An automatic scaling policy for a core instance group or task instance group in an Amazon EMR cluster. The automatic scaling policy defines how an instance group dynamically adds and terminates EC2 instances in response to the value of a CloudWatch metric. See PutAutoScalingPolicy.
         public let autoScalingPolicy: AutoScalingPolicyDescription?
-        /// The bid price for each EC2 Spot Instance type as defined by InstanceType. Expressed in USD. If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
+        /// If specified, indicates that the instance group uses Spot Instances. This is the maximum price you are willing to pay for Spot Instances. Specify OnDemandPrice to set the amount equal to the On-Demand price, or specify an amount in USD.
         public let bidPrice: String?
         ///  Amazon EMR releases 4.x or later.  The list of configurations supplied for an EMR cluster instance group. You can specify a separate configuration for each instance group (master, core, and task).
         public let configurations: [Configuration]?
@@ -2221,7 +2286,7 @@ extension EMR {
     public struct InstanceGroupConfig: AWSEncodableShape {
         /// An automatic scaling policy for a core instance group or task instance group in an Amazon EMR cluster. The automatic scaling policy defines how an instance group dynamically adds and terminates EC2 instances in response to the value of a CloudWatch metric. See PutAutoScalingPolicy.
         public let autoScalingPolicy: AutoScalingPolicy?
-        /// The bid price for each EC2 Spot Instance as defined by InstanceType. Expressed in USD. If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
+        /// If specified, indicates that the instance group uses Spot Instances. This is the maximum price you are willing to pay for Spot Instances. Specify OnDemandPrice to set the amount equal to the On-Demand price, or specify an amount in USD.
         public let bidPrice: String?
         ///  Amazon EMR releases 4.x or later.  The list of configurations supplied for an EMR cluster instance group. You can specify a separate configuration for each instance group (master, core, and task).
         public let configurations: [Configuration]?
@@ -2252,12 +2317,16 @@ extension EMR {
 
         public func validate(name: String) throws {
             try self.autoScalingPolicy?.validate(name: "\(name).autoScalingPolicy")
+            try self.autoScalingPolicy?.forEach {}
+            try self.bidPrice?.forEach {}
             try self.validate(self.bidPrice, name: "bidPrice", parent: name, max: 256)
             try self.validate(self.bidPrice, name: "bidPrice", parent: name, min: 0)
             try self.validate(self.bidPrice, name: "bidPrice", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.instanceType.forEach {}
             try self.validate(self.instanceType, name: "instanceType", parent: name, max: 256)
             try self.validate(self.instanceType, name: "instanceType", parent: name, min: 1)
             try self.validate(self.instanceType, name: "instanceType", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 0)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -2277,7 +2346,7 @@ extension EMR {
     }
 
     public struct InstanceGroupDetail: AWSDecodableShape {
-        /// The bid price for each EC2 Spot Instance as defined by InstanceType. Expressed in USD. If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
+        /// If specified, indicates that the instance group uses Spot Instances. This is the maximum price you are willing to pay for Spot Instances. Specify OnDemandPrice to set the amount equal to the On-Demand price, or specify an amount in USD.
         public let bidPrice: String?
         /// The date/time the instance group was created.
         public let creationDateTime: Date
@@ -2362,6 +2431,7 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.instanceGroupId.forEach {}
             try self.validate(self.instanceGroupId, name: "instanceGroupId", parent: name, max: 256)
             try self.validate(self.instanceGroupId, name: "instanceGroupId", parent: name, min: 0)
             try self.validate(self.instanceGroupId, name: "instanceGroupId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -2539,13 +2609,17 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.bidPrice?.forEach {}
             try self.validate(self.bidPrice, name: "bidPrice", parent: name, max: 256)
             try self.validate(self.bidPrice, name: "bidPrice", parent: name, min: 0)
             try self.validate(self.bidPrice, name: "bidPrice", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.bidPriceAsPercentageOfOnDemandPrice?.forEach {}
             try self.validate(self.bidPriceAsPercentageOfOnDemandPrice, name: "bidPriceAsPercentageOfOnDemandPrice", parent: name, min: 0)
+            try self.instanceType.forEach {}
             try self.validate(self.instanceType, name: "instanceType", parent: name, max: 256)
             try self.validate(self.instanceType, name: "instanceType", parent: name, min: 1)
             try self.validate(self.instanceType, name: "instanceType", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.weightedCapacity?.forEach {}
             try self.validate(self.weightedCapacity, name: "weightedCapacity", parent: name, min: 0)
         }
 
@@ -2760,14 +2834,18 @@ extension EMR {
                 try validate($0, name: "additionalMasterSecurityGroups[]", parent: name, min: 0)
                 try validate($0, name: "additionalMasterSecurityGroups[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             }
+            try self.additionalMasterSecurityGroups?.forEach {}
             try self.additionalSlaveSecurityGroups?.forEach {
                 try validate($0, name: "additionalSlaveSecurityGroups[]", parent: name, max: 256)
                 try validate($0, name: "additionalSlaveSecurityGroups[]", parent: name, min: 0)
                 try validate($0, name: "additionalSlaveSecurityGroups[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             }
+            try self.additionalSlaveSecurityGroups?.forEach {}
+            try self.ec2KeyName?.forEach {}
             try self.validate(self.ec2KeyName, name: "ec2KeyName", parent: name, max: 256)
             try self.validate(self.ec2KeyName, name: "ec2KeyName", parent: name, min: 0)
             try self.validate(self.ec2KeyName, name: "ec2KeyName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.ec2SubnetId?.forEach {}
             try self.validate(self.ec2SubnetId, name: "ec2SubnetId", parent: name, max: 256)
             try self.validate(self.ec2SubnetId, name: "ec2SubnetId", parent: name, min: 0)
             try self.validate(self.ec2SubnetId, name: "ec2SubnetId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -2776,28 +2854,38 @@ extension EMR {
                 try validate($0, name: "ec2SubnetIds[]", parent: name, min: 0)
                 try validate($0, name: "ec2SubnetIds[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             }
+            try self.ec2SubnetIds?.forEach {}
+            try self.emrManagedMasterSecurityGroup?.forEach {}
             try self.validate(self.emrManagedMasterSecurityGroup, name: "emrManagedMasterSecurityGroup", parent: name, max: 256)
             try self.validate(self.emrManagedMasterSecurityGroup, name: "emrManagedMasterSecurityGroup", parent: name, min: 0)
             try self.validate(self.emrManagedMasterSecurityGroup, name: "emrManagedMasterSecurityGroup", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.emrManagedSlaveSecurityGroup?.forEach {}
             try self.validate(self.emrManagedSlaveSecurityGroup, name: "emrManagedSlaveSecurityGroup", parent: name, max: 256)
             try self.validate(self.emrManagedSlaveSecurityGroup, name: "emrManagedSlaveSecurityGroup", parent: name, min: 0)
             try self.validate(self.emrManagedSlaveSecurityGroup, name: "emrManagedSlaveSecurityGroup", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.hadoopVersion?.forEach {}
             try self.validate(self.hadoopVersion, name: "hadoopVersion", parent: name, max: 256)
             try self.validate(self.hadoopVersion, name: "hadoopVersion", parent: name, min: 0)
             try self.validate(self.hadoopVersion, name: "hadoopVersion", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.instanceFleets?.forEach {
                 try $0.validate(name: "\(name).instanceFleets[]")
             }
+            try self.instanceFleets?.forEach {}
             try self.instanceGroups?.forEach {
                 try $0.validate(name: "\(name).instanceGroups[]")
             }
+            try self.instanceGroups?.forEach {}
+            try self.masterInstanceType?.forEach {}
             try self.validate(self.masterInstanceType, name: "masterInstanceType", parent: name, max: 256)
             try self.validate(self.masterInstanceType, name: "masterInstanceType", parent: name, min: 1)
             try self.validate(self.masterInstanceType, name: "masterInstanceType", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.placement?.validate(name: "\(name).placement")
+            try self.placement?.forEach {}
+            try self.serviceAccessSecurityGroup?.forEach {}
             try self.validate(self.serviceAccessSecurityGroup, name: "serviceAccessSecurityGroup", parent: name, max: 256)
             try self.validate(self.serviceAccessSecurityGroup, name: "serviceAccessSecurityGroup", parent: name, min: 0)
             try self.validate(self.serviceAccessSecurityGroup, name: "serviceAccessSecurityGroup", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.slaveInstanceType?.forEach {}
             try self.validate(self.slaveInstanceType, name: "slaveInstanceType", parent: name, max: 256)
             try self.validate(self.slaveInstanceType, name: "slaveInstanceType", parent: name, min: 1)
             try self.validate(self.slaveInstanceType, name: "slaveInstanceType", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -2906,18 +2994,23 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.aDDomainJoinPassword?.forEach {}
             try self.validate(self.aDDomainJoinPassword, name: "aDDomainJoinPassword", parent: name, max: 256)
             try self.validate(self.aDDomainJoinPassword, name: "aDDomainJoinPassword", parent: name, min: 0)
             try self.validate(self.aDDomainJoinPassword, name: "aDDomainJoinPassword", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.aDDomainJoinUser?.forEach {}
             try self.validate(self.aDDomainJoinUser, name: "aDDomainJoinUser", parent: name, max: 256)
             try self.validate(self.aDDomainJoinUser, name: "aDDomainJoinUser", parent: name, min: 0)
             try self.validate(self.aDDomainJoinUser, name: "aDDomainJoinUser", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.crossRealmTrustPrincipalPassword?.forEach {}
             try self.validate(self.crossRealmTrustPrincipalPassword, name: "crossRealmTrustPrincipalPassword", parent: name, max: 256)
             try self.validate(self.crossRealmTrustPrincipalPassword, name: "crossRealmTrustPrincipalPassword", parent: name, min: 0)
             try self.validate(self.crossRealmTrustPrincipalPassword, name: "crossRealmTrustPrincipalPassword", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.kdcAdminPassword.forEach {}
             try self.validate(self.kdcAdminPassword, name: "kdcAdminPassword", parent: name, max: 256)
             try self.validate(self.kdcAdminPassword, name: "kdcAdminPassword", parent: name, min: 0)
             try self.validate(self.kdcAdminPassword, name: "kdcAdminPassword", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.realm.forEach {}
             try self.validate(self.realm, name: "realm", parent: name, max: 256)
             try self.validate(self.realm, name: "realm", parent: name, min: 0)
             try self.validate(self.realm, name: "realm", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -2944,9 +3037,11 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 10280)
             try self.validate(self.key, name: "key", parent: name, min: 0)
             try self.validate(self.key, name: "key", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 10280)
             try self.validate(self.value, name: "value", parent: name, min: 0)
             try self.validate(self.value, name: "value", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -3177,6 +3272,7 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.editorId?.forEach {}
             try self.validate(self.editorId, name: "editorId", parent: name, max: 256)
             try self.validate(self.editorId, name: "editorId", parent: name, min: 0)
             try self.validate(self.editorId, name: "editorId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -3261,6 +3357,7 @@ extension EMR {
                 try validate($0, name: "stepIds[]", parent: name, min: 0)
                 try validate($0, name: "stepIds[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             }
+            try self.stepIds?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3303,6 +3400,7 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.studioId?.forEach {}
             try self.validate(self.studioId, name: "studioId", parent: name, max: 256)
             try self.validate(self.studioId, name: "studioId", parent: name, min: 0)
             try self.validate(self.studioId, name: "studioId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -3395,7 +3493,7 @@ extension EMR {
     public struct ModifyClusterInput: AWSEncodableShape {
         /// The unique identifier of the cluster.
         public let clusterId: String
-        /// The number of steps that can be executed concurrently. You can specify a maximum of 256 steps.
+        /// The number of steps that can be executed concurrently. You can specify a minimum of 1 step and a maximum of 256 steps.
         public let stepConcurrencyLevel: Int?
 
         public init(clusterId: String, stepConcurrencyLevel: Int? = nil) {
@@ -3435,6 +3533,7 @@ extension EMR {
 
         public func validate(name: String) throws {
             try self.instanceFleet.validate(name: "\(name).instanceFleet")
+            try self.instanceFleet.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3458,6 +3557,7 @@ extension EMR {
             try self.instanceGroups?.forEach {
                 try $0.validate(name: "\(name).instanceGroups[]")
             }
+            try self.instanceGroups?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3560,16 +3660,53 @@ extension EMR {
         }
     }
 
-    public struct OnDemandProvisioningSpecification: AWSEncodableShape & AWSDecodableShape {
-        ///  Specifies the strategy to use in launching On-Demand Instance fleets. Currently, the only option is lowest-price (the default), which launches the lowest price first.
-        public let allocationStrategy: OnDemandProvisioningAllocationStrategy
+    public struct OnDemandCapacityReservationOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates the instance's Capacity Reservation preferences. Possible preferences include:    open - The instance can run in any open Capacity Reservation that has matching attributes (instance type, platform, Availability Zone).    none - The instance avoids running in a Capacity Reservation even if one is available. The instance runs as an On-Demand Instance.
+        public let capacityReservationPreference: OnDemandCapacityReservationPreference?
+        /// The ARN of the Capacity Reservation resource group in which to run the instance.
+        public let capacityReservationResourceGroupArn: String?
+        /// Indicates whether to use unused Capacity Reservations for fulfilling On-Demand capacity. If you specify use-capacity-reservations-first, the fleet uses unused Capacity Reservations to fulfill On-Demand capacity up to the target On-Demand capacity. If multiple instance pools have unused Capacity Reservations, the On-Demand allocation strategy (lowest-price) is applied. If the number of unused Capacity Reservations is less than the On-Demand target capacity, the remaining On-Demand target capacity is launched according to the On-Demand allocation strategy (lowest-price). If you do not specify a value, the fleet fulfils the On-Demand capacity according to the chosen On-Demand allocation strategy.
+        public let usageStrategy: OnDemandCapacityReservationUsageStrategy?
 
-        public init(allocationStrategy: OnDemandProvisioningAllocationStrategy) {
+        public init(capacityReservationPreference: OnDemandCapacityReservationPreference? = nil, capacityReservationResourceGroupArn: String? = nil, usageStrategy: OnDemandCapacityReservationUsageStrategy? = nil) {
+            self.capacityReservationPreference = capacityReservationPreference
+            self.capacityReservationResourceGroupArn = capacityReservationResourceGroupArn
+            self.usageStrategy = usageStrategy
+        }
+
+        public func validate(name: String) throws {
+            try self.capacityReservationResourceGroupArn?.forEach {}
+            try self.validate(self.capacityReservationResourceGroupArn, name: "capacityReservationResourceGroupArn", parent: name, max: 256)
+            try self.validate(self.capacityReservationResourceGroupArn, name: "capacityReservationResourceGroupArn", parent: name, min: 0)
+            try self.validate(self.capacityReservationResourceGroupArn, name: "capacityReservationResourceGroupArn", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityReservationPreference = "CapacityReservationPreference"
+            case capacityReservationResourceGroupArn = "CapacityReservationResourceGroupArn"
+            case usageStrategy = "UsageStrategy"
+        }
+    }
+
+    public struct OnDemandProvisioningSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the strategy to use in launching On-Demand instance fleets. Currently, the only option is lowest-price (the default), which launches the lowest price first.
+        public let allocationStrategy: OnDemandProvisioningAllocationStrategy
+        /// The launch specification for On-Demand instances in the instance fleet, which determines the allocation strategy.
+        public let capacityReservationOptions: OnDemandCapacityReservationOptions?
+
+        public init(allocationStrategy: OnDemandProvisioningAllocationStrategy, capacityReservationOptions: OnDemandCapacityReservationOptions? = nil) {
             self.allocationStrategy = allocationStrategy
+            self.capacityReservationOptions = capacityReservationOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.capacityReservationOptions?.validate(name: "\(name).capacityReservationOptions")
+            try self.capacityReservationOptions?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
             case allocationStrategy = "AllocationStrategy"
+            case capacityReservationOptions = "CapacityReservationOptions"
         }
     }
 
@@ -3602,6 +3739,7 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.availabilityZone?.forEach {}
             try self.validate(self.availabilityZone, name: "availabilityZone", parent: name, max: 10280)
             try self.validate(self.availabilityZone, name: "availabilityZone", parent: name, min: 0)
             try self.validate(self.availabilityZone, name: "availabilityZone", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -3610,6 +3748,7 @@ extension EMR {
                 try validate($0, name: "availabilityZones[]", parent: name, min: 0)
                 try validate($0, name: "availabilityZones[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             }
+            try self.availabilityZones?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3630,8 +3769,10 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.maxRange?.forEach {}
             try self.validate(self.maxRange, name: "maxRange", parent: name, max: 65535)
             try self.validate(self.maxRange, name: "maxRange", parent: name, min: -1)
+            try self.minRange.forEach {}
             try self.validate(self.minRange, name: "minRange", parent: name, max: 65535)
             try self.validate(self.minRange, name: "minRange", parent: name, min: -1)
         }
@@ -3658,6 +3799,7 @@ extension EMR {
 
         public func validate(name: String) throws {
             try self.autoScalingPolicy.validate(name: "\(name).autoScalingPolicy")
+            try self.autoScalingPolicy.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3702,6 +3844,7 @@ extension EMR {
 
         public func validate(name: String) throws {
             try self.blockPublicAccessConfiguration.validate(name: "\(name).blockPublicAccessConfiguration")
+            try self.blockPublicAccessConfiguration.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3880,55 +4023,72 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.additionalInfo?.forEach {}
             try self.validate(self.additionalInfo, name: "additionalInfo", parent: name, max: 10280)
             try self.validate(self.additionalInfo, name: "additionalInfo", parent: name, min: 0)
             try self.validate(self.additionalInfo, name: "additionalInfo", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.amiVersion?.forEach {}
             try self.validate(self.amiVersion, name: "amiVersion", parent: name, max: 256)
             try self.validate(self.amiVersion, name: "amiVersion", parent: name, min: 0)
             try self.validate(self.amiVersion, name: "amiVersion", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.autoScalingRole?.forEach {}
             try self.validate(self.autoScalingRole, name: "autoScalingRole", parent: name, max: 10280)
             try self.validate(self.autoScalingRole, name: "autoScalingRole", parent: name, min: 0)
             try self.validate(self.autoScalingRole, name: "autoScalingRole", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.bootstrapActions?.forEach {
                 try $0.validate(name: "\(name).bootstrapActions[]")
             }
+            try self.bootstrapActions?.forEach {}
+            try self.customAmiId?.forEach {}
             try self.validate(self.customAmiId, name: "customAmiId", parent: name, max: 256)
             try self.validate(self.customAmiId, name: "customAmiId", parent: name, min: 0)
             try self.validate(self.customAmiId, name: "customAmiId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.instances.validate(name: "\(name).instances")
+            try self.instances.forEach {}
+            try self.jobFlowRole?.forEach {}
             try self.validate(self.jobFlowRole, name: "jobFlowRole", parent: name, max: 10280)
             try self.validate(self.jobFlowRole, name: "jobFlowRole", parent: name, min: 0)
             try self.validate(self.jobFlowRole, name: "jobFlowRole", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.kerberosAttributes?.validate(name: "\(name).kerberosAttributes")
+            try self.kerberosAttributes?.forEach {}
+            try self.logEncryptionKmsKeyId?.forEach {}
             try self.validate(self.logEncryptionKmsKeyId, name: "logEncryptionKmsKeyId", parent: name, max: 10280)
             try self.validate(self.logEncryptionKmsKeyId, name: "logEncryptionKmsKeyId", parent: name, min: 0)
             try self.validate(self.logEncryptionKmsKeyId, name: "logEncryptionKmsKeyId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.logUri?.forEach {}
             try self.validate(self.logUri, name: "logUri", parent: name, max: 10280)
             try self.validate(self.logUri, name: "logUri", parent: name, min: 0)
             try self.validate(self.logUri, name: "logUri", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 0)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.newSupportedProducts?.forEach {
                 try $0.validate(name: "\(name).newSupportedProducts[]")
             }
+            try self.newSupportedProducts?.forEach {}
+            try self.releaseLabel?.forEach {}
             try self.validate(self.releaseLabel, name: "releaseLabel", parent: name, max: 256)
             try self.validate(self.releaseLabel, name: "releaseLabel", parent: name, min: 0)
             try self.validate(self.releaseLabel, name: "releaseLabel", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.securityConfiguration?.forEach {}
             try self.validate(self.securityConfiguration, name: "securityConfiguration", parent: name, max: 10280)
             try self.validate(self.securityConfiguration, name: "securityConfiguration", parent: name, min: 0)
             try self.validate(self.securityConfiguration, name: "securityConfiguration", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.serviceRole?.forEach {}
             try self.validate(self.serviceRole, name: "serviceRole", parent: name, max: 10280)
             try self.validate(self.serviceRole, name: "serviceRole", parent: name, min: 0)
             try self.validate(self.serviceRole, name: "serviceRole", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.steps?.forEach {
                 try $0.validate(name: "\(name).steps[]")
             }
+            try self.steps?.forEach {}
             try self.supportedProducts?.forEach {
                 try validate($0, name: "supportedProducts[]", parent: name, max: 256)
                 try validate($0, name: "supportedProducts[]", parent: name, min: 0)
                 try validate($0, name: "supportedProducts[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             }
+            try self.supportedProducts?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4032,6 +4192,7 @@ extension EMR {
 
         public func validate(name: String) throws {
             try self.trigger.validate(name: "\(name).trigger")
+            try self.trigger.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4052,6 +4213,7 @@ extension EMR {
 
         public func validate(name: String) throws {
             try self.cloudWatchAlarmDefinition.validate(name: "\(name).cloudWatchAlarmDefinition")
+            try self.cloudWatchAlarmDefinition.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4076,6 +4238,8 @@ extension EMR {
                 try validate($0, name: "args[]", parent: name, min: 0)
                 try validate($0, name: "args[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             }
+            try self.args?.forEach {}
+            try self.path.forEach {}
             try self.validate(self.path, name: "path", parent: name, max: 10280)
             try self.validate(self.path, name: "path", parent: name, min: 0)
             try self.validate(self.path, name: "path", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -4191,6 +4355,7 @@ extension EMR {
                 try validate($0, name: "jobFlowIds[]", parent: name, min: 0)
                 try validate($0, name: "jobFlowIds[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             }
+            try self.jobFlowIds.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4216,6 +4381,7 @@ extension EMR {
                 try validate($0, name: "jobFlowIds[]", parent: name, min: 0)
                 try validate($0, name: "jobFlowIds[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             }
+            try self.jobFlowIds.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4280,7 +4446,9 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.blockDurationMinutes?.forEach {}
             try self.validate(self.blockDurationMinutes, name: "blockDurationMinutes", parent: name, min: 0)
+            try self.timeoutDurationMinutes.forEach {}
             try self.validate(self.timeoutDurationMinutes, name: "timeoutDurationMinutes", parent: name, min: 0)
         }
 
@@ -4322,22 +4490,29 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.editorId.forEach {}
             try self.validate(self.editorId, name: "editorId", parent: name, max: 256)
             try self.validate(self.editorId, name: "editorId", parent: name, min: 0)
             try self.validate(self.editorId, name: "editorId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.executionEngine.validate(name: "\(name).executionEngine")
+            try self.executionEngine.forEach {}
+            try self.notebookExecutionName?.forEach {}
             try self.validate(self.notebookExecutionName, name: "notebookExecutionName", parent: name, max: 256)
             try self.validate(self.notebookExecutionName, name: "notebookExecutionName", parent: name, min: 0)
             try self.validate(self.notebookExecutionName, name: "notebookExecutionName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.notebookInstanceSecurityGroupId?.forEach {}
             try self.validate(self.notebookInstanceSecurityGroupId, name: "notebookInstanceSecurityGroupId", parent: name, max: 256)
             try self.validate(self.notebookInstanceSecurityGroupId, name: "notebookInstanceSecurityGroupId", parent: name, min: 0)
             try self.validate(self.notebookInstanceSecurityGroupId, name: "notebookInstanceSecurityGroupId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.notebookParams?.forEach {}
             try self.validate(self.notebookParams, name: "notebookParams", parent: name, max: 10280)
             try self.validate(self.notebookParams, name: "notebookParams", parent: name, min: 0)
             try self.validate(self.notebookParams, name: "notebookParams", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.relativePath.forEach {}
             try self.validate(self.relativePath, name: "relativePath", parent: name, max: 10280)
             try self.validate(self.relativePath, name: "relativePath", parent: name, min: 0)
             try self.validate(self.relativePath, name: "relativePath", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.serviceRole.forEach {}
             try self.validate(self.serviceRole, name: "serviceRole", parent: name, max: 10280)
             try self.validate(self.serviceRole, name: "serviceRole", parent: name, min: 0)
             try self.validate(self.serviceRole, name: "serviceRole", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -4413,6 +4588,8 @@ extension EMR {
 
         public func validate(name: String) throws {
             try self.hadoopJarStep.validate(name: "\(name).hadoopJarStep")
+            try self.hadoopJarStep.forEach {}
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 0)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -4572,6 +4749,7 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.notebookExecutionId.forEach {}
             try self.validate(self.notebookExecutionId, name: "notebookExecutionId", parent: name, max: 256)
             try self.validate(self.notebookExecutionId, name: "notebookExecutionId", parent: name, min: 0)
             try self.validate(self.notebookExecutionId, name: "notebookExecutionId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -4587,7 +4765,7 @@ extension EMR {
         public let authMode: AuthMode?
         /// The time the Amazon EMR Studio was created.
         public let creationTime: Date?
-        /// The default Amazon S3 location to back up Amazon EMR Studio Workspaces and notebook files.
+        /// The Amazon S3 location to back up Amazon EMR Studio Workspaces and notebook files.
         public let defaultS3Location: String?
         /// The detailed description of the Amazon EMR Studio.
         public let description: String?
@@ -4701,6 +4879,8 @@ extension EMR {
                 try validate($0, name: "args[]", parent: name, min: 0)
                 try validate($0, name: "args[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             }
+            try self.args?.forEach {}
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 0)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -4743,6 +4923,7 @@ extension EMR {
                 try validate($0, name: "jobFlowIds[]", parent: name, min: 0)
                 try validate($0, name: "jobFlowIds[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             }
+            try self.jobFlowIds.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4751,7 +4932,7 @@ extension EMR {
     }
 
     public struct UpdateStudioInput: AWSEncodableShape {
-        /// A default Amazon S3 location to back up Workspaces and notebook files for the Amazon EMR Studio. A Studio user can select an alternative Amazon S3 location when creating a Workspace.
+        /// The Amazon S3 location to back up Workspaces and notebook files for the Amazon EMR Studio.
         public let defaultS3Location: String?
         /// A detailed description to assign to the Amazon EMR Studio.
         public let description: String?
@@ -4771,15 +4952,19 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.defaultS3Location?.forEach {}
             try self.validate(self.defaultS3Location, name: "defaultS3Location", parent: name, max: 10280)
             try self.validate(self.defaultS3Location, name: "defaultS3Location", parent: name, min: 0)
             try self.validate(self.defaultS3Location, name: "defaultS3Location", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 0)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.studioId.forEach {}
             try self.validate(self.studioId, name: "studioId", parent: name, max: 256)
             try self.validate(self.studioId, name: "studioId", parent: name, min: 0)
             try self.validate(self.studioId, name: "studioId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -4815,15 +5000,19 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.identityId?.forEach {}
             try self.validate(self.identityId, name: "identityId", parent: name, max: 256)
             try self.validate(self.identityId, name: "identityId", parent: name, min: 0)
             try self.validate(self.identityId, name: "identityId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.identityName?.forEach {}
             try self.validate(self.identityName, name: "identityName", parent: name, max: 256)
             try self.validate(self.identityName, name: "identityName", parent: name, min: 0)
             try self.validate(self.identityName, name: "identityName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.sessionPolicyArn.forEach {}
             try self.validate(self.sessionPolicyArn, name: "sessionPolicyArn", parent: name, max: 256)
             try self.validate(self.sessionPolicyArn, name: "sessionPolicyArn", parent: name, min: 0)
             try self.validate(self.sessionPolicyArn, name: "sessionPolicyArn", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.studioId.forEach {}
             try self.validate(self.studioId, name: "studioId", parent: name, max: 256)
             try self.validate(self.studioId, name: "studioId", parent: name, min: 0)
             try self.validate(self.studioId, name: "studioId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")

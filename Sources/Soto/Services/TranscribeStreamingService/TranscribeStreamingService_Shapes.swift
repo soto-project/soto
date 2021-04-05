@@ -38,6 +38,7 @@ extension TranscribeStreamingService {
         case jaJp = "ja-JP"
         case koKr = "ko-KR"
         case ptBr = "pt-BR"
+        case zhCn = "zh-CN"
         public var description: String { return self.rawValue }
     }
 
@@ -109,7 +110,7 @@ extension TranscribeStreamingService {
     }
 
     public struct AudioStream: AWSEncodableShape {
-        /// A blob of audio from your application. You audio stream consists of one or more audio events. For information on audio encoding formats, see input. For more information on stream encoding, see event-stream.
+        /// A blob of audio from your application. You audio stream consists of one or more audio events. For information on audio encoding formats in Amazon Transcribe, see input. For information on audio encoding formats in Amazon Transcribe Medical, see input-med. For more information on stream encoding in Amazon Transcribe, see event-stream. For information on stream encoding in Amazon Transcribe Medical, see event-stream-med.
         public let audioEvent: AudioEvent?
 
         public init(audioEvent: AudioEvent? = nil) {
@@ -158,6 +159,8 @@ extension TranscribeStreamingService {
     }
 
     public struct Item: AWSDecodableShape {
+        /// A value between 0 and 1 for an item that is a confidence score that Amazon Transcribe assigns to each word or phrase that it transcribes.
+        public let confidence: Double?
         /// The word or punctuation that was recognized in the input audio.
         public let content: String?
         /// The offset from the beginning of the audio stream to the end of the audio that resulted in the item.
@@ -171,7 +174,8 @@ extension TranscribeStreamingService {
         /// Indicates whether a word in the item matches a word in the vocabulary filter you've chosen for your real-time stream. If true then a word in the item matches your vocabulary filter.
         public let vocabularyFilterMatch: Bool?
 
-        public init(content: String? = nil, endTime: Double? = nil, speaker: String? = nil, startTime: Double? = nil, type: ItemType? = nil, vocabularyFilterMatch: Bool? = nil) {
+        public init(confidence: Double? = nil, content: String? = nil, endTime: Double? = nil, speaker: String? = nil, startTime: Double? = nil, type: ItemType? = nil, vocabularyFilterMatch: Bool? = nil) {
+            self.confidence = confidence
             self.content = content
             self.endTime = endTime
             self.speaker = speaker
@@ -181,6 +185,7 @@ extension TranscribeStreamingService {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case confidence = "Confidence"
             case content = "Content"
             case endTime = "EndTime"
             case speaker = "Speaker"
@@ -475,12 +480,16 @@ extension TranscribeStreamingService {
         }
 
         public func validate(name: String) throws {
+            try self.mediaSampleRateHertz.forEach {}
             try self.validate(self.mediaSampleRateHertz, name: "mediaSampleRateHertz", parent: name, max: 48000)
             try self.validate(self.mediaSampleRateHertz, name: "mediaSampleRateHertz", parent: name, min: 8000)
+            try self.numberOfChannels?.forEach {}
             try self.validate(self.numberOfChannels, name: "numberOfChannels", parent: name, min: 2)
+            try self.sessionId?.forEach {}
             try self.validate(self.sessionId, name: "sessionId", parent: name, max: 36)
             try self.validate(self.sessionId, name: "sessionId", parent: name, min: 36)
             try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}")
+            try self.vocabularyName?.forEach {}
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, max: 200)
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, min: 1)
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
@@ -625,15 +634,20 @@ extension TranscribeStreamingService {
         }
 
         public func validate(name: String) throws {
+            try self.mediaSampleRateHertz.forEach {}
             try self.validate(self.mediaSampleRateHertz, name: "mediaSampleRateHertz", parent: name, max: 48000)
             try self.validate(self.mediaSampleRateHertz, name: "mediaSampleRateHertz", parent: name, min: 8000)
+            try self.numberOfChannels?.forEach {}
             try self.validate(self.numberOfChannels, name: "numberOfChannels", parent: name, min: 2)
+            try self.sessionId?.forEach {}
             try self.validate(self.sessionId, name: "sessionId", parent: name, max: 36)
             try self.validate(self.sessionId, name: "sessionId", parent: name, min: 36)
             try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}")
+            try self.vocabularyFilterName?.forEach {}
             try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, max: 200)
             try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, min: 1)
             try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
+            try self.vocabularyName?.forEach {}
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, max: 200)
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, min: 1)
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+")

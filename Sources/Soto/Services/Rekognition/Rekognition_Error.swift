@@ -63,7 +63,7 @@ public struct RekognitionErrorType: AWSErrorType {
     public static var humanLoopQuotaExceededException: Self { .init(.humanLoopQuotaExceededException) }
     /// A ClientRequestToken input parameter was reused with an operation, but at least one of the other input parameters is different from the previous call to the operation.
     public static var idempotentParameterMismatchException: Self { .init(.idempotentParameterMismatchException) }
-    /// The input image size exceeds the allowed limit. For more information, see Limits in Amazon Rekognition in the Amazon Rekognition Developer Guide.
+    /// The input image size exceeds the allowed limit. If you are calling DetectProtectiveEquipment, the image size or resolution exceeds the allowed limit. For more information, see Limits in Amazon Rekognition in the Amazon Rekognition Developer Guide.
     public static var imageTooLargeException: Self { .init(.imageTooLargeException) }
     /// Amazon Rekognition experienced a service issue. Try your call again.
     public static var internalServerError: Self { .init(.internalServerError) }
@@ -87,7 +87,7 @@ public struct RekognitionErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The requested resource isn't ready. For example, this exception occurs when you call DetectCustomLabels with a model version that isn't deployed.
     public static var resourceNotReadyException: Self { .init(.resourceNotReadyException) }
-    ///  The size of the collection exceeds the allowed limit. For more information, see Limits in Amazon Rekognition in the Amazon Rekognition Developer Guide.
+    ///  The size of the collection or tag list exceeds the allowed limit. For more information, see Limits in Amazon Rekognition in the Amazon Rekognition Developer Guide.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public static var throttlingException: Self { .init(.throttlingException) }

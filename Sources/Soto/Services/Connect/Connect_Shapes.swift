@@ -488,8 +488,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.origin.forEach {}
             try self.validate(self.origin, name: "origin", parent: name, max: 267)
         }
 
@@ -517,9 +519,11 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.storageConfig.validate(name: "\(name).storageConfig")
+            try self.storageConfig.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -557,8 +561,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.functionArn.forEach {}
             try self.validate(self.functionArn, name: "functionArn", parent: name, max: 140)
             try self.validate(self.functionArn, name: "functionArn", parent: name, min: 1)
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -584,9 +590,11 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.lexBot.validate(name: "\(name).lexBot")
+            try self.lexBot.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -614,8 +622,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.quickConnectIds.forEach {}
             try self.validate(self.quickConnectIds, name: "quickConnectIds", parent: name, max: 50)
             try self.validate(self.quickConnectIds, name: "quickConnectIds", parent: name, min: 1)
         }
@@ -645,11 +655,13 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.queueConfigs.forEach {
                 try $0.validate(name: "\(name).queueConfigs[]")
             }
+            try self.queueConfigs.forEach {}
             try self.validate(self.queueConfigs, name: "queueConfigs", parent: name, max: 10)
             try self.validate(self.queueConfigs, name: "queueConfigs", parent: name, min: 1)
         }
@@ -675,8 +687,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 1024)
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
@@ -728,8 +742,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.content.forEach {}
             try self.validate(self.content, name: "content", parent: name, max: 1024)
             try self.validate(self.content, name: "content", parent: name, min: 1)
+            try self.contentType.forEach {}
             try self.validate(self.contentType, name: "contentType", parent: name, max: 100)
             try self.validate(self.contentType, name: "contentType", parent: name, min: 1)
         }
@@ -830,8 +846,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -891,10 +909,13 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
+            try self.directoryId?.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, max: 12)
             try self.validate(self.directoryId, name: "directoryId", parent: name, min: 12)
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.instanceAlias?.forEach {}
             try self.validate(self.instanceAlias, name: "instanceAlias", parent: name, max: 62)
             try self.validate(self.instanceAlias, name: "instanceAlias", parent: name, min: 1)
             try self.validate(self.instanceAlias, name: "instanceAlias", parent: name, pattern: "^(?!d-)([\\da-zA-Z]+)([-]*[\\da-zA-Z])*$")
@@ -955,11 +976,14 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.sourceApplicationName.forEach {}
             try self.validate(self.sourceApplicationName, name: "sourceApplicationName", parent: name, max: 100)
             try self.validate(self.sourceApplicationName, name: "sourceApplicationName", parent: name, min: 1)
             try self.validate(self.sourceApplicationName, name: "sourceApplicationName", parent: name, pattern: "^[a-zA-Z0-9_ -]+$")
+            try self.sourceApplicationUrl.forEach {}
             try self.validate(self.sourceApplicationUrl, name: "sourceApplicationUrl", parent: name, max: 2000)
             try self.validate(self.sourceApplicationUrl, name: "sourceApplicationUrl", parent: name, min: 1)
         }
@@ -1024,14 +1048,20 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 250)
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.maxContacts?.forEach {}
             try self.validate(self.maxContacts, name: "maxContacts", parent: name, min: 0)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 127)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.outboundCallerConfig?.validate(name: "\(name).outboundCallerConfig")
+            try self.outboundCallerConfig?.forEach {}
+            try self.quickConnectIds?.forEach {}
             try self.validate(self.quickConnectIds, name: "quickConnectIds", parent: name, max: 50)
             try self.validate(self.quickConnectIds, name: "quickConnectIds", parent: name, min: 1)
             try self.tags?.forEach {
@@ -1095,13 +1125,17 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 250)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 127)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.quickConnectConfig.validate(name: "\(name).quickConnectConfig")
+            try self.quickConnectConfig.forEach {}
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1166,18 +1200,23 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.description.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 250)
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.mediaConcurrencies.forEach {
                 try $0.validate(name: "\(name).mediaConcurrencies[]")
             }
+            try self.mediaConcurrencies.forEach {}
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 127)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.queueConfigs?.forEach {
                 try $0.validate(name: "\(name).queueConfigs[]")
             }
+            try self.queueConfigs?.forEach {}
             try self.validate(self.queueConfigs, name: "queueConfigs", parent: name, max: 10)
             try self.validate(self.queueConfigs, name: "queueConfigs", parent: name, min: 1)
             try self.tags?.forEach {
@@ -1235,8 +1274,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.integrationAssociationId.forEach {}
             try self.validate(self.integrationAssociationId, name: "integrationAssociationId", parent: name, max: 200)
             try self.validate(self.integrationAssociationId, name: "integrationAssociationId", parent: name, min: 1)
         }
@@ -1282,6 +1323,7 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -1350,10 +1392,15 @@ extension Connect {
 
         public func validate(name: String) throws {
             try self.identityInfo?.validate(name: "\(name).identityInfo")
+            try self.identityInfo?.forEach {}
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.password?.forEach {}
             try self.validate(self.password, name: "password", parent: name, pattern: "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d\\S]{8,64}$/")
             try self.phoneConfig.validate(name: "\(name).phoneConfig")
+            try self.phoneConfig.forEach {}
+            try self.securityProfileIds.forEach {}
             try self.validate(self.securityProfileIds, name: "securityProfileIds", parent: name, max: 10)
             try self.validate(self.securityProfileIds, name: "securityProfileIds", parent: name, min: 1)
             try self.tags?.forEach {
@@ -1362,6 +1409,7 @@ extension Connect {
                 try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
+            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 100)
             try self.validate(self.username, name: "username", parent: name, min: 1)
         }
@@ -1485,6 +1533,7 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -1509,8 +1558,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.integrationAssociationId.forEach {}
             try self.validate(self.integrationAssociationId, name: "integrationAssociationId", parent: name, max: 200)
             try self.validate(self.integrationAssociationId, name: "integrationAssociationId", parent: name, min: 1)
         }
@@ -1535,6 +1586,7 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -1563,10 +1615,13 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.integrationAssociationId.forEach {}
             try self.validate(self.integrationAssociationId, name: "integrationAssociationId", parent: name, max: 200)
             try self.validate(self.integrationAssociationId, name: "integrationAssociationId", parent: name, min: 1)
+            try self.useCaseId.forEach {}
             try self.validate(self.useCaseId, name: "useCaseId", parent: name, max: 200)
             try self.validate(self.useCaseId, name: "useCaseId", parent: name, min: 1)
         }
@@ -1591,6 +1646,7 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -1615,6 +1671,7 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -1639,7 +1696,9 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.contactFlowId.forEach {}
             try self.validate(self.contactFlowId, name: "contactFlowId", parent: name, max: 500)
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -1677,6 +1736,7 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -1714,6 +1774,7 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -1747,6 +1808,7 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -1788,8 +1850,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.associationId.forEach {}
             try self.validate(self.associationId, name: "associationId", parent: name, max: 100)
             try self.validate(self.associationId, name: "associationId", parent: name, min: 1)
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -1827,6 +1891,7 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -1864,6 +1929,7 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -1901,6 +1967,7 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -1938,6 +2005,7 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -1971,6 +2039,7 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -2008,6 +2077,7 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -2062,8 +2132,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.origin.forEach {}
             try self.validate(self.origin, name: "origin", parent: name, max: 267)
         }
 
@@ -2091,8 +2163,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.associationId.forEach {}
             try self.validate(self.associationId, name: "associationId", parent: name, max: 100)
             try self.validate(self.associationId, name: "associationId", parent: name, min: 1)
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -2117,8 +2191,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.functionArn.forEach {}
             try self.validate(self.functionArn, name: "functionArn", parent: name, max: 140)
             try self.validate(self.functionArn, name: "functionArn", parent: name, min: 1)
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -2147,9 +2223,12 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.botName.forEach {}
             try self.validate(self.botName, name: "botName", parent: name, max: 50)
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.lexRegion.forEach {}
             try self.validate(self.lexRegion, name: "lexRegion", parent: name, max: 60)
         }
 
@@ -2176,8 +2255,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.quickConnectIds.forEach {}
             try self.validate(self.quickConnectIds, name: "quickConnectIds", parent: name, max: 50)
             try self.validate(self.quickConnectIds, name: "quickConnectIds", parent: name, min: 1)
         }
@@ -2207,6 +2288,7 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -2233,8 +2315,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.associationId.forEach {}
             try self.validate(self.associationId, name: "associationId", parent: name, max: 100)
             try self.validate(self.associationId, name: "associationId", parent: name, min: 1)
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -2254,6 +2338,7 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.keyId.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 128)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
         }
@@ -2276,7 +2361,9 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.channels?.forEach {}
             try self.validate(self.channels, name: "channels", parent: name, max: 1)
+            try self.queues?.forEach {}
             try self.validate(self.queues, name: "queues", parent: name, max: 100)
             try self.validate(self.queues, name: "queues", parent: name, min: 1)
         }
@@ -2304,8 +2391,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.initialContactId.forEach {}
             try self.validate(self.initialContactId, name: "initialContactId", parent: name, max: 256)
             try self.validate(self.initialContactId, name: "initialContactId", parent: name, min: 1)
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -2355,9 +2444,13 @@ extension Connect {
 
         public func validate(name: String) throws {
             try self.filters.validate(name: "\(name).filters")
+            try self.filters.forEach {}
+            try self.groupings?.forEach {}
             try self.validate(self.groupings, name: "groupings", parent: name, max: 2)
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2405,6 +2498,7 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -2460,9 +2554,13 @@ extension Connect {
 
         public func validate(name: String) throws {
             try self.filters.validate(name: "\(name).filters")
+            try self.filters.forEach {}
+            try self.groupings?.forEach {}
             try self.validate(self.groupings, name: "groupings", parent: name, max: 2)
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2907,10 +3005,13 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.associationId?.forEach {}
             try self.validate(self.associationId, name: "associationId", parent: name, max: 100)
             try self.validate(self.associationId, name: "associationId", parent: name, min: 1)
             try self.kinesisVideoStreamConfig?.validate(name: "\(name).kinesisVideoStreamConfig")
+            try self.kinesisVideoStreamConfig?.forEach {}
             try self.s3Config?.validate(name: "\(name).s3Config")
+            try self.s3Config?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3051,8 +3152,11 @@ extension Connect {
 
         public func validate(name: String) throws {
             try self.encryptionConfig.validate(name: "\(name).encryptionConfig")
+            try self.encryptionConfig.forEach {}
+            try self.prefix.forEach {}
             try self.validate(self.prefix, name: "prefix", parent: name, max: 128)
             try self.validate(self.prefix, name: "prefix", parent: name, min: 1)
+            try self.retentionPeriodHours.forEach {}
             try self.validate(self.retentionPeriodHours, name: "retentionPeriodHours", parent: name, max: 87600)
             try self.validate(self.retentionPeriodHours, name: "retentionPeriodHours", parent: name, min: 0)
         }
@@ -3076,7 +3180,9 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.lexRegion?.forEach {}
             try self.validate(self.lexRegion, name: "lexRegion", parent: name, max: 60)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 50)
         }
 
@@ -3107,8 +3213,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -3158,9 +3266,12 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.contactFlowTypes?.forEach {}
             try self.validate(self.contactFlowTypes, name: "contactFlowTypes", parent: name, max: 10)
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -3206,8 +3317,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -3253,8 +3366,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 7)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -3304,8 +3419,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -3347,6 +3464,7 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -3392,8 +3510,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -3439,8 +3559,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -3486,8 +3608,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -3541,11 +3665,15 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.phoneNumberCountryCodes?.forEach {}
             try self.validate(self.phoneNumberCountryCodes, name: "phoneNumberCountryCodes", parent: name, max: 10)
+            try self.phoneNumberTypes?.forEach {}
             try self.validate(self.phoneNumberTypes, name: "phoneNumberTypes", parent: name, max: 2)
         }
 
@@ -3590,8 +3718,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -3641,8 +3771,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -3692,10 +3824,13 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.queueTypes?.forEach {}
             try self.validate(self.queueTypes, name: "queueTypes", parent: name, max: 2)
         }
 
@@ -3744,10 +3879,13 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.quickConnectTypes?.forEach {}
             try self.validate(self.quickConnectTypes, name: "quickConnectTypes", parent: name, max: 3)
         }
 
@@ -3796,8 +3934,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -3843,8 +3983,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -3890,8 +4032,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -3937,8 +4081,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -4016,10 +4162,13 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.integrationAssociationId.forEach {}
             try self.validate(self.integrationAssociationId, name: "integrationAssociationId", parent: name, max: 200)
             try self.validate(self.integrationAssociationId, name: "integrationAssociationId", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -4065,8 +4214,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -4112,8 +4263,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -4150,6 +4303,7 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.concurrency.forEach {}
             try self.validate(self.concurrency, name: "concurrency", parent: name, max: 10)
             try self.validate(self.concurrency, name: "concurrency", parent: name, min: 1)
         }
@@ -4175,8 +4329,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.outboundCallerIdName?.forEach {}
             try self.validate(self.outboundCallerIdName, name: "outboundCallerIdName", parent: name, max: 255)
             try self.validate(self.outboundCallerIdName, name: "outboundCallerIdName", parent: name, min: 1)
+            try self.outboundFlowId?.forEach {}
             try self.validate(self.outboundFlowId, name: "outboundFlowId", parent: name, max: 500)
         }
 
@@ -4196,6 +4352,7 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.displayName.forEach {}
             try self.validate(self.displayName, name: "displayName", parent: name, max: 256)
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
         }
@@ -4325,6 +4482,7 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.contactFlowId.forEach {}
             try self.validate(self.contactFlowId, name: "contactFlowId", parent: name, max: 500)
         }
 
@@ -4428,7 +4586,9 @@ extension Connect {
 
         public func validate(name: String) throws {
             try self.queueConfig?.validate(name: "\(name).queueConfig")
+            try self.queueConfig?.forEach {}
             try self.userConfig?.validate(name: "\(name).userConfig")
+            try self.userConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4476,6 +4636,7 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 4096)
             try self.validate(self.value, name: "value", parent: name, min: 0)
         }
@@ -4501,10 +4662,13 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.contactId.forEach {}
             try self.validate(self.contactId, name: "contactId", parent: name, max: 256)
             try self.validate(self.contactId, name: "contactId", parent: name, min: 1)
+            try self.initialContactId.forEach {}
             try self.validate(self.initialContactId, name: "initialContactId", parent: name, max: 256)
             try self.validate(self.initialContactId, name: "initialContactId", parent: name, min: 1)
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -4576,8 +4740,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.delay.forEach {}
             try self.validate(self.delay, name: "delay", parent: name, max: 9999)
             try self.validate(self.delay, name: "delay", parent: name, min: 0)
+            try self.priority.forEach {}
             try self.validate(self.priority, name: "priority", parent: name, max: 99)
             try self.validate(self.priority, name: "priority", parent: name, min: 1)
         }
@@ -4675,11 +4841,14 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.bucketName.forEach {}
             try self.validate(self.bucketName, name: "bucketName", parent: name, max: 128)
             try self.validate(self.bucketName, name: "bucketName", parent: name, min: 1)
+            try self.bucketPrefix.forEach {}
             try self.validate(self.bucketPrefix, name: "bucketPrefix", parent: name, max: 128)
             try self.validate(self.bucketPrefix, name: "bucketPrefix", parent: name, min: 1)
             try self.encryptionConfig?.validate(name: "\(name).encryptionConfig")
+            try self.encryptionConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4761,12 +4930,17 @@ extension Connect {
                 try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, max: 32767)
                 try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, min: 0)
             }
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
+            try self.contactFlowId.forEach {}
             try self.validate(self.contactFlowId, name: "contactFlowId", parent: name, max: 500)
             try self.initialMessage?.validate(name: "\(name).initialMessage")
+            try self.initialMessage?.forEach {}
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.participantDetails.validate(name: "\(name).participantDetails")
+            try self.participantDetails.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4818,10 +4992,13 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.contactId.forEach {}
             try self.validate(self.contactId, name: "contactId", parent: name, max: 256)
             try self.validate(self.contactId, name: "contactId", parent: name, min: 1)
+            try self.initialContactId.forEach {}
             try self.validate(self.initialContactId, name: "initialContactId", parent: name, max: 256)
             try self.validate(self.initialContactId, name: "initialContactId", parent: name, min: 1)
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -4871,8 +5048,11 @@ extension Connect {
                 try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, max: 32767)
                 try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, min: 0)
             }
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
+            try self.contactFlowId.forEach {}
             try self.validate(self.contactFlowId, name: "contactFlowId", parent: name, max: 500)
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -4937,14 +5117,20 @@ extension Connect {
                 try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, max: 32767)
                 try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, min: 0)
             }
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
+            try self.contactFlowId.forEach {}
             try self.validate(self.contactFlowId, name: "contactFlowId", parent: name, max: 500)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 4096)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 512)
             try self.validate(self.name, name: "name", parent: name, min: 0)
+            try self.previousContactId?.forEach {}
             try self.validate(self.previousContactId, name: "previousContactId", parent: name, max: 256)
             try self.validate(self.previousContactId, name: "previousContactId", parent: name, min: 1)
             try self.references?.forEach {
@@ -4994,10 +5180,13 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.contactId.forEach {}
             try self.validate(self.contactId, name: "contactId", parent: name, max: 256)
             try self.validate(self.contactId, name: "contactId", parent: name, min: 1)
+            try self.initialContactId.forEach {}
             try self.validate(self.initialContactId, name: "initialContactId", parent: name, max: 256)
             try self.validate(self.initialContactId, name: "initialContactId", parent: name, min: 1)
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -5025,8 +5214,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.contactId.forEach {}
             try self.validate(self.contactId, name: "contactId", parent: name, max: 256)
             try self.validate(self.contactId, name: "contactId", parent: name, min: 1)
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -5056,10 +5247,13 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.contactId.forEach {}
             try self.validate(self.contactId, name: "contactId", parent: name, max: 256)
             try self.validate(self.contactId, name: "contactId", parent: name, min: 1)
+            try self.initialContactId.forEach {}
             try self.validate(self.initialContactId, name: "initialContactId", parent: name, max: 256)
             try self.validate(self.initialContactId, name: "initialContactId", parent: name, min: 1)
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -5143,6 +5337,7 @@ extension Connect {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
@@ -5171,8 +5366,10 @@ extension Connect {
                 try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, max: 32767)
                 try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, min: 0)
             }
+            try self.initialContactId.forEach {}
             try self.validate(self.initialContactId, name: "initialContactId", parent: name, max: 256)
             try self.validate(self.initialContactId, name: "initialContactId", parent: name, min: 1)
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -5208,7 +5405,9 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.contactFlowId.forEach {}
             try self.validate(self.contactFlowId, name: "contactFlowId", parent: name, max: 500)
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -5241,9 +5440,12 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.contactFlowId.forEach {}
             try self.validate(self.contactFlowId, name: "contactFlowId", parent: name, max: 500)
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
 
@@ -5273,8 +5475,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 100)
             try self.validate(self.value, name: "value", parent: name, min: 1)
         }
@@ -5307,11 +5511,14 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.associationId.forEach {}
             try self.validate(self.associationId, name: "associationId", parent: name, max: 100)
             try self.validate(self.associationId, name: "associationId", parent: name, min: 1)
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.storageConfig.validate(name: "\(name).storageConfig")
+            try self.storageConfig.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5339,6 +5546,7 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -5368,8 +5576,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.maxContacts.forEach {}
             try self.validate(self.maxContacts, name: "maxContacts", parent: name, min: 0)
         }
 
@@ -5401,10 +5611,13 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 250)
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 127)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -5435,9 +5648,11 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.outboundCallerConfig.validate(name: "\(name).outboundCallerConfig")
+            try self.outboundCallerConfig.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5465,6 +5680,7 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -5494,9 +5710,11 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.quickConnectConfig.validate(name: "\(name).quickConnectConfig")
+            try self.quickConnectConfig.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5527,10 +5745,13 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 250)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 127)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -5561,11 +5782,13 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.mediaConcurrencies.forEach {
                 try $0.validate(name: "\(name).mediaConcurrencies[]")
             }
+            try self.mediaConcurrencies.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5593,6 +5816,7 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -5625,10 +5849,13 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 250)
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 127)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -5659,11 +5886,13 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.queueConfigs.forEach {
                 try $0.validate(name: "\(name).queueConfigs[]")
             }
+            try self.queueConfigs.forEach {}
             try self.validate(self.queueConfigs, name: "queueConfigs", parent: name, max: 10)
             try self.validate(self.queueConfigs, name: "queueConfigs", parent: name, min: 1)
         }
@@ -5693,6 +5922,7 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -5722,6 +5952,7 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -5747,6 +5978,7 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -5777,6 +6009,8 @@ extension Connect {
 
         public func validate(name: String) throws {
             try self.identityInfo.validate(name: "\(name).identityInfo")
+            try self.identityInfo.forEach {}
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -5806,9 +6040,11 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.phoneConfig.validate(name: "\(name).phoneConfig")
+            try self.phoneConfig.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5836,6 +6072,7 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -5865,8 +6102,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.securityProfileIds.forEach {}
             try self.validate(self.securityProfileIds, name: "securityProfileIds", parent: name, max: 10)
             try self.validate(self.securityProfileIds, name: "securityProfileIds", parent: name, min: 1)
         }
@@ -5961,8 +6200,10 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.firstName?.forEach {}
             try self.validate(self.firstName, name: "firstName", parent: name, max: 100)
             try self.validate(self.firstName, name: "firstName", parent: name, min: 1)
+            try self.lastName?.forEach {}
             try self.validate(self.lastName, name: "lastName", parent: name, max: 100)
             try self.validate(self.lastName, name: "lastName", parent: name, min: 1)
         }
@@ -5992,6 +6233,7 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.afterContactWorkTimeLimit?.forEach {}
             try self.validate(self.afterContactWorkTimeLimit, name: "afterContactWorkTimeLimit", parent: name, min: 0)
         }
 
@@ -6015,6 +6257,7 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.contactFlowId.forEach {}
             try self.validate(self.contactFlowId, name: "contactFlowId", parent: name, max: 500)
         }
 

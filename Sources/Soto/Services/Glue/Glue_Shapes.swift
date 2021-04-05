@@ -435,16 +435,21 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.crawlerName?.forEach {}
             try self.validate(self.crawlerName, name: "crawlerName", parent: name, max: 255)
             try self.validate(self.crawlerName, name: "crawlerName", parent: name, min: 1)
             try self.validate(self.crawlerName, name: "crawlerName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.jobName?.forEach {}
             try self.validate(self.jobName, name: "jobName", parent: name, max: 255)
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.notificationProperty?.validate(name: "\(name).notificationProperty")
+            try self.notificationProperty?.forEach {}
+            try self.securityConfiguration?.forEach {}
             try self.validate(self.securityConfiguration, name: "securityConfiguration", parent: name, max: 255)
             try self.validate(self.securityConfiguration, name: "securityConfiguration", parent: name, min: 1)
             try self.validate(self.securityConfiguration, name: "securityConfiguration", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.timeout?.forEach {}
             try self.validate(self.timeout, name: "timeout", parent: name, min: 1)
         }
 
@@ -493,17 +498,21 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.partitionInputList.forEach {
                 try $0.validate(name: "\(name).partitionInputList[]")
             }
+            try self.partitionInputList.forEach {}
             try self.validate(self.partitionInputList, name: "partitionInputList", parent: name, max: 100)
             try self.validate(self.partitionInputList, name: "partitionInputList", parent: name, min: 0)
+            try self.tableName.forEach {}
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -542,6 +551,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -550,6 +560,7 @@ extension Glue {
                 try validate($0, name: "connectionNameList[]", parent: name, min: 1)
                 try validate($0, name: "connectionNameList[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             }
+            try self.connectionNameList.forEach {}
             try self.validate(self.connectionNameList, name: "connectionNameList", parent: name, max: 25)
             try self.validate(self.connectionNameList, name: "connectionNameList", parent: name, min: 0)
         }
@@ -595,17 +606,21 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.partitionsToDelete.forEach {
                 try $0.validate(name: "\(name).partitionsToDelete[]")
             }
+            try self.partitionsToDelete.forEach {}
             try self.validate(self.partitionsToDelete, name: "partitionsToDelete", parent: name, max: 25)
             try self.validate(self.partitionsToDelete, name: "partitionsToDelete", parent: name, min: 0)
+            try self.tableName.forEach {}
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -647,9 +662,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -658,6 +675,7 @@ extension Glue {
                 try validate($0, name: "tablesToDelete[]", parent: name, min: 1)
                 try validate($0, name: "tablesToDelete[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             }
+            try self.tablesToDelete.forEach {}
             try self.validate(self.tablesToDelete, name: "tablesToDelete", parent: name, max: 100)
             try self.validate(self.tablesToDelete, name: "tablesToDelete", parent: name, min: 0)
         }
@@ -700,12 +718,15 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.tableName.forEach {}
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -714,6 +735,7 @@ extension Glue {
                 try validate($0, name: "versionIds[]", parent: name, min: 1)
                 try validate($0, name: "versionIds[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             }
+            try self.versionIds.forEach {}
             try self.validate(self.versionIds, name: "versionIds", parent: name, max: 100)
             try self.validate(self.versionIds, name: "versionIds", parent: name, min: 0)
         }
@@ -753,6 +775,7 @@ extension Glue {
                 try validate($0, name: "crawlerNames[]", parent: name, min: 1)
                 try validate($0, name: "crawlerNames[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             }
+            try self.crawlerNames.forEach {}
             try self.validate(self.crawlerNames, name: "crawlerNames", parent: name, max: 100)
             try self.validate(self.crawlerNames, name: "crawlerNames", parent: name, min: 0)
         }
@@ -788,6 +811,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.devEndpointNames.forEach {}
             try self.validate(self.devEndpointNames, name: "devEndpointNames", parent: name, max: 25)
             try self.validate(self.devEndpointNames, name: "devEndpointNames", parent: name, min: 1)
         }
@@ -828,6 +852,7 @@ extension Glue {
                 try validate($0, name: "jobNames[]", parent: name, min: 1)
                 try validate($0, name: "jobNames[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             }
+            try self.jobNames.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -870,17 +895,21 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.partitionsToGet.forEach {
                 try $0.validate(name: "\(name).partitionsToGet[]")
             }
+            try self.partitionsToGet.forEach {}
             try self.validate(self.partitionsToGet, name: "partitionsToGet", parent: name, max: 1000)
             try self.validate(self.partitionsToGet, name: "partitionsToGet", parent: name, min: 0)
+            try self.tableName.forEach {}
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -925,6 +954,7 @@ extension Glue {
                 try validate($0, name: "triggerNames[]", parent: name, min: 1)
                 try validate($0, name: "triggerNames[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             }
+            try self.triggerNames.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -966,6 +996,7 @@ extension Glue {
                 try validate($0, name: "names[]", parent: name, min: 1)
                 try validate($0, name: "names[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             }
+            try self.names.forEach {}
             try self.validate(self.names, name: "names", parent: name, max: 25)
             try self.validate(self.names, name: "names", parent: name, min: 1)
         }
@@ -1026,6 +1057,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.jobName.forEach {}
             try self.validate(self.jobName, name: "jobName", parent: name, max: 255)
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -1034,6 +1066,7 @@ extension Glue {
                 try validate($0, name: "jobRunIds[]", parent: name, min: 1)
                 try validate($0, name: "jobRunIds[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             }
+            try self.jobRunIds.forEach {}
             try self.validate(self.jobRunIds, name: "jobRunIds", parent: name, max: 25)
             try self.validate(self.jobRunIds, name: "jobRunIds", parent: name, min: 1)
         }
@@ -1113,17 +1146,21 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.entries.forEach {
                 try $0.validate(name: "\(name).entries[]")
             }
+            try self.entries.forEach {}
             try self.validate(self.entries, name: "entries", parent: name, max: 100)
             try self.validate(self.entries, name: "entries", parent: name, min: 1)
+            try self.tableName.forEach {}
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -1150,9 +1187,11 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.partitionInput.validate(name: "\(name).partitionInput")
+            try self.partitionInput.forEach {}
             try self.partitionValueList.forEach {
                 try validate($0, name: "partitionValueList[]", parent: name, max: 1024)
             }
+            try self.partitionValueList.forEach {}
             try self.validate(self.partitionValueList, name: "partitionValueList", parent: name, max: 100)
             try self.validate(self.partitionValueList, name: "partitionValueList", parent: name, min: 0)
         }
@@ -1191,8 +1230,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.averageLength.forEach {}
             try self.validate(self.averageLength, name: "averageLength", parent: name, min: 0)
+            try self.maximumLength.forEach {}
             try self.validate(self.maximumLength, name: "maximumLength", parent: name, min: 0)
+            try self.numberOfNulls.forEach {}
             try self.validate(self.numberOfNulls, name: "numberOfNulls", parent: name, min: 0)
         }
 
@@ -1218,8 +1260,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.numberOfFalses.forEach {}
             try self.validate(self.numberOfFalses, name: "numberOfFalses", parent: name, min: 0)
+            try self.numberOfNulls.forEach {}
             try self.validate(self.numberOfNulls, name: "numberOfNulls", parent: name, min: 0)
+            try self.numberOfTrues.forEach {}
             try self.validate(self.numberOfTrues, name: "numberOfTrues", parent: name, min: 0)
         }
 
@@ -1242,9 +1287,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.taskRunId.forEach {}
             try self.validate(self.taskRunId, name: "taskRunId", parent: name, max: 255)
             try self.validate(self.taskRunId, name: "taskRunId", parent: name, min: 1)
             try self.validate(self.taskRunId, name: "taskRunId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.transformId.forEach {}
             try self.validate(self.transformId, name: "transformId", parent: name, max: 255)
             try self.validate(self.transformId, name: "transformId", parent: name, min: 1)
             try self.validate(self.transformId, name: "transformId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -1289,9 +1336,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.tableName.forEach {}
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -1336,6 +1385,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -1344,6 +1394,7 @@ extension Glue {
                 try validate($0, name: "tables[]", parent: name, min: 1)
                 try validate($0, name: "tables[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             }
+            try self.tables.forEach {}
             try self.validate(self.tables, name: "tables", parent: name, min: 1)
         }
 
@@ -1365,6 +1416,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.schemaDefinition.forEach {}
             try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, max: 170_000)
             try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, min: 1)
             try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, pattern: ".*\\S.*")
@@ -1430,6 +1482,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.kmsKeyArn?.forEach {}
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "arn:aws:kms:.*")
         }
 
@@ -1454,9 +1507,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.source.forEach {}
             try self.validate(self.source, name: "source", parent: name, max: 255)
             try self.validate(self.source, name: "source", parent: name, min: 1)
             try self.validate(self.source, name: "source", parent: name, pattern: "[A-Za-z_][A-Za-z0-9_]*")
+            try self.target.forEach {}
             try self.validate(self.target, name: "target", parent: name, max: 255)
             try self.validate(self.target, name: "target", parent: name, min: 1)
             try self.validate(self.target, name: "target", parent: name, pattern: "[A-Za-z_][A-Za-z0-9_]*")
@@ -1487,8 +1542,10 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.args.forEach {}
             try self.validate(self.args, name: "args", parent: name, max: 50)
             try self.validate(self.args, name: "args", parent: name, min: 0)
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 255)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "[A-Za-z_][A-Za-z0-9_]*")
@@ -1541,9 +1598,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.comment?.forEach {}
             try self.validate(self.comment, name: "comment", parent: name, max: 255)
             try self.validate(self.comment, name: "comment", parent: name, min: 0)
             try self.validate(self.comment, name: "comment", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -1553,6 +1612,7 @@ extension Glue {
                 try validate($0.key, name: "parameters.key", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
                 try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 512_000)
             }
+            try self.type?.forEach {}
             try self.validate(self.type, name: "type", parent: name, max: 131_072)
             try self.validate(self.type, name: "type", parent: name, min: 0)
             try self.validate(self.type, name: "type", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -1618,13 +1678,16 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.columnName.forEach {}
             try self.validate(self.columnName, name: "columnName", parent: name, max: 255)
             try self.validate(self.columnName, name: "columnName", parent: name, min: 1)
             try self.validate(self.columnName, name: "columnName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.columnType.forEach {}
             try self.validate(self.columnType, name: "columnType", parent: name, max: 20000)
             try self.validate(self.columnType, name: "columnType", parent: name, min: 0)
             try self.validate(self.columnType, name: "columnType", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.statisticsData.validate(name: "\(name).statisticsData")
+            try self.statisticsData.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1666,12 +1729,19 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.binaryColumnStatisticsData?.validate(name: "\(name).binaryColumnStatisticsData")
+            try self.binaryColumnStatisticsData?.forEach {}
             try self.booleanColumnStatisticsData?.validate(name: "\(name).booleanColumnStatisticsData")
+            try self.booleanColumnStatisticsData?.forEach {}
             try self.dateColumnStatisticsData?.validate(name: "\(name).dateColumnStatisticsData")
+            try self.dateColumnStatisticsData?.forEach {}
             try self.decimalColumnStatisticsData?.validate(name: "\(name).decimalColumnStatisticsData")
+            try self.decimalColumnStatisticsData?.forEach {}
             try self.doubleColumnStatisticsData?.validate(name: "\(name).doubleColumnStatisticsData")
+            try self.doubleColumnStatisticsData?.forEach {}
             try self.longColumnStatisticsData?.validate(name: "\(name).longColumnStatisticsData")
+            try self.longColumnStatisticsData?.forEach {}
             try self.stringColumnStatisticsData?.validate(name: "\(name).stringColumnStatisticsData")
+            try self.stringColumnStatisticsData?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1724,9 +1794,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.crawlerName?.forEach {}
             try self.validate(self.crawlerName, name: "crawlerName", parent: name, max: 255)
             try self.validate(self.crawlerName, name: "crawlerName", parent: name, min: 1)
             try self.validate(self.crawlerName, name: "crawlerName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.jobName?.forEach {}
             try self.validate(self.jobName, name: "jobName", parent: name, max: 255)
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -1838,6 +1910,7 @@ extension Glue {
             try self.connectionProperties.forEach {
                 try validate($0.value, name: "connectionProperties[\"\($0.key)\"]", parent: name, max: 1024)
             }
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -1846,12 +1919,15 @@ extension Glue {
                 try validate($0, name: "matchCriteria[]", parent: name, min: 1)
                 try validate($0, name: "matchCriteria[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             }
+            try self.matchCriteria?.forEach {}
             try self.validate(self.matchCriteria, name: "matchCriteria", parent: name, max: 10)
             try self.validate(self.matchCriteria, name: "matchCriteria", parent: name, min: 0)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.physicalConnectionRequirements?.validate(name: "\(name).physicalConnectionRequirements")
+            try self.physicalConnectionRequirements?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1876,6 +1952,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.awsKmsKeyId?.forEach {}
             try self.validate(self.awsKmsKeyId, name: "awsKmsKeyId", parent: name, max: 255)
             try self.validate(self.awsKmsKeyId, name: "awsKmsKeyId", parent: name, min: 1)
             try self.validate(self.awsKmsKeyId, name: "awsKmsKeyId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -2096,6 +2173,7 @@ extension Glue {
             try self.catalogTargets?.forEach {
                 try $0.validate(name: "\(name).catalogTargets[]")
             }
+            try self.catalogTargets?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2126,9 +2204,13 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.csvClassifier?.validate(name: "\(name).csvClassifier")
+            try self.csvClassifier?.forEach {}
             try self.grokClassifier?.validate(name: "\(name).grokClassifier")
+            try self.grokClassifier?.forEach {}
             try self.jsonClassifier?.validate(name: "\(name).jsonClassifier")
+            try self.jsonClassifier?.forEach {}
             try self.xMLClassifier?.validate(name: "\(name).xMLClassifier")
+            try self.xMLClassifier?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2155,10 +2237,12 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.connectionInput.validate(name: "\(name).connectionInput")
+            try self.connectionInput.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2224,14 +2308,19 @@ extension Glue {
                 try validate($0, name: "classifiers[]", parent: name, min: 1)
                 try validate($0, name: "classifiers[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             }
+            try self.classifiers?.forEach {}
+            try self.crawlerSecurityConfiguration?.forEach {}
             try self.validate(self.crawlerSecurityConfiguration, name: "crawlerSecurityConfiguration", parent: name, max: 128)
             try self.validate(self.crawlerSecurityConfiguration, name: "crawlerSecurityConfiguration", parent: name, min: 0)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.tablePrefix?.forEach {}
             try self.validate(self.tablePrefix, name: "tablePrefix", parent: name, max: 128)
             try self.validate(self.tablePrefix, name: "tablePrefix", parent: name, min: 0)
             try self.tags?.forEach {
@@ -2241,6 +2330,7 @@ extension Glue {
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
             }
             try self.targets.validate(name: "\(name).targets")
+            try self.targets.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2292,6 +2382,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.delimiter?.forEach {}
             try self.validate(self.delimiter, name: "delimiter", parent: name, max: 1)
             try self.validate(self.delimiter, name: "delimiter", parent: name, min: 1)
             try self.validate(self.delimiter, name: "delimiter", parent: name, pattern: "[^\\r\\n]")
@@ -2300,9 +2391,12 @@ extension Glue {
                 try validate($0, name: "header[]", parent: name, min: 1)
                 try validate($0, name: "header[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             }
+            try self.header?.forEach {}
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.quoteSymbol?.forEach {}
             try self.validate(self.quoteSymbol, name: "quoteSymbol", parent: name, max: 1)
             try self.validate(self.quoteSymbol, name: "quoteSymbol", parent: name, min: 1)
             try self.validate(self.quoteSymbol, name: "quoteSymbol", parent: name, pattern: "[^\\r\\n]")
@@ -2331,10 +2425,12 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.databaseInput.validate(name: "\(name).databaseInput")
+            try self.databaseInput.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2398,11 +2494,15 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.glueVersion?.forEach {}
             try self.validate(self.glueVersion, name: "glueVersion", parent: name, max: 255)
             try self.validate(self.glueVersion, name: "glueVersion", parent: name, min: 1)
             try self.validate(self.glueVersion, name: "glueVersion", parent: name, pattern: "^\\w+\\.\\w+$")
+            try self.publicKeys?.forEach {}
             try self.validate(self.publicKeys, name: "publicKeys", parent: name, max: 5)
+            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:aws:iam::\\d{12}:role/.*")
+            try self.securityConfiguration?.forEach {}
             try self.validate(self.securityConfiguration, name: "securityConfiguration", parent: name, max: 255)
             try self.validate(self.securityConfiguration, name: "securityConfiguration", parent: name, min: 1)
             try self.validate(self.securityConfiguration, name: "securityConfiguration", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -2536,12 +2636,15 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.customPatterns?.forEach {}
             try self.validate(self.customPatterns, name: "customPatterns", parent: name, max: 16000)
             try self.validate(self.customPatterns, name: "customPatterns", parent: name, min: 0)
             try self.validate(self.customPatterns, name: "customPatterns", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.grokPattern.forEach {}
             try self.validate(self.grokPattern, name: "grokPattern", parent: name, max: 2048)
             try self.validate(self.grokPattern, name: "grokPattern", parent: name, min: 1)
             try self.validate(self.grokPattern, name: "grokPattern", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\t]*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -2616,16 +2719,22 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.command.validate(name: "\(name).command")
+            try self.command.forEach {}
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.glueVersion?.forEach {}
             try self.validate(self.glueVersion, name: "glueVersion", parent: name, max: 255)
             try self.validate(self.glueVersion, name: "glueVersion", parent: name, min: 1)
             try self.validate(self.glueVersion, name: "glueVersion", parent: name, pattern: "^\\w+\\.\\w+$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.notificationProperty?.validate(name: "\(name).notificationProperty")
+            try self.notificationProperty?.forEach {}
+            try self.securityConfiguration?.forEach {}
             try self.validate(self.securityConfiguration, name: "securityConfiguration", parent: name, max: 255)
             try self.validate(self.securityConfiguration, name: "securityConfiguration", parent: name, min: 1)
             try self.validate(self.securityConfiguration, name: "securityConfiguration", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -2635,6 +2744,7 @@ extension Glue {
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
             }
+            try self.timeout?.forEach {}
             try self.validate(self.timeout, name: "timeout", parent: name, min: 1)
         }
 
@@ -2685,6 +2795,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -2741,29 +2852,36 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.glueVersion?.forEach {}
             try self.validate(self.glueVersion, name: "glueVersion", parent: name, max: 255)
             try self.validate(self.glueVersion, name: "glueVersion", parent: name, min: 1)
             try self.validate(self.glueVersion, name: "glueVersion", parent: name, pattern: "^\\w+\\.\\w+$")
             try self.inputRecordTables.forEach {
                 try $0.validate(name: "\(name).inputRecordTables[]")
             }
+            try self.inputRecordTables.forEach {}
             try self.validate(self.inputRecordTables, name: "inputRecordTables", parent: name, max: 10)
             try self.validate(self.inputRecordTables, name: "inputRecordTables", parent: name, min: 0)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.parameters.validate(name: "\(name).parameters")
+            try self.parameters.forEach {}
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
             }
+            try self.timeout?.forEach {}
             try self.validate(self.timeout, name: "timeout", parent: name, min: 1)
             try self.transformEncryption?.validate(name: "\(name).transformEncryption")
+            try self.transformEncryption?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2814,13 +2932,17 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.partitionIndex.validate(name: "\(name).partitionIndex")
+            try self.partitionIndex.forEach {}
+            try self.tableName.forEach {}
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -2856,13 +2978,17 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.partitionInput.validate(name: "\(name).partitionInput")
+            try self.partitionInput.forEach {}
+            try self.tableName.forEach {}
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -2895,12 +3021,14 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.registryName.forEach {}
             try self.validate(self.registryName, name: "registryName", parent: name, max: 255)
             try self.validate(self.registryName, name: "registryName", parent: name, min: 1)
-            try self.validate(self.registryName, name: "registryName", parent: name, pattern: "[a-zA-Z0-9-_$#]+")
+            try self.validate(self.registryName, name: "registryName", parent: name, pattern: "[a-zA-Z0-9-_$#.]+")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -2968,16 +3096,20 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.registryId?.validate(name: "\(name).registryId")
+            try self.registryId?.forEach {}
+            try self.schemaDefinition?.forEach {}
             try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, max: 170_000)
             try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, min: 1)
             try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, pattern: ".*\\S.*")
+            try self.schemaName.forEach {}
             try self.validate(self.schemaName, name: "schemaName", parent: name, max: 255)
             try self.validate(self.schemaName, name: "schemaName", parent: name, min: 1)
-            try self.validate(self.schemaName, name: "schemaName", parent: name, pattern: "[a-zA-Z0-9-_$#]+")
+            try self.validate(self.schemaName, name: "schemaName", parent: name, pattern: "[a-zA-Z0-9-_$#.]+")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -3080,9 +3212,11 @@ extension Glue {
             try self.dagEdges?.forEach {
                 try $0.validate(name: "\(name).dagEdges[]")
             }
+            try self.dagEdges?.forEach {}
             try self.dagNodes?.forEach {
                 try $0.validate(name: "\(name).dagNodes[]")
             }
+            try self.dagNodes?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3122,6 +3256,8 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.encryptionConfiguration.validate(name: "\(name).encryptionConfiguration")
+            try self.encryptionConfiguration.forEach {}
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -3168,17 +3304,21 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.partitionIndexes?.forEach {
                 try $0.validate(name: "\(name).partitionIndexes[]")
             }
+            try self.partitionIndexes?.forEach {}
             try self.validate(self.partitionIndexes, name: "partitionIndexes", parent: name, max: 3)
             try self.tableInput.validate(name: "\(name).tableInput")
+            try self.tableInput.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3229,19 +3369,24 @@ extension Glue {
             try self.actions.forEach {
                 try $0.validate(name: "\(name).actions[]")
             }
+            try self.actions.forEach {}
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.predicate?.validate(name: "\(name).predicate")
+            try self.predicate?.forEach {}
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
             }
+            try self.workflowName?.forEach {}
             try self.validate(self.workflowName, name: "workflowName", parent: name, max: 255)
             try self.validate(self.workflowName, name: "workflowName", parent: name, min: 1)
             try self.validate(self.workflowName, name: "workflowName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -3288,13 +3433,16 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.functionInput.validate(name: "\(name).functionInput")
+            try self.functionInput.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3334,6 +3482,7 @@ extension Glue {
                 try validate($0.key, name: "defaultRunProperties.key", parent: name, min: 1)
                 try validate($0.key, name: "defaultRunProperties.key", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             }
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -3382,6 +3531,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -3456,7 +3606,9 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.connectionPasswordEncryption?.validate(name: "\(name).connectionPasswordEncryption")
+            try self.connectionPasswordEncryption?.forEach {}
             try self.encryptionAtRest?.validate(name: "\(name).encryptionAtRest")
+            try self.encryptionAtRest?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3474,6 +3626,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.dataLakePrincipalIdentifier?.forEach {}
             try self.validate(self.dataLakePrincipalIdentifier, name: "dataLakePrincipalIdentifier", parent: name, max: 255)
             try self.validate(self.dataLakePrincipalIdentifier, name: "dataLakePrincipalIdentifier", parent: name, min: 1)
         }
@@ -3536,9 +3689,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.databaseName?.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -3577,12 +3732,16 @@ extension Glue {
             try self.createTableDefaultPermissions?.forEach {
                 try $0.validate(name: "\(name).createTableDefaultPermissions[]")
             }
+            try self.createTableDefaultPermissions?.forEach {}
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.locationUri?.forEach {}
             try self.validate(self.locationUri, name: "locationUri", parent: name, max: 1024)
             try self.validate(self.locationUri, name: "locationUri", parent: name, min: 1)
             try self.validate(self.locationUri, name: "locationUri", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -3593,6 +3752,7 @@ extension Glue {
                 try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 512_000)
             }
             try self.targetDatabase?.validate(name: "\(name).targetDatabase")
+            try self.targetDatabase?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3623,7 +3783,9 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.numberOfDistinctValues.forEach {}
             try self.validate(self.numberOfDistinctValues, name: "numberOfDistinctValues", parent: name, min: 0)
+            try self.numberOfNulls.forEach {}
             try self.validate(self.numberOfNulls, name: "numberOfNulls", parent: name, min: 0)
         }
 
@@ -3653,7 +3815,9 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.numberOfDistinctValues.forEach {}
             try self.validate(self.numberOfDistinctValues, name: "numberOfDistinctValues", parent: name, min: 0)
+            try self.numberOfNulls.forEach {}
             try self.validate(self.numberOfNulls, name: "numberOfNulls", parent: name, min: 0)
         }
 
@@ -3691,6 +3855,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -3726,18 +3891,23 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.columnName.forEach {}
             try self.validate(self.columnName, name: "columnName", parent: name, max: 255)
             try self.validate(self.columnName, name: "columnName", parent: name, min: 1)
             try self.validate(self.columnName, name: "columnName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.partitionValues.forEach {
                 try validate($0, name: "partitionValues[]", parent: name, max: 1024)
             }
+            try self.partitionValues.forEach {}
+            try self.tableName.forEach {}
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -3774,15 +3944,19 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.columnName.forEach {}
             try self.validate(self.columnName, name: "columnName", parent: name, max: 255)
             try self.validate(self.columnName, name: "columnName", parent: name, min: 1)
             try self.validate(self.columnName, name: "columnName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.tableName.forEach {}
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -3812,9 +3986,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.connectionName.forEach {}
             try self.validate(self.connectionName, name: "connectionName", parent: name, max: 255)
             try self.validate(self.connectionName, name: "connectionName", parent: name, min: 1)
             try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -3839,6 +4015,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -3865,9 +4042,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -3909,6 +4088,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.jobName.forEach {}
             try self.validate(self.jobName, name: "jobName", parent: name, max: 255)
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -3941,6 +4121,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.transformId.forEach {}
             try self.validate(self.transformId, name: "transformId", parent: name, max: 255)
             try self.validate(self.transformId, name: "transformId", parent: name, min: 1)
             try self.validate(self.transformId, name: "transformId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -3982,15 +4163,19 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.indexName.forEach {}
             try self.validate(self.indexName, name: "indexName", parent: name, max: 255)
             try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
             try self.validate(self.indexName, name: "indexName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.tableName.forEach {}
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -4026,15 +4211,19 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.partitionValues.forEach {
                 try validate($0, name: "partitionValues[]", parent: name, max: 1024)
             }
+            try self.partitionValues.forEach {}
+            try self.tableName.forEach {}
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -4062,6 +4251,7 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.registryId.validate(name: "\(name).registryId")
+            try self.registryId.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4102,9 +4292,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.policyHashCondition?.forEach {}
             try self.validate(self.policyHashCondition, name: "policyHashCondition", parent: name, max: 255)
             try self.validate(self.policyHashCondition, name: "policyHashCondition", parent: name, min: 1)
             try self.validate(self.policyHashCondition, name: "policyHashCondition", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.resourceArn?.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 10240)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws:glue:.*")
@@ -4130,6 +4322,7 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.schemaId.validate(name: "\(name).schemaId")
+            try self.schemaId.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4171,6 +4364,8 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.schemaId.validate(name: "\(name).schemaId")
+            try self.schemaId.forEach {}
+            try self.versions.forEach {}
             try self.validate(self.versions, name: "versions", parent: name, max: 100_000)
             try self.validate(self.versions, name: "versions", parent: name, min: 1)
             try self.validate(self.versions, name: "versions", parent: name, pattern: "[1-9][0-9]*|[1-9][0-9]*-[1-9][0-9]*")
@@ -4204,6 +4399,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -4233,12 +4429,15 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -4273,15 +4472,19 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.tableName.forEach {}
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.versionId.forEach {}
             try self.validate(self.versionId, name: "versionId", parent: name, max: 255)
             try self.validate(self.versionId, name: "versionId", parent: name, min: 1)
             try self.validate(self.versionId, name: "versionId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -4308,6 +4511,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -4346,12 +4550,15 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 255)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -4377,6 +4584,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -4544,7 +4752,9 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.numberOfDistinctValues.forEach {}
             try self.validate(self.numberOfDistinctValues, name: "numberOfDistinctValues", parent: name, min: 0)
+            try self.numberOfNulls.forEach {}
             try self.validate(self.numberOfNulls, name: "numberOfNulls", parent: name, min: 0)
         }
 
@@ -4606,6 +4816,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.sseAwsKmsKeyId?.forEach {}
             try self.validate(self.sseAwsKmsKeyId, name: "sseAwsKmsKeyId", parent: name, max: 255)
             try self.validate(self.sseAwsKmsKeyId, name: "sseAwsKmsKeyId", parent: name, min: 1)
             try self.validate(self.sseAwsKmsKeyId, name: "sseAwsKmsKeyId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -4633,10 +4844,13 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.cloudWatchEncryption?.validate(name: "\(name).cloudWatchEncryption")
+            try self.cloudWatchEncryption?.forEach {}
             try self.jobBookmarksEncryption?.validate(name: "\(name).jobBookmarksEncryption")
+            try self.jobBookmarksEncryption?.forEach {}
             try self.s3Encryption?.forEach {
                 try $0.validate(name: "\(name).s3Encryption[]")
             }
+            try self.s3Encryption?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4774,10 +4988,13 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.accuracyCostTradeoff?.forEach {}
             try self.validate(self.accuracyCostTradeoff, name: "accuracyCostTradeoff", parent: name, max: 1)
             try self.validate(self.accuracyCostTradeoff, name: "accuracyCostTradeoff", parent: name, min: 0)
+            try self.precisionRecallTradeoff?.forEach {}
             try self.validate(self.precisionRecallTradeoff, name: "precisionRecallTradeoff", parent: name, max: 1)
             try self.validate(self.precisionRecallTradeoff, name: "precisionRecallTradeoff", parent: name, min: 0)
+            try self.primaryKeyColumnName?.forEach {}
             try self.validate(self.primaryKeyColumnName, name: "primaryKeyColumnName", parent: name, max: 1024)
             try self.validate(self.primaryKeyColumnName, name: "primaryKeyColumnName", parent: name, min: 1)
             try self.validate(self.primaryKeyColumnName, name: "primaryKeyColumnName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -4821,6 +5038,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -4853,6 +5071,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -4888,6 +5107,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -4936,6 +5156,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -4944,14 +5165,18 @@ extension Glue {
                 try validate($0, name: "columnNames[]", parent: name, min: 1)
                 try validate($0, name: "columnNames[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             }
+            try self.columnNames.forEach {}
             try self.validate(self.columnNames, name: "columnNames", parent: name, max: 100)
             try self.validate(self.columnNames, name: "columnNames", parent: name, min: 0)
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.partitionValues.forEach {
                 try validate($0, name: "partitionValues[]", parent: name, max: 1024)
             }
+            try self.partitionValues.forEach {}
+            try self.tableName.forEach {}
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -5001,6 +5226,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -5009,11 +5235,14 @@ extension Glue {
                 try validate($0, name: "columnNames[]", parent: name, min: 1)
                 try validate($0, name: "columnNames[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             }
+            try self.columnNames.forEach {}
             try self.validate(self.columnNames, name: "columnNames", parent: name, max: 100)
             try self.validate(self.columnNames, name: "columnNames", parent: name, min: 0)
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.tableName.forEach {}
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -5059,9 +5288,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -5104,6 +5335,7 @@ extension Glue {
                 try validate($0, name: "matchCriteria[]", parent: name, min: 1)
                 try validate($0, name: "matchCriteria[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             }
+            try self.matchCriteria?.forEach {}
             try self.validate(self.matchCriteria, name: "matchCriteria", parent: name, max: 10)
             try self.validate(self.matchCriteria, name: "matchCriteria", parent: name, min: 0)
         }
@@ -5135,10 +5367,13 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.filter?.validate(name: "\(name).filter")
+            try self.filter?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -5189,8 +5424,10 @@ extension Glue {
                 try validate($0, name: "crawlerNameList[]", parent: name, min: 1)
                 try validate($0, name: "crawlerNameList[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             }
+            try self.crawlerNameList?.forEach {}
             try self.validate(self.crawlerNameList, name: "crawlerNameList", parent: name, max: 100)
             try self.validate(self.crawlerNameList, name: "crawlerNameList", parent: name, min: 0)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -5228,6 +5465,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -5263,6 +5501,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -5299,6 +5538,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -5334,9 +5574,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -5379,9 +5621,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -5479,6 +5723,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -5545,6 +5790,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.jobName.forEach {}
             try self.validate(self.jobName, name: "jobName", parent: name, max: 255)
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -5583,9 +5829,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.jobName.forEach {}
             try self.validate(self.jobName, name: "jobName", parent: name, max: 255)
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.runId.forEach {}
             try self.validate(self.runId, name: "runId", parent: name, max: 255)
             try self.validate(self.runId, name: "runId", parent: name, min: 1)
             try self.validate(self.runId, name: "runId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -5626,9 +5874,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.jobName.forEach {}
             try self.validate(self.jobName, name: "jobName", parent: name, max: 255)
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -5669,6 +5919,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -5708,9 +5959,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.taskRunId.forEach {}
             try self.validate(self.taskRunId, name: "taskRunId", parent: name, max: 255)
             try self.validate(self.taskRunId, name: "taskRunId", parent: name, min: 1)
             try self.validate(self.taskRunId, name: "taskRunId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.transformId.forEach {}
             try self.validate(self.transformId, name: "transformId", parent: name, max: 255)
             try self.validate(self.transformId, name: "transformId", parent: name, min: 1)
             try self.validate(self.transformId, name: "transformId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -5792,8 +6045,10 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.transformId.forEach {}
             try self.validate(self.transformId, name: "transformId", parent: name, max: 255)
             try self.validate(self.transformId, name: "transformId", parent: name, min: 1)
             try self.validate(self.transformId, name: "transformId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -5834,6 +6089,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.transformId.forEach {}
             try self.validate(self.transformId, name: "transformId", parent: name, max: 255)
             try self.validate(self.transformId, name: "transformId", parent: name, min: 1)
             try self.validate(self.transformId, name: "transformId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -5948,6 +6204,8 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
+            try self.filter?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -5993,10 +6251,13 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.location?.validate(name: "\(name).location")
+            try self.location?.forEach {}
             try self.sinks?.forEach {
                 try $0.validate(name: "\(name).sinks[]")
             }
+            try self.sinks?.forEach {}
             try self.source.validate(name: "\(name).source")
+            try self.source.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6037,12 +6298,15 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.tableName.forEach {}
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -6091,15 +6355,19 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.partitionValues.forEach {
                 try validate($0, name: "partitionValues[]", parent: name, max: 1024)
             }
+            try self.partitionValues.forEach {}
+            try self.tableName.forEach {}
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -6155,18 +6423,24 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.expression?.forEach {}
             try self.validate(self.expression, name: "expression", parent: name, max: 2048)
             try self.validate(self.expression, name: "expression", parent: name, min: 0)
             try self.validate(self.expression, name: "expression", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.segment?.validate(name: "\(name).segment")
+            try self.segment?.forEach {}
+            try self.tableName.forEach {}
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -6226,10 +6500,13 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.location?.validate(name: "\(name).location")
+            try self.location?.forEach {}
             try self.sinks?.forEach {
                 try $0.validate(name: "\(name).sinks[]")
             }
+            try self.sinks?.forEach {}
             try self.source.validate(name: "\(name).source")
+            try self.source.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6269,6 +6546,7 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.registryId.validate(name: "\(name).registryId")
+            try self.registryId.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6321,6 +6599,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -6349,7 +6628,7 @@ extension Glue {
     }
 
     public struct GetResourcePolicyRequest: AWSEncodableShape {
-        /// The ARN of the AWS Glue resource for the resource policy to be retrieved. For more information about AWS Glue resource ARNs, see the AWS Glue ARN string pattern
+        /// The ARN of the AWS Glue resource for which to retrieve the resource policy. If not supplied, the Data Catalog resource policy is returned. Use GetResourcePolicies to view all existing resource policies. For more information see Specifying AWS Glue Resource ARNs.
         public let resourceArn: String?
 
         public init(resourceArn: String? = nil) {
@@ -6357,6 +6636,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn?.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 10240)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws:glue:.*")
@@ -6404,10 +6684,12 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.schemaDefinition.forEach {}
             try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, max: 170_000)
             try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, min: 1)
             try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, pattern: ".*\\S.*")
             try self.schemaId.validate(name: "\(name).schemaId")
+            try self.schemaId.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6455,6 +6737,7 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.schemaId.validate(name: "\(name).schemaId")
+            try self.schemaId.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6539,10 +6822,13 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.schemaId?.validate(name: "\(name).schemaId")
+            try self.schemaId?.forEach {}
+            try self.schemaVersionId?.forEach {}
             try self.validate(self.schemaVersionId, name: "schemaVersionId", parent: name, max: 36)
             try self.validate(self.schemaVersionId, name: "schemaVersionId", parent: name, min: 36)
             try self.validate(self.schemaVersionId, name: "schemaVersionId", parent: name, pattern: "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
             try self.schemaVersionNumber?.validate(name: "\(name).schemaVersionNumber")
+            try self.schemaVersionNumber?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6608,8 +6894,11 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.firstSchemaVersionNumber.validate(name: "\(name).firstSchemaVersionNumber")
+            try self.firstSchemaVersionNumber.forEach {}
             try self.schemaId.validate(name: "\(name).schemaId")
+            try self.schemaId.forEach {}
             try self.secondSchemaVersionNumber.validate(name: "\(name).secondSchemaVersionNumber")
+            try self.secondSchemaVersionNumber.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6642,6 +6931,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -6677,6 +6967,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -6719,12 +7010,15 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -6768,15 +7062,19 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.tableName.forEach {}
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.versionId?.forEach {}
             try self.validate(self.versionId, name: "versionId", parent: name, max: 255)
             try self.validate(self.versionId, name: "versionId", parent: name, min: 1)
             try self.validate(self.versionId, name: "versionId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -6824,14 +7122,18 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.tableName.forEach {}
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -6884,15 +7186,19 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.expression?.forEach {}
             try self.validate(self.expression, name: "expression", parent: name, max: 2048)
             try self.validate(self.expression, name: "expression", parent: name, min: 0)
             try self.validate(self.expression, name: "expression", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -6932,6 +7238,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 10240)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws:glue:.*")
@@ -6964,6 +7271,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -7002,9 +7310,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.dependentJobName?.forEach {}
             try self.validate(self.dependentJobName, name: "dependentJobName", parent: name, max: 255)
             try self.validate(self.dependentJobName, name: "dependentJobName", parent: name, min: 1)
             try self.validate(self.dependentJobName, name: "dependentJobName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -7048,12 +7358,15 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 255)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -7100,14 +7413,18 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.databaseName?.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.pattern.forEach {}
             try self.validate(self.pattern, name: "pattern", parent: name, max: 255)
             try self.validate(self.pattern, name: "pattern", parent: name, min: 1)
             try self.validate(self.pattern, name: "pattern", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -7151,6 +7468,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -7187,9 +7505,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.runId.forEach {}
             try self.validate(self.runId, name: "runId", parent: name, max: 255)
             try self.validate(self.runId, name: "runId", parent: name, min: 1)
             try self.validate(self.runId, name: "runId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -7229,9 +7549,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.runId.forEach {}
             try self.validate(self.runId, name: "runId", parent: name, max: 255)
             try self.validate(self.runId, name: "runId", parent: name, min: 1)
             try self.validate(self.runId, name: "runId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -7275,8 +7597,10 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -7350,15 +7674,19 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.connectionName?.forEach {}
             try self.validate(self.connectionName, name: "connectionName", parent: name, max: 255)
             try self.validate(self.connectionName, name: "connectionName", parent: name, min: 1)
             try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.tableName.forEach {}
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -7418,6 +7746,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -7604,6 +7933,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.kmsKeyArn?.forEach {}
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "arn:aws:kms:.*")
         }
 
@@ -7628,6 +7958,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.pythonVersion?.forEach {}
             try self.validate(self.pythonVersion, name: "pythonVersion", parent: name, pattern: "^[2-3]$")
         }
 
@@ -7799,16 +8130,22 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.command?.validate(name: "\(name).command")
+            try self.command?.forEach {}
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.glueVersion?.forEach {}
             try self.validate(self.glueVersion, name: "glueVersion", parent: name, max: 255)
             try self.validate(self.glueVersion, name: "glueVersion", parent: name, min: 1)
             try self.validate(self.glueVersion, name: "glueVersion", parent: name, pattern: "^\\w+\\.\\w+$")
             try self.notificationProperty?.validate(name: "\(name).notificationProperty")
+            try self.notificationProperty?.forEach {}
+            try self.securityConfiguration?.forEach {}
             try self.validate(self.securityConfiguration, name: "securityConfiguration", parent: name, max: 255)
             try self.validate(self.securityConfiguration, name: "securityConfiguration", parent: name, min: 1)
             try self.validate(self.securityConfiguration, name: "securityConfiguration", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.timeout?.forEach {}
             try self.validate(self.timeout, name: "timeout", parent: name, min: 1)
         }
 
@@ -7952,6 +8289,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.tags?.forEach {
@@ -8001,6 +8339,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.tags?.forEach {
@@ -8050,6 +8389,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.tags?.forEach {
@@ -8106,6 +8446,8 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
+            try self.filter?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.tags?.forEach {
@@ -8154,6 +8496,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -8196,9 +8539,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.schemaId.validate(name: "\(name).schemaId")
+            try self.schemaId.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8240,9 +8585,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.registryId?.validate(name: "\(name).registryId")
+            try self.registryId?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8287,9 +8634,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.dependentJobName?.forEach {}
             try self.validate(self.dependentJobName, name: "dependentJobName", parent: name, max: 255)
             try self.validate(self.dependentJobName, name: "dependentJobName", parent: name, min: 1)
             try self.validate(self.dependentJobName, name: "dependentJobName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.tags?.forEach {
@@ -8337,6 +8686,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -8379,10 +8729,13 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.dynamoDB?.forEach {}
             try self.validate(self.dynamoDB, name: "dynamoDB", parent: name, max: 50)
             try self.validate(self.dynamoDB, name: "dynamoDB", parent: name, min: 0)
+            try self.jdbc?.forEach {}
             try self.validate(self.jdbc, name: "jdbc", parent: name, max: 50)
             try self.validate(self.jdbc, name: "jdbc", parent: name, min: 0)
+            try self.s3?.forEach {}
             try self.validate(self.s3, name: "s3", parent: name, max: 50)
             try self.validate(self.s3, name: "s3", parent: name, min: 0)
         }
@@ -8412,7 +8765,9 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.numberOfDistinctValues.forEach {}
             try self.validate(self.numberOfDistinctValues, name: "numberOfDistinctValues", parent: name, min: 0)
+            try self.numberOfNulls.forEach {}
             try self.validate(self.numberOfNulls, name: "numberOfNulls", parent: name, min: 0)
         }
 
@@ -8521,6 +8876,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.kmsKeyId?.forEach {}
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 255)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -8570,15 +8926,19 @@ extension Glue {
         public let createdTime: String?
         /// The metadata key’s corresponding value.
         public let metadataValue: String?
+        /// Other metadata belonging to the same metadata key.
+        public let otherMetadataValueList: [OtherMetadataValueListItem]?
 
-        public init(createdTime: String? = nil, metadataValue: String? = nil) {
+        public init(createdTime: String? = nil, metadataValue: String? = nil, otherMetadataValueList: [OtherMetadataValueListItem]? = nil) {
             self.createdTime = createdTime
             self.metadataValue = metadataValue
+            self.otherMetadataValueList = otherMetadataValueList
         }
 
         private enum CodingKeys: String, CodingKey {
             case createdTime = "CreatedTime"
             case metadataValue = "MetadataValue"
+            case otherMetadataValueList = "OtherMetadataValueList"
         }
     }
 
@@ -8594,9 +8954,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.metadataKey?.forEach {}
             try self.validate(self.metadataKey, name: "metadataKey", parent: name, max: 128)
             try self.validate(self.metadataKey, name: "metadataKey", parent: name, min: 1)
             try self.validate(self.metadataKey, name: "metadataKey", parent: name, pattern: "[a-zA-Z0-9+-=._./@]+")
+            try self.metadataValue?.forEach {}
             try self.validate(self.metadataValue, name: "metadataValue", parent: name, max: 256)
             try self.validate(self.metadataValue, name: "metadataValue", parent: name, min: 1)
             try self.validate(self.metadataValue, name: "metadataValue", parent: name, pattern: "[a-zA-Z0-9+-=._./@]+")
@@ -8671,6 +9033,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.notifyDelayAfter?.forEach {}
             try self.validate(self.notifyDelayAfter, name: "notifyDelayAfter", parent: name, min: 1)
         }
 
@@ -8691,9 +9054,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.column.forEach {}
             try self.validate(self.column, name: "column", parent: name, max: 255)
             try self.validate(self.column, name: "column", parent: name, min: 1)
             try self.validate(self.column, name: "column", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.sortOrder.forEach {}
             try self.validate(self.sortOrder, name: "sortOrder", parent: name, max: 1)
             try self.validate(self.sortOrder, name: "sortOrder", parent: name, min: 0)
         }
@@ -8701,6 +9066,23 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case column = "Column"
             case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct OtherMetadataValueListItem: AWSDecodableShape {
+        /// The time at which the entry was created.
+        public let createdTime: String?
+        /// The metadata key’s corresponding value for the other metadata belonging to the same metadata key.
+        public let metadataValue: String?
+
+        public init(createdTime: String? = nil, metadataValue: String? = nil) {
+            self.createdTime = createdTime
+            self.metadataValue = metadataValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTime = "CreatedTime"
+            case metadataValue = "MetadataValue"
         }
     }
 
@@ -8778,6 +9160,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.indexName.forEach {}
             try self.validate(self.indexName, name: "indexName", parent: name, max: 255)
             try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
             try self.validate(self.indexName, name: "indexName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -8786,6 +9169,7 @@ extension Glue {
                 try validate($0, name: "keys[]", parent: name, min: 1)
                 try validate($0, name: "keys[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             }
+            try self.keys.forEach {}
             try self.validate(self.keys, name: "keys", parent: name, min: 1)
         }
 
@@ -8848,9 +9232,11 @@ extension Glue {
                 try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 512_000)
             }
             try self.storageDescriptor?.validate(name: "\(name).storageDescriptor")
+            try self.storageDescriptor?.forEach {}
             try self.values?.forEach {
                 try validate($0, name: "values[]", parent: name, max: 1024)
             }
+            try self.values?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8874,6 +9260,7 @@ extension Glue {
             try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 1024)
             }
+            try self.values.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8896,6 +9283,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.availabilityZone?.forEach {}
             try self.validate(self.availabilityZone, name: "availabilityZone", parent: name, max: 255)
             try self.validate(self.availabilityZone, name: "availabilityZone", parent: name, min: 1)
             try self.validate(self.availabilityZone, name: "availabilityZone", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -8904,8 +9292,10 @@ extension Glue {
                 try validate($0, name: "securityGroupIdList[]", parent: name, min: 1)
                 try validate($0, name: "securityGroupIdList[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             }
+            try self.securityGroupIdList?.forEach {}
             try self.validate(self.securityGroupIdList, name: "securityGroupIdList", parent: name, max: 50)
             try self.validate(self.securityGroupIdList, name: "securityGroupIdList", parent: name, min: 0)
+            try self.subnetId?.forEach {}
             try self.validate(self.subnetId, name: "subnetId", parent: name, max: 255)
             try self.validate(self.subnetId, name: "subnetId", parent: name, min: 1)
             try self.validate(self.subnetId, name: "subnetId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -8950,6 +9340,7 @@ extension Glue {
             try self.conditions?.forEach {
                 try $0.validate(name: "\(name).conditions[]")
             }
+            try self.conditions?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8971,6 +9362,7 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.principal?.validate(name: "\(name).principal")
+            try self.principal?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8994,7 +9386,9 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 1024)
+            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 1024)
         }
 
@@ -9017,10 +9411,12 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.dataCatalogEncryptionSettings.validate(name: "\(name).dataCatalogEncryptionSettings")
+            try self.dataCatalogEncryptionSettings.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9034,15 +9430,15 @@ extension Glue {
     }
 
     public struct PutResourcePolicyRequest: AWSEncodableShape {
-        /// Allows you to specify if you want to use both resource-level and account/catalog-level resource policies. A resource-level policy is a policy attached to an individual resource such as a database or a table. The default value of NO indicates that resource-level policies cannot co-exist with an account-level policy. A value of YES means the use of both resource-level and account/catalog-level resource policies is allowed.
+        /// If 'TRUE', indicates that you are using both methods to grant cross-account access to Data Catalog resources:   By directly updating the resource policy with PutResourePolicy    By using the Grant permissions command on the AWS Management Console.   Must be set to 'TRUE' if you have already used the Management Console to grant cross-account access, otherwise the call fails. Default is 'FALSE'.
         public let enableHybrid: EnableHybridValues?
-        /// A value of MUST_EXIST is used to update a policy. A value of NOT_EXIST is used to create a new policy. If a value of NONE or a null value is used, the call will not depend on the existence of a policy.
+        /// A value of MUST_EXIST is used to update a policy. A value of NOT_EXIST is used to create a new policy. If a value of NONE or a null value is used, the call does not depend on the existence of a policy.
         public let policyExistsCondition: ExistCondition?
         /// The hash value returned when the previous policy was set using PutResourcePolicy. Its purpose is to prevent concurrent modifications of a policy. Do not use this parameter if no previous policy has been set.
         public let policyHashCondition: String?
         /// Contains the policy document to set, in JSON format.
         public let policyInJson: String
-        /// The ARN of the AWS Glue resource for the resource policy to be set. For more information about AWS Glue resource ARNs, see the AWS Glue ARN string pattern
+        /// Do not use. For internal use only.
         public let resourceArn: String?
 
         public init(enableHybrid: EnableHybridValues? = nil, policyExistsCondition: ExistCondition? = nil, policyHashCondition: String? = nil, policyInJson: String, resourceArn: String? = nil) {
@@ -9054,11 +9450,14 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.policyHashCondition?.forEach {}
             try self.validate(self.policyHashCondition, name: "policyHashCondition", parent: name, max: 255)
             try self.validate(self.policyHashCondition, name: "policyHashCondition", parent: name, min: 1)
             try self.validate(self.policyHashCondition, name: "policyHashCondition", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.policyInJson.forEach {}
             try self.validate(self.policyInJson, name: "policyInJson", parent: name, max: 10240)
             try self.validate(self.policyInJson, name: "policyInJson", parent: name, min: 2)
+            try self.resourceArn?.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 10240)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws:glue:.*")
@@ -9105,11 +9504,15 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.metadataKeyValue.validate(name: "\(name).metadataKeyValue")
+            try self.metadataKeyValue.forEach {}
             try self.schemaId?.validate(name: "\(name).schemaId")
+            try self.schemaId?.forEach {}
+            try self.schemaVersionId?.forEach {}
             try self.validate(self.schemaVersionId, name: "schemaVersionId", parent: name, max: 36)
             try self.validate(self.schemaVersionId, name: "schemaVersionId", parent: name, min: 36)
             try self.validate(self.schemaVersionId, name: "schemaVersionId", parent: name, pattern: "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
             try self.schemaVersionNumber?.validate(name: "\(name).schemaVersionNumber")
+            try self.schemaVersionNumber?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9176,9 +9579,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.runId.forEach {}
             try self.validate(self.runId, name: "runId", parent: name, max: 255)
             try self.validate(self.runId, name: "runId", parent: name, min: 1)
             try self.validate(self.runId, name: "runId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -9224,16 +9629,21 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.metadataList?.forEach {
                 try $0.validate(name: "\(name).metadataList[]")
             }
+            try self.metadataList?.forEach {}
             try self.schemaId?.validate(name: "\(name).schemaId")
+            try self.schemaId?.forEach {}
+            try self.schemaVersionId?.forEach {}
             try self.validate(self.schemaVersionId, name: "schemaVersionId", parent: name, max: 36)
             try self.validate(self.schemaVersionId, name: "schemaVersionId", parent: name, min: 36)
             try self.validate(self.schemaVersionId, name: "schemaVersionId", parent: name, pattern: "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
             try self.schemaVersionNumber?.validate(name: "\(name).schemaVersionNumber")
+            try self.schemaVersionNumber?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9292,10 +9702,12 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.schemaDefinition.forEach {}
             try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, max: 170_000)
             try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, min: 1)
             try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, pattern: ".*\\S.*")
             try self.schemaId.validate(name: "\(name).schemaId")
+            try self.schemaId.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9337,12 +9749,14 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.registryArn?.forEach {}
             try self.validate(self.registryArn, name: "registryArn", parent: name, max: 10240)
             try self.validate(self.registryArn, name: "registryArn", parent: name, min: 1)
             try self.validate(self.registryArn, name: "registryArn", parent: name, pattern: "arn:aws:glue:.*")
+            try self.registryName?.forEach {}
             try self.validate(self.registryName, name: "registryName", parent: name, max: 255)
             try self.validate(self.registryName, name: "registryName", parent: name, min: 1)
-            try self.validate(self.registryName, name: "registryName", parent: name, pattern: "[a-zA-Z0-9-_$#]+")
+            try self.validate(self.registryName, name: "registryName", parent: name, pattern: "[a-zA-Z0-9-_$#.]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9403,11 +9817,15 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.metadataKeyValue.validate(name: "\(name).metadataKeyValue")
+            try self.metadataKeyValue.forEach {}
             try self.schemaId?.validate(name: "\(name).schemaId")
+            try self.schemaId?.forEach {}
+            try self.schemaVersionId?.forEach {}
             try self.validate(self.schemaVersionId, name: "schemaVersionId", parent: name, max: 36)
             try self.validate(self.schemaVersionId, name: "schemaVersionId", parent: name, min: 36)
             try self.validate(self.schemaVersionId, name: "schemaVersionId", parent: name, pattern: "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
             try self.schemaVersionNumber?.validate(name: "\(name).schemaVersionNumber")
+            try self.schemaVersionNumber?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9501,6 +9919,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.uri?.forEach {}
             try self.validate(self.uri, name: "uri", parent: name, max: 1024)
             try self.validate(self.uri, name: "uri", parent: name, min: 1)
             try self.validate(self.uri, name: "uri", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -9527,6 +9946,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -9535,6 +9955,8 @@ extension Glue {
                 try validate($0, name: "nodeIds[]", parent: name, min: 1)
                 try validate($0, name: "nodeIds[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             }
+            try self.nodeIds.forEach {}
+            try self.runId.forEach {}
             try self.validate(self.runId, name: "runId", parent: name, max: 255)
             try self.validate(self.runId, name: "runId", parent: name, min: 1)
             try self.validate(self.runId, name: "runId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -9576,6 +9998,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.kmsKeyArn?.forEach {}
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "arn:aws:kms:.*")
         }
 
@@ -9652,9 +10075,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.dataType?.forEach {}
             try self.validate(self.dataType, name: "dataType", parent: name, max: 131_072)
             try self.validate(self.dataType, name: "dataType", parent: name, min: 0)
             try self.validate(self.dataType, name: "dataType", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -9681,15 +10106,18 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.registryName?.forEach {}
             try self.validate(self.registryName, name: "registryName", parent: name, max: 255)
             try self.validate(self.registryName, name: "registryName", parent: name, min: 1)
-            try self.validate(self.registryName, name: "registryName", parent: name, pattern: "[a-zA-Z0-9-_$#]+")
+            try self.validate(self.registryName, name: "registryName", parent: name, pattern: "[a-zA-Z0-9-_$#.]+")
+            try self.schemaArn?.forEach {}
             try self.validate(self.schemaArn, name: "schemaArn", parent: name, max: 10240)
             try self.validate(self.schemaArn, name: "schemaArn", parent: name, min: 1)
             try self.validate(self.schemaArn, name: "schemaArn", parent: name, pattern: "arn:aws:glue:.*")
+            try self.schemaName?.forEach {}
             try self.validate(self.schemaName, name: "schemaName", parent: name, max: 255)
             try self.validate(self.schemaName, name: "schemaName", parent: name, min: 1)
-            try self.validate(self.schemaName, name: "schemaName", parent: name, pattern: "[a-zA-Z0-9-_$#]+")
+            try self.validate(self.schemaName, name: "schemaName", parent: name, pattern: "[a-zA-Z0-9-_$#.]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9752,9 +10180,12 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.schemaId?.validate(name: "\(name).schemaId")
+            try self.schemaId?.forEach {}
+            try self.schemaVersionId?.forEach {}
             try self.validate(self.schemaVersionId, name: "schemaVersionId", parent: name, max: 36)
             try self.validate(self.schemaVersionId, name: "schemaVersionId", parent: name, min: 36)
             try self.validate(self.schemaVersionId, name: "schemaVersionId", parent: name, pattern: "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
+            try self.schemaVersionNumber?.forEach {}
             try self.validate(self.schemaVersionNumber, name: "schemaVersionNumber", parent: name, max: 100_000)
             try self.validate(self.schemaVersionNumber, name: "schemaVersionNumber", parent: name, min: 1)
         }
@@ -9824,6 +10255,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.versionNumber?.forEach {}
             try self.validate(self.versionNumber, name: "versionNumber", parent: name, max: 100_000)
             try self.validate(self.versionNumber, name: "versionNumber", parent: name, min: 1)
         }
@@ -9861,18 +10293,23 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.searchText?.forEach {}
             try self.validate(self.searchText, name: "searchText", parent: name, max: 1024)
             try self.sortCriteria?.forEach {
                 try $0.validate(name: "\(name).sortCriteria[]")
             }
+            try self.sortCriteria?.forEach {}
             try self.validate(self.sortCriteria, name: "sortCriteria", parent: name, max: 1)
             try self.validate(self.sortCriteria, name: "sortCriteria", parent: name, min: 0)
         }
@@ -9938,7 +10375,9 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.segmentNumber.forEach {}
             try self.validate(self.segmentNumber, name: "segmentNumber", parent: name, min: 0)
+            try self.totalSegments.forEach {}
             try self.validate(self.totalSegments, name: "totalSegments", parent: name, max: 10)
             try self.validate(self.totalSegments, name: "totalSegments", parent: name, min: 1)
         }
@@ -9964,6 +10403,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -9973,6 +10413,7 @@ extension Glue {
                 try validate($0.key, name: "parameters.key", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
                 try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 512_000)
             }
+            try self.serializationLibrary?.forEach {}
             try self.validate(self.serializationLibrary, name: "serializationLibrary", parent: name, max: 255)
             try self.validate(self.serializationLibrary, name: "serializationLibrary", parent: name, min: 1)
             try self.validate(self.serializationLibrary, name: "serializationLibrary", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -10005,6 +10446,7 @@ extension Glue {
                 try validate($0, name: "skewedColumnNames[]", parent: name, min: 1)
                 try validate($0, name: "skewedColumnNames[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             }
+            try self.skewedColumnNames?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10026,6 +10468,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.fieldName?.forEach {}
             try self.validate(self.fieldName, name: "fieldName", parent: name, max: 1024)
         }
 
@@ -10044,6 +10487,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -10067,6 +10511,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.crawlerName.forEach {}
             try self.validate(self.crawlerName, name: "crawlerName", parent: name, max: 255)
             try self.validate(self.crawlerName, name: "crawlerName", parent: name, min: 1)
             try self.validate(self.crawlerName, name: "crawlerName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -10093,6 +10538,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.transformId.forEach {}
             try self.validate(self.transformId, name: "transformId", parent: name, max: 255)
             try self.validate(self.transformId, name: "transformId", parent: name, min: 1)
             try self.validate(self.transformId, name: "transformId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -10132,6 +10578,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.transformId.forEach {}
             try self.validate(self.transformId, name: "transformId", parent: name, max: 255)
             try self.validate(self.transformId, name: "transformId", parent: name, min: 1)
             try self.validate(self.transformId, name: "transformId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -10190,16 +10637,21 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.jobName.forEach {}
             try self.validate(self.jobName, name: "jobName", parent: name, max: 255)
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.jobRunId?.forEach {}
             try self.validate(self.jobRunId, name: "jobRunId", parent: name, max: 255)
             try self.validate(self.jobRunId, name: "jobRunId", parent: name, min: 1)
             try self.validate(self.jobRunId, name: "jobRunId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.notificationProperty?.validate(name: "\(name).notificationProperty")
+            try self.notificationProperty?.forEach {}
+            try self.securityConfiguration?.forEach {}
             try self.validate(self.securityConfiguration, name: "securityConfiguration", parent: name, max: 255)
             try self.validate(self.securityConfiguration, name: "securityConfiguration", parent: name, min: 1)
             try self.validate(self.securityConfiguration, name: "securityConfiguration", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.timeout?.forEach {}
             try self.validate(self.timeout, name: "timeout", parent: name, min: 1)
         }
 
@@ -10238,6 +10690,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.transformId.forEach {}
             try self.validate(self.transformId, name: "transformId", parent: name, max: 255)
             try self.validate(self.transformId, name: "transformId", parent: name, min: 1)
             try self.validate(self.transformId, name: "transformId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -10273,6 +10726,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.transformId.forEach {}
             try self.validate(self.transformId, name: "transformId", parent: name, max: 255)
             try self.validate(self.transformId, name: "transformId", parent: name, min: 1)
             try self.validate(self.transformId, name: "transformId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -10306,6 +10760,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -10338,6 +10793,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -10370,6 +10826,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -10393,6 +10850,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.crawlerName.forEach {}
             try self.validate(self.crawlerName, name: "crawlerName", parent: name, max: 255)
             try self.validate(self.crawlerName, name: "crawlerName", parent: name, min: 1)
             try self.validate(self.crawlerName, name: "crawlerName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -10416,6 +10874,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -10451,9 +10910,11 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.runId.forEach {}
             try self.validate(self.runId, name: "runId", parent: name, max: 255)
             try self.validate(self.runId, name: "runId", parent: name, min: 1)
             try self.validate(self.runId, name: "runId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -10519,13 +10980,18 @@ extension Glue {
                 try validate($0, name: "bucketColumns[]", parent: name, min: 1)
                 try validate($0, name: "bucketColumns[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             }
+            try self.bucketColumns?.forEach {}
             try self.columns?.forEach {
                 try $0.validate(name: "\(name).columns[]")
             }
+            try self.columns?.forEach {}
+            try self.inputFormat?.forEach {}
             try self.validate(self.inputFormat, name: "inputFormat", parent: name, max: 128)
             try self.validate(self.inputFormat, name: "inputFormat", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.location?.forEach {}
             try self.validate(self.location, name: "location", parent: name, max: 2056)
             try self.validate(self.location, name: "location", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.outputFormat?.forEach {}
             try self.validate(self.outputFormat, name: "outputFormat", parent: name, max: 128)
             try self.validate(self.outputFormat, name: "outputFormat", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.parameters?.forEach {
@@ -10535,11 +11001,15 @@ extension Glue {
                 try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 512_000)
             }
             try self.schemaReference?.validate(name: "\(name).schemaReference")
+            try self.schemaReference?.forEach {}
             try self.serdeInfo?.validate(name: "\(name).serdeInfo")
+            try self.serdeInfo?.forEach {}
             try self.skewedInfo?.validate(name: "\(name).skewedInfo")
+            try self.skewedInfo?.forEach {}
             try self.sortColumns?.forEach {
                 try $0.validate(name: "\(name).sortColumns[]")
             }
+            try self.sortColumns?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10577,9 +11047,13 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.averageLength.forEach {}
             try self.validate(self.averageLength, name: "averageLength", parent: name, min: 0)
+            try self.maximumLength.forEach {}
             try self.validate(self.maximumLength, name: "maximumLength", parent: name, min: 0)
+            try self.numberOfDistinctValues.forEach {}
             try self.validate(self.numberOfDistinctValues, name: "numberOfDistinctValues", parent: name, min: 0)
+            try self.numberOfNulls.forEach {}
             try self.validate(self.numberOfNulls, name: "numberOfNulls", parent: name, min: 0)
         }
 
@@ -10708,12 +11182,15 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.databaseName?.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -10771,12 +11248,15 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.owner?.forEach {}
             try self.validate(self.owner, name: "owner", parent: name, max: 255)
             try self.validate(self.owner, name: "owner", parent: name, min: 1)
             try self.validate(self.owner, name: "owner", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -10789,11 +11269,18 @@ extension Glue {
             try self.partitionKeys?.forEach {
                 try $0.validate(name: "\(name).partitionKeys[]")
             }
+            try self.partitionKeys?.forEach {}
+            try self.retention?.forEach {}
             try self.validate(self.retention, name: "retention", parent: name, min: 0)
             try self.storageDescriptor?.validate(name: "\(name).storageDescriptor")
+            try self.storageDescriptor?.forEach {}
+            try self.tableType?.forEach {}
             try self.validate(self.tableType, name: "tableType", parent: name, max: 255)
             try self.targetTable?.validate(name: "\(name).targetTable")
+            try self.targetTable?.forEach {}
+            try self.viewExpandedText?.forEach {}
             try self.validate(self.viewExpandedText, name: "viewExpandedText", parent: name, max: 409_600)
+            try self.viewOriginalText?.forEach {}
             try self.validate(self.viewOriginalText, name: "viewOriginalText", parent: name, max: 409_600)
         }
 
@@ -10864,6 +11351,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 10240)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws:glue:.*")
@@ -11018,6 +11506,8 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.mlUserDataEncryption?.validate(name: "\(name).mlUserDataEncryption")
+            try self.mlUserDataEncryption?.forEach {}
+            try self.taskRunSecurityConfigurationName?.forEach {}
             try self.validate(self.taskRunSecurityConfigurationName, name: "taskRunSecurityConfigurationName", parent: name, max: 255)
             try self.validate(self.taskRunSecurityConfigurationName, name: "taskRunSecurityConfigurationName", parent: name, min: 1)
             try self.validate(self.taskRunSecurityConfigurationName, name: "taskRunSecurityConfigurationName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -11062,15 +11552,18 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.glueVersion?.forEach {}
             try self.validate(self.glueVersion, name: "glueVersion", parent: name, max: 255)
             try self.validate(self.glueVersion, name: "glueVersion", parent: name, min: 1)
             try self.validate(self.glueVersion, name: "glueVersion", parent: name, pattern: "^\\w+\\.\\w+$")
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.schema?.forEach {
                 try $0.validate(name: "\(name).schema[]")
             }
+            try self.schema?.forEach {}
             try self.validate(self.schema, name: "schema", parent: name, max: 100)
         }
 
@@ -11100,6 +11593,7 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.findMatchesParameters?.validate(name: "\(name).findMatchesParameters")
+            try self.findMatchesParameters?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11207,13 +11701,17 @@ extension Glue {
             try self.actions?.forEach {
                 try $0.validate(name: "\(name).actions[]")
             }
+            try self.actions?.forEach {}
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.predicate?.validate(name: "\(name).predicate")
+            try self.predicate?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11237,6 +11735,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 10240)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws:glue:.*")
@@ -11244,6 +11743,7 @@ extension Glue {
                 try validate($0, name: "tagsToRemove[]", parent: name, max: 128)
                 try validate($0, name: "tagsToRemove[]", parent: name, min: 1)
             }
+            try self.tagsToRemove.forEach {}
             try self.validate(self.tagsToRemove, name: "tagsToRemove", parent: name, max: 50)
             try self.validate(self.tagsToRemove, name: "tagsToRemove", parent: name, min: 0)
         }
@@ -11277,9 +11777,13 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.csvClassifier?.validate(name: "\(name).csvClassifier")
+            try self.csvClassifier?.forEach {}
             try self.grokClassifier?.validate(name: "\(name).grokClassifier")
+            try self.grokClassifier?.forEach {}
             try self.jsonClassifier?.validate(name: "\(name).jsonClassifier")
+            try self.jsonClassifier?.forEach {}
             try self.xMLClassifier?.validate(name: "\(name).xMLClassifier")
+            try self.xMLClassifier?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11315,20 +11819,25 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.columnStatisticsList.forEach {
                 try $0.validate(name: "\(name).columnStatisticsList[]")
             }
+            try self.columnStatisticsList.forEach {}
             try self.validate(self.columnStatisticsList, name: "columnStatisticsList", parent: name, max: 25)
             try self.validate(self.columnStatisticsList, name: "columnStatisticsList", parent: name, min: 0)
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.partitionValues.forEach {
                 try validate($0, name: "partitionValues[]", parent: name, max: 1024)
             }
+            try self.partitionValues.forEach {}
+            try self.tableName.forEach {}
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -11374,17 +11883,21 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.columnStatisticsList.forEach {
                 try $0.validate(name: "\(name).columnStatisticsList[]")
             }
+            try self.columnStatisticsList.forEach {}
             try self.validate(self.columnStatisticsList, name: "columnStatisticsList", parent: name, max: 25)
             try self.validate(self.columnStatisticsList, name: "columnStatisticsList", parent: name, min: 0)
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.tableName.forEach {}
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -11426,10 +11939,13 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.connectionInput.validate(name: "\(name).connectionInput")
+            try self.connectionInput.forEach {}
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -11496,17 +12012,23 @@ extension Glue {
                 try validate($0, name: "classifiers[]", parent: name, min: 1)
                 try validate($0, name: "classifiers[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             }
+            try self.classifiers?.forEach {}
+            try self.crawlerSecurityConfiguration?.forEach {}
             try self.validate(self.crawlerSecurityConfiguration, name: "crawlerSecurityConfiguration", parent: name, max: 128)
             try self.validate(self.crawlerSecurityConfiguration, name: "crawlerSecurityConfiguration", parent: name, min: 0)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.tablePrefix?.forEach {}
             try self.validate(self.tablePrefix, name: "tablePrefix", parent: name, max: 128)
             try self.validate(self.tablePrefix, name: "tablePrefix", parent: name, min: 0)
             try self.targets?.validate(name: "\(name).targets")
+            try self.targets?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11542,6 +12064,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.crawlerName.forEach {}
             try self.validate(self.crawlerName, name: "crawlerName", parent: name, max: 255)
             try self.validate(self.crawlerName, name: "crawlerName", parent: name, min: 1)
             try self.validate(self.crawlerName, name: "crawlerName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -11584,6 +12107,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.delimiter?.forEach {}
             try self.validate(self.delimiter, name: "delimiter", parent: name, max: 1)
             try self.validate(self.delimiter, name: "delimiter", parent: name, min: 1)
             try self.validate(self.delimiter, name: "delimiter", parent: name, pattern: "[^\\r\\n]")
@@ -11592,9 +12116,12 @@ extension Glue {
                 try validate($0, name: "header[]", parent: name, min: 1)
                 try validate($0, name: "header[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             }
+            try self.header?.forEach {}
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.quoteSymbol?.forEach {}
             try self.validate(self.quoteSymbol, name: "quoteSymbol", parent: name, max: 1)
             try self.validate(self.quoteSymbol, name: "quoteSymbol", parent: name, min: 1)
             try self.validate(self.quoteSymbol, name: "quoteSymbol", parent: name, pattern: "[^\\r\\n]")
@@ -11626,10 +12153,13 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.databaseInput.validate(name: "\(name).databaseInput")
+            try self.databaseInput.forEach {}
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -11676,7 +12206,9 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.addPublicKeys?.forEach {}
             try self.validate(self.addPublicKeys, name: "addPublicKeys", parent: name, max: 5)
+            try self.deletePublicKeys?.forEach {}
             try self.validate(self.deletePublicKeys, name: "deletePublicKeys", parent: name, max: 5)
         }
 
@@ -11714,12 +12246,15 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.customPatterns?.forEach {}
             try self.validate(self.customPatterns, name: "customPatterns", parent: name, max: 16000)
             try self.validate(self.customPatterns, name: "customPatterns", parent: name, min: 0)
             try self.validate(self.customPatterns, name: "customPatterns", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.grokPattern?.forEach {}
             try self.validate(self.grokPattern, name: "grokPattern", parent: name, max: 2048)
             try self.validate(self.grokPattern, name: "grokPattern", parent: name, min: 1)
             try self.validate(self.grokPattern, name: "grokPattern", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\t]*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -11745,10 +12280,12 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.jobName.forEach {}
             try self.validate(self.jobName, name: "jobName", parent: name, max: 255)
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.jobUpdate.validate(name: "\(name).jobUpdate")
+            try self.jobUpdate.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11782,6 +12319,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -11832,17 +12370,23 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.glueVersion?.forEach {}
             try self.validate(self.glueVersion, name: "glueVersion", parent: name, max: 255)
             try self.validate(self.glueVersion, name: "glueVersion", parent: name, min: 1)
             try self.validate(self.glueVersion, name: "glueVersion", parent: name, pattern: "^\\w+\\.\\w+$")
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.parameters?.validate(name: "\(name).parameters")
+            try self.parameters?.forEach {}
+            try self.timeout?.forEach {}
             try self.validate(self.timeout, name: "timeout", parent: name, min: 1)
+            try self.transformId.forEach {}
             try self.validate(self.transformId, name: "transformId", parent: name, max: 255)
             try self.validate(self.transformId, name: "transformId", parent: name, min: 1)
             try self.validate(self.transformId, name: "transformId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -11897,18 +12441,23 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.partitionInput.validate(name: "\(name).partitionInput")
+            try self.partitionInput.forEach {}
             try self.partitionValueList.forEach {
                 try validate($0, name: "partitionValueList[]", parent: name, max: 1024)
             }
+            try self.partitionValueList.forEach {}
             try self.validate(self.partitionValueList, name: "partitionValueList", parent: name, max: 100)
             try self.validate(self.partitionValueList, name: "partitionValueList", parent: name, min: 0)
+            try self.tableName.forEach {}
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -11939,10 +12488,12 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.description.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.registryId.validate(name: "\(name).registryId")
+            try self.registryId.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11986,11 +12537,14 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.schemaId.validate(name: "\(name).schemaId")
+            try self.schemaId.forEach {}
             try self.schemaVersionNumber?.validate(name: "\(name).schemaVersionNumber")
+            try self.schemaVersionNumber?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12040,13 +12594,16 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.tableInput.validate(name: "\(name).tableInput")
+            try self.tableInput.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12073,10 +12630,12 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.triggerUpdate.validate(name: "\(name).triggerUpdate")
+            try self.triggerUpdate.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12116,13 +12675,17 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.functionInput.validate(name: "\(name).functionInput")
+            try self.functionInput.forEach {}
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 255)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -12163,6 +12726,7 @@ extension Glue {
                 try validate($0.key, name: "defaultRunProperties.key", parent: name, min: 1)
                 try validate($0.key, name: "defaultRunProperties.key", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             }
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -12204,6 +12768,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -12278,18 +12843,22 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.className?.forEach {}
             try self.validate(self.className, name: "className", parent: name, max: 255)
             try self.validate(self.className, name: "className", parent: name, min: 1)
             try self.validate(self.className, name: "className", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.functionName?.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 255)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.ownerName?.forEach {}
             try self.validate(self.ownerName, name: "ownerName", parent: name, max: 255)
             try self.validate(self.ownerName, name: "ownerName", parent: name, min: 1)
             try self.validate(self.ownerName, name: "ownerName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.resourceUris?.forEach {
                 try $0.validate(name: "\(name).resourceUris[]")
             }
+            try self.resourceUris?.forEach {}
             try self.validate(self.resourceUris, name: "resourceUris", parent: name, max: 1000)
             try self.validate(self.resourceUris, name: "resourceUris", parent: name, min: 0)
         }

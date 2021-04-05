@@ -88,6 +88,7 @@ extension ElasticInference {
                 try validate($0, name: "acceleratorTypes[]", parent: name, min: 1)
                 try validate($0, name: "acceleratorTypes[]", parent: name, pattern: "^\\S+$")
             }
+            try self.acceleratorTypes?.forEach {}
             try self.validate(self.acceleratorTypes, name: "acceleratorTypes", parent: name, max: 100)
             try self.validate(self.acceleratorTypes, name: "acceleratorTypes", parent: name, min: 0)
         }
@@ -151,15 +152,19 @@ extension ElasticInference {
                 try validate($0, name: "acceleratorIds[]", parent: name, min: 1)
                 try validate($0, name: "acceleratorIds[]", parent: name, pattern: "^eia-[0-9a-f]+$")
             }
+            try self.acceleratorIds?.forEach {}
             try self.validate(self.acceleratorIds, name: "acceleratorIds", parent: name, max: 1000)
             try self.validate(self.acceleratorIds, name: "acceleratorIds", parent: name, min: 0)
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 100)
             try self.validate(self.filters, name: "filters", parent: name, min: 0)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+/]+={0,2}$")
@@ -244,6 +249,7 @@ extension ElasticInference {
         }
 
         public func validate(name: String) throws {
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^\\S+$")
@@ -251,6 +257,7 @@ extension ElasticInference {
                 try validate($0, name: "values[]", parent: name, max: 500_000)
                 try validate($0, name: "values[]", parent: name, pattern: "^.*$")
             }
+            try self.values?.forEach {}
             try self.validate(self.values, name: "values", parent: name, max: 100)
             try self.validate(self.values, name: "values", parent: name, min: 0)
         }
@@ -291,6 +298,7 @@ extension ElasticInference {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws\\S*:elastic-inference:\\S+:\\d{12}:elastic-inference-accelerator/eia-[0-9a-f]+$")
@@ -341,6 +349,7 @@ extension ElasticInference {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws\\S*:elastic-inference:\\S+:\\d{12}:elastic-inference-accelerator/eia-[0-9a-f]+$")
@@ -378,6 +387,7 @@ extension ElasticInference {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws\\S*:elastic-inference:\\S+:\\d{12}:elastic-inference-accelerator/eia-[0-9a-f]+$")
@@ -386,6 +396,7 @@ extension ElasticInference {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^\\S$")
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }

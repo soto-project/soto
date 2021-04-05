@@ -46,6 +46,7 @@ extension TimestreamQuery {
         }
 
         public func validate(name: String) throws {
+            try self.queryId.forEach {}
             try self.validate(self.queryId, name: "queryId", parent: name, max: 64)
             try self.validate(self.queryId, name: "queryId", parent: name, min: 1)
             try self.validate(self.queryId, name: "queryId", parent: name, pattern: "[a-zA-Z0-9]+")
@@ -167,8 +168,10 @@ extension TimestreamQuery {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 32)
+            try self.maxRows?.forEach {}
             try self.validate(self.maxRows, name: "maxRows", parent: name, max: 1000)
             try self.validate(self.maxRows, name: "maxRows", parent: name, min: 1)
         }

@@ -139,7 +139,9 @@ extension GroundStation {
 
         public func validate(name: String) throws {
             try self.decodeConfig.validate(name: "\(name).decodeConfig")
+            try self.decodeConfig.forEach {}
             try self.demodulationConfig.validate(name: "\(name).demodulationConfig")
+            try self.demodulationConfig.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -272,6 +274,7 @@ extension GroundStation {
 
         public func validate(name: String) throws {
             try self.antennaDownlinkDemodDecodeConfig?.validate(name: "\(name).antennaDownlinkDemodDecodeConfig")
+            try self.antennaDownlinkDemodDecodeConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -374,6 +377,8 @@ extension GroundStation {
 
         public func validate(name: String) throws {
             try self.configData.validate(name: "\(name).configData")
+            try self.configData.forEach {}
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[ a-zA-Z0-9_:-]{1,256}$")
@@ -401,6 +406,7 @@ extension GroundStation {
             try self.endpointDetails.forEach {
                 try $0.validate(name: "\(name).endpointDetails[]")
             }
+            try self.endpointDetails.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -436,16 +442,21 @@ extension GroundStation {
         }
 
         public func validate(name: String) throws {
+            try self.contactPostPassDurationSeconds?.forEach {}
             try self.validate(self.contactPostPassDurationSeconds, name: "contactPostPassDurationSeconds", parent: name, max: 21600)
             try self.validate(self.contactPostPassDurationSeconds, name: "contactPostPassDurationSeconds", parent: name, min: 1)
+            try self.contactPrePassDurationSeconds?.forEach {}
             try self.validate(self.contactPrePassDurationSeconds, name: "contactPrePassDurationSeconds", parent: name, max: 21600)
             try self.validate(self.contactPrePassDurationSeconds, name: "contactPrePassDurationSeconds", parent: name, min: 1)
             try self.dataflowEdges.forEach {
                 try validate($0, name: "dataflowEdges[]", parent: name, max: 2)
                 try validate($0, name: "dataflowEdges[]", parent: name, min: 2)
             }
+            try self.dataflowEdges.forEach {}
+            try self.minimumViableContactDurationSeconds.forEach {}
             try self.validate(self.minimumViableContactDurationSeconds, name: "minimumViableContactDurationSeconds", parent: name, max: 21600)
             try self.validate(self.minimumViableContactDurationSeconds, name: "minimumViableContactDurationSeconds", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[ a-zA-Z0-9_:-]{1,256}$")
@@ -499,8 +510,10 @@ extension GroundStation {
         }
 
         public func validate(name: String) throws {
+            try self.mtu?.forEach {}
             try self.validate(self.mtu, name: "mtu", parent: name, max: 1500)
             try self.validate(self.mtu, name: "mtu", parent: name, min: 1400)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[ a-zA-Z0-9_:-]{1,256}$")
@@ -570,6 +583,7 @@ extension GroundStation {
         }
 
         public func validate(name: String) throws {
+            try self.unvalidatedJSON.forEach {}
             try self.validate(self.unvalidatedJSON, name: "unvalidatedJSON", parent: name, max: 8192)
             try self.validate(self.unvalidatedJSON, name: "unvalidatedJSON", parent: name, min: 2)
             try self.validate(self.unvalidatedJSON, name: "unvalidatedJSON", parent: name, pattern: "^[{}\\[\\]:.,\"0-9A-z\\-_\\s]{2,8192}$")
@@ -638,6 +652,7 @@ extension GroundStation {
         }
 
         public func validate(name: String) throws {
+            try self.unvalidatedJSON.forEach {}
             try self.validate(self.unvalidatedJSON, name: "unvalidatedJSON", parent: name, max: 8192)
             try self.validate(self.unvalidatedJSON, name: "unvalidatedJSON", parent: name, min: 2)
             try self.validate(self.unvalidatedJSON, name: "unvalidatedJSON", parent: name, pattern: "^[{}\\[\\]:.,\"0-9A-z\\-_\\s]{2,8192}$")
@@ -800,6 +815,7 @@ extension GroundStation {
 
         public func validate(name: String) throws {
             try self.endpoint?.validate(name: "\(name).endpoint")
+            try self.endpoint?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1639,6 +1655,8 @@ extension GroundStation {
 
         public func validate(name: String) throws {
             try self.configData.validate(name: "\(name).configData")
+            try self.configData.forEach {}
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[ a-zA-Z0-9_:-]{1,256}$")
@@ -1681,16 +1699,21 @@ extension GroundStation {
         }
 
         public func validate(name: String) throws {
+            try self.contactPostPassDurationSeconds?.forEach {}
             try self.validate(self.contactPostPassDurationSeconds, name: "contactPostPassDurationSeconds", parent: name, max: 21600)
             try self.validate(self.contactPostPassDurationSeconds, name: "contactPostPassDurationSeconds", parent: name, min: 1)
+            try self.contactPrePassDurationSeconds?.forEach {}
             try self.validate(self.contactPrePassDurationSeconds, name: "contactPrePassDurationSeconds", parent: name, max: 21600)
             try self.validate(self.contactPrePassDurationSeconds, name: "contactPrePassDurationSeconds", parent: name, min: 1)
             try self.dataflowEdges?.forEach {
                 try validate($0, name: "dataflowEdges[]", parent: name, max: 2)
                 try validate($0, name: "dataflowEdges[]", parent: name, min: 2)
             }
+            try self.dataflowEdges?.forEach {}
+            try self.minimumViableContactDurationSeconds?.forEach {}
             try self.validate(self.minimumViableContactDurationSeconds, name: "minimumViableContactDurationSeconds", parent: name, max: 21600)
             try self.validate(self.minimumViableContactDurationSeconds, name: "minimumViableContactDurationSeconds", parent: name, min: 1)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[ a-zA-Z0-9_:-]{1,256}$")

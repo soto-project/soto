@@ -20,11 +20,40 @@ import SotoCore
 extension AccessAnalyzer {
     // MARK: Enums
 
+    public enum AccessPreviewStatus: String, CustomStringConvertible, Codable {
+        case completed = "COMPLETED"
+        case creating = "CREATING"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AccessPreviewStatusReasonCode: String, CustomStringConvertible, Codable {
+        case internalError = "INTERNAL_ERROR"
+        case invalidConfiguration = "INVALID_CONFIGURATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AclPermission: String, CustomStringConvertible, Codable {
+        case fullControl = "FULL_CONTROL"
+        case read = "READ"
+        case readAcp = "READ_ACP"
+        case write = "WRITE"
+        case writeAcp = "WRITE_ACP"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AnalyzerStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case creating = "CREATING"
         case disabled = "DISABLED"
         case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FindingChangeType: String, CustomStringConvertible, Codable {
+        case changed = "CHANGED"
+        case new = "NEW"
+        case unchanged = "UNCHANGED"
         public var description: String { return self.rawValue }
     }
 
@@ -48,9 +77,48 @@ extension AccessAnalyzer {
         public var description: String { return self.rawValue }
     }
 
+    public enum KmsGrantOperation: String, CustomStringConvertible, Codable {
+        case creategrant = "CreateGrant"
+        case decrypt = "Decrypt"
+        case describekey = "DescribeKey"
+        case encrypt = "Encrypt"
+        case generatedatakey = "GenerateDataKey"
+        case generatedatakeypair = "GenerateDataKeyPair"
+        case generatedatakeypairwithoutplaintext = "GenerateDataKeyPairWithoutPlaintext"
+        case generatedatakeywithoutplaintext = "GenerateDataKeyWithoutPlaintext"
+        case getpublickey = "GetPublicKey"
+        case reencryptfrom = "ReEncryptFrom"
+        case reencryptto = "ReEncryptTo"
+        case retiregrant = "RetireGrant"
+        case sign = "Sign"
+        case verify = "Verify"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Locale: String, CustomStringConvertible, Codable {
+        case de = "DE"
+        case en = "EN"
+        case es = "ES"
+        case fr = "FR"
+        case it = "IT"
+        case ja = "JA"
+        case ko = "KO"
+        case ptBr = "PT_BR"
+        case zhCn = "ZH_CN"
+        case zhTw = "ZH_TW"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OrderBy: String, CustomStringConvertible, Codable {
         case asc = "ASC"
         case desc = "DESC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PolicyType: String, CustomStringConvertible, Codable {
+        case identityPolicy = "IDENTITY_POLICY"
+        case resourcePolicy = "RESOURCE_POLICY"
+        case serviceControlPolicy = "SERVICE_CONTROL_POLICY"
         public var description: String { return self.rawValue }
     }
 
@@ -79,7 +147,178 @@ extension AccessAnalyzer {
         public var description: String { return self.rawValue }
     }
 
+    public enum ValidatePolicyFindingType: String, CustomStringConvertible, Codable {
+        case error = "ERROR"
+        case securityWarning = "SECURITY_WARNING"
+        case suggestion = "SUGGESTION"
+        case warning = "WARNING"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
+
+    public struct AccessPreview: AWSDecodableShape {
+        /// The ARN of the analyzer used to generate the access preview.
+        public let analyzerArn: String
+        /// A map of resource ARNs for the proposed resource configuration.
+        public let configurations: [String: Configuration]
+        /// The time at which the access preview was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The unique ID for the access preview.
+        public let id: String
+        /// The status of the access preview.    Creating - The access preview creation is in progress.    Completed - The access preview is complete. You can preview findings for external access to the resource.    Failed - The access preview creation has failed.
+        public let status: AccessPreviewStatus
+        /// Provides more details about the current status of the access preview. For example, if the creation of the access preview fails, a Failed status is returned. This failure can be due to an internal issue with the analysis or due to an invalid resource configuration.
+        public let statusReason: AccessPreviewStatusReason?
+
+        public init(analyzerArn: String, configurations: [String: Configuration], createdAt: Date, id: String, status: AccessPreviewStatus, statusReason: AccessPreviewStatusReason? = nil) {
+            self.analyzerArn = analyzerArn
+            self.configurations = configurations
+            self.createdAt = createdAt
+            self.id = id
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analyzerArn
+            case configurations
+            case createdAt
+            case id
+            case status
+            case statusReason
+        }
+    }
+
+    public struct AccessPreviewFinding: AWSDecodableShape {
+        /// The action in the analyzed policy statement that an external principal has permission to perform.
+        public let action: [String]?
+        /// Provides context on how the access preview finding compares to existing access identified in Access Analyzer.    New - The finding is for newly-introduced access.    Unchanged - The preview finding is an existing finding that would remain unchanged.    Changed - The preview finding is an existing finding with a change in status.   For example, a Changed finding with preview status Resolved and existing status Active indicates the existing Active finding would become Resolved as a result of the proposed permissions change.
+        public let changeType: FindingChangeType
+        /// The condition in the analyzed policy statement that resulted in a finding.
+        public let condition: [String: String]?
+        /// The time at which the access preview finding was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// An error.
+        public let error: String?
+        /// The existing ID of the finding in Access Analyzer, provided only for existing findings.
+        public let existingFindingId: String?
+        /// The existing status of the finding, provided only for existing findings.
+        public let existingFindingStatus: FindingStatus?
+        /// The ID of the access preview finding. This ID uniquely identifies the element in the list of access preview findings and is not related to the finding ID in Access Analyzer.
+        public let id: String
+        /// Indicates whether the policy that generated the finding allows public access to the resource.
+        public let isPublic: Bool?
+        /// The external principal that has access to a resource within the zone of trust.
+        public let principal: [String: String]?
+        /// The resource that an external principal has access to. This is the resource associated with the access preview.
+        public let resource: String?
+        /// The AWS account ID that owns the resource. For most AWS resources, the owning account is the account in which the resource was created.
+        public let resourceOwnerAccount: String
+        /// The type of the resource that can be accessed in the finding.
+        public let resourceType: ResourceType
+        /// The sources of the finding. This indicates how the access that generated the finding is granted. It is populated for Amazon S3 bucket findings.
+        public let sources: [FindingSource]?
+        /// The preview status of the finding. This is what the status of the finding would be after permissions deployment. For example, a Changed finding with preview status Resolved and existing status Active indicates the existing Active finding would become Resolved as a result of the proposed permissions change.
+        public let status: FindingStatus
+
+        public init(action: [String]? = nil, changeType: FindingChangeType, condition: [String: String]? = nil, createdAt: Date, error: String? = nil, existingFindingId: String? = nil, existingFindingStatus: FindingStatus? = nil, id: String, isPublic: Bool? = nil, principal: [String: String]? = nil, resource: String? = nil, resourceOwnerAccount: String, resourceType: ResourceType, sources: [FindingSource]? = nil, status: FindingStatus) {
+            self.action = action
+            self.changeType = changeType
+            self.condition = condition
+            self.createdAt = createdAt
+            self.error = error
+            self.existingFindingId = existingFindingId
+            self.existingFindingStatus = existingFindingStatus
+            self.id = id
+            self.isPublic = isPublic
+            self.principal = principal
+            self.resource = resource
+            self.resourceOwnerAccount = resourceOwnerAccount
+            self.resourceType = resourceType
+            self.sources = sources
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action
+            case changeType
+            case condition
+            case createdAt
+            case error
+            case existingFindingId
+            case existingFindingStatus
+            case id
+            case isPublic
+            case principal
+            case resource
+            case resourceOwnerAccount
+            case resourceType
+            case sources
+            case status
+        }
+    }
+
+    public struct AccessPreviewStatusReason: AWSDecodableShape {
+        /// The reason code for the current status of the access preview.
+        public let code: AccessPreviewStatusReasonCode
+
+        public init(code: AccessPreviewStatusReasonCode) {
+            self.code = code
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code
+        }
+    }
+
+    public struct AccessPreviewSummary: AWSDecodableShape {
+        /// The ARN of the analyzer used to generate the access preview.
+        public let analyzerArn: String
+        /// The time at which the access preview was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The unique ID for the access preview.
+        public let id: String
+        /// The status of the access preview.    Creating - The access preview creation is in progress.    Completed - The access preview is complete and previews the findings for external access to the resource.    Failed - The access preview creation has failed.
+        public let status: AccessPreviewStatus
+        public let statusReason: AccessPreviewStatusReason?
+
+        public init(analyzerArn: String, createdAt: Date, id: String, status: AccessPreviewStatus, statusReason: AccessPreviewStatusReason? = nil) {
+            self.analyzerArn = analyzerArn
+            self.createdAt = createdAt
+            self.id = id
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analyzerArn
+            case createdAt
+            case id
+            case status
+            case statusReason
+        }
+    }
+
+    public struct AclGrantee: AWSEncodableShape & AWSDecodableShape {
+        /// The value specified is the canonical user ID of an AWS account.
+        public let id: String?
+        /// Used for granting permissions to a predefined group.
+        public let uri: String?
+
+        public init(id: String? = nil, uri: String? = nil) {
+            self.id = id
+            self.uri = uri
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id
+            case uri
+        }
+    }
 
     public struct AnalyzedResource: AWSDecodableShape {
         /// The actions that an external principal is granted permission to use by the policy that generated the finding.
@@ -173,7 +412,7 @@ extension AccessAnalyzer {
         public let name: String
         /// The status of the analyzer. An Active analyzer successfully monitors supported resources and generates new findings. The analyzer is Disabled when a user action, such as removing trusted access for AWS IAM Access Analyzer from AWS Organizations, causes the analyzer to stop generating new findings. The status is Creating when the analyzer creation is in progress and Failed when the analyzer creation has failed.
         public let status: AnalyzerStatus
-        /// The statusReason provides more details about the current status of the analyzer. For example, if the creation for the analyzer fails, a Failed status is displayed. For an analyzer with organization as the type, this failure can be due to an issue with creating the service-linked roles required in the member accounts of the AWS organization.
+        /// The statusReason provides more details about the current status of the analyzer. For example, if the creation for the analyzer fails, a Failed status is returned. For an analyzer with organization as the type, this failure can be due to an issue with creating the service-linked roles required in the member accounts of the AWS organization.
         public let statusReason: StatusReason?
         /// The tags added to the analyzer.
         public let tags: [String: String]?
@@ -220,7 +459,9 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
+            try self.analyzerArn.forEach {}
             try self.validate(self.analyzerArn, name: "analyzerArn", parent: name, pattern: "^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$")
+            try self.ruleName.forEach {}
             try self.validate(self.ruleName, name: "ruleName", parent: name, max: 255)
             try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
             try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
@@ -260,6 +501,82 @@ extension AccessAnalyzer {
         }
     }
 
+    public struct Configuration: AWSEncodableShape & AWSDecodableShape {
+        /// The access control configuration is for an IAM role.
+        public let iamRole: IamRoleConfiguration?
+        /// The access control configuration is for a KMS key.
+        public let kmsKey: KmsKeyConfiguration?
+        /// The access control configuration is for an Amazon S3 Bucket.
+        public let s3Bucket: S3BucketConfiguration?
+        /// The access control configuration is for a Secrets Manager secret.
+        public let secretsManagerSecret: SecretsManagerSecretConfiguration?
+        /// The access control configuration is for an SQS queue.
+        public let sqsQueue: SqsQueueConfiguration?
+
+        public init(iamRole: IamRoleConfiguration? = nil, kmsKey: KmsKeyConfiguration? = nil, s3Bucket: S3BucketConfiguration? = nil, secretsManagerSecret: SecretsManagerSecretConfiguration? = nil, sqsQueue: SqsQueueConfiguration? = nil) {
+            self.iamRole = iamRole
+            self.kmsKey = kmsKey
+            self.s3Bucket = s3Bucket
+            self.secretsManagerSecret = secretsManagerSecret
+            self.sqsQueue = sqsQueue
+        }
+
+        public func validate(name: String) throws {
+            try self.s3Bucket?.validate(name: "\(name).s3Bucket")
+            try self.s3Bucket?.forEach {}
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iamRole
+            case kmsKey
+            case s3Bucket
+            case secretsManagerSecret
+            case sqsQueue
+        }
+    }
+
+    public struct CreateAccessPreviewRequest: AWSEncodableShape {
+        /// The ARN of the account analyzer used to generate the access preview. You can only create an access preview for analyzers with an Account type and Active status.
+        public let analyzerArn: String
+        /// A client token.
+        public let clientToken: String?
+        /// Access control configuration for your resource that is used to generate the access preview. The access preview includes findings for external access allowed to the resource with the proposed access control configuration. The configuration must contain exactly one element.
+        public let configurations: [String: Configuration]
+
+        public init(analyzerArn: String, clientToken: String? = CreateAccessPreviewRequest.idempotencyToken(), configurations: [String: Configuration]) {
+            self.analyzerArn = analyzerArn
+            self.clientToken = clientToken
+            self.configurations = configurations
+        }
+
+        public func validate(name: String) throws {
+            try self.analyzerArn.forEach {}
+            try self.validate(self.analyzerArn, name: "analyzerArn", parent: name, pattern: "^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$")
+            try self.configurations.forEach {
+                try $0.value.validate(name: "\(name).configurations[\"\($0.key)\"]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analyzerArn
+            case clientToken
+            case configurations
+        }
+    }
+
+    public struct CreateAccessPreviewResponse: AWSDecodableShape {
+        /// The unique ID for the access preview.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id
+        }
+    }
+
     public struct CreateAnalyzerRequest: AWSEncodableShape {
         /// The name of the analyzer to create.
         public let analyzerName: String
@@ -281,12 +598,14 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
+            try self.analyzerName.forEach {}
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, max: 255)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, min: 1)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
             try self.archiveRules?.forEach {
                 try $0.validate(name: "\(name).archiveRules[]")
             }
+            try self.archiveRules?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -333,12 +652,14 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
+            try self.analyzerName.forEach {}
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, max: 255)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, min: 1)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
             try self.filter.forEach {
                 try $0.value.validate(name: "\(name).filter[\"\($0.key)\"]")
             }
+            try self.ruleName.forEach {}
             try self.validate(self.ruleName, name: "ruleName", parent: name, max: 255)
             try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
             try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
@@ -369,10 +690,13 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
+            try self.contains?.forEach {}
             try self.validate(self.contains, name: "contains", parent: name, max: 20)
             try self.validate(self.contains, name: "contains", parent: name, min: 1)
+            try self.eq?.forEach {}
             try self.validate(self.eq, name: "eq", parent: name, max: 20)
             try self.validate(self.eq, name: "eq", parent: name, min: 1)
+            try self.neq?.forEach {}
             try self.validate(self.neq, name: "neq", parent: name, max: 20)
             try self.validate(self.neq, name: "neq", parent: name, min: 1)
         }
@@ -402,6 +726,7 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
+            try self.analyzerName.forEach {}
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, max: 255)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, min: 1)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
@@ -431,9 +756,11 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
+            try self.analyzerName.forEach {}
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, max: 255)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, min: 1)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
+            try self.ruleName.forEach {}
             try self.validate(self.ruleName, name: "ruleName", parent: name, max: 255)
             try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
             try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
@@ -465,7 +792,7 @@ extension AccessAnalyzer {
         public let resource: String?
         /// The AWS account ID that owns the resource.
         public let resourceOwnerAccount: String
-        /// The type of the resource reported in the finding.
+        /// The type of the resource identified in the finding.
         public let resourceType: ResourceType
         /// The sources of the finding. This indicates how the access that generated the finding is granted. It is populated for Amazon S3 bucket findings.
         public let sources: [FindingSource]?
@@ -608,6 +935,45 @@ extension AccessAnalyzer {
         }
     }
 
+    public struct GetAccessPreviewRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accessPreviewId", location: .uri(locationName: "accessPreviewId")),
+            AWSMemberEncoding(label: "analyzerArn", location: .querystring(locationName: "analyzerArn"))
+        ]
+
+        /// The unique ID for the access preview.
+        public let accessPreviewId: String
+        /// The ARN of the analyzer used to generate the access preview.
+        public let analyzerArn: String
+
+        public init(accessPreviewId: String, analyzerArn: String) {
+            self.accessPreviewId = accessPreviewId
+            self.analyzerArn = analyzerArn
+        }
+
+        public func validate(name: String) throws {
+            try self.accessPreviewId.forEach {}
+            try self.validate(self.accessPreviewId, name: "accessPreviewId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.analyzerArn.forEach {}
+            try self.validate(self.analyzerArn, name: "analyzerArn", parent: name, pattern: "^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAccessPreviewResponse: AWSDecodableShape {
+        /// An object that contains information about the access preview.
+        public let accessPreview: AccessPreview
+
+        public init(accessPreview: AccessPreview) {
+            self.accessPreview = accessPreview
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessPreview
+        }
+    }
+
     public struct GetAnalyzedResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "analyzerArn", location: .querystring(locationName: "analyzerArn")),
@@ -625,7 +991,9 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
+            try self.analyzerArn.forEach {}
             try self.validate(self.analyzerArn, name: "analyzerArn", parent: name, pattern: "^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$")
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:[^:]*:[^:]*:[^:]*:[^:]*:.*$")
         }
 
@@ -633,7 +1001,7 @@ extension AccessAnalyzer {
     }
 
     public struct GetAnalyzedResourceResponse: AWSDecodableShape {
-        /// An AnalyedResource object that contains information that Access Analyzer found when it analyzed the resource.
+        /// An AnalyzedResource object that contains information that Access Analyzer found when it analyzed the resource.
         public let resource: AnalyzedResource?
 
         public init(resource: AnalyzedResource? = nil) {
@@ -658,6 +1026,7 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
+            try self.analyzerName.forEach {}
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, max: 255)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, min: 1)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
@@ -696,9 +1065,11 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
+            try self.analyzerName.forEach {}
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, max: 255)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, min: 1)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
+            try self.ruleName.forEach {}
             try self.validate(self.ruleName, name: "ruleName", parent: name, max: 255)
             try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
             try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
@@ -736,6 +1107,7 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
+            try self.analyzerArn.forEach {}
             try self.validate(self.analyzerArn, name: "analyzerArn", parent: name, pattern: "^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$")
         }
 
@@ -755,6 +1127,19 @@ extension AccessAnalyzer {
         }
     }
 
+    public struct IamRoleConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The proposed trust policy for the IAM role.
+        public let trustPolicy: String?
+
+        public init(trustPolicy: String? = nil) {
+            self.trustPolicy = trustPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trustPolicy
+        }
+    }
+
     public struct InlineArchiveRule: AWSEncodableShape {
         /// The condition and values for a criterion.
         public let filter: [String: Criterion]
@@ -770,6 +1155,7 @@ extension AccessAnalyzer {
             try self.filter.forEach {
                 try $0.value.validate(name: "\(name).filter[\"\($0.key)\"]")
             }
+            try self.ruleName.forEach {}
             try self.validate(self.ruleName, name: "ruleName", parent: name, max: 255)
             try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
             try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
@@ -778,6 +1164,177 @@ extension AccessAnalyzer {
         private enum CodingKeys: String, CodingKey {
             case filter
             case ruleName
+        }
+    }
+
+    public struct InternetConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct KmsGrantConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Use this structure to propose allowing cryptographic operations in the grant only when the operation request includes the specified encryption context.
+        public let constraints: KmsGrantConstraints?
+        /// The principal that is given permission to perform the operations that the grant permits.
+        public let granteePrincipal: String
+        ///  The AWS account under which the grant was issued. The account is used to propose KMS grants issued by accounts other than the owner of the key.
+        public let issuingAccount: String
+        /// A list of operations that the grant permits.
+        public let operations: [KmsGrantOperation]
+        /// The principal that is given permission to retire the grant by using RetireGrant operation.
+        public let retiringPrincipal: String?
+
+        public init(constraints: KmsGrantConstraints? = nil, granteePrincipal: String, issuingAccount: String, operations: [KmsGrantOperation], retiringPrincipal: String? = nil) {
+            self.constraints = constraints
+            self.granteePrincipal = granteePrincipal
+            self.issuingAccount = issuingAccount
+            self.operations = operations
+            self.retiringPrincipal = retiringPrincipal
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case constraints
+            case granteePrincipal
+            case issuingAccount
+            case operations
+            case retiringPrincipal
+        }
+    }
+
+    public struct KmsGrantConstraints: AWSEncodableShape & AWSDecodableShape {
+        /// A list of key-value pairs that must match the encryption context in the cryptographic operation request. The grant allows the operation only when the encryption context in the request is the same as the encryption context specified in this constraint.
+        public let encryptionContextEquals: [String: String]?
+        /// A list of key-value pairs that must be included in the encryption context of the cryptographic operation request. The grant allows the cryptographic operation only when the encryption context in the request includes the key-value pairs specified in this constraint, although it can include additional key-value pairs.
+        public let encryptionContextSubset: [String: String]?
+
+        public init(encryptionContextEquals: [String: String]? = nil, encryptionContextSubset: [String: String]? = nil) {
+            self.encryptionContextEquals = encryptionContextEquals
+            self.encryptionContextSubset = encryptionContextSubset
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionContextEquals
+            case encryptionContextSubset
+        }
+    }
+
+    public struct KmsKeyConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A list of proposed grant configurations for the KMS key. If the proposed grant configuration is for an existing key, the access preview uses the proposed list of grant configurations in place of the existing grants. Otherwise, the access preview uses the existing grants for the key.
+        public let grants: [KmsGrantConfiguration]?
+        /// Resource policy configuration for the KMS key. The only valid value for the name of the key policy is default. For more information, see Default key policy.
+        public let keyPolicies: [String: String]?
+
+        public init(grants: [KmsGrantConfiguration]? = nil, keyPolicies: [String: String]? = nil) {
+            self.grants = grants
+            self.keyPolicies = keyPolicies
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grants
+            case keyPolicies
+        }
+    }
+
+    public struct ListAccessPreviewFindingsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accessPreviewId", location: .uri(locationName: "accessPreviewId"))
+        ]
+
+        /// The unique ID for the access preview.
+        public let accessPreviewId: String
+        /// The ARN of the analyzer used to generate the access.
+        public let analyzerArn: String
+        /// Criteria to filter the returned findings.
+        public let filter: [String: Criterion]?
+        /// The maximum number of results to return in the response.
+        public let maxResults: Int?
+        /// A token used for pagination of results returned.
+        public let nextToken: String?
+
+        public init(accessPreviewId: String, analyzerArn: String, filter: [String: Criterion]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.accessPreviewId = accessPreviewId
+            self.analyzerArn = analyzerArn
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.accessPreviewId.forEach {}
+            try self.validate(self.accessPreviewId, name: "accessPreviewId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.analyzerArn.forEach {}
+            try self.validate(self.analyzerArn, name: "analyzerArn", parent: name, pattern: "^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$")
+            try self.filter?.forEach {
+                try $0.value.validate(name: "\(name).filter[\"\($0.key)\"]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analyzerArn
+            case filter
+            case maxResults
+            case nextToken
+        }
+    }
+
+    public struct ListAccessPreviewFindingsResponse: AWSDecodableShape {
+        /// A list of access preview findings that match the specified filter criteria.
+        public let findings: [AccessPreviewFinding]
+        /// A token used for pagination of results returned.
+        public let nextToken: String?
+
+        public init(findings: [AccessPreviewFinding], nextToken: String? = nil) {
+            self.findings = findings
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findings
+            case nextToken
+        }
+    }
+
+    public struct ListAccessPreviewsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "analyzerArn", location: .querystring(locationName: "analyzerArn")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The ARN of the analyzer used to generate the access preview.
+        public let analyzerArn: String
+        /// The maximum number of results to return in the response.
+        public let maxResults: Int?
+        /// A token used for pagination of results returned.
+        public let nextToken: String?
+
+        public init(analyzerArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.analyzerArn = analyzerArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.analyzerArn.forEach {}
+            try self.validate(self.analyzerArn, name: "analyzerArn", parent: name, pattern: "^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAccessPreviewsResponse: AWSDecodableShape {
+        /// A list of access previews retrieved for the analyzer.
+        public let accessPreviews: [AccessPreviewSummary]
+        /// A token used for pagination of results returned.
+        public let nextToken: String?
+
+        public init(accessPreviews: [AccessPreviewSummary], nextToken: String? = nil) {
+            self.accessPreviews = accessPreviews
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessPreviews
+            case nextToken
         }
     }
 
@@ -799,6 +1356,7 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
+            try self.analyzerArn.forEach {}
             try self.validate(self.analyzerArn, name: "analyzerArn", parent: name, pattern: "^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$")
         }
 
@@ -888,6 +1446,7 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
+            try self.analyzerName.forEach {}
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, max: 255)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, min: 1)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
@@ -934,6 +1493,7 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
+            try self.analyzerArn.forEach {}
             try self.validate(self.analyzerArn, name: "analyzerArn", parent: name, pattern: "^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$")
             try self.filter?.forEach {
                 try $0.value.validate(name: "\(name).filter[\"\($0.key)\"]")
@@ -994,6 +1554,199 @@ extension AccessAnalyzer {
         }
     }
 
+    public struct Location: AWSDecodableShape {
+        /// A path in a policy, represented as a sequence of path elements.
+        public let path: [PathElement]
+        /// A span in a policy.
+        public let span: Span
+
+        public init(path: [PathElement], span: Span) {
+            self.path = path
+            self.span = span
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case path
+            case span
+        }
+    }
+
+    public struct NetworkOriginConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration for the Amazon S3 access point with an Internet origin.
+        public let internetConfiguration: InternetConfiguration?
+        public let vpcConfiguration: VpcConfiguration?
+
+        public init(internetConfiguration: InternetConfiguration? = nil, vpcConfiguration: VpcConfiguration? = nil) {
+            self.internetConfiguration = internetConfiguration
+            self.vpcConfiguration = vpcConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.vpcConfiguration?.validate(name: "\(name).vpcConfiguration")
+            try self.vpcConfiguration?.forEach {}
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case internetConfiguration
+            case vpcConfiguration
+        }
+    }
+
+    public struct PathElement: AWSDecodableShape {
+        /// Refers to an index in a JSON array.
+        public let index: Int?
+        /// Refers to a key in a JSON object.
+        public let key: String?
+        /// Refers to a substring of a literal string in a JSON object.
+        public let substring: Substring?
+        /// Refers to the value associated with a given key in a JSON object.
+        public let value: String?
+
+        public init(index: Int? = nil, key: String? = nil, substring: Substring? = nil, value: String? = nil) {
+            self.index = index
+            self.key = key
+            self.substring = substring
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case index
+            case key
+            case substring
+            case value
+        }
+    }
+
+    public struct Position: AWSDecodableShape {
+        /// The column of the position, starting from 0.
+        public let column: Int
+        /// The line of the position, starting from 1.
+        public let line: Int
+        /// The offset within the policy that corresponds to the position, starting from 0.
+        public let offset: Int
+
+        public init(column: Int, line: Int, offset: Int) {
+            self.column = column
+            self.line = line
+            self.offset = offset
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case column
+            case line
+            case offset
+        }
+    }
+
+    public struct S3AccessPointConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The access point policy.
+        public let accessPointPolicy: String?
+        /// The proposed Internet and VpcConfiguration to apply to this Amazon S3 access point. If the access preview is for a new resource and neither is specified, the access preview uses Internet for the network origin. If the access preview is for an existing resource and neither is specified, the access preview uses the exiting network origin.
+        public let networkOrigin: NetworkOriginConfiguration?
+        /// The proposed S3PublicAccessBlock configuration to apply to this Amazon S3 Access Point.
+        public let publicAccessBlock: S3PublicAccessBlockConfiguration?
+
+        public init(accessPointPolicy: String? = nil, networkOrigin: NetworkOriginConfiguration? = nil, publicAccessBlock: S3PublicAccessBlockConfiguration? = nil) {
+            self.accessPointPolicy = accessPointPolicy
+            self.networkOrigin = networkOrigin
+            self.publicAccessBlock = publicAccessBlock
+        }
+
+        public func validate(name: String) throws {
+            try self.networkOrigin?.validate(name: "\(name).networkOrigin")
+            try self.networkOrigin?.forEach {}
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessPointPolicy
+            case networkOrigin
+            case publicAccessBlock
+        }
+    }
+
+    public struct S3BucketAclGrantConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The grantee to whom you’re assigning access rights.
+        public let grantee: AclGrantee
+        /// The permissions being granted.
+        public let permission: AclPermission
+
+        public init(grantee: AclGrantee, permission: AclPermission) {
+            self.grantee = grantee
+            self.permission = permission
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grantee
+            case permission
+        }
+    }
+
+    public struct S3BucketConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration of Amazon S3 access points for the bucket.
+        public let accessPoints: [String: S3AccessPointConfiguration]?
+        /// The proposed list of ACL grants for the Amazon S3 bucket. You can propose up to 100 ACL grants per bucket. If the proposed grant configuration is for an existing bucket, the access preview uses the proposed list of grant configurations in place of the existing grants. Otherwise, the access preview uses the existing grants for the bucket.
+        public let bucketAclGrants: [S3BucketAclGrantConfiguration]?
+        /// The proposed bucket policy for the Amazon S3 bucket.
+        public let bucketPolicy: String?
+        /// The proposed block public access configuration for the Amazon S3 bucket.
+        public let bucketPublicAccessBlock: S3PublicAccessBlockConfiguration?
+
+        public init(accessPoints: [String: S3AccessPointConfiguration]? = nil, bucketAclGrants: [S3BucketAclGrantConfiguration]? = nil, bucketPolicy: String? = nil, bucketPublicAccessBlock: S3PublicAccessBlockConfiguration? = nil) {
+            self.accessPoints = accessPoints
+            self.bucketAclGrants = bucketAclGrants
+            self.bucketPolicy = bucketPolicy
+            self.bucketPublicAccessBlock = bucketPublicAccessBlock
+        }
+
+        public func validate(name: String) throws {
+            try self.accessPoints?.forEach {
+                try validate($0.key, name: "accessPoints.key", parent: name, pattern: "arn:[^:]*:s3:[^:]*:[^:]*:accesspoint/.*$")
+                try $0.value.validate(name: "\(name).accessPoints[\"\($0.key)\"]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessPoints
+            case bucketAclGrants
+            case bucketPolicy
+            case bucketPublicAccessBlock
+        }
+    }
+
+    public struct S3PublicAccessBlockConfiguration: AWSEncodableShape & AWSDecodableShape {
+        ///  Specifies whether Amazon S3 should ignore public ACLs for this bucket and objects in this bucket.
+        public let ignorePublicAcls: Bool
+        ///  Specifies whether Amazon S3 should restrict public bucket policies for this bucket.
+        public let restrictPublicBuckets: Bool
+
+        public init(ignorePublicAcls: Bool, restrictPublicBuckets: Bool) {
+            self.ignorePublicAcls = ignorePublicAcls
+            self.restrictPublicBuckets = restrictPublicBuckets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ignorePublicAcls
+            case restrictPublicBuckets
+        }
+    }
+
+    public struct SecretsManagerSecretConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The proposed ARN, key ID, or alias of the AWS KMS customer master key (CMK).
+        public let kmsKeyId: String?
+        /// The proposed resource policy defining who can access or manage the secret.
+        public let secretPolicy: String?
+
+        public init(kmsKeyId: String? = nil, secretPolicy: String? = nil) {
+            self.kmsKeyId = kmsKeyId
+            self.secretPolicy = secretPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId
+            case secretPolicy
+        }
+    }
+
     public struct SortCriteria: AWSEncodableShape {
         /// The name of the attribute to sort on.
         public let attributeName: String?
@@ -1011,6 +1764,36 @@ extension AccessAnalyzer {
         }
     }
 
+    public struct Span: AWSDecodableShape {
+        /// The end position of the span (exclusive).
+        public let end: Position
+        /// The start position of the span (inclusive).
+        public let start: Position
+
+        public init(end: Position, start: Position) {
+            self.end = end
+            self.start = start
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case end
+            case start
+        }
+    }
+
+    public struct SqsQueueConfiguration: AWSEncodableShape & AWSDecodableShape {
+        ///  The proposed resource policy for the SQS queue.
+        public let queuePolicy: String?
+
+        public init(queuePolicy: String? = nil) {
+            self.queuePolicy = queuePolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queuePolicy
+        }
+    }
+
     public struct StartResourceScanRequest: AWSEncodableShape {
         /// The ARN of the analyzer to use to scan the policies applied to the specified resource.
         public let analyzerArn: String
@@ -1023,7 +1806,9 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
+            try self.analyzerArn.forEach {}
             try self.validate(self.analyzerArn, name: "analyzerArn", parent: name, pattern: "^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$")
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:[^:]*:[^:]*:[^:]*:[^:]*:.*$")
         }
 
@@ -1043,6 +1828,23 @@ extension AccessAnalyzer {
 
         private enum CodingKeys: String, CodingKey {
             case code
+        }
+    }
+
+    public struct Substring: AWSDecodableShape {
+        /// The length of the substring.
+        public let length: Int
+        /// The start index of the substring, starting from 0.
+        public let start: Int
+
+        public init(length: Int, start: Int) {
+            self.length = length
+            self.start = start
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case length
+            case start
         }
     }
 
@@ -1116,12 +1918,14 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
+            try self.analyzerName.forEach {}
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, max: 255)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, min: 1)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
             try self.filter.forEach {
                 try $0.value.validate(name: "\(name).filter[\"\($0.key)\"]")
             }
+            try self.ruleName.forEach {}
             try self.validate(self.ruleName, name: "ruleName", parent: name, max: 255)
             try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
             try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
@@ -1154,7 +1958,9 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
+            try self.analyzerArn.forEach {}
             try self.validate(self.analyzerArn, name: "analyzerArn", parent: name, pattern: "^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$")
+            try self.resourceArn?.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:[^:]*:[^:]*:[^:]*:[^:]*:.*$")
         }
 
@@ -1164,6 +1970,102 @@ extension AccessAnalyzer {
             case ids
             case resourceArn
             case status
+        }
+    }
+
+    public struct ValidatePolicyFinding: AWSDecodableShape {
+        /// A localized message that explains the finding and provides guidance on how to address it.
+        public let findingDetails: String
+        /// The impact of the finding. Security warnings report when the policy allows access that we consider overly permissive. Errors report when a part of the policy is not functional. Warnings report non-security issues when a policy does not conform to policy writing best practices. Suggestions recommend stylistic improvements in the policy that do not impact access.
+        public let findingType: ValidatePolicyFindingType
+        /// The issue code provides an identifier of the issue associated with this finding.
+        public let issueCode: String
+        /// A link to additional documentation about the type of finding.
+        public let learnMoreLink: String
+        /// The list of locations in the policy document that are related to the finding. The issue code provides a summary of an issue identified by the finding.
+        public let locations: [Location]
+
+        public init(findingDetails: String, findingType: ValidatePolicyFindingType, issueCode: String, learnMoreLink: String, locations: [Location]) {
+            self.findingDetails = findingDetails
+            self.findingType = findingType
+            self.issueCode = issueCode
+            self.learnMoreLink = learnMoreLink
+            self.locations = locations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findingDetails
+            case findingType
+            case issueCode
+            case learnMoreLink
+            case locations
+        }
+    }
+
+    public struct ValidatePolicyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The locale to use for localizing the findings.
+        public let locale: Locale?
+        /// The maximum number of results to return in the response.
+        public let maxResults: Int?
+        /// A token used for pagination of results returned.
+        public let nextToken: String?
+        /// The JSON policy document to use as the content for the policy.
+        public let policyDocument: String
+        /// The type of policy to validate. Identity policies grant permissions to IAM principals. Identity policies include managed and inline policies for IAM roles, users, and groups. They also include service-control policies (SCPs) that are attached to an AWS organization, organizational unit (OU), or an account. Resource policies grant permissions on AWS resources. Resource policies include trust policies for IAM roles and bucket policies for S3 buckets. You can provide a generic input such as identity policy or resource policy or a specific input such as managed policy or S3 bucket policy.
+        public let policyType: PolicyType
+
+        public init(locale: Locale? = nil, maxResults: Int? = nil, nextToken: String? = nil, policyDocument: String, policyType: PolicyType) {
+            self.locale = locale
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.policyDocument = policyDocument
+            self.policyType = policyType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locale
+            case policyDocument
+            case policyType
+        }
+    }
+
+    public struct ValidatePolicyResponse: AWSDecodableShape {
+        /// The list of findings in a policy returned by Access Analyzer based on its suite of policy checks.
+        public let findings: [ValidatePolicyFinding]
+        /// A token used for pagination of results returned.
+        public let nextToken: String?
+
+        public init(findings: [ValidatePolicyFinding], nextToken: String? = nil) {
+            self.findings = findings
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findings
+            case nextToken
+        }
+    }
+
+    public struct VpcConfiguration: AWSEncodableShape & AWSDecodableShape {
+        ///  If this field is specified, this access point will only allow connections from the specified VPC ID.
+        public let vpcId: String
+
+        public init(vpcId: String) {
+            self.vpcId = vpcId
+        }
+
+        public func validate(name: String) throws {
+            try self.vpcId.forEach {}
+            try self.validate(self.vpcId, name: "vpcId", parent: name, pattern: "^vpc-([0-9a-f]){8}(([0-9a-f]){9})?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcId
         }
     }
 }

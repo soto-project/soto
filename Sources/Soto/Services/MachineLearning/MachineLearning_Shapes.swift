@@ -134,12 +134,14 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
+            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 64)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 100)
         }
 
@@ -192,7 +194,7 @@ extension MachineLearning {
         /// The location of an Amazon S3 bucket or directory to receive the operation results. The following substrings are not allowed in the s3 key portion of the outputURI field: ':', '//', '/./', '/../'.
         public let outputUri: String?
         public let startedAt: Date?
-        /// The status of the BatchPrediction. This element can have one of the following values:   PENDING - Amazon Machine Learning (Amazon ML) submitted a request to generate predictions for a batch of observations.  INPROGRESS - The process is underway.  FAILED - The request to perform a batch prediction did not run to completion. It is not usable.  COMPLETED - The batch prediction process completed successfully.  DELETED - The BatchPrediction is marked as deleted. It is not usable.
+        /// The status of the BatchPrediction. This element can have one of the following values:    PENDING - Amazon Machine Learning (Amazon ML) submitted a request to generate predictions for a batch of observations.    INPROGRESS - The process is underway.    FAILED - The request to perform a batch prediction did not run to completion. It is not usable.    COMPLETED - The batch prediction process completed successfully.    DELETED - The BatchPrediction is marked as deleted. It is not usable.
         public let status: EntityStatus?
         public let totalRecordCount: Int64?
 
@@ -256,17 +258,22 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
+            try self.batchPredictionDataSourceId.forEach {}
             try self.validate(self.batchPredictionDataSourceId, name: "batchPredictionDataSourceId", parent: name, max: 64)
             try self.validate(self.batchPredictionDataSourceId, name: "batchPredictionDataSourceId", parent: name, min: 1)
             try self.validate(self.batchPredictionDataSourceId, name: "batchPredictionDataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.batchPredictionId.forEach {}
             try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, max: 64)
             try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, min: 1)
             try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.batchPredictionName?.forEach {}
             try self.validate(self.batchPredictionName, name: "batchPredictionName", parent: name, max: 1024)
             try self.validate(self.batchPredictionName, name: "batchPredictionName", parent: name, pattern: ".*\\S.*|^$")
+            try self.mLModelId.forEach {}
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, max: 64)
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, min: 1)
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.outputUri.forEach {}
             try self.validate(self.outputUri, name: "outputUri", parent: name, max: 2048)
             try self.validate(self.outputUri, name: "outputUri", parent: name, pattern: "s3://([^/]+)(/.*)?")
         }
@@ -300,7 +307,7 @@ extension MachineLearning {
         public let dataSourceId: String
         /// A user-supplied name or description of the DataSource.
         public let dataSourceName: String?
-        /// The data specification of an Amazon RDS DataSource:  DatabaseInformation -   DatabaseName - The name of the Amazon RDS database.  InstanceIdentifier  - A unique identifier for the Amazon RDS database instance.   DatabaseCredentials - AWS Identity and Access Management (IAM) credentials that are used to connect to the Amazon RDS database. ResourceRole - A role (DataPipelineDefaultResourceRole) assumed by an EC2 instance to carry out the copy task from Amazon RDS to Amazon Simple Storage Service (Amazon S3). For more information, see Role templates for data pipelines. ServiceRole - A role (DataPipelineDefaultRole) assumed by the AWS Data Pipeline service to monitor the progress of the copy task from Amazon RDS to Amazon S3. For more information, see Role templates for data pipelines. SecurityInfo - The security information to use to access an RDS DB instance. You need to set up appropriate ingress rules for the security entity IDs provided to allow access to the Amazon RDS instance. Specify a [SubnetId, SecurityGroupIds] pair for a VPC-based RDS DB instance. SelectSqlQuery - A query that is used to retrieve the observation data for the Datasource. S3StagingLocation - The Amazon S3 location for staging Amazon RDS data. The data retrieved from Amazon RDS using SelectSqlQuery is stored in this location. DataSchemaUri - The Amazon S3 location of the DataSchema. DataSchema - A JSON string representing the schema. This is not required if DataSchemaUri is specified.   DataRearrangement - A JSON string that represents the splitting and rearrangement requirements for the Datasource.    Sample -  "{\"splitting\":{\"percentBegin\":10,\"percentEnd\":60}}"
+        /// The data specification of an Amazon RDS DataSource:   DatabaseInformation -    DatabaseName - The name of the Amazon RDS database.    InstanceIdentifier  - A unique identifier for the Amazon RDS database instance.     DatabaseCredentials - AWS Identity and Access Management (IAM) credentials that are used to connect to the Amazon RDS database.   ResourceRole - A role (DataPipelineDefaultResourceRole) assumed by an EC2 instance to carry out the copy task from Amazon RDS to Amazon Simple Storage Service (Amazon S3). For more information, see Role templates for data pipelines.   ServiceRole - A role (DataPipelineDefaultRole) assumed by the AWS Data Pipeline service to monitor the progress of the copy task from Amazon RDS to Amazon S3. For more information, see Role templates for data pipelines.   SecurityInfo - The security information to use to access an RDS DB instance. You need to set up appropriate ingress rules for the security entity IDs provided to allow access to the Amazon RDS instance. Specify a [SubnetId, SecurityGroupIds] pair for a VPC-based RDS DB instance.   SelectSqlQuery - A query that is used to retrieve the observation data for the Datasource.   S3StagingLocation - The Amazon S3 location for staging Amazon RDS data. The data retrieved from Amazon RDS using SelectSqlQuery is stored in this location.   DataSchemaUri - The Amazon S3 location of the DataSchema.   DataSchema - A JSON string representing the schema. This is not required if DataSchemaUri is specified.    DataRearrangement - A JSON string that represents the splitting and rearrangement requirements for the Datasource.   Sample -  "{\"splitting\":{\"percentBegin\":10,\"percentEnd\":60}}"
         public let rDSData: RDSDataSpec
         /// The role that Amazon ML assumes on behalf of the user to create and activate a data pipeline in the user's account and copy data using the SelectSqlQuery query from Amazon RDS to Amazon S3.
         public let roleARN: String
@@ -314,12 +321,16 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
+            try self.dataSourceId.forEach {}
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, max: 64)
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, min: 1)
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.dataSourceName?.forEach {}
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, max: 1024)
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, pattern: ".*\\S.*|^$")
             try self.rDSData.validate(name: "\(name).rDSData")
+            try self.rDSData.forEach {}
+            try self.roleARN.forEach {}
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 110)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
         }
@@ -353,9 +364,9 @@ extension MachineLearning {
         public let dataSourceId: String
         /// A user-supplied name or description of the DataSource.
         public let dataSourceName: String?
-        /// The data specification of an Amazon Redshift DataSource:  DatabaseInformation -   DatabaseName - The name of the Amazon Redshift database.    ClusterIdentifier - The unique ID for the Amazon Redshift cluster.  DatabaseCredentials - The AWS Identity and Access Management (IAM) credentials that are used to connect to the Amazon Redshift database. SelectSqlQuery - The query that is used to retrieve the observation data for the Datasource. S3StagingLocation - The Amazon Simple Storage Service (Amazon S3) location for staging Amazon Redshift data. The data retrieved from Amazon Redshift using the SelectSqlQuery query is stored in this location. DataSchemaUri - The Amazon S3 location of the DataSchema. DataSchema - A JSON string representing the schema. This is not required if DataSchemaUri is specified.   DataRearrangement - A JSON string that represents the splitting and rearrangement requirements for the DataSource.  Sample -  "{\"splitting\":{\"percentBegin\":10,\"percentEnd\":60}}"
+        /// The data specification of an Amazon Redshift DataSource:   DatabaseInformation -    DatabaseName - The name of the Amazon Redshift database.     ClusterIdentifier - The unique ID for the Amazon Redshift cluster.     DatabaseCredentials - The AWS Identity and Access Management (IAM) credentials that are used to connect to the Amazon Redshift database.   SelectSqlQuery - The query that is used to retrieve the observation data for the Datasource.   S3StagingLocation - The Amazon Simple Storage Service (Amazon S3) location for staging Amazon Redshift data. The data retrieved from Amazon Redshift using the SelectSqlQuery query is stored in this location.   DataSchemaUri - The Amazon S3 location of the DataSchema.   DataSchema - A JSON string representing the schema. This is not required if DataSchemaUri is specified.    DataRearrangement - A JSON string that represents the splitting and rearrangement requirements for the DataSource.  Sample -  "{\"splitting\":{\"percentBegin\":10,\"percentEnd\":60}}"
         public let dataSpec: RedshiftDataSpec
-        /// A fully specified role Amazon Resource Name (ARN). Amazon ML assumes the role on behalf of the user to create the following:    A security group to allow Amazon ML to execute the SelectSqlQuery query on an Amazon Redshift cluster An Amazon S3 bucket policy to grant Amazon ML read/write permissions on the S3StagingLocation
+        /// A fully specified role Amazon Resource Name (ARN). Amazon ML assumes the role on behalf of the user to create the following:   A security group to allow Amazon ML to execute the SelectSqlQuery query on an Amazon Redshift cluster   An Amazon S3 bucket policy to grant Amazon ML read/write permissions on the S3StagingLocation
         public let roleARN: String
 
         public init(computeStatistics: Bool? = nil, dataSourceId: String, dataSourceName: String? = nil, dataSpec: RedshiftDataSpec, roleARN: String) {
@@ -367,12 +378,16 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
+            try self.dataSourceId.forEach {}
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, max: 64)
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, min: 1)
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.dataSourceName?.forEach {}
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, max: 1024)
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, pattern: ".*\\S.*|^$")
             try self.dataSpec.validate(name: "\(name).dataSpec")
+            try self.dataSpec.forEach {}
+            try self.roleARN.forEach {}
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 110)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
         }
@@ -406,7 +421,7 @@ extension MachineLearning {
         public let dataSourceId: String
         /// A user-supplied name or description of the DataSource.
         public let dataSourceName: String?
-        /// The data specification of a DataSource:  DataLocationS3 - The Amazon S3 location of the observation data. DataSchemaLocationS3 - The Amazon S3 location of the DataSchema. DataSchema - A JSON string representing the schema. This is not required if DataSchemaUri is specified.   DataRearrangement - A JSON string that represents the splitting and rearrangement requirements for the Datasource.   Sample -  "{\"splitting\":{\"percentBegin\":10,\"percentEnd\":60}}"
+        /// The data specification of a DataSource:   DataLocationS3 - The Amazon S3 location of the observation data.   DataSchemaLocationS3 - The Amazon S3 location of the DataSchema.   DataSchema - A JSON string representing the schema. This is not required if DataSchemaUri is specified.    DataRearrangement - A JSON string that represents the splitting and rearrangement requirements for the Datasource.   Sample -  "{\"splitting\":{\"percentBegin\":10,\"percentEnd\":60}}"
         public let dataSpec: S3DataSpec
 
         public init(computeStatistics: Bool? = nil, dataSourceId: String, dataSourceName: String? = nil, dataSpec: S3DataSpec) {
@@ -417,12 +432,15 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
+            try self.dataSourceId.forEach {}
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, max: 64)
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, min: 1)
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.dataSourceName?.forEach {}
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, max: 1024)
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, pattern: ".*\\S.*|^$")
             try self.dataSpec.validate(name: "\(name).dataSpec")
+            try self.dataSpec.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -464,14 +482,18 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
+            try self.evaluationDataSourceId.forEach {}
             try self.validate(self.evaluationDataSourceId, name: "evaluationDataSourceId", parent: name, max: 64)
             try self.validate(self.evaluationDataSourceId, name: "evaluationDataSourceId", parent: name, min: 1)
             try self.validate(self.evaluationDataSourceId, name: "evaluationDataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.evaluationId.forEach {}
             try self.validate(self.evaluationId, name: "evaluationId", parent: name, max: 64)
             try self.validate(self.evaluationId, name: "evaluationId", parent: name, min: 1)
             try self.validate(self.evaluationId, name: "evaluationId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.evaluationName?.forEach {}
             try self.validate(self.evaluationName, name: "evaluationName", parent: name, max: 1024)
             try self.validate(self.evaluationName, name: "evaluationName", parent: name, pattern: ".*\\S.*|^$")
+            try self.mLModelId.forEach {}
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, max: 64)
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, min: 1)
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -503,9 +525,9 @@ extension MachineLearning {
         public let mLModelId: String
         /// A user-supplied name or description of the MLModel.
         public let mLModelName: String?
-        /// The category of supervised learning that this MLModel will address. Choose from the following types:  Choose REGRESSION if the MLModel will be used to predict a numeric value. Choose BINARY if the MLModel result has two possible values. Choose MULTICLASS if the MLModel result has a limited number of values.    For more information, see the Amazon Machine Learning Developer Guide.
+        /// The category of supervised learning that this MLModel will address. Choose from the following types:   Choose REGRESSION if the MLModel will be used to predict a numeric value.   Choose BINARY if the MLModel result has two possible values.   Choose MULTICLASS if the MLModel result has a limited number of values.    For more information, see the Amazon Machine Learning Developer Guide.
         public let mLModelType: MLModelType
-        /// A list of the training parameters in the MLModel. The list is implemented as a map of key-value pairs. The following is the current set of training parameters:    sgd.maxMLModelSizeInBytes - The maximum allowed size of the model. Depending on the input data, the size of the model might affect its performance.  The value is an integer that ranges from 100000 to 2147483648. The default value is 33554432.  sgd.maxPasses - The number of times that the training process traverses the observations to build the MLModel. The value is an integer that ranges from 1 to 10000. The default value is 10.  sgd.shuffleType - Whether Amazon ML shuffles the training data. Shuffling the data improves a model's ability to find the optimal solution for a variety of data types. The valid values are auto and none. The default value is none. We strongly recommend that you shuffle your data.   sgd.l1RegularizationAmount - The coefficient regularization L1 norm. It controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to zero, resulting in a sparse feature set. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L1 normalization. This parameter can't be used when L2 is specified. Use this parameter sparingly.   sgd.l2RegularizationAmount - The coefficient regularization L2 norm. It controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to small, nonzero values. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L2 normalization. This parameter can't be used when L1 is specified. Use this parameter sparingly.
+        /// A list of the training parameters in the MLModel. The list is implemented as a map of key-value pairs. The following is the current set of training parameters:    sgd.maxMLModelSizeInBytes - The maximum allowed size of the model. Depending on the input data, the size of the model might affect its performance.  The value is an integer that ranges from 100000 to 2147483648. The default value is 33554432.    sgd.maxPasses - The number of times that the training process traverses the observations to build the MLModel. The value is an integer that ranges from 1 to 10000. The default value is 10.    sgd.shuffleType - Whether Amazon ML shuffles the training data. Shuffling the data improves a model's ability to find the optimal solution for a variety of data types. The valid values are auto and none. The default value is none. We strongly recommend that you shuffle your data.    sgd.l1RegularizationAmount - The coefficient regularization L1 norm. It controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to zero, resulting in a sparse feature set. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L1 normalization. This parameter can't be used when L2 is specified. Use this parameter sparingly.    sgd.l2RegularizationAmount - The coefficient regularization L2 norm. It controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to small, nonzero values. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L2 normalization. This parameter can't be used when L1 is specified. Use this parameter sparingly.
         public let parameters: [String: String]?
         /// The data recipe for creating the MLModel. You must specify either the recipe or its URI. If you don't specify a recipe or its URI, Amazon ML creates a default.
         public let recipe: String?
@@ -525,14 +547,19 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
+            try self.mLModelId.forEach {}
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, max: 64)
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, min: 1)
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.mLModelName?.forEach {}
             try self.validate(self.mLModelName, name: "mLModelName", parent: name, max: 1024)
             try self.validate(self.mLModelName, name: "mLModelName", parent: name, pattern: ".*\\S.*|^$")
+            try self.recipe?.forEach {}
             try self.validate(self.recipe, name: "recipe", parent: name, max: 131_071)
+            try self.recipeUri?.forEach {}
             try self.validate(self.recipeUri, name: "recipeUri", parent: name, max: 2048)
             try self.validate(self.recipeUri, name: "recipeUri", parent: name, pattern: "s3://([^/]+)(/.*)?")
+            try self.trainingDataSourceId.forEach {}
             try self.validate(self.trainingDataSourceId, name: "trainingDataSourceId", parent: name, max: 64)
             try self.validate(self.trainingDataSourceId, name: "trainingDataSourceId", parent: name, min: 1)
             try self.validate(self.trainingDataSourceId, name: "trainingDataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -571,6 +598,7 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
+            try self.mLModelId.forEach {}
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, max: 64)
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, min: 1)
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -627,7 +655,7 @@ extension MachineLearning {
         public let redshiftMetadata: RedshiftMetadata?
         public let roleARN: String?
         public let startedAt: Date?
-        /// The current status of the DataSource. This element can have one of the following values:   PENDING - Amazon Machine Learning (Amazon ML) submitted a request to create a DataSource. INPROGRESS - The creation process is underway. FAILED - The request to create a DataSource did not run to completion. It is not usable. COMPLETED - The creation process completed successfully. DELETED - The DataSource is marked as deleted. It is not usable.
+        /// The current status of the DataSource. This element can have one of the following values:    PENDING - Amazon Machine Learning (Amazon ML) submitted a request to create a DataSource.   INPROGRESS - The creation process is underway.   FAILED - The request to create a DataSource did not run to completion. It is not usable.   COMPLETED - The creation process completed successfully.   DELETED - The DataSource is marked as deleted. It is not usable.
         public let status: EntityStatus?
 
         public init(computeStatistics: Bool? = nil, computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, dataLocationS3: String? = nil, dataRearrangement: String? = nil, dataSizeInBytes: Int64? = nil, dataSourceId: String? = nil, finishedAt: Date? = nil, lastUpdatedAt: Date? = nil, message: String? = nil, name: String? = nil, numberOfFiles: Int64? = nil, rDSMetadata: RDSMetadata? = nil, redshiftMetadata: RedshiftMetadata? = nil, roleARN: String? = nil, startedAt: Date? = nil, status: EntityStatus? = nil) {
@@ -682,6 +710,7 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
+            try self.batchPredictionId.forEach {}
             try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, max: 64)
             try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, min: 1)
             try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -714,6 +743,7 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
+            try self.dataSourceId.forEach {}
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, max: 64)
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, min: 1)
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -746,6 +776,7 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
+            try self.evaluationId.forEach {}
             try self.validate(self.evaluationId, name: "evaluationId", parent: name, max: 64)
             try self.validate(self.evaluationId, name: "evaluationId", parent: name, min: 1)
             try self.validate(self.evaluationId, name: "evaluationId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -778,6 +809,7 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
+            try self.mLModelId.forEach {}
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, max: 64)
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, min: 1)
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -810,6 +842,7 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
+            try self.mLModelId.forEach {}
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, max: 64)
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, min: 1)
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -852,6 +885,7 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
+            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 64)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -860,6 +894,7 @@ extension MachineLearning {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 100)
         }
 
@@ -890,7 +925,7 @@ extension MachineLearning {
     public struct DescribeBatchPredictionsInput: AWSEncodableShape {
         /// The equal to operator. The BatchPrediction results will have FilterVariable values that exactly match the value specified with EQ.
         public let eq: String?
-        /// Use one of the following variables to filter a list of BatchPrediction:   CreatedAt - Sets the search criteria to the BatchPrediction creation date.  Status - Sets the search criteria to the BatchPrediction status.  Name - Sets the search criteria to the contents of the BatchPrediction  Name.  IAMUser - Sets the search criteria to the user account that invoked the BatchPrediction creation.  MLModelId - Sets the search criteria to the MLModel used in the BatchPrediction.  DataSourceId - Sets the search criteria to the DataSource used in the BatchPrediction.  DataURI - Sets the search criteria to the data file(s) used in the BatchPrediction. The URL can identify either a file or an Amazon Simple Storage Solution (Amazon S3) bucket or directory.
+        /// Use one of the following variables to filter a list of BatchPrediction:    CreatedAt - Sets the search criteria to the BatchPrediction creation date.    Status - Sets the search criteria to the BatchPrediction status.    Name - Sets the search criteria to the contents of the BatchPrediction   Name.    IAMUser - Sets the search criteria to the user account that invoked the BatchPrediction creation.    MLModelId - Sets the search criteria to the MLModel used in the BatchPrediction.    DataSourceId - Sets the search criteria to the DataSource used in the BatchPrediction.    DataURI - Sets the search criteria to the data file(s) used in the BatchPrediction. The URL can identify either a file or an Amazon Simple Storage Solution (Amazon S3) bucket or directory.
         public let filterVariable: BatchPredictionFilterVariable?
         /// The greater than or equal to operator. The BatchPrediction results will have FilterVariable values that are greater than or equal to the value specified with GE.
         public let ge: String?
@@ -906,9 +941,9 @@ extension MachineLearning {
         public let ne: String?
         /// An ID of the page in the paginated results.
         public let nextToken: String?
-        /// A string that is found at the beginning of a variable, such as Name or Id. For example, a Batch Prediction operation could have the Name 2014-09-09-HolidayGiftMailer. To search for this BatchPrediction, select Name for the FilterVariable and any of the following strings for the Prefix:   2014-09 2014-09-09 2014-09-09-Holiday
+        /// A string that is found at the beginning of a variable, such as Name or Id. For example, a Batch Prediction operation could have the Name 2014-09-09-HolidayGiftMailer. To search for this BatchPrediction, select Name for the FilterVariable and any of the following strings for the Prefix:    2014-09   2014-09-09   2014-09-09-Holiday
         public let prefix: String?
-        /// A two-value parameter that determines the sequence of the resulting list of MLModels.   asc - Arranges the list in ascending order (A-Z, 0-9).  dsc - Arranges the list in descending order (Z-A, 9-0).  Results are sorted by FilterVariable.
+        /// A two-value parameter that determines the sequence of the resulting list of MLModels.    asc - Arranges the list in ascending order (A-Z, 0-9).    dsc - Arranges the list in descending order (Z-A, 9-0).   Results are sorted by FilterVariable.
         public let sortOrder: SortOrder?
 
         public init(eq: String? = nil, filterVariable: BatchPredictionFilterVariable? = nil, ge: String? = nil, gt: String? = nil, le: String? = nil, limit: Int? = nil, lt: String? = nil, ne: String? = nil, nextToken: String? = nil, prefix: String? = nil, sortOrder: SortOrder? = nil) {
@@ -926,20 +961,28 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
+            try self.eq?.forEach {}
             try self.validate(self.eq, name: "eq", parent: name, max: 1024)
             try self.validate(self.eq, name: "eq", parent: name, pattern: ".*\\S.*|^$")
+            try self.ge?.forEach {}
             try self.validate(self.ge, name: "ge", parent: name, max: 1024)
             try self.validate(self.ge, name: "ge", parent: name, pattern: ".*\\S.*|^$")
+            try self.gt?.forEach {}
             try self.validate(self.gt, name: "gt", parent: name, max: 1024)
             try self.validate(self.gt, name: "gt", parent: name, pattern: ".*\\S.*|^$")
+            try self.le?.forEach {}
             try self.validate(self.le, name: "le", parent: name, max: 1024)
             try self.validate(self.le, name: "le", parent: name, pattern: ".*\\S.*|^$")
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.lt?.forEach {}
             try self.validate(self.lt, name: "lt", parent: name, max: 1024)
             try self.validate(self.lt, name: "lt", parent: name, pattern: ".*\\S.*|^$")
+            try self.ne?.forEach {}
             try self.validate(self.ne, name: "ne", parent: name, max: 1024)
             try self.validate(self.ne, name: "ne", parent: name, pattern: ".*\\S.*|^$")
+            try self.prefix?.forEach {}
             try self.validate(self.prefix, name: "prefix", parent: name, max: 1024)
             try self.validate(self.prefix, name: "prefix", parent: name, pattern: ".*\\S.*|^$")
         }
@@ -979,7 +1022,7 @@ extension MachineLearning {
     public struct DescribeDataSourcesInput: AWSEncodableShape {
         /// The equal to operator. The DataSource results will have FilterVariable values that exactly match the value specified with EQ.
         public let eq: String?
-        /// Use one of the following variables to filter a list of DataSource:   CreatedAt - Sets the search criteria to DataSource creation dates.  Status - Sets the search criteria to DataSource statuses.  Name - Sets the search criteria to the contents of DataSource   Name.  DataUri - Sets the search criteria to the URI of data files used to create the DataSource. The URI can identify either a file or an Amazon Simple Storage Service (Amazon S3) bucket or directory.  IAMUser - Sets the search criteria to the user account that invoked the DataSource creation.
+        /// Use one of the following variables to filter a list of DataSource:    CreatedAt - Sets the search criteria to DataSource creation dates.    Status - Sets the search criteria to DataSource statuses.    Name - Sets the search criteria to the contents of DataSource Name.    DataUri - Sets the search criteria to the URI of data files used to create the DataSource. The URI can identify either a file or an Amazon Simple Storage Service (Amazon S3) bucket or directory.    IAMUser - Sets the search criteria to the user account that invoked the DataSource creation.
         public let filterVariable: DataSourceFilterVariable?
         /// The greater than or equal to operator. The DataSource results will have FilterVariable values that are greater than or equal to the value specified with GE.
         public let ge: String?
@@ -995,9 +1038,9 @@ extension MachineLearning {
         public let ne: String?
         /// The ID of the page in the paginated results.
         public let nextToken: String?
-        /// A string that is found at the beginning of a variable, such as Name or Id. For example, a DataSource could have the Name 2014-09-09-HolidayGiftMailer. To search for this DataSource, select Name for the FilterVariable and any of the following strings for the Prefix:   2014-09 2014-09-09 2014-09-09-Holiday
+        /// A string that is found at the beginning of a variable, such as Name or Id. For example, a DataSource could have the Name 2014-09-09-HolidayGiftMailer. To search for this DataSource, select Name for the FilterVariable and any of the following strings for the Prefix:    2014-09   2014-09-09   2014-09-09-Holiday
         public let prefix: String?
-        /// A two-value parameter that determines the sequence of the resulting list of DataSource.   asc - Arranges the list in ascending order (A-Z, 0-9).  dsc - Arranges the list in descending order (Z-A, 9-0).  Results are sorted by FilterVariable.
+        /// A two-value parameter that determines the sequence of the resulting list of DataSource.    asc - Arranges the list in ascending order (A-Z, 0-9).    dsc - Arranges the list in descending order (Z-A, 9-0).   Results are sorted by FilterVariable.
         public let sortOrder: SortOrder?
 
         public init(eq: String? = nil, filterVariable: DataSourceFilterVariable? = nil, ge: String? = nil, gt: String? = nil, le: String? = nil, limit: Int? = nil, lt: String? = nil, ne: String? = nil, nextToken: String? = nil, prefix: String? = nil, sortOrder: SortOrder? = nil) {
@@ -1015,20 +1058,28 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
+            try self.eq?.forEach {}
             try self.validate(self.eq, name: "eq", parent: name, max: 1024)
             try self.validate(self.eq, name: "eq", parent: name, pattern: ".*\\S.*|^$")
+            try self.ge?.forEach {}
             try self.validate(self.ge, name: "ge", parent: name, max: 1024)
             try self.validate(self.ge, name: "ge", parent: name, pattern: ".*\\S.*|^$")
+            try self.gt?.forEach {}
             try self.validate(self.gt, name: "gt", parent: name, max: 1024)
             try self.validate(self.gt, name: "gt", parent: name, pattern: ".*\\S.*|^$")
+            try self.le?.forEach {}
             try self.validate(self.le, name: "le", parent: name, max: 1024)
             try self.validate(self.le, name: "le", parent: name, pattern: ".*\\S.*|^$")
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.lt?.forEach {}
             try self.validate(self.lt, name: "lt", parent: name, max: 1024)
             try self.validate(self.lt, name: "lt", parent: name, pattern: ".*\\S.*|^$")
+            try self.ne?.forEach {}
             try self.validate(self.ne, name: "ne", parent: name, max: 1024)
             try self.validate(self.ne, name: "ne", parent: name, pattern: ".*\\S.*|^$")
+            try self.prefix?.forEach {}
             try self.validate(self.prefix, name: "prefix", parent: name, max: 1024)
             try self.validate(self.prefix, name: "prefix", parent: name, pattern: ".*\\S.*|^$")
         }
@@ -1068,7 +1119,7 @@ extension MachineLearning {
     public struct DescribeEvaluationsInput: AWSEncodableShape {
         /// The equal to operator. The Evaluation results will have FilterVariable values that exactly match the value specified with EQ.
         public let eq: String?
-        /// Use one of the following variable to filter a list of Evaluation objects:   CreatedAt - Sets the search criteria to the Evaluation creation date.  Status - Sets the search criteria to the Evaluation status.  Name - Sets the search criteria to the contents of Evaluation   Name.  IAMUser - Sets the search criteria to the user account that invoked an Evaluation.  MLModelId - Sets the search criteria to the MLModel that was evaluated.  DataSourceId - Sets the search criteria to the DataSource used in Evaluation.  DataUri - Sets the search criteria to the data file(s) used in Evaluation. The URL can identify either a file or an Amazon Simple Storage Solution (Amazon S3) bucket or directory.
+        /// Use one of the following variable to filter a list of Evaluation objects:    CreatedAt - Sets the search criteria to the Evaluation creation date.    Status - Sets the search criteria to the Evaluation status.    Name - Sets the search criteria to the contents of Evaluation   Name.    IAMUser - Sets the search criteria to the user account that invoked an Evaluation.    MLModelId - Sets the search criteria to the MLModel that was evaluated.    DataSourceId - Sets the search criteria to the DataSource used in Evaluation.    DataUri - Sets the search criteria to the data file(s) used in Evaluation. The URL can identify either a file or an Amazon Simple Storage Solution (Amazon S3) bucket or directory.
         public let filterVariable: EvaluationFilterVariable?
         /// The greater than or equal to operator. The Evaluation results will have FilterVariable values that are greater than or equal to the value specified with GE.
         public let ge: String?
@@ -1084,9 +1135,9 @@ extension MachineLearning {
         public let ne: String?
         /// The ID of the page in the paginated results.
         public let nextToken: String?
-        /// A string that is found at the beginning of a variable, such as Name or Id. For example, an Evaluation could have the Name 2014-09-09-HolidayGiftMailer. To search for this Evaluation, select Name for the FilterVariable and any of the following strings for the Prefix:   2014-09 2014-09-09 2014-09-09-Holiday
+        /// A string that is found at the beginning of a variable, such as Name or Id. For example, an Evaluation could have the Name 2014-09-09-HolidayGiftMailer. To search for this Evaluation, select Name for the FilterVariable and any of the following strings for the Prefix:    2014-09   2014-09-09   2014-09-09-Holiday
         public let prefix: String?
-        /// A two-value parameter that determines the sequence of the resulting list of Evaluation.   asc - Arranges the list in ascending order (A-Z, 0-9).  dsc - Arranges the list in descending order (Z-A, 9-0).  Results are sorted by FilterVariable.
+        /// A two-value parameter that determines the sequence of the resulting list of Evaluation.    asc - Arranges the list in ascending order (A-Z, 0-9).    dsc - Arranges the list in descending order (Z-A, 9-0).   Results are sorted by FilterVariable.
         public let sortOrder: SortOrder?
 
         public init(eq: String? = nil, filterVariable: EvaluationFilterVariable? = nil, ge: String? = nil, gt: String? = nil, le: String? = nil, limit: Int? = nil, lt: String? = nil, ne: String? = nil, nextToken: String? = nil, prefix: String? = nil, sortOrder: SortOrder? = nil) {
@@ -1104,20 +1155,28 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
+            try self.eq?.forEach {}
             try self.validate(self.eq, name: "eq", parent: name, max: 1024)
             try self.validate(self.eq, name: "eq", parent: name, pattern: ".*\\S.*|^$")
+            try self.ge?.forEach {}
             try self.validate(self.ge, name: "ge", parent: name, max: 1024)
             try self.validate(self.ge, name: "ge", parent: name, pattern: ".*\\S.*|^$")
+            try self.gt?.forEach {}
             try self.validate(self.gt, name: "gt", parent: name, max: 1024)
             try self.validate(self.gt, name: "gt", parent: name, pattern: ".*\\S.*|^$")
+            try self.le?.forEach {}
             try self.validate(self.le, name: "le", parent: name, max: 1024)
             try self.validate(self.le, name: "le", parent: name, pattern: ".*\\S.*|^$")
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.lt?.forEach {}
             try self.validate(self.lt, name: "lt", parent: name, max: 1024)
             try self.validate(self.lt, name: "lt", parent: name, pattern: ".*\\S.*|^$")
+            try self.ne?.forEach {}
             try self.validate(self.ne, name: "ne", parent: name, max: 1024)
             try self.validate(self.ne, name: "ne", parent: name, pattern: ".*\\S.*|^$")
+            try self.prefix?.forEach {}
             try self.validate(self.prefix, name: "prefix", parent: name, max: 1024)
             try self.validate(self.prefix, name: "prefix", parent: name, pattern: ".*\\S.*|^$")
         }
@@ -1157,7 +1216,7 @@ extension MachineLearning {
     public struct DescribeMLModelsInput: AWSEncodableShape {
         /// The equal to operator. The MLModel results will have FilterVariable values that exactly match the value specified with EQ.
         public let eq: String?
-        /// Use one of the following variables to filter a list of MLModel:   CreatedAt - Sets the search criteria to MLModel creation date.  Status - Sets the search criteria to MLModel status.  Name - Sets the search criteria to the contents of MLModel  Name.  IAMUser - Sets the search criteria to the user account that invoked the MLModel creation.  TrainingDataSourceId - Sets the search criteria to the DataSource used to train one or more MLModel.  RealtimeEndpointStatus - Sets the search criteria to the MLModel real-time endpoint status.  MLModelType - Sets the search criteria to MLModel type: binary, regression, or multi-class.  Algorithm - Sets the search criteria to the algorithm that the MLModel uses.  TrainingDataURI - Sets the search criteria to the data file(s) used in training a MLModel. The URL can identify either a file or an Amazon Simple Storage Service (Amazon S3) bucket or directory.
+        /// Use one of the following variables to filter a list of MLModel:    CreatedAt - Sets the search criteria to MLModel creation date.    Status - Sets the search criteria to MLModel status.    Name - Sets the search criteria to the contents of MLModel   Name.    IAMUser - Sets the search criteria to the user account that invoked the MLModel creation.    TrainingDataSourceId - Sets the search criteria to the DataSource used to train one or more MLModel.    RealtimeEndpointStatus - Sets the search criteria to the MLModel real-time endpoint status.    MLModelType - Sets the search criteria to MLModel type: binary, regression, or multi-class.    Algorithm - Sets the search criteria to the algorithm that the MLModel uses.    TrainingDataURI - Sets the search criteria to the data file(s) used in training a MLModel. The URL can identify either a file or an Amazon Simple Storage Service (Amazon S3) bucket or directory.
         public let filterVariable: MLModelFilterVariable?
         /// The greater than or equal to operator. The MLModel results will have FilterVariable values that are greater than or equal to the value specified with GE.
         public let ge: String?
@@ -1173,9 +1232,9 @@ extension MachineLearning {
         public let ne: String?
         /// The ID of the page in the paginated results.
         public let nextToken: String?
-        /// A string that is found at the beginning of a variable, such as Name or Id. For example, an MLModel could have the Name 2014-09-09-HolidayGiftMailer. To search for this MLModel, select Name for the FilterVariable and any of the following strings for the Prefix:   2014-09 2014-09-09 2014-09-09-Holiday
+        /// A string that is found at the beginning of a variable, such as Name or Id. For example, an MLModel could have the Name 2014-09-09-HolidayGiftMailer. To search for this MLModel, select Name for the FilterVariable and any of the following strings for the Prefix:    2014-09   2014-09-09   2014-09-09-Holiday
         public let prefix: String?
-        /// A two-value parameter that determines the sequence of the resulting list of MLModel.   asc - Arranges the list in ascending order (A-Z, 0-9).  dsc - Arranges the list in descending order (Z-A, 9-0).  Results are sorted by FilterVariable.
+        /// A two-value parameter that determines the sequence of the resulting list of MLModel.    asc - Arranges the list in ascending order (A-Z, 0-9).    dsc - Arranges the list in descending order (Z-A, 9-0).   Results are sorted by FilterVariable.
         public let sortOrder: SortOrder?
 
         public init(eq: String? = nil, filterVariable: MLModelFilterVariable? = nil, ge: String? = nil, gt: String? = nil, le: String? = nil, limit: Int? = nil, lt: String? = nil, ne: String? = nil, nextToken: String? = nil, prefix: String? = nil, sortOrder: SortOrder? = nil) {
@@ -1193,20 +1252,28 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
+            try self.eq?.forEach {}
             try self.validate(self.eq, name: "eq", parent: name, max: 1024)
             try self.validate(self.eq, name: "eq", parent: name, pattern: ".*\\S.*|^$")
+            try self.ge?.forEach {}
             try self.validate(self.ge, name: "ge", parent: name, max: 1024)
             try self.validate(self.ge, name: "ge", parent: name, pattern: ".*\\S.*|^$")
+            try self.gt?.forEach {}
             try self.validate(self.gt, name: "gt", parent: name, max: 1024)
             try self.validate(self.gt, name: "gt", parent: name, pattern: ".*\\S.*|^$")
+            try self.le?.forEach {}
             try self.validate(self.le, name: "le", parent: name, max: 1024)
             try self.validate(self.le, name: "le", parent: name, pattern: ".*\\S.*|^$")
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.lt?.forEach {}
             try self.validate(self.lt, name: "lt", parent: name, max: 1024)
             try self.validate(self.lt, name: "lt", parent: name, pattern: ".*\\S.*|^$")
+            try self.ne?.forEach {}
             try self.validate(self.ne, name: "ne", parent: name, max: 1024)
             try self.validate(self.ne, name: "ne", parent: name, pattern: ".*\\S.*|^$")
+            try self.prefix?.forEach {}
             try self.validate(self.prefix, name: "prefix", parent: name, max: 1024)
             try self.validate(self.prefix, name: "prefix", parent: name, pattern: ".*\\S.*|^$")
         }
@@ -1255,6 +1322,7 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
+            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 64)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -1311,7 +1379,7 @@ extension MachineLearning {
         /// Measurements of how well the MLModel performed, using observations referenced by the DataSource. One of the following metrics is returned, based on the type of the MLModel:    BinaryAUC: A binary MLModel uses the Area Under the Curve (AUC) technique to measure performance.    RegressionRMSE: A regression MLModel uses the Root Mean Square Error (RMSE) technique to measure performance. RMSE measures the difference between predicted and actual values for a single variable.   MulticlassAvgFScore: A multiclass MLModel uses the F1 score technique to measure performance.     For more information about performance metrics, please see the Amazon Machine Learning Developer Guide.
         public let performanceMetrics: PerformanceMetrics?
         public let startedAt: Date?
-        /// The status of the evaluation. This element can have one of the following values:   PENDING - Amazon Machine Learning (Amazon ML) submitted a request to evaluate an MLModel.  INPROGRESS - The evaluation is underway.  FAILED - The request to evaluate an MLModel did not run to completion. It is not usable.  COMPLETED - The evaluation process completed successfully.  DELETED - The Evaluation is marked as deleted. It is not usable.
+        /// The status of the evaluation. This element can have one of the following values:    PENDING - Amazon Machine Learning (Amazon ML) submitted a request to evaluate an MLModel.    INPROGRESS - The evaluation is underway.    FAILED - The request to evaluate an MLModel did not run to completion. It is not usable.    COMPLETED - The evaluation process completed successfully.    DELETED - The Evaluation is marked as deleted. It is not usable.
         public let status: EntityStatus?
 
         public init(computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, evaluationDataSourceId: String? = nil, evaluationId: String? = nil, finishedAt: Date? = nil, inputDataLocationS3: String? = nil, lastUpdatedAt: Date? = nil, message: String? = nil, mLModelId: String? = nil, name: String? = nil, performanceMetrics: PerformanceMetrics? = nil, startedAt: Date? = nil, status: EntityStatus? = nil) {
@@ -1358,6 +1426,7 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
+            try self.batchPredictionId.forEach {}
             try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, max: 64)
             try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, min: 1)
             try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -1399,7 +1468,7 @@ extension MachineLearning {
         public let outputUri: String?
         /// The epoch time when Amazon Machine Learning marked the BatchPrediction as INPROGRESS. StartedAt isn't available if the BatchPrediction is in the PENDING state.
         public let startedAt: Date?
-        /// The status of the BatchPrediction, which can be one of the following values:   PENDING - Amazon Machine Learning (Amazon ML) submitted a request to generate batch predictions.  INPROGRESS - The batch predictions are in progress.  FAILED - The request to perform a batch prediction did not run to completion. It is not usable.  COMPLETED - The batch prediction process completed successfully.  DELETED - The BatchPrediction is marked as deleted. It is not usable.
+        /// The status of the BatchPrediction, which can be one of the following values:    PENDING - Amazon Machine Learning (Amazon ML) submitted a request to generate batch predictions.    INPROGRESS - The batch predictions are in progress.    FAILED - The request to perform a batch prediction did not run to completion. It is not usable.    COMPLETED - The batch prediction process completed successfully.    DELETED - The BatchPrediction is marked as deleted. It is not usable.
         public let status: EntityStatus?
         /// The number of total records that Amazon Machine Learning saw while processing the BatchPrediction.
         public let totalRecordCount: Int64?
@@ -1457,6 +1526,7 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
+            try self.dataSourceId.forEach {}
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, max: 64)
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, min: 1)
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -1485,7 +1555,7 @@ extension MachineLearning {
         public let dataSizeInBytes: Int64?
         /// The ID assigned to the DataSource at creation. This value should be identical to the value of the DataSourceId in the request.
         public let dataSourceId: String?
-        /// The schema used by all of the data files of this DataSource. Note This parameter is provided as part of the verbose format.
+        /// The schema used by all of the data files of this DataSource.  Note: This parameter is provided as part of the verbose format.
         public let dataSourceSchema: String?
         /// The epoch time when Amazon Machine Learning marked the DataSource as COMPLETED or FAILED. FinishedAt is only available when the DataSource is in the COMPLETED or FAILED state.
         public let finishedAt: Date?
@@ -1504,7 +1574,7 @@ extension MachineLearning {
         public let roleARN: String?
         /// The epoch time when Amazon Machine Learning marked the DataSource as INPROGRESS. StartedAt isn't available if the DataSource is in the PENDING state.
         public let startedAt: Date?
-        /// The current status of the DataSource. This element can have one of the following values:   PENDING - Amazon ML submitted a request to create a DataSource.  INPROGRESS - The creation process is underway.  FAILED - The request to create a DataSource did not run to completion. It is not usable.  COMPLETED - The creation process completed successfully.  DELETED - The DataSource is marked as deleted. It is not usable.
+        /// The current status of the DataSource. This element can have one of the following values:    PENDING - Amazon ML submitted a request to create a DataSource.    INPROGRESS - The creation process is underway.    FAILED - The request to create a DataSource did not run to completion. It is not usable.    COMPLETED - The creation process completed successfully.    DELETED - The DataSource is marked as deleted. It is not usable.
         public let status: EntityStatus?
 
         public init(computeStatistics: Bool? = nil, computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, dataLocationS3: String? = nil, dataRearrangement: String? = nil, dataSizeInBytes: Int64? = nil, dataSourceId: String? = nil, dataSourceSchema: String? = nil, finishedAt: Date? = nil, lastUpdatedAt: Date? = nil, logUri: String? = nil, message: String? = nil, name: String? = nil, numberOfFiles: Int64? = nil, rDSMetadata: RDSMetadata? = nil, redshiftMetadata: RedshiftMetadata? = nil, roleARN: String? = nil, startedAt: Date? = nil, status: EntityStatus? = nil) {
@@ -1563,6 +1633,7 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
+            try self.evaluationId.forEach {}
             try self.validate(self.evaluationId, name: "evaluationId", parent: name, max: 64)
             try self.validate(self.evaluationId, name: "evaluationId", parent: name, min: 1)
             try self.validate(self.evaluationId, name: "evaluationId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -1602,7 +1673,7 @@ extension MachineLearning {
         public let performanceMetrics: PerformanceMetrics?
         /// The epoch time when Amazon Machine Learning marked the Evaluation as INPROGRESS. StartedAt isn't available if the Evaluation is in the PENDING state.
         public let startedAt: Date?
-        /// The status of the evaluation. This element can have one of the following values:   PENDING - Amazon Machine Language (Amazon ML) submitted a request to evaluate an MLModel.  INPROGRESS - The evaluation is underway.  FAILED - The request to evaluate an MLModel did not run to completion. It is not usable.  COMPLETED - The evaluation process completed successfully.  DELETED - The Evaluation is marked as deleted. It is not usable.
+        /// The status of the evaluation. This element can have one of the following values:    PENDING - Amazon Machine Language (Amazon ML) submitted a request to evaluate an MLModel.    INPROGRESS - The evaluation is underway.    FAILED - The request to evaluate an MLModel did not run to completion. It is not usable.    COMPLETED - The evaluation process completed successfully.    DELETED - The Evaluation is marked as deleted. It is not usable.
         public let status: EntityStatus?
 
         public init(computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, evaluationDataSourceId: String? = nil, evaluationId: String? = nil, finishedAt: Date? = nil, inputDataLocationS3: String? = nil, lastUpdatedAt: Date? = nil, logUri: String? = nil, message: String? = nil, mLModelId: String? = nil, name: String? = nil, performanceMetrics: PerformanceMetrics? = nil, startedAt: Date? = nil, status: EntityStatus? = nil) {
@@ -1654,6 +1725,7 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
+            try self.mLModelId.forEach {}
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, max: 64)
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, min: 1)
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -1686,13 +1758,13 @@ extension MachineLearning {
         public let message: String?
         /// The MLModel ID, which is same as the MLModelId in the request.
         public let mLModelId: String?
-        /// Identifies the MLModel category. The following are the available types:   REGRESSION -- Produces a numeric result. For example, "What price should a house be listed at?" BINARY -- Produces one of two possible results. For example, "Is this an e-commerce website?" MULTICLASS -- Produces one of several possible results. For example, "Is this a HIGH, LOW or MEDIUM risk trade?"
+        /// Identifies the MLModel category. The following are the available types:    REGRESSION -- Produces a numeric result. For example, "What price should a house be listed at?"   BINARY -- Produces one of two possible results. For example, "Is this an e-commerce website?"   MULTICLASS -- Produces one of several possible results. For example, "Is this a HIGH, LOW or MEDIUM risk trade?"
         public let mLModelType: MLModelType?
         /// A user-supplied name or description of the MLModel.
         public let name: String?
-        /// The recipe to use when training the MLModel. The Recipe provides detailed information about the observation data to use during training, and manipulations to perform on the observation data during training. Note This parameter is provided as part of the verbose format.
+        /// The recipe to use when training the MLModel. The Recipe provides detailed information about the observation data to use during training, and manipulations to perform on the observation data during training.  Note: This parameter is provided as part of the verbose format.
         public let recipe: String?
-        /// The schema used by all of the data files referenced by the DataSource. Note This parameter is provided as part of the verbose format.
+        /// The schema used by all of the data files referenced by the DataSource.  Note: This parameter is provided as part of the verbose format.
         public let schema: String?
         /// The scoring threshold is used in binary classification MLModel models. It marks the boundary between a positive prediction and a negative prediction. Output values greater than or equal to the threshold receive a positive result from the MLModel, such as true. Output values less than the threshold receive a negative response from the MLModel, such as false.
         public let scoreThreshold: Float?
@@ -1701,11 +1773,11 @@ extension MachineLearning {
         public let sizeInBytes: Int64?
         /// The epoch time when Amazon Machine Learning marked the MLModel as INPROGRESS. StartedAt isn't available if the MLModel is in the PENDING state.
         public let startedAt: Date?
-        /// The current status of the MLModel. This element can have one of the following values:   PENDING - Amazon Machine Learning (Amazon ML) submitted a request to describe a MLModel.  INPROGRESS - The request is processing.  FAILED - The request did not run to completion. The ML model isn't usable.  COMPLETED - The request completed successfully.  DELETED - The MLModel is marked as deleted. It isn't usable.
+        /// The current status of the MLModel. This element can have one of the following values:    PENDING - Amazon Machine Learning (Amazon ML) submitted a request to describe a MLModel.    INPROGRESS - The request is processing.    FAILED - The request did not run to completion. The ML model isn't usable.    COMPLETED - The request completed successfully.    DELETED - The MLModel is marked as deleted. It isn't usable.
         public let status: EntityStatus?
         /// The ID of the training DataSource.
         public let trainingDataSourceId: String?
-        /// A list of the training parameters in the MLModel. The list is implemented as a map of key-value pairs. The following is the current set of training parameters:    sgd.maxMLModelSizeInBytes - The maximum allowed size of the model. Depending on the input data, the size of the model might affect its performance.  The value is an integer that ranges from 100000 to 2147483648. The default value is 33554432.  sgd.maxPasses - The number of times that the training process traverses the observations to build the MLModel. The value is an integer that ranges from 1 to 10000. The default value is 10. sgd.shuffleType - Whether Amazon ML shuffles the training data. Shuffling data improves a model's ability to find the optimal solution for a variety of data types. The valid values are auto and none. The default value is none. We strongly recommend that you shuffle your data.  sgd.l1RegularizationAmount - The coefficient regularization L1 norm. It controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to zero, resulting in a sparse feature set. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L1 normalization. This parameter can't be used when L2 is specified. Use this parameter sparingly.   sgd.l2RegularizationAmount - The coefficient regularization L2 norm. It controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to small, nonzero values. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L2 normalization. This parameter can't be used when L1 is specified. Use this parameter sparingly.
+        /// A list of the training parameters in the MLModel. The list is implemented as a map of key-value pairs. The following is the current set of training parameters:    sgd.maxMLModelSizeInBytes - The maximum allowed size of the model. Depending on the input data, the size of the model might affect its performance.  The value is an integer that ranges from 100000 to 2147483648. The default value is 33554432.    sgd.maxPasses - The number of times that the training process traverses the observations to build the MLModel. The value is an integer that ranges from 1 to 10000. The default value is 10.    sgd.shuffleType - Whether Amazon ML shuffles the training data. Shuffling data improves a model's ability to find the optimal solution for a variety of data types. The valid values are auto and none. The default value is none. We strongly recommend that you shuffle your data.    sgd.l1RegularizationAmount - The coefficient regularization L1 norm. It controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to zero, resulting in a sparse feature set. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L1 normalization. This parameter can't be used when L2 is specified. Use this parameter sparingly.    sgd.l2RegularizationAmount - The coefficient regularization L2 norm. It controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to small, nonzero values. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L2 normalization. This parameter can't be used when L1 is specified. Use this parameter sparingly.
         public let trainingParameters: [String: String]?
 
         public init(computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, endpointInfo: RealtimeEndpointInfo? = nil, finishedAt: Date? = nil, inputDataLocationS3: String? = nil, lastUpdatedAt: Date? = nil, logUri: String? = nil, message: String? = nil, mLModelId: String? = nil, mLModelType: MLModelType? = nil, name: String? = nil, recipe: String? = nil, schema: String? = nil, scoreThreshold: Float? = nil, scoreThresholdLastUpdatedAt: Date? = nil, sizeInBytes: Int64? = nil, startedAt: Date? = nil, status: EntityStatus? = nil, trainingDataSourceId: String? = nil, trainingParameters: [String: String]? = nil) {
@@ -1758,7 +1830,7 @@ extension MachineLearning {
     }
 
     public struct MLModel: AWSDecodableShape {
-        /// The algorithm used to train the MLModel. The following algorithm is supported:   SGD -- Stochastic gradient descent. The goal of SGD is to minimize the gradient of the loss function.
+        /// The algorithm used to train the MLModel. The following algorithm is supported:    SGD -- Stochastic gradient descent. The goal of SGD is to minimize the gradient of the loss function.
         public let algorithm: Algorithm?
         public let computeTime: Int64?
         /// The time that the MLModel was created. The time is expressed in epoch time.
@@ -1776,7 +1848,7 @@ extension MachineLearning {
         public let message: String?
         /// The ID assigned to the MLModel at creation.
         public let mLModelId: String?
-        /// Identifies the MLModel category. The following are the available types:   REGRESSION - Produces a numeric result. For example, "What price should a house be listed at?"  BINARY - Produces one of two possible results. For example, "Is this a child-friendly web site?".  MULTICLASS - Produces one of several possible results. For example, "Is this a HIGH-, LOW-, or MEDIUM-risk trade?".
+        /// Identifies the MLModel category. The following are the available types:    REGRESSION - Produces a numeric result. For example, "What price should a house be listed at?"    BINARY - Produces one of two possible results. For example, "Is this a child-friendly web site?".    MULTICLASS - Produces one of several possible results. For example, "Is this a HIGH-, LOW-, or MEDIUM-risk trade?".
         public let mLModelType: MLModelType?
         /// A user-supplied name or description of the MLModel.
         public let name: String?
@@ -1785,11 +1857,11 @@ extension MachineLearning {
         public let scoreThresholdLastUpdatedAt: Date?
         public let sizeInBytes: Int64?
         public let startedAt: Date?
-        /// The current status of an MLModel. This element can have one of the following values:    PENDING - Amazon Machine Learning (Amazon ML) submitted a request to create an MLModel.  INPROGRESS - The creation process is underway.  FAILED - The request to create an MLModel didn't run to completion. The model isn't usable.  COMPLETED - The creation process completed successfully.  DELETED - The MLModel is marked as deleted. It isn't usable.
+        /// The current status of an MLModel. This element can have one of the following values:     PENDING - Amazon Machine Learning (Amazon ML) submitted a request to create an MLModel.    INPROGRESS - The creation process is underway.    FAILED - The request to create an MLModel didn't run to completion. The model isn't usable.    COMPLETED - The creation process completed successfully.    DELETED - The MLModel is marked as deleted. It isn't usable.
         public let status: EntityStatus?
         /// The ID of the training DataSource. The CreateMLModel operation uses the TrainingDataSourceId.
         public let trainingDataSourceId: String?
-        /// A list of the training parameters in the MLModel. The list is implemented as a map of key-value pairs. The following is the current set of training parameters:    sgd.maxMLModelSizeInBytes - The maximum allowed size of the model. Depending on the input data, the size of the model might affect its performance.  The value is an integer that ranges from 100000 to 2147483648. The default value is 33554432.  sgd.maxPasses - The number of times that the training process traverses the observations to build the MLModel. The value is an integer that ranges from 1 to 10000. The default value is 10. sgd.shuffleType - Whether Amazon ML shuffles the training data. Shuffling the data improves a model's ability to find the optimal solution for a variety of data types. The valid values are auto and none. The default value is none.  sgd.l1RegularizationAmount - The coefficient regularization L1 norm, which controls overfitting the data by penalizing large coefficients. This parameter tends to drive coefficients to zero, resulting in sparse feature set. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L1 normalization. This parameter can't be used when L2 is specified. Use this parameter sparingly.   sgd.l2RegularizationAmount - The coefficient regularization L2 norm, which controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to small, nonzero values. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L2 normalization. This parameter can't be used when L1 is specified. Use this parameter sparingly.
+        /// A list of the training parameters in the MLModel. The list is implemented as a map of key-value pairs. The following is the current set of training parameters:    sgd.maxMLModelSizeInBytes - The maximum allowed size of the model. Depending on the input data, the size of the model might affect its performance.  The value is an integer that ranges from 100000 to 2147483648. The default value is 33554432.    sgd.maxPasses - The number of times that the training process traverses the observations to build the MLModel. The value is an integer that ranges from 1 to 10000. The default value is 10.    sgd.shuffleType - Whether Amazon ML shuffles the training data. Shuffling the data improves a model's ability to find the optimal solution for a variety of data types. The valid values are auto and none. The default value is none.    sgd.l1RegularizationAmount - The coefficient regularization L1 norm, which controls overfitting the data by penalizing large coefficients. This parameter tends to drive coefficients to zero, resulting in sparse feature set. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L1 normalization. This parameter can't be used when L2 is specified. Use this parameter sparingly.    sgd.l2RegularizationAmount - The coefficient regularization L2 norm, which controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to small, nonzero values. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L2 normalization. This parameter can't be used when L1 is specified. Use this parameter sparingly.
         public let trainingParameters: [String: String]?
 
         public init(algorithm: Algorithm? = nil, computeTime: Int64? = nil, createdAt: Date? = nil, createdByIamUser: String? = nil, endpointInfo: RealtimeEndpointInfo? = nil, finishedAt: Date? = nil, inputDataLocationS3: String? = nil, lastUpdatedAt: Date? = nil, message: String? = nil, mLModelId: String? = nil, mLModelType: MLModelType? = nil, name: String? = nil, scoreThreshold: Float? = nil, scoreThresholdLastUpdatedAt: Date? = nil, sizeInBytes: Int64? = nil, startedAt: Date? = nil, status: EntityStatus? = nil, trainingDataSourceId: String? = nil, trainingParameters: [String: String]? = nil) {
@@ -1862,9 +1934,11 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
+            try self.mLModelId.forEach {}
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, max: 64)
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, min: 1)
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.predictEndpoint.forEach {}
             try self.validate(self.predictEndpoint, name: "predictEndpoint", parent: name, max: 2048)
             try self.validate(self.predictEndpoint, name: "predictEndpoint", parent: name, pattern: "https://[a-zA-Z0-9-.]*\\.amazon(aws)?\\.com[/]?")
         }
@@ -1916,9 +1990,9 @@ extension MachineLearning {
         public let databaseCredentials: RDSDatabaseCredentials
         /// Describes the DatabaseName and InstanceIdentifier of an Amazon RDS database.
         public let databaseInformation: RDSDatabase
-        /// A JSON string that represents the splitting and rearrangement processing to be applied to a DataSource. If the DataRearrangement parameter is not provided, all of the input data is used to create the Datasource. There are multiple parameters that control what data is used to create a datasource:  percentBegin Use percentBegin to indicate the beginning of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd, Amazon ML includes all of the data when creating the datasource. percentEnd Use percentEnd to indicate the end of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd, Amazon ML includes all of the data when creating the datasource. complement The complement parameter instructs Amazon ML to use the data that is not included in the range of percentBegin to percentEnd to create a datasource. The complement parameter is useful if you need to create complementary datasources for training and evaluation. To create a complementary datasource, use the same values for percentBegin and percentEnd, along with the complement parameter. For example, the following two datasources do not share any data, and can be used to train and evaluate a model. The first datasource has 25 percent of the data, and the second one has 75 percent of the data. Datasource for evaluation: {"splitting":{"percentBegin":0, "percentEnd":25}} Datasource for training: {"splitting":{"percentBegin":0, "percentEnd":25, "complement":"true"}}  strategy To change how Amazon ML splits the data for a datasource, use the strategy parameter. The default value for the strategy parameter is sequential, meaning that Amazon ML takes all of the data records between the percentBegin and percentEnd parameters for the datasource, in the order that the records appear in the input data. The following two DataRearrangement lines are examples of sequentially ordered training and evaluation datasources: Datasource for evaluation: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"sequential"}} Datasource for training: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"sequential", "complement":"true"}} To randomly split the input data into the proportions indicated by the percentBegin and percentEnd parameters, set the strategy parameter to random and provide a string that is used as the seed value for the random data splitting (for example, you can use the S3 path to your data as the random seed string). If you choose the random split strategy, Amazon ML assigns each row of data a pseudo-random number between 0 and 100, and then selects the rows that have an assigned number between percentBegin and percentEnd. Pseudo-random numbers are assigned using both the input seed string value and the byte offset as a seed, so changing the data results in a different split. Any existing ordering is preserved. The random splitting strategy ensures that variables in the training and evaluation data are distributed similarly. It is useful in the cases where the input data may have an implicit sort order, which would otherwise result in training and evaluation datasources containing non-similar data records. The following two DataRearrangement lines are examples of non-sequentially ordered training and evaluation datasources: Datasource for evaluation: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"random", "randomSeed"="s3://my_s3_path/bucket/file.csv"}} Datasource for training: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"random", "randomSeed"="s3://my_s3_path/bucket/file.csv", "complement":"true"}}
+        /// A JSON string that represents the splitting and rearrangement processing to be applied to a DataSource. If the DataRearrangement parameter is not provided, all of the input data is used to create the Datasource. There are multiple parameters that control what data is used to create a datasource:     percentBegin   Use percentBegin to indicate the beginning of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd, Amazon ML includes all of the data when creating the datasource.     percentEnd   Use percentEnd to indicate the end of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd, Amazon ML includes all of the data when creating the datasource.     complement   The complement parameter instructs Amazon ML to use the data that is not included in the range of percentBegin to percentEnd to create a datasource. The complement parameter is useful if you need to create complementary datasources for training and evaluation. To create a complementary datasource, use the same values for percentBegin and percentEnd, along with the complement parameter. For example, the following two datasources do not share any data, and can be used to train and evaluate a model. The first datasource has 25 percent of the data, and the second one has 75 percent of the data. Datasource for evaluation: {"splitting":{"percentBegin":0, "percentEnd":25}}  Datasource for training: {"splitting":{"percentBegin":0, "percentEnd":25, "complement":"true"}}      strategy   To change how Amazon ML splits the data for a datasource, use the strategy parameter. The default value for the strategy parameter is sequential, meaning that Amazon ML takes all of the data records between the percentBegin and percentEnd parameters for the datasource, in the order that the records appear in the input data. The following two DataRearrangement lines are examples of sequentially ordered training and evaluation datasources: Datasource for evaluation: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"sequential"}}  Datasource for training: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"sequential", "complement":"true"}}  To randomly split the input data into the proportions indicated by the percentBegin and percentEnd parameters, set the strategy parameter to random and provide a string that is used as the seed value for the random data splitting (for example, you can use the S3 path to your data as the random seed string). If you choose the random split strategy, Amazon ML assigns each row of data a pseudo-random number between 0 and 100, and then selects the rows that have an assigned number between percentBegin and percentEnd. Pseudo-random numbers are assigned using both the input seed string value and the byte offset as a seed, so changing the data results in a different split. Any existing ordering is preserved. The random splitting strategy ensures that variables in the training and evaluation data are distributed similarly. It is useful in the cases where the input data may have an implicit sort order, which would otherwise result in training and evaluation datasources containing non-similar data records. The following two DataRearrangement lines are examples of non-sequentially ordered training and evaluation datasources: Datasource for evaluation: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"random", "randomSeed"="s3://my_s3_path/bucket/file.csv"}}  Datasource for training: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"random", "randomSeed"="s3://my_s3_path/bucket/file.csv", "complement":"true"}}
         public let dataRearrangement: String?
-        /// A JSON string that represents the schema for an Amazon RDS DataSource. The DataSchema defines the structure of the observation data in the data file(s) referenced in the DataSource. A DataSchema is not required if you specify a DataSchemaUri Define your DataSchema as a series of key-value pairs. attributes and excludedVariableNames have an array of key-value pairs for their value. Use the following format to define your DataSchema. { "version": "1.0",  "recordAnnotationFieldName": "F1",  "recordWeightFieldName": "F2",  "targetFieldName": "F3",  "dataFormat": "CSV",  "dataFileContainsHeader": true,  "attributes": [  { "fieldName": "F1", "fieldType": "TEXT" }, { "fieldName": "F2", "fieldType": "NUMERIC" }, { "fieldName": "F3", "fieldType": "CATEGORICAL" }, { "fieldName": "F4", "fieldType": "NUMERIC" }, { "fieldName": "F5", "fieldType": "CATEGORICAL" }, { "fieldName": "F6", "fieldType": "TEXT" }, { "fieldName": "F7", "fieldType": "WEIGHTED_INT_SEQUENCE" }, { "fieldName": "F8", "fieldType": "WEIGHTED_STRING_SEQUENCE" } ],  "excludedVariableNames": [ "F6" ] }
+        /// A JSON string that represents the schema for an Amazon RDS DataSource. The DataSchema defines the structure of the observation data in the data file(s) referenced in the DataSource. A DataSchema is not required if you specify a DataSchemaUri  Define your DataSchema as a series of key-value pairs. attributes and excludedVariableNames have an array of key-value pairs for their value. Use the following format to define your DataSchema. { "version": "1.0", "recordAnnotationFieldName": "F1", "recordWeightFieldName": "F2", "targetFieldName": "F3", "dataFormat": "CSV", "dataFileContainsHeader": true, "attributes": [ { "fieldName": "F1", "fieldType": "TEXT" }, { "fieldName": "F2", "fieldType": "NUMERIC" }, { "fieldName": "F3", "fieldType": "CATEGORICAL" }, { "fieldName": "F4", "fieldType": "NUMERIC" }, { "fieldName": "F5", "fieldType": "CATEGORICAL" }, { "fieldName": "F6", "fieldType": "TEXT" }, { "fieldName": "F7", "fieldType": "WEIGHTED_INT_SEQUENCE" }, { "fieldName": "F8", "fieldType": "WEIGHTED_STRING_SEQUENCE" } ], "excludedVariableNames": [ "F6" ] }
         public let dataSchema: String?
         /// The Amazon S3 location of the DataSchema.
         public let dataSchemaUri: String?
@@ -1951,22 +2025,32 @@ extension MachineLearning {
 
         public func validate(name: String) throws {
             try self.databaseCredentials.validate(name: "\(name).databaseCredentials")
+            try self.databaseCredentials.forEach {}
             try self.databaseInformation.validate(name: "\(name).databaseInformation")
+            try self.databaseInformation.forEach {}
+            try self.dataSchema?.forEach {}
             try self.validate(self.dataSchema, name: "dataSchema", parent: name, max: 131_071)
+            try self.dataSchemaUri?.forEach {}
             try self.validate(self.dataSchemaUri, name: "dataSchemaUri", parent: name, max: 2048)
             try self.validate(self.dataSchemaUri, name: "dataSchemaUri", parent: name, pattern: "s3://([^/]+)(/.*)?")
+            try self.resourceRole.forEach {}
             try self.validate(self.resourceRole, name: "resourceRole", parent: name, max: 64)
             try self.validate(self.resourceRole, name: "resourceRole", parent: name, min: 1)
+            try self.s3StagingLocation.forEach {}
             try self.validate(self.s3StagingLocation, name: "s3StagingLocation", parent: name, max: 2048)
             try self.validate(self.s3StagingLocation, name: "s3StagingLocation", parent: name, pattern: "s3://([^/]+)(/.*)?")
             try self.securityGroupIds.forEach {
                 try validate($0, name: "securityGroupIds[]", parent: name, max: 255)
                 try validate($0, name: "securityGroupIds[]", parent: name, min: 1)
             }
+            try self.securityGroupIds.forEach {}
+            try self.selectSqlQuery.forEach {}
             try self.validate(self.selectSqlQuery, name: "selectSqlQuery", parent: name, max: 16_777_216)
             try self.validate(self.selectSqlQuery, name: "selectSqlQuery", parent: name, min: 1)
+            try self.serviceRole.forEach {}
             try self.validate(self.serviceRole, name: "serviceRole", parent: name, max: 64)
             try self.validate(self.serviceRole, name: "serviceRole", parent: name, min: 1)
+            try self.subnetId.forEach {}
             try self.validate(self.subnetId, name: "subnetId", parent: name, max: 255)
             try self.validate(self.subnetId, name: "subnetId", parent: name, min: 1)
         }
@@ -1997,8 +2081,10 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 64)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try self.instanceIdentifier.forEach {}
             try self.validate(self.instanceIdentifier, name: "instanceIdentifier", parent: name, max: 63)
             try self.validate(self.instanceIdentifier, name: "instanceIdentifier", parent: name, min: 1)
             try self.validate(self.instanceIdentifier, name: "instanceIdentifier", parent: name, pattern: "[a-z0-9-]+")
@@ -2020,8 +2106,10 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
+            try self.password.forEach {}
             try self.validate(self.password, name: "password", parent: name, max: 128)
             try self.validate(self.password, name: "password", parent: name, min: 8)
+            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 128)
             try self.validate(self.username, name: "username", parent: name, min: 1)
         }
@@ -2067,9 +2155,9 @@ extension MachineLearning {
     public struct RealtimeEndpointInfo: AWSDecodableShape {
         /// The time that the request to create the real-time endpoint for the MLModel was received. The time is expressed in epoch time.
         public let createdAt: Date?
-        ///  The current status of the real-time endpoint for the MLModel. This element can have one of the following values:    NONE - Endpoint does not exist or was previously deleted.  READY - Endpoint is ready to be used for real-time predictions.  UPDATING - Updating/creating the endpoint.
+        ///  The current status of the real-time endpoint for the MLModel. This element can have one of the following values:     NONE - Endpoint does not exist or was previously deleted.    READY - Endpoint is ready to be used for real-time predictions.    UPDATING - Updating/creating the endpoint.
         public let endpointStatus: RealtimeEndpointStatus?
-        /// The URI that specifies where to send real-time prediction requests for the MLModel. Note The application must wait until the real-time endpoint is ready before using this URI.
+        /// The URI that specifies where to send real-time prediction requests for the MLModel.  Note: The application must wait until the real-time endpoint is ready before using this URI.
         public let endpointUrl: String?
         ///  The maximum processing rate for the real-time endpoint for MLModel, measured in incoming requests per second.
         public let peakRequestsPerSecond: Int?
@@ -2094,9 +2182,9 @@ extension MachineLearning {
         public let databaseCredentials: RedshiftDatabaseCredentials
         /// Describes the DatabaseName and ClusterIdentifier for an Amazon Redshift DataSource.
         public let databaseInformation: RedshiftDatabase
-        /// A JSON string that represents the splitting and rearrangement processing to be applied to a DataSource. If the DataRearrangement parameter is not provided, all of the input data is used to create the Datasource. There are multiple parameters that control what data is used to create a datasource:  percentBegin Use percentBegin to indicate the beginning of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd, Amazon ML includes all of the data when creating the datasource. percentEnd Use percentEnd to indicate the end of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd, Amazon ML includes all of the data when creating the datasource. complement The complement parameter instructs Amazon ML to use the data that is not included in the range of percentBegin to percentEnd to create a datasource. The complement parameter is useful if you need to create complementary datasources for training and evaluation. To create a complementary datasource, use the same values for percentBegin and percentEnd, along with the complement parameter. For example, the following two datasources do not share any data, and can be used to train and evaluate a model. The first datasource has 25 percent of the data, and the second one has 75 percent of the data. Datasource for evaluation: {"splitting":{"percentBegin":0, "percentEnd":25}} Datasource for training: {"splitting":{"percentBegin":0, "percentEnd":25, "complement":"true"}}  strategy To change how Amazon ML splits the data for a datasource, use the strategy parameter. The default value for the strategy parameter is sequential, meaning that Amazon ML takes all of the data records between the percentBegin and percentEnd parameters for the datasource, in the order that the records appear in the input data. The following two DataRearrangement lines are examples of sequentially ordered training and evaluation datasources: Datasource for evaluation: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"sequential"}} Datasource for training: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"sequential", "complement":"true"}} To randomly split the input data into the proportions indicated by the percentBegin and percentEnd parameters, set the strategy parameter to random and provide a string that is used as the seed value for the random data splitting (for example, you can use the S3 path to your data as the random seed string). If you choose the random split strategy, Amazon ML assigns each row of data a pseudo-random number between 0 and 100, and then selects the rows that have an assigned number between percentBegin and percentEnd. Pseudo-random numbers are assigned using both the input seed string value and the byte offset as a seed, so changing the data results in a different split. Any existing ordering is preserved. The random splitting strategy ensures that variables in the training and evaluation data are distributed similarly. It is useful in the cases where the input data may have an implicit sort order, which would otherwise result in training and evaluation datasources containing non-similar data records. The following two DataRearrangement lines are examples of non-sequentially ordered training and evaluation datasources: Datasource for evaluation: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"random", "randomSeed"="s3://my_s3_path/bucket/file.csv"}} Datasource for training: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"random", "randomSeed"="s3://my_s3_path/bucket/file.csv", "complement":"true"}}
+        /// A JSON string that represents the splitting and rearrangement processing to be applied to a DataSource. If the DataRearrangement parameter is not provided, all of the input data is used to create the Datasource. There are multiple parameters that control what data is used to create a datasource:     percentBegin   Use percentBegin to indicate the beginning of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd, Amazon ML includes all of the data when creating the datasource.     percentEnd   Use percentEnd to indicate the end of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd, Amazon ML includes all of the data when creating the datasource.     complement   The complement parameter instructs Amazon ML to use the data that is not included in the range of percentBegin to percentEnd to create a datasource. The complement parameter is useful if you need to create complementary datasources for training and evaluation. To create a complementary datasource, use the same values for percentBegin and percentEnd, along with the complement parameter. For example, the following two datasources do not share any data, and can be used to train and evaluate a model. The first datasource has 25 percent of the data, and the second one has 75 percent of the data. Datasource for evaluation: {"splitting":{"percentBegin":0, "percentEnd":25}}  Datasource for training: {"splitting":{"percentBegin":0, "percentEnd":25, "complement":"true"}}      strategy   To change how Amazon ML splits the data for a datasource, use the strategy parameter. The default value for the strategy parameter is sequential, meaning that Amazon ML takes all of the data records between the percentBegin and percentEnd parameters for the datasource, in the order that the records appear in the input data. The following two DataRearrangement lines are examples of sequentially ordered training and evaluation datasources: Datasource for evaluation: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"sequential"}}  Datasource for training: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"sequential", "complement":"true"}}  To randomly split the input data into the proportions indicated by the percentBegin and percentEnd parameters, set the strategy parameter to random and provide a string that is used as the seed value for the random data splitting (for example, you can use the S3 path to your data as the random seed string). If you choose the random split strategy, Amazon ML assigns each row of data a pseudo-random number between 0 and 100, and then selects the rows that have an assigned number between percentBegin and percentEnd. Pseudo-random numbers are assigned using both the input seed string value and the byte offset as a seed, so changing the data results in a different split. Any existing ordering is preserved. The random splitting strategy ensures that variables in the training and evaluation data are distributed similarly. It is useful in the cases where the input data may have an implicit sort order, which would otherwise result in training and evaluation datasources containing non-similar data records. The following two DataRearrangement lines are examples of non-sequentially ordered training and evaluation datasources: Datasource for evaluation: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"random", "randomSeed"="s3://my_s3_path/bucket/file.csv"}}  Datasource for training: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"random", "randomSeed"="s3://my_s3_path/bucket/file.csv", "complement":"true"}}
         public let dataRearrangement: String?
-        /// A JSON string that represents the schema for an Amazon Redshift DataSource. The DataSchema defines the structure of the observation data in the data file(s) referenced in the DataSource. A DataSchema is not required if you specify a DataSchemaUri. Define your DataSchema as a series of key-value pairs. attributes and excludedVariableNames have an array of key-value pairs for their value. Use the following format to define your DataSchema. { "version": "1.0",  "recordAnnotationFieldName": "F1",  "recordWeightFieldName": "F2",  "targetFieldName": "F3",  "dataFormat": "CSV",  "dataFileContainsHeader": true,  "attributes": [  { "fieldName": "F1", "fieldType": "TEXT" }, { "fieldName": "F2", "fieldType": "NUMERIC" }, { "fieldName": "F3", "fieldType": "CATEGORICAL" }, { "fieldName": "F4", "fieldType": "NUMERIC" }, { "fieldName": "F5", "fieldType": "CATEGORICAL" }, { "fieldName": "F6", "fieldType": "TEXT" }, { "fieldName": "F7", "fieldType": "WEIGHTED_INT_SEQUENCE" }, { "fieldName": "F8", "fieldType": "WEIGHTED_STRING_SEQUENCE" } ],  "excludedVariableNames": [ "F6" ] }
+        /// A JSON string that represents the schema for an Amazon Redshift DataSource. The DataSchema defines the structure of the observation data in the data file(s) referenced in the DataSource. A DataSchema is not required if you specify a DataSchemaUri. Define your DataSchema as a series of key-value pairs. attributes and excludedVariableNames have an array of key-value pairs for their value. Use the following format to define your DataSchema. { "version": "1.0", "recordAnnotationFieldName": "F1", "recordWeightFieldName": "F2", "targetFieldName": "F3", "dataFormat": "CSV", "dataFileContainsHeader": true, "attributes": [ { "fieldName": "F1", "fieldType": "TEXT" }, { "fieldName": "F2", "fieldType": "NUMERIC" }, { "fieldName": "F3", "fieldType": "CATEGORICAL" }, { "fieldName": "F4", "fieldType": "NUMERIC" }, { "fieldName": "F5", "fieldType": "CATEGORICAL" }, { "fieldName": "F6", "fieldType": "TEXT" }, { "fieldName": "F7", "fieldType": "WEIGHTED_INT_SEQUENCE" }, { "fieldName": "F8", "fieldType": "WEIGHTED_STRING_SEQUENCE" } ], "excludedVariableNames": [ "F6" ] }
         public let dataSchema: String?
         /// Describes the schema location for an Amazon Redshift DataSource.
         public let dataSchemaUri: String?
@@ -2117,12 +2205,18 @@ extension MachineLearning {
 
         public func validate(name: String) throws {
             try self.databaseCredentials.validate(name: "\(name).databaseCredentials")
+            try self.databaseCredentials.forEach {}
             try self.databaseInformation.validate(name: "\(name).databaseInformation")
+            try self.databaseInformation.forEach {}
+            try self.dataSchema?.forEach {}
             try self.validate(self.dataSchema, name: "dataSchema", parent: name, max: 131_071)
+            try self.dataSchemaUri?.forEach {}
             try self.validate(self.dataSchemaUri, name: "dataSchemaUri", parent: name, max: 2048)
             try self.validate(self.dataSchemaUri, name: "dataSchemaUri", parent: name, pattern: "s3://([^/]+)(/.*)?")
+            try self.s3StagingLocation.forEach {}
             try self.validate(self.s3StagingLocation, name: "s3StagingLocation", parent: name, max: 2048)
             try self.validate(self.s3StagingLocation, name: "s3StagingLocation", parent: name, pattern: "s3://([^/]+)(/.*)?")
+            try self.selectSqlQuery.forEach {}
             try self.validate(self.selectSqlQuery, name: "selectSqlQuery", parent: name, max: 16_777_216)
             try self.validate(self.selectSqlQuery, name: "selectSqlQuery", parent: name, min: 1)
         }
@@ -2148,9 +2242,11 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
+            try self.clusterIdentifier.forEach {}
             try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 63)
             try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, min: 1)
             try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "[a-z0-9-]+")
+            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 64)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[a-z0-9]+")
@@ -2172,8 +2268,10 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
+            try self.password.forEach {}
             try self.validate(self.password, name: "password", parent: name, max: 64)
             try self.validate(self.password, name: "password", parent: name, min: 8)
+            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 128)
             try self.validate(self.username, name: "username", parent: name, min: 1)
         }
@@ -2206,9 +2304,9 @@ extension MachineLearning {
     public struct S3DataSpec: AWSEncodableShape {
         /// The location of the data file(s) used by a DataSource. The URI specifies a data file or an Amazon Simple Storage Service (Amazon S3) directory or bucket containing data files.
         public let dataLocationS3: String
-        /// A JSON string that represents the splitting and rearrangement processing to be applied to a DataSource. If the DataRearrangement parameter is not provided, all of the input data is used to create the Datasource. There are multiple parameters that control what data is used to create a datasource:  percentBegin Use percentBegin to indicate the beginning of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd, Amazon ML includes all of the data when creating the datasource. percentEnd Use percentEnd to indicate the end of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd, Amazon ML includes all of the data when creating the datasource. complement The complement parameter instructs Amazon ML to use the data that is not included in the range of percentBegin to percentEnd to create a datasource. The complement parameter is useful if you need to create complementary datasources for training and evaluation. To create a complementary datasource, use the same values for percentBegin and percentEnd, along with the complement parameter. For example, the following two datasources do not share any data, and can be used to train and evaluate a model. The first datasource has 25 percent of the data, and the second one has 75 percent of the data. Datasource for evaluation: {"splitting":{"percentBegin":0, "percentEnd":25}} Datasource for training: {"splitting":{"percentBegin":0, "percentEnd":25, "complement":"true"}}  strategy To change how Amazon ML splits the data for a datasource, use the strategy parameter. The default value for the strategy parameter is sequential, meaning that Amazon ML takes all of the data records between the percentBegin and percentEnd parameters for the datasource, in the order that the records appear in the input data. The following two DataRearrangement lines are examples of sequentially ordered training and evaluation datasources: Datasource for evaluation: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"sequential"}} Datasource for training: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"sequential", "complement":"true"}} To randomly split the input data into the proportions indicated by the percentBegin and percentEnd parameters, set the strategy parameter to random and provide a string that is used as the seed value for the random data splitting (for example, you can use the S3 path to your data as the random seed string). If you choose the random split strategy, Amazon ML assigns each row of data a pseudo-random number between 0 and 100, and then selects the rows that have an assigned number between percentBegin and percentEnd. Pseudo-random numbers are assigned using both the input seed string value and the byte offset as a seed, so changing the data results in a different split. Any existing ordering is preserved. The random splitting strategy ensures that variables in the training and evaluation data are distributed similarly. It is useful in the cases where the input data may have an implicit sort order, which would otherwise result in training and evaluation datasources containing non-similar data records. The following two DataRearrangement lines are examples of non-sequentially ordered training and evaluation datasources: Datasource for evaluation: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"random", "randomSeed"="s3://my_s3_path/bucket/file.csv"}} Datasource for training: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"random", "randomSeed"="s3://my_s3_path/bucket/file.csv", "complement":"true"}}
+        /// A JSON string that represents the splitting and rearrangement processing to be applied to a DataSource. If the DataRearrangement parameter is not provided, all of the input data is used to create the Datasource. There are multiple parameters that control what data is used to create a datasource:     percentBegin   Use percentBegin to indicate the beginning of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd, Amazon ML includes all of the data when creating the datasource.     percentEnd   Use percentEnd to indicate the end of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd, Amazon ML includes all of the data when creating the datasource.     complement   The complement parameter instructs Amazon ML to use the data that is not included in the range of percentBegin to percentEnd to create a datasource. The complement parameter is useful if you need to create complementary datasources for training and evaluation. To create a complementary datasource, use the same values for percentBegin and percentEnd, along with the complement parameter. For example, the following two datasources do not share any data, and can be used to train and evaluate a model. The first datasource has 25 percent of the data, and the second one has 75 percent of the data. Datasource for evaluation: {"splitting":{"percentBegin":0, "percentEnd":25}}  Datasource for training: {"splitting":{"percentBegin":0, "percentEnd":25, "complement":"true"}}      strategy   To change how Amazon ML splits the data for a datasource, use the strategy parameter. The default value for the strategy parameter is sequential, meaning that Amazon ML takes all of the data records between the percentBegin and percentEnd parameters for the datasource, in the order that the records appear in the input data. The following two DataRearrangement lines are examples of sequentially ordered training and evaluation datasources: Datasource for evaluation: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"sequential"}}  Datasource for training: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"sequential", "complement":"true"}}  To randomly split the input data into the proportions indicated by the percentBegin and percentEnd parameters, set the strategy parameter to random and provide a string that is used as the seed value for the random data splitting (for example, you can use the S3 path to your data as the random seed string). If you choose the random split strategy, Amazon ML assigns each row of data a pseudo-random number between 0 and 100, and then selects the rows that have an assigned number between percentBegin and percentEnd. Pseudo-random numbers are assigned using both the input seed string value and the byte offset as a seed, so changing the data results in a different split. Any existing ordering is preserved. The random splitting strategy ensures that variables in the training and evaluation data are distributed similarly. It is useful in the cases where the input data may have an implicit sort order, which would otherwise result in training and evaluation datasources containing non-similar data records. The following two DataRearrangement lines are examples of non-sequentially ordered training and evaluation datasources: Datasource for evaluation: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"random", "randomSeed"="s3://my_s3_path/bucket/file.csv"}}  Datasource for training: {"splitting":{"percentBegin":70, "percentEnd":100, "strategy":"random", "randomSeed"="s3://my_s3_path/bucket/file.csv", "complement":"true"}}
         public let dataRearrangement: String?
-        ///  A JSON string that represents the schema for an Amazon S3 DataSource. The DataSchema defines the structure of the observation data in the data file(s) referenced in the DataSource. You must provide either the DataSchema or the DataSchemaLocationS3. Define your DataSchema as a series of key-value pairs. attributes and excludedVariableNames have an array of key-value pairs for their value. Use the following format to define your DataSchema. { "version": "1.0",  "recordAnnotationFieldName": "F1",  "recordWeightFieldName": "F2",  "targetFieldName": "F3",  "dataFormat": "CSV",  "dataFileContainsHeader": true,  "attributes": [  { "fieldName": "F1", "fieldType": "TEXT" }, { "fieldName": "F2", "fieldType": "NUMERIC" }, { "fieldName": "F3", "fieldType": "CATEGORICAL" }, { "fieldName": "F4", "fieldType": "NUMERIC" }, { "fieldName": "F5", "fieldType": "CATEGORICAL" }, { "fieldName": "F6", "fieldType": "TEXT" }, { "fieldName": "F7", "fieldType": "WEIGHTED_INT_SEQUENCE" }, { "fieldName": "F8", "fieldType": "WEIGHTED_STRING_SEQUENCE" } ],  "excludedVariableNames": [ "F6" ] }
+        ///  A JSON string that represents the schema for an Amazon S3 DataSource. The DataSchema defines the structure of the observation data in the data file(s) referenced in the DataSource. You must provide either the DataSchema or the DataSchemaLocationS3. Define your DataSchema as a series of key-value pairs. attributes and excludedVariableNames have an array of key-value pairs for their value. Use the following format to define your DataSchema. { "version": "1.0", "recordAnnotationFieldName": "F1", "recordWeightFieldName": "F2", "targetFieldName": "F3", "dataFormat": "CSV", "dataFileContainsHeader": true, "attributes": [ { "fieldName": "F1", "fieldType": "TEXT" }, { "fieldName": "F2", "fieldType": "NUMERIC" }, { "fieldName": "F3", "fieldType": "CATEGORICAL" }, { "fieldName": "F4", "fieldType": "NUMERIC" }, { "fieldName": "F5", "fieldType": "CATEGORICAL" }, { "fieldName": "F6", "fieldType": "TEXT" }, { "fieldName": "F7", "fieldType": "WEIGHTED_INT_SEQUENCE" }, { "fieldName": "F8", "fieldType": "WEIGHTED_STRING_SEQUENCE" } ], "excludedVariableNames": [ "F6" ] }
         public let dataSchema: String?
         /// Describes the schema location in Amazon S3. You must provide either the DataSchema or the DataSchemaLocationS3.
         public let dataSchemaLocationS3: String?
@@ -2221,9 +2319,12 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
+            try self.dataLocationS3.forEach {}
             try self.validate(self.dataLocationS3, name: "dataLocationS3", parent: name, max: 2048)
             try self.validate(self.dataLocationS3, name: "dataLocationS3", parent: name, pattern: "s3://([^/]+)(/.*)?")
+            try self.dataSchema?.forEach {}
             try self.validate(self.dataSchema, name: "dataSchema", parent: name, max: 131_071)
+            try self.dataSchemaLocationS3?.forEach {}
             try self.validate(self.dataSchemaLocationS3, name: "dataSchemaLocationS3", parent: name, max: 2048)
             try self.validate(self.dataSchemaLocationS3, name: "dataSchemaLocationS3", parent: name, pattern: "s3://([^/]+)(/.*)?")
         }
@@ -2248,9 +2349,11 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
+            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
             try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -2274,9 +2377,11 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
+            try self.batchPredictionId.forEach {}
             try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, max: 64)
             try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, min: 1)
             try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.batchPredictionName.forEach {}
             try self.validate(self.batchPredictionName, name: "batchPredictionName", parent: name, max: 1024)
             try self.validate(self.batchPredictionName, name: "batchPredictionName", parent: name, pattern: ".*\\S.*|^$")
         }
@@ -2312,9 +2417,11 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
+            try self.dataSourceId.forEach {}
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, max: 64)
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, min: 1)
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.dataSourceName.forEach {}
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, max: 1024)
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, pattern: ".*\\S.*|^$")
         }
@@ -2350,9 +2457,11 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
+            try self.evaluationId.forEach {}
             try self.validate(self.evaluationId, name: "evaluationId", parent: name, max: 64)
             try self.validate(self.evaluationId, name: "evaluationId", parent: name, min: 1)
             try self.validate(self.evaluationId, name: "evaluationId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.evaluationName.forEach {}
             try self.validate(self.evaluationName, name: "evaluationName", parent: name, max: 1024)
             try self.validate(self.evaluationName, name: "evaluationName", parent: name, pattern: ".*\\S.*|^$")
         }
@@ -2391,9 +2500,11 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
+            try self.mLModelId.forEach {}
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, max: 64)
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, min: 1)
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.mLModelName?.forEach {}
             try self.validate(self.mLModelName, name: "mLModelName", parent: name, max: 1024)
             try self.validate(self.mLModelName, name: "mLModelName", parent: name, pattern: ".*\\S.*|^$")
         }

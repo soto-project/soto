@@ -94,7 +94,9 @@ extension Textract {
 
         public func validate(name: String) throws {
             try self.document.validate(name: "\(name).document")
+            try self.document.forEach {}
             try self.humanLoopConfig?.validate(name: "\(name).humanLoopConfig")
+            try self.humanLoopConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -229,6 +231,7 @@ extension Textract {
 
         public func validate(name: String) throws {
             try self.document.validate(name: "\(name).document")
+            try self.document.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -268,9 +271,11 @@ extension Textract {
         }
 
         public func validate(name: String) throws {
+            try self.bytes?.forEach {}
             try self.validate(self.bytes, name: "bytes", parent: name, max: 10_485_760)
             try self.validate(self.bytes, name: "bytes", parent: name, min: 1)
             try self.s3Object?.validate(name: "\(name).s3Object")
+            try self.s3Object?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -289,6 +294,7 @@ extension Textract {
 
         public func validate(name: String) throws {
             try self.s3Object?.validate(name: "\(name).s3Object")
+            try self.s3Object?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -341,10 +347,13 @@ extension Textract {
         }
 
         public func validate(name: String) throws {
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*\\S.*")
@@ -408,10 +417,13 @@ extension Textract {
         }
 
         public func validate(name: String) throws {
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*\\S.*")
@@ -497,7 +509,10 @@ extension Textract {
 
         public func validate(name: String) throws {
             try self.dataAttributes?.validate(name: "\(name).dataAttributes")
+            try self.dataAttributes?.forEach {}
+            try self.flowDefinitionArn.forEach {}
             try self.validate(self.flowDefinitionArn, name: "flowDefinitionArn", parent: name, max: 256)
+            try self.humanLoopName.forEach {}
             try self.validate(self.humanLoopName, name: "humanLoopName", parent: name, max: 63)
             try self.validate(self.humanLoopName, name: "humanLoopName", parent: name, min: 1)
             try self.validate(self.humanLoopName, name: "humanLoopName", parent: name, pattern: "^[a-z0-9](-*[a-z0-9])*")
@@ -519,6 +534,7 @@ extension Textract {
         }
 
         public func validate(name: String) throws {
+            try self.contentClassifiers?.forEach {}
             try self.validate(self.contentClassifiers, name: "contentClassifiers", parent: name, max: 256)
         }
 
@@ -539,9 +555,11 @@ extension Textract {
         }
 
         public func validate(name: String) throws {
+            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:([a-z\\d-]+):iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
+            try self.sNSTopicArn.forEach {}
             try self.validate(self.sNSTopicArn, name: "sNSTopicArn", parent: name, max: 1024)
             try self.validate(self.sNSTopicArn, name: "sNSTopicArn", parent: name, min: 20)
             try self.validate(self.sNSTopicArn, name: "sNSTopicArn", parent: name, pattern: "(^arn:([a-z\\d-]+):sns:[a-zA-Z\\d-]{1,20}:\\w{12}:.+$)")
@@ -565,9 +583,11 @@ extension Textract {
         }
 
         public func validate(name: String) throws {
+            try self.s3Bucket.forEach {}
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, max: 255)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, min: 3)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "[0-9A-Za-z\\.\\-_]*")
+            try self.s3Prefix?.forEach {}
             try self.validate(self.s3Prefix, name: "s3Prefix", parent: name, max: 1024)
             try self.validate(self.s3Prefix, name: "s3Prefix", parent: name, min: 1)
             try self.validate(self.s3Prefix, name: "s3Prefix", parent: name, pattern: ".*\\S.*")
@@ -628,12 +648,15 @@ extension Textract {
         }
 
         public func validate(name: String) throws {
+            try self.bucket?.forEach {}
             try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
             try self.validate(self.bucket, name: "bucket", parent: name, pattern: "[0-9A-Za-z\\.\\-_]*")
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+            try self.version?.forEach {}
             try self.validate(self.version, name: "version", parent: name, max: 1024)
             try self.validate(self.version, name: "version", parent: name, min: 1)
             try self.validate(self.version, name: "version", parent: name, pattern: ".*\\S.*")
@@ -673,18 +696,24 @@ extension Textract {
         }
 
         public func validate(name: String) throws {
+            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
             try self.documentLocation.validate(name: "\(name).documentLocation")
+            try self.documentLocation.forEach {}
+            try self.jobTag?.forEach {}
             try self.validate(self.jobTag, name: "jobTag", parent: name, max: 64)
             try self.validate(self.jobTag, name: "jobTag", parent: name, min: 1)
             try self.validate(self.jobTag, name: "jobTag", parent: name, pattern: "[a-zA-Z0-9_.\\-:]+")
+            try self.kMSKeyId?.forEach {}
             try self.validate(self.kMSKeyId, name: "kMSKeyId", parent: name, max: 2048)
             try self.validate(self.kMSKeyId, name: "kMSKeyId", parent: name, min: 1)
             try self.validate(self.kMSKeyId, name: "kMSKeyId", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$")
             try self.notificationChannel?.validate(name: "\(name).notificationChannel")
+            try self.notificationChannel?.forEach {}
             try self.outputConfig?.validate(name: "\(name).outputConfig")
+            try self.outputConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -735,18 +764,24 @@ extension Textract {
         }
 
         public func validate(name: String) throws {
+            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
             try self.documentLocation.validate(name: "\(name).documentLocation")
+            try self.documentLocation.forEach {}
+            try self.jobTag?.forEach {}
             try self.validate(self.jobTag, name: "jobTag", parent: name, max: 64)
             try self.validate(self.jobTag, name: "jobTag", parent: name, min: 1)
             try self.validate(self.jobTag, name: "jobTag", parent: name, pattern: "[a-zA-Z0-9_.\\-:]+")
+            try self.kMSKeyId?.forEach {}
             try self.validate(self.kMSKeyId, name: "kMSKeyId", parent: name, max: 2048)
             try self.validate(self.kMSKeyId, name: "kMSKeyId", parent: name, min: 1)
             try self.validate(self.kMSKeyId, name: "kMSKeyId", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$")
             try self.notificationChannel?.validate(name: "\(name).notificationChannel")
+            try self.notificationChannel?.forEach {}
             try self.outputConfig?.validate(name: "\(name).outputConfig")
+            try self.outputConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {

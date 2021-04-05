@@ -242,6 +242,7 @@ extension ApplicationDiscoveryService {
         }
 
         public func validate(name: String) throws {
+            try self.importTaskIds.forEach {}
             try self.validate(self.importTaskIds, name: "importTaskIds", parent: name, max: 10)
             try self.validate(self.importTaskIds, name: "importTaskIds", parent: name, min: 1)
         }
@@ -580,6 +581,7 @@ extension ApplicationDiscoveryService {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -705,6 +707,8 @@ extension ApplicationDiscoveryService {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
+            try self.filters?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1002,6 +1006,7 @@ extension ApplicationDiscoveryService {
                 try validate($0, name: "values[]", parent: name, max: 100)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
+            try self.values?.forEach {}
             try self.validate(self.values, name: "values", parent: name, max: 100)
             try self.validate(self.values, name: "values", parent: name, min: 1)
         }
@@ -1266,10 +1271,13 @@ extension ApplicationDiscoveryService {
         }
 
         public func validate(name: String) throws {
+            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 100)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.importUrl.forEach {}
             try self.validate(self.importUrl, name: "importUrl", parent: name, max: 4000)
             try self.validate(self.importUrl, name: "importUrl", parent: name, min: 1)
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }

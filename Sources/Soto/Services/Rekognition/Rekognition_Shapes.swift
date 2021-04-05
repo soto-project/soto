@@ -247,6 +247,7 @@ extension Rekognition {
 
         public func validate(name: String) throws {
             try self.groundTruthManifest?.validate(name: "\(name).groundTruthManifest")
+            try self.groundTruthManifest?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -435,10 +436,13 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.similarityThreshold?.forEach {}
             try self.validate(self.similarityThreshold, name: "similarityThreshold", parent: name, max: 100)
             try self.validate(self.similarityThreshold, name: "similarityThreshold", parent: name, min: 0)
             try self.sourceImage.validate(name: "\(name).sourceImage")
+            try self.sourceImage.forEach {}
             try self.targetImage.validate(name: "\(name).targetImage")
+            try self.targetImage.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -561,19 +565,32 @@ extension Rekognition {
     public struct CreateCollectionRequest: AWSEncodableShape {
         /// ID for the collection that you are creating.
         public let collectionId: String
+        ///  A set of tags (key-value pairs) that you want to attach to the collection.
+        public let tags: [String: String]?
 
-        public init(collectionId: String) {
+        public init(collectionId: String, tags: [String: String]? = nil) {
             self.collectionId = collectionId
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
+            try self.collectionId.forEach {}
             try self.validate(self.collectionId, name: "collectionId", parent: name, max: 255)
             try self.validate(self.collectionId, name: "collectionId", parent: name, min: 1)
             try self.validate(self.collectionId, name: "collectionId", parent: name, pattern: "[a-zA-Z0-9_.\\-]+")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case collectionId = "CollectionId"
+            case tags = "Tags"
         }
     }
 
@@ -607,6 +624,7 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, max: 255)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "[a-zA-Z0-9_.\\-]+")
@@ -635,6 +653,8 @@ extension Rekognition {
         public let outputConfig: OutputConfig
         /// The ARN of the Amazon Rekognition Custom Labels project that manages the model that you want to train.
         public let projectArn: String
+        ///  A set of tags (key-value pairs) that you want to attach to the model.
+        public let tags: [String: String]?
         /// The dataset to use for testing.
         public let testingData: TestingData
         /// The dataset to use for training.
@@ -642,9 +662,10 @@ extension Rekognition {
         /// A name for the version of the model. This value must be unique.
         public let versionName: String
 
-        public init(outputConfig: OutputConfig, projectArn: String, testingData: TestingData, trainingData: TrainingData, versionName: String) {
+        public init(outputConfig: OutputConfig, projectArn: String, tags: [String: String]? = nil, testingData: TestingData, trainingData: TrainingData, versionName: String) {
             self.outputConfig = outputConfig
             self.projectArn = projectArn
+            self.tags = tags
             self.testingData = testingData
             self.trainingData = trainingData
             self.versionName = versionName
@@ -652,11 +673,24 @@ extension Rekognition {
 
         public func validate(name: String) throws {
             try self.outputConfig.validate(name: "\(name).outputConfig")
+            try self.outputConfig.forEach {}
+            try self.projectArn.forEach {}
             try self.validate(self.projectArn, name: "projectArn", parent: name, max: 2048)
             try self.validate(self.projectArn, name: "projectArn", parent: name, min: 20)
             try self.validate(self.projectArn, name: "projectArn", parent: name, pattern: "(^arn:[a-z\\d-]+:rekognition:[a-z\\d-]+:\\d{12}:project\\/[a-zA-Z0-9_.\\-]{1,255}\\/[0-9]+$)")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
             try self.testingData.validate(name: "\(name).testingData")
+            try self.testingData.forEach {}
             try self.trainingData.validate(name: "\(name).trainingData")
+            try self.trainingData.forEach {}
+            try self.versionName.forEach {}
             try self.validate(self.versionName, name: "versionName", parent: name, max: 255)
             try self.validate(self.versionName, name: "versionName", parent: name, min: 1)
             try self.validate(self.versionName, name: "versionName", parent: name, pattern: "[a-zA-Z0-9_.\\-]+")
@@ -665,6 +699,7 @@ extension Rekognition {
         private enum CodingKeys: String, CodingKey {
             case outputConfig = "OutputConfig"
             case projectArn = "ProjectArn"
+            case tags = "Tags"
             case testingData = "TestingData"
             case trainingData = "TrainingData"
             case versionName = "VersionName"
@@ -695,23 +730,39 @@ extension Rekognition {
         public let roleArn: String
         /// Face recognition input parameters to be used by the stream processor. Includes the collection to use for face recognition and the face attributes to detect.
         public let settings: StreamProcessorSettings
+        ///  A set of tags (key-value pairs) that you want to attach to the stream processor.
+        public let tags: [String: String]?
 
-        public init(input: StreamProcessorInput, name: String, output: StreamProcessorOutput, roleArn: String, settings: StreamProcessorSettings) {
+        public init(input: StreamProcessorInput, name: String, output: StreamProcessorOutput, roleArn: String, settings: StreamProcessorSettings, tags: [String: String]? = nil) {
             self.input = input
             self.name = name
             self.output = output
             self.roleArn = roleArn
             self.settings = settings
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try self.input.validate(name: "\(name).input")
+            try self.input.forEach {}
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9_.\\-]+")
             try self.output.validate(name: "\(name).output")
+            try self.output.forEach {}
+            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
             try self.settings.validate(name: "\(name).settings")
+            try self.settings.forEach {}
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -720,6 +771,7 @@ extension Rekognition {
             case output = "Output"
             case roleArn = "RoleArn"
             case settings = "Settings"
+            case tags = "Tags"
         }
     }
 
@@ -766,6 +818,7 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.collectionId.forEach {}
             try self.validate(self.collectionId, name: "collectionId", parent: name, max: 255)
             try self.validate(self.collectionId, name: "collectionId", parent: name, min: 1)
             try self.validate(self.collectionId, name: "collectionId", parent: name, pattern: "[a-zA-Z0-9_.\\-]+")
@@ -801,12 +854,14 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.collectionId.forEach {}
             try self.validate(self.collectionId, name: "collectionId", parent: name, max: 255)
             try self.validate(self.collectionId, name: "collectionId", parent: name, min: 1)
             try self.validate(self.collectionId, name: "collectionId", parent: name, pattern: "[a-zA-Z0-9_.\\-]+")
             try self.faceIds.forEach {
                 try validate($0, name: "faceIds[]", parent: name, pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
             }
+            try self.faceIds.forEach {}
             try self.validate(self.faceIds, name: "faceIds", parent: name, max: 4096)
             try self.validate(self.faceIds, name: "faceIds", parent: name, min: 1)
         }
@@ -839,6 +894,7 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.projectArn.forEach {}
             try self.validate(self.projectArn, name: "projectArn", parent: name, max: 2048)
             try self.validate(self.projectArn, name: "projectArn", parent: name, min: 20)
             try self.validate(self.projectArn, name: "projectArn", parent: name, pattern: "(^arn:[a-z\\d-]+:rekognition:[a-z\\d-]+:\\d{12}:project\\/[a-zA-Z0-9_.\\-]{1,255}\\/[0-9]+$)")
@@ -871,6 +927,7 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.projectVersionArn.forEach {}
             try self.validate(self.projectVersionArn, name: "projectVersionArn", parent: name, max: 2048)
             try self.validate(self.projectVersionArn, name: "projectVersionArn", parent: name, min: 20)
             try self.validate(self.projectVersionArn, name: "projectVersionArn", parent: name, pattern: "(^arn:[a-z\\d-]+:rekognition:[a-z\\d-]+:\\d{12}:project\\/[a-zA-Z0-9_.\\-]{1,255}\\/version\\/[a-zA-Z0-9_.\\-]{1,255}\\/[0-9]+$)")
@@ -903,6 +960,7 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9_.\\-]+")
@@ -926,6 +984,7 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.collectionId.forEach {}
             try self.validate(self.collectionId, name: "collectionId", parent: name, max: 255)
             try self.validate(self.collectionId, name: "collectionId", parent: name, min: 1)
             try self.validate(self.collectionId, name: "collectionId", parent: name, pattern: "[a-zA-Z0-9_.\\-]+")
@@ -979,9 +1038,12 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.projectArn.forEach {}
             try self.validate(self.projectArn, name: "projectArn", parent: name, max: 2048)
             try self.validate(self.projectArn, name: "projectArn", parent: name, min: 20)
             try self.validate(self.projectArn, name: "projectArn", parent: name, pattern: "(^arn:[a-z\\d-]+:rekognition:[a-z\\d-]+:\\d{12}:project\\/[a-zA-Z0-9_.\\-]{1,255}\\/[0-9]+$)")
@@ -990,6 +1052,7 @@ extension Rekognition {
                 try validate($0, name: "versionNames[]", parent: name, min: 1)
                 try validate($0, name: "versionNames[]", parent: name, pattern: "[a-zA-Z0-9_.\\-]+")
             }
+            try self.versionNames?.forEach {}
             try self.validate(self.versionNames, name: "versionNames", parent: name, max: 10)
             try self.validate(self.versionNames, name: "versionNames", parent: name, min: 1)
         }
@@ -1031,8 +1094,10 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
         }
 
@@ -1068,6 +1133,7 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9_.\\-]+")
@@ -1145,9 +1211,13 @@ extension Rekognition {
 
         public func validate(name: String) throws {
             try self.image.validate(name: "\(name).image")
+            try self.image.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.minConfidence?.forEach {}
             try self.validate(self.minConfidence, name: "minConfidence", parent: name, max: 100)
             try self.validate(self.minConfidence, name: "minConfidence", parent: name, min: 0)
+            try self.projectVersionArn.forEach {}
             try self.validate(self.projectVersionArn, name: "projectVersionArn", parent: name, max: 2048)
             try self.validate(self.projectVersionArn, name: "projectVersionArn", parent: name, min: 20)
             try self.validate(self.projectVersionArn, name: "projectVersionArn", parent: name, pattern: "(^arn:[a-z\\d-]+:rekognition:[a-z\\d-]+:\\d{12}:project\\/[a-zA-Z0-9_.\\-]{1,255}\\/version\\/[a-zA-Z0-9_.\\-]{1,255}\\/[0-9]+$)")
@@ -1187,6 +1257,7 @@ extension Rekognition {
 
         public func validate(name: String) throws {
             try self.image.validate(name: "\(name).image")
+            try self.image.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1228,7 +1299,10 @@ extension Rekognition {
 
         public func validate(name: String) throws {
             try self.image.validate(name: "\(name).image")
+            try self.image.forEach {}
+            try self.maxLabels?.forEach {}
             try self.validate(self.maxLabels, name: "maxLabels", parent: name, min: 0)
+            try self.minConfidence?.forEach {}
             try self.validate(self.minConfidence, name: "minConfidence", parent: name, max: 100)
             try self.validate(self.minConfidence, name: "minConfidence", parent: name, min: 0)
         }
@@ -1277,7 +1351,10 @@ extension Rekognition {
 
         public func validate(name: String) throws {
             try self.humanLoopConfig?.validate(name: "\(name).humanLoopConfig")
+            try self.humanLoopConfig?.forEach {}
             try self.image.validate(name: "\(name).image")
+            try self.image.forEach {}
+            try self.minConfidence?.forEach {}
             try self.validate(self.minConfidence, name: "minConfidence", parent: name, max: 100)
             try self.validate(self.minConfidence, name: "minConfidence", parent: name, min: 0)
         }
@@ -1323,7 +1400,9 @@ extension Rekognition {
 
         public func validate(name: String) throws {
             try self.image.validate(name: "\(name).image")
+            try self.image.forEach {}
             try self.summarizationAttributes?.validate(name: "\(name).summarizationAttributes")
+            try self.summarizationAttributes?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1364,9 +1443,11 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.regionsOfInterest?.forEach {}
             try self.validate(self.regionsOfInterest, name: "regionsOfInterest", parent: name, max: 10)
             try self.validate(self.regionsOfInterest, name: "regionsOfInterest", parent: name, min: 0)
             try self.wordFilter?.validate(name: "\(name).wordFilter")
+            try self.wordFilter?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1388,7 +1469,9 @@ extension Rekognition {
 
         public func validate(name: String) throws {
             try self.filters?.validate(name: "\(name).filters")
+            try self.filters?.forEach {}
             try self.image.validate(name: "\(name).image")
+            try self.image.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1419,7 +1502,7 @@ extension Rekognition {
         public let minBoundingBoxHeight: Float?
         /// Sets the minimum width of the word bounding box. Words with bounding boxes widths lesser than this value will be excluded from the result. Value is relative to the video frame width.
         public let minBoundingBoxWidth: Float?
-        /// Sets confidence of word detection. Words with detection confidence below this will be excluded from the result. Values should be between 0.5 and 1 as Text in Video will not return any result below 0.5.
+        /// Sets the confidence of word detection. Words with detection confidence below this will be excluded from the result. Values should be between 50 and 100 as Text in Video will not return any result below 50.
         public let minConfidence: Float?
 
         public init(minBoundingBoxHeight: Float? = nil, minBoundingBoxWidth: Float? = nil, minConfidence: Float? = nil) {
@@ -1429,10 +1512,13 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.minBoundingBoxHeight?.forEach {}
             try self.validate(self.minBoundingBoxHeight, name: "minBoundingBoxHeight", parent: name, max: 1)
             try self.validate(self.minBoundingBoxHeight, name: "minBoundingBoxHeight", parent: name, min: 0)
+            try self.minBoundingBoxWidth?.forEach {}
             try self.validate(self.minBoundingBoxWidth, name: "minBoundingBoxWidth", parent: name, max: 1)
             try self.validate(self.minBoundingBoxWidth, name: "minBoundingBoxWidth", parent: name, min: 0)
+            try self.minConfidence?.forEach {}
             try self.validate(self.minConfidence, name: "minConfidence", parent: name, max: 100)
             try self.validate(self.minConfidence, name: "minConfidence", parent: name, min: 0)
         }
@@ -1698,9 +1784,11 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.collectionId?.forEach {}
             try self.validate(self.collectionId, name: "collectionId", parent: name, max: 255)
             try self.validate(self.collectionId, name: "collectionId", parent: name, min: 1)
             try self.validate(self.collectionId, name: "collectionId", parent: name, pattern: "[a-zA-Z0-9_.\\-]+")
+            try self.faceMatchThreshold?.forEach {}
             try self.validate(self.faceMatchThreshold, name: "faceMatchThreshold", parent: name, max: 100)
             try self.validate(self.faceMatchThreshold, name: "faceMatchThreshold", parent: name, min: 0)
         }
@@ -1754,6 +1842,7 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, pattern: "[0-9A-Za-z]*")
         }
 
@@ -1797,10 +1886,13 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
         }
 
@@ -1859,10 +1951,13 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
         }
 
@@ -1922,10 +2017,13 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
         }
 
@@ -1983,10 +2081,13 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
         }
 
@@ -2045,10 +2146,13 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
         }
 
@@ -2111,10 +2215,13 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
         }
 
@@ -2170,10 +2277,13 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
         }
 
@@ -2236,10 +2346,13 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
         }
 
@@ -2291,6 +2404,7 @@ extension Rekognition {
 
         public func validate(name: String) throws {
             try self.s3Object?.validate(name: "\(name).s3Object")
+            try self.s3Object?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2335,7 +2449,10 @@ extension Rekognition {
 
         public func validate(name: String) throws {
             try self.dataAttributes?.validate(name: "\(name).dataAttributes")
+            try self.dataAttributes?.forEach {}
+            try self.flowDefinitionArn.forEach {}
             try self.validate(self.flowDefinitionArn, name: "flowDefinitionArn", parent: name, max: 256)
+            try self.humanLoopName.forEach {}
             try self.validate(self.humanLoopName, name: "humanLoopName", parent: name, max: 63)
             try self.validate(self.humanLoopName, name: "humanLoopName", parent: name, min: 1)
             try self.validate(self.humanLoopName, name: "humanLoopName", parent: name, pattern: "^[a-z0-9](-*[a-z0-9])*")
@@ -2357,6 +2474,7 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.contentClassifiers?.forEach {}
             try self.validate(self.contentClassifiers, name: "contentClassifiers", parent: name, max: 256)
         }
 
@@ -2377,9 +2495,11 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.bytes?.forEach {}
             try self.validate(self.bytes, name: "bytes", parent: name, max: 5_242_880)
             try self.validate(self.bytes, name: "bytes", parent: name, min: 1)
             try self.s3Object?.validate(name: "\(name).s3Object")
+            try self.s3Object?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2429,13 +2549,17 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.collectionId.forEach {}
             try self.validate(self.collectionId, name: "collectionId", parent: name, max: 255)
             try self.validate(self.collectionId, name: "collectionId", parent: name, min: 1)
             try self.validate(self.collectionId, name: "collectionId", parent: name, pattern: "[a-zA-Z0-9_.\\-]+")
+            try self.externalImageId?.forEach {}
             try self.validate(self.externalImageId, name: "externalImageId", parent: name, max: 255)
             try self.validate(self.externalImageId, name: "externalImageId", parent: name, min: 1)
             try self.validate(self.externalImageId, name: "externalImageId", parent: name, pattern: "[a-zA-Z0-9_.\\-:]+")
             try self.image.validate(name: "\(name).image")
+            try self.image.forEach {}
+            try self.maxFaces?.forEach {}
             try self.validate(self.maxFaces, name: "maxFaces", parent: name, min: 1)
         }
 
@@ -2500,6 +2624,7 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.arn?.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, pattern: "(^arn:([a-z\\d-]+):kinesis:([a-z\\d-]+):\\d{12}:.+$)")
         }
 
@@ -2517,6 +2642,7 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.arn?.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, pattern: "(^arn:([a-z\\d-]+):kinesisvideo:([a-z\\d-]+):\\d{12}:.+$)")
         }
 
@@ -2600,8 +2726,10 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 4096)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
         }
 
@@ -2647,11 +2775,14 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.collectionId.forEach {}
             try self.validate(self.collectionId, name: "collectionId", parent: name, max: 255)
             try self.validate(self.collectionId, name: "collectionId", parent: name, min: 1)
             try self.validate(self.collectionId, name: "collectionId", parent: name, pattern: "[a-zA-Z0-9_.\\-]+")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 4096)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
         }
 
@@ -2695,7 +2826,9 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
         }
 
@@ -2719,6 +2852,38 @@ extension Rekognition {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case streamProcessors = "StreamProcessors"
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        ///  Amazon Resource Name (ARN) of the model, collection, or stream processor that contains the tags that you want a list of.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        ///  A list of key-value tags assigned to the resource.
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
         }
     }
 
@@ -2789,7 +2954,9 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
+            try self.sNSTopicArn.forEach {}
             try self.validate(self.sNSTopicArn, name: "sNSTopicArn", parent: name, pattern: "(^arn:aws:sns:.*:\\w{12}:.+$)")
         }
 
@@ -2811,9 +2978,11 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.s3Bucket?.forEach {}
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, max: 255)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, min: 3)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "[0-9A-Za-z\\.\\-_]*")
+            try self.s3KeyPrefix?.forEach {}
             try self.validate(self.s3KeyPrefix, name: "s3KeyPrefix", parent: name, max: 1024)
         }
 
@@ -3069,6 +3238,7 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.minConfidence.forEach {}
             try self.validate(self.minConfidence, name: "minConfidence", parent: name, max: 100)
             try self.validate(self.minConfidence, name: "minConfidence", parent: name, min: 0)
         }
@@ -3110,6 +3280,7 @@ extension Rekognition {
 
         public func validate(name: String) throws {
             try self.image.validate(name: "\(name).image")
+            try self.image.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3166,11 +3337,14 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.bucket?.forEach {}
             try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
             try self.validate(self.bucket, name: "bucket", parent: name, pattern: "[0-9A-Za-z\\.\\-_]*")
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.version?.forEach {}
             try self.validate(self.version, name: "version", parent: name, max: 1024)
             try self.validate(self.version, name: "version", parent: name, min: 1)
         }
@@ -3203,12 +3377,16 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.collectionId.forEach {}
             try self.validate(self.collectionId, name: "collectionId", parent: name, max: 255)
             try self.validate(self.collectionId, name: "collectionId", parent: name, min: 1)
             try self.validate(self.collectionId, name: "collectionId", parent: name, pattern: "[a-zA-Z0-9_.\\-]+")
+            try self.faceMatchThreshold?.forEach {}
             try self.validate(self.faceMatchThreshold, name: "faceMatchThreshold", parent: name, max: 100)
             try self.validate(self.faceMatchThreshold, name: "faceMatchThreshold", parent: name, min: 0)
             try self.image.validate(name: "\(name).image")
+            try self.image.forEach {}
+            try self.maxFaces?.forEach {}
             try self.validate(self.maxFaces, name: "maxFaces", parent: name, max: 4096)
             try self.validate(self.maxFaces, name: "maxFaces", parent: name, min: 1)
         }
@@ -3265,12 +3443,16 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.collectionId.forEach {}
             try self.validate(self.collectionId, name: "collectionId", parent: name, max: 255)
             try self.validate(self.collectionId, name: "collectionId", parent: name, min: 1)
             try self.validate(self.collectionId, name: "collectionId", parent: name, pattern: "[a-zA-Z0-9_.\\-]+")
+            try self.faceId.forEach {}
             try self.validate(self.faceId, name: "faceId", parent: name, pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try self.faceMatchThreshold?.forEach {}
             try self.validate(self.faceMatchThreshold, name: "faceMatchThreshold", parent: name, max: 100)
             try self.validate(self.faceMatchThreshold, name: "faceMatchThreshold", parent: name, min: 0)
+            try self.maxFaces?.forEach {}
             try self.validate(self.maxFaces, name: "maxFaces", parent: name, max: 4096)
             try self.validate(self.maxFaces, name: "maxFaces", parent: name, min: 1)
         }
@@ -3418,14 +3600,18 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.jobTag?.forEach {}
             try self.validate(self.jobTag, name: "jobTag", parent: name, max: 256)
             try self.validate(self.jobTag, name: "jobTag", parent: name, min: 1)
             try self.validate(self.jobTag, name: "jobTag", parent: name, pattern: "[a-zA-Z0-9_.\\-:]+")
             try self.notificationChannel?.validate(name: "\(name).notificationChannel")
+            try self.notificationChannel?.forEach {}
             try self.video.validate(name: "\(name).video")
+            try self.video.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3470,16 +3656,21 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.jobTag?.forEach {}
             try self.validate(self.jobTag, name: "jobTag", parent: name, max: 256)
             try self.validate(self.jobTag, name: "jobTag", parent: name, min: 1)
             try self.validate(self.jobTag, name: "jobTag", parent: name, pattern: "[a-zA-Z0-9_.\\-:]+")
+            try self.minConfidence?.forEach {}
             try self.validate(self.minConfidence, name: "minConfidence", parent: name, max: 100)
             try self.validate(self.minConfidence, name: "minConfidence", parent: name, min: 0)
             try self.notificationChannel?.validate(name: "\(name).notificationChannel")
+            try self.notificationChannel?.forEach {}
             try self.video.validate(name: "\(name).video")
+            try self.video.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3525,14 +3716,18 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.jobTag?.forEach {}
             try self.validate(self.jobTag, name: "jobTag", parent: name, max: 256)
             try self.validate(self.jobTag, name: "jobTag", parent: name, min: 1)
             try self.validate(self.jobTag, name: "jobTag", parent: name, pattern: "[a-zA-Z0-9_.\\-:]+")
             try self.notificationChannel?.validate(name: "\(name).notificationChannel")
+            try self.notificationChannel?.forEach {}
             try self.video.validate(name: "\(name).video")
+            try self.video.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3581,19 +3776,25 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.collectionId.forEach {}
             try self.validate(self.collectionId, name: "collectionId", parent: name, max: 255)
             try self.validate(self.collectionId, name: "collectionId", parent: name, min: 1)
             try self.validate(self.collectionId, name: "collectionId", parent: name, pattern: "[a-zA-Z0-9_.\\-]+")
+            try self.faceMatchThreshold?.forEach {}
             try self.validate(self.faceMatchThreshold, name: "faceMatchThreshold", parent: name, max: 100)
             try self.validate(self.faceMatchThreshold, name: "faceMatchThreshold", parent: name, min: 0)
+            try self.jobTag?.forEach {}
             try self.validate(self.jobTag, name: "jobTag", parent: name, max: 256)
             try self.validate(self.jobTag, name: "jobTag", parent: name, min: 1)
             try self.validate(self.jobTag, name: "jobTag", parent: name, pattern: "[a-zA-Z0-9_.\\-:]+")
             try self.notificationChannel?.validate(name: "\(name).notificationChannel")
+            try self.notificationChannel?.forEach {}
             try self.video.validate(name: "\(name).video")
+            try self.video.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3640,16 +3841,21 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.jobTag?.forEach {}
             try self.validate(self.jobTag, name: "jobTag", parent: name, max: 256)
             try self.validate(self.jobTag, name: "jobTag", parent: name, min: 1)
             try self.validate(self.jobTag, name: "jobTag", parent: name, pattern: "[a-zA-Z0-9_.\\-:]+")
+            try self.minConfidence?.forEach {}
             try self.validate(self.minConfidence, name: "minConfidence", parent: name, max: 100)
             try self.validate(self.minConfidence, name: "minConfidence", parent: name, min: 0)
             try self.notificationChannel?.validate(name: "\(name).notificationChannel")
+            try self.notificationChannel?.forEach {}
             try self.video.validate(name: "\(name).video")
+            try self.video.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3692,14 +3898,18 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.jobTag?.forEach {}
             try self.validate(self.jobTag, name: "jobTag", parent: name, max: 256)
             try self.validate(self.jobTag, name: "jobTag", parent: name, min: 1)
             try self.validate(self.jobTag, name: "jobTag", parent: name, pattern: "[a-zA-Z0-9_.\\-:]+")
             try self.notificationChannel?.validate(name: "\(name).notificationChannel")
+            try self.notificationChannel?.forEach {}
             try self.video.validate(name: "\(name).video")
+            try self.video.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3735,7 +3945,9 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.minInferenceUnits.forEach {}
             try self.validate(self.minInferenceUnits, name: "minInferenceUnits", parent: name, min: 1)
+            try self.projectVersionArn.forEach {}
             try self.validate(self.projectVersionArn, name: "projectVersionArn", parent: name, max: 2048)
             try self.validate(self.projectVersionArn, name: "projectVersionArn", parent: name, min: 20)
             try self.validate(self.projectVersionArn, name: "projectVersionArn", parent: name, pattern: "(^arn:[a-z\\d-]+:rekognition:[a-z\\d-]+:\\d{12}:project\\/[a-zA-Z0-9_.\\-]{1,255}\\/version\\/[a-zA-Z0-9_.\\-]{1,255}\\/[0-9]+$)")
@@ -3773,7 +3985,9 @@ extension Rekognition {
 
         public func validate(name: String) throws {
             try self.shotFilter?.validate(name: "\(name).shotFilter")
+            try self.shotFilter?.forEach {}
             try self.technicalCueFilter?.validate(name: "\(name).technicalCueFilter")
+            try self.technicalCueFilter?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3805,16 +4019,22 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
             try self.filters?.validate(name: "\(name).filters")
+            try self.filters?.forEach {}
+            try self.jobTag?.forEach {}
             try self.validate(self.jobTag, name: "jobTag", parent: name, max: 256)
             try self.validate(self.jobTag, name: "jobTag", parent: name, min: 1)
             try self.validate(self.jobTag, name: "jobTag", parent: name, pattern: "[a-zA-Z0-9_.\\-:]+")
             try self.notificationChannel?.validate(name: "\(name).notificationChannel")
+            try self.notificationChannel?.forEach {}
+            try self.segmentTypes.forEach {}
             try self.validate(self.segmentTypes, name: "segmentTypes", parent: name, min: 1)
             try self.video.validate(name: "\(name).video")
+            try self.video.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3849,6 +4069,7 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.minSegmentConfidence?.forEach {}
             try self.validate(self.minSegmentConfidence, name: "minSegmentConfidence", parent: name, max: 100)
             try self.validate(self.minSegmentConfidence, name: "minSegmentConfidence", parent: name, min: 50)
         }
@@ -3867,6 +4088,7 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9_.\\-]+")
@@ -3890,6 +4112,7 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.minSegmentConfidence?.forEach {}
             try self.validate(self.minSegmentConfidence, name: "minSegmentConfidence", parent: name, max: 100)
             try self.validate(self.minSegmentConfidence, name: "minSegmentConfidence", parent: name, min: 50)
         }
@@ -3911,9 +4134,11 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.regionsOfInterest?.forEach {}
             try self.validate(self.regionsOfInterest, name: "regionsOfInterest", parent: name, max: 10)
             try self.validate(self.regionsOfInterest, name: "regionsOfInterest", parent: name, min: 0)
             try self.wordFilter?.validate(name: "\(name).wordFilter")
+            try self.wordFilter?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3941,15 +4166,20 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
             try self.filters?.validate(name: "\(name).filters")
+            try self.filters?.forEach {}
+            try self.jobTag?.forEach {}
             try self.validate(self.jobTag, name: "jobTag", parent: name, max: 256)
             try self.validate(self.jobTag, name: "jobTag", parent: name, min: 1)
             try self.validate(self.jobTag, name: "jobTag", parent: name, pattern: "[a-zA-Z0-9_.\\-:]+")
             try self.notificationChannel?.validate(name: "\(name).notificationChannel")
+            try self.notificationChannel?.forEach {}
             try self.video.validate(name: "\(name).video")
+            try self.video.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3983,6 +4213,7 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.projectVersionArn.forEach {}
             try self.validate(self.projectVersionArn, name: "projectVersionArn", parent: name, max: 2048)
             try self.validate(self.projectVersionArn, name: "projectVersionArn", parent: name, min: 20)
             try self.validate(self.projectVersionArn, name: "projectVersionArn", parent: name, pattern: "(^arn:[a-z\\d-]+:rekognition:[a-z\\d-]+:\\d{12}:project\\/[a-zA-Z0-9_.\\-]{1,255}\\/version\\/[a-zA-Z0-9_.\\-]{1,255}\\/[0-9]+$)")
@@ -4015,6 +4246,7 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9_.\\-]+")
@@ -4056,6 +4288,7 @@ extension Rekognition {
 
         public func validate(name: String) throws {
             try self.kinesisVideoStream?.validate(name: "\(name).kinesisVideoStream")
+            try self.kinesisVideoStream?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4073,6 +4306,7 @@ extension Rekognition {
 
         public func validate(name: String) throws {
             try self.kinesisDataStream?.validate(name: "\(name).kinesisDataStream")
+            try self.kinesisDataStream?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4090,6 +4324,7 @@ extension Rekognition {
 
         public func validate(name: String) throws {
             try self.faceSearch?.validate(name: "\(name).faceSearch")
+            try self.faceSearch?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4126,6 +4361,41 @@ extension Rekognition {
         }
     }
 
+    public struct TagResourceRequest: AWSEncodableShape {
+        ///  Amazon Resource Name (ARN) of the model, collection, or stream processor that you want to assign the tags to.
+        public let resourceArn: String
+        ///  The key-value tags to assign to the resource.
+        public let tags: [String: String]
+
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
+            try self.tags.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct TechnicalCueSegment: AWSDecodableShape {
         /// The confidence that Amazon Rekognition Video has in the accuracy of the detected segment.
         public let confidence: Float?
@@ -4158,6 +4428,7 @@ extension Rekognition {
             try self.assets?.forEach {
                 try $0.validate(name: "\(name).assets[]")
             }
+            try self.assets?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4249,6 +4520,7 @@ extension Rekognition {
             try self.assets?.forEach {
                 try $0.validate(name: "\(name).assets[]")
             }
+            try self.assets?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4294,6 +4566,41 @@ extension Rekognition {
         }
     }
 
+    public struct UntagResourceRequest: AWSEncodableShape {
+        ///  Amazon Resource Name (ARN) of the model, collection, or stream processor that you want to remove the tags from.
+        public let resourceArn: String
+        ///  A list of the tags that you want to remove.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
+            }
+            try self.tagKeys.forEach {}
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct ValidationData: AWSDecodableShape {
         /// The assets that comprise the validation data.
         public let assets: [Asset]?
@@ -4317,6 +4624,7 @@ extension Rekognition {
 
         public func validate(name: String) throws {
             try self.s3Object?.validate(name: "\(name).s3Object")
+            try self.s3Object?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {

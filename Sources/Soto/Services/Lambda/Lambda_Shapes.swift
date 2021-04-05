@@ -244,12 +244,17 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.action.forEach {}
             try self.validate(self.action, name: "action", parent: name, pattern: "lambda:GetLayerVersion")
+            try self.layerName.forEach {}
             try self.validate(self.layerName, name: "layerName", parent: name, max: 140)
             try self.validate(self.layerName, name: "layerName", parent: name, min: 1)
             try self.validate(self.layerName, name: "layerName", parent: name, pattern: "(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+")
+            try self.organizationId?.forEach {}
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "o-[a-z0-9]{10,32}")
+            try self.principal.forEach {}
             try self.validate(self.principal, name: "principal", parent: name, pattern: "\\d{12}|\\*|arn:(aws[a-zA-Z-]*):iam::\\d{12}:root")
+            try self.statementId.forEach {}
             try self.validate(self.statementId, name: "statementId", parent: name, max: 100)
             try self.validate(self.statementId, name: "statementId", parent: name, min: 1)
             try self.validate(self.statementId, name: "statementId", parent: name, pattern: "([a-zA-Z0-9-_]+)")
@@ -318,19 +323,27 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.action.forEach {}
             try self.validate(self.action, name: "action", parent: name, pattern: "(lambda:[*]|lambda:[a-zA-Z]+|[*])")
+            try self.eventSourceToken?.forEach {}
             try self.validate(self.eventSourceToken, name: "eventSourceToken", parent: name, max: 256)
             try self.validate(self.eventSourceToken, name: "eventSourceToken", parent: name, min: 0)
             try self.validate(self.eventSourceToken, name: "eventSourceToken", parent: name, pattern: "[a-zA-Z0-9._\\-]+")
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.principal.forEach {}
             try self.validate(self.principal, name: "principal", parent: name, pattern: ".*")
+            try self.qualifier?.forEach {}
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
+            try self.sourceAccount?.forEach {}
             try self.validate(self.sourceAccount, name: "sourceAccount", parent: name, pattern: "\\d{12}")
+            try self.sourceArn?.forEach {}
             try self.validate(self.sourceArn, name: "sourceArn", parent: name, pattern: "arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:([a-z]{2}(-gov)?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)")
+            try self.statementId.forEach {}
             try self.validate(self.statementId, name: "statementId", parent: name, max: 100)
             try self.validate(self.statementId, name: "statementId", parent: name, min: 1)
             try self.validate(self.statementId, name: "statementId", parent: name, pattern: "([a-zA-Z0-9-_]+)")
@@ -428,6 +441,7 @@ extension Lambda {
             try self.signingProfileVersionArns.forEach {
                 try validate($0, name: "signingProfileVersionArns[]", parent: name, pattern: "arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:([a-z]{2}(-gov)?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)")
             }
+            try self.signingProfileVersionArns.forEach {}
             try self.validate(self.signingProfileVersionArns, name: "signingProfileVersionArns", parent: name, max: 20)
             try self.validate(self.signingProfileVersionArns, name: "signingProfileVersionArns", parent: name, min: 1)
         }
@@ -521,18 +535,23 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.functionVersion.forEach {}
             try self.validate(self.functionVersion, name: "functionVersion", parent: name, max: 1024)
             try self.validate(self.functionVersion, name: "functionVersion", parent: name, min: 1)
             try self.validate(self.functionVersion, name: "functionVersion", parent: name, pattern: "(\\$LATEST|[0-9]+)")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_]+)")
             try self.routingConfig?.validate(name: "\(name).routingConfig")
+            try self.routingConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -559,6 +578,8 @@ extension Lambda {
 
         public func validate(name: String) throws {
             try self.allowedPublishers.validate(name: "\(name).allowedPublishers")
+            try self.allowedPublishers.forEach {}
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 0)
         }
@@ -643,21 +664,30 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.batchSize?.forEach {}
             try self.validate(self.batchSize, name: "batchSize", parent: name, max: 10000)
             try self.validate(self.batchSize, name: "batchSize", parent: name, min: 1)
             try self.destinationConfig?.validate(name: "\(name).destinationConfig")
+            try self.destinationConfig?.forEach {}
+            try self.eventSourceArn?.forEach {}
             try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, pattern: "arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:([a-z]{2}(-gov)?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)")
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.functionResponseTypes?.forEach {}
             try self.validate(self.functionResponseTypes, name: "functionResponseTypes", parent: name, max: 1)
-            try self.validate(self.functionResponseTypes, name: "functionResponseTypes", parent: name, min: 1)
+            try self.validate(self.functionResponseTypes, name: "functionResponseTypes", parent: name, min: 0)
+            try self.maximumBatchingWindowInSeconds?.forEach {}
             try self.validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, max: 300)
             try self.validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, min: 0)
+            try self.maximumRecordAgeInSeconds?.forEach {}
             try self.validate(self.maximumRecordAgeInSeconds, name: "maximumRecordAgeInSeconds", parent: name, max: 604_800)
             try self.validate(self.maximumRecordAgeInSeconds, name: "maximumRecordAgeInSeconds", parent: name, min: -1)
+            try self.maximumRetryAttempts?.forEach {}
             try self.validate(self.maximumRetryAttempts, name: "maximumRetryAttempts", parent: name, max: 10000)
             try self.validate(self.maximumRetryAttempts, name: "maximumRetryAttempts", parent: name, min: -1)
+            try self.parallelizationFactor?.forEach {}
             try self.validate(self.parallelizationFactor, name: "parallelizationFactor", parent: name, max: 10)
             try self.validate(self.parallelizationFactor, name: "parallelizationFactor", parent: name, min: 1)
             try self.queues?.forEach {
@@ -665,12 +695,15 @@ extension Lambda {
                 try validate($0, name: "queues[]", parent: name, min: 1)
                 try validate($0, name: "queues[]", parent: name, pattern: "[\\s\\S]*")
             }
+            try self.queues?.forEach {}
             try self.validate(self.queues, name: "queues", parent: name, max: 1)
             try self.validate(self.queues, name: "queues", parent: name, min: 1)
             try self.selfManagedEventSource?.validate(name: "\(name).selfManagedEventSource")
+            try self.selfManagedEventSource?.forEach {}
             try self.sourceAccessConfigurations?.forEach {
                 try $0.validate(name: "\(name).sourceAccessConfigurations[]")
             }
+            try self.sourceAccessConfigurations?.forEach {}
             try self.validate(self.sourceAccessConfigurations, name: "sourceAccessConfigurations", parent: name, max: 22)
             try self.validate(self.sourceAccessConfigurations, name: "sourceAccessConfigurations", parent: name, min: 0)
             try self.topics?.forEach {
@@ -678,8 +711,10 @@ extension Lambda {
                 try validate($0, name: "topics[]", parent: name, min: 1)
                 try validate($0, name: "topics[]", parent: name, pattern: "^[^.]([a-zA-Z0-9\\-_.]+)")
             }
+            try self.topics?.forEach {}
             try self.validate(self.topics, name: "topics", parent: name, max: 1)
             try self.validate(self.topics, name: "topics", parent: name, min: 1)
+            try self.tumblingWindowInSeconds?.forEach {}
             try self.validate(self.tumblingWindowInSeconds, name: "tumblingWindowInSeconds", parent: name, max: 900)
             try self.validate(self.tumblingWindowInSeconds, name: "tumblingWindowInSeconds", parent: name, min: 0)
         }
@@ -773,33 +808,48 @@ extension Lambda {
 
         public func validate(name: String) throws {
             try self.code.validate(name: "\(name).code")
+            try self.code.forEach {}
+            try self.codeSigningConfigArn?.forEach {}
             try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, max: 200)
             try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:code-signing-config:csc-[a-z0-9]{17}")
             try self.deadLetterConfig?.validate(name: "\(name).deadLetterConfig")
+            try self.deadLetterConfig?.forEach {}
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.environment?.validate(name: "\(name).environment")
+            try self.environment?.forEach {}
             try self.fileSystemConfigs?.forEach {
                 try $0.validate(name: "\(name).fileSystemConfigs[]")
             }
+            try self.fileSystemConfigs?.forEach {}
             try self.validate(self.fileSystemConfigs, name: "fileSystemConfigs", parent: name, max: 1)
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.handler?.forEach {}
             try self.validate(self.handler, name: "handler", parent: name, max: 128)
             try self.validate(self.handler, name: "handler", parent: name, pattern: "[^\\s]+")
             try self.imageConfig?.validate(name: "\(name).imageConfig")
+            try self.imageConfig?.forEach {}
+            try self.kMSKeyArn?.forEach {}
             try self.validate(self.kMSKeyArn, name: "kMSKeyArn", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()")
             try self.layers?.forEach {
                 try validate($0, name: "layers[]", parent: name, max: 140)
                 try validate($0, name: "layers[]", parent: name, min: 1)
                 try validate($0, name: "layers[]", parent: name, pattern: "arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+:[0-9]+")
             }
+            try self.layers?.forEach {}
+            try self.memorySize?.forEach {}
             try self.validate(self.memorySize, name: "memorySize", parent: name, max: 10240)
             try self.validate(self.memorySize, name: "memorySize", parent: name, min: 128)
+            try self.role.forEach {}
             try self.validate(self.role, name: "role", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
+            try self.timeout?.forEach {}
             try self.validate(self.timeout, name: "timeout", parent: name, min: 1)
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
+            try self.vpcConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -835,6 +885,7 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.targetArn?.forEach {}
             try self.validate(self.targetArn, name: "targetArn", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()")
         }
 
@@ -860,9 +911,11 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_]+)")
@@ -884,6 +937,7 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.codeSigningConfigArn.forEach {}
             try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, max: 200)
             try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:code-signing-config:csc-[a-z0-9]{17}")
         }
@@ -923,6 +977,7 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
@@ -944,6 +999,7 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
@@ -969,9 +1025,11 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.qualifier?.forEach {}
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
@@ -997,9 +1055,11 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.qualifier?.forEach {}
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
@@ -1025,6 +1085,7 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.layerName.forEach {}
             try self.validate(self.layerName, name: "layerName", parent: name, max: 140)
             try self.validate(self.layerName, name: "layerName", parent: name, min: 1)
             try self.validate(self.layerName, name: "layerName", parent: name, pattern: "(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+")
@@ -1050,9 +1111,11 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.qualifier.forEach {}
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
@@ -1074,7 +1137,9 @@ extension Lambda {
 
         public func validate(name: String) throws {
             try self.onFailure?.validate(name: "\(name).onFailure")
+            try self.onFailure?.forEach {}
             try self.onSuccess?.validate(name: "\(name).onSuccess")
+            try self.onSuccess?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1245,8 +1310,10 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 200)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "arn:aws[a-zA-Z-]*:elasticfilesystem:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:access-point/fsap-[a-f0-9]{17}")
+            try self.localMountPath.forEach {}
             try self.validate(self.localMountPath, name: "localMountPath", parent: name, max: 160)
             try self.validate(self.localMountPath, name: "localMountPath", parent: name, pattern: "^/mnt/[a-zA-Z0-9-_.]+$")
         }
@@ -1278,11 +1345,14 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.s3Bucket?.forEach {}
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, max: 63)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, min: 3)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "^[0-9A-Za-z\\.\\-_]*(?<!\\.)$")
+            try self.s3Key?.forEach {}
             try self.validate(self.s3Key, name: "s3Key", parent: name, max: 1024)
             try self.validate(self.s3Key, name: "s3Key", parent: name, min: 1)
+            try self.s3ObjectVersion?.forEach {}
             try self.validate(self.s3ObjectVersion, name: "s3ObjectVersion", parent: name, max: 1024)
             try self.validate(self.s3ObjectVersion, name: "s3ObjectVersion", parent: name, min: 1)
         }
@@ -1521,9 +1591,11 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_]+)")
@@ -1545,6 +1617,7 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.codeSigningConfigArn.forEach {}
             try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, max: 200)
             try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:code-signing-config:csc-[a-z0-9]{17}")
         }
@@ -1593,6 +1666,7 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
@@ -1631,6 +1705,7 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
@@ -1669,9 +1744,11 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 170)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.qualifier?.forEach {}
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
@@ -1697,9 +1774,11 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.qualifier?.forEach {}
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
@@ -1725,9 +1804,11 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 170)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.qualifier?.forEach {}
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
@@ -1774,6 +1855,7 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 140)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+:[0-9]+")
@@ -1799,6 +1881,7 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.layerName.forEach {}
             try self.validate(self.layerName, name: "layerName", parent: name, max: 140)
             try self.validate(self.layerName, name: "layerName", parent: name, min: 1)
             try self.validate(self.layerName, name: "layerName", parent: name, pattern: "(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+")
@@ -1841,6 +1924,7 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.layerName.forEach {}
             try self.validate(self.layerName, name: "layerName", parent: name, max: 140)
             try self.validate(self.layerName, name: "layerName", parent: name, min: 1)
             try self.validate(self.layerName, name: "layerName", parent: name, pattern: "(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+")
@@ -1907,9 +1991,11 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 170)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.qualifier?.forEach {}
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
@@ -1952,9 +2038,11 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.qualifier.forEach {}
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
@@ -2011,8 +2099,11 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.command?.forEach {}
             try self.validate(self.command, name: "command", parent: name, max: 1500)
+            try self.entryPoint?.forEach {}
             try self.validate(self.entryPoint, name: "entryPoint", parent: name, max: 1500)
+            try self.workingDirectory?.forEach {}
             try self.validate(self.workingDirectory, name: "workingDirectory", parent: name, max: 1000)
         }
 
@@ -2093,9 +2184,11 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 170)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.qualifier?.forEach {}
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
@@ -2164,6 +2257,7 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 170)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
@@ -2232,11 +2326,14 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.s3Bucket?.forEach {}
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, max: 63)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, min: 3)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "^[0-9A-Za-z\\.\\-_]*(?<!\\.)$")
+            try self.s3Key?.forEach {}
             try self.validate(self.s3Key, name: "s3Key", parent: name, max: 1024)
             try self.validate(self.s3Key, name: "s3Key", parent: name, min: 1)
+            try self.s3ObjectVersion?.forEach {}
             try self.validate(self.s3ObjectVersion, name: "s3ObjectVersion", parent: name, max: 1024)
             try self.validate(self.s3ObjectVersion, name: "s3ObjectVersion", parent: name, min: 1)
         }
@@ -2357,12 +2454,15 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.functionVersion?.forEach {}
             try self.validate(self.functionVersion, name: "functionVersion", parent: name, max: 1024)
             try self.validate(self.functionVersion, name: "functionVersion", parent: name, min: 1)
             try self.validate(self.functionVersion, name: "functionVersion", parent: name, pattern: "(\\$LATEST|[0-9]+)")
+            try self.maxItems?.forEach {}
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 10000)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
         }
@@ -2404,6 +2504,7 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.maxItems?.forEach {}
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 10000)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
         }
@@ -2453,10 +2554,13 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.eventSourceArn?.forEach {}
             try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, pattern: "arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:([a-z]{2}(-gov)?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)")
+            try self.functionName?.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.maxItems?.forEach {}
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 10000)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
         }
@@ -2502,9 +2606,11 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.maxItems?.forEach {}
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 50)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
         }
@@ -2550,8 +2656,10 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.codeSigningConfigArn.forEach {}
             try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, max: 200)
             try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:code-signing-config:csc-[a-z0-9]{17}")
+            try self.maxItems?.forEach {}
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 10000)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
         }
@@ -2590,7 +2698,7 @@ extension Lambda {
         public let marker: String?
         /// For Lambda@Edge functions, the AWS Region of the master function. For example, us-east-1 filters the list of functions to only include Lambda@Edge functions replicated from a master function in US East (N. Virginia). If specified, you must set FunctionVersion to ALL.
         public let masterRegion: SotoCore.Region?
-        /// The maximum number of functions to return.
+        /// The maximum number of functions to return in the response. Note that ListFunctions returns a maximum of 50 items in each response, even if you set the number higher.
         public let maxItems: Int?
 
         public init(functionVersion: FunctionVersion? = nil, marker: String? = nil, masterRegion: SotoCore.Region? = nil, maxItems: Int? = nil) {
@@ -2601,6 +2709,7 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.maxItems?.forEach {}
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 10000)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
         }
@@ -2650,9 +2759,11 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.layerName.forEach {}
             try self.validate(self.layerName, name: "layerName", parent: name, max: 140)
             try self.validate(self.layerName, name: "layerName", parent: name, min: 1)
             try self.validate(self.layerName, name: "layerName", parent: name, pattern: "(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+")
+            try self.maxItems?.forEach {}
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 50)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
         }
@@ -2698,6 +2809,7 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.maxItems?.forEach {}
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 50)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
         }
@@ -2743,9 +2855,11 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.maxItems?.forEach {}
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 50)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
         }
@@ -2783,6 +2897,7 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.resource.forEach {}
             try self.validate(self.resource, name: "resource", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
         }
 
@@ -2823,9 +2938,11 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 170)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.maxItems?.forEach {}
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 10000)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
         }
@@ -2859,6 +2976,7 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.destination?.forEach {}
             try self.validate(self.destination, name: "destination", parent: name, max: 350)
             try self.validate(self.destination, name: "destination", parent: name, min: 0)
             try self.validate(self.destination, name: "destination", parent: name, pattern: "^$|arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:([a-z]{2}(-gov)?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)")
@@ -2878,6 +2996,7 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.destination?.forEach {}
             try self.validate(self.destination, name: "destination", parent: name, max: 350)
             try self.validate(self.destination, name: "destination", parent: name, min: 0)
             try self.validate(self.destination, name: "destination", parent: name, pattern: "^$|arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:([a-z]{2}(-gov)?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)")
@@ -2950,13 +3069,18 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.compatibleRuntimes?.forEach {}
             try self.validate(self.compatibleRuntimes, name: "compatibleRuntimes", parent: name, max: 15)
             try self.content.validate(name: "\(name).content")
+            try self.content.forEach {}
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.layerName.forEach {}
             try self.validate(self.layerName, name: "layerName", parent: name, max: 140)
             try self.validate(self.layerName, name: "layerName", parent: name, min: 1)
             try self.validate(self.layerName, name: "layerName", parent: name, pattern: "(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+")
+            try self.licenseInfo?.forEach {}
             try self.validate(self.licenseInfo, name: "licenseInfo", parent: name, max: 512)
         }
 
@@ -3031,8 +3155,10 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
@@ -3061,8 +3187,10 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.codeSigningConfigArn.forEach {}
             try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, max: 200)
             try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:code-signing-config:csc-[a-z0-9]{17}")
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
@@ -3106,9 +3234,11 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.reservedConcurrentExecutions.forEach {}
             try self.validate(self.reservedConcurrentExecutions, name: "reservedConcurrentExecutions", parent: name, min: 0)
         }
 
@@ -3144,13 +3274,18 @@ extension Lambda {
 
         public func validate(name: String) throws {
             try self.destinationConfig?.validate(name: "\(name).destinationConfig")
+            try self.destinationConfig?.forEach {}
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.maximumEventAgeInSeconds?.forEach {}
             try self.validate(self.maximumEventAgeInSeconds, name: "maximumEventAgeInSeconds", parent: name, max: 21600)
             try self.validate(self.maximumEventAgeInSeconds, name: "maximumEventAgeInSeconds", parent: name, min: 60)
+            try self.maximumRetryAttempts?.forEach {}
             try self.validate(self.maximumRetryAttempts, name: "maximumRetryAttempts", parent: name, max: 2)
             try self.validate(self.maximumRetryAttempts, name: "maximumRetryAttempts", parent: name, min: 0)
+            try self.qualifier?.forEach {}
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
@@ -3183,10 +3318,13 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.provisionedConcurrentExecutions.forEach {}
             try self.validate(self.provisionedConcurrentExecutions, name: "provisionedConcurrentExecutions", parent: name, min: 1)
+            try self.qualifier.forEach {}
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
@@ -3255,9 +3393,11 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.layerName.forEach {}
             try self.validate(self.layerName, name: "layerName", parent: name, max: 140)
             try self.validate(self.layerName, name: "layerName", parent: name, min: 1)
             try self.validate(self.layerName, name: "layerName", parent: name, pattern: "(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+")
+            try self.statementId.forEach {}
             try self.validate(self.statementId, name: "statementId", parent: name, max: 100)
             try self.validate(self.statementId, name: "statementId", parent: name, min: 1)
             try self.validate(self.statementId, name: "statementId", parent: name, pattern: "([a-zA-Z0-9-_]+)")
@@ -3291,12 +3431,15 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.qualifier?.forEach {}
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
+            try self.statementId.forEach {}
             try self.validate(self.statementId, name: "statementId", parent: name, max: 100)
             try self.validate(self.statementId, name: "statementId", parent: name, min: 1)
             try self.validate(self.statementId, name: "statementId", parent: name, pattern: "([a-zA-Z0-9-_.]+)")
@@ -3337,6 +3480,7 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.uri?.forEach {}
             try self.validate(self.uri, name: "uri", parent: name, max: 200)
             try self.validate(self.uri, name: "uri", parent: name, min: 1)
             try self.validate(self.uri, name: "uri", parent: name, pattern: "[a-zA-Z0-9-\\/*:_+=.@-]*")
@@ -3364,6 +3508,7 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.resource.forEach {}
             try self.validate(self.resource, name: "resource", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
         }
 
@@ -3415,6 +3560,7 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.resource.forEach {}
             try self.validate(self.resource, name: "resource", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
         }
 
@@ -3450,18 +3596,23 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.functionVersion?.forEach {}
             try self.validate(self.functionVersion, name: "functionVersion", parent: name, max: 1024)
             try self.validate(self.functionVersion, name: "functionVersion", parent: name, min: 1)
             try self.validate(self.functionVersion, name: "functionVersion", parent: name, pattern: "(\\$LATEST|[0-9]+)")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "(?!^[0-9]+$)([a-zA-Z0-9-_]+)")
             try self.routingConfig?.validate(name: "\(name).routingConfig")
+            try self.routingConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3495,8 +3646,11 @@ extension Lambda {
 
         public func validate(name: String) throws {
             try self.allowedPublishers?.validate(name: "\(name).allowedPublishers")
+            try self.allowedPublishers?.forEach {}
+            try self.codeSigningConfigArn.forEach {}
             try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, max: 200)
             try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:code-signing-config:csc-[a-z0-9]{17}")
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 0)
         }
@@ -3570,27 +3724,37 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.batchSize?.forEach {}
             try self.validate(self.batchSize, name: "batchSize", parent: name, max: 10000)
             try self.validate(self.batchSize, name: "batchSize", parent: name, min: 1)
             try self.destinationConfig?.validate(name: "\(name).destinationConfig")
+            try self.destinationConfig?.forEach {}
+            try self.functionName?.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.functionResponseTypes?.forEach {}
             try self.validate(self.functionResponseTypes, name: "functionResponseTypes", parent: name, max: 1)
-            try self.validate(self.functionResponseTypes, name: "functionResponseTypes", parent: name, min: 1)
+            try self.validate(self.functionResponseTypes, name: "functionResponseTypes", parent: name, min: 0)
+            try self.maximumBatchingWindowInSeconds?.forEach {}
             try self.validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, max: 300)
             try self.validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, min: 0)
+            try self.maximumRecordAgeInSeconds?.forEach {}
             try self.validate(self.maximumRecordAgeInSeconds, name: "maximumRecordAgeInSeconds", parent: name, max: 604_800)
             try self.validate(self.maximumRecordAgeInSeconds, name: "maximumRecordAgeInSeconds", parent: name, min: -1)
+            try self.maximumRetryAttempts?.forEach {}
             try self.validate(self.maximumRetryAttempts, name: "maximumRetryAttempts", parent: name, max: 10000)
             try self.validate(self.maximumRetryAttempts, name: "maximumRetryAttempts", parent: name, min: -1)
+            try self.parallelizationFactor?.forEach {}
             try self.validate(self.parallelizationFactor, name: "parallelizationFactor", parent: name, max: 10)
             try self.validate(self.parallelizationFactor, name: "parallelizationFactor", parent: name, min: 1)
             try self.sourceAccessConfigurations?.forEach {
                 try $0.validate(name: "\(name).sourceAccessConfigurations[]")
             }
+            try self.sourceAccessConfigurations?.forEach {}
             try self.validate(self.sourceAccessConfigurations, name: "sourceAccessConfigurations", parent: name, max: 22)
             try self.validate(self.sourceAccessConfigurations, name: "sourceAccessConfigurations", parent: name, min: 0)
+            try self.tumblingWindowInSeconds?.forEach {}
             try self.validate(self.tumblingWindowInSeconds, name: "tumblingWindowInSeconds", parent: name, max: 900)
             try self.validate(self.tumblingWindowInSeconds, name: "tumblingWindowInSeconds", parent: name, min: 0)
         }
@@ -3648,14 +3812,18 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.s3Bucket?.forEach {}
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, max: 63)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, min: 3)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "^[0-9A-Za-z\\.\\-_]*(?<!\\.)$")
+            try self.s3Key?.forEach {}
             try self.validate(self.s3Key, name: "s3Key", parent: name, max: 1024)
             try self.validate(self.s3Key, name: "s3Key", parent: name, min: 1)
+            try self.s3ObjectVersion?.forEach {}
             try self.validate(self.s3ObjectVersion, name: "s3ObjectVersion", parent: name, max: 1024)
             try self.validate(self.s3ObjectVersion, name: "s3ObjectVersion", parent: name, min: 1)
         }
@@ -3731,30 +3899,43 @@ extension Lambda {
 
         public func validate(name: String) throws {
             try self.deadLetterConfig?.validate(name: "\(name).deadLetterConfig")
+            try self.deadLetterConfig?.forEach {}
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.environment?.validate(name: "\(name).environment")
+            try self.environment?.forEach {}
             try self.fileSystemConfigs?.forEach {
                 try $0.validate(name: "\(name).fileSystemConfigs[]")
             }
+            try self.fileSystemConfigs?.forEach {}
             try self.validate(self.fileSystemConfigs, name: "fileSystemConfigs", parent: name, max: 1)
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.handler?.forEach {}
             try self.validate(self.handler, name: "handler", parent: name, max: 128)
             try self.validate(self.handler, name: "handler", parent: name, pattern: "[^\\s]+")
             try self.imageConfig?.validate(name: "\(name).imageConfig")
+            try self.imageConfig?.forEach {}
+            try self.kMSKeyArn?.forEach {}
             try self.validate(self.kMSKeyArn, name: "kMSKeyArn", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()")
             try self.layers?.forEach {
                 try validate($0, name: "layers[]", parent: name, max: 140)
                 try validate($0, name: "layers[]", parent: name, min: 1)
                 try validate($0, name: "layers[]", parent: name, pattern: "arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+:[0-9]+")
             }
+            try self.layers?.forEach {}
+            try self.memorySize?.forEach {}
             try self.validate(self.memorySize, name: "memorySize", parent: name, max: 10240)
             try self.validate(self.memorySize, name: "memorySize", parent: name, min: 128)
+            try self.role?.forEach {}
             try self.validate(self.role, name: "role", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
+            try self.timeout?.forEach {}
             try self.validate(self.timeout, name: "timeout", parent: name, min: 1)
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
+            try self.vpcConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3803,13 +3984,18 @@ extension Lambda {
 
         public func validate(name: String) throws {
             try self.destinationConfig?.validate(name: "\(name).destinationConfig")
+            try self.destinationConfig?.forEach {}
+            try self.functionName.forEach {}
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+            try self.maximumEventAgeInSeconds?.forEach {}
             try self.validate(self.maximumEventAgeInSeconds, name: "maximumEventAgeInSeconds", parent: name, max: 21600)
             try self.validate(self.maximumEventAgeInSeconds, name: "maximumEventAgeInSeconds", parent: name, min: 60)
+            try self.maximumRetryAttempts?.forEach {}
             try self.validate(self.maximumRetryAttempts, name: "maximumRetryAttempts", parent: name, max: 2)
             try self.validate(self.maximumRetryAttempts, name: "maximumRetryAttempts", parent: name, min: 0)
+            try self.qualifier?.forEach {}
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
@@ -3834,7 +4020,9 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.securityGroupIds?.forEach {}
             try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 5)
+            try self.subnetIds?.forEach {}
             try self.validate(self.subnetIds, name: "subnetIds", parent: name, max: 16)
         }
 

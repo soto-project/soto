@@ -118,6 +118,7 @@ extension KinesisVideo {
         }
 
         public func validate(name: String) throws {
+            try self.comparisonValue?.forEach {}
             try self.validate(self.comparisonValue, name: "comparisonValue", parent: name, max: 256)
             try self.validate(self.comparisonValue, name: "comparisonValue", parent: name, min: 1)
             try self.validate(self.comparisonValue, name: "comparisonValue", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -147,13 +148,16 @@ extension KinesisVideo {
         }
 
         public func validate(name: String) throws {
+            try self.channelName.forEach {}
             try self.validate(self.channelName, name: "channelName", parent: name, max: 256)
             try self.validate(self.channelName, name: "channelName", parent: name, min: 1)
             try self.validate(self.channelName, name: "channelName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try self.singleMasterConfiguration?.validate(name: "\(name).singleMasterConfiguration")
+            try self.singleMasterConfiguration?.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -203,16 +207,21 @@ extension KinesisVideo {
         }
 
         public func validate(name: String) throws {
+            try self.dataRetentionInHours?.forEach {}
             try self.validate(self.dataRetentionInHours, name: "dataRetentionInHours", parent: name, min: 0)
+            try self.deviceName?.forEach {}
             try self.validate(self.deviceName, name: "deviceName", parent: name, max: 128)
             try self.validate(self.deviceName, name: "deviceName", parent: name, min: 1)
             try self.validate(self.deviceName, name: "deviceName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.kmsKeyId?.forEach {}
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: ".+")
+            try self.mediaType?.forEach {}
             try self.validate(self.mediaType, name: "mediaType", parent: name, max: 128)
             try self.validate(self.mediaType, name: "mediaType", parent: name, min: 1)
             try self.validate(self.mediaType, name: "mediaType", parent: name, pattern: "[\\w\\-\\.\\+]+/[\\w\\-\\.\\+]+(,[\\w\\-\\.\\+]+/[\\w\\-\\.\\+]+)*")
+            try self.streamName.forEach {}
             try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -261,9 +270,11 @@ extension KinesisVideo {
         }
 
         public func validate(name: String) throws {
+            try self.channelARN.forEach {}
             try self.validate(self.channelARN, name: "channelARN", parent: name, max: 1024)
             try self.validate(self.channelARN, name: "channelARN", parent: name, min: 1)
             try self.validate(self.channelARN, name: "channelARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.currentVersion?.forEach {}
             try self.validate(self.currentVersion, name: "currentVersion", parent: name, max: 64)
             try self.validate(self.currentVersion, name: "currentVersion", parent: name, min: 1)
             try self.validate(self.currentVersion, name: "currentVersion", parent: name, pattern: "[a-zA-Z0-9]+")
@@ -291,9 +302,11 @@ extension KinesisVideo {
         }
 
         public func validate(name: String) throws {
+            try self.currentVersion?.forEach {}
             try self.validate(self.currentVersion, name: "currentVersion", parent: name, max: 64)
             try self.validate(self.currentVersion, name: "currentVersion", parent: name, min: 1)
             try self.validate(self.currentVersion, name: "currentVersion", parent: name, pattern: "[a-zA-Z0-9]+")
+            try self.streamARN.forEach {}
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
@@ -321,9 +334,11 @@ extension KinesisVideo {
         }
 
         public func validate(name: String) throws {
+            try self.channelARN?.forEach {}
             try self.validate(self.channelARN, name: "channelARN", parent: name, max: 1024)
             try self.validate(self.channelARN, name: "channelARN", parent: name, min: 1)
             try self.validate(self.channelARN, name: "channelARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.channelName?.forEach {}
             try self.validate(self.channelName, name: "channelName", parent: name, max: 256)
             try self.validate(self.channelName, name: "channelName", parent: name, min: 1)
             try self.validate(self.channelName, name: "channelName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -360,9 +375,11 @@ extension KinesisVideo {
         }
 
         public func validate(name: String) throws {
+            try self.streamARN?.forEach {}
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.streamName?.forEach {}
             try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -402,9 +419,11 @@ extension KinesisVideo {
         }
 
         public func validate(name: String) throws {
+            try self.streamARN?.forEach {}
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.streamName?.forEach {}
             try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -442,10 +461,12 @@ extension KinesisVideo {
         }
 
         public func validate(name: String) throws {
+            try self.channelARN.forEach {}
             try self.validate(self.channelARN, name: "channelARN", parent: name, max: 1024)
             try self.validate(self.channelARN, name: "channelARN", parent: name, min: 1)
             try self.validate(self.channelARN, name: "channelARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
             try self.singleMasterChannelEndpointConfiguration?.validate(name: "\(name).singleMasterChannelEndpointConfiguration")
+            try self.singleMasterChannelEndpointConfiguration?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -483,8 +504,11 @@ extension KinesisVideo {
 
         public func validate(name: String) throws {
             try self.channelNameCondition?.validate(name: "\(name).channelNameCondition")
+            try self.channelNameCondition?.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 512)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9+/=]*")
@@ -529,12 +553,15 @@ extension KinesisVideo {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 512)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9+/=]*")
             try self.streamNameCondition?.validate(name: "\(name).streamNameCondition")
+            try self.streamNameCondition?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -573,9 +600,11 @@ extension KinesisVideo {
         }
 
         public func validate(name: String) throws {
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 512)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9+/=]*")
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1024)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
@@ -619,12 +648,15 @@ extension KinesisVideo {
         }
 
         public func validate(name: String) throws {
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 512)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9+/=]*")
+            try self.streamARN?.forEach {}
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.streamName?.forEach {}
             try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -683,6 +715,7 @@ extension KinesisVideo {
         }
 
         public func validate(name: String) throws {
+            try self.protocols?.forEach {}
             try self.validate(self.protocols, name: "protocols", parent: name, max: 5)
             try self.validate(self.protocols, name: "protocols", parent: name, min: 1)
         }
@@ -702,6 +735,7 @@ extension KinesisVideo {
         }
 
         public func validate(name: String) throws {
+            try self.messageTtlSeconds?.forEach {}
             try self.validate(self.messageTtlSeconds, name: "messageTtlSeconds", parent: name, max: 120)
             try self.validate(self.messageTtlSeconds, name: "messageTtlSeconds", parent: name, min: 5)
         }
@@ -768,6 +802,7 @@ extension KinesisVideo {
         }
 
         public func validate(name: String) throws {
+            try self.comparisonValue?.forEach {}
             try self.validate(self.comparisonValue, name: "comparisonValue", parent: name, max: 256)
             try self.validate(self.comparisonValue, name: "comparisonValue", parent: name, min: 1)
             try self.validate(self.comparisonValue, name: "comparisonValue", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -791,9 +826,11 @@ extension KinesisVideo {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
             try self.validate(self.value, name: "value", parent: name, pattern: "[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*")
@@ -817,12 +854,14 @@ extension KinesisVideo {
         }
 
         public func validate(name: String) throws {
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1024)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
@@ -852,9 +891,11 @@ extension KinesisVideo {
         }
 
         public func validate(name: String) throws {
+            try self.streamARN?.forEach {}
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.streamName?.forEach {}
             try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -891,6 +932,7 @@ extension KinesisVideo {
         }
 
         public func validate(name: String) throws {
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1024)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
@@ -899,6 +941,7 @@ extension KinesisVideo {
                 try validate($0, name: "tagKeyList[]", parent: name, min: 1)
                 try validate($0, name: "tagKeyList[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
+            try self.tagKeyList.forEach {}
             try self.validate(self.tagKeyList, name: "tagKeyList", parent: name, max: 50)
             try self.validate(self.tagKeyList, name: "tagKeyList", parent: name, min: 1)
         }
@@ -928,9 +971,11 @@ extension KinesisVideo {
         }
 
         public func validate(name: String) throws {
+            try self.streamARN?.forEach {}
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.streamName?.forEach {}
             try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -939,6 +984,7 @@ extension KinesisVideo {
                 try validate($0, name: "tagKeyList[]", parent: name, min: 1)
                 try validate($0, name: "tagKeyList[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
+            try self.tagKeyList.forEach {}
             try self.validate(self.tagKeyList, name: "tagKeyList", parent: name, max: 50)
             try self.validate(self.tagKeyList, name: "tagKeyList", parent: name, min: 1)
         }
@@ -975,13 +1021,17 @@ extension KinesisVideo {
         }
 
         public func validate(name: String) throws {
+            try self.currentVersion.forEach {}
             try self.validate(self.currentVersion, name: "currentVersion", parent: name, max: 64)
             try self.validate(self.currentVersion, name: "currentVersion", parent: name, min: 1)
             try self.validate(self.currentVersion, name: "currentVersion", parent: name, pattern: "[a-zA-Z0-9]+")
+            try self.dataRetentionChangeInHours.forEach {}
             try self.validate(self.dataRetentionChangeInHours, name: "dataRetentionChangeInHours", parent: name, min: 1)
+            try self.streamARN?.forEach {}
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.streamName?.forEach {}
             try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -1015,13 +1065,16 @@ extension KinesisVideo {
         }
 
         public func validate(name: String) throws {
+            try self.channelARN.forEach {}
             try self.validate(self.channelARN, name: "channelARN", parent: name, max: 1024)
             try self.validate(self.channelARN, name: "channelARN", parent: name, min: 1)
             try self.validate(self.channelARN, name: "channelARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.currentVersion.forEach {}
             try self.validate(self.currentVersion, name: "currentVersion", parent: name, max: 64)
             try self.validate(self.currentVersion, name: "currentVersion", parent: name, min: 1)
             try self.validate(self.currentVersion, name: "currentVersion", parent: name, pattern: "[a-zA-Z0-9]+")
             try self.singleMasterConfiguration?.validate(name: "\(name).singleMasterConfiguration")
+            try self.singleMasterConfiguration?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1056,18 +1109,23 @@ extension KinesisVideo {
         }
 
         public func validate(name: String) throws {
+            try self.currentVersion.forEach {}
             try self.validate(self.currentVersion, name: "currentVersion", parent: name, max: 64)
             try self.validate(self.currentVersion, name: "currentVersion", parent: name, min: 1)
             try self.validate(self.currentVersion, name: "currentVersion", parent: name, pattern: "[a-zA-Z0-9]+")
+            try self.deviceName?.forEach {}
             try self.validate(self.deviceName, name: "deviceName", parent: name, max: 128)
             try self.validate(self.deviceName, name: "deviceName", parent: name, min: 1)
             try self.validate(self.deviceName, name: "deviceName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.mediaType?.forEach {}
             try self.validate(self.mediaType, name: "mediaType", parent: name, max: 128)
             try self.validate(self.mediaType, name: "mediaType", parent: name, min: 1)
             try self.validate(self.mediaType, name: "mediaType", parent: name, pattern: "[\\w\\-\\.\\+]+/[\\w\\-\\.\\+]+(,[\\w\\-\\.\\+]+/[\\w\\-\\.\\+]+)*")
+            try self.streamARN?.forEach {}
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.streamName?.forEach {}
             try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")

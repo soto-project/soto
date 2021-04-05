@@ -25,6 +25,7 @@ extension EFS {
         case creating
         case deleted
         case deleting
+        case error
         case updating
         public var description: String { return self.rawValue }
     }
@@ -110,7 +111,7 @@ extension EFS {
     }
 
     public struct BackupPolicy: AWSEncodableShape & AWSDecodableShape {
-        /// Describes the status of the file system's backup policy.     ENABLED - EFS is automatically backing up the file system.      ENABLING - EFS is turning on automatic backups for the file system.      DISABLED - automatic back ups are turned off for the file system.      DISABLED - EFS is turning off automatic backups for the file system.
+        /// Describes the status of the file system's backup policy.     ENABLED  - EFS is automatically backing up the file system.&gt;     ENABLING  - EFS is turning on automatic backups for the file system.     DISABLED  - automatic back ups are turned off for the file system.     DISABLING  - EFS is turning off automatic backups for the file system.
         public let status: Status
 
         public init(status: Status) {
@@ -142,7 +143,7 @@ extension EFS {
         public let fileSystemId: String
         /// The operating system user and group applied to all file system requests made using the access point.
         public let posixUser: PosixUser?
-        /// Specifies the directory on the Amazon EFS file system that the access point exposes as the root directory of your file system to NFS clients using the access point. The clients using the access point can only access the root directory and below. If the RootDirectory &gt; Path specified does not exist, EFS creates it and applies the CreationInfo settings when a client connects to an access point. When specifying a RootDirectory, you need to provide the Path, and the CreationInfo is optional.
+        /// Specifies the directory on the Amazon EFS file system that the access point exposes as the root directory of your file system to NFS clients using the access point. The clients using the access point can only access the root directory and below. If the RootDirectory &gt; Path specified does not exist, EFS creates it and applies the CreationInfo settings when a client connects to an access point. When specifying a RootDirectory, you need to provide the Path, and the CreationInfo. Amazon EFS creates a root directory only if you have provided the CreationInfo: OwnUid, OwnGID, and permissions for the directory. If you do not provide this information, Amazon EFS does not create the root directory. If the root directory does not exist, attempts to mount using the access point will fail.
         public let rootDirectory: RootDirectory?
         /// Creates tags associated with the access point. Each tag is a key-value pair.
         public let tags: [Tag]?
@@ -156,15 +157,21 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: ".+")
+            try self.fileSystemId.forEach {}
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
             try self.posixUser?.validate(name: "\(name).posixUser")
+            try self.posixUser?.forEach {}
             try self.rootDirectory?.validate(name: "\(name).rootDirectory")
+            try self.rootDirectory?.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -177,22 +184,28 @@ extension EFS {
     }
 
     public struct CreateFileSystemRequest: AWSEncodableShape {
+        /// Used to create a file system that uses One Zone storage classes. It specifies the AWS Availability Zone in which to create the file system. Use the format us-east-1a to specify the Availability Zone. For more information about One Zone storage classes, see Using EFS storage classes in the Amazon EFS User Guide.  One Zone storage classes are not available in all Availability Zones in AWS Regions where Amazon EFS is available.
+        public let availabilityZoneName: String?
+        /// Specifies whether automatic backups are enabled on the file system that you are creating. Set the value to true to enable automatic backups. If you are creating a file system that uses One Zone storage classes, automatic backups are enabled by default. For more information, see Automatic backups in the Amazon EFS User Guide. Default is false. However, if you specify an AvailabilityZoneName, the default is true.  AWS Backup is not available in all AWS Regions where Amazon EFS is available.
+        public let backup: Bool?
         /// A string of up to 64 ASCII characters. Amazon EFS uses this to ensure idempotent creation.
         public let creationToken: String
         /// A Boolean value that, if true, creates an encrypted file system. When creating an encrypted file system, you have the option of specifying CreateFileSystemRequest$KmsKeyId for an existing AWS Key Management Service (AWS KMS) customer master key (CMK). If you don't specify a CMK, then the default CMK for Amazon EFS, /aws/elasticfilesystem, is used to protect the encrypted file system.
         public let encrypted: Bool?
-        /// The ID of the AWS KMS CMK to be used to protect the encrypted file system. This parameter is only required if you want to use a nondefault CMK. If this parameter is not specified, the default CMK for Amazon EFS is used. This ID can be in one of the following formats:   Key ID - A unique identifier of the key, for example 1234abcd-12ab-34cd-56ef-1234567890ab.   ARN - An Amazon Resource Name (ARN) for the key, for example arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias - A previously created display name for a key, for example alias/projectKey1.   Key alias ARN - An ARN for a key alias, for example arn:aws:kms:us-west-2:444455556666:alias/projectKey1.   If KmsKeyId is specified, the CreateFileSystemRequest$Encrypted parameter must be set to true.  EFS accepts only symmetric CMKs. You cannot use asymmetric CMKs with EFS file systems.
+        /// The ID of the AWS KMS CMK to be used to protect the encrypted file system. This parameter is only required if you want to use a non-default CMK. If this parameter is not specified, the default CMK for Amazon EFS is used. This ID can be in one of the following formats:   Key ID - A unique identifier of the key, for example 1234abcd-12ab-34cd-56ef-1234567890ab.   ARN - An Amazon Resource Name (ARN) for the key, for example arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias - A previously created display name for a key, for example alias/projectKey1.   Key alias ARN - An ARN for a key alias, for example arn:aws:kms:us-west-2:444455556666:alias/projectKey1.   If KmsKeyId is specified, the CreateFileSystemRequest$Encrypted parameter must be set to true.  EFS accepts only symmetric CMKs. You cannot use asymmetric CMKs with EFS file systems.
         public let kmsKeyId: String?
-        /// The performance mode of the file system. We recommend generalPurpose performance mode for most file systems. File systems using the maxIO performance mode can scale to higher levels of aggregate throughput and operations per second with a tradeoff of slightly higher latencies for most file operations. The performance mode can't be changed after the file system has been created.
+        /// The performance mode of the file system. We recommend generalPurpose performance mode for most file systems. File systems using the maxIO performance mode can scale to higher levels of aggregate throughput and operations per second with a tradeoff of slightly higher latencies for most file operations. The performance mode can't be changed after the file system has been created.  The maxIO mode is not supported on file systems using One Zone storage classes.
         public let performanceMode: PerformanceMode?
-        /// The throughput, measured in MiB/s, that you want to provision for a file system that you're creating. Valid values are 1-1024. Required if ThroughputMode is set to provisioned. The upper limit for throughput is 1024 MiB/s. You can get this limit increased by contacting AWS Support. For more information, see Amazon EFS Limits That You Can Increase in the Amazon EFS User Guide.
+        /// The throughput, measured in MiB/s, that you want to provision for a file system that you're creating. Valid values are 1-1024. Required if ThroughputMode is set to provisioned. The upper limit for throughput is 1024 MiB/s. To increase this limit, contact AWS Support. For more information, see Amazon EFS quotas that you can increase in the Amazon EFS User Guide.
         public let provisionedThroughputInMibps: Double?
         /// A value that specifies to create one or more tags associated with the file system. Each tag is a user-defined key-value pair. Name your file system on creation by including a "Key":"Name","Value":"{value}" key-value pair.
         public let tags: [Tag]?
-        /// The throughput mode for the file system to be created. There are two throughput modes to choose from for your file system: bursting and provisioned. If you set ThroughputMode to provisioned, you must also set a value for ProvisionedThroughPutInMibps. You can decrease your file system's throughput in Provisioned Throughput mode or change between the throughput modes as long as it’s been more than 24 hours since the last decrease or throughput mode change. For more, see Specifying Throughput with Provisioned Mode in the Amazon EFS User Guide.
+        /// Specifies the throughput mode for the file system, either bursting or provisioned. If you set ThroughputMode to provisioned, you must also set a value for ProvisionedThroughputInMibps. After you create the file system, you can decrease your file system's throughput in Provisioned Throughput mode or change between the throughput modes, as long as it’s been more than 24 hours since the last decrease or throughput mode change. For more information, see Specifying throughput with provisioned mode in the Amazon EFS User Guide.  Default is bursting.
         public let throughputMode: ThroughputMode?
 
-        public init(creationToken: String = CreateFileSystemRequest.idempotencyToken(), encrypted: Bool? = nil, kmsKeyId: String? = nil, performanceMode: PerformanceMode? = nil, provisionedThroughputInMibps: Double? = nil, tags: [Tag]? = nil, throughputMode: ThroughputMode? = nil) {
+        public init(availabilityZoneName: String? = nil, backup: Bool? = nil, creationToken: String = CreateFileSystemRequest.idempotencyToken(), encrypted: Bool? = nil, kmsKeyId: String? = nil, performanceMode: PerformanceMode? = nil, provisionedThroughputInMibps: Double? = nil, tags: [Tag]? = nil, throughputMode: ThroughputMode? = nil) {
+            self.availabilityZoneName = availabilityZoneName
+            self.backup = backup
             self.creationToken = creationToken
             self.encrypted = encrypted
             self.kmsKeyId = kmsKeyId
@@ -203,18 +216,28 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
+            try self.availabilityZoneName?.forEach {}
+            try self.validate(self.availabilityZoneName, name: "availabilityZoneName", parent: name, max: 64)
+            try self.validate(self.availabilityZoneName, name: "availabilityZoneName", parent: name, min: 1)
+            try self.validate(self.availabilityZoneName, name: "availabilityZoneName", parent: name, pattern: ".+")
+            try self.creationToken.forEach {}
             try self.validate(self.creationToken, name: "creationToken", parent: name, max: 64)
             try self.validate(self.creationToken, name: "creationToken", parent: name, min: 1)
             try self.validate(self.creationToken, name: "creationToken", parent: name, pattern: ".+")
+            try self.kmsKeyId?.forEach {}
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|alias/[a-zA-Z0-9/_-]+|(arn:aws[-a-z]*:kms:[a-z0-9-]+:\\d{12}:((key/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})|(alias/[a-zA-Z0-9/_-]+))))$")
+            try self.provisionedThroughputInMibps?.forEach {}
             try self.validate(self.provisionedThroughputInMibps, name: "provisionedThroughputInMibps", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
+            case availabilityZoneName = "AvailabilityZoneName"
+            case backup = "Backup"
             case creationToken = "CreationToken"
             case encrypted = "Encrypted"
             case kmsKeyId = "KmsKeyId"
@@ -232,7 +255,7 @@ extension EFS {
         public let ipAddress: String?
         /// Up to five VPC security group IDs, of the form sg-xxxxxxxx. These must be for the same VPC as subnet specified.
         public let securityGroups: [String]?
-        /// The ID of the subnet to add the mount target in.
+        /// The ID of the subnet to add the mount target in. For file systems that use One Zone storage classes, use the subnet that is associated with the file system's Availability Zone.
         public let subnetId: String
 
         public init(fileSystemId: String, ipAddress: String? = nil, securityGroups: [String]? = nil, subnetId: String) {
@@ -243,8 +266,10 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
+            try self.fileSystemId.forEach {}
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
+            try self.ipAddress?.forEach {}
             try self.validate(self.ipAddress, name: "ipAddress", parent: name, max: 15)
             try self.validate(self.ipAddress, name: "ipAddress", parent: name, min: 7)
             try self.validate(self.ipAddress, name: "ipAddress", parent: name, pattern: "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}$")
@@ -253,7 +278,9 @@ extension EFS {
                 try validate($0, name: "securityGroups[]", parent: name, min: 11)
                 try validate($0, name: "securityGroups[]", parent: name, pattern: "^sg-[0-9a-f]{8,40}")
             }
+            try self.securityGroups?.forEach {}
             try self.validate(self.securityGroups, name: "securityGroups", parent: name, max: 5)
+            try self.subnetId.forEach {}
             try self.validate(self.subnetId, name: "subnetId", parent: name, max: 47)
             try self.validate(self.subnetId, name: "subnetId", parent: name, min: 15)
             try self.validate(self.subnetId, name: "subnetId", parent: name, pattern: "^subnet-[0-9a-f]{8,40}$")
@@ -283,11 +310,13 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
+            try self.fileSystemId.forEach {}
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -310,10 +339,15 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
+            try self.ownerGid.forEach {}
             try self.validate(self.ownerGid, name: "ownerGid", parent: name, max: 4_294_967_295)
             try self.validate(self.ownerGid, name: "ownerGid", parent: name, min: 0)
+            try self.ownerUid.forEach {}
             try self.validate(self.ownerUid, name: "ownerUid", parent: name, max: 4_294_967_295)
             try self.validate(self.ownerUid, name: "ownerUid", parent: name, min: 0)
+            try self.permissions.forEach {}
+            try self.validate(self.permissions, name: "permissions", parent: name, max: 4)
+            try self.validate(self.permissions, name: "permissions", parent: name, min: 3)
             try self.validate(self.permissions, name: "permissions", parent: name, pattern: "^[0-7]{3,4}$")
         }
 
@@ -336,6 +370,12 @@ extension EFS {
             self.accessPointId = accessPointId
         }
 
+        public func validate(name: String) throws {
+            try self.accessPointId.forEach {}
+            try self.validate(self.accessPointId, name: "accessPointId", parent: name, max: 128)
+            try self.validate(self.accessPointId, name: "accessPointId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:access-point/fsap-[0-9a-f]{8,40}|fsap-[0-9a-f]{8,40})$")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -352,6 +392,7 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
+            try self.fileSystemId.forEach {}
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
         }
@@ -372,6 +413,7 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
+            try self.fileSystemId.forEach {}
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
         }
@@ -392,6 +434,7 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
+            try self.mountTargetId.forEach {}
             try self.validate(self.mountTargetId, name: "mountTargetId", parent: name, max: 45)
             try self.validate(self.mountTargetId, name: "mountTargetId", parent: name, min: 13)
             try self.validate(self.mountTargetId, name: "mountTargetId", parent: name, pattern: "^fsmt-[0-9a-f]{8,40}$")
@@ -416,6 +459,7 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
+            try self.fileSystemId.forEach {}
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
             try self.tagKeys.forEach {
@@ -423,6 +467,7 @@ extension EFS {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?![aA]{1}[wW]{1}[sS]{1}:)([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
@@ -457,9 +502,18 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
+            try self.accessPointId?.forEach {}
+            try self.validate(self.accessPointId, name: "accessPointId", parent: name, max: 128)
+            try self.validate(self.accessPointId, name: "accessPointId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:access-point/fsap-[0-9a-f]{8,40}|fsap-[0-9a-f]{8,40})$")
+            try self.fileSystemId?.forEach {}
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 128)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".+")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -495,6 +549,7 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
+            try self.fileSystemId.forEach {}
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
         }
@@ -515,6 +570,7 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
+            try self.fileSystemId.forEach {}
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
         }
@@ -547,14 +603,18 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
+            try self.creationToken?.forEach {}
             try self.validate(self.creationToken, name: "creationToken", parent: name, max: 64)
             try self.validate(self.creationToken, name: "creationToken", parent: name, min: 1)
             try self.validate(self.creationToken, name: "creationToken", parent: name, pattern: ".+")
+            try self.fileSystemId?.forEach {}
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
+            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 128)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
             try self.validate(self.marker, name: "marker", parent: name, pattern: ".+")
+            try self.maxItems?.forEach {}
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
         }
 
@@ -595,6 +655,7 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
+            try self.fileSystemId.forEach {}
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
         }
@@ -615,6 +676,7 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
+            try self.mountTargetId.forEach {}
             try self.validate(self.mountTargetId, name: "mountTargetId", parent: name, max: 45)
             try self.validate(self.mountTargetId, name: "mountTargetId", parent: name, min: 13)
             try self.validate(self.mountTargetId, name: "mountTargetId", parent: name, pattern: "^fsmt-[0-9a-f]{8,40}$")
@@ -665,12 +727,19 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
+            try self.accessPointId?.forEach {}
+            try self.validate(self.accessPointId, name: "accessPointId", parent: name, max: 128)
+            try self.validate(self.accessPointId, name: "accessPointId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:access-point/fsap-[0-9a-f]{8,40}|fsap-[0-9a-f]{8,40})$")
+            try self.fileSystemId?.forEach {}
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
+            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 128)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
             try self.validate(self.marker, name: "marker", parent: name, pattern: ".+")
+            try self.maxItems?.forEach {}
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
+            try self.mountTargetId?.forEach {}
             try self.validate(self.mountTargetId, name: "mountTargetId", parent: name, max: 45)
             try self.validate(self.mountTargetId, name: "mountTargetId", parent: name, min: 13)
             try self.validate(self.mountTargetId, name: "mountTargetId", parent: name, pattern: "^fsmt-[0-9a-f]{8,40}$")
@@ -721,11 +790,14 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
+            try self.fileSystemId.forEach {}
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
+            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 128)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
             try self.validate(self.marker, name: "marker", parent: name, pattern: ".+")
+            try self.maxItems?.forEach {}
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
         }
 
@@ -754,6 +826,10 @@ extension EFS {
     }
 
     public struct FileSystemDescription: AWSDecodableShape {
+        /// The unique and consistent identifier of the Availability Zone in which the file system's One Zone storage classes exist. For example, use1-az1 is an Availability Zone ID for the us-east-1 AWS Region, and it has the same location in every AWS account.
+        public let availabilityZoneId: String?
+        /// Describes the AWS Availability Zone in which the file system is located, and is valid only for file systems using One Zone storage classes. For more information, see Using EFS storage classes in the Amazon EFS User Guide.
+        public let availabilityZoneName: String?
         /// The time that the file system was created, in seconds (since 1970-01-01T00:00:00Z).
         public let creationTime: Date
         /// The opaque string specified in the request.
@@ -776,16 +852,18 @@ extension EFS {
         public let ownerId: String
         /// The performance mode of the file system.
         public let performanceMode: PerformanceMode
-        /// The throughput, measured in MiB/s, that you want to provision for a file system. Valid values are 1-1024. Required if ThroughputMode is set to provisioned. The limit on throughput is 1024 MiB/s. You can get these limits increased by contacting AWS Support. For more information, see Amazon EFS Limits That You Can Increase in the Amazon EFS User Guide.
+        /// The amount of provisioned throughput, measured in MiB/s, for the file system. Valid for file systems using ThroughputMode set to provisioned.
         public let provisionedThroughputInMibps: Double?
         /// The latest known metered size (in bytes) of data stored in the file system, in its Value field, and the time at which that size was determined in its Timestamp field. The Timestamp value is the integer number of seconds since 1970-01-01T00:00:00Z. The SizeInBytes value doesn't represent the size of a consistent snapshot of the file system, but it is eventually consistent when there are no writes to the file system. That is, SizeInBytes represents actual size only if the file system is not modified for a period longer than a couple of hours. Otherwise, the value is not the exact size that the file system was at any point in time.
         public let sizeInBytes: FileSystemSize
         /// The tags associated with the file system, presented as an array of Tag objects.
         public let tags: [Tag]
-        /// The throughput mode for a file system. There are two throughput modes to choose from for your file system: bursting and provisioned. If you set ThroughputMode to provisioned, you must also set a value for ProvisionedThroughPutInMibps. You can decrease your file system's throughput in Provisioned Throughput mode or change between the throughput modes as long as it’s been more than 24 hours since the last decrease or throughput mode change.
+        /// Displays the file system's throughput mode. For more information, see Throughput modes in the Amazon EFS User Guide.
         public let throughputMode: ThroughputMode?
 
-        public init(creationTime: Date, creationToken: String, encrypted: Bool? = nil, fileSystemArn: String? = nil, fileSystemId: String, kmsKeyId: String? = nil, lifeCycleState: LifeCycleState, name: String? = nil, numberOfMountTargets: Int, ownerId: String, performanceMode: PerformanceMode, provisionedThroughputInMibps: Double? = nil, sizeInBytes: FileSystemSize, tags: [Tag], throughputMode: ThroughputMode? = nil) {
+        public init(availabilityZoneId: String? = nil, availabilityZoneName: String? = nil, creationTime: Date, creationToken: String, encrypted: Bool? = nil, fileSystemArn: String? = nil, fileSystemId: String, kmsKeyId: String? = nil, lifeCycleState: LifeCycleState, name: String? = nil, numberOfMountTargets: Int, ownerId: String, performanceMode: PerformanceMode, provisionedThroughputInMibps: Double? = nil, sizeInBytes: FileSystemSize, tags: [Tag], throughputMode: ThroughputMode? = nil) {
+            self.availabilityZoneId = availabilityZoneId
+            self.availabilityZoneName = availabilityZoneName
             self.creationTime = creationTime
             self.creationToken = creationToken
             self.encrypted = encrypted
@@ -804,6 +882,8 @@ extension EFS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case availabilityZoneId = "AvailabilityZoneId"
+            case availabilityZoneName = "AvailabilityZoneName"
             case creationTime = "CreationTime"
             case creationToken = "CreationToken"
             case encrypted = "Encrypted"
@@ -911,7 +991,15 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 128)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".+")
+            try self.resourceId.forEach {}
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 128)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:(access-point/fsap|file-system/fs)-[0-9a-f]{8,40}|fs(ap)?-[0-9a-f]{8,40})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -950,6 +1038,7 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
+            try self.mountTargetId.forEach {}
             try self.validate(self.mountTargetId, name: "mountTargetId", parent: name, max: 45)
             try self.validate(self.mountTargetId, name: "mountTargetId", parent: name, min: 13)
             try self.validate(self.mountTargetId, name: "mountTargetId", parent: name, pattern: "^fsmt-[0-9a-f]{8,40}$")
@@ -958,6 +1047,7 @@ extension EFS {
                 try validate($0, name: "securityGroups[]", parent: name, min: 11)
                 try validate($0, name: "securityGroups[]", parent: name, pattern: "^sg-[0-9a-f]{8,40}")
             }
+            try self.securityGroups?.forEach {}
             try self.validate(self.securityGroups, name: "securityGroups", parent: name, max: 5)
         }
 
@@ -967,9 +1057,9 @@ extension EFS {
     }
 
     public struct MountTargetDescription: AWSDecodableShape {
-        /// The unique and consistent identifier of the Availability Zone (AZ) that the mount target resides in. For example, use1-az1 is an AZ ID for the us-east-1 Region and it has the same location in every AWS account.
+        /// The unique and consistent identifier of the Availability Zone that the mount target resides in. For example, use1-az1 is an AZ ID for the us-east-1 Region and it has the same location in every AWS account.
         public let availabilityZoneId: String?
-        /// The name of the Availability Zone (AZ) that the mount target resides in. AZs are independently mapped to names for each AWS account. For example, the Availability Zone us-east-1a for your AWS account might not be the same location as us-east-1a for another AWS account.
+        /// The name of the Availability Zone in which the mount target is located. Availability Zones are independently mapped to names for each AWS account. For example, the Availability Zone us-east-1a for your AWS account might not be the same location as us-east-1a for another AWS account.
         public let availabilityZoneName: String?
         /// The ID of the file system for which the mount target is intended.
         public let fileSystemId: String
@@ -985,7 +1075,7 @@ extension EFS {
         public let ownerId: String?
         /// The ID of the mount target's subnet.
         public let subnetId: String
-        /// The Virtual Private Cloud (VPC) ID that the mount target is configured in.
+        /// The virtual private cloud (VPC) ID that the mount target is configured in.
         public let vpcId: String?
 
         public init(availabilityZoneId: String? = nil, availabilityZoneName: String? = nil, fileSystemId: String, ipAddress: String? = nil, lifeCycleState: LifeCycleState, mountTargetId: String, networkInterfaceId: String? = nil, ownerId: String? = nil, subnetId: String, vpcId: String? = nil) {
@@ -1030,14 +1120,17 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
+            try self.gid.forEach {}
             try self.validate(self.gid, name: "gid", parent: name, max: 4_294_967_295)
             try self.validate(self.gid, name: "gid", parent: name, min: 0)
             try self.secondaryGids?.forEach {
                 try validate($0, name: "secondaryGids[]", parent: name, max: 4_294_967_295)
                 try validate($0, name: "secondaryGids[]", parent: name, min: 0)
             }
+            try self.secondaryGids?.forEach {}
             try self.validate(self.secondaryGids, name: "secondaryGids", parent: name, max: 16)
             try self.validate(self.secondaryGids, name: "secondaryGids", parent: name, min: 0)
+            try self.uid.forEach {}
             try self.validate(self.uid, name: "uid", parent: name, max: 4_294_967_295)
             try self.validate(self.uid, name: "uid", parent: name, min: 0)
         }
@@ -1065,6 +1158,7 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
+            try self.fileSystemId.forEach {}
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
         }
@@ -1083,7 +1177,7 @@ extension EFS {
         public let bypassPolicyLockoutSafetyCheck: Bool?
         /// The ID of the EFS file system that you want to create or update the FileSystemPolicy for.
         public let fileSystemId: String
-        /// The FileSystemPolicy that you're creating. Accepts a JSON formatted policy definition. To find out more about the elements that make up a file system policy, see EFS Resource-based Policies.
+        /// The FileSystemPolicy that you're creating. Accepts a JSON formatted policy definition. EFS file system policies have a 20,000 character limit. To find out more about the elements that make up a file system policy, see EFS Resource-based Policies.
         public let policy: String
 
         public init(bypassPolicyLockoutSafetyCheck: Bool? = nil, fileSystemId: String, policy: String) {
@@ -1093,8 +1187,13 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
+            try self.fileSystemId.forEach {}
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
+            try self.policy.forEach {}
+            try self.validate(self.policy, name: "policy", parent: name, max: 20000)
+            try self.validate(self.policy, name: "policy", parent: name, min: 1)
+            try self.validate(self.policy, name: "policy", parent: name, pattern: "[\\s\\S]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1119,6 +1218,7 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
+            try self.fileSystemId.forEach {}
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
         }
@@ -1141,8 +1241,11 @@ extension EFS {
 
         public func validate(name: String) throws {
             try self.creationInfo?.validate(name: "\(name).creationInfo")
+            try self.creationInfo?.forEach {}
+            try self.path?.forEach {}
             try self.validate(self.path, name: "path", parent: name, max: 100)
             try self.validate(self.path, name: "path", parent: name, min: 1)
+            try self.validate(self.path, name: "path", parent: name, pattern: "^(\\/|(\\/(?!\\.)+[^$#<>;`|&?{}^*/\\n]+){1,4})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1163,9 +1266,11 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^(?![aA]{1}[wW]{1}[sS]{1}:)([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
@@ -1191,9 +1296,13 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
+            try self.resourceId.forEach {}
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 128)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:(access-point/fsap|file-system/fs)-[0-9a-f]{8,40}|fs(ap)?-[0-9a-f]{8,40})$")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1209,7 +1318,7 @@ extension EFS {
 
         /// Specifies the EFS resource that you want to remove tags from.
         public let resourceId: String
-        /// The keys of the key:value tag pairs that you want to remove from the specified EFS resource.
+        /// The keys of the key-value tag pairs that you want to remove from the specified EFS resource.
         public let tagKeys: [String]
 
         public init(resourceId: String, tagKeys: [String]) {
@@ -1218,11 +1327,15 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
+            try self.resourceId.forEach {}
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 128)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:(access-point/fsap|file-system/fs)-[0-9a-f]{8,40}|fs(ap)?-[0-9a-f]{8,40})$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?![aA]{1}[wW]{1}[sS]{1}:)([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
@@ -1237,9 +1350,9 @@ extension EFS {
 
         /// The ID of the file system that you want to update.
         public let fileSystemId: String
-        /// (Optional) The amount of throughput, in MiB/s, that you want to provision for your file system. Valid values are 1-1024. Required if ThroughputMode is changed to provisioned on update. If you're not updating the amount of provisioned throughput for your file system, you don't need to provide this value in your request.
+        /// (Optional) Sets the amount of provisioned throughput, in MiB/s, for the file system. Valid values are 1-1024. If you are changing the throughput mode to provisioned, you must also provide the amount of provisioned throughput. Required if ThroughputMode is changed to provisioned on update.
         public let provisionedThroughputInMibps: Double?
-        /// (Optional) The throughput mode that you want your file system to use. If you're not updating your throughput mode, you don't need to provide this value in your request. If you are changing the ThroughputMode to provisioned, you must also set a value for ProvisionedThroughputInMibps.
+        /// (Optional) Updates the file system's throughput mode. If you're not updating your throughput mode, you don't need to provide this value in your request. If you are changing the ThroughputMode to provisioned, you must also set a value for ProvisionedThroughputInMibps.
         public let throughputMode: ThroughputMode?
 
         public init(fileSystemId: String, provisionedThroughputInMibps: Double? = nil, throughputMode: ThroughputMode? = nil) {
@@ -1249,8 +1362,10 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
+            try self.fileSystemId.forEach {}
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
+            try self.provisionedThroughputInMibps?.forEach {}
             try self.validate(self.provisionedThroughputInMibps, name: "provisionedThroughputInMibps", parent: name, min: 1)
         }
 

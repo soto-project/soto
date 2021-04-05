@@ -81,13 +81,17 @@ extension LookoutforVision {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
             try self.datasetSource?.validate(name: "\(name).datasetSource")
+            try self.datasetSource?.forEach {}
+            try self.datasetType.forEach {}
             try self.validate(self.datasetType, name: "datasetType", parent: name, max: 10)
             try self.validate(self.datasetType, name: "datasetType", parent: name, min: 1)
             try self.validate(self.datasetType, name: "datasetType", parent: name, pattern: "train|test")
+            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, max: 255)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_\\-]*")
@@ -141,22 +145,28 @@ extension LookoutforVision {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 500)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "[0-9A-Za-z\\.\\-_]*")
+            try self.kmsKeyId?.forEach {}
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$")
             try self.outputConfig.validate(name: "\(name).outputConfig")
+            try self.outputConfig.forEach {}
+            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, max: 255)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_\\-]*")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -198,9 +208,11 @@ extension LookoutforVision {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, max: 255)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_\\-]*")
@@ -270,6 +282,7 @@ extension LookoutforVision {
 
         public func validate(name: String) throws {
             try self.s3Object?.validate(name: "\(name).s3Object")
+            try self.s3Object?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -337,6 +350,7 @@ extension LookoutforVision {
 
         public func validate(name: String) throws {
             try self.groundTruthManifest?.validate(name: "\(name).groundTruthManifest")
+            try self.groundTruthManifest?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -365,12 +379,15 @@ extension LookoutforVision {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.datasetType.forEach {}
             try self.validate(self.datasetType, name: "datasetType", parent: name, max: 10)
             try self.validate(self.datasetType, name: "datasetType", parent: name, min: 1)
             try self.validate(self.datasetType, name: "datasetType", parent: name, pattern: "train|test")
+            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, max: 255)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_\\-]*")
@@ -404,12 +421,15 @@ extension LookoutforVision {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.modelVersion.forEach {}
             try self.validate(self.modelVersion, name: "modelVersion", parent: name, max: 10)
             try self.validate(self.modelVersion, name: "modelVersion", parent: name, min: 1)
             try self.validate(self.modelVersion, name: "modelVersion", parent: name, pattern: "([1-9][0-9]*|latest)")
+            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, max: 255)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_\\-]*")
@@ -448,9 +468,11 @@ extension LookoutforVision {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, max: 255)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_\\-]*")
@@ -489,9 +511,11 @@ extension LookoutforVision {
         }
 
         public func validate(name: String) throws {
+            try self.datasetType.forEach {}
             try self.validate(self.datasetType, name: "datasetType", parent: name, max: 10)
             try self.validate(self.datasetType, name: "datasetType", parent: name, min: 1)
             try self.validate(self.datasetType, name: "datasetType", parent: name, pattern: "train|test")
+            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, max: 255)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_\\-]*")
@@ -530,9 +554,11 @@ extension LookoutforVision {
         }
 
         public func validate(name: String) throws {
+            try self.modelVersion.forEach {}
             try self.validate(self.modelVersion, name: "modelVersion", parent: name, max: 10)
             try self.validate(self.modelVersion, name: "modelVersion", parent: name, min: 1)
             try self.validate(self.modelVersion, name: "modelVersion", parent: name, pattern: "([1-9][0-9]*|latest)")
+            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, max: 255)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_\\-]*")
@@ -567,6 +593,7 @@ extension LookoutforVision {
         }
 
         public func validate(name: String) throws {
+            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, max: 255)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_\\-]*")
@@ -616,12 +643,15 @@ extension LookoutforVision {
         }
 
         public func validate(name: String) throws {
+            try self.contentType.forEach {}
             try self.validate(self.contentType, name: "contentType", parent: name, max: 255)
             try self.validate(self.contentType, name: "contentType", parent: name, min: 1)
             try self.validate(self.contentType, name: "contentType", parent: name, pattern: ".*")
+            try self.modelVersion.forEach {}
             try self.validate(self.modelVersion, name: "modelVersion", parent: name, max: 10)
             try self.validate(self.modelVersion, name: "modelVersion", parent: name, min: 1)
             try self.validate(self.modelVersion, name: "modelVersion", parent: name, pattern: "([1-9][0-9]*|latest)")
+            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, max: 255)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_\\-]*")
@@ -692,12 +722,15 @@ extension LookoutforVision {
         }
 
         public func validate(name: String) throws {
+            try self.bucket.forEach {}
             try self.validate(self.bucket, name: "bucket", parent: name, max: 63)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
             try self.validate(self.bucket, name: "bucket", parent: name, pattern: "[0-9A-Za-z\\.\\-_]*")
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 1024)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^([a-zA-Z0-9!_.*'()-][/a-zA-Z0-9!_.*'()-]*)?$")
+            try self.versionId?.forEach {}
             try self.validate(self.versionId, name: "versionId", parent: name, max: 1024)
             try self.validate(self.versionId, name: "versionId", parent: name, min: 1)
             try self.validate(self.versionId, name: "versionId", parent: name, pattern: ".*")
@@ -755,19 +788,25 @@ extension LookoutforVision {
         }
 
         public func validate(name: String) throws {
+            try self.anomalyClass?.forEach {}
             try self.validate(self.anomalyClass, name: "anomalyClass", parent: name, max: 10)
             try self.validate(self.anomalyClass, name: "anomalyClass", parent: name, min: 1)
             try self.validate(self.anomalyClass, name: "anomalyClass", parent: name, pattern: "(normal|anomaly)")
+            try self.datasetType.forEach {}
             try self.validate(self.datasetType, name: "datasetType", parent: name, max: 10)
             try self.validate(self.datasetType, name: "datasetType", parent: name, min: 1)
             try self.validate(self.datasetType, name: "datasetType", parent: name, pattern: "train|test")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9\\/\\+\\=]{0,2048}$")
+            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, max: 255)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_\\-]*")
+            try self.sourceRefContains?.forEach {}
             try self.validate(self.sourceRefContains, name: "sourceRefContains", parent: name, max: 2048)
             try self.validate(self.sourceRefContains, name: "sourceRefContains", parent: name, min: 1)
             try self.validate(self.sourceRefContains, name: "sourceRefContains", parent: name, pattern: ".*\\S.*")
@@ -814,10 +853,13 @@ extension LookoutforVision {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9\\/\\+\\=]{0,2048}$")
+            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, max: 255)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_\\-]*")
@@ -860,8 +902,10 @@ extension LookoutforVision {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9\\/\\+\\=]{0,2048}$")
         }
@@ -899,6 +943,7 @@ extension LookoutforVision {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
         }
@@ -1044,6 +1089,7 @@ extension LookoutforVision {
 
         public func validate(name: String) throws {
             try self.s3Location.validate(name: "\(name).s3Location")
+            try self.s3Location.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1126,9 +1172,11 @@ extension LookoutforVision {
         }
 
         public func validate(name: String) throws {
+            try self.bucket.forEach {}
             try self.validate(self.bucket, name: "bucket", parent: name, max: 63)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
             try self.validate(self.bucket, name: "bucket", parent: name, pattern: "[0-9A-Za-z\\.\\-_]*")
+            try self.prefix?.forEach {}
             try self.validate(self.prefix, name: "prefix", parent: name, max: 1024)
             try self.validate(self.prefix, name: "prefix", parent: name, pattern: "^([a-zA-Z0-9!_.*'()-][/a-zA-Z0-9!_.*'()-]*)?$")
         }
@@ -1163,13 +1211,17 @@ extension LookoutforVision {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.minInferenceUnits.forEach {}
             try self.validate(self.minInferenceUnits, name: "minInferenceUnits", parent: name, min: 1)
+            try self.modelVersion.forEach {}
             try self.validate(self.modelVersion, name: "modelVersion", parent: name, max: 10)
             try self.validate(self.modelVersion, name: "modelVersion", parent: name, min: 1)
             try self.validate(self.modelVersion, name: "modelVersion", parent: name, pattern: "([1-9][0-9]*|latest)")
+            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, max: 255)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_\\-]*")
@@ -1214,12 +1266,15 @@ extension LookoutforVision {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.modelVersion.forEach {}
             try self.validate(self.modelVersion, name: "modelVersion", parent: name, max: 10)
             try self.validate(self.modelVersion, name: "modelVersion", parent: name, min: 1)
             try self.validate(self.modelVersion, name: "modelVersion", parent: name, pattern: "([1-9][0-9]*|latest)")
+            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, max: 255)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_\\-]*")
@@ -1253,9 +1308,11 @@ extension LookoutforVision {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
             try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -1283,11 +1340,13 @@ extension LookoutforVision {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -1318,6 +1377,7 @@ extension LookoutforVision {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.tagKeys.forEach {
@@ -1325,6 +1385,7 @@ extension LookoutforVision {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
         }
@@ -1360,14 +1421,18 @@ extension LookoutforVision {
         }
 
         public func validate(name: String) throws {
+            try self.changes.forEach {}
             try self.validate(self.changes, name: "changes", parent: name, max: 10_485_760)
             try self.validate(self.changes, name: "changes", parent: name, min: 1)
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.datasetType.forEach {}
             try self.validate(self.datasetType, name: "datasetType", parent: name, max: 10)
             try self.validate(self.datasetType, name: "datasetType", parent: name, min: 1)
             try self.validate(self.datasetType, name: "datasetType", parent: name, pattern: "train|test")
+            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, max: 255)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_\\-]*")

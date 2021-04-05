@@ -19,7 +19,7 @@ import SotoCore
 // MARK: Paginators
 
 extension Backup {
-    ///  Returns a list of existing backup jobs for an authenticated account.
+    ///  Returns a list of existing backup jobs for an authenticated account for the last 30 days. For a longer period of time, consider using these monitoring tools.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

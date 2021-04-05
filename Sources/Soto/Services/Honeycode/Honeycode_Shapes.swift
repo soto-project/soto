@@ -89,17 +89,21 @@ extension Honeycode {
         }
 
         public func validate(name: String) throws {
+            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^(?!\\s*$).+")
             try self.rowsToCreate.forEach {
                 try $0.validate(name: "\(name).rowsToCreate[]")
             }
+            try self.rowsToCreate.forEach {}
             try self.validate(self.rowsToCreate, name: "rowsToCreate", parent: name, max: 100)
             try self.validate(self.rowsToCreate, name: "rowsToCreate", parent: name, min: 1)
+            try self.tableId.forEach {}
             try self.validate(self.tableId, name: "tableId", parent: name, max: 36)
             try self.validate(self.tableId, name: "tableId", parent: name, min: 36)
             try self.validate(self.tableId, name: "tableId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+            try self.workbookId.forEach {}
             try self.validate(self.workbookId, name: "workbookId", parent: name, max: 36)
             try self.validate(self.workbookId, name: "workbookId", parent: name, min: 36)
             try self.validate(self.workbookId, name: "workbookId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
@@ -155,6 +159,7 @@ extension Honeycode {
         }
 
         public func validate(name: String) throws {
+            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^(?!\\s*$).+")
@@ -163,11 +168,14 @@ extension Honeycode {
                 try validate($0, name: "rowIds[]", parent: name, min: 77)
                 try validate($0, name: "rowIds[]", parent: name, pattern: "row:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\\/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
             }
+            try self.rowIds.forEach {}
             try self.validate(self.rowIds, name: "rowIds", parent: name, max: 100)
             try self.validate(self.rowIds, name: "rowIds", parent: name, min: 1)
+            try self.tableId.forEach {}
             try self.validate(self.tableId, name: "tableId", parent: name, max: 36)
             try self.validate(self.tableId, name: "tableId", parent: name, min: 36)
             try self.validate(self.tableId, name: "tableId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+            try self.workbookId.forEach {}
             try self.validate(self.workbookId, name: "workbookId", parent: name, max: 36)
             try self.validate(self.workbookId, name: "workbookId", parent: name, min: 36)
             try self.validate(self.workbookId, name: "workbookId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
@@ -219,17 +227,21 @@ extension Honeycode {
         }
 
         public func validate(name: String) throws {
+            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^(?!\\s*$).+")
             try self.rowsToUpdate.forEach {
                 try $0.validate(name: "\(name).rowsToUpdate[]")
             }
+            try self.rowsToUpdate.forEach {}
             try self.validate(self.rowsToUpdate, name: "rowsToUpdate", parent: name, max: 100)
             try self.validate(self.rowsToUpdate, name: "rowsToUpdate", parent: name, min: 1)
+            try self.tableId.forEach {}
             try self.validate(self.tableId, name: "tableId", parent: name, max: 36)
             try self.validate(self.tableId, name: "tableId", parent: name, min: 36)
             try self.validate(self.tableId, name: "tableId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+            try self.workbookId.forEach {}
             try self.validate(self.workbookId, name: "workbookId", parent: name, max: 36)
             try self.validate(self.workbookId, name: "workbookId", parent: name, min: 36)
             try self.validate(self.workbookId, name: "workbookId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
@@ -281,15 +293,19 @@ extension Honeycode {
         }
 
         public func validate(name: String) throws {
+            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^(?!\\s*$).+")
             try self.rowsToUpsert.forEach {
                 try $0.validate(name: "\(name).rowsToUpsert[]")
             }
+            try self.rowsToUpsert.forEach {}
+            try self.tableId.forEach {}
             try self.validate(self.tableId, name: "tableId", parent: name, max: 36)
             try self.validate(self.tableId, name: "tableId", parent: name, min: 36)
             try self.validate(self.tableId, name: "tableId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+            try self.workbookId.forEach {}
             try self.validate(self.workbookId, name: "workbookId", parent: name, max: 36)
             try self.validate(self.workbookId, name: "workbookId", parent: name, min: 36)
             try self.validate(self.workbookId, name: "workbookId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
@@ -356,6 +372,7 @@ extension Honeycode {
         }
 
         public func validate(name: String) throws {
+            try self.fact?.forEach {}
             try self.validate(self.fact, name: "fact", parent: name, max: 8192)
             try self.validate(self.fact, name: "fact", parent: name, min: 0)
             try self.validate(self.fact, name: "fact", parent: name, pattern: "[\\s\\S]*")
@@ -395,6 +412,7 @@ extension Honeycode {
         }
 
         public func validate(name: String) throws {
+            try self.batchItemId.forEach {}
             try self.validate(self.batchItemId, name: "batchItemId", parent: name, max: 64)
             try self.validate(self.batchItemId, name: "batchItemId", parent: name, min: 1)
             try self.validate(self.batchItemId, name: "batchItemId", parent: name, pattern: "^(?!\\s*$).+")
@@ -451,6 +469,7 @@ extension Honeycode {
         }
 
         public func validate(name: String) throws {
+            try self.delimiter.forEach {}
             try self.validate(self.delimiter, name: "delimiter", parent: name, max: 1)
             try self.validate(self.delimiter, name: "delimiter", parent: name, min: 1)
             try self.validate(self.delimiter, name: "delimiter", parent: name, pattern: "^[^\\n\\r\\x00\\x08\\x0B\\x0C\\x0E\\x1F]?$")
@@ -485,12 +504,15 @@ extension Honeycode {
         }
 
         public func validate(name: String) throws {
+            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 100)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[^\\n\\r\\x00\\x08\\x0B\\x0C\\x0E\\x1F]*$")
+            try self.tableId.forEach {}
             try self.validate(self.tableId, name: "tableId", parent: name, max: 36)
             try self.validate(self.tableId, name: "tableId", parent: name, min: 36)
             try self.validate(self.tableId, name: "tableId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+            try self.workbookId.forEach {}
             try self.validate(self.workbookId, name: "workbookId", parent: name, max: 36)
             try self.validate(self.workbookId, name: "workbookId", parent: name, min: 36)
             try self.validate(self.workbookId, name: "workbookId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
@@ -571,9 +593,11 @@ extension Honeycode {
         }
 
         public func validate(name: String) throws {
+            try self.contextRowId?.forEach {}
             try self.validate(self.contextRowId, name: "contextRowId", parent: name, max: 77)
             try self.validate(self.contextRowId, name: "contextRowId", parent: name, min: 77)
             try self.validate(self.contextRowId, name: "contextRowId", parent: name, pattern: "row:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\\/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+            try self.formula.forEach {}
             try self.validate(self.formula, name: "formula", parent: name, max: 8192)
             try self.validate(self.formula, name: "formula", parent: name, min: 0)
             try self.validate(self.formula, name: "formula", parent: name, pattern: "^=.*")
@@ -609,14 +633,18 @@ extension Honeycode {
         }
 
         public func validate(name: String) throws {
+            try self.appId.forEach {}
             try self.validate(self.appId, name: "appId", parent: name, max: 36)
             try self.validate(self.appId, name: "appId", parent: name, min: 36)
             try self.validate(self.appId, name: "appId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^(?!\\s*$).+")
+            try self.screenId.forEach {}
             try self.validate(self.screenId, name: "screenId", parent: name, max: 36)
             try self.validate(self.screenId, name: "screenId", parent: name, min: 36)
             try self.validate(self.screenId, name: "screenId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
@@ -624,6 +652,7 @@ extension Honeycode {
                 try validate($0.key, name: "variables.key", parent: name, pattern: "^(?!\\s*$).+")
                 try $0.value.validate(name: "\(name).variables[\"\($0.key)\"]")
             }
+            try self.workbookId.forEach {}
             try self.validate(self.workbookId, name: "workbookId", parent: name, max: 36)
             try self.validate(self.workbookId, name: "workbookId", parent: name, min: 36)
             try self.validate(self.workbookId, name: "workbookId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
@@ -670,6 +699,7 @@ extension Honeycode {
 
         public func validate(name: String) throws {
             try self.dataSourceConfig.validate(name: "\(name).dataSourceConfig")
+            try self.dataSourceConfig.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -686,6 +716,7 @@ extension Honeycode {
         }
 
         public func validate(name: String) throws {
+            try self.dataSourceUrl?.forEach {}
             try self.validate(self.dataSourceUrl, name: "dataSourceUrl", parent: name, max: 8000)
             try self.validate(self.dataSourceUrl, name: "dataSourceUrl", parent: name, min: 1)
             try self.validate(self.dataSourceUrl, name: "dataSourceUrl", parent: name, pattern: "^https:\\/\\/[^\\n\\r\\x00\\x08\\x0B\\x0C\\x0E\\x1F]*$")
@@ -726,7 +757,9 @@ extension Honeycode {
 
         public func validate(name: String) throws {
             try self.delimitedTextOptions?.validate(name: "\(name).delimitedTextOptions")
+            try self.delimitedTextOptions?.forEach {}
             try self.destinationOptions?.validate(name: "\(name).destinationOptions")
+            try self.destinationOptions?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -769,18 +802,23 @@ extension Honeycode {
         }
 
         public func validate(name: String) throws {
+            try self.appId.forEach {}
             try self.validate(self.appId, name: "appId", parent: name, max: 36)
             try self.validate(self.appId, name: "appId", parent: name, min: 36)
             try self.validate(self.appId, name: "appId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^(?!\\s*$).+")
+            try self.rowId?.forEach {}
             try self.validate(self.rowId, name: "rowId", parent: name, max: 77)
             try self.validate(self.rowId, name: "rowId", parent: name, min: 77)
             try self.validate(self.rowId, name: "rowId", parent: name, pattern: "row:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\\/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+            try self.screenAutomationId.forEach {}
             try self.validate(self.screenAutomationId, name: "screenAutomationId", parent: name, max: 36)
             try self.validate(self.screenAutomationId, name: "screenAutomationId", parent: name, min: 36)
             try self.validate(self.screenAutomationId, name: "screenAutomationId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+            try self.screenId.forEach {}
             try self.validate(self.screenId, name: "screenId", parent: name, max: 36)
             try self.validate(self.screenId, name: "screenId", parent: name, min: 36)
             try self.validate(self.screenId, name: "screenId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
@@ -788,6 +826,7 @@ extension Honeycode {
                 try validate($0.key, name: "variables.key", parent: name, pattern: "^(?!\\s*$).+")
                 try $0.value.validate(name: "\(name).variables[\"\($0.key)\"]")
             }
+            try self.workbookId.forEach {}
             try self.validate(self.workbookId, name: "workbookId", parent: name, max: 36)
             try self.validate(self.workbookId, name: "workbookId", parent: name, min: 36)
             try self.validate(self.workbookId, name: "workbookId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
@@ -834,12 +873,15 @@ extension Honeycode {
         }
 
         public func validate(name: String) throws {
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^(?!\\s*$).+")
+            try self.tableId.forEach {}
             try self.validate(self.tableId, name: "tableId", parent: name, max: 36)
             try self.validate(self.tableId, name: "tableId", parent: name, min: 36)
             try self.validate(self.tableId, name: "tableId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+            try self.workbookId.forEach {}
             try self.validate(self.workbookId, name: "workbookId", parent: name, max: 36)
             try self.validate(self.workbookId, name: "workbookId", parent: name, min: 36)
             try self.validate(self.workbookId, name: "workbookId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
@@ -895,8 +937,10 @@ extension Honeycode {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^(?!\\s*$).+")
@@ -905,11 +949,14 @@ extension Honeycode {
                 try validate($0, name: "rowIds[]", parent: name, min: 77)
                 try validate($0, name: "rowIds[]", parent: name, pattern: "row:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\\/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
             }
+            try self.rowIds?.forEach {}
             try self.validate(self.rowIds, name: "rowIds", parent: name, max: 100)
             try self.validate(self.rowIds, name: "rowIds", parent: name, min: 1)
+            try self.tableId.forEach {}
             try self.validate(self.tableId, name: "tableId", parent: name, max: 36)
             try self.validate(self.tableId, name: "tableId", parent: name, min: 36)
             try self.validate(self.tableId, name: "tableId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+            try self.workbookId.forEach {}
             try self.validate(self.workbookId, name: "workbookId", parent: name, max: 36)
             try self.validate(self.workbookId, name: "workbookId", parent: name, min: 36)
             try self.validate(self.workbookId, name: "workbookId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
@@ -972,11 +1019,14 @@ extension Honeycode {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^(?!\\s*$).+")
+            try self.workbookId.forEach {}
             try self.validate(self.workbookId, name: "workbookId", parent: name, max: 36)
             try self.validate(self.workbookId, name: "workbookId", parent: name, min: 36)
             try self.validate(self.workbookId, name: "workbookId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
@@ -1033,14 +1083,19 @@ extension Honeycode {
 
         public func validate(name: String) throws {
             try self.filterFormula.validate(name: "\(name).filterFormula")
+            try self.filterFormula.forEach {}
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^(?!\\s*$).+")
+            try self.tableId.forEach {}
             try self.validate(self.tableId, name: "tableId", parent: name, max: 36)
             try self.validate(self.tableId, name: "tableId", parent: name, min: 36)
             try self.validate(self.tableId, name: "tableId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+            try self.workbookId.forEach {}
             try self.validate(self.workbookId, name: "workbookId", parent: name, max: 36)
             try self.validate(self.workbookId, name: "workbookId", parent: name, min: 36)
             try self.validate(self.workbookId, name: "workbookId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
@@ -1121,6 +1176,7 @@ extension Honeycode {
         }
 
         public func validate(name: String) throws {
+            try self.columnIndex?.forEach {}
             try self.validate(self.columnIndex, name: "columnIndex", parent: name, min: 1)
         }
 
@@ -1158,14 +1214,19 @@ extension Honeycode {
         }
 
         public func validate(name: String) throws {
+            try self.clientRequestToken.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^(?!\\s*$).+")
             try self.dataSource.validate(name: "\(name).dataSource")
+            try self.dataSource.forEach {}
+            try self.destinationTableId.forEach {}
             try self.validate(self.destinationTableId, name: "destinationTableId", parent: name, max: 36)
             try self.validate(self.destinationTableId, name: "destinationTableId", parent: name, min: 36)
             try self.validate(self.destinationTableId, name: "destinationTableId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
             try self.importOptions.validate(name: "\(name).importOptions")
+            try self.importOptions.forEach {}
+            try self.workbookId.forEach {}
             try self.validate(self.workbookId, name: "workbookId", parent: name, max: 36)
             try self.validate(self.workbookId, name: "workbookId", parent: name, min: 36)
             try self.validate(self.workbookId, name: "workbookId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
@@ -1294,6 +1355,7 @@ extension Honeycode {
                 try validate($0.key, name: "cellsToUpdate.key", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
                 try $0.value.validate(name: "\(name).cellsToUpdate[\"\($0.key)\"]")
             }
+            try self.rowId.forEach {}
             try self.validate(self.rowId, name: "rowId", parent: name, max: 77)
             try self.validate(self.rowId, name: "rowId", parent: name, min: 77)
             try self.validate(self.rowId, name: "rowId", parent: name, pattern: "row:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\\/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
@@ -1320,6 +1382,7 @@ extension Honeycode {
         }
 
         public func validate(name: String) throws {
+            try self.batchItemId.forEach {}
             try self.validate(self.batchItemId, name: "batchItemId", parent: name, max: 64)
             try self.validate(self.batchItemId, name: "batchItemId", parent: name, min: 1)
             try self.validate(self.batchItemId, name: "batchItemId", parent: name, pattern: "^(?!\\s*$).+")
@@ -1330,6 +1393,7 @@ extension Honeycode {
                 try $0.value.validate(name: "\(name).cellsToUpdate[\"\($0.key)\"]")
             }
             try self.filter.validate(name: "\(name).filter")
+            try self.filter.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1365,6 +1429,7 @@ extension Honeycode {
         }
 
         public func validate(name: String) throws {
+            try self.rawValue.forEach {}
             try self.validate(self.rawValue, name: "rawValue", parent: name, max: 32767)
             try self.validate(self.rawValue, name: "rawValue", parent: name, min: 0)
             try self.validate(self.rawValue, name: "rawValue", parent: name, pattern: "[\\s\\S]*")

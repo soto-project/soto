@@ -136,8 +136,10 @@ extension ResourceGroupsTaggingAPI {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.paginationToken?.forEach {}
             try self.validate(self.paginationToken, name: "paginationToken", parent: name, max: 2048)
             try self.validate(self.paginationToken, name: "paginationToken", parent: name, min: 0)
             try self.validate(self.paginationToken, name: "paginationToken", parent: name, pattern: "[\\s\\S]*")
@@ -146,6 +148,7 @@ extension ResourceGroupsTaggingAPI {
                 try validate($0, name: "regionFilters[]", parent: name, min: 1)
                 try validate($0, name: "regionFilters[]", parent: name, pattern: "[\\s\\S]*")
             }
+            try self.regionFilters?.forEach {}
             try self.validate(self.regionFilters, name: "regionFilters", parent: name, max: 100)
             try self.validate(self.regionFilters, name: "regionFilters", parent: name, min: 1)
             try self.resourceTypeFilters?.forEach {
@@ -153,11 +156,13 @@ extension ResourceGroupsTaggingAPI {
                 try validate($0, name: "resourceTypeFilters[]", parent: name, min: 0)
                 try validate($0, name: "resourceTypeFilters[]", parent: name, pattern: "[\\s\\S]*")
             }
+            try self.resourceTypeFilters?.forEach {}
             try self.tagKeyFilters?.forEach {
                 try validate($0, name: "tagKeyFilters[]", parent: name, max: 128)
                 try validate($0, name: "tagKeyFilters[]", parent: name, min: 1)
                 try validate($0, name: "tagKeyFilters[]", parent: name, pattern: "[\\s\\S]*")
             }
+            try self.tagKeyFilters?.forEach {}
             try self.validate(self.tagKeyFilters, name: "tagKeyFilters", parent: name, max: 50)
             try self.validate(self.tagKeyFilters, name: "tagKeyFilters", parent: name, min: 1)
             try self.targetIdFilters?.forEach {
@@ -165,6 +170,7 @@ extension ResourceGroupsTaggingAPI {
                 try validate($0, name: "targetIdFilters[]", parent: name, min: 6)
                 try validate($0, name: "targetIdFilters[]", parent: name, pattern: "[a-zA-Z0-9-]*")
             }
+            try self.targetIdFilters?.forEach {}
             try self.validate(self.targetIdFilters, name: "targetIdFilters", parent: name, max: 100)
             try self.validate(self.targetIdFilters, name: "targetIdFilters", parent: name, min: 1)
         }
@@ -227,6 +233,7 @@ extension ResourceGroupsTaggingAPI {
         }
 
         public func validate(name: String) throws {
+            try self.paginationToken?.forEach {}
             try self.validate(self.paginationToken, name: "paginationToken", parent: name, max: 2048)
             try self.validate(self.paginationToken, name: "paginationToken", parent: name, min: 0)
             try self.validate(self.paginationToken, name: "paginationToken", parent: name, pattern: "[\\s\\S]*")
@@ -235,6 +242,7 @@ extension ResourceGroupsTaggingAPI {
                 try validate($0, name: "resourceARNList[]", parent: name, min: 1)
                 try validate($0, name: "resourceARNList[]", parent: name, pattern: "[\\s\\S]*")
             }
+            try self.resourceARNList?.forEach {}
             try self.validate(self.resourceARNList, name: "resourceARNList", parent: name, max: 100)
             try self.validate(self.resourceARNList, name: "resourceARNList", parent: name, min: 1)
             try self.resourceTypeFilters?.forEach {
@@ -242,9 +250,11 @@ extension ResourceGroupsTaggingAPI {
                 try validate($0, name: "resourceTypeFilters[]", parent: name, min: 0)
                 try validate($0, name: "resourceTypeFilters[]", parent: name, pattern: "[\\s\\S]*")
             }
+            try self.resourceTypeFilters?.forEach {}
             try self.tagFilters?.forEach {
                 try $0.validate(name: "\(name).tagFilters[]")
             }
+            try self.tagFilters?.forEach {}
             try self.validate(self.tagFilters, name: "tagFilters", parent: name, max: 50)
             try self.validate(self.tagFilters, name: "tagFilters", parent: name, min: 0)
         }
@@ -287,6 +297,7 @@ extension ResourceGroupsTaggingAPI {
         }
 
         public func validate(name: String) throws {
+            try self.paginationToken?.forEach {}
             try self.validate(self.paginationToken, name: "paginationToken", parent: name, max: 2048)
             try self.validate(self.paginationToken, name: "paginationToken", parent: name, min: 0)
             try self.validate(self.paginationToken, name: "paginationToken", parent: name, pattern: "[\\s\\S]*")
@@ -326,9 +337,11 @@ extension ResourceGroupsTaggingAPI {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "[\\s\\S]*")
+            try self.paginationToken?.forEach {}
             try self.validate(self.paginationToken, name: "paginationToken", parent: name, max: 2048)
             try self.validate(self.paginationToken, name: "paginationToken", parent: name, min: 0)
             try self.validate(self.paginationToken, name: "paginationToken", parent: name, pattern: "[\\s\\S]*")
@@ -387,6 +400,7 @@ extension ResourceGroupsTaggingAPI {
         }
 
         public func validate(name: String) throws {
+            try self.s3Bucket.forEach {}
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, max: 63)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, min: 3)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "[a-z0-9.-]*")
@@ -463,6 +477,7 @@ extension ResourceGroupsTaggingAPI {
         }
 
         public func validate(name: String) throws {
+            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "[\\s\\S]*")
@@ -471,6 +486,7 @@ extension ResourceGroupsTaggingAPI {
                 try validate($0, name: "values[]", parent: name, min: 0)
                 try validate($0, name: "values[]", parent: name, pattern: "[\\s\\S]*")
             }
+            try self.values?.forEach {}
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 0)
         }
@@ -498,6 +514,7 @@ extension ResourceGroupsTaggingAPI {
                 try validate($0, name: "resourceARNList[]", parent: name, min: 1)
                 try validate($0, name: "resourceARNList[]", parent: name, pattern: "[\\s\\S]*")
             }
+            try self.resourceARNList.forEach {}
             try self.validate(self.resourceARNList, name: "resourceARNList", parent: name, max: 20)
             try self.validate(self.resourceARNList, name: "resourceARNList", parent: name, min: 1)
             try self.tags.forEach {
@@ -546,6 +563,7 @@ extension ResourceGroupsTaggingAPI {
                 try validate($0, name: "resourceARNList[]", parent: name, min: 1)
                 try validate($0, name: "resourceARNList[]", parent: name, pattern: "[\\s\\S]*")
             }
+            try self.resourceARNList.forEach {}
             try self.validate(self.resourceARNList, name: "resourceARNList", parent: name, max: 20)
             try self.validate(self.resourceARNList, name: "resourceARNList", parent: name, min: 1)
             try self.tagKeys.forEach {
@@ -553,6 +571,7 @@ extension ResourceGroupsTaggingAPI {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "[\\s\\S]*")
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }

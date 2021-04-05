@@ -103,7 +103,9 @@ extension MarketplaceEntitlementService {
             try self.filter?.forEach {
                 try validate($0.value, name: "filter[\"\($0.key)\"]", parent: name, min: 1)
             }
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "\\S+")
+            try self.productCode.forEach {}
             try self.validate(self.productCode, name: "productCode", parent: name, max: 255)
             try self.validate(self.productCode, name: "productCode", parent: name, min: 1)
         }

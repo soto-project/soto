@@ -43,8 +43,10 @@ extension PrometheusService {
         }
 
         public func validate(name: String) throws {
+            try self.alias?.forEach {}
             try self.validate(self.alias, name: "alias", parent: name, max: 100)
             try self.validate(self.alias, name: "alias", parent: name, min: 1)
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
@@ -94,9 +96,11 @@ extension PrometheusService {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.workspaceId.forEach {}
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
@@ -118,6 +122,7 @@ extension PrometheusService {
         }
 
         public func validate(name: String) throws {
+            try self.workspaceId.forEach {}
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
@@ -160,8 +165,10 @@ extension PrometheusService {
         }
 
         public func validate(name: String) throws {
+            try self.alias?.forEach {}
             try self.validate(self.alias, name: "alias", parent: name, max: 100)
             try self.validate(self.alias, name: "alias", parent: name, min: 1)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -205,11 +212,14 @@ extension PrometheusService {
         }
 
         public func validate(name: String) throws {
+            try self.alias?.forEach {}
             try self.validate(self.alias, name: "alias", parent: name, max: 100)
             try self.validate(self.alias, name: "alias", parent: name, min: 1)
+            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.workspaceId.forEach {}
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")

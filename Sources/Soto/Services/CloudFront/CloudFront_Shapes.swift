@@ -819,6 +819,7 @@ extension CloudFront {
 
         public func validate(name: String) throws {
             try self.distributionConfig.validate(name: "\(name).distributionConfig")
+            try self.distributionConfig.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -871,6 +872,7 @@ extension CloudFront {
 
         public func validate(name: String) throws {
             try self.distributionConfigWithTags.validate(name: "\(name).distributionConfigWithTags")
+            try self.distributionConfigWithTags.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1343,6 +1345,7 @@ extension CloudFront {
 
         public func validate(name: String) throws {
             try self.streamingDistributionConfigWithTags.validate(name: "\(name).streamingDistributionConfigWithTags")
+            try self.streamingDistributionConfigWithTags.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1854,7 +1857,9 @@ extension CloudFront {
 
         public func validate(name: String) throws {
             try self.originGroups?.validate(name: "\(name).originGroups")
+            try self.originGroups?.forEach {}
             try self.origins.validate(name: "\(name).origins")
+            try self.origins.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1893,7 +1898,9 @@ extension CloudFront {
 
         public func validate(name: String) throws {
             try self.distributionConfig.validate(name: "\(name).distributionConfig")
+            try self.distributionConfig.forEach {}
             try self.tags.validate(name: "\(name).tags")
+            try self.tags.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4141,6 +4148,7 @@ extension CloudFront {
         }
 
         public func validate(name: String) throws {
+            try self.resource.forEach {}
             try self.validate(self.resource, name: "resource", parent: name, pattern: "arn:aws(-cn)?:cloudfront::[0-9]+:.*")
         }
 
@@ -4240,6 +4248,7 @@ extension CloudFront {
 
         public func validate(name: String) throws {
             try self.originShield?.validate(name: "\(name).originShield")
+            try self.originShield?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4288,7 +4297,9 @@ extension CloudFront {
 
         public func validate(name: String) throws {
             try self.failoverCriteria.validate(name: "\(name).failoverCriteria")
+            try self.failoverCriteria.forEach {}
             try self.members.validate(name: "\(name).members")
+            try self.members.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4308,6 +4319,7 @@ extension CloudFront {
 
         public func validate(name: String) throws {
             try self.statusCodes.validate(name: "\(name).statusCodes")
+            try self.statusCodes.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4343,6 +4355,7 @@ extension CloudFront {
         }
 
         public func validate(name: String) throws {
+            try self.items.forEach {}
             try self.validate(self.items, name: "items", parent: name, max: 2)
             try self.validate(self.items, name: "items", parent: name, min: 2)
         }
@@ -4371,6 +4384,7 @@ extension CloudFront {
             try self.items?.forEach {
                 try $0.validate(name: "\(name).items[]")
             }
+            try self.items?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4537,6 +4551,7 @@ extension CloudFront {
         }
 
         public func validate(name: String) throws {
+            try self.originShieldRegion?.forEach {}
             try self.validate(self.originShieldRegion, name: "originShieldRegion", parent: name, max: 32)
             try self.validate(self.originShieldRegion, name: "originShieldRegion", parent: name, min: 1)
             try self.validate(self.originShieldRegion, name: "originShieldRegion", parent: name, pattern: "[a-z]{2}-[a-z]+-\\d")
@@ -4586,6 +4601,7 @@ extension CloudFront {
             try self.items.forEach {
                 try $0.validate(name: "\(name).items[]")
             }
+            try self.items.forEach {}
             try self.validate(self.items, name: "items", parent: name, min: 1)
         }
 
@@ -4974,6 +4990,7 @@ extension CloudFront {
         }
 
         public func validate(name: String) throws {
+            try self.items.forEach {}
             try self.validate(self.items, name: "items", parent: name, min: 1)
         }
 
@@ -5078,6 +5095,7 @@ extension CloudFront {
 
         public func validate(name: String) throws {
             try self.tags.validate(name: "\(name).tags")
+            try self.tags.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5208,9 +5226,11 @@ extension CloudFront {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
             try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -5240,6 +5260,7 @@ extension CloudFront {
                 try validate($0, name: "items[]", parent: name, min: 1)
                 try validate($0, name: "items[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
+            try self.items?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5266,8 +5287,10 @@ extension CloudFront {
         }
 
         public func validate(name: String) throws {
+            try self.resource.forEach {}
             try self.validate(self.resource, name: "resource", parent: name, pattern: "arn:aws(-cn)?:cloudfront::[0-9]+:.*")
             try self.tags.validate(name: "\(name).tags")
+            try self.tags.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5291,6 +5314,7 @@ extension CloudFront {
             try self.items?.forEach {
                 try $0.validate(name: "\(name).items[]")
             }
+            try self.items?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5365,8 +5389,10 @@ extension CloudFront {
         }
 
         public func validate(name: String) throws {
+            try self.resource.forEach {}
             try self.validate(self.resource, name: "resource", parent: name, pattern: "arn:aws(-cn)?:cloudfront::[0-9]+:.*")
             try self.tagKeys.validate(name: "\(name).tagKeys")
+            try self.tagKeys.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5500,6 +5526,7 @@ extension CloudFront {
 
         public func validate(name: String) throws {
             try self.distributionConfig.validate(name: "\(name).distributionConfig")
+            try self.distributionConfig.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {

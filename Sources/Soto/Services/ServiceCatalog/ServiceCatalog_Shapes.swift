@@ -273,7 +273,9 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.portfolioId.forEach {}
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, max: 100)
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, min: 1)
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -319,8 +321,10 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.budgetName.forEach {}
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
+            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 100)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -354,10 +358,13 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.portfolioId.forEach {}
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, max: 100)
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, min: 1)
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.principalARN.forEach {}
             try self.validate(self.principalARN, name: "principalARN", parent: name, max: 1000)
             try self.validate(self.principalARN, name: "principalARN", parent: name, min: 1)
         }
@@ -392,13 +399,17 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.portfolioId.forEach {}
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, max: 100)
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, min: 1)
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.productId.forEach {}
             try self.validate(self.productId, name: "productId", parent: name, max: 100)
             try self.validate(self.productId, name: "productId", parent: name, min: 1)
             try self.validate(self.productId, name: "productId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.sourcePortfolioId?.forEach {}
             try self.validate(self.sourcePortfolioId, name: "sourcePortfolioId", parent: name, max: 100)
             try self.validate(self.sourcePortfolioId, name: "sourcePortfolioId", parent: name, min: 1)
             try self.validate(self.sourcePortfolioId, name: "sourcePortfolioId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -434,13 +445,17 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.productId.forEach {}
             try self.validate(self.productId, name: "productId", parent: name, max: 100)
             try self.validate(self.productId, name: "productId", parent: name, min: 1)
             try self.validate(self.productId, name: "productId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.provisioningArtifactId.forEach {}
             try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, max: 100)
             try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, min: 1)
             try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.serviceActionId.forEach {}
             try self.validate(self.serviceActionId, name: "serviceActionId", parent: name, max: 100)
             try self.validate(self.serviceActionId, name: "serviceActionId", parent: name, min: 1)
             try self.validate(self.serviceActionId, name: "serviceActionId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -470,6 +485,7 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.tagOptionId.forEach {}
             try self.validate(self.tagOptionId, name: "tagOptionId", parent: name, max: 100)
             try self.validate(self.tagOptionId, name: "tagOptionId", parent: name, min: 1)
         }
@@ -496,10 +512,12 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
             try self.serviceActionAssociations.forEach {
                 try $0.validate(name: "\(name).serviceActionAssociations[]")
             }
+            try self.serviceActionAssociations.forEach {}
             try self.validate(self.serviceActionAssociations, name: "serviceActionAssociations", parent: name, max: 50)
             try self.validate(self.serviceActionAssociations, name: "serviceActionAssociations", parent: name, min: 1)
         }
@@ -535,10 +553,12 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
             try self.serviceActionAssociations.forEach {
                 try $0.validate(name: "\(name).serviceActionAssociations[]")
             }
+            try self.serviceActionAssociations.forEach {}
             try self.validate(self.serviceActionAssociations, name: "serviceActionAssociations", parent: name, max: 50)
             try self.validate(self.serviceActionAssociations, name: "serviceActionAssociations", parent: name, min: 1)
         }
@@ -665,16 +685,21 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.idempotencyToken.forEach {}
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 128)
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, min: 1)
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.sourceProductArn.forEach {}
             try self.validate(self.sourceProductArn, name: "sourceProductArn", parent: name, max: 1224)
             try self.validate(self.sourceProductArn, name: "sourceProductArn", parent: name, min: 1)
             try self.validate(self.sourceProductArn, name: "sourceProductArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.targetProductId?.forEach {}
             try self.validate(self.targetProductId, name: "targetProductId", parent: name, max: 100)
             try self.validate(self.targetProductId, name: "targetProductId", parent: name, min: 1)
             try self.validate(self.targetProductId, name: "targetProductId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.targetProductName?.forEach {}
             try self.validate(self.targetProductName, name: "targetProductName", parent: name, max: 8191)
         }
 
@@ -729,17 +754,23 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2000)
+            try self.idempotencyToken.forEach {}
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 128)
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, min: 1)
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.portfolioId.forEach {}
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, max: 100)
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, min: 1)
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.productId.forEach {}
             try self.validate(self.productId, name: "productId", parent: name, max: 100)
             try self.validate(self.productId, name: "productId", parent: name, min: 1)
             try self.validate(self.productId, name: "productId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.type.forEach {}
             try self.validate(self.type, name: "type", parent: name, max: 1024)
             try self.validate(self.type, name: "type", parent: name, min: 1)
         }
@@ -800,18 +831,24 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2000)
+            try self.displayName.forEach {}
             try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
+            try self.idempotencyToken.forEach {}
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 128)
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, min: 1)
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.providerName.forEach {}
             try self.validate(self.providerName, name: "providerName", parent: name, max: 50)
             try self.validate(self.providerName, name: "providerName", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 20)
         }
 
@@ -863,9 +900,13 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.accountId?.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^[0-9]{12}$")
             try self.organizationNode?.validate(name: "\(name).organizationNode")
+            try self.organizationNode?.forEach {}
+            try self.portfolioId.forEach {}
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, max: 100)
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, min: 1)
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -935,21 +976,32 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 8191)
+            try self.distributor?.forEach {}
             try self.validate(self.distributor, name: "distributor", parent: name, max: 8191)
+            try self.idempotencyToken.forEach {}
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 128)
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, min: 1)
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 8191)
+            try self.owner.forEach {}
             try self.validate(self.owner, name: "owner", parent: name, max: 8191)
             try self.provisioningArtifactParameters.validate(name: "\(name).provisioningArtifactParameters")
+            try self.provisioningArtifactParameters.forEach {}
+            try self.supportDescription?.forEach {}
             try self.validate(self.supportDescription, name: "supportDescription", parent: name, max: 8191)
+            try self.supportEmail?.forEach {}
             try self.validate(self.supportEmail, name: "supportEmail", parent: name, max: 254)
+            try self.supportUrl?.forEach {}
             try self.validate(self.supportUrl, name: "supportUrl", parent: name, max: 2083)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 20)
         }
 
@@ -1029,7 +1081,9 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.idempotencyToken.forEach {}
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 128)
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, min: 1)
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
@@ -1038,25 +1092,32 @@ extension ServiceCatalog {
                 try validate($0, name: "notificationArns[]", parent: name, min: 1)
                 try validate($0, name: "notificationArns[]", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             }
+            try self.notificationArns?.forEach {}
             try self.validate(self.notificationArns, name: "notificationArns", parent: name, max: 5)
+            try self.pathId?.forEach {}
             try self.validate(self.pathId, name: "pathId", parent: name, max: 100)
             try self.validate(self.pathId, name: "pathId", parent: name, min: 1)
             try self.validate(self.pathId, name: "pathId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.productId.forEach {}
             try self.validate(self.productId, name: "productId", parent: name, max: 100)
             try self.validate(self.productId, name: "productId", parent: name, min: 1)
             try self.validate(self.productId, name: "productId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.provisionedProductName.forEach {}
             try self.validate(self.provisionedProductName, name: "provisionedProductName", parent: name, max: 128)
             try self.validate(self.provisionedProductName, name: "provisionedProductName", parent: name, min: 1)
             try self.validate(self.provisionedProductName, name: "provisionedProductName", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9._-]*")
+            try self.provisioningArtifactId.forEach {}
             try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, max: 100)
             try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, min: 1)
             try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
             try self.provisioningParameters?.forEach {
                 try $0.validate(name: "\(name).provisioningParameters[]")
             }
+            try self.provisioningParameters?.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
 
@@ -1122,11 +1183,15 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.idempotencyToken.forEach {}
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 128)
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, min: 1)
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
             try self.parameters.validate(name: "\(name).parameters")
+            try self.parameters.forEach {}
+            try self.productId.forEach {}
             try self.validate(self.productId, name: "productId", parent: name, max: 100)
             try self.validate(self.productId, name: "productId", parent: name, min: 1)
             try self.validate(self.productId, name: "productId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -1185,15 +1250,19 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
             try self.definition.forEach {
                 try validate($0.value, name: "definition[\"\($0.key)\"]", parent: name, max: 1024)
                 try validate($0.value, name: "definition[\"\($0.key)\"]", parent: name, min: 1)
             }
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.idempotencyToken.forEach {}
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 128)
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, min: 1)
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]*")
@@ -1234,9 +1303,11 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 1)
             try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -1273,7 +1344,9 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -1301,7 +1374,9 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -1335,9 +1410,13 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.accountId?.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^[0-9]{12}$")
             try self.organizationNode?.validate(name: "\(name).organizationNode")
+            try self.organizationNode?.forEach {}
+            try self.portfolioId.forEach {}
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, max: 100)
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, min: 1)
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -1376,7 +1455,9 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -1407,7 +1488,9 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.planId.forEach {}
             try self.validate(self.planId, name: "planId", parent: name, max: 100)
             try self.validate(self.planId, name: "planId", parent: name, min: 1)
             try self.validate(self.planId, name: "planId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -1439,10 +1522,13 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.productId.forEach {}
             try self.validate(self.productId, name: "productId", parent: name, max: 100)
             try self.validate(self.productId, name: "productId", parent: name, min: 1)
             try self.validate(self.productId, name: "productId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.provisioningArtifactId.forEach {}
             try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, max: 100)
             try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, min: 1)
             try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -1471,7 +1557,9 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -1496,6 +1584,7 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
         }
@@ -1521,7 +1610,9 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -1566,7 +1657,9 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.copyProductToken.forEach {}
             try self.validate(self.copyProductToken, name: "copyProductToken", parent: name, max: 100)
             try self.validate(self.copyProductToken, name: "copyProductToken", parent: name, min: 1)
             try self.validate(self.copyProductToken, name: "copyProductToken", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -1611,7 +1704,9 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -1657,6 +1752,7 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.portfolioShareToken.forEach {}
             try self.validate(self.portfolioShareToken, name: "portfolioShareToken", parent: name, max: 100)
             try self.validate(self.portfolioShareToken, name: "portfolioShareToken", parent: name, min: 1)
             try self.validate(self.portfolioShareToken, name: "portfolioShareToken", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -1714,10 +1810,13 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 100)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
+            try self.pageToken?.forEach {}
             try self.validate(self.pageToken, name: "pageToken", parent: name, max: 2024)
             try self.validate(self.pageToken, name: "pageToken", parent: name, pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+            try self.portfolioId.forEach {}
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, max: 100)
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, min: 1)
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -1766,11 +1865,15 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.id?.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 8191)
+            try self.sourcePortfolioId?.forEach {}
             try self.validate(self.sourcePortfolioId, name: "sourcePortfolioId", parent: name, max: 100)
             try self.validate(self.sourcePortfolioId, name: "sourcePortfolioId", parent: name, min: 1)
             try self.validate(self.sourcePortfolioId, name: "sourcePortfolioId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -1828,10 +1931,13 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.id?.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 8191)
         }
 
@@ -1879,7 +1985,9 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -1923,10 +2031,13 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.id?.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9._-]*")
@@ -1974,11 +2085,15 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 20)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
+            try self.pageToken?.forEach {}
             try self.validate(self.pageToken, name: "pageToken", parent: name, max: 2024)
             try self.validate(self.pageToken, name: "pageToken", parent: name, pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+            try self.planId.forEach {}
             try self.validate(self.planId, name: "planId", parent: name, max: 100)
             try self.validate(self.planId, name: "planId", parent: name, min: 1)
             try self.validate(self.planId, name: "planId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -2037,14 +2152,19 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.productId?.forEach {}
             try self.validate(self.productId, name: "productId", parent: name, max: 100)
             try self.validate(self.productId, name: "productId", parent: name, min: 1)
             try self.validate(self.productId, name: "productId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.productName?.forEach {}
             try self.validate(self.productName, name: "productName", parent: name, max: 8191)
+            try self.provisioningArtifactId?.forEach {}
             try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, max: 100)
             try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, min: 1)
             try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.provisioningArtifactName?.forEach {}
             try self.validate(self.provisioningArtifactName, name: "provisioningArtifactName", parent: name, max: 8192)
         }
 
@@ -2106,19 +2226,26 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.pathId?.forEach {}
             try self.validate(self.pathId, name: "pathId", parent: name, max: 100)
             try self.validate(self.pathId, name: "pathId", parent: name, min: 1)
             try self.validate(self.pathId, name: "pathId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.pathName?.forEach {}
             try self.validate(self.pathName, name: "pathName", parent: name, max: 100)
             try self.validate(self.pathName, name: "pathName", parent: name, min: 1)
+            try self.productId?.forEach {}
             try self.validate(self.productId, name: "productId", parent: name, max: 100)
             try self.validate(self.productId, name: "productId", parent: name, min: 1)
             try self.validate(self.productId, name: "productId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.productName?.forEach {}
             try self.validate(self.productName, name: "productName", parent: name, max: 8191)
+            try self.provisioningArtifactId?.forEach {}
             try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, max: 100)
             try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, min: 1)
             try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.provisioningArtifactName?.forEach {}
             try self.validate(self.provisioningArtifactName, name: "provisioningArtifactName", parent: name, max: 8192)
         }
 
@@ -2184,12 +2311,16 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 20)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
+            try self.pageToken?.forEach {}
             try self.validate(self.pageToken, name: "pageToken", parent: name, max: 2024)
             try self.validate(self.pageToken, name: "pageToken", parent: name, pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
         }
@@ -2238,10 +2369,13 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.provisionedProductId.forEach {}
             try self.validate(self.provisionedProductId, name: "provisionedProductId", parent: name, max: 100)
             try self.validate(self.provisionedProductId, name: "provisionedProductId", parent: name, min: 1)
             try self.validate(self.provisionedProductId, name: "provisionedProductId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.serviceActionId.forEach {}
             try self.validate(self.serviceActionId, name: "serviceActionId", parent: name, max: 100)
             try self.validate(self.serviceActionId, name: "serviceActionId", parent: name, min: 1)
             try self.validate(self.serviceActionId, name: "serviceActionId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -2279,7 +2413,9 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -2313,6 +2449,7 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
         }
@@ -2355,8 +2492,10 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.budgetName.forEach {}
             try self.validate(self.budgetName, name: "budgetName", parent: name, max: 100)
             try self.validate(self.budgetName, name: "budgetName", parent: name, min: 1)
+            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 100)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -2387,10 +2526,13 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.portfolioId.forEach {}
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, max: 100)
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, min: 1)
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.principalARN.forEach {}
             try self.validate(self.principalARN, name: "principalARN", parent: name, max: 1000)
             try self.validate(self.principalARN, name: "principalARN", parent: name, min: 1)
         }
@@ -2421,10 +2563,13 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.portfolioId.forEach {}
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, max: 100)
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, min: 1)
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.productId.forEach {}
             try self.validate(self.productId, name: "productId", parent: name, max: 100)
             try self.validate(self.productId, name: "productId", parent: name, min: 1)
             try self.validate(self.productId, name: "productId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -2459,13 +2604,17 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.productId.forEach {}
             try self.validate(self.productId, name: "productId", parent: name, max: 100)
             try self.validate(self.productId, name: "productId", parent: name, min: 1)
             try self.validate(self.productId, name: "productId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.provisioningArtifactId.forEach {}
             try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, max: 100)
             try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, min: 1)
             try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.serviceActionId.forEach {}
             try self.validate(self.serviceActionId, name: "serviceActionId", parent: name, max: 100)
             try self.validate(self.serviceActionId, name: "serviceActionId", parent: name, min: 1)
             try self.validate(self.serviceActionId, name: "serviceActionId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -2495,6 +2644,7 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.tagOptionId.forEach {}
             try self.validate(self.tagOptionId, name: "tagOptionId", parent: name, max: 100)
             try self.validate(self.tagOptionId, name: "tagOptionId", parent: name, min: 1)
         }
@@ -2532,10 +2682,13 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.idempotencyToken.forEach {}
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 128)
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, min: 1)
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.planId.forEach {}
             try self.validate(self.planId, name: "planId", parent: name, max: 100)
             try self.validate(self.planId, name: "planId", parent: name, min: 1)
             try self.validate(self.planId, name: "planId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -2582,7 +2735,9 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.executeToken.forEach {}
             try self.validate(self.executeToken, name: "executeToken", parent: name, max: 128)
             try self.validate(self.executeToken, name: "executeToken", parent: name, min: 1)
             try self.validate(self.executeToken, name: "executeToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
@@ -2592,9 +2747,11 @@ extension ServiceCatalog {
                 try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 25)
                 try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, min: 0)
             }
+            try self.provisionedProductId.forEach {}
             try self.validate(self.provisionedProductId, name: "provisionedProductId", parent: name, max: 100)
             try self.validate(self.provisionedProductId, name: "provisionedProductId", parent: name, min: 1)
             try self.validate(self.provisionedProductId, name: "provisionedProductId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.serviceActionId.forEach {}
             try self.validate(self.serviceActionId, name: "serviceActionId", parent: name, max: 100)
             try self.validate(self.serviceActionId, name: "serviceActionId", parent: name, min: 1)
             try self.validate(self.serviceActionId, name: "serviceActionId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -2713,15 +2870,21 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.outputKeys?.forEach {}
             try self.validate(self.outputKeys, name: "outputKeys", parent: name, max: 60)
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 20)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
+            try self.pageToken?.forEach {}
             try self.validate(self.pageToken, name: "pageToken", parent: name, max: 2024)
             try self.validate(self.pageToken, name: "pageToken", parent: name, pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+            try self.provisionedProductId?.forEach {}
             try self.validate(self.provisionedProductId, name: "provisionedProductId", parent: name, max: 100)
             try self.validate(self.provisionedProductId, name: "provisionedProductId", parent: name, min: 1)
             try self.validate(self.provisionedProductId, name: "provisionedProductId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.provisionedProductName?.forEach {}
             try self.validate(self.provisionedProductName, name: "provisionedProductName", parent: name, max: 128)
             try self.validate(self.provisionedProductName, name: "provisionedProductName", parent: name, min: 1)
             try self.validate(self.provisionedProductName, name: "provisionedProductName", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9._-]*")
@@ -2778,16 +2941,21 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.idempotencyToken.forEach {}
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 128)
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, min: 1)
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.productId.forEach {}
             try self.validate(self.productId, name: "productId", parent: name, max: 100)
             try self.validate(self.productId, name: "productId", parent: name, min: 1)
             try self.validate(self.productId, name: "productId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.provisionedProductName.forEach {}
             try self.validate(self.provisionedProductName, name: "provisionedProductName", parent: name, max: 128)
             try self.validate(self.provisionedProductName, name: "provisionedProductName", parent: name, min: 1)
             try self.validate(self.provisionedProductName, name: "provisionedProductName", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9._-]*")
+            try self.provisioningArtifactId.forEach {}
             try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, max: 100)
             try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, min: 1)
             try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -2875,9 +3043,12 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 20)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
+            try self.pageToken?.forEach {}
             try self.validate(self.pageToken, name: "pageToken", parent: name, max: 2024)
             try self.validate(self.pageToken, name: "pageToken", parent: name, pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
         }
@@ -2925,11 +3096,15 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 20)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
+            try self.pageToken?.forEach {}
             try self.validate(self.pageToken, name: "pageToken", parent: name, max: 2024)
             try self.validate(self.pageToken, name: "pageToken", parent: name, pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 100)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -2981,14 +3156,19 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 20)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
+            try self.pageToken?.forEach {}
             try self.validate(self.pageToken, name: "pageToken", parent: name, max: 2024)
             try self.validate(self.pageToken, name: "pageToken", parent: name, pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+            try self.portfolioId.forEach {}
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, max: 100)
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, min: 1)
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.productId?.forEach {}
             try self.validate(self.productId, name: "productId", parent: name, max: 100)
             try self.validate(self.productId, name: "productId", parent: name, min: 1)
             try self.validate(self.productId, name: "productId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -3038,11 +3218,15 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 20)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
+            try self.pageToken?.forEach {}
             try self.validate(self.pageToken, name: "pageToken", parent: name, max: 2024)
             try self.validate(self.pageToken, name: "pageToken", parent: name, pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+            try self.productId.forEach {}
             try self.validate(self.productId, name: "productId", parent: name, max: 100)
             try self.validate(self.productId, name: "productId", parent: name, min: 1)
             try self.validate(self.productId, name: "productId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -3094,11 +3278,15 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 20)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
+            try self.pageToken?.forEach {}
             try self.validate(self.pageToken, name: "pageToken", parent: name, max: 2024)
             try self.validate(self.pageToken, name: "pageToken", parent: name, pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+            try self.portfolioId.forEach {}
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, max: 100)
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, min: 1)
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -3151,14 +3339,19 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.organizationParentId?.forEach {}
             try self.validate(self.organizationParentId, name: "organizationParentId", parent: name, max: 100)
             try self.validate(self.organizationParentId, name: "organizationParentId", parent: name, min: 1)
             try self.validate(self.organizationParentId, name: "organizationParentId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 100)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
+            try self.pageToken?.forEach {}
             try self.validate(self.pageToken, name: "pageToken", parent: name, max: 2024)
             try self.validate(self.pageToken, name: "pageToken", parent: name, pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+            try self.portfolioId.forEach {}
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, max: 100)
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, min: 1)
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -3208,11 +3401,15 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 20)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
+            try self.pageToken?.forEach {}
             try self.validate(self.pageToken, name: "pageToken", parent: name, max: 2024)
             try self.validate(self.pageToken, name: "pageToken", parent: name, pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+            try self.productId.forEach {}
             try self.validate(self.productId, name: "productId", parent: name, max: 100)
             try self.validate(self.productId, name: "productId", parent: name, min: 1)
             try self.validate(self.productId, name: "productId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -3258,9 +3455,12 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 20)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
+            try self.pageToken?.forEach {}
             try self.validate(self.pageToken, name: "pageToken", parent: name, max: 2024)
             try self.validate(self.pageToken, name: "pageToken", parent: name, pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
         }
@@ -3307,11 +3507,15 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 20)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
+            try self.pageToken?.forEach {}
             try self.validate(self.pageToken, name: "pageToken", parent: name, max: 2024)
             try self.validate(self.pageToken, name: "pageToken", parent: name, pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+            try self.portfolioId.forEach {}
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, max: 100)
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, min: 1)
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -3363,11 +3567,15 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 20)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
+            try self.pageToken?.forEach {}
             try self.validate(self.pageToken, name: "pageToken", parent: name, max: 2024)
             try self.validate(self.pageToken, name: "pageToken", parent: name, pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+            try self.provisionProductId?.forEach {}
             try self.validate(self.provisionProductId, name: "provisionProductId", parent: name, max: 100)
             try self.validate(self.provisionProductId, name: "provisionProductId", parent: name, min: 1)
             try self.validate(self.provisionProductId, name: "provisionProductId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -3417,11 +3625,15 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 20)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
+            try self.pageToken?.forEach {}
             try self.validate(self.pageToken, name: "pageToken", parent: name, max: 2024)
             try self.validate(self.pageToken, name: "pageToken", parent: name, pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+            try self.serviceActionId.forEach {}
             try self.validate(self.serviceActionId, name: "serviceActionId", parent: name, max: 100)
             try self.validate(self.serviceActionId, name: "serviceActionId", parent: name, min: 1)
             try self.validate(self.serviceActionId, name: "serviceActionId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -3464,7 +3676,9 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.productId.forEach {}
             try self.validate(self.productId, name: "productId", parent: name, max: 100)
             try self.validate(self.productId, name: "productId", parent: name, min: 1)
             try self.validate(self.productId, name: "productId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -3514,9 +3728,12 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 20)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
+            try self.pageToken?.forEach {}
             try self.validate(self.pageToken, name: "pageToken", parent: name, max: 2024)
             try self.validate(self.pageToken, name: "pageToken", parent: name, pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
         }
@@ -3582,10 +3799,13 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 20)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
+            try self.pageToken?.forEach {}
             try self.validate(self.pageToken, name: "pageToken", parent: name, max: 2024)
             try self.validate(self.pageToken, name: "pageToken", parent: name, pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+            try self.tagOptionId.forEach {}
             try self.validate(self.tagOptionId, name: "tagOptionId", parent: name, max: 100)
             try self.validate(self.tagOptionId, name: "tagOptionId", parent: name, min: 1)
         }
@@ -3636,14 +3856,19 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 20)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
+            try self.pageToken?.forEach {}
             try self.validate(self.pageToken, name: "pageToken", parent: name, max: 2024)
             try self.validate(self.pageToken, name: "pageToken", parent: name, pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+            try self.productId.forEach {}
             try self.validate(self.productId, name: "productId", parent: name, max: 100)
             try self.validate(self.productId, name: "productId", parent: name, min: 1)
             try self.validate(self.productId, name: "productId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.provisioningArtifactId.forEach {}
             try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, max: 100)
             try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, min: 1)
             try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -3690,9 +3915,12 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 20)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
+            try self.pageToken?.forEach {}
             try self.validate(self.pageToken, name: "pageToken", parent: name, max: 2024)
             try self.validate(self.pageToken, name: "pageToken", parent: name, pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
         }
@@ -3739,11 +3967,15 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 20)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
+            try self.pageToken?.forEach {}
             try self.validate(self.pageToken, name: "pageToken", parent: name, max: 2024)
             try self.validate(self.pageToken, name: "pageToken", parent: name, pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+            try self.provisionedProductId.forEach {}
             try self.validate(self.provisionedProductId, name: "provisionedProductId", parent: name, max: 100)
             try self.validate(self.provisionedProductId, name: "provisionedProductId", parent: name, min: 1)
             try self.validate(self.provisionedProductId, name: "provisionedProductId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -3789,9 +4021,11 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 1)
             try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -3820,8 +4054,11 @@ extension ServiceCatalog {
 
         public func validate(name: String) throws {
             try self.filters?.validate(name: "\(name).filters")
+            try self.filters?.forEach {}
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 20)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
+            try self.pageToken?.forEach {}
             try self.validate(self.pageToken, name: "pageToken", parent: name, max: 2024)
             try self.validate(self.pageToken, name: "pageToken", parent: name, pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
         }
@@ -3862,6 +4099,7 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, pattern: "(^[0-9]{12}$)|(^arn:aws:organizations::\\d{12}:organization\\/o-[a-z0-9]{10,32})|(^o-[a-z0-9]{10,32}$)|(^arn:aws:organizations::\\d{12}:ou\\/o-[a-z0-9]{10,32}\\/ou-[0-9a-z]{4,32}-[0-9a-z]{8,32}$)|(^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$)")
         }
 
@@ -4123,39 +4361,52 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
             try self.notificationArns?.forEach {
                 try validate($0, name: "notificationArns[]", parent: name, max: 1224)
                 try validate($0, name: "notificationArns[]", parent: name, min: 1)
                 try validate($0, name: "notificationArns[]", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
             }
+            try self.notificationArns?.forEach {}
             try self.validate(self.notificationArns, name: "notificationArns", parent: name, max: 5)
+            try self.pathId?.forEach {}
             try self.validate(self.pathId, name: "pathId", parent: name, max: 100)
             try self.validate(self.pathId, name: "pathId", parent: name, min: 1)
             try self.validate(self.pathId, name: "pathId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.pathName?.forEach {}
             try self.validate(self.pathName, name: "pathName", parent: name, max: 100)
             try self.validate(self.pathName, name: "pathName", parent: name, min: 1)
+            try self.productId?.forEach {}
             try self.validate(self.productId, name: "productId", parent: name, max: 100)
             try self.validate(self.productId, name: "productId", parent: name, min: 1)
             try self.validate(self.productId, name: "productId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.productName?.forEach {}
             try self.validate(self.productName, name: "productName", parent: name, max: 8191)
+            try self.provisionedProductName.forEach {}
             try self.validate(self.provisionedProductName, name: "provisionedProductName", parent: name, max: 128)
             try self.validate(self.provisionedProductName, name: "provisionedProductName", parent: name, min: 1)
             try self.validate(self.provisionedProductName, name: "provisionedProductName", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9._-]*")
+            try self.provisioningArtifactId?.forEach {}
             try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, max: 100)
             try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, min: 1)
             try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.provisioningArtifactName?.forEach {}
             try self.validate(self.provisioningArtifactName, name: "provisioningArtifactName", parent: name, max: 8192)
             try self.provisioningParameters?.forEach {
                 try $0.validate(name: "\(name).provisioningParameters[]")
             }
+            try self.provisioningParameters?.forEach {}
             try self.provisioningPreferences?.validate(name: "\(name).provisioningPreferences")
+            try self.provisioningPreferences?.forEach {}
+            try self.provisionToken.forEach {}
             try self.validate(self.provisionToken, name: "provisionToken", parent: name, max: 128)
             try self.validate(self.provisionToken, name: "provisionToken", parent: name, min: 1)
             try self.validate(self.provisionToken, name: "provisionToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
 
@@ -4595,7 +4846,9 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 8192)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 8192)
         }
 
@@ -4666,8 +4919,10 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 1000)
             try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 4096)
         }
 
@@ -4704,10 +4959,15 @@ extension ServiceCatalog {
             try self.stackSetAccounts?.forEach {
                 try validate($0, name: "stackSetAccounts[]", parent: name, pattern: "^[0-9]{12}$")
             }
+            try self.stackSetAccounts?.forEach {}
+            try self.stackSetFailureToleranceCount?.forEach {}
             try self.validate(self.stackSetFailureToleranceCount, name: "stackSetFailureToleranceCount", parent: name, min: 0)
+            try self.stackSetFailureTolerancePercentage?.forEach {}
             try self.validate(self.stackSetFailureTolerancePercentage, name: "stackSetFailureTolerancePercentage", parent: name, max: 100)
             try self.validate(self.stackSetFailureTolerancePercentage, name: "stackSetFailureTolerancePercentage", parent: name, min: 0)
+            try self.stackSetMaxConcurrencyCount?.forEach {}
             try self.validate(self.stackSetMaxConcurrencyCount, name: "stackSetMaxConcurrencyCount", parent: name, min: 1)
+            try self.stackSetMaxConcurrencyPercentage?.forEach {}
             try self.validate(self.stackSetMaxConcurrencyPercentage, name: "stackSetMaxConcurrencyPercentage", parent: name, max: 100)
             try self.validate(self.stackSetMaxConcurrencyPercentage, name: "stackSetMaxConcurrencyPercentage", parent: name, min: 1)
         }
@@ -4857,7 +5117,9 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.portfolioId.forEach {}
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, max: 100)
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, min: 1)
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -5000,9 +5262,12 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 20)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
+            try self.pageToken?.forEach {}
             try self.validate(self.pageToken, name: "pageToken", parent: name, max: 2024)
             try self.validate(self.pageToken, name: "pageToken", parent: name, pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
         }
@@ -5062,11 +5327,15 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 20)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
+            try self.pageToken?.forEach {}
             try self.validate(self.pageToken, name: "pageToken", parent: name, max: 2024)
             try self.validate(self.pageToken, name: "pageToken", parent: name, pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+            try self.portfolioId?.forEach {}
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, max: 100)
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, min: 1)
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -5125,9 +5394,12 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 20)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
+            try self.pageToken?.forEach {}
             try self.validate(self.pageToken, name: "pageToken", parent: name, max: 2024)
             try self.validate(self.pageToken, name: "pageToken", parent: name, pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
         }
@@ -5190,9 +5462,12 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.pageSize?.forEach {}
             try self.validate(self.pageSize, name: "pageSize", parent: name, max: 100)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
+            try self.pageToken?.forEach {}
             try self.validate(self.pageToken, name: "pageToken", parent: name, max: 2024)
             try self.validate(self.pageToken, name: "pageToken", parent: name, pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
         }
@@ -5244,12 +5519,15 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.productId.forEach {}
             try self.validate(self.productId, name: "productId", parent: name, max: 100)
             try self.validate(self.productId, name: "productId", parent: name, min: 1)
             try self.validate(self.productId, name: "productId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.provisioningArtifactId.forEach {}
             try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, max: 100)
             try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, min: 1)
             try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.serviceActionId.forEach {}
             try self.validate(self.serviceActionId, name: "serviceActionId", parent: name, max: 100)
             try self.validate(self.serviceActionId, name: "serviceActionId", parent: name, min: 1)
             try self.validate(self.serviceActionId, name: "serviceActionId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -5375,9 +5653,11 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 1)
             try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -5459,13 +5739,17 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.provisionedProductId?.forEach {}
             try self.validate(self.provisionedProductId, name: "provisionedProductId", parent: name, max: 100)
             try self.validate(self.provisionedProductId, name: "provisionedProductId", parent: name, min: 1)
             try self.validate(self.provisionedProductId, name: "provisionedProductId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.provisionedProductName?.forEach {}
             try self.validate(self.provisionedProductName, name: "provisionedProductName", parent: name, max: 1224)
             try self.validate(self.provisionedProductName, name: "provisionedProductName", parent: name, min: 1)
             try self.validate(self.provisionedProductName, name: "provisionedProductName", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9._-]{0,127}|arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.terminateToken.forEach {}
             try self.validate(self.terminateToken, name: "terminateToken", parent: name, max: 128)
             try self.validate(self.terminateToken, name: "terminateToken", parent: name, min: 1)
             try self.validate(self.terminateToken, name: "terminateToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
@@ -5512,8 +5796,11 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2000)
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -5575,17 +5862,23 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
             try self.addTags?.forEach {
                 try $0.validate(name: "\(name).addTags[]")
             }
+            try self.addTags?.forEach {}
             try self.validate(self.addTags, name: "addTags", parent: name, max: 20)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2000)
+            try self.displayName?.forEach {}
             try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.providerName?.forEach {}
             try self.validate(self.providerName, name: "providerName", parent: name, max: 50)
             try self.validate(self.providerName, name: "providerName", parent: name, min: 1)
             try self.removeTags?.forEach {
@@ -5593,6 +5886,7 @@ extension ServiceCatalog {
                 try validate($0, name: "removeTags[]", parent: name, min: 1)
                 try validate($0, name: "removeTags[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
+            try self.removeTags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5643,9 +5937,13 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.accountId?.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^[0-9]{12}$")
             try self.organizationNode?.validate(name: "\(name).organizationNode")
+            try self.organizationNode?.forEach {}
+            try self.portfolioId.forEach {}
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, max: 100)
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, min: 1)
             try self.validate(self.portfolioId, name: "portfolioId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -5716,25 +6014,36 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
             try self.addTags?.forEach {
                 try $0.validate(name: "\(name).addTags[]")
             }
+            try self.addTags?.forEach {}
             try self.validate(self.addTags, name: "addTags", parent: name, max: 20)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 8191)
+            try self.distributor?.forEach {}
             try self.validate(self.distributor, name: "distributor", parent: name, max: 8191)
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 8191)
+            try self.owner?.forEach {}
             try self.validate(self.owner, name: "owner", parent: name, max: 8191)
             try self.removeTags?.forEach {
                 try validate($0, name: "removeTags[]", parent: name, max: 128)
                 try validate($0, name: "removeTags[]", parent: name, min: 1)
                 try validate($0, name: "removeTags[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
+            try self.removeTags?.forEach {}
+            try self.supportDescription?.forEach {}
             try self.validate(self.supportDescription, name: "supportDescription", parent: name, max: 8191)
+            try self.supportEmail?.forEach {}
             try self.validate(self.supportEmail, name: "supportEmail", parent: name, max: 254)
+            try self.supportUrl?.forEach {}
             try self.validate(self.supportUrl, name: "supportUrl", parent: name, max: 2083)
         }
 
@@ -5815,34 +6124,47 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.pathId?.forEach {}
             try self.validate(self.pathId, name: "pathId", parent: name, max: 100)
             try self.validate(self.pathId, name: "pathId", parent: name, min: 1)
             try self.validate(self.pathId, name: "pathId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.pathName?.forEach {}
             try self.validate(self.pathName, name: "pathName", parent: name, max: 100)
             try self.validate(self.pathName, name: "pathName", parent: name, min: 1)
+            try self.productId?.forEach {}
             try self.validate(self.productId, name: "productId", parent: name, max: 100)
             try self.validate(self.productId, name: "productId", parent: name, min: 1)
             try self.validate(self.productId, name: "productId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.productName?.forEach {}
             try self.validate(self.productName, name: "productName", parent: name, max: 8191)
+            try self.provisionedProductId?.forEach {}
             try self.validate(self.provisionedProductId, name: "provisionedProductId", parent: name, max: 100)
             try self.validate(self.provisionedProductId, name: "provisionedProductId", parent: name, min: 1)
             try self.validate(self.provisionedProductId, name: "provisionedProductId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.provisionedProductName?.forEach {}
             try self.validate(self.provisionedProductName, name: "provisionedProductName", parent: name, max: 1224)
             try self.validate(self.provisionedProductName, name: "provisionedProductName", parent: name, min: 1)
             try self.validate(self.provisionedProductName, name: "provisionedProductName", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9._-]{0,127}|arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.provisioningArtifactId?.forEach {}
             try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, max: 100)
             try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, min: 1)
             try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.provisioningArtifactName?.forEach {}
             try self.validate(self.provisioningArtifactName, name: "provisioningArtifactName", parent: name, max: 8192)
             try self.provisioningParameters?.forEach {
                 try $0.validate(name: "\(name).provisioningParameters[]")
             }
+            try self.provisioningParameters?.forEach {}
             try self.provisioningPreferences?.validate(name: "\(name).provisioningPreferences")
+            try self.provisioningPreferences?.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.updateToken.forEach {}
             try self.validate(self.updateToken, name: "updateToken", parent: name, max: 128)
             try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
             try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
@@ -5896,10 +6218,13 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.idempotencyToken.forEach {}
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 128)
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, min: 1)
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.provisionedProductId.forEach {}
             try self.validate(self.provisionedProductId, name: "provisionedProductId", parent: name, max: 100)
             try self.validate(self.provisionedProductId, name: "provisionedProductId", parent: name, min: 1)
             try self.validate(self.provisionedProductId, name: "provisionedProductId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -5969,12 +6294,17 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 8192)
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 8192)
+            try self.productId.forEach {}
             try self.validate(self.productId, name: "productId", parent: name, max: 100)
             try self.validate(self.productId, name: "productId", parent: name, min: 1)
             try self.validate(self.productId, name: "productId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.provisioningArtifactId.forEach {}
             try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, max: 100)
             try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, min: 1)
             try self.validate(self.provisioningArtifactId, name: "provisioningArtifactId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
@@ -6027,8 +6357,10 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 1000)
             try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 4096)
         }
 
@@ -6069,10 +6401,15 @@ extension ServiceCatalog {
             try self.stackSetAccounts?.forEach {
                 try validate($0, name: "stackSetAccounts[]", parent: name, pattern: "^[0-9]{12}$")
             }
+            try self.stackSetAccounts?.forEach {}
+            try self.stackSetFailureToleranceCount?.forEach {}
             try self.validate(self.stackSetFailureToleranceCount, name: "stackSetFailureToleranceCount", parent: name, min: 0)
+            try self.stackSetFailureTolerancePercentage?.forEach {}
             try self.validate(self.stackSetFailureTolerancePercentage, name: "stackSetFailureTolerancePercentage", parent: name, max: 100)
             try self.validate(self.stackSetFailureTolerancePercentage, name: "stackSetFailureTolerancePercentage", parent: name, min: 0)
+            try self.stackSetMaxConcurrencyCount?.forEach {}
             try self.validate(self.stackSetMaxConcurrencyCount, name: "stackSetMaxConcurrencyCount", parent: name, min: 1)
+            try self.stackSetMaxConcurrencyPercentage?.forEach {}
             try self.validate(self.stackSetMaxConcurrencyPercentage, name: "stackSetMaxConcurrencyPercentage", parent: name, max: 100)
             try self.validate(self.stackSetMaxConcurrencyPercentage, name: "stackSetMaxConcurrencyPercentage", parent: name, min: 1)
         }
@@ -6109,15 +6446,19 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.acceptLanguage?.forEach {}
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
             try self.definition?.forEach {
                 try validate($0.value, name: "definition[\"\($0.key)\"]", parent: name, max: 1024)
                 try validate($0.value, name: "definition[\"\($0.key)\"]", parent: name, min: 1)
             }
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]*")
@@ -6160,8 +6501,10 @@ extension ServiceCatalog {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 1)
             try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")

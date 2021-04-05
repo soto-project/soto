@@ -20,6 +20,23 @@ import SotoCore
 extension EventBridge {
     // MARK: Enums
 
+    public enum ApiDestinationHttpMethod: String, CustomStringConvertible, Codable {
+        case delete = "DELETE"
+        case get = "GET"
+        case head = "HEAD"
+        case options = "OPTIONS"
+        case patch = "PATCH"
+        case post = "POST"
+        case put = "PUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ApiDestinationState: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ArchiveState: String, CustomStringConvertible, Codable {
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"
@@ -33,6 +50,31 @@ extension EventBridge {
     public enum AssignPublicIp: String, CustomStringConvertible, Codable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectionAuthorizationType: String, CustomStringConvertible, Codable {
+        case apiKey = "API_KEY"
+        case basic = "BASIC"
+        case oauthClientCredentials = "OAUTH_CLIENT_CREDENTIALS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectionOAuthHttpMethod: String, CustomStringConvertible, Codable {
+        case get = "GET"
+        case post = "POST"
+        case put = "PUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectionState: String, CustomStringConvertible, Codable {
+        case authorized = "AUTHORIZED"
+        case authorizing = "AUTHORIZING"
+        case creating = "CREATING"
+        case deauthorized = "DEAUTHORIZED"
+        case deauthorizing = "DEAUTHORIZING"
+        case deleting = "DELETING"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
@@ -76,12 +118,58 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "aws\\.partner(/[\\.\\-_A-Za-z0-9]+){2,}")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct ApiDestination: AWSDecodableShape {
+        /// The ARN of the API destination.
+        public let apiDestinationArn: String?
+        /// The state of the API destination.
+        public let apiDestinationState: ApiDestinationState?
+        /// The ARN of the connection specified for the API destination.
+        public let connectionArn: String?
+        /// A time stamp for the time that the API destination was created.
+        public let creationTime: Date?
+        /// The method to use to connect to the HTTP endpoint.
+        public let httpMethod: ApiDestinationHttpMethod?
+        /// The URL to the endpoint for the API destination.
+        public let invocationEndpoint: String?
+        /// The maximum number of invocations per second to send to the HTTP endpoint.
+        public let invocationRateLimitPerSecond: Int?
+        /// A time stamp for the time that the API destination was last modified.
+        public let lastModifiedTime: Date?
+        /// The name of the API destination.
+        public let name: String?
+
+        public init(apiDestinationArn: String? = nil, apiDestinationState: ApiDestinationState? = nil, connectionArn: String? = nil, creationTime: Date? = nil, httpMethod: ApiDestinationHttpMethod? = nil, invocationEndpoint: String? = nil, invocationRateLimitPerSecond: Int? = nil, lastModifiedTime: Date? = nil, name: String? = nil) {
+            self.apiDestinationArn = apiDestinationArn
+            self.apiDestinationState = apiDestinationState
+            self.connectionArn = connectionArn
+            self.creationTime = creationTime
+            self.httpMethod = httpMethod
+            self.invocationEndpoint = invocationEndpoint
+            self.invocationRateLimitPerSecond = invocationRateLimitPerSecond
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiDestinationArn = "ApiDestinationArn"
+            case apiDestinationState = "ApiDestinationState"
+            case connectionArn = "ConnectionArn"
+            case creationTime = "CreationTime"
+            case httpMethod = "HttpMethod"
+            case invocationEndpoint = "InvocationEndpoint"
+            case invocationRateLimitPerSecond = "InvocationRateLimitPerSecond"
+            case lastModifiedTime = "LastModifiedTime"
             case name = "Name"
         }
     }
@@ -208,6 +296,7 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.replayName.forEach {}
             try self.validate(self.replayName, name: "replayName", parent: name, max: 64)
             try self.validate(self.replayName, name: "replayName", parent: name, min: 1)
             try self.validate(self.replayName, name: "replayName", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -260,6 +349,334 @@ extension EventBridge {
         }
     }
 
+    public struct Connection: AWSDecodableShape {
+        /// The authorization type specified for the connection.
+        public let authorizationType: ConnectionAuthorizationType?
+        /// The ARN of the connection.
+        public let connectionArn: String?
+        /// The state of the connection.
+        public let connectionState: ConnectionState?
+        /// A time stamp for the time that the connection was created.
+        public let creationTime: Date?
+        /// A time stamp for the time that the connection was last authorized.
+        public let lastAuthorizedTime: Date?
+        /// A time stamp for the time that the connection was last modified.
+        public let lastModifiedTime: Date?
+        /// The name of the connection.
+        public let name: String?
+        /// The reason that the connection is in the connection state.
+        public let stateReason: String?
+
+        public init(authorizationType: ConnectionAuthorizationType? = nil, connectionArn: String? = nil, connectionState: ConnectionState? = nil, creationTime: Date? = nil, lastAuthorizedTime: Date? = nil, lastModifiedTime: Date? = nil, name: String? = nil, stateReason: String? = nil) {
+            self.authorizationType = authorizationType
+            self.connectionArn = connectionArn
+            self.connectionState = connectionState
+            self.creationTime = creationTime
+            self.lastAuthorizedTime = lastAuthorizedTime
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.stateReason = stateReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizationType = "AuthorizationType"
+            case connectionArn = "ConnectionArn"
+            case connectionState = "ConnectionState"
+            case creationTime = "CreationTime"
+            case lastAuthorizedTime = "LastAuthorizedTime"
+            case lastModifiedTime = "LastModifiedTime"
+            case name = "Name"
+            case stateReason = "StateReason"
+        }
+    }
+
+    public struct ConnectionApiKeyAuthResponseParameters: AWSDecodableShape {
+        /// The name of the header to use for the APIKeyValue used for authorization.
+        public let apiKeyName: String?
+
+        public init(apiKeyName: String? = nil) {
+            self.apiKeyName = apiKeyName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiKeyName = "ApiKeyName"
+        }
+    }
+
+    public struct ConnectionAuthResponseParameters: AWSDecodableShape {
+        /// The API Key parameters to use for authorization.
+        public let apiKeyAuthParameters: ConnectionApiKeyAuthResponseParameters?
+        /// The authorization parameters for Basic authorization.
+        public let basicAuthParameters: ConnectionBasicAuthResponseParameters?
+        /// Additional parameters for the connection that are passed through with every invocation to the HTTP endpoint.
+        public let invocationHttpParameters: ConnectionHttpParameters?
+        /// The OAuth parameters to use for authorization.
+        public let oAuthParameters: ConnectionOAuthResponseParameters?
+
+        public init(apiKeyAuthParameters: ConnectionApiKeyAuthResponseParameters? = nil, basicAuthParameters: ConnectionBasicAuthResponseParameters? = nil, invocationHttpParameters: ConnectionHttpParameters? = nil, oAuthParameters: ConnectionOAuthResponseParameters? = nil) {
+            self.apiKeyAuthParameters = apiKeyAuthParameters
+            self.basicAuthParameters = basicAuthParameters
+            self.invocationHttpParameters = invocationHttpParameters
+            self.oAuthParameters = oAuthParameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiKeyAuthParameters = "ApiKeyAuthParameters"
+            case basicAuthParameters = "BasicAuthParameters"
+            case invocationHttpParameters = "InvocationHttpParameters"
+            case oAuthParameters = "OAuthParameters"
+        }
+    }
+
+    public struct ConnectionBasicAuthResponseParameters: AWSDecodableShape {
+        /// The user name to use for Basic authorization.
+        public let username: String?
+
+        public init(username: String? = nil) {
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case username = "Username"
+        }
+    }
+
+    public struct ConnectionBodyParameter: AWSEncodableShape & AWSDecodableShape {
+        /// Specified whether the value is secret.
+        public let isValueSecret: Bool?
+        /// The key for the parameter.
+        public let key: String?
+        /// The value associated with the key.
+        public let value: String?
+
+        public init(isValueSecret: Bool? = nil, key: String? = nil, value: String? = nil) {
+            self.isValueSecret = isValueSecret
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isValueSecret = "IsValueSecret"
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct ConnectionHeaderParameter: AWSEncodableShape & AWSDecodableShape {
+        /// Specified whether the value is a secret.
+        public let isValueSecret: Bool?
+        /// The key for the parameter.
+        public let key: String?
+        /// The value associated with the key.
+        public let value: String?
+
+        public init(isValueSecret: Bool? = nil, key: String? = nil, value: String? = nil) {
+            self.isValueSecret = isValueSecret
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.key?.forEach {}
+            try self.validate(self.key, name: "key", parent: name, max: 512)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^[!#$%&'*+-.^_`|~0-9a-zA-Z]+$")
+            try self.value?.forEach {}
+            try self.validate(self.value, name: "value", parent: name, max: 512)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^[ \\t]*[\\x20-\\x7E]+([ \\t]+[\\x20-\\x7E]+)*[ \\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isValueSecret = "IsValueSecret"
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct ConnectionHttpParameters: AWSEncodableShape & AWSDecodableShape {
+        /// Contains additional body string parameters for the connection.
+        public let bodyParameters: [ConnectionBodyParameter]?
+        /// Contains additional header parameters for the connection.
+        public let headerParameters: [ConnectionHeaderParameter]?
+        /// Contains additional query string parameters for the connection.
+        public let queryStringParameters: [ConnectionQueryStringParameter]?
+
+        public init(bodyParameters: [ConnectionBodyParameter]? = nil, headerParameters: [ConnectionHeaderParameter]? = nil, queryStringParameters: [ConnectionQueryStringParameter]? = nil) {
+            self.bodyParameters = bodyParameters
+            self.headerParameters = headerParameters
+            self.queryStringParameters = queryStringParameters
+        }
+
+        public func validate(name: String) throws {
+            try self.bodyParameters?.forEach {}
+            try self.validate(self.bodyParameters, name: "bodyParameters", parent: name, max: 100)
+            try self.validate(self.bodyParameters, name: "bodyParameters", parent: name, min: 0)
+            try self.headerParameters?.forEach {
+                try $0.validate(name: "\(name).headerParameters[]")
+            }
+            try self.headerParameters?.forEach {}
+            try self.validate(self.headerParameters, name: "headerParameters", parent: name, max: 100)
+            try self.validate(self.headerParameters, name: "headerParameters", parent: name, min: 0)
+            try self.queryStringParameters?.forEach {
+                try $0.validate(name: "\(name).queryStringParameters[]")
+            }
+            try self.queryStringParameters?.forEach {}
+            try self.validate(self.queryStringParameters, name: "queryStringParameters", parent: name, max: 100)
+            try self.validate(self.queryStringParameters, name: "queryStringParameters", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bodyParameters = "BodyParameters"
+            case headerParameters = "HeaderParameters"
+            case queryStringParameters = "QueryStringParameters"
+        }
+    }
+
+    public struct ConnectionOAuthClientResponseParameters: AWSDecodableShape {
+        /// The client ID associated with the response to the connection request.
+        public let clientID: String?
+
+        public init(clientID: String? = nil) {
+            self.clientID = clientID
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientID = "ClientID"
+        }
+    }
+
+    public struct ConnectionOAuthResponseParameters: AWSDecodableShape {
+        /// The URL to the HTTP endpoint that authorized the request.
+        public let authorizationEndpoint: String?
+        /// A ConnectionOAuthClientResponseParameters object that contains details about the client parameters returned when OAuth is specified as the authorization type.
+        public let clientParameters: ConnectionOAuthClientResponseParameters?
+        /// The method used to connect to the HTTP endpoint.
+        public let httpMethod: ConnectionOAuthHttpMethod?
+        /// The additional HTTP parameters used for the OAuth authorization request.
+        public let oAuthHttpParameters: ConnectionHttpParameters?
+
+        public init(authorizationEndpoint: String? = nil, clientParameters: ConnectionOAuthClientResponseParameters? = nil, httpMethod: ConnectionOAuthHttpMethod? = nil, oAuthHttpParameters: ConnectionHttpParameters? = nil) {
+            self.authorizationEndpoint = authorizationEndpoint
+            self.clientParameters = clientParameters
+            self.httpMethod = httpMethod
+            self.oAuthHttpParameters = oAuthHttpParameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizationEndpoint = "AuthorizationEndpoint"
+            case clientParameters = "ClientParameters"
+            case httpMethod = "HttpMethod"
+            case oAuthHttpParameters = "OAuthHttpParameters"
+        }
+    }
+
+    public struct ConnectionQueryStringParameter: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether the value is secret.
+        public let isValueSecret: Bool?
+        /// The key for a query string parameter.
+        public let key: String?
+        /// The value associated with the key for the query string parameter.
+        public let value: String?
+
+        public init(isValueSecret: Bool? = nil, key: String? = nil, value: String? = nil) {
+            self.isValueSecret = isValueSecret
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.key?.forEach {}
+            try self.validate(self.key, name: "key", parent: name, max: 512)
+            try self.validate(self.key, name: "key", parent: name, pattern: "[^\\x00-\\x1F\\x7F]+")
+            try self.value?.forEach {}
+            try self.validate(self.value, name: "value", parent: name, max: 512)
+            try self.validate(self.value, name: "value", parent: name, pattern: "[^\\x00-\\x09\\x0B\\x0C\\x0E-\\x1F\\x7F]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isValueSecret = "IsValueSecret"
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct CreateApiDestinationRequest: AWSEncodableShape {
+        /// The ARN of the connection to use for the API destination. The destination endpoint must support the authorization type specified for the connection.
+        public let connectionArn: String
+        /// A description for the API destination to create.
+        public let description: String?
+        /// The method to use for the request to the HTTP invocation endpoint.
+        public let httpMethod: ApiDestinationHttpMethod
+        /// The URL to the HTTP invocation endpoint for the API destination.
+        public let invocationEndpoint: String
+        /// The maximum number of requests per second to send to the HTTP invocation endpoint.
+        public let invocationRateLimitPerSecond: Int?
+        /// The name for the API destination to create.
+        public let name: String
+
+        public init(connectionArn: String, description: String? = nil, httpMethod: ApiDestinationHttpMethod, invocationEndpoint: String, invocationRateLimitPerSecond: Int? = nil, name: String) {
+            self.connectionArn = connectionArn
+            self.description = description
+            self.httpMethod = httpMethod
+            self.invocationEndpoint = invocationEndpoint
+            self.invocationRateLimitPerSecond = invocationRateLimitPerSecond
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.connectionArn.forEach {}
+            try self.validate(self.connectionArn, name: "connectionArn", parent: name, max: 1600)
+            try self.validate(self.connectionArn, name: "connectionArn", parent: name, min: 1)
+            try self.validate(self.connectionArn, name: "connectionArn", parent: name, pattern: "^arn:aws([a-z]|\\-)*:events:([a-z]|\\d|\\-)*:([0-9]{12})?:connection\\/[\\.\\-_A-Za-z0-9]+\\/[\\-A-Za-z0-9]+$")
+            try self.description?.forEach {}
+            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.invocationEndpoint.forEach {}
+            try self.validate(self.invocationEndpoint, name: "invocationEndpoint", parent: name, max: 2048)
+            try self.validate(self.invocationEndpoint, name: "invocationEndpoint", parent: name, min: 1)
+            try self.validate(self.invocationEndpoint, name: "invocationEndpoint", parent: name, pattern: "^((%[0-9A-Fa-f]{2}|[-()_.!~*';/?:@\\x26=+$,A-Za-z0-9])+)([).!';/?:,])?$")
+            try self.invocationRateLimitPerSecond?.forEach {}
+            try self.validate(self.invocationRateLimitPerSecond, name: "invocationRateLimitPerSecond", parent: name, min: 1)
+            try self.name.forEach {}
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionArn = "ConnectionArn"
+            case description = "Description"
+            case httpMethod = "HttpMethod"
+            case invocationEndpoint = "InvocationEndpoint"
+            case invocationRateLimitPerSecond = "InvocationRateLimitPerSecond"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateApiDestinationResponse: AWSDecodableShape {
+        /// The ARN of the API destination that was created by the request.
+        public let apiDestinationArn: String?
+        /// The state of the API destination that was created by the request.
+        public let apiDestinationState: ApiDestinationState?
+        /// A time stamp indicating the time that the API destination was created.
+        public let creationTime: Date?
+        /// A time stamp indicating the time that the API destination was last modified.
+        public let lastModifiedTime: Date?
+
+        public init(apiDestinationArn: String? = nil, apiDestinationState: ApiDestinationState? = nil, creationTime: Date? = nil, lastModifiedTime: Date? = nil) {
+            self.apiDestinationArn = apiDestinationArn
+            self.apiDestinationState = apiDestinationState
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiDestinationArn = "ApiDestinationArn"
+            case apiDestinationState = "ApiDestinationState"
+            case creationTime = "CreationTime"
+            case lastModifiedTime = "LastModifiedTime"
+        }
+    }
+
     public struct CreateArchiveRequest: AWSEncodableShape {
         /// The name for the archive to create.
         public let archiveName: String
@@ -281,13 +698,17 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.archiveName.forEach {}
             try self.validate(self.archiveName, name: "archiveName", parent: name, max: 48)
             try self.validate(self.archiveName, name: "archiveName", parent: name, min: 1)
             try self.validate(self.archiveName, name: "archiveName", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.eventSourceArn.forEach {}
             try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, max: 1600)
             try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, min: 1)
+            try self.retentionDays?.forEach {}
             try self.validate(self.retentionDays, name: "retentionDays", parent: name, min: 0)
         }
 
@@ -325,6 +746,224 @@ extension EventBridge {
         }
     }
 
+    public struct CreateConnectionApiKeyAuthRequestParameters: AWSEncodableShape {
+        /// The name of the API key to use for authorization.
+        public let apiKeyName: String
+        /// The value for the API key to use for authorization.
+        public let apiKeyValue: String
+
+        public init(apiKeyName: String, apiKeyValue: String) {
+            self.apiKeyName = apiKeyName
+            self.apiKeyValue = apiKeyValue
+        }
+
+        public func validate(name: String) throws {
+            try self.apiKeyName.forEach {}
+            try self.validate(self.apiKeyName, name: "apiKeyName", parent: name, max: 512)
+            try self.validate(self.apiKeyName, name: "apiKeyName", parent: name, min: 1)
+            try self.validate(self.apiKeyName, name: "apiKeyName", parent: name, pattern: "^[ \\t]*[^\\x00-\\x1F:\\x7F]+([ \\t]+[^\\x00-\\x1F:\\x7F]+)*[ \\t]*$")
+            try self.apiKeyValue.forEach {}
+            try self.validate(self.apiKeyValue, name: "apiKeyValue", parent: name, max: 512)
+            try self.validate(self.apiKeyValue, name: "apiKeyValue", parent: name, min: 1)
+            try self.validate(self.apiKeyValue, name: "apiKeyValue", parent: name, pattern: "^[ \\t]*[^\\x00-\\x1F:\\x7F]+([ \\t]+[^\\x00-\\x1F:\\x7F]+)*[ \\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiKeyName = "ApiKeyName"
+            case apiKeyValue = "ApiKeyValue"
+        }
+    }
+
+    public struct CreateConnectionAuthRequestParameters: AWSEncodableShape {
+        /// A CreateConnectionApiKeyAuthRequestParameters object that contains the API key authorization parameters to use for the connection.
+        public let apiKeyAuthParameters: CreateConnectionApiKeyAuthRequestParameters?
+        /// A CreateConnectionBasicAuthRequestParameters object that contains the Basic authorization parameters to use for the connection.
+        public let basicAuthParameters: CreateConnectionBasicAuthRequestParameters?
+        /// A ConnectionHttpParameters object that contains the API key authorization parameters to use for the connection. Note that if you include additional parameters for the target of a rule via HttpParameters, including query strings, the parameters added for the connection take precedence.
+        public let invocationHttpParameters: ConnectionHttpParameters?
+        /// A CreateConnectionOAuthRequestParameters object that contains the OAuth authorization parameters to use for the connection.
+        public let oAuthParameters: CreateConnectionOAuthRequestParameters?
+
+        public init(apiKeyAuthParameters: CreateConnectionApiKeyAuthRequestParameters? = nil, basicAuthParameters: CreateConnectionBasicAuthRequestParameters? = nil, invocationHttpParameters: ConnectionHttpParameters? = nil, oAuthParameters: CreateConnectionOAuthRequestParameters? = nil) {
+            self.apiKeyAuthParameters = apiKeyAuthParameters
+            self.basicAuthParameters = basicAuthParameters
+            self.invocationHttpParameters = invocationHttpParameters
+            self.oAuthParameters = oAuthParameters
+        }
+
+        public func validate(name: String) throws {
+            try self.apiKeyAuthParameters?.validate(name: "\(name).apiKeyAuthParameters")
+            try self.apiKeyAuthParameters?.forEach {}
+            try self.basicAuthParameters?.validate(name: "\(name).basicAuthParameters")
+            try self.basicAuthParameters?.forEach {}
+            try self.invocationHttpParameters?.validate(name: "\(name).invocationHttpParameters")
+            try self.invocationHttpParameters?.forEach {}
+            try self.oAuthParameters?.validate(name: "\(name).oAuthParameters")
+            try self.oAuthParameters?.forEach {}
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiKeyAuthParameters = "ApiKeyAuthParameters"
+            case basicAuthParameters = "BasicAuthParameters"
+            case invocationHttpParameters = "InvocationHttpParameters"
+            case oAuthParameters = "OAuthParameters"
+        }
+    }
+
+    public struct CreateConnectionBasicAuthRequestParameters: AWSEncodableShape {
+        /// The password associated with the user name to use for Basic authorization.
+        public let password: String
+        /// The user name to use for Basic authorization.
+        public let username: String
+
+        public init(password: String, username: String) {
+            self.password = password
+            self.username = username
+        }
+
+        public func validate(name: String) throws {
+            try self.password.forEach {}
+            try self.validate(self.password, name: "password", parent: name, max: 512)
+            try self.validate(self.password, name: "password", parent: name, min: 1)
+            try self.validate(self.password, name: "password", parent: name, pattern: "^[ \\t]*[^\\x00-\\x1F:\\x7F]+([ \\t]+[^\\x00-\\x1F:\\x7F]+)*[ \\t]*$")
+            try self.username.forEach {}
+            try self.validate(self.username, name: "username", parent: name, max: 512)
+            try self.validate(self.username, name: "username", parent: name, min: 1)
+            try self.validate(self.username, name: "username", parent: name, pattern: "^[ \\t]*[^\\x00-\\x1F:\\x7F]+([ \\t]+[^\\x00-\\x1F:\\x7F]+)*[ \\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case password = "Password"
+            case username = "Username"
+        }
+    }
+
+    public struct CreateConnectionOAuthClientRequestParameters: AWSEncodableShape {
+        /// The client ID to use for OAuth authorization for the connection.
+        public let clientID: String
+        /// The client secret associated with the client ID to use for OAuth authorization for the connection.
+        public let clientSecret: String
+
+        public init(clientID: String, clientSecret: String) {
+            self.clientID = clientID
+            self.clientSecret = clientSecret
+        }
+
+        public func validate(name: String) throws {
+            try self.clientID.forEach {}
+            try self.validate(self.clientID, name: "clientID", parent: name, max: 512)
+            try self.validate(self.clientID, name: "clientID", parent: name, min: 1)
+            try self.validate(self.clientID, name: "clientID", parent: name, pattern: "^[ \\t]*[^\\x00-\\x1F:\\x7F]+([ \\t]+[^\\x00-\\x1F:\\x7F]+)*[ \\t]*$")
+            try self.clientSecret.forEach {}
+            try self.validate(self.clientSecret, name: "clientSecret", parent: name, max: 512)
+            try self.validate(self.clientSecret, name: "clientSecret", parent: name, min: 1)
+            try self.validate(self.clientSecret, name: "clientSecret", parent: name, pattern: "^[ \\t]*[^\\x00-\\x1F:\\x7F]+([ \\t]+[^\\x00-\\x1F:\\x7F]+)*[ \\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientID = "ClientID"
+            case clientSecret = "ClientSecret"
+        }
+    }
+
+    public struct CreateConnectionOAuthRequestParameters: AWSEncodableShape {
+        /// The URL to the authorization endpoint when OAuth is specified as the authorization type.
+        public let authorizationEndpoint: String
+        /// A CreateConnectionOAuthClientRequestParameters object that contains the client parameters for OAuth authorization.
+        public let clientParameters: CreateConnectionOAuthClientRequestParameters
+        /// The method to use for the authorization request.
+        public let httpMethod: ConnectionOAuthHttpMethod
+        /// A ConnectionHttpParameters object that contains details about the additional parameters to use for the connection.
+        public let oAuthHttpParameters: ConnectionHttpParameters?
+
+        public init(authorizationEndpoint: String, clientParameters: CreateConnectionOAuthClientRequestParameters, httpMethod: ConnectionOAuthHttpMethod, oAuthHttpParameters: ConnectionHttpParameters? = nil) {
+            self.authorizationEndpoint = authorizationEndpoint
+            self.clientParameters = clientParameters
+            self.httpMethod = httpMethod
+            self.oAuthHttpParameters = oAuthHttpParameters
+        }
+
+        public func validate(name: String) throws {
+            try self.authorizationEndpoint.forEach {}
+            try self.validate(self.authorizationEndpoint, name: "authorizationEndpoint", parent: name, max: 2048)
+            try self.validate(self.authorizationEndpoint, name: "authorizationEndpoint", parent: name, min: 1)
+            try self.validate(self.authorizationEndpoint, name: "authorizationEndpoint", parent: name, pattern: "^((%[0-9A-Fa-f]{2}|[-()_.!~*';/?:@\\x26=+$,A-Za-z0-9])+)([).!';/?:,])?$")
+            try self.clientParameters.validate(name: "\(name).clientParameters")
+            try self.clientParameters.forEach {}
+            try self.oAuthHttpParameters?.validate(name: "\(name).oAuthHttpParameters")
+            try self.oAuthHttpParameters?.forEach {}
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizationEndpoint = "AuthorizationEndpoint"
+            case clientParameters = "ClientParameters"
+            case httpMethod = "HttpMethod"
+            case oAuthHttpParameters = "OAuthHttpParameters"
+        }
+    }
+
+    public struct CreateConnectionRequest: AWSEncodableShape {
+        /// The type of authorization to use for the connection.
+        public let authorizationType: ConnectionAuthorizationType
+        /// A CreateConnectionAuthRequestParameters object that contains the authorization parameters to use to authorize with the endpoint.
+        public let authParameters: CreateConnectionAuthRequestParameters
+        /// A description for the connection to create.
+        public let description: String?
+        /// The name for the connection to create.
+        public let name: String
+
+        public init(authorizationType: ConnectionAuthorizationType, authParameters: CreateConnectionAuthRequestParameters, description: String? = nil, name: String) {
+            self.authorizationType = authorizationType
+            self.authParameters = authParameters
+            self.description = description
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.authParameters.validate(name: "\(name).authParameters")
+            try self.authParameters.forEach {}
+            try self.description?.forEach {}
+            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.name.forEach {}
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizationType = "AuthorizationType"
+            case authParameters = "AuthParameters"
+            case description = "Description"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateConnectionResponse: AWSDecodableShape {
+        /// The ARN of the connection that was created by the request.
+        public let connectionArn: String?
+        /// The state of the connection that was created by the request.
+        public let connectionState: ConnectionState?
+        /// A time stamp for the time that the connection was created.
+        public let creationTime: Date?
+        /// A time stamp for the time that the connection was last updated.
+        public let lastModifiedTime: Date?
+
+        public init(connectionArn: String? = nil, connectionState: ConnectionState? = nil, creationTime: Date? = nil, lastModifiedTime: Date? = nil) {
+            self.connectionArn = connectionArn
+            self.connectionState = connectionState
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionArn = "ConnectionArn"
+            case connectionState = "ConnectionState"
+            case creationTime = "CreationTime"
+            case lastModifiedTime = "LastModifiedTime"
+        }
+    }
+
     public struct CreateEventBusRequest: AWSEncodableShape {
         /// If you are creating a partner event bus, this specifies the partner event source that the new event bus will be matched with.
         public let eventSourceName: String?
@@ -340,15 +979,18 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.eventSourceName?.forEach {}
             try self.validate(self.eventSourceName, name: "eventSourceName", parent: name, max: 256)
             try self.validate(self.eventSourceName, name: "eventSourceName", parent: name, min: 1)
             try self.validate(self.eventSourceName, name: "eventSourceName", parent: name, pattern: "aws\\.partner(/[\\.\\-_A-Za-z0-9]+){2,}")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[/\\.\\-_A-Za-z0-9]+")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -383,9 +1025,11 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.account.forEach {}
             try self.validate(self.account, name: "account", parent: name, max: 12)
             try self.validate(self.account, name: "account", parent: name, min: 12)
             try self.validate(self.account, name: "account", parent: name, pattern: "\\d{12}")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "aws\\.partner(/[\\.\\-_A-Za-z0-9]+){2,}")
@@ -419,6 +1063,7 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "aws\\.partner(/[\\.\\-_A-Za-z0-9]+){2,}")
@@ -438,6 +1083,7 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.arn?.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1600)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
         }
@@ -445,6 +1091,79 @@ extension EventBridge {
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
         }
+    }
+
+    public struct DeauthorizeConnectionRequest: AWSEncodableShape {
+        /// The name of the connection to remove authorization from.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.name.forEach {}
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct DeauthorizeConnectionResponse: AWSDecodableShape {
+        /// The ARN of the connection that authorization was removed from.
+        public let connectionArn: String?
+        /// The state of the connection.
+        public let connectionState: ConnectionState?
+        /// A time stamp for the time that the connection was created.
+        public let creationTime: Date?
+        /// A time stamp for the time that the connection was last authorized.
+        public let lastAuthorizedTime: Date?
+        /// A time stamp for the time that the connection was last updated.
+        public let lastModifiedTime: Date?
+
+        public init(connectionArn: String? = nil, connectionState: ConnectionState? = nil, creationTime: Date? = nil, lastAuthorizedTime: Date? = nil, lastModifiedTime: Date? = nil) {
+            self.connectionArn = connectionArn
+            self.connectionState = connectionState
+            self.creationTime = creationTime
+            self.lastAuthorizedTime = lastAuthorizedTime
+            self.lastModifiedTime = lastModifiedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionArn = "ConnectionArn"
+            case connectionState = "ConnectionState"
+            case creationTime = "CreationTime"
+            case lastAuthorizedTime = "LastAuthorizedTime"
+            case lastModifiedTime = "LastModifiedTime"
+        }
+    }
+
+    public struct DeleteApiDestinationRequest: AWSEncodableShape {
+        /// The name of the destination to delete.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.name.forEach {}
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct DeleteApiDestinationResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteArchiveRequest: AWSEncodableShape {
@@ -456,6 +1175,7 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.archiveName.forEach {}
             try self.validate(self.archiveName, name: "archiveName", parent: name, max: 48)
             try self.validate(self.archiveName, name: "archiveName", parent: name, min: 1)
             try self.validate(self.archiveName, name: "archiveName", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -470,6 +1190,55 @@ extension EventBridge {
         public init() {}
     }
 
+    public struct DeleteConnectionRequest: AWSEncodableShape {
+        /// The name of the connection to delete.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.name.forEach {}
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct DeleteConnectionResponse: AWSDecodableShape {
+        /// The ARN of the connection that was deleted.
+        public let connectionArn: String?
+        /// The state of the connection before it was deleted.
+        public let connectionState: ConnectionState?
+        /// A time stamp for the time that the connection was created.
+        public let creationTime: Date?
+        /// A time stamp for the time that the connection was last authorized before it wa deleted.
+        public let lastAuthorizedTime: Date?
+        /// A time stamp for the time that the connection was last modified before it was deleted.
+        public let lastModifiedTime: Date?
+
+        public init(connectionArn: String? = nil, connectionState: ConnectionState? = nil, creationTime: Date? = nil, lastAuthorizedTime: Date? = nil, lastModifiedTime: Date? = nil) {
+            self.connectionArn = connectionArn
+            self.connectionState = connectionState
+            self.creationTime = creationTime
+            self.lastAuthorizedTime = lastAuthorizedTime
+            self.lastModifiedTime = lastModifiedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionArn = "ConnectionArn"
+            case connectionState = "ConnectionState"
+            case creationTime = "CreationTime"
+            case lastAuthorizedTime = "LastAuthorizedTime"
+            case lastModifiedTime = "LastModifiedTime"
+        }
+    }
+
     public struct DeleteEventBusRequest: AWSEncodableShape {
         /// The name of the event bus to delete.
         public let name: String
@@ -479,6 +1248,7 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[/\\.\\-_A-Za-z0-9]+")
@@ -501,9 +1271,11 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.account.forEach {}
             try self.validate(self.account, name: "account", parent: name, max: 12)
             try self.validate(self.account, name: "account", parent: name, min: 12)
             try self.validate(self.account, name: "account", parent: name, pattern: "\\d{12}")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "aws\\.partner(/[\\.\\-_A-Za-z0-9]+){2,}")
@@ -530,9 +1302,11 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.eventBusName?.forEach {}
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -541,6 +1315,75 @@ extension EventBridge {
         private enum CodingKeys: String, CodingKey {
             case eventBusName = "EventBusName"
             case force = "Force"
+            case name = "Name"
+        }
+    }
+
+    public struct DescribeApiDestinationRequest: AWSEncodableShape {
+        /// The name of the API destination to retrieve.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.name.forEach {}
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct DescribeApiDestinationResponse: AWSDecodableShape {
+        /// The ARN of the API destination retrieved.
+        public let apiDestinationArn: String?
+        /// The state of the API destination retrieved.
+        public let apiDestinationState: ApiDestinationState?
+        /// The ARN of the connection specified for the API destination retrieved.
+        public let connectionArn: String?
+        /// A time stamp for the time that the API destination was created.
+        public let creationTime: Date?
+        /// The description for the API destination retrieved.
+        public let description: String?
+        /// The method to use to connect to the HTTP endpoint.
+        public let httpMethod: ApiDestinationHttpMethod?
+        /// The URL to use to connect to the HTTP endpoint.
+        public let invocationEndpoint: String?
+        /// The maximum number of invocations per second to specified for the API destination. Note that if you set the invocation rate maximum to a value lower the rate necessary to send all events received on to the destination HTTP endpoint, some events may not be delivered within the 24-hour retry window. If you plan to set the rate lower than the rate necessary to deliver all events, consider using a dead-letter queue to catch events that are not delivered within 24 hours.
+        public let invocationRateLimitPerSecond: Int?
+        /// A time stamp for the time that the API destination was last modified.
+        public let lastModifiedTime: Date?
+        /// The name of the API destination retrieved.
+        public let name: String?
+
+        public init(apiDestinationArn: String? = nil, apiDestinationState: ApiDestinationState? = nil, connectionArn: String? = nil, creationTime: Date? = nil, description: String? = nil, httpMethod: ApiDestinationHttpMethod? = nil, invocationEndpoint: String? = nil, invocationRateLimitPerSecond: Int? = nil, lastModifiedTime: Date? = nil, name: String? = nil) {
+            self.apiDestinationArn = apiDestinationArn
+            self.apiDestinationState = apiDestinationState
+            self.connectionArn = connectionArn
+            self.creationTime = creationTime
+            self.description = description
+            self.httpMethod = httpMethod
+            self.invocationEndpoint = invocationEndpoint
+            self.invocationRateLimitPerSecond = invocationRateLimitPerSecond
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiDestinationArn = "ApiDestinationArn"
+            case apiDestinationState = "ApiDestinationState"
+            case connectionArn = "ConnectionArn"
+            case creationTime = "CreationTime"
+            case description = "Description"
+            case httpMethod = "HttpMethod"
+            case invocationEndpoint = "InvocationEndpoint"
+            case invocationRateLimitPerSecond = "InvocationRateLimitPerSecond"
+            case lastModifiedTime = "LastModifiedTime"
             case name = "Name"
         }
     }
@@ -554,6 +1397,7 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.archiveName.forEach {}
             try self.validate(self.archiveName, name: "archiveName", parent: name, max: 48)
             try self.validate(self.archiveName, name: "archiveName", parent: name, min: 1)
             try self.validate(self.archiveName, name: "archiveName", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -617,6 +1461,79 @@ extension EventBridge {
         }
     }
 
+    public struct DescribeConnectionRequest: AWSEncodableShape {
+        /// The name of the connection to retrieve.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.name.forEach {}
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct DescribeConnectionResponse: AWSDecodableShape {
+        /// The type of authorization specified for the connection.
+        public let authorizationType: ConnectionAuthorizationType?
+        /// The parameters to use for authorization for the connection.
+        public let authParameters: ConnectionAuthResponseParameters?
+        /// The ARN of the connection retrieved.
+        public let connectionArn: String?
+        /// The state of the connection retrieved.
+        public let connectionState: ConnectionState?
+        /// A time stamp for the time that the connection was created.
+        public let creationTime: Date?
+        /// The description for the connection retrieved.
+        public let description: String?
+        /// A time stamp for the time that the connection was last authorized.
+        public let lastAuthorizedTime: Date?
+        /// A time stamp for the time that the connection was last modified.
+        public let lastModifiedTime: Date?
+        /// The name of the connection retrieved.
+        public let name: String?
+        /// The ARN of the secret created from the authorization parameters specified for the connection.
+        public let secretArn: String?
+        /// The reason that the connection is in the current connection state.
+        public let stateReason: String?
+
+        public init(authorizationType: ConnectionAuthorizationType? = nil, authParameters: ConnectionAuthResponseParameters? = nil, connectionArn: String? = nil, connectionState: ConnectionState? = nil, creationTime: Date? = nil, description: String? = nil, lastAuthorizedTime: Date? = nil, lastModifiedTime: Date? = nil, name: String? = nil, secretArn: String? = nil, stateReason: String? = nil) {
+            self.authorizationType = authorizationType
+            self.authParameters = authParameters
+            self.connectionArn = connectionArn
+            self.connectionState = connectionState
+            self.creationTime = creationTime
+            self.description = description
+            self.lastAuthorizedTime = lastAuthorizedTime
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.secretArn = secretArn
+            self.stateReason = stateReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizationType = "AuthorizationType"
+            case authParameters = "AuthParameters"
+            case connectionArn = "ConnectionArn"
+            case connectionState = "ConnectionState"
+            case creationTime = "CreationTime"
+            case description = "Description"
+            case lastAuthorizedTime = "LastAuthorizedTime"
+            case lastModifiedTime = "LastModifiedTime"
+            case name = "Name"
+            case secretArn = "SecretArn"
+            case stateReason = "StateReason"
+        }
+    }
+
     public struct DescribeEventBusRequest: AWSEncodableShape {
         /// The name or ARN of the event bus to show details for. If you omit this, the default event bus is displayed.
         public let name: String?
@@ -626,6 +1543,7 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1600)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+")
@@ -666,6 +1584,7 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "aws\\.partner(/[\\.\\-_A-Za-z0-9]+){2,}")
@@ -718,6 +1637,7 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "aws\\.partner(/[\\.\\-_A-Za-z0-9]+){2,}")
@@ -754,6 +1674,7 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.replayName.forEach {}
             try self.validate(self.replayName, name: "replayName", parent: name, max: 64)
             try self.validate(self.replayName, name: "replayName", parent: name, min: 1)
             try self.validate(self.replayName, name: "replayName", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -833,9 +1754,11 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.eventBusName?.forEach {}
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -908,9 +1831,11 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.eventBusName?.forEach {}
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -946,7 +1871,9 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.taskCount?.forEach {}
             try self.validate(self.taskCount, name: "taskCount", parent: name, min: 1)
+            try self.taskDefinitionArn.forEach {}
             try self.validate(self.taskDefinitionArn, name: "taskDefinitionArn", parent: name, max: 1600)
             try self.validate(self.taskDefinitionArn, name: "taskDefinitionArn", parent: name, min: 1)
         }
@@ -973,9 +1900,11 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.eventBusName?.forEach {}
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -1042,11 +1971,11 @@ extension EventBridge {
     }
 
     public struct HttpParameters: AWSEncodableShape & AWSDecodableShape {
-        /// The headers that need to be sent as part of request invoking the API Gateway REST API.
+        /// The headers that need to be sent as part of request invoking the API Gateway REST API or EventBridge ApiDestination.
         public let headerParameters: [String: String]?
-        /// The path parameter values to be used to populate API Gateway REST API path wildcards ("*").
+        /// The path parameter values to be used to populate API Gateway REST API or EventBridge ApiDestination path wildcards ("*").
         public let pathParameterValues: [String]?
-        /// The query string keys/values that need to be sent as part of request invoking the API Gateway REST API.
+        /// The query string keys/values that need to be sent as part of request invoking the API Gateway REST API or EventBridge ApiDestination.
         public let queryStringParameters: [String: String]?
 
         public init(headerParameters: [String: String]? = nil, pathParameterValues: [String]? = nil, queryStringParameters: [String: String]? = nil) {
@@ -1065,6 +1994,7 @@ extension EventBridge {
             try self.pathParameterValues?.forEach {
                 try validate($0, name: "pathParameterValues[]", parent: name, pattern: "^(?!\\s*$).+")
             }
+            try self.pathParameterValues?.forEach {}
             try self.queryStringParameters?.forEach {
                 try validate($0.key, name: "queryStringParameters.key", parent: name, max: 512)
                 try validate($0.key, name: "queryStringParameters.key", parent: name, pattern: "[^\\x00-\\x1F\\x7F]+")
@@ -1081,9 +2011,9 @@ extension EventBridge {
     }
 
     public struct InputTransformer: AWSEncodableShape & AWSDecodableShape {
-        /// Map of JSON paths to be extracted from the event. You can then insert these in the template in InputTemplate to produce the output you want to be sent to the target.  InputPathsMap is an array key-value pairs, where each value is a valid JSON path. You can have as many as 10 key-value pairs. You must use JSON dot notation, not bracket notation. The keys cannot start with "AWS."
+        /// Map of JSON paths to be extracted from the event. You can then insert these in the template in InputTemplate to produce the output you want to be sent to the target.  InputPathsMap is an array key-value pairs, where each value is a valid JSON path. You can have as many as 100 key-value pairs. You must use JSON dot notation, not bracket notation. The keys cannot start with "AWS."
         public let inputPathsMap: [String: String]?
-        /// Input template where you specify placeholders that will be filled with the values of the keys from InputPathsMap to customize the data sent to the target. Enclose each InputPathsMaps value in brackets: &lt;value&gt; The InputTemplate must be valid JSON. If InputTemplate is a JSON object (surrounded by curly braces), the following restrictions apply:   The placeholder cannot be used as an object key.   Object values cannot include quote marks.   The following example shows the syntax for using InputPathsMap and InputTemplate.   "InputTransformer":   {   "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},   "InputTemplate": "&lt;instance&gt; is in state &lt;status&gt;"   }  To have the InputTemplate include quote marks within a JSON string, escape each quote marks with a slash, as in the following example:   "InputTransformer":   {   "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},   "InputTemplate": "&lt;instance&gt; is in state \"&lt;status&gt;\""   }
+        /// Input template where you specify placeholders that will be filled with the values of the keys from InputPathsMap to customize the data sent to the target. Enclose each InputPathsMaps value in brackets: &lt;value&gt; The InputTemplate must be valid JSON. If InputTemplate is a JSON object (surrounded by curly braces), the following restrictions apply:   The placeholder cannot be used as an object key.   The following example shows the syntax for using InputPathsMap and InputTemplate.   "InputTransformer":   {   "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},   "InputTemplate": "&lt;instance&gt; is in state &lt;status&gt;"   }  To have the InputTemplate include quote marks within a JSON string, escape each quote marks with a slash, as in the following example:   "InputTransformer":   {   "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},   "InputTemplate": "&lt;instance&gt; is in state \"&lt;status&gt;\""   }  The InputTemplate can also be valid JSON with varibles in quotes or out, as in the following example:   "InputTransformer":   {   "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},   "InputTemplate": '{"myInstance": &lt;instance&gt;,"myStatus": "&lt;instance&gt; is in state \"&lt;status&gt;\""}'   }
         public let inputTemplate: String
 
         public init(inputPathsMap: [String: String]? = nil, inputTemplate: String) {
@@ -1098,6 +2028,7 @@ extension EventBridge {
                 try validate($0.key, name: "inputPathsMap.key", parent: name, pattern: "[A-Za-z0-9\\_\\-]+")
                 try validate($0.value, name: "inputPathsMap[\"\($0.key)\"]", parent: name, max: 256)
             }
+            try self.inputTemplate.forEach {}
             try self.validate(self.inputTemplate, name: "inputTemplate", parent: name, max: 8192)
             try self.validate(self.inputTemplate, name: "inputTemplate", parent: name, min: 1)
         }
@@ -1117,11 +2048,71 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.partitionKeyPath.forEach {}
             try self.validate(self.partitionKeyPath, name: "partitionKeyPath", parent: name, max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
             case partitionKeyPath = "PartitionKeyPath"
+        }
+    }
+
+    public struct ListApiDestinationsRequest: AWSEncodableShape {
+        /// The ARN of the connection specified for the API destination.
+        public let connectionArn: String?
+        /// The maximum number of API destinations to include in the response.
+        public let limit: Int?
+        /// A name prefix to filter results returned. Only API destinations with a name that starts with the prefix are returned.
+        public let namePrefix: String?
+        /// The token returned by a previous call to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(connectionArn: String? = nil, limit: Int? = nil, namePrefix: String? = nil, nextToken: String? = nil) {
+            self.connectionArn = connectionArn
+            self.limit = limit
+            self.namePrefix = namePrefix
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.connectionArn?.forEach {}
+            try self.validate(self.connectionArn, name: "connectionArn", parent: name, max: 1600)
+            try self.validate(self.connectionArn, name: "connectionArn", parent: name, min: 1)
+            try self.validate(self.connectionArn, name: "connectionArn", parent: name, pattern: "^arn:aws([a-z]|\\-)*:events:([a-z]|\\d|\\-)*:([0-9]{12})?:connection\\/[\\.\\-_A-Za-z0-9]+\\/[\\-A-Za-z0-9]+$")
+            try self.limit?.forEach {}
+            try self.validate(self.limit, name: "limit", parent: name, max: 100)
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.namePrefix?.forEach {}
+            try self.validate(self.namePrefix, name: "namePrefix", parent: name, max: 64)
+            try self.validate(self.namePrefix, name: "namePrefix", parent: name, min: 1)
+            try self.validate(self.namePrefix, name: "namePrefix", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+            try self.nextToken?.forEach {}
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionArn = "ConnectionArn"
+            case limit = "Limit"
+            case namePrefix = "NamePrefix"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListApiDestinationsResponse: AWSDecodableShape {
+        /// An array of ApiDestination objects that include information about an API destination.
+        public let apiDestinations: [ApiDestination]?
+        /// A token you can use in a subsequent request to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(apiDestinations: [ApiDestination]? = nil, nextToken: String? = nil) {
+            self.apiDestinations = apiDestinations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiDestinations = "ApiDestinations"
+            case nextToken = "NextToken"
         }
     }
 
@@ -1146,13 +2137,17 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.eventSourceArn?.forEach {}
             try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, max: 1600)
             try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, min: 1)
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.namePrefix?.forEach {}
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, max: 48)
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, min: 1)
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1183,6 +2178,61 @@ extension EventBridge {
         }
     }
 
+    public struct ListConnectionsRequest: AWSEncodableShape {
+        /// The state of the connection.
+        public let connectionState: ConnectionState?
+        /// The maximum number of connections to return.
+        public let limit: Int?
+        /// A name prefix to filter results returned. Only connections with a name that starts with the prefix are returned.
+        public let namePrefix: String?
+        /// The token returned by a previous call to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(connectionState: ConnectionState? = nil, limit: Int? = nil, namePrefix: String? = nil, nextToken: String? = nil) {
+            self.connectionState = connectionState
+            self.limit = limit
+            self.namePrefix = namePrefix
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.limit?.forEach {}
+            try self.validate(self.limit, name: "limit", parent: name, max: 100)
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.namePrefix?.forEach {}
+            try self.validate(self.namePrefix, name: "namePrefix", parent: name, max: 64)
+            try self.validate(self.namePrefix, name: "namePrefix", parent: name, min: 1)
+            try self.validate(self.namePrefix, name: "namePrefix", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+            try self.nextToken?.forEach {}
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionState = "ConnectionState"
+            case limit = "Limit"
+            case namePrefix = "NamePrefix"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListConnectionsResponse: AWSDecodableShape {
+        /// An array of connections objects that include details about the connections.
+        public let connections: [Connection]?
+        /// A token you can use in a subsequent request to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(connections: [Connection]? = nil, nextToken: String? = nil) {
+            self.connections = connections
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connections = "Connections"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListEventBusesRequest: AWSEncodableShape {
         /// Specifying this limits the number of results returned by this operation. The operation also returns a NextToken which you can use in a subsequent operation to retrieve the next set of results.
         public let limit: Int?
@@ -1198,11 +2248,14 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.namePrefix?.forEach {}
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, max: 256)
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, min: 1)
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, pattern: "[/\\.\\-_A-Za-z0-9]+")
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1246,11 +2299,14 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.namePrefix?.forEach {}
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, max: 256)
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, min: 1)
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, pattern: "[/\\.\\-_A-Za-z0-9]+")
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1294,11 +2350,14 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.eventSourceName.forEach {}
             try self.validate(self.eventSourceName, name: "eventSourceName", parent: name, max: 256)
             try self.validate(self.eventSourceName, name: "eventSourceName", parent: name, min: 1)
             try self.validate(self.eventSourceName, name: "eventSourceName", parent: name, pattern: "aws\\.partner(/[\\.\\-_A-Za-z0-9]+){2,}")
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1342,11 +2401,14 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.namePrefix.forEach {}
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, max: 256)
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, min: 1)
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, pattern: "aws\\.partner/[\\.\\-_A-Za-z0-9]+/[/\\.\\-_A-Za-z0-9]*")
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1396,13 +2458,17 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.eventSourceArn?.forEach {}
             try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, max: 1600)
             try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, min: 1)
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.namePrefix?.forEach {}
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, max: 64)
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, min: 1)
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1451,13 +2517,17 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.eventBusName?.forEach {}
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+")
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.targetArn.forEach {}
             try self.validate(self.targetArn, name: "targetArn", parent: name, max: 1600)
             try self.validate(self.targetArn, name: "targetArn", parent: name, min: 1)
         }
@@ -1505,14 +2575,18 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.eventBusName?.forEach {}
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+")
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.namePrefix?.forEach {}
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, max: 64)
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, min: 1)
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1551,6 +2625,7 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1600)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
         }
@@ -1591,13 +2666,17 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.eventBusName?.forEach {}
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+")
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.rule.forEach {}
             try self.validate(self.rule, name: "rule", parent: name, max: 64)
             try self.validate(self.rule, name: "rule", parent: name, min: 1)
             try self.validate(self.rule, name: "rule", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -1695,6 +2774,7 @@ extension EventBridge {
             try self.entries.forEach {
                 try $0.validate(name: "\(name).entries[]")
             }
+            try self.entries.forEach {}
             try self.validate(self.entries, name: "entries", parent: name, max: 10)
             try self.validate(self.entries, name: "entries", parent: name, min: 1)
         }
@@ -1717,20 +2797,27 @@ extension EventBridge {
         public let source: String?
         /// The time stamp of the event, per RFC3339. If no time stamp is provided, the time stamp of the PutEvents call is used.
         public let time: Date?
+        /// An AWS X-Ray trade header, which is an http header (X-Amzn-Trace-Id) that contains the trace-id associated with the event. To learn more about X-Ray trace headers, see Tracing header in the AWS X-Ray Developer Guide.
+        public let traceHeader: String?
 
-        public init(detail: String? = nil, detailType: String? = nil, eventBusName: String? = nil, resources: [String]? = nil, source: String? = nil, time: Date? = nil) {
+        public init(detail: String? = nil, detailType: String? = nil, eventBusName: String? = nil, resources: [String]? = nil, source: String? = nil, time: Date? = nil, traceHeader: String? = nil) {
             self.detail = detail
             self.detailType = detailType
             self.eventBusName = eventBusName
             self.resources = resources
             self.source = source
             self.time = time
+            self.traceHeader = traceHeader
         }
 
         public func validate(name: String) throws {
+            try self.eventBusName?.forEach {}
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[\\.\\-_A-Za-z0-9]+")
+            try self.traceHeader?.forEach {}
+            try self.validate(self.traceHeader, name: "traceHeader", parent: name, max: 500)
+            try self.validate(self.traceHeader, name: "traceHeader", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1740,6 +2827,7 @@ extension EventBridge {
             case resources = "Resources"
             case source = "Source"
             case time = "Time"
+            case traceHeader = "TraceHeader"
         }
     }
 
@@ -1793,6 +2881,7 @@ extension EventBridge {
             try self.entries.forEach {
                 try $0.validate(name: "\(name).entries[]")
             }
+            try self.entries.forEach {}
             try self.validate(self.entries, name: "entries", parent: name, max: 20)
             try self.validate(self.entries, name: "entries", parent: name, min: 1)
         }
@@ -1823,6 +2912,7 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.source?.forEach {}
             try self.validate(self.source, name: "source", parent: name, max: 256)
             try self.validate(self.source, name: "source", parent: name, min: 1)
             try self.validate(self.source, name: "source", parent: name, pattern: "aws\\.partner(/[\\.\\-_A-Za-z0-9]+){2,}")
@@ -1899,15 +2989,19 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.action?.forEach {}
             try self.validate(self.action, name: "action", parent: name, max: 64)
             try self.validate(self.action, name: "action", parent: name, min: 1)
             try self.validate(self.action, name: "action", parent: name, pattern: "events:[a-zA-Z]+")
+            try self.eventBusName?.forEach {}
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 256)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+            try self.principal?.forEach {}
             try self.validate(self.principal, name: "principal", parent: name, max: 12)
             try self.validate(self.principal, name: "principal", parent: name, min: 1)
             try self.validate(self.principal, name: "principal", parent: name, pattern: "(\\d{12}|\\*)")
+            try self.statementId?.forEach {}
             try self.validate(self.statementId, name: "statementId", parent: name, max: 64)
             try self.validate(self.statementId, name: "statementId", parent: name, min: 1)
             try self.validate(self.statementId, name: "statementId", parent: name, pattern: "[a-zA-Z0-9-_]+")
@@ -1953,19 +3047,25 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.eventBusName?.forEach {}
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+            try self.roleArn?.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1600)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
+            try self.scheduleExpression?.forEach {}
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, max: 256)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2008,15 +3108,18 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.eventBusName?.forEach {}
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+")
+            try self.rule.forEach {}
             try self.validate(self.rule, name: "rule", parent: name, max: 64)
             try self.validate(self.rule, name: "rule", parent: name, min: 1)
             try self.validate(self.rule, name: "rule", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
             try self.targets.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
+            try self.targets.forEach {}
             try self.validate(self.targets, name: "targets", parent: name, max: 100)
             try self.validate(self.targets, name: "targets", parent: name, min: 1)
         }
@@ -2090,17 +3193,20 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.database.forEach {}
             try self.validate(self.database, name: "database", parent: name, max: 64)
             try self.validate(self.database, name: "database", parent: name, min: 1)
-            try self.validate(self.database, name: "database", parent: name, pattern: "([a-zA-Z0-9]+)|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)")
+            try self.dbUser?.forEach {}
             try self.validate(self.dbUser, name: "dbUser", parent: name, max: 128)
             try self.validate(self.dbUser, name: "dbUser", parent: name, min: 1)
-            try self.validate(self.dbUser, name: "dbUser", parent: name, pattern: "([a-zA-Z0-9]+)|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)")
+            try self.secretManagerArn?.forEach {}
             try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, max: 1600)
             try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, min: 1)
             try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, pattern: "(^arn:aws([a-z]|\\-)*:secretsmanager:[a-z0-9-.]+:.*)|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)")
+            try self.sql.forEach {}
             try self.validate(self.sql, name: "sql", parent: name, max: 100_000)
             try self.validate(self.sql, name: "sql", parent: name, min: 1)
+            try self.statementName?.forEach {}
             try self.validate(self.statementName, name: "statementName", parent: name, max: 500)
             try self.validate(self.statementName, name: "statementName", parent: name, min: 1)
         }
@@ -2130,9 +3236,11 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.eventBusName?.forEach {}
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 256)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+            try self.statementId?.forEach {}
             try self.validate(self.statementId, name: "statementId", parent: name, max: 64)
             try self.validate(self.statementId, name: "statementId", parent: name, min: 1)
             try self.validate(self.statementId, name: "statementId", parent: name, pattern: "[a-zA-Z0-9-_]+")
@@ -2163,6 +3271,7 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.eventBusName?.forEach {}
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+")
@@ -2171,8 +3280,10 @@ extension EventBridge {
                 try validate($0, name: "ids[]", parent: name, min: 1)
                 try validate($0, name: "ids[]", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
             }
+            try self.ids.forEach {}
             try self.validate(self.ids, name: "ids", parent: name, max: 100)
             try self.validate(self.ids, name: "ids", parent: name, min: 1)
+            try self.rule.forEach {}
             try self.validate(self.rule, name: "rule", parent: name, max: 64)
             try self.validate(self.rule, name: "rule", parent: name, min: 1)
             try self.validate(self.rule, name: "rule", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -2281,12 +3392,14 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1600)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
             try self.filterArns?.forEach {
                 try validate($0, name: "filterArns[]", parent: name, max: 1600)
                 try validate($0, name: "filterArns[]", parent: name, min: 1)
             }
+            try self.filterArns?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2307,8 +3420,10 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.maximumEventAgeInSeconds?.forEach {}
             try self.validate(self.maximumEventAgeInSeconds, name: "maximumEventAgeInSeconds", parent: name, max: 86400)
             try self.validate(self.maximumEventAgeInSeconds, name: "maximumEventAgeInSeconds", parent: name, min: 60)
+            try self.maximumRetryAttempts?.forEach {}
             try self.validate(self.maximumRetryAttempts, name: "maximumRetryAttempts", parent: name, max: 185)
             try self.validate(self.maximumRetryAttempts, name: "maximumRetryAttempts", parent: name, min: 0)
         }
@@ -2376,6 +3491,7 @@ extension EventBridge {
             try self.runCommandTargets.forEach {
                 try $0.validate(name: "\(name).runCommandTargets[]")
             }
+            try self.runCommandTargets.forEach {}
             try self.validate(self.runCommandTargets, name: "runCommandTargets", parent: name, max: 5)
             try self.validate(self.runCommandTargets, name: "runCommandTargets", parent: name, min: 1)
         }
@@ -2397,6 +3513,7 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
@@ -2404,6 +3521,7 @@ extension EventBridge {
                 try validate($0, name: "values[]", parent: name, max: 256)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
+            try self.values.forEach {}
             try self.validate(self.values, name: "values", parent: name, max: 50)
             try self.validate(self.values, name: "values", parent: name, min: 1)
         }
@@ -2411,6 +3529,54 @@ extension EventBridge {
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case values = "Values"
+        }
+    }
+
+    public struct SageMakerPipelineParameter: AWSEncodableShape & AWSDecodableShape {
+        /// Name of parameter to start execution of a SageMaker Model Building Pipeline.
+        public let name: String
+        /// Value of parameter to start execution of a SageMaker Model Building Pipeline.
+        public let value: String
+
+        public init(name: String, value: String) {
+            self.name = name
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.name.forEach {}
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.value.forEach {}
+            try self.validate(self.value, name: "value", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case value = "Value"
+        }
+    }
+
+    public struct SageMakerPipelineParameters: AWSEncodableShape & AWSDecodableShape {
+        /// List of Parameter names and values for SageMaker Model Building Pipeline execution.
+        public let pipelineParameterList: [SageMakerPipelineParameter]?
+
+        public init(pipelineParameterList: [SageMakerPipelineParameter]? = nil) {
+            self.pipelineParameterList = pipelineParameterList
+        }
+
+        public func validate(name: String) throws {
+            try self.pipelineParameterList?.forEach {
+                try $0.validate(name: "\(name).pipelineParameterList[]")
+            }
+            try self.pipelineParameterList?.forEach {}
+            try self.validate(self.pipelineParameterList, name: "pipelineParameterList", parent: name, max: 200)
+            try self.validate(self.pipelineParameterList, name: "pipelineParameterList", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineParameterList = "PipelineParameterList"
         }
     }
 
@@ -2451,11 +3617,15 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
             try self.destination.validate(name: "\(name).destination")
+            try self.destination.forEach {}
+            try self.eventSourceArn.forEach {}
             try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, max: 1600)
             try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, min: 1)
+            try self.replayName.forEach {}
             try self.validate(self.replayName, name: "replayName", parent: name, max: 64)
             try self.validate(self.replayName, name: "replayName", parent: name, min: 1)
             try self.validate(self.replayName, name: "replayName", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -2508,8 +3678,10 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
         }
@@ -2532,11 +3704,13 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1600)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2558,7 +3732,7 @@ extension EventBridge {
         public let deadLetterConfig: DeadLetterConfig?
         /// Contains the Amazon ECS task definition and task count to be used, if the event target is an Amazon ECS task. For more information about Amazon ECS tasks, see Task Definitions  in the Amazon EC2 Container Service Developer Guide.
         public let ecsParameters: EcsParameters?
-        /// Contains the HTTP parameters to use when the target is a API Gateway REST endpoint. If you specify an API Gateway REST API as a target, you can use this parameter to specify headers, path parameter, query string keys/values as part of your target invoking request.
+        /// Contains the HTTP parameters to use when the target is a API Gateway REST endpoint or EventBridge ApiDestination. If you specify an API Gateway REST API or EventBridge ApiDestination as a target, you can use this parameter to specify headers, path parameters, and query string keys/values as part of your target invoking request. If you're using ApiDestinations, the corresponding Connection can also have these values configured. In case of any conflicting keys, values from the Connection take precedence.
         public let httpParameters: HttpParameters?
         /// The ID of the target.
         public let id: String
@@ -2578,10 +3752,12 @@ extension EventBridge {
         public let roleArn: String?
         /// Parameters used when you are using the rule to invoke Amazon EC2 Run Command.
         public let runCommandParameters: RunCommandParameters?
+        /// Contains the SageMaker Model Building Pipeline parameters to start execution of a SageMaker Model Building Pipeline. If you specify a SageMaker Model Building Pipeline as a target, you can use this to specify parameters to start a pipeline execution based on EventBridge events.
+        public let sageMakerPipelineParameters: SageMakerPipelineParameters?
         /// Contains the message group ID to use when the target is a FIFO queue. If you specify an SQS FIFO queue as a target, the queue must have content-based deduplication enabled.
         public let sqsParameters: SqsParameters?
 
-        public init(arn: String, batchParameters: BatchParameters? = nil, deadLetterConfig: DeadLetterConfig? = nil, ecsParameters: EcsParameters? = nil, httpParameters: HttpParameters? = nil, id: String, input: String? = nil, inputPath: String? = nil, inputTransformer: InputTransformer? = nil, kinesisParameters: KinesisParameters? = nil, redshiftDataParameters: RedshiftDataParameters? = nil, retryPolicy: RetryPolicy? = nil, roleArn: String? = nil, runCommandParameters: RunCommandParameters? = nil, sqsParameters: SqsParameters? = nil) {
+        public init(arn: String, batchParameters: BatchParameters? = nil, deadLetterConfig: DeadLetterConfig? = nil, ecsParameters: EcsParameters? = nil, httpParameters: HttpParameters? = nil, id: String, input: String? = nil, inputPath: String? = nil, inputTransformer: InputTransformer? = nil, kinesisParameters: KinesisParameters? = nil, redshiftDataParameters: RedshiftDataParameters? = nil, retryPolicy: RetryPolicy? = nil, roleArn: String? = nil, runCommandParameters: RunCommandParameters? = nil, sageMakerPipelineParameters: SageMakerPipelineParameters? = nil, sqsParameters: SqsParameters? = nil) {
             self.arn = arn
             self.batchParameters = batchParameters
             self.deadLetterConfig = deadLetterConfig
@@ -2596,27 +3772,43 @@ extension EventBridge {
             self.retryPolicy = retryPolicy
             self.roleArn = roleArn
             self.runCommandParameters = runCommandParameters
+            self.sageMakerPipelineParameters = sageMakerPipelineParameters
             self.sqsParameters = sqsParameters
         }
 
         public func validate(name: String) throws {
+            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1600)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
             try self.deadLetterConfig?.validate(name: "\(name).deadLetterConfig")
+            try self.deadLetterConfig?.forEach {}
             try self.ecsParameters?.validate(name: "\(name).ecsParameters")
+            try self.ecsParameters?.forEach {}
             try self.httpParameters?.validate(name: "\(name).httpParameters")
+            try self.httpParameters?.forEach {}
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 64)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+            try self.input?.forEach {}
             try self.validate(self.input, name: "input", parent: name, max: 8192)
+            try self.inputPath?.forEach {}
             try self.validate(self.inputPath, name: "inputPath", parent: name, max: 256)
             try self.inputTransformer?.validate(name: "\(name).inputTransformer")
+            try self.inputTransformer?.forEach {}
             try self.kinesisParameters?.validate(name: "\(name).kinesisParameters")
+            try self.kinesisParameters?.forEach {}
             try self.redshiftDataParameters?.validate(name: "\(name).redshiftDataParameters")
+            try self.redshiftDataParameters?.forEach {}
             try self.retryPolicy?.validate(name: "\(name).retryPolicy")
+            try self.retryPolicy?.forEach {}
+            try self.roleArn?.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1600)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
             try self.runCommandParameters?.validate(name: "\(name).runCommandParameters")
+            try self.runCommandParameters?.forEach {}
+            try self.sageMakerPipelineParameters?.validate(name: "\(name).sageMakerPipelineParameters")
+            try self.sageMakerPipelineParameters?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2634,12 +3826,13 @@ extension EventBridge {
             case retryPolicy = "RetryPolicy"
             case roleArn = "RoleArn"
             case runCommandParameters = "RunCommandParameters"
+            case sageMakerPipelineParameters = "SageMakerPipelineParameters"
             case sqsParameters = "SqsParameters"
         }
     }
 
     public struct TestEventPatternRequest: AWSEncodableShape {
-        /// The event, in JSON format, to test against the event pattern.
+        /// The event, in JSON format, to test against the event pattern. The JSON must follow the format specified in AWS Events, and the following fields are mandatory:    id     account     source     time     region     resources     detail-type
         public let event: String
         /// The event pattern. For more information, see Events and Event Patterns in the Amazon EventBridge User Guide.
         public let eventPattern: String
@@ -2680,12 +3873,14 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1600)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
+            try self.tagKeys.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2696,6 +3891,84 @@ extension EventBridge {
 
     public struct UntagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateApiDestinationRequest: AWSEncodableShape {
+        /// The ARN of the connection to use for the API destination.
+        public let connectionArn: String?
+        /// The name of the API destination to update.
+        public let description: String?
+        /// The method to use for the API destination.
+        public let httpMethod: ApiDestinationHttpMethod?
+        /// The URL to the endpoint to use for the API destination.
+        public let invocationEndpoint: String?
+        /// The maximum number of invocations per second to send to the API destination.
+        public let invocationRateLimitPerSecond: Int?
+        /// The name of the API destination to update.
+        public let name: String
+
+        public init(connectionArn: String? = nil, description: String? = nil, httpMethod: ApiDestinationHttpMethod? = nil, invocationEndpoint: String? = nil, invocationRateLimitPerSecond: Int? = nil, name: String) {
+            self.connectionArn = connectionArn
+            self.description = description
+            self.httpMethod = httpMethod
+            self.invocationEndpoint = invocationEndpoint
+            self.invocationRateLimitPerSecond = invocationRateLimitPerSecond
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.connectionArn?.forEach {}
+            try self.validate(self.connectionArn, name: "connectionArn", parent: name, max: 1600)
+            try self.validate(self.connectionArn, name: "connectionArn", parent: name, min: 1)
+            try self.validate(self.connectionArn, name: "connectionArn", parent: name, pattern: "^arn:aws([a-z]|\\-)*:events:([a-z]|\\d|\\-)*:([0-9]{12})?:connection\\/[\\.\\-_A-Za-z0-9]+\\/[\\-A-Za-z0-9]+$")
+            try self.description?.forEach {}
+            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.invocationEndpoint?.forEach {}
+            try self.validate(self.invocationEndpoint, name: "invocationEndpoint", parent: name, max: 2048)
+            try self.validate(self.invocationEndpoint, name: "invocationEndpoint", parent: name, min: 1)
+            try self.validate(self.invocationEndpoint, name: "invocationEndpoint", parent: name, pattern: "^((%[0-9A-Fa-f]{2}|[-()_.!~*';/?:@\\x26=+$,A-Za-z0-9])+)([).!';/?:,])?$")
+            try self.invocationRateLimitPerSecond?.forEach {}
+            try self.validate(self.invocationRateLimitPerSecond, name: "invocationRateLimitPerSecond", parent: name, min: 1)
+            try self.name.forEach {}
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionArn = "ConnectionArn"
+            case description = "Description"
+            case httpMethod = "HttpMethod"
+            case invocationEndpoint = "InvocationEndpoint"
+            case invocationRateLimitPerSecond = "InvocationRateLimitPerSecond"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateApiDestinationResponse: AWSDecodableShape {
+        /// The ARN of the API destination that was updated.
+        public let apiDestinationArn: String?
+        /// The state of the API destination that was updated.
+        public let apiDestinationState: ApiDestinationState?
+        /// A time stamp for the time that the API destination was created.
+        public let creationTime: Date?
+        /// A time stamp for the time that the API destination was last modified.
+        public let lastModifiedTime: Date?
+
+        public init(apiDestinationArn: String? = nil, apiDestinationState: ApiDestinationState? = nil, creationTime: Date? = nil, lastModifiedTime: Date? = nil) {
+            self.apiDestinationArn = apiDestinationArn
+            self.apiDestinationState = apiDestinationState
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiDestinationArn = "ApiDestinationArn"
+            case apiDestinationState = "ApiDestinationState"
+            case creationTime = "CreationTime"
+            case lastModifiedTime = "LastModifiedTime"
+        }
     }
 
     public struct UpdateArchiveRequest: AWSEncodableShape {
@@ -2716,11 +3989,14 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.archiveName.forEach {}
             try self.validate(self.archiveName, name: "archiveName", parent: name, max: 48)
             try self.validate(self.archiveName, name: "archiveName", parent: name, min: 1)
             try self.validate(self.archiveName, name: "archiveName", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.retentionDays?.forEach {}
             try self.validate(self.retentionDays, name: "retentionDays", parent: name, min: 0)
         }
 
@@ -2754,6 +4030,228 @@ extension EventBridge {
             case creationTime = "CreationTime"
             case state = "State"
             case stateReason = "StateReason"
+        }
+    }
+
+    public struct UpdateConnectionApiKeyAuthRequestParameters: AWSEncodableShape {
+        /// The name of the API key to use for authorization.
+        public let apiKeyName: String?
+        /// The value associated with teh API key to use for authorization.
+        public let apiKeyValue: String?
+
+        public init(apiKeyName: String? = nil, apiKeyValue: String? = nil) {
+            self.apiKeyName = apiKeyName
+            self.apiKeyValue = apiKeyValue
+        }
+
+        public func validate(name: String) throws {
+            try self.apiKeyName?.forEach {}
+            try self.validate(self.apiKeyName, name: "apiKeyName", parent: name, max: 512)
+            try self.validate(self.apiKeyName, name: "apiKeyName", parent: name, min: 1)
+            try self.validate(self.apiKeyName, name: "apiKeyName", parent: name, pattern: "^[ \\t]*[^\\x00-\\x1F:\\x7F]+([ \\t]+[^\\x00-\\x1F:\\x7F]+)*[ \\t]*$")
+            try self.apiKeyValue?.forEach {}
+            try self.validate(self.apiKeyValue, name: "apiKeyValue", parent: name, max: 512)
+            try self.validate(self.apiKeyValue, name: "apiKeyValue", parent: name, min: 1)
+            try self.validate(self.apiKeyValue, name: "apiKeyValue", parent: name, pattern: "^[ \\t]*[^\\x00-\\x1F:\\x7F]+([ \\t]+[^\\x00-\\x1F:\\x7F]+)*[ \\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiKeyName = "ApiKeyName"
+            case apiKeyValue = "ApiKeyValue"
+        }
+    }
+
+    public struct UpdateConnectionAuthRequestParameters: AWSEncodableShape {
+        /// A UpdateConnectionApiKeyAuthRequestParameters object that contains the authorization parameters for API key authorization.
+        public let apiKeyAuthParameters: UpdateConnectionApiKeyAuthRequestParameters?
+        /// A UpdateConnectionBasicAuthRequestParameters object that contains the authorization parameters for Basic authorization.
+        public let basicAuthParameters: UpdateConnectionBasicAuthRequestParameters?
+        /// A ConnectionHttpParameters object that contains the additional parameters to use for the connection.
+        public let invocationHttpParameters: ConnectionHttpParameters?
+        /// A UpdateConnectionOAuthRequestParameters object that contains the authorization parameters for OAuth authorization.
+        public let oAuthParameters: UpdateConnectionOAuthRequestParameters?
+
+        public init(apiKeyAuthParameters: UpdateConnectionApiKeyAuthRequestParameters? = nil, basicAuthParameters: UpdateConnectionBasicAuthRequestParameters? = nil, invocationHttpParameters: ConnectionHttpParameters? = nil, oAuthParameters: UpdateConnectionOAuthRequestParameters? = nil) {
+            self.apiKeyAuthParameters = apiKeyAuthParameters
+            self.basicAuthParameters = basicAuthParameters
+            self.invocationHttpParameters = invocationHttpParameters
+            self.oAuthParameters = oAuthParameters
+        }
+
+        public func validate(name: String) throws {
+            try self.apiKeyAuthParameters?.validate(name: "\(name).apiKeyAuthParameters")
+            try self.apiKeyAuthParameters?.forEach {}
+            try self.basicAuthParameters?.validate(name: "\(name).basicAuthParameters")
+            try self.basicAuthParameters?.forEach {}
+            try self.invocationHttpParameters?.validate(name: "\(name).invocationHttpParameters")
+            try self.invocationHttpParameters?.forEach {}
+            try self.oAuthParameters?.validate(name: "\(name).oAuthParameters")
+            try self.oAuthParameters?.forEach {}
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiKeyAuthParameters = "ApiKeyAuthParameters"
+            case basicAuthParameters = "BasicAuthParameters"
+            case invocationHttpParameters = "InvocationHttpParameters"
+            case oAuthParameters = "OAuthParameters"
+        }
+    }
+
+    public struct UpdateConnectionBasicAuthRequestParameters: AWSEncodableShape {
+        /// The password associated with the user name to use for Basic authorization.
+        public let password: String?
+        /// The user name to use for Basic authorization.
+        public let username: String?
+
+        public init(password: String? = nil, username: String? = nil) {
+            self.password = password
+            self.username = username
+        }
+
+        public func validate(name: String) throws {
+            try self.password?.forEach {}
+            try self.validate(self.password, name: "password", parent: name, max: 512)
+            try self.validate(self.password, name: "password", parent: name, min: 1)
+            try self.validate(self.password, name: "password", parent: name, pattern: "^[ \\t]*[^\\x00-\\x1F:\\x7F]+([ \\t]+[^\\x00-\\x1F:\\x7F]+)*[ \\t]*$")
+            try self.username?.forEach {}
+            try self.validate(self.username, name: "username", parent: name, max: 512)
+            try self.validate(self.username, name: "username", parent: name, min: 1)
+            try self.validate(self.username, name: "username", parent: name, pattern: "^[ \\t]*[^\\x00-\\x1F:\\x7F]+([ \\t]+[^\\x00-\\x1F:\\x7F]+)*[ \\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case password = "Password"
+            case username = "Username"
+        }
+    }
+
+    public struct UpdateConnectionOAuthClientRequestParameters: AWSEncodableShape {
+        /// The client ID to use for OAuth authorization.
+        public let clientID: String?
+        /// The client secret assciated with the client ID to use for OAuth authorization.
+        public let clientSecret: String?
+
+        public init(clientID: String? = nil, clientSecret: String? = nil) {
+            self.clientID = clientID
+            self.clientSecret = clientSecret
+        }
+
+        public func validate(name: String) throws {
+            try self.clientID?.forEach {}
+            try self.validate(self.clientID, name: "clientID", parent: name, max: 512)
+            try self.validate(self.clientID, name: "clientID", parent: name, min: 1)
+            try self.validate(self.clientID, name: "clientID", parent: name, pattern: "^[ \\t]*[^\\x00-\\x1F:\\x7F]+([ \\t]+[^\\x00-\\x1F:\\x7F]+)*[ \\t]*$")
+            try self.clientSecret?.forEach {}
+            try self.validate(self.clientSecret, name: "clientSecret", parent: name, max: 512)
+            try self.validate(self.clientSecret, name: "clientSecret", parent: name, min: 1)
+            try self.validate(self.clientSecret, name: "clientSecret", parent: name, pattern: "^[ \\t]*[^\\x00-\\x1F:\\x7F]+([ \\t]+[^\\x00-\\x1F:\\x7F]+)*[ \\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientID = "ClientID"
+            case clientSecret = "ClientSecret"
+        }
+    }
+
+    public struct UpdateConnectionOAuthRequestParameters: AWSEncodableShape {
+        /// The URL to the authorization endpoint when OAuth is specified as the authorization type.
+        public let authorizationEndpoint: String?
+        /// A UpdateConnectionOAuthClientRequestParameters object that contains the client parameters to use for the connection when OAuth is specified as the authorization type.
+        public let clientParameters: UpdateConnectionOAuthClientRequestParameters?
+        /// The method used to connect to the HTTP endpoint.
+        public let httpMethod: ConnectionOAuthHttpMethod?
+        /// The additional HTTP parameters used for the OAuth authorization request.
+        public let oAuthHttpParameters: ConnectionHttpParameters?
+
+        public init(authorizationEndpoint: String? = nil, clientParameters: UpdateConnectionOAuthClientRequestParameters? = nil, httpMethod: ConnectionOAuthHttpMethod? = nil, oAuthHttpParameters: ConnectionHttpParameters? = nil) {
+            self.authorizationEndpoint = authorizationEndpoint
+            self.clientParameters = clientParameters
+            self.httpMethod = httpMethod
+            self.oAuthHttpParameters = oAuthHttpParameters
+        }
+
+        public func validate(name: String) throws {
+            try self.authorizationEndpoint?.forEach {}
+            try self.validate(self.authorizationEndpoint, name: "authorizationEndpoint", parent: name, max: 2048)
+            try self.validate(self.authorizationEndpoint, name: "authorizationEndpoint", parent: name, min: 1)
+            try self.validate(self.authorizationEndpoint, name: "authorizationEndpoint", parent: name, pattern: "^((%[0-9A-Fa-f]{2}|[-()_.!~*';/?:@\\x26=+$,A-Za-z0-9])+)([).!';/?:,])?$")
+            try self.clientParameters?.validate(name: "\(name).clientParameters")
+            try self.clientParameters?.forEach {}
+            try self.oAuthHttpParameters?.validate(name: "\(name).oAuthHttpParameters")
+            try self.oAuthHttpParameters?.forEach {}
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizationEndpoint = "AuthorizationEndpoint"
+            case clientParameters = "ClientParameters"
+            case httpMethod = "HttpMethod"
+            case oAuthHttpParameters = "OAuthHttpParameters"
+        }
+    }
+
+    public struct UpdateConnectionRequest: AWSEncodableShape {
+        /// The type of authorization to use for the connection.
+        public let authorizationType: ConnectionAuthorizationType?
+        /// The authorization parameters to use for the connection.
+        public let authParameters: UpdateConnectionAuthRequestParameters?
+        /// A description for the connection.
+        public let description: String?
+        /// The name of the connection to update.
+        public let name: String
+
+        public init(authorizationType: ConnectionAuthorizationType? = nil, authParameters: UpdateConnectionAuthRequestParameters? = nil, description: String? = nil, name: String) {
+            self.authorizationType = authorizationType
+            self.authParameters = authParameters
+            self.description = description
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.authParameters?.validate(name: "\(name).authParameters")
+            try self.authParameters?.forEach {}
+            try self.description?.forEach {}
+            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.name.forEach {}
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizationType = "AuthorizationType"
+            case authParameters = "AuthParameters"
+            case description = "Description"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateConnectionResponse: AWSDecodableShape {
+        /// The ARN of the connection that was updated.
+        public let connectionArn: String?
+        /// The state of the connection that was updated.
+        public let connectionState: ConnectionState?
+        /// A time stamp for the time that the connection was created.
+        public let creationTime: Date?
+        /// A time stamp for the time that the connection was last authorized.
+        public let lastAuthorizedTime: Date?
+        /// A time stamp for the time that the connection was last modified.
+        public let lastModifiedTime: Date?
+
+        public init(connectionArn: String? = nil, connectionState: ConnectionState? = nil, creationTime: Date? = nil, lastAuthorizedTime: Date? = nil, lastModifiedTime: Date? = nil) {
+            self.connectionArn = connectionArn
+            self.connectionState = connectionState
+            self.creationTime = creationTime
+            self.lastAuthorizedTime = lastAuthorizedTime
+            self.lastModifiedTime = lastModifiedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionArn = "ConnectionArn"
+            case connectionState = "ConnectionState"
+            case creationTime = "CreationTime"
+            case lastAuthorizedTime = "LastAuthorizedTime"
+            case lastModifiedTime = "LastModifiedTime"
         }
     }
 }

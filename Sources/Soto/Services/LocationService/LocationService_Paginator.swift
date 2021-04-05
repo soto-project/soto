@@ -19,7 +19,7 @@ import SotoCore
 // MARK: Paginators
 
 extension LocationService {
-    ///  Retrieves the device position history from a tracker resource within a specified range of time.  Limitation — Device positions are deleted after one year.
+    ///  Retrieves the device position history from a tracker resource within a specified range of time.  Device positions are deleted after 1 year.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

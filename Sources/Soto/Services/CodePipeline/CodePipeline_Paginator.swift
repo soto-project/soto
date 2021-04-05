@@ -372,6 +372,7 @@ extension CodePipeline.ListPipelineExecutionsInput: AWSPaginateToken {
 extension CodePipeline.ListPipelinesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodePipeline.ListPipelinesInput {
         return .init(
+            maxResults: self.maxResults,
             nextToken: token
         )
     }

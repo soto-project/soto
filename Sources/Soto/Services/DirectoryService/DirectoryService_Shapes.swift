@@ -239,6 +239,7 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.sharedDirectoryId.forEach {}
             try self.validate(self.sharedDirectoryId, name: "sharedDirectoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
         }
 
@@ -275,10 +276,12 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
             try self.ipRoutes.forEach {
                 try $0.validate(name: "\(name).ipRoutes[]")
             }
+            try self.ipRoutes.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -306,10 +309,13 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.regionName.forEach {}
             try self.validate(self.regionName, name: "regionName", parent: name, max: 32)
             try self.validate(self.regionName, name: "regionName", parent: name, min: 8)
             try self.vPCSettings.validate(name: "\(name).vPCSettings")
+            try self.vPCSettings.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -335,10 +341,12 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^[d]-[0-9a-f]{10}$")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -363,6 +371,7 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
 
@@ -384,7 +393,9 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.schemaExtensionId.forEach {}
             try self.validate(self.schemaExtensionId, name: "schemaExtensionId", parent: name, pattern: "^e-[0-9a-f]{10}$")
         }
 
@@ -477,6 +488,7 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.oCSPUrl?.forEach {}
             try self.validate(self.oCSPUrl, name: "oCSPUrl", parent: name, max: 1024)
             try self.validate(self.oCSPUrl, name: "oCSPUrl", parent: name, min: 1)
             try self.validate(self.oCSPUrl, name: "oCSPUrl", parent: name, pattern: "^(https?|ftp|file|ldaps?)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;()]*[-a-zA-Z0-9+&@#/%=~_|()]")
@@ -557,16 +569,22 @@ extension DirectoryService {
 
         public func validate(name: String) throws {
             try self.connectSettings.validate(name: "\(name).connectSettings")
+            try self.connectSettings.forEach {}
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 128)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, pattern: "^([a-zA-Z0-9_])[\\\\a-zA-Z0-9_@#%*+=:?./!\\s-]*$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+$")
+            try self.password.forEach {}
             try self.validate(self.password, name: "password", parent: name, max: 128)
             try self.validate(self.password, name: "password", parent: name, min: 1)
+            try self.shortName?.forEach {}
             try self.validate(self.shortName, name: "shortName", parent: name, pattern: "^[^\\\\/:*?\"<>|.]+[^\\\\/:*?\"<>|]*$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -605,9 +623,11 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.alias.forEach {}
             try self.validate(self.alias, name: "alias", parent: name, max: 62)
             try self.validate(self.alias, name: "alias", parent: name, min: 1)
             try self.validate(self.alias, name: "alias", parent: name, pattern: "^(?!d-)([\\da-zA-Z]+)([-]*[\\da-zA-Z])*")
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
         }
 
@@ -658,11 +678,16 @@ extension DirectoryService {
             try self.computerAttributes?.forEach {
                 try $0.validate(name: "\(name).computerAttributes[]")
             }
+            try self.computerAttributes?.forEach {}
+            try self.computerName.forEach {}
             try self.validate(self.computerName, name: "computerName", parent: name, max: 15)
             try self.validate(self.computerName, name: "computerName", parent: name, min: 1)
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.organizationalUnitDistinguishedName?.forEach {}
             try self.validate(self.organizationalUnitDistinguishedName, name: "organizationalUnitDistinguishedName", parent: name, max: 2000)
             try self.validate(self.organizationalUnitDistinguishedName, name: "organizationalUnitDistinguishedName", parent: name, min: 1)
+            try self.password.forEach {}
             try self.validate(self.password, name: "password", parent: name, max: 64)
             try self.validate(self.password, name: "password", parent: name, min: 8)
             try self.validate(self.password, name: "password", parent: name, pattern: "[\\u0020-\\u00FF]+")
@@ -705,10 +730,13 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
             try self.dnsIpAddrs.forEach {
                 try validate($0, name: "dnsIpAddrs[]", parent: name, pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$")
             }
+            try self.dnsIpAddrs.forEach {}
+            try self.remoteDomainName.forEach {}
             try self.validate(self.remoteDomainName, name: "remoteDomainName", parent: name, pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+[.]?$")
         }
 
@@ -750,16 +778,22 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 128)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, pattern: "^([a-zA-Z0-9_])[\\\\a-zA-Z0-9_@#%*+=:?./!\\s-]*$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+$")
+            try self.password.forEach {}
             try self.validate(self.password, name: "password", parent: name, pattern: "(?=^.{8,64}$)((?=.*\\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[^A-Za-z0-9\\s])(?=.*[a-z])|(?=.*[^A-Za-z0-9\\s])(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9\\s]))^.*")
+            try self.shortName?.forEach {}
             try self.validate(self.shortName, name: "shortName", parent: name, pattern: "^[^\\\\/:*?\"<>|.]+[^\\\\/:*?\"<>|]*$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.vpcSettings?.validate(name: "\(name).vpcSettings")
+            try self.vpcSettings?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -798,7 +832,9 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.logGroupName.forEach {}
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "[-._/#A-Za-z0-9]+")
@@ -841,16 +877,22 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 128)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, pattern: "^([a-zA-Z0-9_])[\\\\a-zA-Z0-9_@#%*+=:?./!\\s-]*$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+$")
+            try self.password.forEach {}
             try self.validate(self.password, name: "password", parent: name, pattern: "(?=^.{8,64}$)((?=.*\\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[^A-Za-z0-9\\s])(?=.*[a-z])|(?=.*[^A-Za-z0-9\\s])(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9\\s]))^.*")
+            try self.shortName?.forEach {}
             try self.validate(self.shortName, name: "shortName", parent: name, pattern: "^[^\\\\/:*?\"<>|.]+[^\\\\/:*?\"<>|]*$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.vpcSettings.validate(name: "\(name).vpcSettings")
+            try self.vpcSettings.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -889,7 +931,9 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 0)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([a-zA-Z0-9_])[\\\\a-zA-Z0-9_@#%*+=:?./!\\s-]*$")
@@ -944,8 +988,12 @@ extension DirectoryService {
             try self.conditionalForwarderIpAddrs?.forEach {
                 try validate($0, name: "conditionalForwarderIpAddrs[]", parent: name, pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$")
             }
+            try self.conditionalForwarderIpAddrs?.forEach {}
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.remoteDomainName.forEach {}
             try self.validate(self.remoteDomainName, name: "remoteDomainName", parent: name, pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+[.]?$")
+            try self.trustPassword.forEach {}
             try self.validate(self.trustPassword, name: "trustPassword", parent: name, max: 128)
             try self.validate(self.trustPassword, name: "trustPassword", parent: name, min: 1)
             try self.validate(self.trustPassword, name: "trustPassword", parent: name, pattern: "(.|\\s)*\\S(.|\\s)*")
@@ -987,7 +1035,9 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.remoteDomainName.forEach {}
             try self.validate(self.remoteDomainName, name: "remoteDomainName", parent: name, pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+[.]?$")
         }
 
@@ -1010,6 +1060,7 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
         }
 
@@ -1040,6 +1091,7 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
         }
 
@@ -1061,6 +1113,7 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.snapshotId.forEach {}
             try self.validate(self.snapshotId, name: "snapshotId", parent: name, pattern: "^s-[0-9a-f]{10}$")
         }
 
@@ -1094,6 +1147,7 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.trustId.forEach {}
             try self.validate(self.trustId, name: "trustId", parent: name, pattern: "^t-[0-9a-f]{10}$")
         }
 
@@ -1128,7 +1182,9 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.certificateId.forEach {}
             try self.validate(self.certificateId, name: "certificateId", parent: name, pattern: "^c-[0-9a-f]{10}$")
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
         }
 
@@ -1154,7 +1210,9 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.topicName.forEach {}
             try self.validate(self.topicName, name: "topicName", parent: name, max: 256)
             try self.validate(self.topicName, name: "topicName", parent: name, min: 1)
             try self.validate(self.topicName, name: "topicName", parent: name, pattern: "[a-zA-Z0-9_-]+")
@@ -1182,7 +1240,9 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.certificateId.forEach {}
             try self.validate(self.certificateId, name: "certificateId", parent: name, pattern: "^c-[0-9a-f]{10}$")
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
         }
 
@@ -1217,10 +1277,12 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
             try self.remoteDomainNames?.forEach {
                 try validate($0, name: "remoteDomainNames[]", parent: name, pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+[.]?$")
             }
+            try self.remoteDomainNames?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1260,6 +1322,8 @@ extension DirectoryService {
             try self.directoryIds?.forEach {
                 try validate($0, name: "directoryIds[]", parent: name, pattern: "^d-[0-9a-f]{10}$")
             }
+            try self.directoryIds?.forEach {}
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
         }
 
@@ -1305,10 +1369,13 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
             try self.domainControllerIds?.forEach {
                 try validate($0, name: "domainControllerIds[]", parent: name, pattern: "^dc-[0-9a-f]{10}$")
             }
+            try self.domainControllerIds?.forEach {}
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
         }
 
@@ -1349,12 +1416,14 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId?.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
             try self.topicNames?.forEach {
                 try validate($0, name: "topicNames[]", parent: name, max: 256)
                 try validate($0, name: "topicNames[]", parent: name, min: 1)
                 try validate($0, name: "topicNames[]", parent: name, pattern: "[a-zA-Z0-9_-]+")
             }
+            try self.topicNames?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1394,7 +1463,9 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 50)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
         }
@@ -1439,7 +1510,9 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.regionName?.forEach {}
             try self.validate(self.regionName, name: "regionName", parent: name, max: 32)
             try self.validate(self.regionName, name: "regionName", parent: name, min: 8)
         }
@@ -1486,11 +1559,14 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
+            try self.ownerDirectoryId.forEach {}
             try self.validate(self.ownerDirectoryId, name: "ownerDirectoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
             try self.sharedDirectoryIds?.forEach {
                 try validate($0, name: "sharedDirectoryIds[]", parent: name, pattern: "^d-[0-9a-f]{10}$")
             }
+            try self.sharedDirectoryIds?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1536,11 +1612,14 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId?.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
             try self.snapshotIds?.forEach {
                 try validate($0, name: "snapshotIds[]", parent: name, pattern: "^s-[0-9a-f]{10}$")
             }
+            try self.snapshotIds?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1586,11 +1665,14 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId?.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
             try self.trustIds?.forEach {
                 try validate($0, name: "trustIds[]", parent: name, pattern: "^t-[0-9a-f]{10}$")
             }
+            try self.trustIds?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1639,11 +1721,15 @@ extension DirectoryService {
             try self.customerDnsIps.forEach {
                 try validate($0, name: "customerDnsIps[]", parent: name, pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$")
             }
+            try self.customerDnsIps.forEach {}
+            try self.customerUserName.forEach {}
             try self.validate(self.customerUserName, name: "customerUserName", parent: name, min: 1)
             try self.validate(self.customerUserName, name: "customerUserName", parent: name, pattern: "[a-zA-Z0-9._-]+")
             try self.subnetIds.forEach {
                 try validate($0, name: "subnetIds[]", parent: name, pattern: "^(subnet-[0-9a-f]{8}|subnet-[0-9a-f]{17})$")
             }
+            try self.subnetIds.forEach {}
+            try self.vpcId.forEach {}
             try self.validate(self.vpcId, name: "vpcId", parent: name, pattern: "^(vpc-[0-9a-f]{8}|vpc-[0-9a-f]{17})$")
         }
 
@@ -1857,6 +1943,8 @@ extension DirectoryService {
             try self.subnetIds.forEach {
                 try validate($0, name: "subnetIds[]", parent: name, pattern: "^(subnet-[0-9a-f]{8}|subnet-[0-9a-f]{17})$")
             }
+            try self.subnetIds.forEach {}
+            try self.vpcId.forEach {}
             try self.validate(self.vpcId, name: "vpcId", parent: name, pattern: "^(vpc-[0-9a-f]{8}|vpc-[0-9a-f]{17})$")
         }
 
@@ -1903,6 +1991,7 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
         }
 
@@ -1928,6 +2017,7 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
         }
 
@@ -1950,6 +2040,7 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
         }
 
@@ -1977,9 +2068,12 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.password?.forEach {}
             try self.validate(self.password, name: "password", parent: name, max: 128)
             try self.validate(self.password, name: "password", parent: name, min: 1)
+            try self.userName?.forEach {}
             try self.validate(self.userName, name: "userName", parent: name, min: 1)
             try self.validate(self.userName, name: "userName", parent: name, pattern: "[a-zA-Z0-9._-]+")
         }
@@ -2056,6 +2150,7 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
         }
 
@@ -2081,6 +2176,7 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
         }
 
@@ -2106,8 +2202,10 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
             try self.radiusSettings.validate(name: "\(name).radiusSettings")
+            try self.radiusSettings.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2135,9 +2233,12 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.password?.forEach {}
             try self.validate(self.password, name: "password", parent: name, max: 128)
             try self.validate(self.password, name: "password", parent: name, min: 1)
+            try self.userName?.forEach {}
             try self.validate(self.userName, name: "userName", parent: name, min: 1)
             try self.validate(self.userName, name: "userName", parent: name, pattern: "[a-zA-Z0-9._-]+")
         }
@@ -2208,6 +2309,7 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
         }
 
@@ -2241,7 +2343,9 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.cidrIp?.forEach {}
             try self.validate(self.cidrIp, name: "cidrIp", parent: name, pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([1-9]|[1-2][0-9]|3[0-2]))$")
+            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 128)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, pattern: "^([a-zA-Z0-9_])[\\\\a-zA-Z0-9_@#%*+=:?./!\\s-]*$")
@@ -2322,7 +2426,9 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 50)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
         }
@@ -2366,7 +2472,9 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
         }
 
@@ -2409,7 +2517,9 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId?.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
         }
 
@@ -2452,7 +2562,9 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
         }
 
@@ -2495,7 +2607,9 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
+            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^[d]-[0-9a-f]{10}$")
         }
 
@@ -2607,18 +2721,24 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.displayLabel?.forEach {}
             try self.validate(self.displayLabel, name: "displayLabel", parent: name, max: 64)
             try self.validate(self.displayLabel, name: "displayLabel", parent: name, min: 1)
+            try self.radiusPort?.forEach {}
             try self.validate(self.radiusPort, name: "radiusPort", parent: name, max: 65535)
             try self.validate(self.radiusPort, name: "radiusPort", parent: name, min: 1025)
+            try self.radiusRetries?.forEach {}
             try self.validate(self.radiusRetries, name: "radiusRetries", parent: name, max: 10)
             try self.validate(self.radiusRetries, name: "radiusRetries", parent: name, min: 0)
             try self.radiusServers?.forEach {
                 try validate($0, name: "radiusServers[]", parent: name, max: 256)
                 try validate($0, name: "radiusServers[]", parent: name, min: 1)
             }
+            try self.radiusServers?.forEach {}
+            try self.radiusTimeout?.forEach {}
             try self.validate(self.radiusTimeout, name: "radiusTimeout", parent: name, max: 20)
             try self.validate(self.radiusTimeout, name: "radiusTimeout", parent: name, min: 1)
+            try self.sharedSecret?.forEach {}
             try self.validate(self.sharedSecret, name: "sharedSecret", parent: name, max: 512)
             try self.validate(self.sharedSecret, name: "sharedSecret", parent: name, min: 8)
         }
@@ -2714,9 +2834,12 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.certificateData.forEach {}
             try self.validate(self.certificateData, name: "certificateData", parent: name, max: 8192)
             try self.validate(self.certificateData, name: "certificateData", parent: name, min: 1)
             try self.clientCertAuthSettings?.validate(name: "\(name).clientCertAuthSettings")
+            try self.clientCertAuthSettings?.forEach {}
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
         }
 
@@ -2753,7 +2876,9 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.topicName.forEach {}
             try self.validate(self.topicName, name: "topicName", parent: name, max: 256)
             try self.validate(self.topicName, name: "topicName", parent: name, min: 1)
             try self.validate(self.topicName, name: "topicName", parent: name, pattern: "[a-zA-Z0-9_-]+")
@@ -2778,6 +2903,7 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.sharedDirectoryId.forEach {}
             try self.validate(self.sharedDirectoryId, name: "sharedDirectoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
         }
 
@@ -2814,6 +2940,8 @@ extension DirectoryService {
             try self.cidrIps.forEach {
                 try validate($0, name: "cidrIps[]", parent: name, pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([1-9]|[1-2][0-9]|3[0-2]))$")
             }
+            try self.cidrIps.forEach {}
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
         }
 
@@ -2836,6 +2964,7 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
         }
 
@@ -2860,12 +2989,14 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^[d]-[0-9a-f]{10}$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
+            try self.tagKeys.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2893,9 +3024,12 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.newPassword.forEach {}
             try self.validate(self.newPassword, name: "newPassword", parent: name, max: 127)
             try self.validate(self.newPassword, name: "newPassword", parent: name, min: 1)
+            try self.userName.forEach {}
             try self.validate(self.userName, name: "userName", parent: name, max: 64)
             try self.validate(self.userName, name: "userName", parent: name, min: 1)
             try self.validate(self.userName, name: "userName", parent: name, pattern: "^(?!.*\\\\|.*\"|.*\\/|.*\\[|.*\\]|.*:|.*;|.*\\||.*=|.*,|.*\\+|.*\\*|.*\\?|.*<|.*>|.*@).*$")
@@ -2921,6 +3055,7 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.snapshotId.forEach {}
             try self.validate(self.snapshotId, name: "snapshotId", parent: name, pattern: "^s-[0-9a-f]{10}$")
         }
 
@@ -2988,9 +3123,12 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.shareNotes?.forEach {}
             try self.validate(self.shareNotes, name: "shareNotes", parent: name, max: 1024)
             try self.shareTarget.validate(name: "\(name).shareTarget")
+            try self.shareTarget.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3026,6 +3164,7 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 64)
             try self.validate(self.id, name: "id", parent: name, min: 1)
         }
@@ -3153,10 +3292,13 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.description.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 128)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, pattern: "^([a-zA-Z0-9_])[\\\\a-zA-Z0-9_@#%*+=:?./!\\s-]*$")
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.ldifContent.forEach {}
             try self.validate(self.ldifContent, name: "ldifContent", parent: name, max: 500_000)
             try self.validate(self.ldifContent, name: "ldifContent", parent: name, min: 1)
         }
@@ -3194,9 +3336,11 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
             try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -3273,8 +3417,10 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
             try self.unshareTarget.validate(name: "\(name).unshareTarget")
+            try self.unshareTarget.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3308,6 +3454,7 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 64)
             try self.validate(self.id, name: "id", parent: name, min: 1)
         }
@@ -3333,10 +3480,13 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
             try self.dnsIpAddrs.forEach {
                 try validate($0, name: "dnsIpAddrs[]", parent: name, pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$")
             }
+            try self.dnsIpAddrs.forEach {}
+            try self.remoteDomainName.forEach {}
             try self.validate(self.remoteDomainName, name: "remoteDomainName", parent: name, pattern: "^([a-zA-Z0-9]+[\\\\.-])+([a-zA-Z0-9])+[.]?$")
         }
 
@@ -3363,7 +3513,9 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.desiredNumber.forEach {}
             try self.validate(self.desiredNumber, name: "desiredNumber", parent: name, min: 2)
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
         }
 
@@ -3389,8 +3541,10 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
             try self.radiusSettings.validate(name: "\(name).radiusSettings")
+            try self.radiusSettings.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3415,6 +3569,7 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.trustId.forEach {}
             try self.validate(self.trustId, name: "trustId", parent: name, pattern: "^t-[0-9a-f]{10}$")
         }
 
@@ -3449,6 +3604,7 @@ extension DirectoryService {
         }
 
         public func validate(name: String) throws {
+            try self.trustId.forEach {}
             try self.validate(self.trustId, name: "trustId", parent: name, pattern: "^t-[0-9a-f]{10}$")
         }
 

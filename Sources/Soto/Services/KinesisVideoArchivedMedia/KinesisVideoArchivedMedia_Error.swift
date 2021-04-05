@@ -48,7 +48,7 @@ public struct KinesisVideoArchivedMediaErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// Kinesis Video Streams has throttled the request because you have exceeded the limit of allowed client calls. Try making the call later.
+    /// Kinesis Video Streams has throttled the request because you have exceeded a limit. Try making the call later. For information about limits, see Kinesis Video Streams Limits.
     public static var clientLimitExceededException: Self { .init(.clientLimitExceededException) }
     /// A specified parameter exceeds its restrictions, is not supported, or can't be used.
     public static var invalidArgumentException: Self { .init(.invalidArgumentException) }

@@ -91,6 +91,7 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
+            try self.streamName.forEach {}
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -190,7 +191,9 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
+            try self.shardCount.forEach {}
             try self.validate(self.shardCount, name: "shardCount", parent: name, min: 1)
+            try self.streamName.forEach {}
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -214,6 +217,7 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
+            try self.streamName.forEach {}
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -237,6 +241,7 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
+            try self.streamName.forEach {}
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -263,12 +268,15 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
+            try self.consumerARN?.forEach {}
             try self.validate(self.consumerARN, name: "consumerARN", parent: name, max: 2048)
             try self.validate(self.consumerARN, name: "consumerARN", parent: name, min: 1)
             try self.validate(self.consumerARN, name: "consumerARN", parent: name, pattern: "^(arn):aws.*:kinesis:.*:\\d{12}:.*stream\\/[a-zA-Z0-9_.-]+\\/consumer\\/[a-zA-Z0-9_.-]+:[0-9]+")
+            try self.consumerName?.forEach {}
             try self.validate(self.consumerName, name: "consumerName", parent: name, max: 128)
             try self.validate(self.consumerName, name: "consumerName", parent: name, min: 1)
             try self.validate(self.consumerName, name: "consumerName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.streamARN?.forEach {}
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:aws.*:kinesis:.*:\\d{12}:stream/.+")
@@ -317,12 +325,15 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
+            try self.consumerARN?.forEach {}
             try self.validate(self.consumerARN, name: "consumerARN", parent: name, max: 2048)
             try self.validate(self.consumerARN, name: "consumerARN", parent: name, min: 1)
             try self.validate(self.consumerARN, name: "consumerARN", parent: name, pattern: "^(arn):aws.*:kinesis:.*:\\d{12}:.*stream\\/[a-zA-Z0-9_.-]+\\/consumer\\/[a-zA-Z0-9_.-]+:[0-9]+")
+            try self.consumerName?.forEach {}
             try self.validate(self.consumerName, name: "consumerName", parent: name, max: 128)
             try self.validate(self.consumerName, name: "consumerName", parent: name, min: 1)
             try self.validate(self.consumerName, name: "consumerName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.streamARN?.forEach {}
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:aws.*:kinesis:.*:\\d{12}:stream/.+")
@@ -363,11 +374,14 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
+            try self.exclusiveStartShardId?.forEach {}
             try self.validate(self.exclusiveStartShardId, name: "exclusiveStartShardId", parent: name, max: 128)
             try self.validate(self.exclusiveStartShardId, name: "exclusiveStartShardId", parent: name, min: 1)
             try self.validate(self.exclusiveStartShardId, name: "exclusiveStartShardId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 10000)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.streamName.forEach {}
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -402,6 +416,7 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
+            try self.streamName.forEach {}
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -437,8 +452,10 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
+            try self.shardLevelMetrics.forEach {}
             try self.validate(self.shardLevelMetrics, name: "shardLevelMetrics", parent: name, max: 7)
             try self.validate(self.shardLevelMetrics, name: "shardLevelMetrics", parent: name, min: 1)
+            try self.streamName.forEach {}
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -462,8 +479,10 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
+            try self.shardLevelMetrics.forEach {}
             try self.validate(self.shardLevelMetrics, name: "shardLevelMetrics", parent: name, max: 7)
             try self.validate(self.shardLevelMetrics, name: "shardLevelMetrics", parent: name, min: 1)
+            try self.streamName.forEach {}
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -521,8 +540,10 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 10000)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.shardIterator.forEach {}
             try self.validate(self.shardIterator, name: "shardIterator", parent: name, max: 512)
             try self.validate(self.shardIterator, name: "shardIterator", parent: name, min: 1)
         }
@@ -578,10 +599,13 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
+            try self.shardId.forEach {}
             try self.validate(self.shardId, name: "shardId", parent: name, max: 128)
             try self.validate(self.shardId, name: "shardId", parent: name, min: 1)
             try self.validate(self.shardId, name: "shardId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.startingSequenceNumber?.forEach {}
             try self.validate(self.startingSequenceNumber, name: "startingSequenceNumber", parent: name, pattern: "0|([1-9]\\d{0,128})")
+            try self.streamName.forEach {}
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -638,6 +662,7 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
+            try self.streamName.forEach {}
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -762,14 +787,19 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
+            try self.exclusiveStartShardId?.forEach {}
             try self.validate(self.exclusiveStartShardId, name: "exclusiveStartShardId", parent: name, max: 128)
             try self.validate(self.exclusiveStartShardId, name: "exclusiveStartShardId", parent: name, min: 1)
             try self.validate(self.exclusiveStartShardId, name: "exclusiveStartShardId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1_048_576)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.shardFilter?.validate(name: "\(name).shardFilter")
+            try self.shardFilter?.forEach {}
+            try self.streamName?.forEach {}
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -820,10 +850,13 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1_048_576)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.streamARN.forEach {}
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:aws.*:kinesis:.*:\\d{12}:stream/.+")
@@ -866,9 +899,11 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
+            try self.exclusiveStartStreamName?.forEach {}
             try self.validate(self.exclusiveStartStreamName, name: "exclusiveStartStreamName", parent: name, max: 128)
             try self.validate(self.exclusiveStartStreamName, name: "exclusiveStartStreamName", parent: name, min: 1)
             try self.validate(self.exclusiveStartStreamName, name: "exclusiveStartStreamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 10000)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
         }
@@ -911,10 +946,13 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
+            try self.exclusiveStartTagKey?.forEach {}
             try self.validate(self.exclusiveStartTagKey, name: "exclusiveStartTagKey", parent: name, max: 128)
             try self.validate(self.exclusiveStartTagKey, name: "exclusiveStartTagKey", parent: name, min: 1)
+            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 50)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.streamName.forEach {}
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -959,12 +997,15 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
+            try self.adjacentShardToMerge.forEach {}
             try self.validate(self.adjacentShardToMerge, name: "adjacentShardToMerge", parent: name, max: 128)
             try self.validate(self.adjacentShardToMerge, name: "adjacentShardToMerge", parent: name, min: 1)
             try self.validate(self.adjacentShardToMerge, name: "adjacentShardToMerge", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.shardToMerge.forEach {}
             try self.validate(self.shardToMerge, name: "shardToMerge", parent: name, max: 128)
             try self.validate(self.shardToMerge, name: "shardToMerge", parent: name, min: 1)
             try self.validate(self.shardToMerge, name: "shardToMerge", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.streamName.forEach {}
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -998,12 +1039,17 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
+            try self.data.forEach {}
             try self.validate(self.data, name: "data", parent: name, max: 1_048_576)
             try self.validate(self.data, name: "data", parent: name, min: 0)
+            try self.explicitHashKey?.forEach {}
             try self.validate(self.explicitHashKey, name: "explicitHashKey", parent: name, pattern: "0|([1-9]\\d{0,38})")
+            try self.partitionKey.forEach {}
             try self.validate(self.partitionKey, name: "partitionKey", parent: name, max: 256)
             try self.validate(self.partitionKey, name: "partitionKey", parent: name, min: 1)
+            try self.sequenceNumberForOrdering?.forEach {}
             try self.validate(self.sequenceNumberForOrdering, name: "sequenceNumberForOrdering", parent: name, pattern: "0|([1-9]\\d{0,128})")
+            try self.streamName.forEach {}
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -1054,8 +1100,10 @@ extension Kinesis {
             try self.records.forEach {
                 try $0.validate(name: "\(name).records[]")
             }
+            try self.records.forEach {}
             try self.validate(self.records, name: "records", parent: name, max: 500)
             try self.validate(self.records, name: "records", parent: name, min: 1)
+            try self.streamName.forEach {}
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -1103,9 +1151,12 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
+            try self.data.forEach {}
             try self.validate(self.data, name: "data", parent: name, max: 1_048_576)
             try self.validate(self.data, name: "data", parent: name, min: 0)
+            try self.explicitHashKey?.forEach {}
             try self.validate(self.explicitHashKey, name: "explicitHashKey", parent: name, pattern: "0|([1-9]\\d{0,38})")
+            try self.partitionKey.forEach {}
             try self.validate(self.partitionKey, name: "partitionKey", parent: name, max: 256)
             try self.validate(self.partitionKey, name: "partitionKey", parent: name, min: 1)
         }
@@ -1183,9 +1234,11 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
+            try self.consumerName.forEach {}
             try self.validate(self.consumerName, name: "consumerName", parent: name, max: 128)
             try self.validate(self.consumerName, name: "consumerName", parent: name, min: 1)
             try self.validate(self.consumerName, name: "consumerName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.streamARN.forEach {}
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:aws.*:kinesis:.*:\\d{12}:stream/.+")
@@ -1222,6 +1275,7 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
+            try self.streamName.forEach {}
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -1229,6 +1283,7 @@ extension Kinesis {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
@@ -1323,6 +1378,7 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
+            try self.shardId?.forEach {}
             try self.validate(self.shardId, name: "shardId", parent: name, max: 128)
             try self.validate(self.shardId, name: "shardId", parent: name, min: 1)
             try self.validate(self.shardId, name: "shardId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -1350,10 +1406,13 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
+            try self.newStartingHashKey.forEach {}
             try self.validate(self.newStartingHashKey, name: "newStartingHashKey", parent: name, pattern: "0|([1-9]\\d{0,38})")
+            try self.shardToSplit.forEach {}
             try self.validate(self.shardToSplit, name: "shardToSplit", parent: name, max: 128)
             try self.validate(self.shardToSplit, name: "shardToSplit", parent: name, min: 1)
             try self.validate(self.shardToSplit, name: "shardToSplit", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.streamName.forEach {}
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -1381,8 +1440,10 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
+            try self.keyId.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
+            try self.streamName.forEach {}
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -1410,6 +1471,7 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
+            try self.sequenceNumber?.forEach {}
             try self.validate(self.sequenceNumber, name: "sequenceNumber", parent: name, pattern: "0|([1-9]\\d{0,128})")
         }
 
@@ -1435,8 +1497,10 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
+            try self.keyId.forEach {}
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
             try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
+            try self.streamName.forEach {}
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -1625,13 +1689,16 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
+            try self.consumerARN.forEach {}
             try self.validate(self.consumerARN, name: "consumerARN", parent: name, max: 2048)
             try self.validate(self.consumerARN, name: "consumerARN", parent: name, min: 1)
             try self.validate(self.consumerARN, name: "consumerARN", parent: name, pattern: "^(arn):aws.*:kinesis:.*:\\d{12}:.*stream\\/[a-zA-Z0-9_.-]+\\/consumer\\/[a-zA-Z0-9_.-]+:[0-9]+")
+            try self.shardId.forEach {}
             try self.validate(self.shardId, name: "shardId", parent: name, max: 128)
             try self.validate(self.shardId, name: "shardId", parent: name, min: 1)
             try self.validate(self.shardId, name: "shardId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try self.startingPosition.validate(name: "\(name).startingPosition")
+            try self.startingPosition.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1686,9 +1753,11 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
+            try self.streamName.forEach {}
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.targetShardCount.forEach {}
             try self.validate(self.targetShardCount, name: "targetShardCount", parent: name, min: 1)
         }
 

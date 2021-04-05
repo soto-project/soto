@@ -86,9 +86,11 @@ extension EMRContainers {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 64)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "[0-9a-z]+")
+            try self.virtualClusterId.forEach {}
             try self.validate(self.virtualClusterId, name: "virtualClusterId", parent: name, max: 64)
             try self.validate(self.virtualClusterId, name: "virtualClusterId", parent: name, min: 1)
             try self.validate(self.virtualClusterId, name: "virtualClusterId", parent: name, pattern: "[0-9a-z]+")
@@ -126,9 +128,11 @@ extension EMRContainers {
         }
 
         public func validate(name: String) throws {
+            try self.logGroupName.forEach {}
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
+            try self.logStreamNamePrefix?.forEach {}
             try self.validate(self.logStreamNamePrefix, name: "logStreamNamePrefix", parent: name, max: 256)
             try self.validate(self.logStreamNamePrefix, name: "logStreamNamePrefix", parent: name, min: 1)
             try self.validate(self.logStreamNamePrefix, name: "logStreamNamePrefix", parent: name, pattern: ".*\\S.*")
@@ -155,12 +159,14 @@ extension EMRContainers {
         }
 
         public func validate(name: String) throws {
+            try self.classification.forEach {}
             try self.validate(self.classification, name: "classification", parent: name, max: 1024)
             try self.validate(self.classification, name: "classification", parent: name, min: 1)
             try self.validate(self.classification, name: "classification", parent: name, pattern: ".*\\S.*")
             try self.configurations?.forEach {
                 try $0.validate(name: "\(name).configurations[]")
             }
+            try self.configurations?.forEach {}
             try self.validate(self.configurations, name: "configurations", parent: name, max: 100)
             try self.properties?.forEach {
                 try validate($0.key, name: "properties.key", parent: name, max: 1024)
@@ -194,8 +200,10 @@ extension EMRContainers {
             try self.applicationConfiguration?.forEach {
                 try $0.validate(name: "\(name).applicationConfiguration[]")
             }
+            try self.applicationConfiguration?.forEach {}
             try self.validate(self.applicationConfiguration, name: "applicationConfiguration", parent: name, max: 100)
             try self.monitoringConfiguration?.validate(name: "\(name).monitoringConfiguration")
+            try self.monitoringConfiguration?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -214,6 +222,7 @@ extension EMRContainers {
 
         public func validate(name: String) throws {
             try self.eksInfo?.validate(name: "\(name).eksInfo")
+            try self.eksInfo?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -236,10 +245,12 @@ extension EMRContainers {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 256)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: ".*\\S.*")
             try self.info?.validate(name: "\(name).info")
+            try self.info?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -286,19 +297,25 @@ extension EMRContainers {
         }
 
         public func validate(name: String) throws {
+            try self.certificateArn.forEach {}
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 44)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):acm:.+:(\\d{12}):certificate/.+$")
+            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: ".*\\S.*")
             try self.configurationOverrides?.validate(name: "\(name).configurationOverrides")
+            try self.configurationOverrides?.forEach {}
+            try self.executionRoleArn.forEach {}
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 20)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):iam::(\\d{12})?:(role((\\u002F)|(\\u002F[\\u0021-\\u007F]+\\u002F))[\\w+=,.@-]+)$")
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
+            try self.releaseLabel.forEach {}
             try self.validate(self.releaseLabel, name: "releaseLabel", parent: name, max: 64)
             try self.validate(self.releaseLabel, name: "releaseLabel", parent: name, min: 1)
             try self.validate(self.releaseLabel, name: "releaseLabel", parent: name, pattern: "[\\.\\-_/A-Za-z0-9]+")
@@ -310,9 +327,11 @@ extension EMRContainers {
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: ".*\\S.*")
             }
+            try self.type.forEach {}
             try self.validate(self.type, name: "type", parent: name, max: 64)
             try self.validate(self.type, name: "type", parent: name, min: 1)
             try self.validate(self.type, name: "type", parent: name, pattern: ".*\\S.*")
+            try self.virtualClusterId.forEach {}
             try self.validate(self.virtualClusterId, name: "virtualClusterId", parent: name, max: 64)
             try self.validate(self.virtualClusterId, name: "virtualClusterId", parent: name, min: 1)
             try self.validate(self.virtualClusterId, name: "virtualClusterId", parent: name, pattern: "[0-9a-z]+")
@@ -373,10 +392,13 @@ extension EMRContainers {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: ".*\\S.*")
             try self.containerProvider.validate(name: "\(name).containerProvider")
+            try self.containerProvider.forEach {}
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
@@ -436,9 +458,11 @@ extension EMRContainers {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 64)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "[0-9a-z]+")
+            try self.virtualClusterId.forEach {}
             try self.validate(self.virtualClusterId, name: "virtualClusterId", parent: name, max: 64)
             try self.validate(self.virtualClusterId, name: "virtualClusterId", parent: name, min: 1)
             try self.validate(self.virtualClusterId, name: "virtualClusterId", parent: name, pattern: "[0-9a-z]+")
@@ -477,6 +501,7 @@ extension EMRContainers {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 64)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "[0-9a-z]+")
@@ -515,9 +540,11 @@ extension EMRContainers {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 64)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "[0-9a-z]+")
+            try self.virtualClusterId.forEach {}
             try self.validate(self.virtualClusterId, name: "virtualClusterId", parent: name, max: 64)
             try self.validate(self.virtualClusterId, name: "virtualClusterId", parent: name, min: 1)
             try self.validate(self.virtualClusterId, name: "virtualClusterId", parent: name, pattern: "[0-9a-z]+")
@@ -556,9 +583,11 @@ extension EMRContainers {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 64)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "[0-9a-z]+")
+            try self.virtualClusterId.forEach {}
             try self.validate(self.virtualClusterId, name: "virtualClusterId", parent: name, max: 64)
             try self.validate(self.virtualClusterId, name: "virtualClusterId", parent: name, min: 1)
             try self.validate(self.virtualClusterId, name: "virtualClusterId", parent: name, pattern: "[0-9a-z]+")
@@ -593,6 +622,7 @@ extension EMRContainers {
         }
 
         public func validate(name: String) throws {
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 64)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "[0-9a-z]+")
@@ -623,6 +653,7 @@ extension EMRContainers {
         }
 
         public func validate(name: String) throws {
+            try self.namespace?.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 256)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: ".*\\S.*")
@@ -713,6 +744,7 @@ extension EMRContainers {
 
         public func validate(name: String) throws {
             try self.sparkSubmitJobDriver?.validate(name: "\(name).sparkSubmitJobDriver")
+            try self.sparkSubmitJobDriver?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -834,13 +866,17 @@ extension EMRContainers {
         }
 
         public func validate(name: String) throws {
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*\\S.*")
+            try self.states?.forEach {}
             try self.validate(self.states, name: "states", parent: name, max: 10)
+            try self.virtualClusterId.forEach {}
             try self.validate(self.virtualClusterId, name: "virtualClusterId", parent: name, max: 64)
             try self.validate(self.virtualClusterId, name: "virtualClusterId", parent: name, min: 1)
             try self.validate(self.virtualClusterId, name: "virtualClusterId", parent: name, pattern: "[0-9a-z]+")
@@ -905,16 +941,20 @@ extension EMRContainers {
         }
 
         public func validate(name: String) throws {
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*\\S.*")
+            try self.states?.forEach {}
             try self.validate(self.states, name: "states", parent: name, max: 10)
             try self.types?.forEach {
                 try validate($0, name: "types[]", parent: name, max: 64)
                 try validate($0, name: "types[]", parent: name, min: 1)
                 try validate($0, name: "types[]", parent: name, pattern: ".*\\S.*")
             }
+            try self.types?.forEach {}
             try self.validate(self.types, name: "types", parent: name, max: 10)
+            try self.virtualClusterId.forEach {}
             try self.validate(self.virtualClusterId, name: "virtualClusterId", parent: name, max: 64)
             try self.validate(self.virtualClusterId, name: "virtualClusterId", parent: name, min: 1)
             try self.validate(self.virtualClusterId, name: "virtualClusterId", parent: name, pattern: "[0-9a-z]+")
@@ -953,6 +993,7 @@ extension EMRContainers {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 500)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 60)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):emr-containers:.+:(\\d{12}):/virtualclusters/.+$")
@@ -1013,12 +1054,15 @@ extension EMRContainers {
         }
 
         public func validate(name: String) throws {
+            try self.containerProviderId?.forEach {}
             try self.validate(self.containerProviderId, name: "containerProviderId", parent: name, max: 1024)
             try self.validate(self.containerProviderId, name: "containerProviderId", parent: name, min: 1)
             try self.validate(self.containerProviderId, name: "containerProviderId", parent: name, pattern: ".*\\S.*")
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*\\S.*")
+            try self.states?.forEach {}
             try self.validate(self.states, name: "states", parent: name, max: 10)
         }
 
@@ -1058,7 +1102,9 @@ extension EMRContainers {
 
         public func validate(name: String) throws {
             try self.cloudWatchMonitoringConfiguration?.validate(name: "\(name).cloudWatchMonitoringConfiguration")
+            try self.cloudWatchMonitoringConfiguration?.forEach {}
             try self.s3MonitoringConfiguration?.validate(name: "\(name).s3MonitoringConfiguration")
+            try self.s3MonitoringConfiguration?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1077,6 +1123,7 @@ extension EMRContainers {
         }
 
         public func validate(name: String) throws {
+            try self.logUri.forEach {}
             try self.validate(self.logUri, name: "logUri", parent: name, max: 10280)
             try self.validate(self.logUri, name: "logUri", parent: name, min: 1)
             try self.validate(self.logUri, name: "logUri", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\r\\n\\t]*")
@@ -1102,6 +1149,7 @@ extension EMRContainers {
         }
 
         public func validate(name: String) throws {
+            try self.entryPoint.forEach {}
             try self.validate(self.entryPoint, name: "entryPoint", parent: name, max: 256)
             try self.validate(self.entryPoint, name: "entryPoint", parent: name, min: 1)
             try self.validate(self.entryPoint, name: "entryPoint", parent: name, pattern: "(?!\\s*$)(^[^';|\\u0026\\u003C\\u003E*?`$(){}\\[\\]!#\\\\]*$)")
@@ -1110,6 +1158,8 @@ extension EMRContainers {
                 try validate($0, name: "entryPointArguments[]", parent: name, min: 1)
                 try validate($0, name: "entryPointArguments[]", parent: name, pattern: "(?!\\s*$)(^[^';|\\u0026\\u003C\\u003E*?`$(){}\\[\\]!#\\\\]*$)")
             }
+            try self.entryPointArguments?.forEach {}
+            try self.sparkSubmitParameters?.forEach {}
             try self.validate(self.sparkSubmitParameters, name: "sparkSubmitParameters", parent: name, max: 1024)
             try self.validate(self.sparkSubmitParameters, name: "sparkSubmitParameters", parent: name, min: 1)
             try self.validate(self.sparkSubmitParameters, name: "sparkSubmitParameters", parent: name, pattern: "(?!\\s*$)(^[^';|\\u0026\\u003C\\u003E*?`$(){}\\[\\]!#\\\\]*$)")
@@ -1156,17 +1206,23 @@ extension EMRContainers {
         }
 
         public func validate(name: String) throws {
+            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: ".*\\S.*")
             try self.configurationOverrides?.validate(name: "\(name).configurationOverrides")
+            try self.configurationOverrides?.forEach {}
+            try self.executionRoleArn.forEach {}
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 20)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):iam::(\\d{12})?:(role((\\u002F)|(\\u002F[\\u0021-\\u007F]+\\u002F))[\\w+=,.@-]+)$")
             try self.jobDriver.validate(name: "\(name).jobDriver")
+            try self.jobDriver.forEach {}
+            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
+            try self.releaseLabel.forEach {}
             try self.validate(self.releaseLabel, name: "releaseLabel", parent: name, max: 64)
             try self.validate(self.releaseLabel, name: "releaseLabel", parent: name, min: 1)
             try self.validate(self.releaseLabel, name: "releaseLabel", parent: name, pattern: "[\\.\\-_/A-Za-z0-9]+")
@@ -1178,6 +1234,7 @@ extension EMRContainers {
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: ".*\\S.*")
             }
+            try self.virtualClusterId.forEach {}
             try self.validate(self.virtualClusterId, name: "virtualClusterId", parent: name, max: 64)
             try self.validate(self.virtualClusterId, name: "virtualClusterId", parent: name, min: 1)
             try self.validate(self.virtualClusterId, name: "virtualClusterId", parent: name, pattern: "[0-9a-z]+")
@@ -1235,6 +1292,7 @@ extension EMRContainers {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 500)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 60)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):emr-containers:.+:(\\d{12}):/virtualclusters/.+$")
@@ -1274,6 +1332,7 @@ extension EMRContainers {
         }
 
         public func validate(name: String) throws {
+            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 500)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 60)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):emr-containers:.+:(\\d{12}):/virtualclusters/.+$")
@@ -1282,6 +1341,7 @@ extension EMRContainers {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: ".*\\S.*")
             }
+            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
         }

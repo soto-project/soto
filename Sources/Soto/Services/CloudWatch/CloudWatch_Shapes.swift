@@ -51,6 +51,12 @@ extension CloudWatch {
         public var description: String { return self.rawValue }
     }
 
+    public enum MetricStreamOutputFormat: String, CustomStringConvertible, Codable {
+        case json
+        case opentelemetry07 = "opentelemetry0.7"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RecentlyActive: String, CustomStringConvertible, Codable {
         case pt3h = "PT3H"
         public var description: String { return self.rawValue }
@@ -198,6 +204,7 @@ extension CloudWatch {
         }
 
         public func validate(name: String) throws {
+            try self.metricTimezone?.forEach {}
             try self.validate(self.metricTimezone, name: "metricTimezone", parent: name, max: 50)
             try self.validate(self.metricTimezone, name: "metricTimezone", parent: name, pattern: ".*")
         }
@@ -370,6 +377,7 @@ extension CloudWatch {
                 try validate($0, name: "alarmNames[]", parent: name, max: 255)
                 try validate($0, name: "alarmNames[]", parent: name, min: 1)
             }
+            try self.alarmNames.forEach {}
             try self.validate(self.alarmNames, name: "alarmNames", parent: name, max: 100)
         }
 
@@ -400,12 +408,16 @@ extension CloudWatch {
             try self.dimensions?.forEach {
                 try $0.validate(name: "\(name).dimensions[]")
             }
+            try self.dimensions?.forEach {}
             try self.validate(self.dimensions, name: "dimensions", parent: name, max: 10)
+            try self.metricName.forEach {}
             try self.validate(self.metricName, name: "metricName", parent: name, max: 255)
             try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
+            try self.namespace.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "[^:].*")
+            try self.stat.forEach {}
             try self.validate(self.stat, name: "stat", parent: name, pattern: "(SampleCount|Average|Sum|Minimum|Maximum|p(\\d{1,2}|100)(\\.\\d{0,2})?|[ou]\\d+(\\.\\d*)?)(_E|_L|_H)?")
         }
 
@@ -454,6 +466,7 @@ extension CloudWatch {
                 try validate($0, name: "ruleNames[]", parent: name, min: 1)
                 try validate($0, name: "ruleNames[]", parent: name, pattern: "[\\x20-\\x7E]+")
             }
+            try self.ruleNames.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -473,6 +486,29 @@ extension CloudWatch {
         private enum CodingKeys: String, CodingKey {
             case failures = "Failures"
         }
+    }
+
+    public struct DeleteMetricStreamInput: AWSEncodableShape {
+        /// The name of the metric stream to delete.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.name.forEach {}
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct DeleteMetricStreamOutput: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DescribeAlarmHistoryInput: AWSEncodableShape {
@@ -506,8 +542,10 @@ extension CloudWatch {
         }
 
         public func validate(name: String) throws {
+            try self.alarmName?.forEach {}
             try self.validate(self.alarmName, name: "alarmName", parent: name, max: 255)
             try self.validate(self.alarmName, name: "alarmName", parent: name, min: 1)
+            try self.maxRecords?.forEach {}
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, max: 100)
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, min: 1)
         }
@@ -573,13 +611,18 @@ extension CloudWatch {
             try self.dimensions?.forEach {
                 try $0.validate(name: "\(name).dimensions[]")
             }
+            try self.dimensions?.forEach {}
             try self.validate(self.dimensions, name: "dimensions", parent: name, max: 10)
+            try self.extendedStatistic?.forEach {}
             try self.validate(self.extendedStatistic, name: "extendedStatistic", parent: name, pattern: "p(\\d{1,2}(\\.\\d{0,2})?|100)")
+            try self.metricName.forEach {}
             try self.validate(self.metricName, name: "metricName", parent: name, max: 255)
             try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
+            try self.namespace.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "[^:].*")
+            try self.period?.forEach {}
             try self.validate(self.period, name: "period", parent: name, min: 1)
         }
 
@@ -643,19 +686,25 @@ extension CloudWatch {
         }
 
         public func validate(name: String) throws {
+            try self.actionPrefix?.forEach {}
             try self.validate(self.actionPrefix, name: "actionPrefix", parent: name, max: 1024)
             try self.validate(self.actionPrefix, name: "actionPrefix", parent: name, min: 1)
+            try self.alarmNamePrefix?.forEach {}
             try self.validate(self.alarmNamePrefix, name: "alarmNamePrefix", parent: name, max: 255)
             try self.validate(self.alarmNamePrefix, name: "alarmNamePrefix", parent: name, min: 1)
             try self.alarmNames?.forEach {
                 try validate($0, name: "alarmNames[]", parent: name, max: 255)
                 try validate($0, name: "alarmNames[]", parent: name, min: 1)
             }
+            try self.alarmNames?.forEach {}
             try self.validate(self.alarmNames, name: "alarmNames", parent: name, max: 100)
+            try self.childrenOfAlarmName?.forEach {}
             try self.validate(self.childrenOfAlarmName, name: "childrenOfAlarmName", parent: name, max: 255)
             try self.validate(self.childrenOfAlarmName, name: "childrenOfAlarmName", parent: name, min: 1)
+            try self.maxRecords?.forEach {}
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, max: 100)
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, min: 1)
+            try self.parentsOfAlarmName?.forEach {}
             try self.validate(self.parentsOfAlarmName, name: "parentsOfAlarmName", parent: name, max: 255)
             try self.validate(self.parentsOfAlarmName, name: "parentsOfAlarmName", parent: name, min: 1)
         }
@@ -721,10 +770,14 @@ extension CloudWatch {
             try self.dimensions?.forEach {
                 try $0.validate(name: "\(name).dimensions[]")
             }
+            try self.dimensions?.forEach {}
             try self.validate(self.dimensions, name: "dimensions", parent: name, max: 10)
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.metricName?.forEach {}
             try self.validate(self.metricName, name: "metricName", parent: name, max: 255)
             try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
+            try self.namespace?.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "[^:].*")
@@ -769,6 +822,7 @@ extension CloudWatch {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -809,8 +863,10 @@ extension CloudWatch {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 255)
             try self.validate(self.value, name: "value", parent: name, min: 1)
         }
@@ -833,8 +889,10 @@ extension CloudWatch {
         }
 
         public func validate(name: String) throws {
+            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 255)
             try self.validate(self.value, name: "value", parent: name, min: 1)
         }
@@ -859,6 +917,7 @@ extension CloudWatch {
                 try validate($0, name: "alarmNames[]", parent: name, max: 255)
                 try validate($0, name: "alarmNames[]", parent: name, min: 1)
             }
+            try self.alarmNames.forEach {}
             try self.validate(self.alarmNames, name: "alarmNames", parent: name, max: 100)
         }
 
@@ -882,6 +941,7 @@ extension CloudWatch {
                 try validate($0, name: "ruleNames[]", parent: name, min: 1)
                 try validate($0, name: "ruleNames[]", parent: name, pattern: "[\\x20-\\x7E]+")
             }
+            try self.ruleNames.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -917,6 +977,7 @@ extension CloudWatch {
                 try validate($0, name: "alarmNames[]", parent: name, max: 255)
                 try validate($0, name: "alarmNames[]", parent: name, min: 1)
             }
+            try self.alarmNames.forEach {}
             try self.validate(self.alarmNames, name: "alarmNames", parent: name, max: 100)
         }
 
@@ -940,6 +1001,7 @@ extension CloudWatch {
                 try validate($0, name: "ruleNames[]", parent: name, min: 1)
                 try validate($0, name: "ruleNames[]", parent: name, pattern: "[\\x20-\\x7E]+")
             }
+            try self.ruleNames.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1028,10 +1090,14 @@ extension CloudWatch {
                 try validate($0, name: "metrics[]", parent: name, min: 1)
                 try validate($0, name: "metrics[]", parent: name, pattern: "[\\x20-\\x7E]+")
             }
+            try self.metrics?.forEach {}
+            try self.orderBy?.forEach {}
             try self.validate(self.orderBy, name: "orderBy", parent: name, max: 32)
             try self.validate(self.orderBy, name: "orderBy", parent: name, min: 1)
             try self.validate(self.orderBy, name: "orderBy", parent: name, pattern: "[\\x20-\\x7E]+")
+            try self.period.forEach {}
             try self.validate(self.period, name: "period", parent: name, min: 1)
+            try self.ruleName.forEach {}
             try self.validate(self.ruleName, name: "ruleName", parent: name, max: 128)
             try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
             try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "[\\x20-\\x7E]+")
@@ -1115,6 +1181,7 @@ extension CloudWatch {
             try self.metricDataQueries.forEach {
                 try $0.validate(name: "\(name).metricDataQueries[]")
             }
+            try self.metricDataQueries.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1190,18 +1257,24 @@ extension CloudWatch {
             try self.dimensions?.forEach {
                 try $0.validate(name: "\(name).dimensions[]")
             }
+            try self.dimensions?.forEach {}
             try self.validate(self.dimensions, name: "dimensions", parent: name, max: 10)
             try self.extendedStatistics?.forEach {
                 try validate($0, name: "extendedStatistics[]", parent: name, pattern: "p(\\d{1,2}(\\.\\d{0,2})?|100)")
             }
+            try self.extendedStatistics?.forEach {}
             try self.validate(self.extendedStatistics, name: "extendedStatistics", parent: name, max: 10)
             try self.validate(self.extendedStatistics, name: "extendedStatistics", parent: name, min: 1)
+            try self.metricName.forEach {}
             try self.validate(self.metricName, name: "metricName", parent: name, max: 255)
             try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
+            try self.namespace.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "[^:].*")
+            try self.period.forEach {}
             try self.validate(self.period, name: "period", parent: name, min: 1)
+            try self.statistics?.forEach {}
             try self.validate(self.statistics, name: "statistics", parent: name, max: 5)
             try self.validate(self.statistics, name: "statistics", parent: name, min: 1)
         }
@@ -1234,6 +1307,75 @@ extension CloudWatch {
         private enum CodingKeys: String, CodingKey {
             case datapoints = "Datapoints"
             case label = "Label"
+        }
+    }
+
+    public struct GetMetricStreamInput: AWSEncodableShape {
+        /// The name of the metric stream to retrieve information about.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.name.forEach {}
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct GetMetricStreamOutput: AWSDecodableShape {
+        /// The ARN of the metric stream.
+        public let arn: String?
+        /// The date that the metric stream was created.
+        public let creationDate: Date?
+        /// If this array of metric namespaces is present, then these namespaces are the only metric namespaces that are not streamed by this metric stream. In this case, all other metric namespaces in the account are streamed by this metric stream.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var excludeFilters: [MetricStreamFilter]?
+        /// The ARN of the Amazon Kinesis Firehose delivery stream that is used by this metric stream.
+        public let firehoseArn: String?
+        /// If this array of metric namespaces is present, then these namespaces are the only metric namespaces that are streamed by this metric stream.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var includeFilters: [MetricStreamFilter]?
+        /// The date of the most recent update to the metric stream's configuration.
+        public let lastUpdateDate: Date?
+        /// The name of the metric stream.
+        public let name: String?
+        public let outputFormat: MetricStreamOutputFormat?
+        /// The ARN of the IAM role that is used by this metric stream.
+        public let roleArn: String?
+        /// The state of the metric stream. The possible values are running and stopped.
+        public let state: String?
+
+        public init(arn: String? = nil, creationDate: Date? = nil, excludeFilters: [MetricStreamFilter]? = nil, firehoseArn: String? = nil, includeFilters: [MetricStreamFilter]? = nil, lastUpdateDate: Date? = nil, name: String? = nil, outputFormat: MetricStreamOutputFormat? = nil, roleArn: String? = nil, state: String? = nil) {
+            self.arn = arn
+            self.creationDate = creationDate
+            self.excludeFilters = excludeFilters
+            self.firehoseArn = firehoseArn
+            self.includeFilters = includeFilters
+            self.lastUpdateDate = lastUpdateDate
+            self.name = name
+            self.outputFormat = outputFormat
+            self.roleArn = roleArn
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationDate = "CreationDate"
+            case excludeFilters = "ExcludeFilters"
+            case firehoseArn = "FirehoseArn"
+            case includeFilters = "IncludeFilters"
+            case lastUpdateDate = "LastUpdateDate"
+            case name = "Name"
+            case outputFormat = "OutputFormat"
+            case roleArn = "RoleArn"
+            case state = "State"
         }
     }
 
@@ -1421,6 +1563,47 @@ extension CloudWatch {
         }
     }
 
+    public struct ListMetricStreamsInput: AWSEncodableShape {
+        /// The maximum number of results to return in one operation.
+        public let maxResults: Int?
+        /// Include this value, if it was returned by the previous call, to get the next set of metric streams.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListMetricStreamsOutput: AWSDecodableShape {
+        /// The array of metric stream information.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var entries: [MetricStreamEntry]?
+        /// The token that marks the start of the next batch of returned results. You can use this token in a subsequent operation to get the next batch of results.
+        public let nextToken: String?
+
+        public init(entries: [MetricStreamEntry]? = nil, nextToken: String? = nil) {
+            self.entries = entries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entries = "Entries"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListMetricsInput: AWSEncodableShape {
         /// The dimensions to filter against. Only the dimensions that match exactly will be returned.
         @OptionalCustomCoding<StandardArrayCoder>
@@ -1446,9 +1629,12 @@ extension CloudWatch {
             try self.dimensions?.forEach {
                 try $0.validate(name: "\(name).dimensions[]")
             }
+            try self.dimensions?.forEach {}
             try self.validate(self.dimensions, name: "dimensions", parent: name, max: 10)
+            try self.metricName?.forEach {}
             try self.validate(self.metricName, name: "metricName", parent: name, max: 255)
             try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
+            try self.namespace?.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "[^:].*")
@@ -1490,6 +1676,7 @@ extension CloudWatch {
         }
 
         public func validate(name: String) throws {
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1024)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
         }
@@ -1549,9 +1736,12 @@ extension CloudWatch {
             try self.dimensions?.forEach {
                 try $0.validate(name: "\(name).dimensions[]")
             }
+            try self.dimensions?.forEach {}
             try self.validate(self.dimensions, name: "dimensions", parent: name, max: 10)
+            try self.metricName?.forEach {}
             try self.validate(self.metricName, name: "metricName", parent: name, max: 255)
             try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
+            try self.namespace?.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "[^:].*")
@@ -1710,11 +1900,15 @@ extension CloudWatch {
         }
 
         public func validate(name: String) throws {
+            try self.expression?.forEach {}
             try self.validate(self.expression, name: "expression", parent: name, max: 1024)
             try self.validate(self.expression, name: "expression", parent: name, min: 1)
+            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 255)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.metricStat?.validate(name: "\(name).metricStat")
+            try self.metricStat?.forEach {}
+            try self.period?.forEach {}
             try self.validate(self.period, name: "period", parent: name, min: 1)
         }
 
@@ -1803,9 +1997,12 @@ extension CloudWatch {
             try self.dimensions?.forEach {
                 try $0.validate(name: "\(name).dimensions[]")
             }
+            try self.dimensions?.forEach {}
             try self.validate(self.dimensions, name: "dimensions", parent: name, max: 10)
+            try self.metricName.forEach {}
             try self.validate(self.metricName, name: "metricName", parent: name, max: 255)
             try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
+            try self.storageResolution?.forEach {}
             try self.validate(self.storageResolution, name: "storageResolution", parent: name, min: 1)
         }
 
@@ -1841,6 +2038,8 @@ extension CloudWatch {
 
         public func validate(name: String) throws {
             try self.metric.validate(name: "\(name).metric")
+            try self.metric.forEach {}
+            try self.period.forEach {}
             try self.validate(self.period, name: "period", parent: name, min: 1)
         }
 
@@ -1849,6 +2048,63 @@ extension CloudWatch {
             case period = "Period"
             case stat = "Stat"
             case unit = "Unit"
+        }
+    }
+
+    public struct MetricStreamEntry: AWSDecodableShape {
+        /// The ARN of the metric stream.
+        public let arn: String?
+        /// The date that the metric stream was originally created.
+        public let creationDate: Date?
+        /// The ARN of the Kinesis Firehose devlivery stream that is used for this metric stream.
+        public let firehoseArn: String?
+        /// The date that the configuration of this metric stream was most recently updated.
+        public let lastUpdateDate: Date?
+        /// The name of the metric stream.
+        public let name: String?
+        /// The output format of this metric stream. Valid values are json and opentelemetry0.7.
+        public let outputFormat: MetricStreamOutputFormat?
+        /// The current state of this stream. Valid values are running and stopped.
+        public let state: String?
+
+        public init(arn: String? = nil, creationDate: Date? = nil, firehoseArn: String? = nil, lastUpdateDate: Date? = nil, name: String? = nil, outputFormat: MetricStreamOutputFormat? = nil, state: String? = nil) {
+            self.arn = arn
+            self.creationDate = creationDate
+            self.firehoseArn = firehoseArn
+            self.lastUpdateDate = lastUpdateDate
+            self.name = name
+            self.outputFormat = outputFormat
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationDate = "CreationDate"
+            case firehoseArn = "FirehoseArn"
+            case lastUpdateDate = "LastUpdateDate"
+            case name = "Name"
+            case outputFormat = "OutputFormat"
+            case state = "State"
+        }
+    }
+
+    public struct MetricStreamFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the metric namespace in the filter.
+        public let namespace: String?
+
+        public init(namespace: String? = nil) {
+            self.namespace = namespace
+        }
+
+        public func validate(name: String) throws {
+            try self.namespace?.forEach {}
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
+            try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "[^:].*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case namespace = "Namespace"
         }
     }
 
@@ -1900,15 +2156,20 @@ extension CloudWatch {
 
         public func validate(name: String) throws {
             try self.configuration?.validate(name: "\(name).configuration")
+            try self.configuration?.forEach {}
             try self.dimensions?.forEach {
                 try $0.validate(name: "\(name).dimensions[]")
             }
+            try self.dimensions?.forEach {}
             try self.validate(self.dimensions, name: "dimensions", parent: name, max: 10)
+            try self.metricName.forEach {}
             try self.validate(self.metricName, name: "metricName", parent: name, max: 255)
             try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
+            try self.namespace.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "[^:].*")
+            try self.stat.forEach {}
             try self.validate(self.stat, name: "stat", parent: name, pattern: "(SampleCount|Average|Sum|Minimum|Maximum|p(\\d{1,2}|100)(\\.\\d{0,2})?|[ou]\\d+(\\.\\d*)?)(_E|_L|_H)?")
         }
 
@@ -1963,26 +2224,33 @@ extension CloudWatch {
                 try validate($0, name: "alarmActions[]", parent: name, max: 1024)
                 try validate($0, name: "alarmActions[]", parent: name, min: 1)
             }
+            try self.alarmActions?.forEach {}
             try self.validate(self.alarmActions, name: "alarmActions", parent: name, max: 5)
+            try self.alarmDescription?.forEach {}
             try self.validate(self.alarmDescription, name: "alarmDescription", parent: name, max: 1024)
             try self.validate(self.alarmDescription, name: "alarmDescription", parent: name, min: 0)
+            try self.alarmName.forEach {}
             try self.validate(self.alarmName, name: "alarmName", parent: name, max: 255)
             try self.validate(self.alarmName, name: "alarmName", parent: name, min: 1)
+            try self.alarmRule.forEach {}
             try self.validate(self.alarmRule, name: "alarmRule", parent: name, max: 10240)
             try self.validate(self.alarmRule, name: "alarmRule", parent: name, min: 1)
             try self.insufficientDataActions?.forEach {
                 try validate($0, name: "insufficientDataActions[]", parent: name, max: 1024)
                 try validate($0, name: "insufficientDataActions[]", parent: name, min: 1)
             }
+            try self.insufficientDataActions?.forEach {}
             try self.validate(self.insufficientDataActions, name: "insufficientDataActions", parent: name, max: 5)
             try self.oKActions?.forEach {
                 try validate($0, name: "oKActions[]", parent: name, max: 1024)
                 try validate($0, name: "oKActions[]", parent: name, min: 1)
             }
+            try self.oKActions?.forEach {}
             try self.validate(self.oKActions, name: "oKActions", parent: name, max: 5)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2047,18 +2315,22 @@ extension CloudWatch {
         }
 
         public func validate(name: String) throws {
+            try self.ruleDefinition.forEach {}
             try self.validate(self.ruleDefinition, name: "ruleDefinition", parent: name, max: 8192)
             try self.validate(self.ruleDefinition, name: "ruleDefinition", parent: name, min: 1)
             try self.validate(self.ruleDefinition, name: "ruleDefinition", parent: name, pattern: "[\\x00-\\x7F]+")
+            try self.ruleName.forEach {}
             try self.validate(self.ruleName, name: "ruleName", parent: name, max: 128)
             try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
             try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "[\\x20-\\x7E]+")
+            try self.ruleState?.forEach {}
             try self.validate(self.ruleState, name: "ruleState", parent: name, max: 32)
             try self.validate(self.ruleState, name: "ruleState", parent: name, min: 1)
             try self.validate(self.ruleState, name: "ruleState", parent: name, pattern: "[\\x20-\\x7E]+")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2106,7 +2378,7 @@ extension CloudWatch {
         public var metrics: [MetricDataQuery]?
         /// The namespace for the metric associated specified in MetricName.
         public let namespace: String?
-        /// The actions to execute when this alarm transitions to an OK state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover | arn:aws:automate:region:ec2:reboot | arn:aws:sns:region:account-id:sns-topic-name  | arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name   Valid Values (for use with IAM roles): arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0
+        /// The actions to execute when this alarm transitions to an OK state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover | arn:aws:automate:region:ec2:reboot | arn:aws:sns:region:account-id:sns-topic-name  | arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name   Valid Values (for use with IAM roles): arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Recover/1.0
         @OptionalCustomCoding<StandardArrayCoder>
         public var oKActions: [String]?
         /// The length, in seconds, used each time the metric specified in MetricName is evaluated. Valid values are 10, 30, and any multiple of 60.  Period is required for alarms based on static thresholds. If you are creating an alarm based on a metric math expression, you specify the period for each metric within the objects in the Metrics array. Be sure to specify 10 or 30 only for metrics that are stored by a PutMetricData call with a StorageResolution of 1. If you specify a period of 10 or 30 for a metric that does not have sub-minute resolution, the alarm still attempts to gather data at the period rate that you specify. In this case, it does not receive data for the attempts that do not correspond to a one-minute data resolution, and the alarm might often lapse into INSUFFICENT_DATA status. Specifying 10 or 30 also sets this alarm as a high-resolution alarm, which has a higher charge than other alarms. For more information about pricing, see Amazon CloudWatch Pricing. An alarm's total current evaluation period can be no longer than one day, so Period multiplied by EvaluationPeriods cannot be more than 86,400 seconds.
@@ -2155,30 +2427,42 @@ extension CloudWatch {
                 try validate($0, name: "alarmActions[]", parent: name, max: 1024)
                 try validate($0, name: "alarmActions[]", parent: name, min: 1)
             }
+            try self.alarmActions?.forEach {}
             try self.validate(self.alarmActions, name: "alarmActions", parent: name, max: 5)
+            try self.alarmDescription?.forEach {}
             try self.validate(self.alarmDescription, name: "alarmDescription", parent: name, max: 1024)
             try self.validate(self.alarmDescription, name: "alarmDescription", parent: name, min: 0)
+            try self.alarmName.forEach {}
             try self.validate(self.alarmName, name: "alarmName", parent: name, max: 255)
             try self.validate(self.alarmName, name: "alarmName", parent: name, min: 1)
+            try self.datapointsToAlarm?.forEach {}
             try self.validate(self.datapointsToAlarm, name: "datapointsToAlarm", parent: name, min: 1)
             try self.dimensions?.forEach {
                 try $0.validate(name: "\(name).dimensions[]")
             }
+            try self.dimensions?.forEach {}
             try self.validate(self.dimensions, name: "dimensions", parent: name, max: 10)
+            try self.evaluateLowSampleCountPercentile?.forEach {}
             try self.validate(self.evaluateLowSampleCountPercentile, name: "evaluateLowSampleCountPercentile", parent: name, max: 255)
             try self.validate(self.evaluateLowSampleCountPercentile, name: "evaluateLowSampleCountPercentile", parent: name, min: 1)
+            try self.evaluationPeriods.forEach {}
             try self.validate(self.evaluationPeriods, name: "evaluationPeriods", parent: name, min: 1)
+            try self.extendedStatistic?.forEach {}
             try self.validate(self.extendedStatistic, name: "extendedStatistic", parent: name, pattern: "p(\\d{1,2}(\\.\\d{0,2})?|100)")
             try self.insufficientDataActions?.forEach {
                 try validate($0, name: "insufficientDataActions[]", parent: name, max: 1024)
                 try validate($0, name: "insufficientDataActions[]", parent: name, min: 1)
             }
+            try self.insufficientDataActions?.forEach {}
             try self.validate(self.insufficientDataActions, name: "insufficientDataActions", parent: name, max: 5)
+            try self.metricName?.forEach {}
             try self.validate(self.metricName, name: "metricName", parent: name, max: 255)
             try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
             try self.metrics?.forEach {
                 try $0.validate(name: "\(name).metrics[]")
             }
+            try self.metrics?.forEach {}
+            try self.namespace?.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "[^:].*")
@@ -2186,13 +2470,18 @@ extension CloudWatch {
                 try validate($0, name: "oKActions[]", parent: name, max: 1024)
                 try validate($0, name: "oKActions[]", parent: name, min: 1)
             }
+            try self.oKActions?.forEach {}
             try self.validate(self.oKActions, name: "oKActions", parent: name, max: 5)
+            try self.period?.forEach {}
             try self.validate(self.period, name: "period", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
+            try self.thresholdMetricId?.forEach {}
             try self.validate(self.thresholdMetricId, name: "thresholdMetricId", parent: name, max: 255)
             try self.validate(self.thresholdMetricId, name: "thresholdMetricId", parent: name, min: 1)
+            try self.treatMissingData?.forEach {}
             try self.validate(self.treatMissingData, name: "treatMissingData", parent: name, max: 255)
             try self.validate(self.treatMissingData, name: "treatMissingData", parent: name, min: 1)
         }
@@ -2239,6 +2528,8 @@ extension CloudWatch {
             try self.metricData.forEach {
                 try $0.validate(name: "\(name).metricData[]")
             }
+            try self.metricData.forEach {}
+            try self.namespace.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "[^:].*")
@@ -2247,6 +2538,83 @@ extension CloudWatch {
         private enum CodingKeys: String, CodingKey {
             case metricData = "MetricData"
             case namespace = "Namespace"
+        }
+    }
+
+    public struct PutMetricStreamInput: AWSEncodableShape {
+        /// If you specify this parameter, the stream sends metrics from all metric namespaces except for the namespaces that you specify here. You cannot include ExcludeFilters and IncludeFilters in the same operation.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var excludeFilters: [MetricStreamFilter]?
+        /// The ARN of the Amazon Kinesis Firehose delivery stream to use for this metric stream. This Amazon Kinesis Firehose delivery stream must already exist and must be in the same account as the metric stream.
+        public let firehoseArn: String
+        /// If you specify this parameter, the stream sends only the metrics from the metric namespaces that you specify here. You cannot include IncludeFilters and ExcludeFilters in the same operation.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var includeFilters: [MetricStreamFilter]?
+        /// If you are creating a new metric stream, this is the name for the new stream. The name must be different than the names of other metric streams in this account and Region. If you are updating a metric stream, specify the name of that stream here. Valid characters are A-Z, a-z, 0-9, "-" and "_".
+        public let name: String
+        /// The output format for the stream. Valid values are json and opentelemetry0.7. For more information about metric stream output formats, see  Metric streams output formats.
+        public let outputFormat: MetricStreamOutputFormat
+        /// The ARN of an IAM role that this metric stream will use to access Amazon Kinesis Firehose resources. This IAM role must already exist and must be in the same account as the metric stream. This IAM role must include the following permissions:   firehose:PutRecord   firehose:PutRecordBatch
+        public let roleArn: String
+        /// A list of key-value pairs to associate with the metric stream. You can associate as many as 50 tags with a metric stream. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var tags: [Tag]?
+
+        public init(excludeFilters: [MetricStreamFilter]? = nil, firehoseArn: String, includeFilters: [MetricStreamFilter]? = nil, name: String, outputFormat: MetricStreamOutputFormat, roleArn: String, tags: [Tag]? = nil) {
+            self.excludeFilters = excludeFilters
+            self.firehoseArn = firehoseArn
+            self.includeFilters = includeFilters
+            self.name = name
+            self.outputFormat = outputFormat
+            self.roleArn = roleArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.excludeFilters?.forEach {
+                try $0.validate(name: "\(name).excludeFilters[]")
+            }
+            try self.excludeFilters?.forEach {}
+            try self.firehoseArn.forEach {}
+            try self.validate(self.firehoseArn, name: "firehoseArn", parent: name, max: 1024)
+            try self.validate(self.firehoseArn, name: "firehoseArn", parent: name, min: 1)
+            try self.includeFilters?.forEach {
+                try $0.validate(name: "\(name).includeFilters[]")
+            }
+            try self.includeFilters?.forEach {}
+            try self.name.forEach {}
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.roleArn.forEach {}
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1024)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.tags?.forEach {}
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case excludeFilters = "ExcludeFilters"
+            case firehoseArn = "FirehoseArn"
+            case includeFilters = "IncludeFilters"
+            case name = "Name"
+            case outputFormat = "OutputFormat"
+            case roleArn = "RoleArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct PutMetricStreamOutput: AWSDecodableShape {
+        /// The ARN of the metric stream.
+        public let arn: String?
+
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
         }
     }
 
@@ -2285,10 +2653,13 @@ extension CloudWatch {
         }
 
         public func validate(name: String) throws {
+            try self.alarmName.forEach {}
             try self.validate(self.alarmName, name: "alarmName", parent: name, max: 255)
             try self.validate(self.alarmName, name: "alarmName", parent: name, min: 1)
+            try self.stateReason.forEach {}
             try self.validate(self.stateReason, name: "stateReason", parent: name, max: 1023)
             try self.validate(self.stateReason, name: "stateReason", parent: name, min: 0)
+            try self.stateReasonData?.forEach {}
             try self.validate(self.stateReasonData, name: "stateReasonData", parent: name, max: 4000)
             try self.validate(self.stateReasonData, name: "stateReasonData", parent: name, min: 0)
         }
@@ -2299,6 +2670,32 @@ extension CloudWatch {
             case stateReasonData = "StateReasonData"
             case stateValue = "StateValue"
         }
+    }
+
+    public struct StartMetricStreamsInput: AWSEncodableShape {
+        /// The array of the names of metric streams to start streaming. This is an "all or nothing" operation. If you do not have permission to access all of the metric streams that you list here, then none of the streams that you list in the operation will start streaming.
+        @CustomCoding<StandardArrayCoder>
+        public var names: [String]
+
+        public init(names: [String]) {
+            self.names = names
+        }
+
+        public func validate(name: String) throws {
+            try self.names.forEach {
+                try validate($0, name: "names[]", parent: name, max: 255)
+                try validate($0, name: "names[]", parent: name, min: 1)
+            }
+            try self.names.forEach {}
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case names = "Names"
+        }
+    }
+
+    public struct StartMetricStreamsOutput: AWSDecodableShape {
+        public init() {}
     }
 
     public struct StatisticSet: AWSEncodableShape {
@@ -2326,6 +2723,32 @@ extension CloudWatch {
         }
     }
 
+    public struct StopMetricStreamsInput: AWSEncodableShape {
+        /// The array of the names of metric streams to stop streaming. This is an "all or nothing" operation. If you do not have permission to access all of the metric streams that you list here, then none of the streams that you list in the operation will stop streaming.
+        @CustomCoding<StandardArrayCoder>
+        public var names: [String]
+
+        public init(names: [String]) {
+            self.names = names
+        }
+
+        public func validate(name: String) throws {
+            try self.names.forEach {
+                try validate($0, name: "names[]", parent: name, max: 255)
+                try validate($0, name: "names[]", parent: name, min: 1)
+            }
+            try self.names.forEach {}
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case names = "Names"
+        }
+    }
+
+    public struct StopMetricStreamsOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// A string that you can use to assign a value. The combination of tag keys and values can help you organize and categorize your resources.
         public let key: String
@@ -2338,8 +2761,10 @@ extension CloudWatch {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
         }
@@ -2363,11 +2788,13 @@ extension CloudWatch {
         }
 
         public func validate(name: String) throws {
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1024)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2393,12 +2820,14 @@ extension CloudWatch {
         }
 
         public func validate(name: String) throws {
+            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1024)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
+            try self.tagKeys.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {

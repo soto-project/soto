@@ -834,10 +834,10 @@ extension Greengrass {
 
         public let amznClientToken: String?
         public let initialVersion: GroupVersion?
-        public let name: String?
+        public let name: String
         public let tags: [String: String]?
 
-        public init(amznClientToken: String? = nil, initialVersion: GroupVersion? = nil, name: String? = nil, tags: [String: String]? = nil) {
+        public init(amznClientToken: String? = nil, initialVersion: GroupVersion? = nil, name: String, tags: [String: String]? = nil) {
             self.amznClientToken = amznClientToken
             self.initialVersion = initialVersion
             self.name = name

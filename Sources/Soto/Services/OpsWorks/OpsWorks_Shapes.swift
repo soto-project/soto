@@ -431,8 +431,10 @@ extension OpsWorks {
         }
 
         public func validate(name: String) throws {
+            try self.ignoreMetricsTime?.forEach {}
             try self.validate(self.ignoreMetricsTime, name: "ignoreMetricsTime", parent: name, max: 100)
             try self.validate(self.ignoreMetricsTime, name: "ignoreMetricsTime", parent: name, min: 1)
+            try self.thresholdsWaitTime?.forEach {}
             try self.validate(self.thresholdsWaitTime, name: "thresholdsWaitTime", parent: name, max: 100)
             try self.validate(self.thresholdsWaitTime, name: "thresholdsWaitTime", parent: name, min: 1)
         }
@@ -2267,6 +2269,7 @@ extension OpsWorks {
         }
 
         public func validate(name: String) throws {
+            try self.validForInMinutes?.forEach {}
             try self.validate(self.validForInMinutes, name: "validForInMinutes", parent: name, max: 1440)
             try self.validate(self.validForInMinutes, name: "validForInMinutes", parent: name, min: 60)
         }
@@ -3240,7 +3243,9 @@ extension OpsWorks {
 
         public func validate(name: String) throws {
             try self.downScaling?.validate(name: "\(name).downScaling")
+            try self.downScaling?.forEach {}
             try self.upScaling?.validate(name: "\(name).upScaling")
+            try self.upScaling?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {

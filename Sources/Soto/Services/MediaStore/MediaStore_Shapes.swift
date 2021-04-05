@@ -102,8 +102,10 @@ extension MediaStore {
                 try validate($0, name: "allowedHeaders[]", parent: name, min: 1)
                 try validate($0, name: "allowedHeaders[]", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
             }
+            try self.allowedHeaders.forEach {}
             try self.validate(self.allowedHeaders, name: "allowedHeaders", parent: name, max: 100)
             try self.validate(self.allowedHeaders, name: "allowedHeaders", parent: name, min: 0)
+            try self.allowedMethods?.forEach {}
             try self.validate(self.allowedMethods, name: "allowedMethods", parent: name, max: 4)
             try self.validate(self.allowedMethods, name: "allowedMethods", parent: name, min: 1)
             try self.allowedOrigins.forEach {
@@ -111,6 +113,7 @@ extension MediaStore {
                 try validate($0, name: "allowedOrigins[]", parent: name, min: 1)
                 try validate($0, name: "allowedOrigins[]", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
             }
+            try self.allowedOrigins.forEach {}
             try self.validate(self.allowedOrigins, name: "allowedOrigins", parent: name, max: 100)
             try self.validate(self.allowedOrigins, name: "allowedOrigins", parent: name, min: 1)
             try self.exposeHeaders?.forEach {
@@ -118,8 +121,10 @@ extension MediaStore {
                 try validate($0, name: "exposeHeaders[]", parent: name, min: 1)
                 try validate($0, name: "exposeHeaders[]", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
             }
+            try self.exposeHeaders?.forEach {}
             try self.validate(self.exposeHeaders, name: "exposeHeaders", parent: name, max: 100)
             try self.validate(self.exposeHeaders, name: "exposeHeaders", parent: name, min: 0)
+            try self.maxAgeSeconds?.forEach {}
             try self.validate(self.maxAgeSeconds, name: "maxAgeSeconds", parent: name, max: 2_147_483_647)
             try self.validate(self.maxAgeSeconds, name: "maxAgeSeconds", parent: name, min: 0)
         }
@@ -145,12 +150,14 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
+            try self.containerName.forEach {}
             try self.validate(self.containerName, name: "containerName", parent: name, max: 255)
             try self.validate(self.containerName, name: "containerName", parent: name, min: 1)
             try self.validate(self.containerName, name: "containerName", parent: name, pattern: "[\\w-]+")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
@@ -183,6 +190,7 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
+            try self.containerName.forEach {}
             try self.validate(self.containerName, name: "containerName", parent: name, max: 255)
             try self.validate(self.containerName, name: "containerName", parent: name, min: 1)
             try self.validate(self.containerName, name: "containerName", parent: name, pattern: "[\\w-]+")
@@ -206,6 +214,7 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
+            try self.containerName.forEach {}
             try self.validate(self.containerName, name: "containerName", parent: name, max: 255)
             try self.validate(self.containerName, name: "containerName", parent: name, min: 1)
             try self.validate(self.containerName, name: "containerName", parent: name, pattern: "[\\w-]+")
@@ -229,6 +238,7 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
+            try self.containerName.forEach {}
             try self.validate(self.containerName, name: "containerName", parent: name, max: 255)
             try self.validate(self.containerName, name: "containerName", parent: name, min: 1)
             try self.validate(self.containerName, name: "containerName", parent: name, pattern: "[\\w-]+")
@@ -252,6 +262,7 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
+            try self.containerName.forEach {}
             try self.validate(self.containerName, name: "containerName", parent: name, max: 255)
             try self.validate(self.containerName, name: "containerName", parent: name, min: 1)
             try self.validate(self.containerName, name: "containerName", parent: name, pattern: "[\\w-]+")
@@ -275,6 +286,7 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
+            try self.containerName.forEach {}
             try self.validate(self.containerName, name: "containerName", parent: name, max: 255)
             try self.validate(self.containerName, name: "containerName", parent: name, min: 1)
             try self.validate(self.containerName, name: "containerName", parent: name, pattern: "[\\w-]+")
@@ -298,6 +310,7 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
+            try self.containerName?.forEach {}
             try self.validate(self.containerName, name: "containerName", parent: name, max: 255)
             try self.validate(self.containerName, name: "containerName", parent: name, min: 1)
             try self.validate(self.containerName, name: "containerName", parent: name, pattern: "[\\w-]+")
@@ -330,6 +343,7 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
+            try self.containerName.forEach {}
             try self.validate(self.containerName, name: "containerName", parent: name, max: 255)
             try self.validate(self.containerName, name: "containerName", parent: name, min: 1)
             try self.validate(self.containerName, name: "containerName", parent: name, pattern: "[\\w-]+")
@@ -362,6 +376,7 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
+            try self.containerName.forEach {}
             try self.validate(self.containerName, name: "containerName", parent: name, max: 255)
             try self.validate(self.containerName, name: "containerName", parent: name, min: 1)
             try self.validate(self.containerName, name: "containerName", parent: name, pattern: "[\\w-]+")
@@ -394,6 +409,7 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
+            try self.containerName.forEach {}
             try self.validate(self.containerName, name: "containerName", parent: name, max: 255)
             try self.validate(self.containerName, name: "containerName", parent: name, min: 1)
             try self.validate(self.containerName, name: "containerName", parent: name, pattern: "[\\w-]+")
@@ -426,6 +442,7 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
+            try self.containerName.forEach {}
             try self.validate(self.containerName, name: "containerName", parent: name, max: 255)
             try self.validate(self.containerName, name: "containerName", parent: name, min: 1)
             try self.validate(self.containerName, name: "containerName", parent: name, pattern: "[\\w-]+")
@@ -461,8 +478,10 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[0-9A-Za-z=/+]+")
@@ -500,6 +519,7 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
+            try self.resource.forEach {}
             try self.validate(self.resource, name: "resource", parent: name, max: 1024)
             try self.validate(self.resource, name: "resource", parent: name, min: 1)
             try self.validate(self.resource, name: "resource", parent: name, pattern: "arn:aws:mediastore:[a-z]+-[a-z]+-\\d:\\d{12}:container/[\\w-]{1,255}")
@@ -538,6 +558,7 @@ extension MediaStore {
             try self.metricPolicyRules?.forEach {
                 try $0.validate(name: "\(name).metricPolicyRules[]")
             }
+            try self.metricPolicyRules?.forEach {}
             try self.validate(self.metricPolicyRules, name: "metricPolicyRules", parent: name, max: 300)
             try self.validate(self.metricPolicyRules, name: "metricPolicyRules", parent: name, min: 1)
         }
@@ -560,9 +581,11 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
+            try self.objectGroup.forEach {}
             try self.validate(self.objectGroup, name: "objectGroup", parent: name, max: 900)
             try self.validate(self.objectGroup, name: "objectGroup", parent: name, min: 1)
             try self.validate(self.objectGroup, name: "objectGroup", parent: name, pattern: "/?(?:[A-Za-z0-9_=:\\.\\-\\~\\*]+/){0,10}(?:[A-Za-z0-9_=:\\.\\-\\~\\*]+)?/?")
+            try self.objectGroupName.forEach {}
             try self.validate(self.objectGroupName, name: "objectGroupName", parent: name, max: 30)
             try self.validate(self.objectGroupName, name: "objectGroupName", parent: name, min: 1)
             try self.validate(self.objectGroupName, name: "objectGroupName", parent: name, pattern: "[a-zA-Z0-9_]+")
@@ -586,9 +609,11 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
+            try self.containerName.forEach {}
             try self.validate(self.containerName, name: "containerName", parent: name, max: 255)
             try self.validate(self.containerName, name: "containerName", parent: name, min: 1)
             try self.validate(self.containerName, name: "containerName", parent: name, pattern: "[\\w-]+")
+            try self.policy.forEach {}
             try self.validate(self.policy, name: "policy", parent: name, max: 8192)
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
             try self.validate(self.policy, name: "policy", parent: name, pattern: "[\\x00-\\x7F]+")
@@ -616,12 +641,14 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
+            try self.containerName.forEach {}
             try self.validate(self.containerName, name: "containerName", parent: name, max: 255)
             try self.validate(self.containerName, name: "containerName", parent: name, min: 1)
             try self.validate(self.containerName, name: "containerName", parent: name, pattern: "[\\w-]+")
             try self.corsPolicy.forEach {
                 try $0.validate(name: "\(name).corsPolicy[]")
             }
+            try self.corsPolicy.forEach {}
             try self.validate(self.corsPolicy, name: "corsPolicy", parent: name, max: 100)
             try self.validate(self.corsPolicy, name: "corsPolicy", parent: name, min: 1)
         }
@@ -648,9 +675,11 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
+            try self.containerName.forEach {}
             try self.validate(self.containerName, name: "containerName", parent: name, max: 255)
             try self.validate(self.containerName, name: "containerName", parent: name, min: 1)
             try self.validate(self.containerName, name: "containerName", parent: name, pattern: "[\\w-]+")
+            try self.lifecyclePolicy.forEach {}
             try self.validate(self.lifecyclePolicy, name: "lifecyclePolicy", parent: name, max: 8192)
             try self.validate(self.lifecyclePolicy, name: "lifecyclePolicy", parent: name, min: 0)
             try self.validate(self.lifecyclePolicy, name: "lifecyclePolicy", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
@@ -678,10 +707,12 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
+            try self.containerName.forEach {}
             try self.validate(self.containerName, name: "containerName", parent: name, max: 255)
             try self.validate(self.containerName, name: "containerName", parent: name, min: 1)
             try self.validate(self.containerName, name: "containerName", parent: name, pattern: "[\\w-]+")
             try self.metricPolicy.validate(name: "\(name).metricPolicy")
+            try self.metricPolicy.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -703,6 +734,7 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
+            try self.containerName.forEach {}
             try self.validate(self.containerName, name: "containerName", parent: name, max: 255)
             try self.validate(self.containerName, name: "containerName", parent: name, min: 1)
             try self.validate(self.containerName, name: "containerName", parent: name, pattern: "[\\w-]+")
@@ -726,6 +758,7 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
+            try self.containerName.forEach {}
             try self.validate(self.containerName, name: "containerName", parent: name, max: 255)
             try self.validate(self.containerName, name: "containerName", parent: name, min: 1)
             try self.validate(self.containerName, name: "containerName", parent: name, pattern: "[\\w-]+")
@@ -752,9 +785,11 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
+            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*")
+            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
             try self.validate(self.value, name: "value", parent: name, pattern: "[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*")
@@ -778,12 +813,14 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
+            try self.resource.forEach {}
             try self.validate(self.resource, name: "resource", parent: name, max: 1024)
             try self.validate(self.resource, name: "resource", parent: name, min: 1)
             try self.validate(self.resource, name: "resource", parent: name, pattern: "arn:aws:mediastore:[a-z]+-[a-z]+-\\d:\\d{12}:container/[\\w-]{1,255}")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
@@ -810,6 +847,7 @@ extension MediaStore {
         }
 
         public func validate(name: String) throws {
+            try self.resource.forEach {}
             try self.validate(self.resource, name: "resource", parent: name, max: 1024)
             try self.validate(self.resource, name: "resource", parent: name, min: 1)
             try self.validate(self.resource, name: "resource", parent: name, pattern: "arn:aws:mediastore:[a-z]+-[a-z]+-\\d:\\d{12}:container/[\\w-]{1,255}")
@@ -818,6 +856,7 @@ extension MediaStore {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*")
             }
+            try self.tagKeys.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {

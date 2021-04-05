@@ -106,6 +106,7 @@ extension Backup {
                 try validate($0.key, name: "backupOptions.key", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
                 try validate($0.value, name: "backupOptions[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
             }
+            try self.resourceType?.forEach {}
             try self.validate(self.resourceType, name: "resourceType", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
         }
 
@@ -243,9 +244,11 @@ extension Backup {
             try self.advancedBackupSettings?.forEach {
                 try $0.validate(name: "\(name).advancedBackupSettings[]")
             }
+            try self.advancedBackupSettings?.forEach {}
             try self.rules.forEach {
                 try $0.validate(name: "\(name).rules[]")
             }
+            try self.rules.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -322,6 +325,8 @@ extension Backup {
         public let completionWindowMinutes: Int64?
         /// An array of CopyAction objects, which contains the details of the copy operation.
         public let copyActions: [CopyAction]?
+        /// Specifies whether AWS Backup creates continuous backups. True causes AWS Backup to create continuous backups capable of point-in-time restore (PITR). False (or not specified) causes AWS Backup to create snapshot backups.
+        public let enableContinuousBackup: Bool?
         /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup transitions and expires backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.  Only Amazon EFS file system backups can be transitioned to cold storage.
         public let lifecycle: Lifecycle?
         /// An array of key-value pair strings that are assigned to resources that are associated with this rule when restored from backup.
@@ -337,9 +342,10 @@ extension Backup {
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let targetBackupVaultName: String
 
-        public init(completionWindowMinutes: Int64? = nil, copyActions: [CopyAction]? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, ruleId: String? = nil, ruleName: String, scheduleExpression: String? = nil, startWindowMinutes: Int64? = nil, targetBackupVaultName: String) {
+        public init(completionWindowMinutes: Int64? = nil, copyActions: [CopyAction]? = nil, enableContinuousBackup: Bool? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, ruleId: String? = nil, ruleName: String, scheduleExpression: String? = nil, startWindowMinutes: Int64? = nil, targetBackupVaultName: String) {
             self.completionWindowMinutes = completionWindowMinutes
             self.copyActions = copyActions
+            self.enableContinuousBackup = enableContinuousBackup
             self.lifecycle = lifecycle
             self.recoveryPointTags = recoveryPointTags
             self.ruleId = ruleId
@@ -352,6 +358,7 @@ extension Backup {
         private enum CodingKeys: String, CodingKey {
             case completionWindowMinutes = "CompletionWindowMinutes"
             case copyActions = "CopyActions"
+            case enableContinuousBackup = "EnableContinuousBackup"
             case lifecycle = "Lifecycle"
             case recoveryPointTags = "RecoveryPointTags"
             case ruleId = "RuleId"
@@ -367,6 +374,8 @@ extension Backup {
         public let completionWindowMinutes: Int64?
         /// An array of CopyAction objects, which contains the details of the copy operation.
         public let copyActions: [CopyAction]?
+        /// Specifies whether AWS Backup creates continuous backups. True causes AWS Backup to create continuous backups capable of point-in-time restore (PITR). False (or not specified) causes AWS Backup to create snapshot backups.
+        public let enableContinuousBackup: Bool?
         /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup will transition and expire backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.  Only Amazon EFS file system backups can be transitioned to cold storage.
         public let lifecycle: Lifecycle?
         /// To help organize your resources, you can assign your own metadata to the resources that you create. Each tag is a key-value pair.
@@ -380,9 +389,10 @@ extension Backup {
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let targetBackupVaultName: String
 
-        public init(completionWindowMinutes: Int64? = nil, copyActions: [CopyAction]? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, ruleName: String, scheduleExpression: String? = nil, startWindowMinutes: Int64? = nil, targetBackupVaultName: String) {
+        public init(completionWindowMinutes: Int64? = nil, copyActions: [CopyAction]? = nil, enableContinuousBackup: Bool? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, ruleName: String, scheduleExpression: String? = nil, startWindowMinutes: Int64? = nil, targetBackupVaultName: String) {
             self.completionWindowMinutes = completionWindowMinutes
             self.copyActions = copyActions
+            self.enableContinuousBackup = enableContinuousBackup
             self.lifecycle = lifecycle
             self.recoveryPointTags = recoveryPointTags
             self.ruleName = ruleName
@@ -392,13 +402,16 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
+            try self.ruleName.forEach {}
             try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try self.targetBackupVaultName.forEach {}
             try self.validate(self.targetBackupVaultName, name: "targetBackupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case completionWindowMinutes = "CompletionWindowMinutes"
             case copyActions = "CopyActions"
+            case enableContinuousBackup = "EnableContinuousBackup"
             case lifecycle = "Lifecycle"
             case recoveryPointTags = "RecoveryPointTags"
             case ruleName = "RuleName"
@@ -426,6 +439,7 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
+            try self.selectionName.forEach {}
             try self.validate(self.selectionName, name: "selectionName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
         }
 
@@ -641,6 +655,7 @@ extension Backup {
 
         public func validate(name: String) throws {
             try self.backupPlan.validate(name: "\(name).backupPlan")
+            try self.backupPlan.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -699,6 +714,7 @@ extension Backup {
 
         public func validate(name: String) throws {
             try self.backupSelection.validate(name: "\(name).backupSelection")
+            try self.backupSelection.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -750,6 +766,7 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
+            try self.backupVaultName.forEach {}
             try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
@@ -853,6 +870,7 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
+            try self.backupVaultName.forEach {}
             try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
@@ -887,6 +905,7 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
+            try self.backupVaultName.forEach {}
             try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
@@ -910,6 +929,7 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
+            try self.backupVaultName.forEach {}
             try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
@@ -1170,6 +1190,7 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
+            try self.backupVaultName.forEach {}
             try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
@@ -1348,6 +1369,30 @@ extension Backup {
             case status = "Status"
             case statusMessage = "StatusMessage"
         }
+    }
+
+    public struct DisassociateRecoveryPointInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName")),
+            AWSMemberEncoding(label: "recoveryPointArn", location: .uri(locationName: "recoveryPointArn"))
+        ]
+
+        /// The unique name of an AWS Backup vault. Required.
+        public let backupVaultName: String
+        /// An Amazon Resource Name (ARN) that uniquely identifies an AWS Backup recovery point. Required.
+        public let recoveryPointArn: String
+
+        public init(backupVaultName: String, recoveryPointArn: String) {
+            self.backupVaultName = backupVaultName
+            self.recoveryPointArn = recoveryPointArn
+        }
+
+        public func validate(name: String) throws {
+            try self.backupVaultName.forEach {}
+            try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ExportBackupPlanTemplateInput: AWSEncodableShape {
@@ -1557,6 +1602,7 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
+            try self.backupVaultName.forEach {}
             try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
@@ -1597,6 +1643,7 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
+            try self.backupVaultName.forEach {}
             try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
@@ -1645,6 +1692,7 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
+            try self.backupVaultName.forEach {}
             try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
@@ -1747,9 +1795,13 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
+            try self.byAccountId?.forEach {}
             try self.validate(self.byAccountId, name: "byAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.byBackupVaultName?.forEach {}
             try self.validate(self.byBackupVaultName, name: "byBackupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
+            try self.byResourceType?.forEach {}
             try self.validate(self.byResourceType, name: "byResourceType", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1791,6 +1843,7 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1836,6 +1889,7 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1881,6 +1935,7 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1926,6 +1981,7 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1967,6 +2023,7 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2036,8 +2093,11 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
+            try self.byAccountId?.forEach {}
             try self.validate(self.byAccountId, name: "byAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.byResourceType?.forEach {}
             try self.validate(self.byResourceType, name: "byResourceType", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2079,6 +2139,7 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2144,8 +2205,11 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
+            try self.backupVaultName.forEach {}
             try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
+            try self.byResourceType?.forEach {}
             try self.validate(self.byResourceType, name: "byResourceType", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2191,6 +2255,7 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2248,7 +2313,9 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
+            try self.byAccountId?.forEach {}
             try self.validate(self.byAccountId, name: "byAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2294,6 +2361,7 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2355,6 +2423,7 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
+            try self.backupVaultName.forEach {}
             try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
@@ -2382,6 +2451,7 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
+            try self.backupVaultName.forEach {}
             try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
@@ -2624,6 +2694,7 @@ extension Backup {
                 try validate($0.key, name: "backupOptions.key", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
                 try validate($0.value, name: "backupOptions[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
             }
+            try self.backupVaultName.forEach {}
             try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
@@ -2684,6 +2755,7 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
+            try self.sourceBackupVaultName.forEach {}
             try self.validate(self.sourceBackupVaultName, name: "sourceBackupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
@@ -2735,6 +2807,7 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
+            try self.resourceType?.forEach {}
             try self.validate(self.resourceType, name: "resourceType", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
         }
 
@@ -2832,6 +2905,7 @@ extension Backup {
 
         public func validate(name: String) throws {
             try self.backupPlan.validate(name: "\(name).backupPlan")
+            try self.backupPlan.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2901,6 +2975,7 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
+            try self.backupVaultName.forEach {}
             try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 

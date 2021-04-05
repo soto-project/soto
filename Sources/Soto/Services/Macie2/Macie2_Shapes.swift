@@ -1978,6 +1978,22 @@ extension Macie2 {
         }
     }
 
+    public struct GetFindingsPublicationConfigurationRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetFindingsPublicationConfigurationResponse: AWSDecodableShape {
+        public let securityHubConfiguration: SecurityHubConfiguration?
+
+        public init(securityHubConfiguration: SecurityHubConfiguration? = nil) {
+            self.securityHubConfiguration = securityHubConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityHubConfiguration
+        }
+    }
+
     public struct GetFindingsRequest: AWSEncodableShape {
         public let findingIds: [String]
         public let sortCriteria: SortCriteria?
@@ -2544,6 +2560,7 @@ extension Macie2 {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2617,6 +2634,7 @@ extension Macie2 {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2705,6 +2723,7 @@ extension Macie2 {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2742,6 +2761,7 @@ extension Macie2 {
         }
 
         public func validate(name: String) throws {
+            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2958,6 +2978,25 @@ extension Macie2 {
         private enum CodingKeys: String, CodingKey {
             case configuration
         }
+    }
+
+    public struct PutFindingsPublicationConfigurationRequest: AWSEncodableShape {
+        public let clientToken: String?
+        public let securityHubConfiguration: SecurityHubConfiguration?
+
+        public init(clientToken: String? = PutFindingsPublicationConfigurationRequest.idempotencyToken(), securityHubConfiguration: SecurityHubConfiguration? = nil) {
+            self.clientToken = clientToken
+            self.securityHubConfiguration = securityHubConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken
+            case securityHubConfiguration
+        }
+    }
+
+    public struct PutFindingsPublicationConfigurationResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct Range: AWSDecodableShape {
@@ -3178,6 +3217,21 @@ extension Macie2 {
         private enum CodingKeys: String, CodingKey {
             case excludes
             case includes
+        }
+    }
+
+    public struct SecurityHubConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let publishClassificationFindings: Bool
+        public let publishPolicyFindings: Bool
+
+        public init(publishClassificationFindings: Bool, publishPolicyFindings: Bool) {
+            self.publishClassificationFindings = publishClassificationFindings
+            self.publishPolicyFindings = publishPolicyFindings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case publishClassificationFindings
+            case publishPolicyFindings
         }
     }
 
