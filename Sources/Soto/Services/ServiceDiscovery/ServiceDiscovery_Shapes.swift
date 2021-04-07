@@ -118,6 +118,18 @@ extension ServiceDiscovery {
         public var description: String { return self.rawValue }
     }
 
+    public enum ServiceType: String, CustomStringConvertible, Codable {
+        case dns = "DNS"
+        case dnsHttp = "DNS_HTTP"
+        case http = "HTTP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServiceTypeOption: String, CustomStringConvertible, Codable {
+        case http = "HTTP"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct CreateHttpNamespaceRequest: AWSEncodableShape {
@@ -141,6 +153,7 @@ extension ServiceDiscovery {
             try self.validate(self.creatorRequestId, name: "creatorRequestId", parent: name, max: 64)
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, max: 1024)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[!-~]{1,1024}$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -193,6 +206,7 @@ extension ServiceDiscovery {
             try self.validate(self.creatorRequestId, name: "creatorRequestId", parent: name, max: 64)
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, max: 1024)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[!-~]{1,1024}$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -244,6 +258,7 @@ extension ServiceDiscovery {
             try self.validate(self.creatorRequestId, name: "creatorRequestId", parent: name, max: 64)
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, max: 1024)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([a-zA-Z0-9]([a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z0-9]([a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])?$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -283,14 +298,16 @@ extension ServiceDiscovery {
         public let healthCheckConfig: HealthCheckConfig?
         /// A complex type that contains information about an optional custom health check.  If you specify a health check configuration, you can specify either HealthCheckCustomConfig or HealthCheckConfig but not both.  You can't add, update, or delete a HealthCheckCustomConfig configuration from an existing service.
         public let healthCheckCustomConfig: HealthCheckCustomConfig?
-        /// The name that you want to assign to the service. If you want AWS Cloud Map to create an SRV record when you register an instance, and if you're using a system that requires a specific SRV format, such as HAProxy, specify the following for Name:   Start the name with an underscore (_), such as _exampleservice    End the name with ._protocol, such as ._tcp    When you register an instance, AWS Cloud Map creates an SRV record and assigns a name to the record by concatenating the service name and the namespace name, for example:  _exampleservice._tcp.example.com
+        /// The name that you want to assign to the service. If you want AWS Cloud Map to create an SRV record when you register an instance, and if you're using a system that requires a specific SRV format, such as HAProxy, specify the following for Name:   Start the name with an underscore (_), such as _exampleservice    End the name with ._protocol, such as ._tcp    When you register an instance, AWS Cloud Map creates an SRV record and assigns a name to the record by concatenating the service name and the namespace name, for example:  _exampleservice._tcp.example.com   For a single DNS namespace, you cannot create two services with names that differ only by case (such as EXAMPLE and example). Otherwise, these services will have the same DNS name. However, you can create multiple HTTP services with names that differ only by case because HTTP services are case sensitive.
         public let name: String
         /// The ID of the namespace that you want to use to create the service.
         public let namespaceId: String?
         /// The tags to add to the service. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [Tag]?
+        /// If present, specifies that the service instances are only discoverable using the DiscoverInstances API operation. No DNS records will be registered for the service instances. The only valid value is HTTP.
+        public let type: ServiceTypeOption?
 
-        public init(creatorRequestId: String? = CreateServiceRequest.idempotencyToken(), description: String? = nil, dnsConfig: DnsConfig? = nil, healthCheckConfig: HealthCheckConfig? = nil, healthCheckCustomConfig: HealthCheckCustomConfig? = nil, name: String, namespaceId: String? = nil, tags: [Tag]? = nil) {
+        public init(creatorRequestId: String? = CreateServiceRequest.idempotencyToken(), description: String? = nil, dnsConfig: DnsConfig? = nil, healthCheckConfig: HealthCheckConfig? = nil, healthCheckCustomConfig: HealthCheckCustomConfig? = nil, name: String, namespaceId: String? = nil, tags: [Tag]? = nil, type: ServiceTypeOption? = nil) {
             self.creatorRequestId = creatorRequestId
             self.description = description
             self.dnsConfig = dnsConfig
@@ -299,6 +316,7 @@ extension ServiceDiscovery {
             self.name = name
             self.namespaceId = namespaceId
             self.tags = tags
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -306,7 +324,6 @@ extension ServiceDiscovery {
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.dnsConfig?.validate(name: "\(name).dnsConfig")
             try self.healthCheckConfig?.validate(name: "\(name).healthCheckConfig")
-            try self.healthCheckCustomConfig?.validate(name: "\(name).healthCheckCustomConfig")
             try self.validate(self.name, name: "name", parent: name, pattern: "((?=^.{1,127}$)^([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9])(\\.([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9]))*$)|(^\\.$)")
             try self.validate(self.namespaceId, name: "namespaceId", parent: name, max: 64)
             try self.tags?.forEach {
@@ -325,6 +342,7 @@ extension ServiceDiscovery {
             case name = "Name"
             case namespaceId = "NamespaceId"
             case tags = "Tags"
+            case type = "Type"
         }
     }
 
@@ -775,21 +793,7 @@ extension ServiceDiscovery {
     }
 
     public struct HealthCheckCustomConfig: AWSEncodableShape & AWSDecodableShape {
-        ///  This parameter has been deprecated and is always set to 1. AWS Cloud Map waits for approximately 30 seconds after receiving an UpdateInstanceCustomHealthStatus request before changing the status of the service instance.  The number of 30-second intervals that you want AWS Cloud Map to wait after receiving an UpdateInstanceCustomHealthStatus request before it changes the health status of a service instance. Sending a second or subsequent UpdateInstanceCustomHealthStatus request with the same value before 30 seconds has passed doesn't accelerate the change. AWS Cloud Map still waits 30 seconds after the first request to make the change.
-        public let failureThreshold: Int?
-
-        public init(failureThreshold: Int? = nil) {
-            self.failureThreshold = failureThreshold
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.failureThreshold, name: "failureThreshold", parent: name, max: 10)
-            try self.validate(self.failureThreshold, name: "failureThreshold", parent: name, min: 1)
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case failureThreshold = "FailureThreshold"
-        }
+        public init() {}
     }
 
     public struct HttpInstanceSummary: AWSDecodableShape {
@@ -1378,8 +1382,10 @@ extension ServiceDiscovery {
         public let name: String?
         /// The ID of the namespace that was used to create the service.
         public let namespaceId: String?
+        /// Describes the systems that can be used to discover the service instances.  DNS_HTTP  The service instances can be discovered using either DNS queries or the DiscoverInstances API operation.  HTTP  The service instances can only be discovered using the DiscoverInstances API operation.  DNS  Reserved.
+        public let type: ServiceType?
 
-        public init(arn: String? = nil, createDate: Date? = nil, creatorRequestId: String? = nil, description: String? = nil, dnsConfig: DnsConfig? = nil, healthCheckConfig: HealthCheckConfig? = nil, healthCheckCustomConfig: HealthCheckCustomConfig? = nil, id: String? = nil, instanceCount: Int? = nil, name: String? = nil, namespaceId: String? = nil) {
+        public init(arn: String? = nil, createDate: Date? = nil, creatorRequestId: String? = nil, description: String? = nil, dnsConfig: DnsConfig? = nil, healthCheckConfig: HealthCheckConfig? = nil, healthCheckCustomConfig: HealthCheckCustomConfig? = nil, id: String? = nil, instanceCount: Int? = nil, name: String? = nil, namespaceId: String? = nil, type: ServiceType? = nil) {
             self.arn = arn
             self.createDate = createDate
             self.creatorRequestId = creatorRequestId
@@ -1391,6 +1397,7 @@ extension ServiceDiscovery {
             self.instanceCount = instanceCount
             self.name = name
             self.namespaceId = namespaceId
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1405,6 +1412,7 @@ extension ServiceDiscovery {
             case instanceCount = "InstanceCount"
             case name = "Name"
             case namespaceId = "NamespaceId"
+            case type = "Type"
         }
     }
 
@@ -1478,8 +1486,10 @@ extension ServiceDiscovery {
         public let instanceCount: Int?
         /// The name of the service.
         public let name: String?
+        /// Describes the systems that can be used to discover the service instances.  DNS_HTTP  The service instances can be discovered using either DNS queries or the DiscoverInstances API operation.  HTTP  The service instances can only be discovered using the DiscoverInstances API operation.  DNS  Reserved.
+        public let type: ServiceType?
 
-        public init(arn: String? = nil, createDate: Date? = nil, description: String? = nil, dnsConfig: DnsConfig? = nil, healthCheckConfig: HealthCheckConfig? = nil, healthCheckCustomConfig: HealthCheckCustomConfig? = nil, id: String? = nil, instanceCount: Int? = nil, name: String? = nil) {
+        public init(arn: String? = nil, createDate: Date? = nil, description: String? = nil, dnsConfig: DnsConfig? = nil, healthCheckConfig: HealthCheckConfig? = nil, healthCheckCustomConfig: HealthCheckCustomConfig? = nil, id: String? = nil, instanceCount: Int? = nil, name: String? = nil, type: ServiceType? = nil) {
             self.arn = arn
             self.createDate = createDate
             self.description = description
@@ -1489,6 +1499,7 @@ extension ServiceDiscovery {
             self.id = id
             self.instanceCount = instanceCount
             self.name = name
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1501,6 +1512,7 @@ extension ServiceDiscovery {
             case id = "Id"
             case instanceCount = "InstanceCount"
             case name = "Name"
+            case type = "Type"
         }
     }
 

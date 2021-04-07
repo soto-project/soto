@@ -561,19 +561,31 @@ extension Rekognition {
     public struct CreateCollectionRequest: AWSEncodableShape {
         /// ID for the collection that you are creating.
         public let collectionId: String
+        ///  A set of tags (key-value pairs) that you want to attach to the collection.
+        public let tags: [String: String]?
 
-        public init(collectionId: String) {
+        public init(collectionId: String, tags: [String: String]? = nil) {
             self.collectionId = collectionId
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try self.validate(self.collectionId, name: "collectionId", parent: name, max: 255)
             try self.validate(self.collectionId, name: "collectionId", parent: name, min: 1)
             try self.validate(self.collectionId, name: "collectionId", parent: name, pattern: "[a-zA-Z0-9_.\\-]+")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case collectionId = "CollectionId"
+            case tags = "Tags"
         }
     }
 
@@ -635,6 +647,8 @@ extension Rekognition {
         public let outputConfig: OutputConfig
         /// The ARN of the Amazon Rekognition Custom Labels project that manages the model that you want to train.
         public let projectArn: String
+        ///  A set of tags (key-value pairs) that you want to attach to the model.
+        public let tags: [String: String]?
         /// The dataset to use for testing.
         public let testingData: TestingData
         /// The dataset to use for training.
@@ -642,9 +656,10 @@ extension Rekognition {
         /// A name for the version of the model. This value must be unique.
         public let versionName: String
 
-        public init(outputConfig: OutputConfig, projectArn: String, testingData: TestingData, trainingData: TrainingData, versionName: String) {
+        public init(outputConfig: OutputConfig, projectArn: String, tags: [String: String]? = nil, testingData: TestingData, trainingData: TrainingData, versionName: String) {
             self.outputConfig = outputConfig
             self.projectArn = projectArn
+            self.tags = tags
             self.testingData = testingData
             self.trainingData = trainingData
             self.versionName = versionName
@@ -655,6 +670,14 @@ extension Rekognition {
             try self.validate(self.projectArn, name: "projectArn", parent: name, max: 2048)
             try self.validate(self.projectArn, name: "projectArn", parent: name, min: 20)
             try self.validate(self.projectArn, name: "projectArn", parent: name, pattern: "(^arn:[a-z\\d-]+:rekognition:[a-z\\d-]+:\\d{12}:project\\/[a-zA-Z0-9_.\\-]{1,255}\\/[0-9]+$)")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
             try self.testingData.validate(name: "\(name).testingData")
             try self.trainingData.validate(name: "\(name).trainingData")
             try self.validate(self.versionName, name: "versionName", parent: name, max: 255)
@@ -665,6 +688,7 @@ extension Rekognition {
         private enum CodingKeys: String, CodingKey {
             case outputConfig = "OutputConfig"
             case projectArn = "ProjectArn"
+            case tags = "Tags"
             case testingData = "TestingData"
             case trainingData = "TrainingData"
             case versionName = "VersionName"
@@ -695,13 +719,16 @@ extension Rekognition {
         public let roleArn: String
         /// Face recognition input parameters to be used by the stream processor. Includes the collection to use for face recognition and the face attributes to detect.
         public let settings: StreamProcessorSettings
+        ///  A set of tags (key-value pairs) that you want to attach to the stream processor.
+        public let tags: [String: String]?
 
-        public init(input: StreamProcessorInput, name: String, output: StreamProcessorOutput, roleArn: String, settings: StreamProcessorSettings) {
+        public init(input: StreamProcessorInput, name: String, output: StreamProcessorOutput, roleArn: String, settings: StreamProcessorSettings, tags: [String: String]? = nil) {
             self.input = input
             self.name = name
             self.output = output
             self.roleArn = roleArn
             self.settings = settings
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -712,6 +739,14 @@ extension Rekognition {
             try self.output.validate(name: "\(name).output")
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
             try self.settings.validate(name: "\(name).settings")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -720,6 +755,7 @@ extension Rekognition {
             case output = "Output"
             case roleArn = "RoleArn"
             case settings = "Settings"
+            case tags = "Tags"
         }
     }
 
@@ -1419,7 +1455,7 @@ extension Rekognition {
         public let minBoundingBoxHeight: Float?
         /// Sets the minimum width of the word bounding box. Words with bounding boxes widths lesser than this value will be excluded from the result. Value is relative to the video frame width.
         public let minBoundingBoxWidth: Float?
-        /// Sets confidence of word detection. Words with detection confidence below this will be excluded from the result. Values should be between 0.5 and 1 as Text in Video will not return any result below 0.5.
+        /// Sets the confidence of word detection. Words with detection confidence below this will be excluded from the result. Values should be between 50 and 100 as Text in Video will not return any result below 50.
         public let minConfidence: Float?
 
         public init(minBoundingBoxHeight: Float? = nil, minBoundingBoxWidth: Float? = nil, minConfidence: Float? = nil) {
@@ -2719,6 +2755,37 @@ extension Rekognition {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case streamProcessors = "StreamProcessors"
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        ///  Amazon Resource Name (ARN) of the model, collection, or stream processor that contains the tags that you want a list of.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        ///  A list of key-value tags assigned to the resource.
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
         }
     }
 
@@ -4126,6 +4193,40 @@ extension Rekognition {
         }
     }
 
+    public struct TagResourceRequest: AWSEncodableShape {
+        ///  Amazon Resource Name (ARN) of the model, collection, or stream processor that you want to assign the tags to.
+        public let resourceArn: String
+        ///  The key-value tags to assign to the resource.
+        public let tags: [String: String]
+
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
+            try self.tags.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct TechnicalCueSegment: AWSDecodableShape {
         /// The confidence that Amazon Rekognition Video has in the accuracy of the detected segment.
         public let confidence: Float?
@@ -4292,6 +4393,39 @@ extension Rekognition {
             case faceDetail = "FaceDetail"
             case reasons = "Reasons"
         }
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        ///  Amazon Resource Name (ARN) of the model, collection, or stream processor that you want to remove the tags from.
+        public let resourceArn: String
+        ///  A list of the tags that you want to remove.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct ValidationData: AWSDecodableShape {

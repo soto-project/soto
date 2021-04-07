@@ -389,13 +389,16 @@ extension Shield {
         public let protectionGroupId: String
         /// The resource type to include in the protection group. All protected resources of this type are included in the protection group. Newly protected resources of this type are automatically added to the group. You must set this when you set Pattern to BY_RESOURCE_TYPE and you must not set it for any other Pattern setting.
         public let resourceType: ProtectedResourceType?
+        /// One or more tag key-value pairs for the protection group.
+        public let tags: [Tag]?
 
-        public init(aggregation: ProtectionGroupAggregation, members: [String]? = nil, pattern: ProtectionGroupPattern, protectionGroupId: String, resourceType: ProtectedResourceType? = nil) {
+        public init(aggregation: ProtectionGroupAggregation, members: [String]? = nil, pattern: ProtectionGroupPattern, protectionGroupId: String, resourceType: ProtectedResourceType? = nil, tags: [Tag]? = nil) {
             self.aggregation = aggregation
             self.members = members
             self.pattern = pattern
             self.protectionGroupId = protectionGroupId
             self.resourceType = resourceType
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -409,6 +412,11 @@ extension Shield {
             try self.validate(self.protectionGroupId, name: "protectionGroupId", parent: name, max: 36)
             try self.validate(self.protectionGroupId, name: "protectionGroupId", parent: name, min: 1)
             try self.validate(self.protectionGroupId, name: "protectionGroupId", parent: name, pattern: "[a-zA-Z0-9\\\\-]*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -417,6 +425,7 @@ extension Shield {
             case pattern = "Pattern"
             case protectionGroupId = "ProtectionGroupId"
             case resourceType = "ResourceType"
+            case tags = "Tags"
         }
     }
 
@@ -429,10 +438,13 @@ extension Shield {
         public let name: String
         /// The ARN (Amazon Resource Name) of the resource to be protected. The ARN should be in one of the following formats:   For an Application Load Balancer: arn:aws:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an Elastic Load Balancer (Classic Load Balancer): arn:aws:elasticloadbalancing:region:account-id:loadbalancer/load-balancer-name     For an AWS CloudFront distribution: arn:aws:cloudfront::account-id:distribution/distribution-id     For an AWS Global Accelerator accelerator: arn:aws:globalaccelerator::account-id:accelerator/accelerator-id     For Amazon Route 53: arn:aws:route53:::hostedzone/hosted-zone-id     For an Elastic IP address: arn:aws:ec2:region:account-id:eip-allocation/allocation-id
         public let resourceArn: String
+        /// One or more tag key-value pairs for the Protection object that is created.
+        public let tags: [Tag]?
 
-        public init(name: String, resourceArn: String) {
+        public init(name: String, resourceArn: String, tags: [Tag]? = nil) {
             self.name = name
             self.resourceArn = resourceArn
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -442,11 +454,17 @@ extension Shield {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws.*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case resourceArn = "ResourceArn"
+            case tags = "Tags"
         }
     }
 
@@ -1038,6 +1056,38 @@ extension Shield {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the resource to get tags for.
+        public let resourceARN: String
+
+        public init(resourceARN: String) {
+            self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 2048)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        /// A list of tag key and value pairs associated with the specified resource.
+        public let tags: [Tag]?
+
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
     public struct Mitigation: AWSDecodableShape {
         /// The name of the mitigation taken for this attack.
         public let mitigationName: String?
@@ -1058,13 +1108,16 @@ extension Shield {
         public let id: String?
         /// The name of the protection. For example, My CloudFront distributions.
         public let name: String?
+        /// The ARN (Amazon Resource Name) of the protection.
+        public let protectionArn: String?
         /// The ARN (Amazon Resource Name) of the AWS resource that is protected.
         public let resourceArn: String?
 
-        public init(healthCheckIds: [String]? = nil, id: String? = nil, name: String? = nil, resourceArn: String? = nil) {
+        public init(healthCheckIds: [String]? = nil, id: String? = nil, name: String? = nil, protectionArn: String? = nil, resourceArn: String? = nil) {
             self.healthCheckIds = healthCheckIds
             self.id = id
             self.name = name
+            self.protectionArn = protectionArn
             self.resourceArn = resourceArn
         }
 
@@ -1072,6 +1125,7 @@ extension Shield {
             case healthCheckIds = "HealthCheckIds"
             case id = "Id"
             case name = "Name"
+            case protectionArn = "ProtectionArn"
             case resourceArn = "ResourceArn"
         }
     }
@@ -1083,15 +1137,18 @@ extension Shield {
         public let members: [String]
         /// The criteria to use to choose the protected resources for inclusion in the group. You can include all resources that have protections, provide a list of resource Amazon Resource Names (ARNs), or include all resources of a specified resource type.
         public let pattern: ProtectionGroupPattern
+        /// The ARN (Amazon Resource Name) of the protection group.
+        public let protectionGroupArn: String?
         /// The name of the protection group. You use this to identify the protection group in lists and to manage the protection group, for example to update, delete, or describe it.
         public let protectionGroupId: String
         /// The resource type to include in the protection group. All protected resources of this type are included in the protection group. You must set this when you set Pattern to BY_RESOURCE_TYPE and you must not set it for any other Pattern setting.
         public let resourceType: ProtectedResourceType?
 
-        public init(aggregation: ProtectionGroupAggregation, members: [String], pattern: ProtectionGroupPattern, protectionGroupId: String, resourceType: ProtectedResourceType? = nil) {
+        public init(aggregation: ProtectionGroupAggregation, members: [String], pattern: ProtectionGroupPattern, protectionGroupArn: String? = nil, protectionGroupId: String, resourceType: ProtectedResourceType? = nil) {
             self.aggregation = aggregation
             self.members = members
             self.pattern = pattern
+            self.protectionGroupArn = protectionGroupArn
             self.protectionGroupId = protectionGroupId
             self.resourceType = resourceType
         }
@@ -1100,6 +1157,7 @@ extension Shield {
             case aggregation = "Aggregation"
             case members = "Members"
             case pattern = "Pattern"
+            case protectionGroupArn = "ProtectionGroupArn"
             case protectionGroupId = "ProtectionGroupId"
             case resourceType = "ResourceType"
         }
@@ -1197,17 +1255,20 @@ extension Shield {
         public let proactiveEngagementStatus: ProactiveEngagementStatus?
         /// The start time of the subscription, in Unix time in seconds. For more information see timestamp.
         public let startTime: Date?
+        /// The ARN (Amazon Resource Name) of the subscription.
+        public let subscriptionArn: String?
         /// Limits settings for your subscription.
         public let subscriptionLimits: SubscriptionLimits
         /// The length, in seconds, of the AWS Shield Advanced subscription for the account.
         public let timeCommitmentInSeconds: Int64?
 
-        public init(autoRenew: AutoRenew? = nil, endTime: Date? = nil, limits: [Limit]? = nil, proactiveEngagementStatus: ProactiveEngagementStatus? = nil, startTime: Date? = nil, subscriptionLimits: SubscriptionLimits, timeCommitmentInSeconds: Int64? = nil) {
+        public init(autoRenew: AutoRenew? = nil, endTime: Date? = nil, limits: [Limit]? = nil, proactiveEngagementStatus: ProactiveEngagementStatus? = nil, startTime: Date? = nil, subscriptionArn: String? = nil, subscriptionLimits: SubscriptionLimits, timeCommitmentInSeconds: Int64? = nil) {
             self.autoRenew = autoRenew
             self.endTime = endTime
             self.limits = limits
             self.proactiveEngagementStatus = proactiveEngagementStatus
             self.startTime = startTime
+            self.subscriptionArn = subscriptionArn
             self.subscriptionLimits = subscriptionLimits
             self.timeCommitmentInSeconds = timeCommitmentInSeconds
         }
@@ -1218,6 +1279,7 @@ extension Shield {
             case limits = "Limits"
             case proactiveEngagementStatus = "ProactiveEngagementStatus"
             case startTime = "StartTime"
+            case subscriptionArn = "SubscriptionArn"
             case subscriptionLimits = "SubscriptionLimits"
             case timeCommitmentInSeconds = "TimeCommitmentInSeconds"
         }
@@ -1290,6 +1352,62 @@ extension Shield {
         }
     }
 
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
+        /// Part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive.
+        public let key: String?
+        /// Part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a category, such as "companyA" or "companyB." Tag values are case-sensitive.
+        public let value: String?
+
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+            try self.validate(self.value, name: "value", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the resource that you want to add or update tags for.
+        public let resourceARN: String
+        /// The tags that you want to modify or add to the resource.
+        public let tags: [Tag]
+
+        public init(resourceARN: String, tags: [Tag]) {
+            self.resourceARN = resourceARN
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 2048)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws.*")
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct TimeRange: AWSEncodableShape & AWSDecodableShape {
         /// The start time, in Unix time in seconds. For more information see timestamp.
         public let fromInclusive: Date?
@@ -1305,6 +1423,39 @@ extension Shield {
             case fromInclusive = "FromInclusive"
             case toExclusive = "ToExclusive"
         }
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the resource that you want to remove tags from.
+        public let resourceARN: String
+        /// The tag key for each tag that you want to remove from the resource.
+        public let tagKeys: [String]
+
+        public init(resourceARN: String, tagKeys: [String]) {
+            self.resourceARN = resourceARN
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 2048)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws.*")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UpdateEmergencyContactSettingsRequest: AWSEncodableShape {

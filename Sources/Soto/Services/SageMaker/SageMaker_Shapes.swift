@@ -168,8 +168,11 @@ extension SageMaker {
     public enum AutoMLJobSecondaryStatus: String, CustomStringConvertible, Codable {
         case analyzingdata = "AnalyzingData"
         case candidatedefinitionsgenerated = "CandidateDefinitionsGenerated"
+        case completed = "Completed"
+        case explainabilityerror = "ExplainabilityError"
         case failed = "Failed"
         case featureengineering = "FeatureEngineering"
+        case generatingexplainabilityreport = "GeneratingExplainabilityReport"
         case maxautomljobruntimereached = "MaxAutoMLJobRuntimeReached"
         case maxcandidatesreached = "MaxCandidatesReached"
         case modeltuning = "ModelTuning"
@@ -1288,6 +1291,7 @@ extension SageMaker {
         case lambda
         case mlC4 = "ml_c4"
         case mlC5 = "ml_c5"
+        case mlEia2 = "ml_eia2"
         case mlG4Dn = "ml_g4dn"
         case mlInf1 = "ml_inf1"
         case mlM4 = "ml_m4"
@@ -2170,6 +2174,8 @@ extension SageMaker {
     public struct AutoMLCandidate: AWSDecodableShape {
         /// The candidate name.
         public let candidateName: String
+        /// The AutoML candidate's properties.
+        public let candidateProperties: CandidateProperties?
         /// The candidate's status.
         public let candidateStatus: CandidateStatus
         /// The candidate's steps.
@@ -2188,8 +2194,9 @@ extension SageMaker {
         /// The objective status.
         public let objectiveStatus: ObjectiveStatus
 
-        public init(candidateName: String, candidateStatus: CandidateStatus, candidateSteps: [AutoMLCandidateStep], creationTime: Date, endTime: Date? = nil, failureReason: String? = nil, finalAutoMLJobObjectiveMetric: FinalAutoMLJobObjectiveMetric? = nil, inferenceContainers: [AutoMLContainerDefinition]? = nil, lastModifiedTime: Date, objectiveStatus: ObjectiveStatus) {
+        public init(candidateName: String, candidateProperties: CandidateProperties? = nil, candidateStatus: CandidateStatus, candidateSteps: [AutoMLCandidateStep], creationTime: Date, endTime: Date? = nil, failureReason: String? = nil, finalAutoMLJobObjectiveMetric: FinalAutoMLJobObjectiveMetric? = nil, inferenceContainers: [AutoMLContainerDefinition]? = nil, lastModifiedTime: Date, objectiveStatus: ObjectiveStatus) {
             self.candidateName = candidateName
+            self.candidateProperties = candidateProperties
             self.candidateStatus = candidateStatus
             self.candidateSteps = candidateSteps
             self.creationTime = creationTime
@@ -2203,6 +2210,7 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case candidateName = "CandidateName"
+            case candidateProperties = "CandidateProperties"
             case candidateStatus = "CandidateStatus"
             case candidateSteps = "CandidateSteps"
             case creationTime = "CreationTime"
@@ -2239,9 +2247,9 @@ extension SageMaker {
     public struct AutoMLChannel: AWSEncodableShape & AWSDecodableShape {
         /// You can use Gzip or None. The default value is None.
         public let compressionType: CompressionType?
-        /// The data source.
+        /// The data source for an AutoML channel.
         public let dataSource: AutoMLDataSource
-        /// The name of the target variable in supervised learning, a.k.a. 'y'.
+        /// The name of the target variable in supervised learning, usually represented by 'y'.
         public let targetAttributeName: String
 
         public init(compressionType: CompressionType? = nil, dataSource: AutoMLDataSource, targetAttributeName: String) {
@@ -2263,11 +2271,11 @@ extension SageMaker {
     }
 
     public struct AutoMLContainerDefinition: AWSDecodableShape {
-        /// Environment variables to set in the container. Refer to ContainerDefinition for more details.
+        /// Environment variables to set in the container. For more information, see .
         public let environment: [String: String]?
-        /// The ECR path of the container. Refer to ContainerDefinition for more details.
+        /// The ECR path of the container. For more information, see .
         public let image: String
-        /// The location of the model artifacts. Refer to ContainerDefinition for more details.
+        /// The location of the model artifacts. For more information, see .
         public let modelDataUrl: String
 
         public init(environment: [String: String]? = nil, image: String, modelDataUrl: String) {
@@ -2345,7 +2353,7 @@ extension SageMaker {
     }
 
     public struct AutoMLJobConfig: AWSEncodableShape & AWSDecodableShape {
-        /// How long a job is allowed to run, or how many candidates a job is allowed to generate.
+        /// How long an AutoML job is allowed to run, or how many candidates a job is allowed to generate.
         public let completionCriteria: AutoMLJobCompletionCriteria?
         /// Security configuration for traffic encryption or Amazon VPC settings.
         public let securityConfig: AutoMLSecurityConfig?
@@ -2380,24 +2388,26 @@ extension SageMaker {
     }
 
     public struct AutoMLJobSummary: AWSDecodableShape {
-        /// The ARN of the job.
+        /// The ARN of the AutoML job.
         public let autoMLJobArn: String
-        /// The name of the object you are requesting.
+        /// The name of the AutoML you are requesting.
         public let autoMLJobName: String
-        /// The job's secondary status.
+        /// The secondary status of the AutoML job.
         public let autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus
-        /// The job's status.
+        /// The status of the AutoML job.
         public let autoMLJobStatus: AutoMLJobStatus
-        /// When the job was created.
+        /// When the AutoML job was created.
         public let creationTime: Date
         /// The end time of an AutoML job.
         public let endTime: Date?
-        /// The failure reason of a job.
+        /// The failure reason of an AutoML job.
         public let failureReason: String?
-        /// When the job was last modified.
+        /// When the AutoML job was last modified.
         public let lastModifiedTime: Date
+        /// The list of reasons for partial failures within an AutoML job.
+        public let partialFailureReasons: [AutoMLPartialFailureReason]?
 
-        public init(autoMLJobArn: String, autoMLJobName: String, autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus, autoMLJobStatus: AutoMLJobStatus, creationTime: Date, endTime: Date? = nil, failureReason: String? = nil, lastModifiedTime: Date) {
+        public init(autoMLJobArn: String, autoMLJobName: String, autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus, autoMLJobStatus: AutoMLJobStatus, creationTime: Date, endTime: Date? = nil, failureReason: String? = nil, lastModifiedTime: Date, partialFailureReasons: [AutoMLPartialFailureReason]? = nil) {
             self.autoMLJobArn = autoMLJobArn
             self.autoMLJobName = autoMLJobName
             self.autoMLJobSecondaryStatus = autoMLJobSecondaryStatus
@@ -2406,6 +2416,7 @@ extension SageMaker {
             self.endTime = endTime
             self.failureReason = failureReason
             self.lastModifiedTime = lastModifiedTime
+            self.partialFailureReasons = partialFailureReasons
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2417,6 +2428,7 @@ extension SageMaker {
             case endTime = "EndTime"
             case failureReason = "FailureReason"
             case lastModifiedTime = "LastModifiedTime"
+            case partialFailureReasons = "PartialFailureReasons"
         }
     }
 
@@ -2441,6 +2453,19 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case kmsKeyId = "KmsKeyId"
             case s3OutputPath = "S3OutputPath"
+        }
+    }
+
+    public struct AutoMLPartialFailureReason: AWSDecodableShape {
+        /// The message containing the reason for a partial failure of an AutoML job.
+        public let partialFailureMessage: String?
+
+        public init(partialFailureMessage: String? = nil) {
+            self.partialFailureMessage = partialFailureMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case partialFailureMessage = "PartialFailureMessage"
         }
     }
 
@@ -2566,6 +2591,32 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case sourcePipelineExecutionArn = "SourcePipelineExecutionArn"
+        }
+    }
+
+    public struct CandidateArtifactLocations: AWSDecodableShape {
+        /// The S3 prefix to the explainability artifacts generated for the AutoML candidate.
+        public let explainability: String
+
+        public init(explainability: String) {
+            self.explainability = explainability
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case explainability = "Explainability"
+        }
+    }
+
+    public struct CandidateProperties: AWSDecodableShape {
+        /// The S3 prefix to the artifacts generated for an AutoML candidate.
+        public let candidateArtifactLocations: CandidateArtifactLocations?
+
+        public init(candidateArtifactLocations: CandidateArtifactLocations? = nil) {
+            self.candidateArtifactLocations = candidateArtifactLocations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case candidateArtifactLocations = "CandidateArtifactLocations"
         }
     }
 
@@ -3023,6 +3074,7 @@ extension SageMaker {
             }
             try self.validate(self.image, name: "image", parent: name, max: 255)
             try self.validate(self.image, name: "image", parent: name, pattern: "[\\S]+")
+            try self.imageConfig?.validate(name: "\(name).imageConfig")
             try self.validate(self.modelDataUrl, name: "modelDataUrl", parent: name, max: 1024)
             try self.validate(self.modelDataUrl, name: "modelDataUrl", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
             try self.validate(self.modelPackageName, name: "modelPackageName", parent: name, max: 176)
@@ -3349,7 +3401,7 @@ extension SageMaker {
     public struct CreateAppRequest: AWSEncodableShape {
         /// The name of the app.
         public let appName: String
-        /// The type of app.
+        /// The type of app. Supported apps are JupyterServer and KernelGateway. TensorBoard is not supported.
         public let appType: AppType
         /// The domain ID.
         public let domainId: String
@@ -3472,19 +3524,19 @@ extension SageMaker {
     }
 
     public struct CreateAutoMLJobRequest: AWSEncodableShape {
-        /// Contains CompletionCriteria and SecurityConfig.
+        /// Contains CompletionCriteria and SecurityConfig settings for the AutoML job.
         public let autoMLJobConfig: AutoMLJobConfig?
-        /// Identifies an Autopilot job. Must be unique to your account and is case-insensitive.
+        /// Identifies an Autopilot job. The name must be unique to your account and is case-insensitive.
         public let autoMLJobName: String
-        /// Defines the objective of a an AutoML job. You provide a AutoMLJobObjective$MetricName and Autopilot infers whether to minimize or maximize it. If a metric is not specified, the most commonly used ObjectiveMetric for problem type is automaically selected.
+        /// Defines the objective metric used to measure the predictive quality of an AutoML job. You provide a AutoMLJobObjective$MetricName and Autopilot infers whether to minimize or maximize it.
         public let autoMLJobObjective: AutoMLJobObjective?
-        /// Generates possible candidates without training a model. A candidate is a combination of data preprocessors, algorithms, and algorithm parameter settings.
+        /// Generates possible candidates without training the models. A candidate is a combination of data preprocessors, algorithms, and algorithm parameter settings.
         public let generateCandidateDefinitionsOnly: Bool?
-        /// Similar to InputDataConfig supported by Tuning. Format(s) supported: CSV. Minimum of 500 rows.
+        /// An array of channel objects that describes the input data and its location. Each channel is a named input source. Similar to InputDataConfig supported by . Format(s) supported: CSV. Minimum of 500 rows.
         public let inputDataConfig: [AutoMLChannel]
-        /// Similar to OutputDataConfig supported by Tuning. Format(s) supported: CSV.
+        /// Provides information about encryption and the Amazon S3 output path needed to store artifacts from an AutoML job. Format(s) supported: CSV.
         public let outputDataConfig: AutoMLOutputDataConfig
-        /// Defines the kind of preprocessing and algorithms intended for the candidates. Options include: BinaryClassification, MulticlassClassification, and Regression.
+        /// Defines the type of supervised learning available for the candidates. Options include: BinaryClassification, MulticlassClassification, and Regression. For more information, see  Amazon SageMaker Autopilot problem types and algorithm support.
         public let problemType: ProblemType?
         /// The ARN of the role that is used to access the data.
         public let roleArn: String
@@ -3538,7 +3590,7 @@ extension SageMaker {
     }
 
     public struct CreateAutoMLJobResponse: AWSDecodableShape {
-        /// When a job is created, it is assigned a unique ARN.
+        /// The unique ARN that is assigned to the AutoML job when it is created.
         public let autoMLJobArn: String
 
         public init(autoMLJobArn: String) {
@@ -3858,7 +3910,7 @@ extension SageMaker {
         public let appNetworkAccessType: AppNetworkAccessType?
         /// The mode of authentication that members use to access the domain.
         public let authMode: AuthMode
-        /// The default user settings.
+        /// The default settings to use to create a user profile when UserSettings isn't specified in the call to the CreateUserProfile API.  SecurityGroups is aggregated when specified in both calls. For all other settings in UserSettings, the values specified in CreateUserProfile take precedence over those specified in CreateDomain.
         public let defaultUserSettings: UserSettings
         /// A name for the domain.
         public let domainName: String
@@ -5600,6 +5652,8 @@ extension SageMaker {
         public let enableManagedSpotTraining: Bool?
         /// Isolates the training container. No inbound or outbound network calls can be made, except for calls between peers within a training cluster for distributed training. If you enable network isolation for training jobs that are configured to use a VPC, Amazon SageMaker downloads and uploads customer data and model artifacts through the specified VPC, but the training container does not have network access.
         public let enableNetworkIsolation: Bool?
+        /// The environment variables to set in the Docker container.
+        public let environment: [String: String]?
         public let experimentConfig: ExperimentConfig?
         /// Algorithm-specific parameters that influence the quality of the model. You set hyperparameters before you start the learning process. For a list of hyperparameters for each training algorithm provided by Amazon SageMaker, see Algorithms.  You can specify a maximum of 100 hyperparameters. Each hyperparameter is a key-value pair. Each key and value is limited to 256 characters, as specified by the Length Constraint.
         public let hyperParameters: [String: String]?
@@ -5624,7 +5678,7 @@ extension SageMaker {
         /// A VpcConfig object that specifies the VPC that you want your training job to connect to. Control access to and from your training container by configuring the VPC. For more information, see Protect Training Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: VpcConfig?
 
-        public init(algorithmSpecification: AlgorithmSpecification, checkpointConfig: CheckpointConfig? = nil, debugHookConfig: DebugHookConfig? = nil, debugRuleConfigurations: [DebugRuleConfiguration]? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, experimentConfig: ExperimentConfig? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, outputDataConfig: OutputDataConfig, profilerConfig: ProfilerConfig? = nil, profilerRuleConfigurations: [ProfilerRuleConfiguration]? = nil, resourceConfig: ResourceConfig, roleArn: String, stoppingCondition: StoppingCondition, tags: [Tag]? = nil, tensorBoardOutputConfig: TensorBoardOutputConfig? = nil, trainingJobName: String, vpcConfig: VpcConfig? = nil) {
+        public init(algorithmSpecification: AlgorithmSpecification, checkpointConfig: CheckpointConfig? = nil, debugHookConfig: DebugHookConfig? = nil, debugRuleConfigurations: [DebugRuleConfiguration]? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, outputDataConfig: OutputDataConfig, profilerConfig: ProfilerConfig? = nil, profilerRuleConfigurations: [ProfilerRuleConfiguration]? = nil, resourceConfig: ResourceConfig, roleArn: String, stoppingCondition: StoppingCondition, tags: [Tag]? = nil, tensorBoardOutputConfig: TensorBoardOutputConfig? = nil, trainingJobName: String, vpcConfig: VpcConfig? = nil) {
             self.algorithmSpecification = algorithmSpecification
             self.checkpointConfig = checkpointConfig
             self.debugHookConfig = debugHookConfig
@@ -5632,6 +5686,7 @@ extension SageMaker {
             self.enableInterContainerTrafficEncryption = enableInterContainerTrafficEncryption
             self.enableManagedSpotTraining = enableManagedSpotTraining
             self.enableNetworkIsolation = enableNetworkIsolation
+            self.environment = environment
             self.experimentConfig = experimentConfig
             self.hyperParameters = hyperParameters
             self.inputDataConfig = inputDataConfig
@@ -5656,6 +5711,12 @@ extension SageMaker {
             }
             try self.validate(self.debugRuleConfigurations, name: "debugRuleConfigurations", parent: name, max: 20)
             try self.validate(self.debugRuleConfigurations, name: "debugRuleConfigurations", parent: name, min: 0)
+            try self.environment?.forEach {
+                try validate($0.key, name: "environment.key", parent: name, max: 512)
+                try validate($0.key, name: "environment.key", parent: name, pattern: "[a-zA-Z_][a-zA-Z0-9_]*")
+                try validate($0.value, name: "environment[\"\($0.key)\"]", parent: name, max: 512)
+                try validate($0.value, name: "environment[\"\($0.key)\"]", parent: name, pattern: "[\\S\\s]*")
+            }
             try self.experimentConfig?.validate(name: "\(name).experimentConfig")
             try self.hyperParameters?.forEach {
                 try validate($0.key, name: "hyperParameters.key", parent: name, max: 256)
@@ -5700,6 +5761,7 @@ extension SageMaker {
             case enableInterContainerTrafficEncryption = "EnableInterContainerTrafficEncryption"
             case enableManagedSpotTraining = "EnableManagedSpotTraining"
             case enableNetworkIsolation = "EnableNetworkIsolation"
+            case environment = "Environment"
             case experimentConfig = "ExperimentConfig"
             case hyperParameters = "HyperParameters"
             case inputDataConfig = "InputDataConfig"
@@ -7911,7 +7973,7 @@ extension SageMaker {
     }
 
     public struct DescribeAutoMLJobRequest: AWSEncodableShape {
-        /// Request information about a job using that job's unique name.
+        /// Requests information about an AutoML job using its unique name.
         public let autoMLJobName: String
 
         public init(autoMLJobName: String) {
@@ -7930,44 +7992,46 @@ extension SageMaker {
     }
 
     public struct DescribeAutoMLJobResponse: AWSDecodableShape {
-        /// Returns the job's ARN.
+        /// Returns the ARN of the AutoML job.
         public let autoMLJobArn: String
         /// Returns information on the job's artifacts found in AutoMLJobArtifacts.
         public let autoMLJobArtifacts: AutoMLJobArtifacts?
-        /// Returns the job's config.
+        /// Returns the configuration for the AutoML job.
         public let autoMLJobConfig: AutoMLJobConfig?
-        /// Returns the name of a job.
+        /// Returns the name of the AutoML job.
         public let autoMLJobName: String
         /// Returns the job's objective.
         public let autoMLJobObjective: AutoMLJobObjective?
-        /// Returns the job's AutoMLJobSecondaryStatus.
+        /// Returns the secondary status of the AutoML job.
         public let autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus
-        /// Returns the job's AutoMLJobStatus.
+        /// Returns the status of the AutoML job's AutoMLJobStatus.
         public let autoMLJobStatus: AutoMLJobStatus
         /// Returns the job's BestCandidate.
         public let bestCandidate: AutoMLCandidate?
-        /// Returns the job's creation time.
+        /// Returns the creation time of the AutoML job.
         public let creationTime: Date
-        /// Returns the job's end time.
+        /// Returns the end time of the AutoML job.
         public let endTime: Date?
         /// Returns the job's FailureReason.
         public let failureReason: String?
         /// Returns the job's output from GenerateCandidateDefinitionsOnly.
         public let generateCandidateDefinitionsOnly: Bool?
-        /// Returns the job's input data config.
+        /// Returns the input data configuration for the AutoML job..
         public let inputDataConfig: [AutoMLChannel]
         /// Returns the job's last modified time.
         public let lastModifiedTime: Date
         /// Returns the job's output data config.
         public let outputDataConfig: AutoMLOutputDataConfig
+        /// Returns a list of reasons for partial failures within an AutoML job.
+        public let partialFailureReasons: [AutoMLPartialFailureReason]?
         /// Returns the job's problem type.
         public let problemType: ProblemType?
-        /// This contains ProblemType, AutoMLJobObjective and CompletionCriteria. They're auto-inferred values, if not provided by you. If you do provide them, then they'll be the same as provided.
+        /// This contains ProblemType, AutoMLJobObjective and CompletionCriteria. If you do not provide these values, they are auto-inferred. If you do provide them, they are the values you provide.
         public let resolvedAttributes: ResolvedAttributes?
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that has read permission to the input data location and write permission to the output data location in Amazon S3.
         public let roleArn: String
 
-        public init(autoMLJobArn: String, autoMLJobArtifacts: AutoMLJobArtifacts? = nil, autoMLJobConfig: AutoMLJobConfig? = nil, autoMLJobName: String, autoMLJobObjective: AutoMLJobObjective? = nil, autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus, autoMLJobStatus: AutoMLJobStatus, bestCandidate: AutoMLCandidate? = nil, creationTime: Date, endTime: Date? = nil, failureReason: String? = nil, generateCandidateDefinitionsOnly: Bool? = nil, inputDataConfig: [AutoMLChannel], lastModifiedTime: Date, outputDataConfig: AutoMLOutputDataConfig, problemType: ProblemType? = nil, resolvedAttributes: ResolvedAttributes? = nil, roleArn: String) {
+        public init(autoMLJobArn: String, autoMLJobArtifacts: AutoMLJobArtifacts? = nil, autoMLJobConfig: AutoMLJobConfig? = nil, autoMLJobName: String, autoMLJobObjective: AutoMLJobObjective? = nil, autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus, autoMLJobStatus: AutoMLJobStatus, bestCandidate: AutoMLCandidate? = nil, creationTime: Date, endTime: Date? = nil, failureReason: String? = nil, generateCandidateDefinitionsOnly: Bool? = nil, inputDataConfig: [AutoMLChannel], lastModifiedTime: Date, outputDataConfig: AutoMLOutputDataConfig, partialFailureReasons: [AutoMLPartialFailureReason]? = nil, problemType: ProblemType? = nil, resolvedAttributes: ResolvedAttributes? = nil, roleArn: String) {
             self.autoMLJobArn = autoMLJobArn
             self.autoMLJobArtifacts = autoMLJobArtifacts
             self.autoMLJobConfig = autoMLJobConfig
@@ -7983,6 +8047,7 @@ extension SageMaker {
             self.inputDataConfig = inputDataConfig
             self.lastModifiedTime = lastModifiedTime
             self.outputDataConfig = outputDataConfig
+            self.partialFailureReasons = partialFailureReasons
             self.problemType = problemType
             self.resolvedAttributes = resolvedAttributes
             self.roleArn = roleArn
@@ -8004,6 +8069,7 @@ extension SageMaker {
             case inputDataConfig = "InputDataConfig"
             case lastModifiedTime = "LastModifiedTime"
             case outputDataConfig = "OutputDataConfig"
+            case partialFailureReasons = "PartialFailureReasons"
             case problemType = "ProblemType"
             case resolvedAttributes = "ResolvedAttributes"
             case roleArn = "RoleArn"
@@ -8442,7 +8508,7 @@ extension SageMaker {
         public let authMode: AuthMode?
         /// The creation time.
         public let creationTime: Date?
-        /// Settings which are applied to all UserProfiles in this domain, if settings are not explicitly specified in a given UserProfile.
+        /// Settings which are applied to UserProfiles in this domain if settings are not explicitly specified in a given UserProfile.
         public let defaultUserSettings: UserSettings?
         /// The domain's Amazon Resource Name (ARN).
         public let domainArn: String?
@@ -10362,6 +10428,8 @@ extension SageMaker {
         public let enableManagedSpotTraining: Bool?
         /// If you want to allow inbound or outbound network calls, except for calls between peers within a training cluster for distributed training, choose True. If you enable network isolation for training jobs that are configured to use a VPC, Amazon SageMaker downloads and uploads customer data and model artifacts through the specified VPC, but the training container does not have network access.
         public let enableNetworkIsolation: Bool?
+        /// The environment variables to set in the Docker container.
+        public let environment: [String: String]?
         public let experimentConfig: ExperimentConfig?
         /// If the training job failed, the reason it failed.
         public let failureReason: String?
@@ -10414,7 +10482,7 @@ extension SageMaker {
         /// A VpcConfig object that specifies the VPC that this training job has access to. For more information, see Protect Training Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: VpcConfig?
 
-        public init(algorithmSpecification: AlgorithmSpecification, autoMLJobArn: String? = nil, billableTimeInSeconds: Int? = nil, checkpointConfig: CheckpointConfig? = nil, creationTime: Date, debugHookConfig: DebugHookConfig? = nil, debugRuleConfigurations: [DebugRuleConfiguration]? = nil, debugRuleEvaluationStatuses: [DebugRuleEvaluationStatus]? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, finalMetricDataList: [MetricData]? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, labelingJobArn: String? = nil, lastModifiedTime: Date? = nil, modelArtifacts: ModelArtifacts, outputDataConfig: OutputDataConfig? = nil, profilerConfig: ProfilerConfig? = nil, profilerRuleConfigurations: [ProfilerRuleConfiguration]? = nil, profilerRuleEvaluationStatuses: [ProfilerRuleEvaluationStatus]? = nil, profilingStatus: ProfilingStatus? = nil, resourceConfig: ResourceConfig, roleArn: String? = nil, secondaryStatus: SecondaryStatus, secondaryStatusTransitions: [SecondaryStatusTransition]? = nil, stoppingCondition: StoppingCondition, tensorBoardOutputConfig: TensorBoardOutputConfig? = nil, trainingEndTime: Date? = nil, trainingJobArn: String, trainingJobName: String, trainingJobStatus: TrainingJobStatus, trainingStartTime: Date? = nil, trainingTimeInSeconds: Int? = nil, tuningJobArn: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(algorithmSpecification: AlgorithmSpecification, autoMLJobArn: String? = nil, billableTimeInSeconds: Int? = nil, checkpointConfig: CheckpointConfig? = nil, creationTime: Date, debugHookConfig: DebugHookConfig? = nil, debugRuleConfigurations: [DebugRuleConfiguration]? = nil, debugRuleEvaluationStatuses: [DebugRuleEvaluationStatus]? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, finalMetricDataList: [MetricData]? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, labelingJobArn: String? = nil, lastModifiedTime: Date? = nil, modelArtifacts: ModelArtifacts, outputDataConfig: OutputDataConfig? = nil, profilerConfig: ProfilerConfig? = nil, profilerRuleConfigurations: [ProfilerRuleConfiguration]? = nil, profilerRuleEvaluationStatuses: [ProfilerRuleEvaluationStatus]? = nil, profilingStatus: ProfilingStatus? = nil, resourceConfig: ResourceConfig, roleArn: String? = nil, secondaryStatus: SecondaryStatus, secondaryStatusTransitions: [SecondaryStatusTransition]? = nil, stoppingCondition: StoppingCondition, tensorBoardOutputConfig: TensorBoardOutputConfig? = nil, trainingEndTime: Date? = nil, trainingJobArn: String, trainingJobName: String, trainingJobStatus: TrainingJobStatus, trainingStartTime: Date? = nil, trainingTimeInSeconds: Int? = nil, tuningJobArn: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.algorithmSpecification = algorithmSpecification
             self.autoMLJobArn = autoMLJobArn
             self.billableTimeInSeconds = billableTimeInSeconds
@@ -10426,6 +10494,7 @@ extension SageMaker {
             self.enableInterContainerTrafficEncryption = enableInterContainerTrafficEncryption
             self.enableManagedSpotTraining = enableManagedSpotTraining
             self.enableNetworkIsolation = enableNetworkIsolation
+            self.environment = environment
             self.experimentConfig = experimentConfig
             self.failureReason = failureReason
             self.finalMetricDataList = finalMetricDataList
@@ -10467,6 +10536,7 @@ extension SageMaker {
             case enableInterContainerTrafficEncryption = "EnableInterContainerTrafficEncryption"
             case enableManagedSpotTraining = "EnableManagedSpotTraining"
             case enableNetworkIsolation = "EnableNetworkIsolation"
+            case environment = "Environment"
             case experimentConfig = "ExperimentConfig"
             case failureReason = "FailureReason"
             case finalMetricDataList = "FinalMetricDataList"
@@ -12724,13 +12794,21 @@ extension SageMaker {
     public struct ImageConfig: AWSEncodableShape & AWSDecodableShape {
         /// Set this to one of the following values:    Platform - The model image is hosted in Amazon ECR.    Vpc - The model image is hosted in a private Docker registry in your VPC.
         public let repositoryAccessMode: RepositoryAccessMode
+        /// (Optional) Specifies an authentication configuration for the private docker registry where your model image is hosted. Specify a value for this property only if you specified Vpc as the value for the RepositoryAccessMode field, and the private Docker registry where the model image is hosted requires authentication.
+        public let repositoryAuthConfig: RepositoryAuthConfig?
 
-        public init(repositoryAccessMode: RepositoryAccessMode) {
+        public init(repositoryAccessMode: RepositoryAccessMode, repositoryAuthConfig: RepositoryAuthConfig? = nil) {
             self.repositoryAccessMode = repositoryAccessMode
+            self.repositoryAuthConfig = repositoryAuthConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.repositoryAuthConfig?.validate(name: "\(name).repositoryAuthConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
             case repositoryAccessMode = "RepositoryAccessMode"
+            case repositoryAuthConfig = "RepositoryAuthConfig"
         }
     }
 
@@ -12831,7 +12909,7 @@ extension SageMaker {
     }
 
     public struct InputConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the name and shape of the expected data inputs for your trained model with a JSON dictionary form. The data inputs are InputConfig$Framework specific.     TensorFlow: You must specify the name and shape (NHWC format) of the expected data inputs using a dictionary format for your trained model. The dictionary formats required for the console and CLI are different.   Examples for one input:   If using the console, {"input":[1,1024,1024,3]}    If using the CLI, {\"input\":[1,1024,1024,3]}      Examples for two inputs:   If using the console, {"data1": [1,28,28,1], "data2":[1,28,28,1]}    If using the CLI, {\"data1\": [1,28,28,1], \"data2\":[1,28,28,1]}         KERAS: You must specify the name and shape (NCHW format) of expected data inputs using a dictionary format for your trained model. Note that while Keras model artifacts should be uploaded in NHWC (channel-last) format, DataInputConfig should be specified in NCHW (channel-first) format. The dictionary formats required for the console and CLI are different.   Examples for one input:   If using the console, {"input_1":[1,3,224,224]}    If using the CLI, {\"input_1\":[1,3,224,224]}      Examples for two inputs:   If using the console, {"input_1": [1,3,224,224], "input_2":[1,3,224,224]}     If using the CLI, {\"input_1\": [1,3,224,224], \"input_2\":[1,3,224,224]}         MXNET/ONNX/DARKNET: You must specify the name and shape (NCHW format) of the expected data inputs in order using a dictionary format for your trained model. The dictionary formats required for the console and CLI are different.   Examples for one input:   If using the console, {"data":[1,3,1024,1024]}    If using the CLI, {\"data\":[1,3,1024,1024]}      Examples for two inputs:   If using the console, {"var1": [1,1,28,28], "var2":[1,1,28,28]}     If using the CLI, {\"var1\": [1,1,28,28], \"var2\":[1,1,28,28]}         PyTorch: You can either specify the name and shape (NCHW format) of expected data inputs in order using a dictionary format for your trained model or you can specify the shape only using a list format. The dictionary formats required for the console and CLI are different. The list formats for the console and CLI are the same.   Examples for one input in dictionary format:   If using the console, {"input0":[1,3,224,224]}    If using the CLI, {\"input0\":[1,3,224,224]}      Example for one input in list format: [[1,3,224,224]]    Examples for two inputs in dictionary format:   If using the console, {"input0":[1,3,224,224], "input1":[1,3,224,224]}    If using the CLI, {\"input0\":[1,3,224,224], \"input1\":[1,3,224,224]}       Example for two inputs in list format: [[1,3,224,224], [1,3,224,224]]       XGBOOST: input data name and shape are not needed.    DataInputConfig supports the following parameters for CoreML OutputConfig$TargetDevice (ML Model format):    shape: Input shape, for example {"input_1": {"shape": [1,224,224,3]}}. In addition to static input shapes, CoreML converter supports Flexible input shapes:   Range Dimension. You can use the Range Dimension feature if you know the input shape will be within some specific interval in that dimension, for example: {"input_1": {"shape": ["1..10", 224, 224, 3]}}    Enumerated shapes. Sometimes, the models are trained to work only on a select set of inputs. You can enumerate all supported input shapes, for example: {"input_1": {"shape": [[1, 224, 224, 3], [1, 160, 160, 3]]}}       default_shape: Default input shape. You can set a default shape during conversion for both Range Dimension and Enumerated Shapes. For example {"input_1": {"shape": ["1..10", 224, 224, 3], "default_shape": [1, 224, 224, 3]}}     type: Input type. Allowed values: Image and Tensor. By default, the converter generates an ML Model with inputs of type Tensor (MultiArray). User can set input type to be Image. Image input type requires additional input parameters such as bias and scale.    bias: If the input type is an Image, you need to provide the bias vector.    scale: If the input type is an Image, you need to provide a scale factor.   CoreML ClassifierConfig parameters can be specified using OutputConfig$CompilerOptions. CoreML converter supports Tensorflow and PyTorch models. CoreML conversion examples:   Tensor type input:    "DataInputConfig": {"input_1": {"shape": [[1,224,224,3], [1,160,160,3]], "default_shape": [1,224,224,3]}}      Tensor type input without input name (PyTorch):    "DataInputConfig": [{"shape": [[1,3,224,224], [1,3,160,160]], "default_shape": [1,3,224,224]}]      Image type input:    "DataInputConfig": {"input_1": {"shape": [[1,224,224,3], [1,160,160,3]], "default_shape": [1,224,224,3], "type": "Image", "bias": [-1,-1,-1], "scale": 0.007843137255}}     "CompilerOptions": {"class_labels": "imagenet_labels_1000.txt"}      Image type input without input name (PyTorch):    "DataInputConfig": [{"shape": [[1,3,224,224], [1,3,160,160]], "default_shape": [1,3,224,224], "type": "Image", "bias": [-1,-1,-1], "scale": 0.007843137255}]     "CompilerOptions": {"class_labels": "imagenet_labels_1000.txt"}
+        /// Specifies the name and shape of the expected data inputs for your trained model with a JSON dictionary form. The data inputs are InputConfig$Framework specific.     TensorFlow: You must specify the name and shape (NHWC format) of the expected data inputs using a dictionary format for your trained model. The dictionary formats required for the console and CLI are different.   Examples for one input:   If using the console, {"input":[1,1024,1024,3]}    If using the CLI, {\"input\":[1,1024,1024,3]}      Examples for two inputs:   If using the console, {"data1": [1,28,28,1], "data2":[1,28,28,1]}    If using the CLI, {\"data1\": [1,28,28,1], \"data2\":[1,28,28,1]}         KERAS: You must specify the name and shape (NCHW format) of expected data inputs using a dictionary format for your trained model. Note that while Keras model artifacts should be uploaded in NHWC (channel-last) format, DataInputConfig should be specified in NCHW (channel-first) format. The dictionary formats required for the console and CLI are different.   Examples for one input:   If using the console, {"input_1":[1,3,224,224]}    If using the CLI, {\"input_1\":[1,3,224,224]}      Examples for two inputs:   If using the console, {"input_1": [1,3,224,224], "input_2":[1,3,224,224]}     If using the CLI, {\"input_1\": [1,3,224,224], \"input_2\":[1,3,224,224]}         MXNET/ONNX/DARKNET: You must specify the name and shape (NCHW format) of the expected data inputs in order using a dictionary format for your trained model. The dictionary formats required for the console and CLI are different.   Examples for one input:   If using the console, {"data":[1,3,1024,1024]}    If using the CLI, {\"data\":[1,3,1024,1024]}      Examples for two inputs:   If using the console, {"var1": [1,1,28,28], "var2":[1,1,28,28]}     If using the CLI, {\"var1\": [1,1,28,28], \"var2\":[1,1,28,28]}         PyTorch: You can either specify the name and shape (NCHW format) of expected data inputs in order using a dictionary format for your trained model or you can specify the shape only using a list format. The dictionary formats required for the console and CLI are different. The list formats for the console and CLI are the same.   Examples for one input in dictionary format:   If using the console, {"input0":[1,3,224,224]}    If using the CLI, {\"input0\":[1,3,224,224]}      Example for one input in list format: [[1,3,224,224]]    Examples for two inputs in dictionary format:   If using the console, {"input0":[1,3,224,224], "input1":[1,3,224,224]}    If using the CLI, {\"input0\":[1,3,224,224], \"input1\":[1,3,224,224]}       Example for two inputs in list format: [[1,3,224,224], [1,3,224,224]]       XGBOOST: input data name and shape are not needed.    DataInputConfig supports the following parameters for CoreML OutputConfig$TargetDevice (ML Model format):    shape: Input shape, for example {"input_1": {"shape": [1,224,224,3]}}. In addition to static input shapes, CoreML converter supports Flexible input shapes:   Range Dimension. You can use the Range Dimension feature if you know the input shape will be within some specific interval in that dimension, for example: {"input_1": {"shape": ["1..10", 224, 224, 3]}}    Enumerated shapes. Sometimes, the models are trained to work only on a select set of inputs. You can enumerate all supported input shapes, for example: {"input_1": {"shape": [[1, 224, 224, 3], [1, 160, 160, 3]]}}       default_shape: Default input shape. You can set a default shape during conversion for both Range Dimension and Enumerated Shapes. For example {"input_1": {"shape": ["1..10", 224, 224, 3], "default_shape": [1, 224, 224, 3]}}     type: Input type. Allowed values: Image and Tensor. By default, the converter generates an ML Model with inputs of type Tensor (MultiArray). User can set input type to be Image. Image input type requires additional input parameters such as bias and scale.    bias: If the input type is an Image, you need to provide the bias vector.    scale: If the input type is an Image, you need to provide a scale factor.   CoreML ClassifierConfig parameters can be specified using OutputConfig$CompilerOptions. CoreML converter supports Tensorflow and PyTorch models. CoreML conversion examples:   Tensor type input:    "DataInputConfig": {"input_1": {"shape": [[1,224,224,3], [1,160,160,3]], "default_shape": [1,224,224,3]}}      Tensor type input without input name (PyTorch):    "DataInputConfig": [{"shape": [[1,3,224,224], [1,3,160,160]], "default_shape": [1,3,224,224]}]      Image type input:    "DataInputConfig": {"input_1": {"shape": [[1,224,224,3], [1,160,160,3]], "default_shape": [1,224,224,3], "type": "Image", "bias": [-1,-1,-1], "scale": 0.007843137255}}     "CompilerOptions": {"class_labels": "imagenet_labels_1000.txt"}      Image type input without input name (PyTorch):    "DataInputConfig": [{"shape": [[1,3,224,224], [1,3,160,160]], "default_shape": [1,3,224,224], "type": "Image", "bias": [-1,-1,-1], "scale": 0.007843137255}]     "CompilerOptions": {"class_labels": "imagenet_labels_1000.txt"}      Depending on the model format, DataInputConfig requires the following parameters for ml_eia2 OutputConfig:TargetDevice.   For TensorFlow models saved in the SavedModel format, specify the input names from signature_def_key and the input model shapes for DataInputConfig. Specify the signature_def_key in  OutputConfig:CompilerOptions  if the model does not use TensorFlow's default signature def key. For example:    "DataInputConfig": {"inputs": [1, 224, 224, 3]}     "CompilerOptions": {"signature_def_key": "serving_custom"}      For TensorFlow models saved as a frozen graph, specify the input tensor names and shapes in DataInputConfig and the output tensor names for output_names in  OutputConfig:CompilerOptions . For example:    "DataInputConfig": {"input_tensor:0": [1, 224, 224, 3]}     "CompilerOptions": {"output_names": ["output_tensor:0"]}
         public let dataInputConfig: String
         /// Identifies the framework in which the model was trained. For example: TENSORFLOW.
         public let framework: Framework
@@ -13114,7 +13192,7 @@ extension SageMaker {
     public struct LabelingJobDataSource: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon S3 location of the input data objects.
         public let s3DataSource: LabelingJobS3DataSource?
-        /// An Amazon SNS data source used for streaming labeling jobs.
+        /// An Amazon SNS data source used for streaming labeling jobs. To learn more, see Send Data to a Streaming Labeling Job.
         public let snsDataSource: LabelingJobSnsDataSource?
 
         public init(s3DataSource: LabelingJobS3DataSource? = nil, snsDataSource: LabelingJobSnsDataSource? = nil) {
@@ -13205,11 +13283,11 @@ extension SageMaker {
     }
 
     public struct LabelingJobOutputConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The AWS Key Management Service ID of the key used to encrypt the output data, if any. If you use a KMS key ID or an alias of your master key, the Amazon SageMaker execution role must include permissions to call kms:Encrypt. If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. Amazon SageMaker uses server-side encryption with KMS-managed keys for LabelingJobOutputConfig. If you use a bucket policy with an s3:PutObject permission that only allows objects with server-side encryption, set the condition key of s3:x-amz-server-side-encryption to "aws:kms". For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.  The KMS key policy must grant permission to the IAM role that you specify in your CreateLabelingJob request. For more information, see Using Key Policies in AWS KMS in the AWS Key Management Service Developer Guide.
+        /// The AWS Key Management Service ID of the key used to encrypt the output data, if any. If you provide your own KMS key ID, you must add the required permissions to your KMS key described in Encrypt Output Data and Storage Volume with AWS KMS. If you don't provide a KMS key ID, Amazon SageMaker uses the default AWS KMS key for Amazon S3 for your role's account to encrypt your output data. If you use a bucket policy with an s3:PutObject permission that only allows objects with server-side encryption, set the condition key of s3:x-amz-server-side-encryption to "aws:kms". For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.
         public let kmsKeyId: String?
         /// The Amazon S3 location to write output data.
         public let s3OutputPath: String
-        /// An Amazon Simple Notification Service (Amazon SNS) output topic ARN. When workers complete labeling tasks, Ground Truth will send labeling task output data to the SNS output topic you specify here. You must provide a value for this parameter if you provide an Amazon SNS input topic in SnsDataSource in InputConfig.
+        /// An Amazon Simple Notification Service (Amazon SNS) output topic ARN. If you provide an SnsTopicArn in OutputConfig, when workers complete labeling tasks, Ground Truth will send labeling task output data to the SNS output topic you specify here.  To learn more, see Receive Output Data from a Streaming Labeling Job.
         public let snsTopicArn: String?
 
         public init(kmsKeyId: String? = nil, s3OutputPath: String, snsTopicArn: String? = nil) {
@@ -13235,7 +13313,7 @@ extension SageMaker {
     }
 
     public struct LabelingJobResourceConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the training job. The VolumeKmsKeyId can be any of the following formats:   // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
+        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the training and inference jobs used for automated data labeling.  You can only specify a VolumeKmsKeyId when you create a labeling job with automated data labeling enabled using the API operation CreateLabelingJob. You cannot specify an AWS KMS customer managed CMK to encrypt the storage volume used for automated data labeling model training and inference when you create a labeling job using the console. To learn more, see Output Data and Storage Volume Encryption. The VolumeKmsKeyId can be any of the following formats:   KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
         public let volumeKmsKeyId: String?
 
         public init(volumeKmsKeyId: String? = nil) {
@@ -13271,7 +13349,7 @@ extension SageMaker {
     }
 
     public struct LabelingJobSnsDataSource: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon SNS input topic Amazon Resource Name (ARN). Specify the ARN of the input topic you will use to send new data objects to a streaming labeling job. If you specify an input topic for SnsTopicArn in InputConfig, you must specify a value for SnsTopicArn in OutputConfig.
+        /// The Amazon SNS input topic Amazon Resource Name (ARN). Specify the ARN of the input topic you will use to send new data objects to a streaming labeling job.
         public let snsTopicArn: String
 
         public init(snsTopicArn: String) {
@@ -13857,11 +13935,11 @@ extension SageMaker {
     }
 
     public struct ListCandidatesForAutoMLJobRequest: AWSEncodableShape {
-        /// List the Candidates created for the job by providing the job's name.
+        /// List the candidates created for the job by providing the job's name.
         public let autoMLJobName: String
-        /// List the Candidates for the job and filter by candidate name.
+        /// List the candidates for the job and filter by candidate name.
         public let candidateNameEquals: String?
-        /// List the job's Candidates up to a specified limit.
+        /// List the job's candidates up to a specified limit.
         public let maxResults: Int?
         /// If the previous response was truncated, you receive this token. Use it in your next request to receive the next set of results.
         public let nextToken: String?
@@ -13869,7 +13947,7 @@ extension SageMaker {
         public let sortBy: CandidateSortBy?
         /// The sort order for the results. The default is Ascending.
         public let sortOrder: AutoMLSortOrder?
-        /// List the Candidates for the job and filter by status.
+        /// List the candidates for the job and filter by status.
         public let statusEquals: CandidateStatus?
 
         public init(autoMLJobName: String, candidateNameEquals: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: CandidateSortBy? = nil, sortOrder: AutoMLSortOrder? = nil, statusEquals: CandidateStatus? = nil) {
@@ -18798,7 +18876,7 @@ extension SageMaker {
     }
 
     public struct OutputConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies additional parameters for compiler options in JSON format. The compiler options are TargetPlatform specific. It is required for NVIDIA accelerators and highly recommended for CPU compilations. For any other cases, it is optional to specify CompilerOptions.     CPU: Compilation for CPU supports the following compiler options.    mcpu: CPU micro-architecture. For example, {'mcpu': 'skylake-avx512'}     mattr: CPU flags. For example, {'mattr': ['+neon', '+vfpv4']}       ARM: Details of ARM CPU compilations.    NEON: NEON is an implementation of the Advanced SIMD extension used in ARMv7 processors. For example, add {'mattr': ['+neon']} to the compiler options if compiling for ARM 32-bit platform with the NEON support.      NVIDIA: Compilation for NVIDIA GPU supports the following compiler options.    gpu_code: Specifies the targeted architecture.    trt-ver: Specifies the TensorRT versions in x.y.z. format.    cuda-ver: Specifies the CUDA version in x.y format.   For example, {'gpu-code': 'sm_72', 'trt-ver': '6.0.1', 'cuda-ver': '10.1'}     ANDROID: Compilation for the Android OS supports the following compiler options:    ANDROID_PLATFORM: Specifies the Android API levels. Available levels range from 21 to 29. For example, {'ANDROID_PLATFORM': 28}.    mattr: Add {'mattr': ['+neon']} to compiler options if compiling for ARM 32-bit platform with NEON support.      INFERENTIA: Compilation for target ml_inf1 uses compiler options passed in as a JSON string. For example, "CompilerOptions": "\"--verbose 1 --num-neuroncores 2 -O2\"".  For information about supported compiler options, see  Neuron Compiler CLI.     CoreML: Compilation for the CoreML OutputConfig$TargetDevice supports the following compiler options:    class_labels: Specifies the classification labels file name inside input tar.gz file. For example, {"class_labels": "imagenet_labels_1000.txt"}. Labels inside the txt file should be separated by newlines.
+        /// Specifies additional parameters for compiler options in JSON format. The compiler options are TargetPlatform specific. It is required for NVIDIA accelerators and highly recommended for CPU compilations. For any other cases, it is optional to specify CompilerOptions.     DTYPE: Specifies the data type for the input. When compiling for ml_* (except for ml_inf) instances using PyTorch framework, provide the data type (dtype) of the model's input. "float32" is used if "DTYPE" is not specified. Options for data type are:   float32: Use either "float" or "float32".   int64: Use either "int64" or "long".    For example, {"dtype" : "float32"}.    CPU: Compilation for CPU supports the following compiler options.    mcpu: CPU micro-architecture. For example, {'mcpu': 'skylake-avx512'}     mattr: CPU flags. For example, {'mattr': ['+neon', '+vfpv4']}       ARM: Details of ARM CPU compilations.    NEON: NEON is an implementation of the Advanced SIMD extension used in ARMv7 processors. For example, add {'mattr': ['+neon']} to the compiler options if compiling for ARM 32-bit platform with the NEON support.      NVIDIA: Compilation for NVIDIA GPU supports the following compiler options.    gpu_code: Specifies the targeted architecture.    trt-ver: Specifies the TensorRT versions in x.y.z. format.    cuda-ver: Specifies the CUDA version in x.y format.   For example, {'gpu-code': 'sm_72', 'trt-ver': '6.0.1', 'cuda-ver': '10.1'}     ANDROID: Compilation for the Android OS supports the following compiler options:    ANDROID_PLATFORM: Specifies the Android API levels. Available levels range from 21 to 29. For example, {'ANDROID_PLATFORM': 28}.    mattr: Add {'mattr': ['+neon']} to compiler options if compiling for ARM 32-bit platform with NEON support.      INFERENTIA: Compilation for target ml_inf1 uses compiler options passed in as a JSON string. For example, "CompilerOptions": "\"--verbose 1 --num-neuroncores 2 -O2\"".  For information about supported compiler options, see  Neuron Compiler CLI.     CoreML: Compilation for the CoreML OutputConfig$TargetDevice supports the following compiler options:    class_labels: Specifies the classification labels file name inside input tar.gz file. For example, {"class_labels": "imagenet_labels_1000.txt"}. Labels inside the txt file should be separated by newlines.      EIA: Compilation for the Elastic Inference Accelerator supports the following compiler options:    precision_mode: Specifies the precision of compiled artifacts. Supported values are "FP16" and "FP32". Default is "FP32".    signature_def_key: Specifies the signature to use for models in SavedModel format. Defaults is TensorFlow's default signature def key.    output_names: Specifies a list of output tensor names for models in FrozenGraph format. Set at most one API field, either: signature_def_key or output_names.   For example: {"precision_mode": "FP32", "output_names": ["output:0"]}
         public let compilerOptions: String?
         /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt data on the storage volume after compilation job. If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account The KmsKeyId can be any of the following formats:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias
         public let kmsKeyId: String?
@@ -20219,6 +20297,25 @@ extension SageMaker {
         }
     }
 
+    public struct RepositoryAuthConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of an AWS Lambda function that provides credentials to authenticate to the private Docker registry where your model image is hosted. For information about how to create an AWS Lambda function, see Create a Lambda function with the console in the AWS Lambda Developer Guide.
+        public let repositoryCredentialsProviderArn: String
+
+        public init(repositoryCredentialsProviderArn: String) {
+            self.repositoryCredentialsProviderArn = repositoryCredentialsProviderArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.repositoryCredentialsProviderArn, name: "repositoryCredentialsProviderArn", parent: name, max: 2048)
+            try self.validate(self.repositoryCredentialsProviderArn, name: "repositoryCredentialsProviderArn", parent: name, min: 1)
+            try self.validate(self.repositoryCredentialsProviderArn, name: "repositoryCredentialsProviderArn", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryCredentialsProviderArn = "RepositoryCredentialsProviderArn"
+        }
+    }
+
     public struct ResolvedAttributes: AWSDecodableShape {
         public let autoMLJobObjective: AutoMLJobObjective?
         public let completionCriteria: AutoMLJobCompletionCriteria?
@@ -20372,23 +20469,29 @@ extension SageMaker {
     public struct S3StorageConfig: AWSEncodableShape & AWSDecodableShape {
         /// The AWS Key Management Service (KMS) key ID of the key used to encrypt any objects written into the OfflineStore S3 location. The IAM roleARN that is passed as a parameter to CreateFeatureGroup must have below permissions to the KmsKeyId:    "kms:GenerateDataKey"
         public let kmsKeyId: String?
+        /// The S3 path where offline records are written.
+        public let resolvedOutputS3Uri: String?
         /// The S3 URI, or location in Amazon S3, of OfflineStore. S3 URIs have a format similar to the following: s3://example-bucket/prefix/.
         public let s3Uri: String
 
-        public init(kmsKeyId: String? = nil, s3Uri: String) {
+        public init(kmsKeyId: String? = nil, resolvedOutputS3Uri: String? = nil, s3Uri: String) {
             self.kmsKeyId = kmsKeyId
+            self.resolvedOutputS3Uri = resolvedOutputS3Uri
             self.s3Uri = s3Uri
         }
 
         public func validate(name: String) throws {
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: ".*")
+            try self.validate(self.resolvedOutputS3Uri, name: "resolvedOutputS3Uri", parent: name, max: 1024)
+            try self.validate(self.resolvedOutputS3Uri, name: "resolvedOutputS3Uri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case kmsKeyId = "KmsKeyId"
+            case resolvedOutputS3Uri = "ResolvedOutputS3Uri"
             case s3Uri = "S3Uri"
         }
     }
@@ -21273,6 +21376,8 @@ extension SageMaker {
         public let enableManagedSpotTraining: Bool?
         /// If the TrainingJob was created with network isolation, the value is set to true. If network isolation is enabled, nodes can't communicate beyond the VPC they run in.
         public let enableNetworkIsolation: Bool?
+        /// The environment variables to set in the Docker container.
+        public let environment: [String: String]?
         public let experimentConfig: ExperimentConfig?
         /// If the training job failed, the reason it failed.
         public let failureReason: String?
@@ -21320,7 +21425,7 @@ extension SageMaker {
         /// A VpcConfig object that specifies the VPC that this training job has access to. For more information, see Protect Training Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: VpcConfig?
 
-        public init(algorithmSpecification: AlgorithmSpecification? = nil, autoMLJobArn: String? = nil, billableTimeInSeconds: Int? = nil, checkpointConfig: CheckpointConfig? = nil, creationTime: Date? = nil, debugHookConfig: DebugHookConfig? = nil, debugRuleConfigurations: [DebugRuleConfiguration]? = nil, debugRuleEvaluationStatuses: [DebugRuleEvaluationStatus]? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, finalMetricDataList: [MetricData]? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, labelingJobArn: String? = nil, lastModifiedTime: Date? = nil, modelArtifacts: ModelArtifacts? = nil, outputDataConfig: OutputDataConfig? = nil, resourceConfig: ResourceConfig? = nil, roleArn: String? = nil, secondaryStatus: SecondaryStatus? = nil, secondaryStatusTransitions: [SecondaryStatusTransition]? = nil, stoppingCondition: StoppingCondition? = nil, tags: [Tag]? = nil, tensorBoardOutputConfig: TensorBoardOutputConfig? = nil, trainingEndTime: Date? = nil, trainingJobArn: String? = nil, trainingJobName: String? = nil, trainingJobStatus: TrainingJobStatus? = nil, trainingStartTime: Date? = nil, trainingTimeInSeconds: Int? = nil, tuningJobArn: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(algorithmSpecification: AlgorithmSpecification? = nil, autoMLJobArn: String? = nil, billableTimeInSeconds: Int? = nil, checkpointConfig: CheckpointConfig? = nil, creationTime: Date? = nil, debugHookConfig: DebugHookConfig? = nil, debugRuleConfigurations: [DebugRuleConfiguration]? = nil, debugRuleEvaluationStatuses: [DebugRuleEvaluationStatus]? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, finalMetricDataList: [MetricData]? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, labelingJobArn: String? = nil, lastModifiedTime: Date? = nil, modelArtifacts: ModelArtifacts? = nil, outputDataConfig: OutputDataConfig? = nil, resourceConfig: ResourceConfig? = nil, roleArn: String? = nil, secondaryStatus: SecondaryStatus? = nil, secondaryStatusTransitions: [SecondaryStatusTransition]? = nil, stoppingCondition: StoppingCondition? = nil, tags: [Tag]? = nil, tensorBoardOutputConfig: TensorBoardOutputConfig? = nil, trainingEndTime: Date? = nil, trainingJobArn: String? = nil, trainingJobName: String? = nil, trainingJobStatus: TrainingJobStatus? = nil, trainingStartTime: Date? = nil, trainingTimeInSeconds: Int? = nil, tuningJobArn: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.algorithmSpecification = algorithmSpecification
             self.autoMLJobArn = autoMLJobArn
             self.billableTimeInSeconds = billableTimeInSeconds
@@ -21332,6 +21437,7 @@ extension SageMaker {
             self.enableInterContainerTrafficEncryption = enableInterContainerTrafficEncryption
             self.enableManagedSpotTraining = enableManagedSpotTraining
             self.enableNetworkIsolation = enableNetworkIsolation
+            self.environment = environment
             self.experimentConfig = experimentConfig
             self.failureReason = failureReason
             self.finalMetricDataList = finalMetricDataList
@@ -21370,6 +21476,7 @@ extension SageMaker {
             case enableInterContainerTrafficEncryption = "EnableInterContainerTrafficEncryption"
             case enableManagedSpotTraining = "EnableManagedSpotTraining"
             case enableNetworkIsolation = "EnableNetworkIsolation"
+            case environment = "Environment"
             case experimentConfig = "ExperimentConfig"
             case failureReason = "FailureReason"
             case finalMetricDataList = "FinalMetricDataList"
@@ -23661,7 +23768,7 @@ extension SageMaker {
         public let kernelGatewayAppSettings: KernelGatewayAppSettings?
         /// The security groups for the Amazon Virtual Private Cloud (VPC) that Studio uses for communication. Optional when the CreateDomain.AppNetworkAccessType parameter is set to PublicInternetOnly. Required when the CreateDomain.AppNetworkAccessType parameter is set to VpcOnly. Amazon SageMaker adds a security group to allow NFS traffic from SageMaker Studio. Therefore, the number of security groups that you can specify is one less than the maximum number shown.
         public let securityGroups: [String]?
-        /// The sharing settings.
+        /// Specifies options for sharing SageMaker Studio notebooks.
         public let sharingSettings: SharingSettings?
         /// The TensorBoard app settings.
         public let tensorBoardAppSettings: TensorBoardAppSettings?

@@ -270,6 +270,12 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
+    public enum ServiceNowAuthenticationType: String, CustomStringConvertible, Codable {
+        case httpBasic = "HTTP_BASIC"
+        case oauth2 = "OAUTH2"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ServiceNowBuildVersionType: String, CustomStringConvertible, Codable {
         case london = "LONDON"
         case others = "OTHERS"
@@ -701,7 +707,7 @@ extension Kendra {
     }
 
     public struct ConfluenceAttachmentToIndexFieldMapping: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the field in the data source.  You must first create the index field using the operation.
+        /// The name of the field in the data source.  You must first create the index field using the UpdateIndex operation.
         public let dataSourceFieldName: ConfluenceAttachmentFieldName?
         /// The format for date fields in the data source. If the field specified in DataSourceFieldName is a date field you must specify the date format. If the field is not a date field, an exception is thrown.
         public let dateFieldFormat: String?
@@ -1403,7 +1409,7 @@ extension Kendra {
         public let id: String?
         /// The name of the data source.
         public let name: String?
-        /// The status of the data source. When the status is ATIVE the data source is ready to use.
+        /// The status of the data source. When the status is ACTIVE the data source is ready to use.
         public let status: DataSourceStatus?
         /// The type of the data source.
         public let type: DataSourceType?
@@ -1909,7 +1915,7 @@ extension Kendra {
     }
 
     public struct DescribeIndexResponse: AWSDecodableShape {
-        /// For enterprise edtion indexes, you can choose to use additional capacity to meet the needs of your application. This contains the capacity units used for the index. A 0 for the query capacity or the storage capacity indicates that the index is using the default capacity for the index.
+        /// For Enterprise edition indexes, you can choose to use additional capacity to meet the needs of your application. This contains the capacity units used for the index. A 0 for the query capacity or the storage capacity indicates that the index is using the default capacity for the index.
         public let capacityUnits: CapacityUnitsConfiguration?
         /// The Unix datetime that the index was created.
         public let createdAt: Date?
@@ -2962,7 +2968,7 @@ extension Kendra {
         public let attributeFilter: AttributeFilter?
         /// An array of documents attributes. Amazon Kendra returns a count for each attribute key specified. You can use this information to help narrow the search for your user.
         public let facets: [Facet]?
-        /// The unique identifier of the index to search. The identifier is returned in the response from the operation.
+        /// The unique identifier of the index to search. The identifier is returned in the response from the CreateIndex operation.
         public let indexId: String
         /// Query results are returned in pages the size of the PageSize parameter. By default, Amazon Kendra returns the first page of results. Use this parameter to get result pages after the first one.
         public let pageNumber: Int?
@@ -3307,7 +3313,7 @@ extension Kendra {
         public let excludeAttachmentFilePatterns: [String]?
         /// A list of regular expression patterns. Documents that match the patterns are included in the index. Documents that don't match the patterns are excluded from the index. If a document matches both an inclusion pattern and an exclusion pattern, the document is not included in the index. The regex is applied to the name of the attached file.
         public let includeAttachmentFilePatterns: [String]?
-        /// Specifies configuration information for the knowlege article types that Amazon Kendra indexes. Amazon Kendra indexes standard knowledge articles and the standard fields of knowledge articles, or the custom fields of custom knowledge articles, but not both.
+        /// Specifies configuration information for the knowledge article types that Amazon Kendra indexes. Amazon Kendra indexes standard knowledge articles and the standard fields of knowledge articles, or the custom fields of custom knowledge articles, but not both.
         public let knowledgeArticleConfiguration: SalesforceKnowledgeArticleConfiguration?
         /// The Amazon Resource Name (ARN) of an AWS Secrets Manager secret that contains the key/value pairs required to connect to your Salesforce instance. The secret must contain a JSON structure with the following keys:   authenticationUrl - The OAUTH endpoint that Amazon Kendra connects to get an OAUTH token.    consumerKey - The application public key generated when you created your Salesforce application.   consumerSecret - The application private key generated when you created your Salesforce application.   password - The password associated with the user logging in to the Salesforce instance.   securityToken - The token associated with the user account logging in to the Salesforce instance.   username - The user name of the user logging in to the Salesforce instance.
         public let secretArn: String
@@ -3512,7 +3518,7 @@ extension Kendra {
     public struct SalesforceStandardObjectConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The name of the field in the standard object table that contains the document contents.
         public let documentDataFieldName: String
-        /// The name of the field in the standard object table that contains the document titleB.
+        /// The name of the field in the standard object table that contains the document title.
         public let documentTitleFieldName: String?
         /// One or more objects that map fields in the standard object to Amazon Kendra index fields. The index field must exist before you can map a Salesforce field to it.
         public let fieldMappings: [DataSourceToIndexFieldMapping]?
@@ -3605,6 +3611,8 @@ extension Kendra {
     }
 
     public struct ServiceNowConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Determines the type of authentication used to connect to the ServiceNow instance. If you choose HTTP_BASIC, Amazon Kendra is authenticated using the user name and password provided in the AWS Secrets Manager secret in the SecretArn field. When you choose OAUTH2, Amazon Kendra is authenticated using the OAuth token and secret provided in the Secrets Manager secret, and the user name and password are used to determine which information Amazon Kendra has access to. When you use OAUTH2 authentication, you must generate a token and a client secret using the ServiceNow console. For more information, see Using a ServiceNow data source.
+        public let authenticationType: ServiceNowAuthenticationType?
         /// The ServiceNow instance that the data source connects to. The host endpoint should look like the following: {instance}.service-now.com.
         public let hostUrl: String
         /// Provides configuration information for crawling knowledge articles in the ServiceNow site.
@@ -3616,7 +3624,8 @@ extension Kendra {
         /// The identifier of the release that the ServiceNow host is running. If the host is not running the LONDON release, use OTHERS.
         public let serviceNowBuildVersion: ServiceNowBuildVersionType
 
-        public init(hostUrl: String, knowledgeArticleConfiguration: ServiceNowKnowledgeArticleConfiguration? = nil, secretArn: String, serviceCatalogConfiguration: ServiceNowServiceCatalogConfiguration? = nil, serviceNowBuildVersion: ServiceNowBuildVersionType) {
+        public init(authenticationType: ServiceNowAuthenticationType? = nil, hostUrl: String, knowledgeArticleConfiguration: ServiceNowKnowledgeArticleConfiguration? = nil, secretArn: String, serviceCatalogConfiguration: ServiceNowServiceCatalogConfiguration? = nil, serviceNowBuildVersion: ServiceNowBuildVersionType) {
+            self.authenticationType = authenticationType
             self.hostUrl = hostUrl
             self.knowledgeArticleConfiguration = knowledgeArticleConfiguration
             self.secretArn = secretArn
@@ -3636,6 +3645,7 @@ extension Kendra {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case authenticationType = "AuthenticationType"
             case hostUrl = "HostUrl"
             case knowledgeArticleConfiguration = "KnowledgeArticleConfiguration"
             case secretArn = "SecretArn"
@@ -3655,15 +3665,18 @@ extension Kendra {
         public let excludeAttachmentFilePatterns: [String]?
         /// Mapping between ServiceNow fields and Amazon Kendra index fields. You must create the index field before you map the field.
         public let fieldMappings: [DataSourceToIndexFieldMapping]?
+        /// A query that selects the knowledge articles to index. The query can return articles from multiple knowledge bases, and the knowledge bases can be public or private. The query string must be one generated by the ServiceNow console. For more information, see Specifying documents to index with a query.
+        public let filterQuery: String?
         /// List of regular expressions applied to knowledge articles. Items that don't match the inclusion pattern are not indexed. The regex is applied to the field specified in the PatternTargetField.
         public let includeAttachmentFilePatterns: [String]?
 
-        public init(crawlAttachments: Bool? = nil, documentDataFieldName: String, documentTitleFieldName: String? = nil, excludeAttachmentFilePatterns: [String]? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, includeAttachmentFilePatterns: [String]? = nil) {
+        public init(crawlAttachments: Bool? = nil, documentDataFieldName: String, documentTitleFieldName: String? = nil, excludeAttachmentFilePatterns: [String]? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, filterQuery: String? = nil, includeAttachmentFilePatterns: [String]? = nil) {
             self.crawlAttachments = crawlAttachments
             self.documentDataFieldName = documentDataFieldName
             self.documentTitleFieldName = documentTitleFieldName
             self.excludeAttachmentFilePatterns = excludeAttachmentFilePatterns
             self.fieldMappings = fieldMappings
+            self.filterQuery = filterQuery
             self.includeAttachmentFilePatterns = includeAttachmentFilePatterns
         }
 
@@ -3685,6 +3698,9 @@ extension Kendra {
             }
             try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, max: 100)
             try self.validate(self.fieldMappings, name: "fieldMappings", parent: name, min: 1)
+            try self.validate(self.filterQuery, name: "filterQuery", parent: name, max: 2048)
+            try self.validate(self.filterQuery, name: "filterQuery", parent: name, min: 1)
+            try self.validate(self.filterQuery, name: "filterQuery", parent: name, pattern: "^\\P{C}*$")
             try self.includeAttachmentFilePatterns?.forEach {
                 try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, max: 150)
                 try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, min: 1)
@@ -3699,6 +3715,7 @@ extension Kendra {
             case documentTitleFieldName = "DocumentTitleFieldName"
             case excludeAttachmentFilePatterns = "ExcludeAttachmentFilePatterns"
             case fieldMappings = "FieldMappings"
+            case filterQuery = "FilterQuery"
             case includeAttachmentFilePatterns = "IncludeAttachmentFilePatterns"
         }
     }
@@ -3710,11 +3727,11 @@ extension Kendra {
         public let documentDataFieldName: String
         /// The name of the ServiceNow field that is mapped to the index document title field.
         public let documentTitleFieldName: String?
-        /// Determines the types of file attachments that are excluded from the index.
+        /// A list of regular expression patterns. Documents that match the patterns are excluded from the index. Documents that don't match the patterns are included in the index. If a document matches both an exclusion pattern and an inclusion pattern, the document is not included in the index. The regex is applied to the file name of the attachment.
         public let excludeAttachmentFilePatterns: [String]?
         /// Mapping between ServiceNow fields and Amazon Kendra index fields. You must create the index field before you map the field.
         public let fieldMappings: [DataSourceToIndexFieldMapping]?
-        /// Determines the types of file attachments that are included in the index.
+        /// A list of regular expression patterns. Documents that match the patterns are included in the index. Documents that don't match the patterns are excluded from the index. If a document matches both an exclusion pattern and an inclusion pattern, the document is not included in the index. The regex is applied to the file name of the attachment.
         public let includeAttachmentFilePatterns: [String]?
 
         public init(crawlAttachments: Bool? = nil, documentDataFieldName: String, documentTitleFieldName: String? = nil, excludeAttachmentFilePatterns: [String]? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, includeAttachmentFilePatterns: [String]? = nil) {
@@ -3771,7 +3788,7 @@ extension Kendra {
         public let documentTitleFieldName: String?
         /// A list of regular expression patterns. Documents that match the patterns are excluded from the index. Documents that don't match the patterns are included in the index. If a document matches both an exclusion pattern and an inclusion pattern, the document is not included in the index. The regex is applied to the display URL of the SharePoint document.
         public let exclusionPatterns: [String]?
-        /// A list of DataSourceToIndexFieldMapping objects that map Microsoft SharePoint attributes to custom fields in the Amazon Kendra index. You must first create the index fields using the operation before you map SharePoint attributes. For more information, see Mapping Data Source Fields.
+        /// A list of DataSourceToIndexFieldMapping objects that map Microsoft SharePoint attributes to custom fields in the Amazon Kendra index. You must first create the index fields using the UpdateIndex operation before you map SharePoint attributes. For more information, see Mapping Data Source Fields.
         public let fieldMappings: [DataSourceToIndexFieldMapping]?
         /// A list of regular expression patterns. Documents that match the patterns are included in the index. Documents that don't match the patterns are excluded from the index. If a document matches both an inclusion pattern and an exclusion pattern, the document is not included in the index. The regex is applied to the display URL of the SharePoint document.
         public let inclusionPatterns: [String]?
@@ -3954,7 +3971,7 @@ extension Kendra {
         public let clickFeedbackItems: [ClickFeedback]?
         /// The identifier of the index that was queried.
         public let indexId: String
-        /// The identifier of the specific query for which you are submitting feedback. The query ID is returned in the response to the operation.
+        /// The identifier of the specific query for which you are submitting feedback. The query ID is returned in the response to the Query operation.
         public let queryId: String
         /// Provides Amazon Kendra with relevant or not relevant feedback for whether a particular item was relevant to the search.
         public let relevanceFeedbackItems: [RelevanceFeedback]?
@@ -4212,7 +4229,7 @@ extension Kendra {
     }
 
     public struct UpdateIndexRequest: AWSEncodableShape {
-        /// Sets the number of addtional storage and query capacity units that should be used by the index. You can change the capacity of the index up to 5 times per day. If you are using extra storage units, you can't reduce the storage capacity below that required to meet the storage needs for your index.
+        /// Sets the number of additional storage and query capacity units that should be used by the index. You can change the capacity of the index up to 5 times per day. If you are using extra storage units, you can't reduce the storage capacity below that required to meet the storage needs for your index.
         public let capacityUnits: CapacityUnitsConfiguration?
         /// A new description for the index.
         public let description: String?

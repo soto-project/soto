@@ -648,6 +648,7 @@ extension SSM {
         case maintenancewindow = "MaintenanceWindow"
         case managedinstance = "ManagedInstance"
         case opsitem = "OpsItem"
+        case opsmetadata = "OpsMetadata"
         case parameter = "Parameter"
         case patchbaseline = "PatchBaseline"
         public var description: String { return self.rawValue }
@@ -781,7 +782,7 @@ extension SSM {
     }
 
     public struct AddTagsToResourceRequest: AWSEncodableShape {
-        /// The resource ID you want to tag. Use the ID of the resource. Here are some examples: ManagedInstance: mi-012345abcde MaintenanceWindow: mw-012345abcde PatchBaseline: pb-012345abcde For the Document and Parameter values, use the name of the resource.  The ManagedInstance type for this API action is only for on-premises managed instances. You must specify the name of the managed instance in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
+        /// The resource ID you want to tag. Use the ID of the resource. Here are some examples: ManagedInstance: mi-012345abcde MaintenanceWindow: mw-012345abcde PatchBaseline: pb-012345abcde OpsMetadata object: ResourceID for tagging is created from the Amazon Resource Name (ARN) for the object. Specifically, ResourceID is created from the strings that come after the word opsmetadata in the ARN. For example, an OpsMetadata object with an ARN of arn:aws:ssm:us-east-2:1234567890:opsmetadata/aws/ssm/MyGroup/appmanager has a ResourceID of either aws/ssm/MyGroup/appmanager or /aws/ssm/MyGroup/appmanager. For the Document and Parameter values, use the name of the resource.  The ManagedInstance type for this API action is only for on-premises managed instances. You must specify the name of the managed instance in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
         public let resourceId: String
         /// Specifies the type of resource you are tagging.  The ManagedInstance type for this API action is for on-premises managed instances. You must specify the name of the managed instance in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
         public let resourceType: ResourceTypeForTagging
@@ -1593,6 +1594,71 @@ extension SSM {
         }
     }
 
+    public struct BaselineOverride: AWSEncodableShape {
+        public let approvalRules: PatchRuleGroup?
+        /// A list of explicitly approved patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see About package name formats for approved and rejected patch lists in the AWS Systems Manager User Guide.
+        public let approvedPatches: [String]?
+        /// Defines the compliance level for approved patches. When an approved patch is reported as missing, this value describes the severity of the compliance violation.
+        public let approvedPatchesComplianceLevel: PatchComplianceLevel?
+        /// Indicates whether the list of approved patches includes non-security updates that should be applied to the instances. The default value is 'false'. Applies to Linux instances only.
+        public let approvedPatchesEnableNonSecurity: Bool?
+        public let globalFilters: PatchFilterGroup?
+        /// The operating system rule used by the patch baseline override.
+        public let operatingSystem: OperatingSystem?
+        /// A list of explicitly rejected patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see About package name formats for approved and rejected patch lists in the AWS Systems Manager User Guide.
+        public let rejectedPatches: [String]?
+        /// The action for Patch Manager to take on patches included in the RejectedPackages list. A patch can be allowed only if it is a dependency of another package, or blocked entirely along with packages that include it as a dependency.
+        public let rejectedPatchesAction: PatchAction?
+        /// Information about the patches to use to update the instances, including target operating systems and source repositories. Applies to Linux instances only.
+        public let sources: [PatchSource]?
+
+        public init(approvalRules: PatchRuleGroup? = nil, approvedPatches: [String]? = nil, approvedPatchesComplianceLevel: PatchComplianceLevel? = nil, approvedPatchesEnableNonSecurity: Bool? = nil, globalFilters: PatchFilterGroup? = nil, operatingSystem: OperatingSystem? = nil, rejectedPatches: [String]? = nil, rejectedPatchesAction: PatchAction? = nil, sources: [PatchSource]? = nil) {
+            self.approvalRules = approvalRules
+            self.approvedPatches = approvedPatches
+            self.approvedPatchesComplianceLevel = approvedPatchesComplianceLevel
+            self.approvedPatchesEnableNonSecurity = approvedPatchesEnableNonSecurity
+            self.globalFilters = globalFilters
+            self.operatingSystem = operatingSystem
+            self.rejectedPatches = rejectedPatches
+            self.rejectedPatchesAction = rejectedPatchesAction
+            self.sources = sources
+        }
+
+        public func validate(name: String) throws {
+            try self.approvalRules?.validate(name: "\(name).approvalRules")
+            try self.approvedPatches?.forEach {
+                try validate($0, name: "approvedPatches[]", parent: name, max: 100)
+                try validate($0, name: "approvedPatches[]", parent: name, min: 1)
+            }
+            try self.validate(self.approvedPatches, name: "approvedPatches", parent: name, max: 50)
+            try self.validate(self.approvedPatches, name: "approvedPatches", parent: name, min: 0)
+            try self.globalFilters?.validate(name: "\(name).globalFilters")
+            try self.rejectedPatches?.forEach {
+                try validate($0, name: "rejectedPatches[]", parent: name, max: 100)
+                try validate($0, name: "rejectedPatches[]", parent: name, min: 1)
+            }
+            try self.validate(self.rejectedPatches, name: "rejectedPatches", parent: name, max: 50)
+            try self.validate(self.rejectedPatches, name: "rejectedPatches", parent: name, min: 0)
+            try self.sources?.forEach {
+                try $0.validate(name: "\(name).sources[]")
+            }
+            try self.validate(self.sources, name: "sources", parent: name, max: 20)
+            try self.validate(self.sources, name: "sources", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case approvalRules = "ApprovalRules"
+            case approvedPatches = "ApprovedPatches"
+            case approvedPatchesComplianceLevel = "ApprovedPatchesComplianceLevel"
+            case approvedPatchesEnableNonSecurity = "ApprovedPatchesEnableNonSecurity"
+            case globalFilters = "GlobalFilters"
+            case operatingSystem = "OperatingSystem"
+            case rejectedPatches = "RejectedPatches"
+            case rejectedPatchesAction = "RejectedPatchesAction"
+            case sources = "Sources"
+        }
+    }
+
     public struct CancelCommandRequest: AWSEncodableShape {
         /// The ID of the command you want to cancel.
         public let commandId: String
@@ -2115,7 +2181,7 @@ extension SSM {
         public let defaultInstanceName: String?
         /// A user-defined description of the resource that you want to register with Systems Manager.   Do not enter personally identifiable information in this field.
         public let description: String?
-        /// The date by which this activation request should expire. The default value is 24 hours.
+        /// The date by which this activation request should expire, in timestamp format, such as "2021-07-07T00:00:00". You can specify a date up to 30 days in advance. If you don't provide an expiration date, the activation code expires in 24 hours.
         public let expirationDate: Date?
         /// The Amazon Identity and Access Management (IAM) role that you want to assign to the managed instance. This IAM role must provide AssumeRole permissions for the Systems Manager service principal ssm.amazonaws.com. For more information, see Create an IAM service role for a hybrid environment in the AWS Systems Manager User Guide.
         public let iamRole: String
@@ -2707,10 +2773,13 @@ extension SSM {
         public let metadata: [String: MetadataValue]?
         /// A resource ID for a new Application Manager application.
         public let resourceId: String
+        /// Optional metadata that you assign to a resource. You can specify a maximum of five tags for an OpsMetadata object. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag an OpsMetadata object to identify an environment or target AWS Region. In this case, you could specify the following key-value pairs:    Key=Environment,Value=Production     Key=Region,Value=us-east-2
+        public let tags: [Tag]?
 
-        public init(metadata: [String: MetadataValue]? = nil, resourceId: String) {
+        public init(metadata: [String: MetadataValue]? = nil, resourceId: String, tags: [Tag]? = nil) {
             self.metadata = metadata
             self.resourceId = resourceId
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -2723,11 +2792,16 @@ extension SSM {
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 1024)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(?!\\s*$).+")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 1000)
         }
 
         private enum CodingKeys: String, CodingKey {
             case metadata = "Metadata"
             case resourceId = "ResourceId"
+            case tags = "Tags"
         }
     }
 
@@ -2749,7 +2823,7 @@ extension SSM {
         public let approvalRules: PatchRuleGroup?
         /// A list of explicitly approved patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see About package name formats for approved and rejected patch lists in the AWS Systems Manager User Guide.
         public let approvedPatches: [String]?
-        /// Defines the compliance level for approved patches. This means that if an approved patch is reported as missing, this is the severity of the compliance violation. The default value is UNSPECIFIED.
+        /// Defines the compliance level for approved patches. When an approved patch is reported as missing, this value describes the severity of the compliance violation. The default value is UNSPECIFIED.
         public let approvedPatchesComplianceLevel: PatchComplianceLevel?
         /// Indicates whether the list of approved patches includes non-security updates that should be applied to the instances. The default value is 'false'. Applies to Linux instances only.
         public let approvedPatchesEnableNonSecurity: Bool?
@@ -5576,7 +5650,7 @@ extension SSM {
         public let commandId: String
         /// (Required) The ID of the managed instance targeted by the command. A managed instance can be an EC2 instance or an instance in your hybrid environment that is configured for Systems Manager.
         public let instanceId: String
-        /// (Optional) The name of the plugin for which you want detailed results. If the document contains only one plugin, the name can be omitted and the details will be returned. Plugin names are also referred to as step names in Systems Manager documents.
+        /// The name of the plugin for which you want detailed results. If the document contains only one plugin, you can omit the name and details for that plugin are returned. If the document contains more than one plugin, you must specify the name of the plugin for which you want to view details. Plugin names are also referred to as step names in Systems Manager documents. For example, aws:RunShellScript is a plugin.
         public let pluginName: String?
 
         public init(commandId: String, instanceId: String, pluginName: String? = nil) {
@@ -5618,7 +5692,7 @@ extension SSM {
         public let executionStartDateTime: String?
         /// The ID of the managed instance targeted by the command. A managed instance can be an EC2 instance or an instance in your hybrid environment that is configured for Systems Manager.
         public let instanceId: String?
-        /// The name of the plugin for which you want detailed results. For example, aws:RunShellScript is a plugin.
+        /// The name of the plugin, or step name, for which details are reported. For example, aws:RunShellScript is a plugin.
         public let pluginName: String?
         /// The error level response code for the plugin script. If the response code is -1, then the command has not started running on the instance, or it was not received by the instance.
         public let responseCode: Int?
@@ -5742,17 +5816,21 @@ extension SSM {
     }
 
     public struct GetDeployablePatchSnapshotForInstanceRequest: AWSEncodableShape {
+        /// Defines the basic information about a patch baseline override.
+        public let baselineOverride: BaselineOverride?
         /// The ID of the instance for which the appropriate patch snapshot should be retrieved.
         public let instanceId: String
         /// The user-defined snapshot ID.
         public let snapshotId: String
 
-        public init(instanceId: String, snapshotId: String) {
+        public init(baselineOverride: BaselineOverride? = nil, instanceId: String, snapshotId: String) {
+            self.baselineOverride = baselineOverride
             self.instanceId = instanceId
             self.snapshotId = snapshotId
         }
 
         public func validate(name: String) throws {
+            try self.baselineOverride?.validate(name: "\(name).baselineOverride")
             try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)")
             try self.validate(self.snapshotId, name: "snapshotId", parent: name, max: 36)
             try self.validate(self.snapshotId, name: "snapshotId", parent: name, min: 36)
@@ -5760,6 +5838,7 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case baselineOverride = "BaselineOverride"
             case instanceId = "InstanceId"
             case snapshotId = "SnapshotId"
         }
@@ -6872,7 +6951,7 @@ extension SSM {
     }
 
     public struct GetServiceSettingRequest: AWSEncodableShape {
-        /// The ID of the service setting to get. The setting ID can be /ssm/parameter-store/default-parameter-tier, /ssm/parameter-store/high-throughput-enabled, or /ssm/managed-instance/activation-tier.
+        /// The ID of the service setting to get. The setting ID can be /ssm/automation/customer-script-log-destination, /ssm/automation/customer-script-log-group-name, /ssm/parameter-store/default-parameter-tier, /ssm/parameter-store/high-throughput-enabled, or /ssm/managed-instance/activation-tier.
         public let settingId: String
 
         public init(settingId: String) {
@@ -7142,7 +7221,7 @@ extension SSM {
     }
 
     public struct InstanceInformationStringFilter: AWSEncodableShape {
-        /// The filter key name to describe your instances. For example: "InstanceIds"|"AgentVersion"|"PingStatus"|"PlatformTypes"|"ActivationIds"|"IamRole"|"ResourceType"|"AssociationStatus"|"Tag Key"
+        /// The filter key name to describe your instances. For example: "InstanceIds"|"AgentVersion"|"PingStatus"|"PlatformTypes"|"ActivationIds"|"IamRole"|"ResourceType"|"AssociationStatus"|"Tag Key"   Tag key is not a valid filter. You must specify either tag-key or tag:keyname and a string. Here are some valid examples: tag-key, tag:123, tag:al!, tag:Windows. Here are some invalid examples: tag-keys, Tag Key, tag:, tagKey, abc:keyname.
         public let key: String
         /// The filter values.
         public let values: [String]
@@ -8461,7 +8540,7 @@ extension SSM {
             try self.parameters?.forEach {
                 try validate($0.key, name: "parameters.key", parent: name, max: 50)
                 try validate($0.key, name: "parameters.key", parent: name, min: 1)
-                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 10)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 50)
                 try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, min: 0)
             }
         }
@@ -10095,9 +10174,9 @@ extension SSM {
     }
 
     public struct PatchRule: AWSEncodableShape & AWSDecodableShape {
-        /// The number of days after the release date of each patch matched by the rule that the patch is marked as approved in the patch baseline. For example, a value of 7 means that patches are approved seven days after they are released. Not supported on Ubuntu Server.
+        /// The number of days after the release date of each patch matched by the rule that the patch is marked as approved in the patch baseline. For example, a value of 7 means that patches are approved seven days after they are released. Not supported on Debian Server or Ubuntu Server.
         public let approveAfterDays: Int?
-        /// The cutoff date for auto approval of released patches. Any patches released on or before this date are installed automatically. Not supported on Ubuntu Server. Enter dates in the format YYYY-MM-DD. For example, 2020-12-31.
+        /// The cutoff date for auto approval of released patches. Any patches released on or before this date are installed automatically. Not supported on Debian Server or Ubuntu Server. Enter dates in the format YYYY-MM-DD. For example, 2020-12-31.
         public let approveUntilDate: String?
         /// A compliance severity level for all approved patches in a patch baseline.
         public let complianceLevel: PatchComplianceLevel?
@@ -10341,7 +10420,7 @@ extension SSM {
         public let description: String?
         /// The KMS Key ID that you want to use to encrypt a parameter. Either the default AWS Key Management Service (AWS KMS) key automatically assigned to your AWS account or a custom key. Required for parameters that use the SecureString data type. If you don't specify a key ID, the system uses the default key associated with your AWS account.   To use your default AWS KMS key, choose the SecureString data type, and do not specify the Key ID when you create the parameter. The system automatically populates Key ID with your default KMS key.   To use a custom KMS key, choose the SecureString data type with the Key ID parameter.
         public let keyId: String?
-        /// The fully qualified name of the parameter that you want to add to the system. The fully qualified name includes the complete hierarchy of the parameter path and name. For parameters in a hierarchy, you must include a leading forward slash character (/) when you create or reference a parameter. For example: /Dev/DBServer/MySQL/db-string13  Naming Constraints:   Parameter names are case sensitive.   A parameter name must be unique within an AWS Region   A parameter name can't be prefixed with "aws" or "ssm" (case-insensitive).   Parameter names can include only the following symbols and letters: a-zA-Z0-9_.-/    A parameter name can't include spaces.   Parameter hierarchies are limited to a maximum depth of fifteen levels.   For additional information about valid values for parameter names, see About requirements and constraints for parameter names in the AWS Systems Manager User Guide.  The maximum length constraint listed below includes capacity for additional system attributes that are not part of the name. The maximum length for a parameter name, including the full length of the parameter ARN, is 1011 characters. For example, the length of the following parameter name is 65 characters, not 20 characters:  arn:aws:ssm:us-east-2:111122223333:parameter/ExampleParameterName
+        /// The fully qualified name of the parameter that you want to add to the system. The fully qualified name includes the complete hierarchy of the parameter path and name. For parameters in a hierarchy, you must include a leading forward slash character (/) when you create or reference a parameter. For example: /Dev/DBServer/MySQL/db-string13  Naming Constraints:   Parameter names are case sensitive.   A parameter name must be unique within an AWS Region   A parameter name can't be prefixed with "aws" or "ssm" (case-insensitive).   Parameter names can include only the following symbols and letters: a-zA-Z0-9_.-  In addition, the slash character ( / ) is used to delineate hierarchies in parameter names. For example: /Dev/Production/East/Project-ABC/MyParameter    A parameter name can't include spaces.   Parameter hierarchies are limited to a maximum depth of fifteen levels.   For additional information about valid values for parameter names, see Creating Systems Manager parameters in the AWS Systems Manager User Guide.  The maximum length constraint listed below includes capacity for additional system attributes that are not part of the name. The maximum length for a parameter name, including the full length of the parameter ARN, is 1011 characters. For example, the length of the following parameter name is 65 characters, not 20 characters:  arn:aws:ssm:us-east-2:111122223333:parameter/ExampleParameterName
         public let name: String
         /// Overwrite an existing parameter. If not specified, will default to "false".
         public let overwrite: Bool?
@@ -10508,7 +10587,7 @@ extension SSM {
         public let ownerInformation: String?
         /// The type of target being registered with the maintenance window.
         public let resourceType: MaintenanceWindowResourceType
-        /// The targets to register with the maintenance window. In other words, the instances to run commands on when the maintenance window runs. You can specify targets using instance IDs, resource group names, or tags that have been applied to instances.  Example 1: Specify instance IDs  Key=InstanceIds,Values=instance-id-1,instance-id-2,instance-id-3    Example 2: Use tag key-pairs applied to instances  Key=tag:my-tag-key,Values=my-tag-value-1,my-tag-value-2    Example 3: Use tag-keys applied to instances  Key=tag-key,Values=my-tag-key-1,my-tag-key-2    Example 4: Use resource group names  Key=resource-groups:Name,Values=resource-group-name    Example 5: Use filters for resource group types  Key=resource-groups:ResourceTypeFilters,Values=resource-type-1,resource-type-2    For Key=resource-groups:ResourceTypeFilters, specify resource types in the following format  Key=resource-groups:ResourceTypeFilters,Values=AWS::EC2::INSTANCE,AWS::EC2::VPC    For more information about these examples formats, including the best use case for each one, see Examples: Register targets with a maintenance window in the AWS Systems Manager User Guide.
+        /// The targets to register with the maintenance window. In other words, the instances to run commands on when the maintenance window runs.  If a single maintenance window task is registered with multiple targets, its task invocations occur sequentially and not in parallel. If your task must run on multiple targets at the same time, register a task for each target individually and assign each task the same priority level.  You can specify targets using instance IDs, resource group names, or tags that have been applied to instances.  Example 1: Specify instance IDs  Key=InstanceIds,Values=instance-id-1,instance-id-2,instance-id-3    Example 2: Use tag key-pairs applied to instances  Key=tag:my-tag-key,Values=my-tag-value-1,my-tag-value-2    Example 3: Use tag-keys applied to instances  Key=tag-key,Values=my-tag-key-1,my-tag-key-2    Example 4: Use resource group names  Key=resource-groups:Name,Values=resource-group-name    Example 5: Use filters for resource group types  Key=resource-groups:ResourceTypeFilters,Values=resource-type-1,resource-type-2    For Key=resource-groups:ResourceTypeFilters, specify resource types in the following format  Key=resource-groups:ResourceTypeFilters,Values=AWS::EC2::INSTANCE,AWS::EC2::VPC    For more information about these examples formats, including the best use case for each one, see Examples: Register targets with a maintenance window in the AWS Systems Manager User Guide.
         public let targets: [Target]
         /// The ID of the maintenance window the target should be registered with.
         public let windowId: String
@@ -10693,7 +10772,7 @@ extension SSM {
     }
 
     public struct RemoveTagsFromResourceRequest: AWSEncodableShape {
-        /// The ID of the resource from which you want to remove tags. For example: ManagedInstance: mi-012345abcde MaintenanceWindow: mw-012345abcde PatchBaseline: pb-012345abcde For the Document and Parameter values, use the name of the resource.  The ManagedInstance type for this API action is only for on-premises managed instances. Specify the name of the managed instance in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
+        /// The ID of the resource from which you want to remove tags. For example: ManagedInstance: mi-012345abcde MaintenanceWindow: mw-012345abcde PatchBaseline: pb-012345abcde OpsMetadata object: ResourceID for tagging is created from the Amazon Resource Name (ARN) for the object. Specifically, ResourceID is created from the strings that come after the word opsmetadata in the ARN. For example, an OpsMetadata object with an ARN of arn:aws:ssm:us-east-2:1234567890:opsmetadata/aws/ssm/MyGroup/appmanager has a ResourceID of either aws/ssm/MyGroup/appmanager or /aws/ssm/MyGroup/appmanager. For the Document and Parameter values, use the name of the resource.  The ManagedInstance type for this API action is only for on-premises managed instances. Specify the name of the managed instance in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
         public let resourceId: String
         /// The type of resource from which you want to remove a tag.  The ManagedInstance type for this API action is only for on-premises managed instances. Specify the name of the managed instance in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
         public let resourceType: ResourceTypeForTagging
@@ -10726,7 +10805,7 @@ extension SSM {
     }
 
     public struct ResetServiceSettingRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the service setting to reset. The setting ID can be /ssm/parameter-store/default-parameter-tier, /ssm/parameter-store/high-throughput-enabled, or /ssm/managed-instance/activation-tier. For example, arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/parameter-store/high-throughput-enabled.
+        /// The Amazon Resource Name (ARN) of the service setting to reset. The setting ID can be /ssm/automation/customer-script-log-destination, /ssm/automation/customer-script-log-group-name, /ssm/parameter-store/default-parameter-tier, /ssm/parameter-store/high-throughput-enabled, or /ssm/managed-instance/activation-tier. For example, arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/parameter-store/high-throughput-enabled.
         public let settingId: String
 
         public init(settingId: String) {
@@ -10976,6 +11055,8 @@ extension SSM {
     public struct ResourceDataSyncSource: AWSEncodableShape {
         /// Information about the AwsOrganizationsSource resource data sync source. A sync source of this type can synchronize data from AWS Organizations.
         public let awsOrganizationsSource: ResourceDataSyncAwsOrganizationsSource?
+        /// When you create a resource data sync, if you choose one of the AWS Organizations options, then Systems Manager automatically enables all OpsData sources in the selected AWS Regions for all AWS accounts in your organization (or in the selected organization units). For more information, see About multiple account and Region resource data syncs in the AWS Systems Manager User Guide.
+        public let enableAllOpsDataSources: Bool?
         /// Whether to automatically synchronize and aggregate data from new AWS Regions when those Regions come online.
         public let includeFutureRegions: Bool?
         /// The SyncSource AWS Regions included in the resource data sync.
@@ -10983,8 +11064,9 @@ extension SSM {
         /// The type of data source for the resource data sync. SourceType is either AwsOrganizations (if an organization is present in AWS Organizations) or singleAccountMultiRegions.
         public let sourceType: String
 
-        public init(awsOrganizationsSource: ResourceDataSyncAwsOrganizationsSource? = nil, includeFutureRegions: Bool? = nil, sourceRegions: [String], sourceType: String) {
+        public init(awsOrganizationsSource: ResourceDataSyncAwsOrganizationsSource? = nil, enableAllOpsDataSources: Bool? = nil, includeFutureRegions: Bool? = nil, sourceRegions: [String], sourceType: String) {
             self.awsOrganizationsSource = awsOrganizationsSource
+            self.enableAllOpsDataSources = enableAllOpsDataSources
             self.includeFutureRegions = includeFutureRegions
             self.sourceRegions = sourceRegions
             self.sourceType = sourceType
@@ -11002,6 +11084,7 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case awsOrganizationsSource = "AwsOrganizationsSource"
+            case enableAllOpsDataSources = "EnableAllOpsDataSources"
             case includeFutureRegions = "IncludeFutureRegions"
             case sourceRegions = "SourceRegions"
             case sourceType = "SourceType"
@@ -11011,6 +11094,8 @@ extension SSM {
     public struct ResourceDataSyncSourceWithState: AWSDecodableShape {
         /// The field name in SyncSource for the ResourceDataSyncAwsOrganizationsSource type.
         public let awsOrganizationsSource: ResourceDataSyncAwsOrganizationsSource?
+        /// When you create a resource data sync, if you choose one of the AWS Organizations options, then Systems Manager automatically enables all OpsData sources in the selected AWS Regions for all AWS accounts in your organization (or in the selected organization units). For more information, see About multiple account and Region resource data syncs in the AWS Systems Manager User Guide.
+        public let enableAllOpsDataSources: Bool?
         /// Whether to automatically synchronize and aggregate data from new AWS Regions when those Regions come online.
         public let includeFutureRegions: Bool?
         /// The SyncSource AWS Regions included in the resource data sync.
@@ -11020,8 +11105,9 @@ extension SSM {
         /// The data type name for including resource data sync state. There are four sync states:  OrganizationNotExists: Your organization doesn't exist.  NoPermissions: The system can't locate the service-linked role. This role is automatically created when a user creates a resource data sync in Explorer.  InvalidOrganizationalUnit: You specified or selected an invalid unit in the resource data sync configuration.  TrustedAccessDisabled: You disabled Systems Manager access in the organization in AWS Organizations.
         public let state: String?
 
-        public init(awsOrganizationsSource: ResourceDataSyncAwsOrganizationsSource? = nil, includeFutureRegions: Bool? = nil, sourceRegions: [String]? = nil, sourceType: String? = nil, state: String? = nil) {
+        public init(awsOrganizationsSource: ResourceDataSyncAwsOrganizationsSource? = nil, enableAllOpsDataSources: Bool? = nil, includeFutureRegions: Bool? = nil, sourceRegions: [String]? = nil, sourceType: String? = nil, state: String? = nil) {
             self.awsOrganizationsSource = awsOrganizationsSource
+            self.enableAllOpsDataSources = enableAllOpsDataSources
             self.includeFutureRegions = includeFutureRegions
             self.sourceRegions = sourceRegions
             self.sourceType = sourceType
@@ -11030,6 +11116,7 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case awsOrganizationsSource = "AwsOrganizationsSource"
+            case enableAllOpsDataSources = "EnableAllOpsDataSources"
             case includeFutureRegions = "IncludeFutureRegions"
             case sourceRegions = "SourceRegions"
             case sourceType = "SourceType"
@@ -11157,7 +11244,7 @@ extension SSM {
             try self.parameters?.forEach {
                 try validate($0.key, name: "parameters.key", parent: name, max: 50)
                 try validate($0.key, name: "parameters.key", parent: name, min: 1)
-                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 10)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 50)
                 try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, min: 0)
             }
             try self.targetLocations?.forEach {
@@ -11269,7 +11356,7 @@ extension SSM {
             try self.payload?.forEach {
                 try validate($0.key, name: "payload.key", parent: name, max: 50)
                 try validate($0.key, name: "payload.key", parent: name, min: 1)
-                try validate($0.value, name: "payload[\"\($0.key)\"]", parent: name, max: 10)
+                try validate($0.value, name: "payload[\"\($0.key)\"]", parent: name, max: 50)
                 try validate($0.value, name: "payload[\"\($0.key)\"]", parent: name, min: 0)
             }
         }
@@ -11637,7 +11724,7 @@ extension SSM {
             try self.parameters?.forEach {
                 try validate($0.key, name: "parameters.key", parent: name, max: 50)
                 try validate($0.key, name: "parameters.key", parent: name, min: 1)
-                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 10)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 50)
                 try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, min: 0)
             }
             try self.tags?.forEach {
@@ -11729,7 +11816,7 @@ extension SSM {
             try self.parameters?.forEach {
                 try validate($0.key, name: "parameters.key", parent: name, max: 50)
                 try validate($0.key, name: "parameters.key", parent: name, min: 1)
-                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 10)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 50)
                 try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, min: 0)
             }
             try self.runbooks.forEach {
@@ -11998,7 +12085,7 @@ extension SSM {
     public struct Target: AWSEncodableShape & AWSDecodableShape {
         /// User-defined criteria for sending commands that target instances that meet the criteria.
         public let key: String?
-        /// User-defined criteria that maps to Key. For example, if you specified tag:ServerRole, you could specify value:WebServer to run a command on instances that include EC2 tags of ServerRole,WebServer.
+        /// User-defined criteria that maps to Key. For example, if you specified tag:ServerRole, you could specify value:WebServer to run a command on instances that include EC2 tags of ServerRole,WebServer.  Depending on the type of Target, the maximum number of values for a Key might be lower than the global maximum of 50.
         public let values: [String]?
 
         public init(key: String? = nil, values: [String]? = nil) {
@@ -13132,9 +13219,9 @@ extension SSM {
     }
 
     public struct UpdateServiceSettingRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the service setting to reset. For example, arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/parameter-store/high-throughput-enabled. The setting ID can be one of the following.    /ssm/parameter-store/default-parameter-tier     /ssm/parameter-store/high-throughput-enabled     /ssm/managed-instance/activation-tier
+        /// The Amazon Resource Name (ARN) of the service setting to reset. For example, arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/parameter-store/high-throughput-enabled. The setting ID can be one of the following.    /ssm/automation/customer-script-log-destination     /ssm/automation/customer-script-log-group-name     /ssm/parameter-store/default-parameter-tier     /ssm/parameter-store/high-throughput-enabled     /ssm/managed-instance/activation-tier
         public let settingId: String
-        /// The new value to specify for the service setting. For the /ssm/parameter-store/default-parameter-tier setting ID, the setting value can be one of the following.   Standard   Advanced   Intelligent-Tiering   For the /ssm/parameter-store/high-throughput-enabled, and /ssm/managed-instance/activation-tier setting IDs, the setting value can be true or false.
+        /// The new value to specify for the service setting. For the /ssm/parameter-store/default-parameter-tier setting ID, the setting value can be one of the following.   Standard   Advanced   Intelligent-Tiering   For the /ssm/parameter-store/high-throughput-enabled, and /ssm/managed-instance/activation-tier setting IDs, the setting value can be true or false. For the /ssm/automation/customer-script-log-destination setting ID, the setting value can be CloudWatch. For the /ssm/automation/customer-script-log-group-name setting ID, the setting value can be the name of a CloudWatch Logs log group.
         public let settingValue: String
 
         public init(settingId: String, settingValue: String) {

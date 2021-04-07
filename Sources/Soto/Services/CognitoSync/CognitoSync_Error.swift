@@ -19,19 +19,19 @@ import SotoCore
 /// Error enum for CognitoSync
 public struct CognitoSyncErrorType: AWSErrorType {
     enum Code: String {
-        case alreadyStreamedException = "AlreadyStreamed"
-        case concurrentModificationException = "ConcurrentModification"
-        case duplicateRequestException = "DuplicateRequest"
-        case internalErrorException = "InternalError"
-        case invalidConfigurationException = "InvalidConfiguration"
-        case invalidLambdaFunctionOutputException = "InvalidLambdaFunctionOutput"
-        case invalidParameterException = "InvalidParameter"
-        case lambdaThrottledException = "LambdaThrottled"
-        case limitExceededException = "LimitExceeded"
-        case notAuthorizedException = "NotAuthorizedError"
-        case resourceConflictException = "ResourceConflict"
-        case resourceNotFoundException = "ResourceNotFound"
-        case tooManyRequestsException = "TooManyRequests"
+        case alreadyStreamedException = "AlreadyStreamedException"
+        case concurrentModificationException = "ConcurrentModificationException"
+        case duplicateRequestException = "DuplicateRequestException"
+        case internalErrorException = "InternalErrorException"
+        case invalidConfigurationException = "InvalidConfigurationException"
+        case invalidLambdaFunctionOutputException = "InvalidLambdaFunctionOutputException"
+        case invalidParameterException = "InvalidParameterException"
+        case lambdaThrottledException = "LambdaThrottledException"
+        case limitExceededException = "LimitExceededException"
+        case notAuthorizedException = "NotAuthorizedException"
+        case resourceConflictException = "ResourceConflictException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case tooManyRequestsException = "TooManyRequestsException"
     }
 
     private let error: Code

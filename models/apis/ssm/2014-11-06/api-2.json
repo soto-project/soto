@@ -2665,7 +2665,7 @@
     "AutomationParameterValueList":{
       "type":"list",
       "member":{"shape":"AutomationParameterValue"},
-      "max":10,
+      "max":50,
       "min":0
     },
     "AutomationStepNotFoundException":{
@@ -2707,6 +2707,20 @@
       "max":128,
       "min":3,
       "pattern":"^[a-zA-Z0-9_\\-.]{3,128}$"
+    },
+    "BaselineOverride":{
+      "type":"structure",
+      "members":{
+        "OperatingSystem":{"shape":"OperatingSystem"},
+        "GlobalFilters":{"shape":"PatchFilterGroup"},
+        "ApprovalRules":{"shape":"PatchRuleGroup"},
+        "ApprovedPatches":{"shape":"PatchIdList"},
+        "ApprovedPatchesComplianceLevel":{"shape":"PatchComplianceLevel"},
+        "RejectedPatches":{"shape":"PatchIdList"},
+        "RejectedPatchesAction":{"shape":"PatchAction"},
+        "ApprovedPatchesEnableNonSecurity":{"shape":"Boolean"},
+        "Sources":{"shape":"PatchSourceList"}
+      }
     },
     "BatchErrorMessage":{"type":"string"},
     "Boolean":{"type":"boolean"},
@@ -3320,7 +3334,8 @@
       "required":["ResourceId"],
       "members":{
         "ResourceId":{"shape":"OpsMetadataResourceId"},
-        "Metadata":{"shape":"MetadataMap"}
+        "Metadata":{"shape":"MetadataMap"},
+        "Tags":{"shape":"TagList"}
       }
     },
     "CreateOpsMetadataResult":{
@@ -4801,7 +4816,8 @@
       ],
       "members":{
         "InstanceId":{"shape":"InstanceId"},
-        "SnapshotId":{"shape":"SnapshotId"}
+        "SnapshotId":{"shape":"SnapshotId"},
+        "BaselineOverride":{"shape":"BaselineOverride"}
       }
     },
     "GetDeployablePatchSnapshotForInstanceResult":{
@@ -8691,6 +8707,7 @@
       "max":64,
       "min":1
     },
+    "ResourceDataSyncEnableAllOpsDataSources":{"type":"boolean"},
     "ResourceDataSyncIncludeFutureRegions":{"type":"boolean"},
     "ResourceDataSyncInvalidConfigurationException":{
       "type":"structure",
@@ -8801,7 +8818,8 @@
         "SourceType":{"shape":"ResourceDataSyncSourceType"},
         "AwsOrganizationsSource":{"shape":"ResourceDataSyncAwsOrganizationsSource"},
         "SourceRegions":{"shape":"ResourceDataSyncSourceRegionList"},
-        "IncludeFutureRegions":{"shape":"ResourceDataSyncIncludeFutureRegions"}
+        "IncludeFutureRegions":{"shape":"ResourceDataSyncIncludeFutureRegions"},
+        "EnableAllOpsDataSources":{"shape":"ResourceDataSyncEnableAllOpsDataSources"}
       }
     },
     "ResourceDataSyncSourceRegion":{
@@ -8825,7 +8843,8 @@
         "AwsOrganizationsSource":{"shape":"ResourceDataSyncAwsOrganizationsSource"},
         "SourceRegions":{"shape":"ResourceDataSyncSourceRegionList"},
         "IncludeFutureRegions":{"shape":"ResourceDataSyncIncludeFutureRegions"},
-        "State":{"shape":"ResourceDataSyncState"}
+        "State":{"shape":"ResourceDataSyncState"},
+        "EnableAllOpsDataSources":{"shape":"ResourceDataSyncEnableAllOpsDataSources"}
       }
     },
     "ResourceDataSyncState":{
@@ -8869,7 +8888,8 @@
         "MaintenanceWindow",
         "Parameter",
         "PatchBaseline",
-        "OpsItem"
+        "OpsItem",
+        "OpsMetadata"
       ]
     },
     "ResponseCode":{"type":"integer"},

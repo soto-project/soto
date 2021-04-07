@@ -1477,6 +1477,14 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum S3CannedAcl: String, CustomStringConvertible, Codable {
+        case authenticatedRead = "AUTHENTICATED_READ"
+        case bucketOwnerFullControl = "BUCKET_OWNER_FULL_CONTROL"
+        case bucketOwnerRead = "BUCKET_OWNER_READ"
+        case publicRead = "PUBLIC_READ"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Scte20Convert608To708: String, CustomStringConvertible, Codable {
         case disabled = "DISABLED"
         case upconvert = "UPCONVERT"
@@ -1658,6 +1666,8 @@ extension MediaLive {
 
     public enum VideoSelectorColorSpace: String, CustomStringConvertible, Codable {
         case follow = "FOLLOW"
+        case hdr10 = "HDR10"
+        case hlg2020 = "HLG_2020"
         case rec601 = "REC_601"
         case rec709 = "REC_709"
         public var description: String { return self.rawValue }
@@ -1803,6 +1813,18 @@ extension MediaLive {
         }
     }
 
+    public struct ArchiveCdnSettings: AWSEncodableShape & AWSDecodableShape {
+        public let archiveS3Settings: ArchiveS3Settings?
+
+        public init(archiveS3Settings: ArchiveS3Settings? = nil) {
+            self.archiveS3Settings = archiveS3Settings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case archiveS3Settings
+        }
+    }
+
     public struct ArchiveContainerSettings: AWSEncodableShape & AWSDecodableShape {
         public let m2tsSettings: M2tsSettings?
         public let rawSettings: RawSettings?
@@ -1823,12 +1845,15 @@ extension MediaLive {
     }
 
     public struct ArchiveGroupSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Parameters that control interactions with the CDN.
+        public let archiveCdnSettings: ArchiveCdnSettings?
         /// A directory and base filename where archive files should be written.
         public let destination: OutputLocationRef
         /// Number of seconds to write to archive file before closing and starting a new one.
         public let rolloverInterval: Int?
 
-        public init(destination: OutputLocationRef, rolloverInterval: Int? = nil) {
+        public init(archiveCdnSettings: ArchiveCdnSettings? = nil, destination: OutputLocationRef, rolloverInterval: Int? = nil) {
+            self.archiveCdnSettings = archiveCdnSettings
             self.destination = destination
             self.rolloverInterval = rolloverInterval
         }
@@ -1838,6 +1863,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case archiveCdnSettings
             case destination
             case rolloverInterval
         }
@@ -1865,6 +1891,19 @@ extension MediaLive {
             case containerSettings
             case `extension`
             case nameModifier
+        }
+    }
+
+    public struct ArchiveS3Settings: AWSEncodableShape & AWSDecodableShape {
+        /// Specify the canned ACL to apply to each S3 request. Defaults to none.
+        public let cannedAcl: S3CannedAcl?
+
+        public init(cannedAcl: S3CannedAcl? = nil) {
+            self.cannedAcl = cannedAcl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cannedAcl
         }
     }
 
@@ -2723,6 +2762,7 @@ extension MediaLive {
         public func validate(name: String) throws {
             try self.burnInDestinationSettings?.validate(name: "\(name).burnInDestinationSettings")
             try self.dvbSubDestinationSettings?.validate(name: "\(name).dvbSubDestinationSettings")
+            try self.ebuTtDDestinationSettings?.validate(name: "\(name).ebuTtDDestinationSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2768,6 +2808,40 @@ extension MediaLive {
             case captionChannel
             case languageCode
             case languageDescription
+        }
+    }
+
+    public struct CaptionRectangle: AWSEncodableShape & AWSDecodableShape {
+        /// See the description in leftOffset.
+        /// For height, specify the entire height of the rectangle as a percentage of the underlying frame height. For example, \"80\" means the rectangle height is 80% of the underlying frame height. The topOffset and rectangleHeight must add up to 100% or less.
+        /// This field corresponds to tts:extent - Y in the TTML standard.
+        public let height: Double
+        /// Applies only if you plan to convert these source captions to EBU-TT-D or TTML in an output. (Make sure to leave the default if you don't have either of these formats in the output.) You can define a display rectangle for the captions that is smaller than the underlying video frame. You define the rectangle by specifying the position of the left edge, top edge, bottom edge, and right edge of the rectangle, all within the underlying video frame. The units for the measurements are percentages.
+        /// If you specify a value for one of these fields, you must specify a value for all of them.
+        /// For leftOffset, specify the position of the left edge of the rectangle, as a percentage of the underlying frame width, and relative to the left edge of the frame. For example, \"10\" means the measurement is 10% of the underlying frame width. The rectangle left edge starts at that position from the left edge of the frame.
+        /// This field corresponds to tts:origin - X in the TTML standard.
+        public let leftOffset: Double
+        /// See the description in leftOffset.
+        /// For topOffset, specify the position of the top edge of the rectangle, as a percentage of the underlying frame height, and relative to the top edge of the frame. For example, \"10\" means the measurement is 10% of the underlying frame height. The rectangle top edge starts at that position from the top edge of the frame.
+        /// This field corresponds to tts:origin - Y in the TTML standard.
+        public let topOffset: Double
+        /// See the description in leftOffset.
+        /// For width, specify the entire width of the rectangle as a percentage of the underlying frame width. For example, \"80\" means the rectangle width is 80% of the underlying frame width. The leftOffset and rectangleWidth must add up to 100% or less.
+        /// This field corresponds to tts:extent - X in the TTML standard.
+        public let width: Double
+
+        public init(height: Double, leftOffset: Double, topOffset: Double, width: Double) {
+            self.height = height
+            self.leftOffset = leftOffset
+            self.topOffset = topOffset
+            self.width = width
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case height
+            case leftOffset
+            case topOffset
+            case width
         }
     }
 
@@ -4457,6 +4531,8 @@ extension MediaLive {
     }
 
     public struct EbuTtDDestinationSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Applies only if you plan to convert these source captions to EBU-TT-D or TTML in an output. Complete this field if you want to include the name of the copyright holder in the copyright metadata tag in the TTML
+        public let copyrightHolder: String?
         /// Specifies how to handle the gap between the lines (in multi-line captions).
         /// - enabled: Fill with the captions background color (as specified in the input captions).
         /// - disabled: Leave the gap unfilled.
@@ -4471,13 +4547,19 @@ extension MediaLive {
         /// - exclude: In the font data attached to the EBU-TT captions, set the font family to "monospaced". Do not include any other style information.
         public let styleControl: EbuTtDDestinationStyleControl?
 
-        public init(fillLineGap: EbuTtDFillLineGapControl? = nil, fontFamily: String? = nil, styleControl: EbuTtDDestinationStyleControl? = nil) {
+        public init(copyrightHolder: String? = nil, fillLineGap: EbuTtDFillLineGapControl? = nil, fontFamily: String? = nil, styleControl: EbuTtDDestinationStyleControl? = nil) {
+            self.copyrightHolder = copyrightHolder
             self.fillLineGap = fillLineGap
             self.fontFamily = fontFamily
             self.styleControl = styleControl
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.copyrightHolder, name: "copyrightHolder", parent: name, max: 1000)
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case copyrightHolder
             case fillLineGap
             case fontFamily
             case styleControl
@@ -4730,16 +4812,32 @@ extension MediaLive {
         }
     }
 
+    public struct FrameCaptureCdnSettings: AWSEncodableShape & AWSDecodableShape {
+        public let frameCaptureS3Settings: FrameCaptureS3Settings?
+
+        public init(frameCaptureS3Settings: FrameCaptureS3Settings? = nil) {
+            self.frameCaptureS3Settings = frameCaptureS3Settings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case frameCaptureS3Settings
+        }
+    }
+
     public struct FrameCaptureGroupSettings: AWSEncodableShape & AWSDecodableShape {
         /// The destination for the frame capture files. Either the URI for an Amazon S3 bucket and object, plus a file name prefix (for example, s3ssl://sportsDelivery/highlights/20180820/curling-) or the URI for a MediaStore container, plus a file name prefix (for example, mediastoressl://sportsDelivery/20180820/curling-). The final file names consist of the prefix from the destination field (for example, "curling-") + name modifier + the counter (5 digits, starting from 00001) + extension (which is always .jpg).  For example, curling-low.00001.jpg
         public let destination: OutputLocationRef
+        /// Parameters that control interactions with the CDN.
+        public let frameCaptureCdnSettings: FrameCaptureCdnSettings?
 
-        public init(destination: OutputLocationRef) {
+        public init(destination: OutputLocationRef, frameCaptureCdnSettings: FrameCaptureCdnSettings? = nil) {
             self.destination = destination
+            self.frameCaptureCdnSettings = frameCaptureCdnSettings
         }
 
         private enum CodingKeys: String, CodingKey {
             case destination
+            case frameCaptureCdnSettings
         }
     }
 
@@ -4757,6 +4855,19 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case nameModifier
+        }
+    }
+
+    public struct FrameCaptureS3Settings: AWSEncodableShape & AWSDecodableShape {
+        /// Specify the canned ACL to apply to each S3 request. Defaults to none.
+        public let cannedAcl: S3CannedAcl?
+
+        public init(cannedAcl: S3CannedAcl? = nil) {
+            self.cannedAcl = cannedAcl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cannedAcl
         }
     }
 
@@ -4946,7 +5057,7 @@ extension MediaLive {
         /// Number of slices per picture. Must be less than or equal to the number of macroblock rows for progressive pictures, and less than or equal to half the number of macroblock rows for interlaced pictures.
         /// This field is optional; when no value is specified the encoder will choose the number of slices based on encode resolution.
         public let slices: Int?
-        /// Softness. Selects quantizer matrix, larger values reduce high-frequency content in the encoded image.
+        /// Softness. Selects quantizer matrix, larger values reduce high-frequency content in the encoded image.  If not set to zero, must be greater than 15.
         public let softness: Int?
         /// If set to enabled, adjust quantization within each frame based on spatial variation of content complexity.
         public let spatialAq: H264SpatialAq?
@@ -5386,12 +5497,14 @@ extension MediaLive {
         public let hlsAkamaiSettings: HlsAkamaiSettings?
         public let hlsBasicPutSettings: HlsBasicPutSettings?
         public let hlsMediaStoreSettings: HlsMediaStoreSettings?
+        public let hlsS3Settings: HlsS3Settings?
         public let hlsWebdavSettings: HlsWebdavSettings?
 
-        public init(hlsAkamaiSettings: HlsAkamaiSettings? = nil, hlsBasicPutSettings: HlsBasicPutSettings? = nil, hlsMediaStoreSettings: HlsMediaStoreSettings? = nil, hlsWebdavSettings: HlsWebdavSettings? = nil) {
+        public init(hlsAkamaiSettings: HlsAkamaiSettings? = nil, hlsBasicPutSettings: HlsBasicPutSettings? = nil, hlsMediaStoreSettings: HlsMediaStoreSettings? = nil, hlsS3Settings: HlsS3Settings? = nil, hlsWebdavSettings: HlsWebdavSettings? = nil) {
             self.hlsAkamaiSettings = hlsAkamaiSettings
             self.hlsBasicPutSettings = hlsBasicPutSettings
             self.hlsMediaStoreSettings = hlsMediaStoreSettings
+            self.hlsS3Settings = hlsS3Settings
             self.hlsWebdavSettings = hlsWebdavSettings
         }
 
@@ -5406,6 +5519,7 @@ extension MediaLive {
             case hlsAkamaiSettings
             case hlsBasicPutSettings
             case hlsMediaStoreSettings
+            case hlsS3Settings
             case hlsWebdavSettings
         }
     }
@@ -5736,6 +5850,19 @@ extension MediaLive {
             case hlsSettings
             case nameModifier
             case segmentModifier
+        }
+    }
+
+    public struct HlsS3Settings: AWSEncodableShape & AWSDecodableShape {
+        /// Specify the canned ACL to apply to each S3 request. Defaults to none.
+        public let cannedAcl: S3CannedAcl?
+
+        public init(cannedAcl: S3CannedAcl? = nil) {
+            self.cannedAcl = cannedAcl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cannedAcl
         }
     }
 
@@ -9528,14 +9655,18 @@ extension MediaLive {
     }
 
     public struct TeletextSourceSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Optionally defines a region where TTML style captions will be displayed
+        public let outputRectangle: CaptionRectangle?
         /// Specifies the teletext page number within the data stream from which to extract captions. Range of 0x100 (256) to 0x8FF (2303). Unused for passthrough. Should be specified as a hexadecimal string with no "0x" prefix.
         public let pageNumber: String?
 
-        public init(pageNumber: String? = nil) {
+        public init(outputRectangle: CaptionRectangle? = nil, pageNumber: String? = nil) {
+            self.outputRectangle = outputRectangle
             self.pageNumber = pageNumber
         }
 
         private enum CodingKeys: String, CodingKey {
+            case outputRectangle
             case pageNumber
         }
     }
@@ -9591,16 +9722,19 @@ extension MediaLive {
 
         public let inputDeviceId: String
         public let targetCustomerId: String?
+        public let targetRegion: String?
         public let transferMessage: String?
 
-        public init(inputDeviceId: String, targetCustomerId: String? = nil, transferMessage: String? = nil) {
+        public init(inputDeviceId: String, targetCustomerId: String? = nil, targetRegion: String? = nil, transferMessage: String? = nil) {
             self.inputDeviceId = inputDeviceId
             self.targetCustomerId = targetCustomerId
+            self.targetRegion = targetRegion
             self.transferMessage = transferMessage
         }
 
         private enum CodingKeys: String, CodingKey {
             case targetCustomerId
+            case targetRegion
             case transferMessage
         }
     }
@@ -9616,13 +9750,15 @@ extension MediaLive {
         public let message: String?
         /// The AWS account ID for the recipient of the input device transfer.
         public let targetCustomerId: String?
+        public let targetRegion: String?
         /// The type (direction) of the input device transfer.
         public let transferType: InputDeviceTransferType?
 
-        public init(id: String? = nil, message: String? = nil, targetCustomerId: String? = nil, transferType: InputDeviceTransferType? = nil) {
+        public init(id: String? = nil, message: String? = nil, targetCustomerId: String? = nil, targetRegion: String? = nil, transferType: InputDeviceTransferType? = nil) {
             self.id = id
             self.message = message
             self.targetCustomerId = targetCustomerId
+            self.targetRegion = targetRegion
             self.transferType = transferType
         }
 
@@ -9630,6 +9766,7 @@ extension MediaLive {
             case id
             case message
             case targetCustomerId
+            case targetRegion
             case transferType
         }
     }
@@ -10171,25 +10308,46 @@ extension MediaLive {
     public struct VideoSelector: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the color space of an input. This setting works in tandem with colorSpaceUsage and a video description's colorSpaceSettingsChoice to determine if any conversion will be performed.
         public let colorSpace: VideoSelectorColorSpace?
+        /// Color space settings
+        public let colorSpaceSettings: VideoSelectorColorSpaceSettings?
         /// Applies only if colorSpace is a value other than follow. This field controls how the value in the colorSpace field will be used. fallback means that when the input does include color space data, that data will be used, but when the input has no color space data, the value in colorSpace will be used. Choose fallback if your input is sometimes missing color space data, but when it does have color space data, that data is correct. force means to always use the value in colorSpace. Choose force if your input usually has no color space data or might have unreliable color space data.
         public let colorSpaceUsage: VideoSelectorColorSpaceUsage?
         /// The video selector settings.
         public let selectorSettings: VideoSelectorSettings?
 
-        public init(colorSpace: VideoSelectorColorSpace? = nil, colorSpaceUsage: VideoSelectorColorSpaceUsage? = nil, selectorSettings: VideoSelectorSettings? = nil) {
+        public init(colorSpace: VideoSelectorColorSpace? = nil, colorSpaceSettings: VideoSelectorColorSpaceSettings? = nil, colorSpaceUsage: VideoSelectorColorSpaceUsage? = nil, selectorSettings: VideoSelectorSettings? = nil) {
             self.colorSpace = colorSpace
+            self.colorSpaceSettings = colorSpaceSettings
             self.colorSpaceUsage = colorSpaceUsage
             self.selectorSettings = selectorSettings
         }
 
         public func validate(name: String) throws {
+            try self.colorSpaceSettings?.validate(name: "\(name).colorSpaceSettings")
             try self.selectorSettings?.validate(name: "\(name).selectorSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
             case colorSpace
+            case colorSpaceSettings
             case colorSpaceUsage
             case selectorSettings
+        }
+    }
+
+    public struct VideoSelectorColorSpaceSettings: AWSEncodableShape & AWSDecodableShape {
+        public let hdr10Settings: Hdr10Settings?
+
+        public init(hdr10Settings: Hdr10Settings? = nil) {
+            self.hdr10Settings = hdr10Settings
+        }
+
+        public func validate(name: String) throws {
+            try self.hdr10Settings?.validate(name: "\(name).hdr10Settings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hdr10Settings
         }
     }
 

@@ -2191,6 +2191,25 @@
       "type":"list",
       "member":{"shape":"NotebookExecutionSummary"}
     },
+    "OnDemandCapacityReservationOptions":{
+      "type":"structure",
+      "members":{
+        "UsageStrategy":{"shape":"OnDemandCapacityReservationUsageStrategy"},
+        "CapacityReservationPreference":{"shape":"OnDemandCapacityReservationPreference"},
+        "CapacityReservationResourceGroupArn":{"shape":"XmlStringMaxLen256"}
+      }
+    },
+    "OnDemandCapacityReservationPreference":{
+      "type":"string",
+      "enum":[
+        "open",
+        "none"
+      ]
+    },
+    "OnDemandCapacityReservationUsageStrategy":{
+      "type":"string",
+      "enum":["use-capacity-reservations-first"]
+    },
     "OnDemandProvisioningAllocationStrategy":{
       "type":"string",
       "enum":["lowest-price"]
@@ -2199,7 +2218,8 @@
       "type":"structure",
       "required":["AllocationStrategy"],
       "members":{
-        "AllocationStrategy":{"shape":"OnDemandProvisioningAllocationStrategy"}
+        "AllocationStrategy":{"shape":"OnDemandProvisioningAllocationStrategy"},
+        "CapacityReservationOptions":{"shape":"OnDemandCapacityReservationOptions"}
       }
     },
     "OptionalArnType":{

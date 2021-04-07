@@ -3272,7 +3272,8 @@ extension IoT.ListThingsRequest: AWSPaginateToken {
             attributeValue: self.attributeValue,
             maxResults: self.maxResults,
             nextToken: token,
-            thingTypeName: self.thingTypeName
+            thingTypeName: self.thingTypeName,
+            usePrefixAttributeValue: self.usePrefixAttributeValue
         )
     }
 }

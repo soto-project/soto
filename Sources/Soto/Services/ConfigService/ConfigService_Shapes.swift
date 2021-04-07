@@ -20,6 +20,12 @@ import SotoCore
 extension ConfigService {
     // MARK: Enums
 
+    public enum AggregateConformancePackComplianceSummaryGroupKey: String, CustomStringConvertible, Codable {
+        case accountId = "ACCOUNT_ID"
+        case awsRegion = "AWS_REGION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AggregatedSourceStatusType: String, CustomStringConvertible, Codable {
         case failed = "FAILED"
         case outdated = "OUTDATED"
@@ -231,6 +237,7 @@ extension ConfigService {
         case awsCloudwatchAlarm = "AWS::CloudWatch::Alarm"
         case awsCodebuildProject = "AWS::CodeBuild::Project"
         case awsCodepipelinePipeline = "AWS::CodePipeline::Pipeline"
+        case awsConfigConformancepackcompliance = "AWS::Config::ConformancePackCompliance"
         case awsConfigResourcecompliance = "AWS::Config::ResourceCompliance"
         case awsDynamodbTable = "AWS::DynamoDB::Table"
         case awsEc2Customergateway = "AWS::EC2::CustomerGateway"
@@ -375,6 +382,31 @@ extension ConfigService {
         }
     }
 
+    public struct AggregateComplianceByConformancePack: AWSDecodableShape {
+        /// The 12-digit AWS account ID of the source account.
+        public let accountId: String?
+        /// The source AWS Region from where the data is aggregated.
+        public let awsRegion: String?
+        /// The compliance status of the conformance pack.
+        public let compliance: AggregateConformancePackCompliance?
+        /// The name of the conformance pack.
+        public let conformancePackName: String?
+
+        public init(accountId: String? = nil, awsRegion: String? = nil, compliance: AggregateConformancePackCompliance? = nil, conformancePackName: String? = nil) {
+            self.accountId = accountId
+            self.awsRegion = awsRegion
+            self.compliance = compliance
+            self.conformancePackName = conformancePackName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case awsRegion = "AwsRegion"
+            case compliance = "Compliance"
+            case conformancePackName = "ConformancePackName"
+        }
+    }
+
     public struct AggregateComplianceCount: AWSDecodableShape {
         /// The number of compliant and noncompliant AWS Config rules.
         public let complianceSummary: ComplianceSummary?
@@ -389,6 +421,122 @@ extension ConfigService {
         private enum CodingKeys: String, CodingKey {
             case complianceSummary = "ComplianceSummary"
             case groupName = "GroupName"
+        }
+    }
+
+    public struct AggregateConformancePackCompliance: AWSDecodableShape {
+        /// The compliance status of the conformance pack.
+        public let complianceType: ConformancePackComplianceType?
+        /// The number of compliant AWS Config Rules.
+        public let compliantRuleCount: Int?
+        /// The number of noncompliant AWS Config Rules.
+        public let nonCompliantRuleCount: Int?
+        /// Total number of compliant rules, noncompliant rules, and the rules that do not have any applicable resources to evaluate upon resulting in insufficient data.
+        public let totalRuleCount: Int?
+
+        public init(complianceType: ConformancePackComplianceType? = nil, compliantRuleCount: Int? = nil, nonCompliantRuleCount: Int? = nil, totalRuleCount: Int? = nil) {
+            self.complianceType = complianceType
+            self.compliantRuleCount = compliantRuleCount
+            self.nonCompliantRuleCount = nonCompliantRuleCount
+            self.totalRuleCount = totalRuleCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case complianceType = "ComplianceType"
+            case compliantRuleCount = "CompliantRuleCount"
+            case nonCompliantRuleCount = "NonCompliantRuleCount"
+            case totalRuleCount = "TotalRuleCount"
+        }
+    }
+
+    public struct AggregateConformancePackComplianceCount: AWSDecodableShape {
+        /// Number of compliant conformance packs.
+        public let compliantConformancePackCount: Int?
+        /// Number of noncompliant conformance packs.
+        public let nonCompliantConformancePackCount: Int?
+
+        public init(compliantConformancePackCount: Int? = nil, nonCompliantConformancePackCount: Int? = nil) {
+            self.compliantConformancePackCount = compliantConformancePackCount
+            self.nonCompliantConformancePackCount = nonCompliantConformancePackCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case compliantConformancePackCount = "CompliantConformancePackCount"
+            case nonCompliantConformancePackCount = "NonCompliantConformancePackCount"
+        }
+    }
+
+    public struct AggregateConformancePackComplianceFilters: AWSEncodableShape {
+        /// The 12-digit AWS account ID of the source account.
+        public let accountId: String?
+        /// The source AWS Region from where the data is aggregated.
+        public let awsRegion: String?
+        /// The compliance status of the conformance pack.
+        public let complianceType: ConformancePackComplianceType?
+        /// The name of the conformance pack.
+        public let conformancePackName: String?
+
+        public init(accountId: String? = nil, awsRegion: String? = nil, complianceType: ConformancePackComplianceType? = nil, conformancePackName: String? = nil) {
+            self.accountId = accountId
+            self.awsRegion = awsRegion
+            self.complianceType = complianceType
+            self.conformancePackName = conformancePackName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "\\d{12}")
+            try self.validate(self.awsRegion, name: "awsRegion", parent: name, max: 64)
+            try self.validate(self.awsRegion, name: "awsRegion", parent: name, min: 1)
+            try self.validate(self.conformancePackName, name: "conformancePackName", parent: name, max: 256)
+            try self.validate(self.conformancePackName, name: "conformancePackName", parent: name, min: 1)
+            try self.validate(self.conformancePackName, name: "conformancePackName", parent: name, pattern: "[a-zA-Z][-a-zA-Z0-9]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case awsRegion = "AwsRegion"
+            case complianceType = "ComplianceType"
+            case conformancePackName = "ConformancePackName"
+        }
+    }
+
+    public struct AggregateConformancePackComplianceSummary: AWSDecodableShape {
+        /// Returns an AggregateConformancePackComplianceCount object.
+        public let complianceSummary: AggregateConformancePackComplianceCount?
+        /// Groups the result based on AWS Account ID or AWS Region.
+        public let groupName: String?
+
+        public init(complianceSummary: AggregateConformancePackComplianceCount? = nil, groupName: String? = nil) {
+            self.complianceSummary = complianceSummary
+            self.groupName = groupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case complianceSummary = "ComplianceSummary"
+            case groupName = "GroupName"
+        }
+    }
+
+    public struct AggregateConformancePackComplianceSummaryFilters: AWSEncodableShape {
+        /// The 12-digit AWS account ID of the source account.
+        public let accountId: String?
+        /// The source AWS Region from where the data is aggregated.
+        public let awsRegion: String?
+
+        public init(accountId: String? = nil, awsRegion: String? = nil) {
+            self.accountId = accountId
+            self.awsRegion = awsRegion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "\\d{12}")
+            try self.validate(self.awsRegion, name: "awsRegion", parent: name, max: 64)
+            try self.validate(self.awsRegion, name: "awsRegion", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case awsRegion = "AwsRegion"
         }
     }
 
@@ -1224,7 +1372,7 @@ extension ConfigService {
     }
 
     public struct ConformancePackComplianceFilters: AWSEncodableShape {
-        /// Filters the results by compliance. The allowed values are COMPLIANT and NON_COMPLIANT.
+        /// Filters the results by compliance. The allowed values are COMPLIANT and NON_COMPLIANT. INSUFFICIENT_DATA is not supported.
         public let complianceType: ConformancePackComplianceType?
         /// Filters the results by AWS Config rule names.
         public let configRuleNames: [String]?
@@ -1250,7 +1398,7 @@ extension ConfigService {
     }
 
     public struct ConformancePackComplianceSummary: AWSDecodableShape {
-        /// The status of the conformance pack. The allowed values are COMPLIANT and NON_COMPLIANT.
+        /// The status of the conformance pack. The allowed values are COMPLIANT, NON_COMPLIANT and INSUFFICIENT_DATA.
         public let conformancePackComplianceStatus: ConformancePackComplianceType
         /// The name of the conformance pack name.
         public let conformancePackName: String
@@ -1308,7 +1456,7 @@ extension ConfigService {
     }
 
     public struct ConformancePackEvaluationFilters: AWSEncodableShape {
-        /// Filters the results by compliance. The allowed values are COMPLIANT and NON_COMPLIANT.
+        /// Filters the results by compliance. The allowed values are COMPLIANT and NON_COMPLIANT. INSUFFICIENT_DATA is not supported.
         public let complianceType: ConformancePackComplianceType?
         /// Filters the results by AWS Config rule names.
         public let configRuleNames: [String]?
@@ -1352,7 +1500,7 @@ extension ConfigService {
     public struct ConformancePackEvaluationResult: AWSDecodableShape {
         /// Supplementary information about how the evaluation determined the compliance.
         public let annotation: String?
-        /// The compliance type. The allowed values are COMPLIANT and NON_COMPLIANT.
+        /// The compliance type. The allowed values are COMPLIANT and NON_COMPLIANT. INSUFFICIENT_DATA is not supported.
         public let complianceType: ConformancePackComplianceType
         /// The time when AWS Config rule evaluated AWS resource.
         public let configRuleInvokedTime: Date
@@ -1402,19 +1550,23 @@ extension ConfigService {
     }
 
     public struct ConformancePackRuleCompliance: AWSDecodableShape {
-        /// Compliance of the AWS Config rule The allowed values are COMPLIANT and NON_COMPLIANT.
+        /// Compliance of the AWS Config rule. The allowed values are COMPLIANT, NON_COMPLIANT, and INSUFFICIENT_DATA.
         public let complianceType: ConformancePackComplianceType?
         /// Name of the config rule.
         public let configRuleName: String?
+        /// Controls for the conformance pack. A control is a process to prevent or detect problems while meeting objectives. A control can align with a specific compliance regime or map to internal controls defined by an organization.
+        public let controls: [String]?
 
-        public init(complianceType: ConformancePackComplianceType? = nil, configRuleName: String? = nil) {
+        public init(complianceType: ConformancePackComplianceType? = nil, configRuleName: String? = nil, controls: [String]? = nil) {
             self.complianceType = complianceType
             self.configRuleName = configRuleName
+            self.controls = controls
         }
 
         private enum CodingKeys: String, CodingKey {
             case complianceType = "ComplianceType"
             case configRuleName = "ConfigRuleName"
+            case controls = "Controls"
         }
     }
 
@@ -1933,6 +2085,57 @@ extension ConfigService {
 
         private enum CodingKeys: String, CodingKey {
             case aggregateComplianceByConfigRules = "AggregateComplianceByConfigRules"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeAggregateComplianceByConformancePacksRequest: AWSEncodableShape {
+        /// The name of the configuration aggregator.
+        public let configurationAggregatorName: String
+        /// Filters the result by AggregateConformancePackComplianceFilters object.
+        public let filters: AggregateConformancePackComplianceFilters?
+        /// The maximum number of conformance packs details returned on each page. The default is maximum. If you specify 0, AWS Config uses the default.
+        public let limit: Int?
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+        public let nextToken: String?
+
+        public init(configurationAggregatorName: String, filters: AggregateConformancePackComplianceFilters? = nil, limit: Int? = nil, nextToken: String? = nil) {
+            self.configurationAggregatorName = configurationAggregatorName
+            self.filters = filters
+            self.limit = limit
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.configurationAggregatorName, name: "configurationAggregatorName", parent: name, max: 256)
+            try self.validate(self.configurationAggregatorName, name: "configurationAggregatorName", parent: name, min: 1)
+            try self.validate(self.configurationAggregatorName, name: "configurationAggregatorName", parent: name, pattern: "[\\w\\-]+")
+            try self.filters?.validate(name: "\(name).filters")
+            try self.validate(self.limit, name: "limit", parent: name, max: 100)
+            try self.validate(self.limit, name: "limit", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationAggregatorName = "ConfigurationAggregatorName"
+            case filters = "Filters"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeAggregateComplianceByConformancePacksResponse: AWSDecodableShape {
+        /// Returns the AggregateComplianceByConformancePack object.
+        public let aggregateComplianceByConformancePacks: [AggregateComplianceByConformancePack]?
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+        public let nextToken: String?
+
+        public init(aggregateComplianceByConformancePacks: [AggregateComplianceByConformancePack]? = nil, nextToken: String? = nil) {
+            self.aggregateComplianceByConformancePacks = aggregateComplianceByConformancePacks
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregateComplianceByConformancePacks = "AggregateComplianceByConformancePacks"
             case nextToken = "NextToken"
         }
     }
@@ -3342,6 +3545,65 @@ extension ConfigService {
 
         private enum CodingKeys: String, CodingKey {
             case aggregateComplianceCounts = "AggregateComplianceCounts"
+            case groupByKey = "GroupByKey"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetAggregateConformancePackComplianceSummaryRequest: AWSEncodableShape {
+        /// The name of the configuration aggregator.
+        public let configurationAggregatorName: String
+        /// Filters the results based on the AggregateConformancePackComplianceSummaryFilters object.
+        public let filters: AggregateConformancePackComplianceSummaryFilters?
+        /// Groups the result based on AWS Account ID or AWS Region.
+        public let groupByKey: AggregateConformancePackComplianceSummaryGroupKey?
+        /// The maximum number of results returned on each page. The default is maximum. If you specify 0, AWS Config uses the default.
+        public let limit: Int?
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+        public let nextToken: String?
+
+        public init(configurationAggregatorName: String, filters: AggregateConformancePackComplianceSummaryFilters? = nil, groupByKey: AggregateConformancePackComplianceSummaryGroupKey? = nil, limit: Int? = nil, nextToken: String? = nil) {
+            self.configurationAggregatorName = configurationAggregatorName
+            self.filters = filters
+            self.groupByKey = groupByKey
+            self.limit = limit
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.configurationAggregatorName, name: "configurationAggregatorName", parent: name, max: 256)
+            try self.validate(self.configurationAggregatorName, name: "configurationAggregatorName", parent: name, min: 1)
+            try self.validate(self.configurationAggregatorName, name: "configurationAggregatorName", parent: name, pattern: "[\\w\\-]+")
+            try self.filters?.validate(name: "\(name).filters")
+            try self.validate(self.limit, name: "limit", parent: name, max: 100)
+            try self.validate(self.limit, name: "limit", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationAggregatorName = "ConfigurationAggregatorName"
+            case filters = "Filters"
+            case groupByKey = "GroupByKey"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetAggregateConformancePackComplianceSummaryResponse: AWSDecodableShape {
+        /// Returns a list of AggregateConformancePackComplianceSummary object.
+        public let aggregateConformancePackComplianceSummaries: [AggregateConformancePackComplianceSummary]?
+        /// Groups the result based on AWS Account ID or AWS Region.
+        public let groupByKey: String?
+        /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+        public let nextToken: String?
+
+        public init(aggregateConformancePackComplianceSummaries: [AggregateConformancePackComplianceSummary]? = nil, groupByKey: String? = nil, nextToken: String? = nil) {
+            self.aggregateConformancePackComplianceSummaries = aggregateConformancePackComplianceSummaries
+            self.groupByKey = groupByKey
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregateConformancePackComplianceSummaries = "AggregateConformancePackComplianceSummaries"
             case groupByKey = "GroupByKey"
             case nextToken = "NextToken"
         }
@@ -4900,7 +5162,7 @@ extension ConfigService {
     public struct PutOrganizationConformancePackRequest: AWSEncodableShape {
         /// A list of ConformancePackInputParameter objects.
         public let conformancePackInputParameters: [ConformancePackInputParameter]?
-        /// Amazon S3 bucket where AWS Config stores conformance pack templates.  This field is optional.
+        /// Amazon S3 bucket where AWS Config stores conformance pack templates.  This field is optional. If used, it must be prefixed with awsconfigconforms.
         public let deliveryS3Bucket: String?
         /// The prefix for the Amazon S3 bucket.  This field is optional.
         public let deliveryS3KeyPrefix: String?
@@ -5188,7 +5450,7 @@ extension ConfigService {
         public let allSupported: Bool?
         /// Specifies whether AWS Config includes all supported types of global resources (for example, IAM resources) with the resources that it records. Before you can set this option to true, you must set the allSupported option to true. If you set this option to true, when AWS Config adds support for a new type of global resource, it starts recording resources of that type automatically. The configuration details for any global resource are the same in all regions. To prevent duplicate configuration items, you should consider customizing AWS Config in only one region to record global resources.
         public let includeGlobalResourceTypes: Bool?
-        /// A comma-separated list that specifies the types of AWS resources for which AWS Config records configuration changes (for example, AWS::EC2::Instance or AWS::CloudTrail::Trail). To record all configuration changes, you must set the allSupported option to false. If you set this option to true, when AWS Config adds support for a new type of resource, it will not record resources of that type unless you manually add that type to your recording group. For a list of valid resourceTypes values, see the resourceType Value column in Supported AWS Resource Types.
+        /// A comma-separated list that specifies the types of AWS resources for which AWS Config records configuration changes (for example, AWS::EC2::Instance or AWS::CloudTrail::Trail). To record all configuration changes, you must set the allSupported option to true. If you set this option to false, when AWS Config adds support for a new type of resource, it will not record resources of that type unless you manually add that type to your recording group. For a list of valid resourceTypes values, see the resourceType Value column in Supported AWS Resource Types.
         public let resourceTypes: [ResourceType]?
 
         public init(allSupported: Bool? = nil, includeGlobalResourceTypes: Bool? = nil, resourceTypes: [ResourceType]? = nil) {

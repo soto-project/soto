@@ -347,7 +347,7 @@ extension WorkSpaces {
         }
     }
 
-    public struct ComputeType: AWSDecodableShape {
+    public struct ComputeType: AWSEncodableShape & AWSDecodableShape {
         /// The compute type.
         public let name: Compute?
 
@@ -604,6 +604,67 @@ extension WorkSpaces {
         public init() {}
     }
 
+    public struct CreateWorkspaceBundleRequest: AWSEncodableShape {
+        /// The description of the bundle.
+        public let bundleDescription: String
+        /// The name of the bundle.
+        public let bundleName: String
+        public let computeType: ComputeType
+        /// The identifier of the image that is used to create the bundle.
+        public let imageId: String
+        public let rootStorage: RootStorage?
+        /// The tags associated with the bundle.  To add tags at the same time that you're creating the bundle, you must create an IAM policy that grants your IAM user permissions to use workspaces:CreateTags.
+        public let tags: [Tag]?
+        public let userStorage: UserStorage
+
+        public init(bundleDescription: String, bundleName: String, computeType: ComputeType, imageId: String, rootStorage: RootStorage? = nil, tags: [Tag]? = nil, userStorage: UserStorage) {
+            self.bundleDescription = bundleDescription
+            self.bundleName = bundleName
+            self.computeType = computeType
+            self.imageId = imageId
+            self.rootStorage = rootStorage
+            self.tags = tags
+            self.userStorage = userStorage
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bundleDescription, name: "bundleDescription", parent: name, max: 255)
+            try self.validate(self.bundleDescription, name: "bundleDescription", parent: name, min: 1)
+            try self.validate(self.bundleDescription, name: "bundleDescription", parent: name, pattern: "^[a-zA-Z0-9_./() -]+$")
+            try self.validate(self.bundleName, name: "bundleName", parent: name, max: 64)
+            try self.validate(self.bundleName, name: "bundleName", parent: name, min: 1)
+            try self.validate(self.bundleName, name: "bundleName", parent: name, pattern: "^[a-zA-Z0-9_./()\\\\-]+$")
+            try self.validate(self.imageId, name: "imageId", parent: name, pattern: "wsi-[0-9a-z]{9,63}$")
+            try self.rootStorage?.validate(name: "\(name).rootStorage")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.userStorage.validate(name: "\(name).userStorage")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bundleDescription = "BundleDescription"
+            case bundleName = "BundleName"
+            case computeType = "ComputeType"
+            case imageId = "ImageId"
+            case rootStorage = "RootStorage"
+            case tags = "Tags"
+            case userStorage = "UserStorage"
+        }
+    }
+
+    public struct CreateWorkspaceBundleResult: AWSDecodableShape {
+        public let workspaceBundle: WorkspaceBundle?
+
+        public init(workspaceBundle: WorkspaceBundle? = nil) {
+            self.workspaceBundle = workspaceBundle
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workspaceBundle = "WorkspaceBundle"
+        }
+    }
+
     public struct CreateWorkspacesRequest: AWSEncodableShape {
         /// The WorkSpaces to create. You can specify up to 25 WorkSpaces.
         public let workspaces: [WorkspaceRequest]
@@ -747,6 +808,27 @@ extension WorkSpaces {
         public init() {}
     }
 
+    public struct DeleteWorkspaceBundleRequest: AWSEncodableShape {
+        /// The identifier of the bundle.
+        public let bundleId: String?
+
+        public init(bundleId: String? = nil) {
+            self.bundleId = bundleId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bundleId, name: "bundleId", parent: name, pattern: "^wsb-[0-9a-z]{8,63}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bundleId = "BundleId"
+        }
+    }
+
+    public struct DeleteWorkspaceBundleResult: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteWorkspaceImageRequest: AWSEncodableShape {
         /// The identifier of the image.
         public let imageId: String
@@ -812,7 +894,7 @@ extension WorkSpaces {
     public struct DescribeAccountModificationsResult: AWSDecodableShape {
         /// The list of modifications to the configuration of BYOL.
         public let accountModifications: [AccountModification]?
-        /// The token to use to retrieve the next set of results, or null if no more results are available.
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
         public init(accountModifications: [AccountModification]? = nil, nextToken: String? = nil) {
@@ -917,7 +999,7 @@ extension WorkSpaces {
         public let aliasId: String?
         /// The permissions associated with a connection alias.
         public let connectionAliasPermissions: [ConnectionAliasPermission]?
-        /// The token to use to retrieve the next set of results, or null if no more results are available.
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
         public init(aliasId: String? = nil, connectionAliasPermissions: [ConnectionAliasPermission]? = nil, nextToken: String? = nil) {
@@ -976,7 +1058,7 @@ extension WorkSpaces {
     public struct DescribeConnectionAliasesResult: AWSDecodableShape {
         /// Information about the specified connection aliases.
         public let connectionAliases: [ConnectionAlias]?
-        /// The token to use to retrieve the next set of results, or null if no more results are available.
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
         public init(connectionAliases: [ConnectionAlias]? = nil, nextToken: String? = nil) {
@@ -1022,7 +1104,7 @@ extension WorkSpaces {
     }
 
     public struct DescribeIpGroupsResult: AWSDecodableShape {
-        /// The token to use to retrieve the next set of results, or null if no more results are available.
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// Information about the IP access control groups.
         public let result: [WorkspacesIpGroup]?
@@ -1073,7 +1155,7 @@ extension WorkSpaces {
         public let bundleIds: [String]?
         /// The token for the next set of results. (You received this token from a previous call.)
         public let nextToken: String?
-        /// The owner of the bundles. You cannot combine this parameter with any other filter. Specify AMAZON to describe the bundles provided by AWS or null to describe the bundles that belong to your account.
+        /// The owner of the bundles. You cannot combine this parameter with any other filter. To describe the bundles provided by AWS, specify AMAZON. To describe the bundles that belong to your account, don't specify a value.
         public let owner: String?
 
         public init(bundleIds: [String]? = nil, nextToken: String? = nil, owner: String? = nil) {
@@ -1102,7 +1184,7 @@ extension WorkSpaces {
     public struct DescribeWorkspaceBundlesResult: AWSDecodableShape {
         /// Information about the bundles.
         public let bundles: [WorkspaceBundle]?
-        /// The token to use to retrieve the next set of results, or null if there are no more results available. This token is valid for one day and must be used within that time frame.
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return. This token is valid for one day and must be used within that time frame.
         public let nextToken: String?
 
         public init(bundles: [WorkspaceBundle]? = nil, nextToken: String? = nil) {
@@ -1154,7 +1236,7 @@ extension WorkSpaces {
     public struct DescribeWorkspaceDirectoriesResult: AWSDecodableShape {
         /// Information about the directories.
         public let directories: [WorkspaceDirectory]?
-        /// The token to use to retrieve the next set of results, or null if no more results are available.
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
         public init(directories: [WorkspaceDirectory]? = nil, nextToken: String? = nil) {
@@ -1202,7 +1284,7 @@ extension WorkSpaces {
         public let imageId: String?
         /// The identifiers of the AWS accounts that the image has been shared with.
         public let imagePermissions: [ImagePermission]?
-        /// The token to use to retrieve the next set of results, or null if no more results are available.
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
         public init(imageId: String? = nil, imagePermissions: [ImagePermission]? = nil, nextToken: String? = nil) {
@@ -1258,7 +1340,7 @@ extension WorkSpaces {
     public struct DescribeWorkspaceImagesResult: AWSDecodableShape {
         /// Information about the images.
         public let images: [WorkspaceImage]?
-        /// The token to use to retrieve the next set of results, or null if no more results are available.
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
         public init(images: [WorkspaceImage]? = nil, nextToken: String? = nil) {
@@ -1334,7 +1416,7 @@ extension WorkSpaces {
     }
 
     public struct DescribeWorkspacesConnectionStatusResult: AWSDecodableShape {
-        /// The token to use to retrieve the next set of results, or null if no more results are available.
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// Information about the connection status of the WorkSpace.
         public let workspacesConnectionStatus: [WorkspaceConnectionStatus]?
@@ -1402,7 +1484,7 @@ extension WorkSpaces {
     }
 
     public struct DescribeWorkspacesResult: AWSDecodableShape {
-        /// The token to use to retrieve the next set of results, or null if no more results are available.
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// Information about the WorkSpaces. Because CreateWorkspaces is an asynchronous operation, some of the returned information could be incomplete.
         public let workspaces: [Workspace]?
@@ -1636,7 +1718,7 @@ extension WorkSpaces {
     public struct ListAvailableManagementCidrRangesResult: AWSDecodableShape {
         /// The list of available IP address ranges, specified as IPv4 CIDR blocks.
         public let managementCidrRanges: [String]?
-        /// The token to use to retrieve the next set of results, or null if no more results are available.
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
         public init(managementCidrRanges: [String]? = nil, nextToken: String? = nil) {
@@ -2101,12 +2183,16 @@ extension WorkSpaces {
         public init() {}
     }
 
-    public struct RootStorage: AWSDecodableShape {
+    public struct RootStorage: AWSEncodableShape & AWSDecodableShape {
         /// The size of the root volume.
         public let capacity: String?
 
         public init(capacity: String? = nil) {
             self.capacity = capacity
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.capacity, name: "capacity", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2385,6 +2471,32 @@ extension WorkSpaces {
         public init() {}
     }
 
+    public struct UpdateWorkspaceBundleRequest: AWSEncodableShape {
+        /// The identifier of the bundle.
+        public let bundleId: String?
+        /// The identifier of the image.
+        public let imageId: String?
+
+        public init(bundleId: String? = nil, imageId: String? = nil) {
+            self.bundleId = bundleId
+            self.imageId = imageId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bundleId, name: "bundleId", parent: name, pattern: "^wsb-[0-9a-z]{8,63}$")
+            try self.validate(self.imageId, name: "imageId", parent: name, pattern: "wsi-[0-9a-z]{9,63}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bundleId = "BundleId"
+            case imageId = "ImageId"
+        }
+    }
+
+    public struct UpdateWorkspaceBundleResult: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateWorkspaceImagePermissionRequest: AWSEncodableShape {
         /// The permission to copy the image. This permission can be revoked only after an image has been shared.
         public let allowCopyImage: Bool
@@ -2415,12 +2527,16 @@ extension WorkSpaces {
         public init() {}
     }
 
-    public struct UserStorage: AWSDecodableShape {
-        /// The size of the user storage.
+    public struct UserStorage: AWSEncodableShape & AWSDecodableShape {
+        /// The size of the user volume.
         public let capacity: String?
 
         public init(capacity: String? = nil) {
             self.capacity = capacity
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.capacity, name: "capacity", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2535,13 +2651,15 @@ extension WorkSpaces {
     }
 
     public struct WorkspaceBundle: AWSDecodableShape {
-        /// The bundle identifier.
+        /// The identifier of the bundle.
         public let bundleId: String?
-        /// The compute type. For more information, see Amazon WorkSpaces Bundles.
+        /// The compute type of the bundle. For more information, see Amazon WorkSpaces Bundles.
         public let computeType: ComputeType?
-        /// A description.
+        /// The time when the bundle was created.
+        public let creationTime: Date?
+        /// The description of the bundle.
         public let description: String?
-        /// The image identifier of the bundle.
+        /// The identifier of the image that was used to create the bundle.
         public let imageId: String?
         /// The last time that the bundle was updated.
         public let lastUpdatedTime: Date?
@@ -2551,12 +2669,13 @@ extension WorkSpaces {
         public let owner: String?
         /// The size of the root volume.
         public let rootStorage: RootStorage?
-        /// The size of the user storage.
+        /// The size of the user volume.
         public let userStorage: UserStorage?
 
-        public init(bundleId: String? = nil, computeType: ComputeType? = nil, description: String? = nil, imageId: String? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, owner: String? = nil, rootStorage: RootStorage? = nil, userStorage: UserStorage? = nil) {
+        public init(bundleId: String? = nil, computeType: ComputeType? = nil, creationTime: Date? = nil, description: String? = nil, imageId: String? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, owner: String? = nil, rootStorage: RootStorage? = nil, userStorage: UserStorage? = nil) {
             self.bundleId = bundleId
             self.computeType = computeType
+            self.creationTime = creationTime
             self.description = description
             self.imageId = imageId
             self.lastUpdatedTime = lastUpdatedTime
@@ -2569,6 +2688,7 @@ extension WorkSpaces {
         private enum CodingKeys: String, CodingKey {
             case bundleId = "BundleId"
             case computeType = "ComputeType"
+            case creationTime = "CreationTime"
             case description = "Description"
             case imageId = "ImageId"
             case lastUpdatedTime = "LastUpdatedTime"

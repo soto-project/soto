@@ -654,11 +654,11 @@ extension ForecastService {
         public let datasetImportJobName: String?
         /// The location of the training data to import and an AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the data. The training data must be stored in an Amazon S3 bucket. If encryption is used, DataSource includes an AWS Key Management Service (KMS) key.
         public let dataSource: DataSource?
-        /// The last time that the dataset was modified. The time depends on the status of the job, as follows:    CREATE_PENDING - The same time as CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    ACTIVE or CREATE_FAILED - When the job finished or failed.
+        /// The last time the resource was modified. The timestamp depends on the status of the job:    CREATE_PENDING - The CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    CREATE_STOPPING - The current timestamp.    CREATE_STOPPED - When the job stopped.    ACTIVE or CREATE_FAILED - When the job finished or failed.
         public let lastModificationTime: Date?
         /// If an error occurred, an informational message about the error.
         public let message: String?
-        /// The status of the dataset import job. The status is reflected in the status of the dataset. For example, when the import job status is CREATE_IN_PROGRESS, the status of the dataset is UPDATE_IN_PROGRESS. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED
+        /// The status of the dataset import job. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     CREATE_STOPPING, CREATE_STOPPED
         public let status: String?
 
         public init(creationTime: Date? = nil, datasetImportJobArn: String? = nil, datasetImportJobName: String? = nil, dataSource: DataSource? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil) {
@@ -931,11 +931,11 @@ extension ForecastService {
         public let fieldStatistics: [String: Statistics]?
         /// The format of the geolocation attribute. Valid Values:"LAT_LONG" and "CC_POSTALCODE".
         public let geolocationFormat: String?
-        /// The last time that the dataset was modified. The time depends on the status of the job, as follows:    CREATE_PENDING - The same time as CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    ACTIVE or CREATE_FAILED - When the job finished or failed.
+        /// The last time the resource was modified. The timestamp depends on the status of the job:    CREATE_PENDING - The CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    CREATE_STOPPING - The current timestamp.    CREATE_STOPPED - When the job stopped.    ACTIVE or CREATE_FAILED - When the job finished or failed.
         public let lastModificationTime: Date?
         /// If an error occurred, an informational message about the error.
         public let message: String?
-        /// The status of the dataset import job. The status is reflected in the status of the dataset. For example, when the import job status is CREATE_IN_PROGRESS, the status of the dataset is UPDATE_IN_PROGRESS. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED
+        /// The status of the dataset import job. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     CREATE_STOPPING, CREATE_STOPPED
         public let status: String?
         /// The format of timestamps in the dataset. The format that you specify depends on the DataFrequency specified when the dataset was created. The following formats are supported   "yyyy-MM-dd" For the following data frequencies: Y, M, W, and D   "yyyy-MM-dd HH:mm:ss" For the following data frequencies: H, 30min, 15min, and 1min; and optionally, for: Y, M, W, and D
         public let timestampFormat: String?
@@ -1075,11 +1075,11 @@ extension ForecastService {
         public let forecastExportJobArn: String?
         /// The name of the forecast export job.
         public let forecastExportJobName: String?
-        /// When the last successful export job finished.
+        /// The last time the resource was modified. The timestamp depends on the status of the job:    CREATE_PENDING - The CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    CREATE_STOPPING - The current timestamp.    CREATE_STOPPED - When the job stopped.    ACTIVE or CREATE_FAILED - When the job finished or failed.
         public let lastModificationTime: Date?
         /// If an error occurred, an informational message about the error.
         public let message: String?
-        /// The status of the forecast export job. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the forecast export job must be ACTIVE before you can access the forecast in your S3 bucket.
+        /// The status of the forecast export job. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     CREATE_STOPPING, CREATE_STOPPED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the forecast export job must be ACTIVE before you can access the forecast in your S3 bucket.
         public let status: String?
 
         public init(creationTime: Date? = nil, destination: DataDestination? = nil, forecastArn: String? = nil, forecastExportJobArn: String? = nil, forecastExportJobName: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil) {
@@ -1134,13 +1134,13 @@ extension ForecastService {
         public let forecastName: String?
         /// The quantiles at which probabilistic forecasts were generated.
         public let forecastTypes: [String]?
-        /// Initially, the same as CreationTime (status is CREATE_PENDING). Updated when inference (creating the forecast) starts (status changed to CREATE_IN_PROGRESS), and when inference is complete (status changed to ACTIVE) or fails (status changed to CREATE_FAILED).
+        /// The last time the resource was modified. The timestamp depends on the status of the job:    CREATE_PENDING - The CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    CREATE_STOPPING - The current timestamp.    CREATE_STOPPED - When the job stopped.    ACTIVE or CREATE_FAILED - When the job finished or failed.
         public let lastModificationTime: Date?
         /// If an error occurred, an informational message about the error.
         public let message: String?
         /// The ARN of the predictor used to generate the forecast.
         public let predictorArn: String?
-        /// The status of the forecast. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the forecast must be ACTIVE before you can query or export the forecast.
+        /// The status of the forecast. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     CREATE_STOPPING, CREATE_STOPPED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the forecast must be ACTIVE before you can query or export the forecast.
         public let status: String?
 
         public init(creationTime: Date? = nil, datasetGroupArn: String? = nil, forecastArn: String? = nil, forecastName: String? = nil, forecastTypes: [String]? = nil, lastModificationTime: Date? = nil, message: String? = nil, predictorArn: String? = nil, status: String? = nil) {
@@ -1190,7 +1190,7 @@ extension ForecastService {
         /// When the predictor backtest export job was created.
         public let creationTime: Date?
         public let destination: DataDestination?
-        /// When the last successful export job finished.
+        /// The last time the resource was modified. The timestamp depends on the status of the job:    CREATE_PENDING - The CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    CREATE_STOPPING - The current timestamp.    CREATE_STOPPED - When the job stopped.    ACTIVE or CREATE_FAILED - When the job finished or failed.
         public let lastModificationTime: Date?
         /// Information about any errors that may have occurred during the backtest export.
         public let message: String?
@@ -1200,7 +1200,7 @@ extension ForecastService {
         public let predictorBacktestExportJobArn: String?
         /// The name of the predictor backtest export job.
         public let predictorBacktestExportJobName: String?
-        /// The status of the predictor backtest export job. States include:     ACTIVE     CREATE_PENDING     CREATE_IN_PROGRESS     CREATE_FAILED     DELETE_PENDING     DELETE_IN_PROGRESS     DELETE_FAILED
+        /// The status of the predictor backtest export job. States include:     ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     CREATE_STOPPING, CREATE_STOPPED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED
         public let status: String?
 
         public init(creationTime: Date? = nil, destination: DataDestination? = nil, lastModificationTime: Date? = nil, message: String? = nil, predictorArn: String? = nil, predictorBacktestExportJobArn: String? = nil, predictorBacktestExportJobName: String? = nil, status: String? = nil) {
@@ -1267,7 +1267,7 @@ extension ForecastService {
         public let hPOConfig: HyperParameterTuningJobConfig?
         /// Describes the dataset group that contains the data to use to train the predictor.
         public let inputDataConfig: InputDataConfig?
-        /// Initially, the same as CreationTime (when the status is CREATE_PENDING). This value is updated when training starts (when the status changes to CREATE_IN_PROGRESS), and when training has completed (when the status changes to ACTIVE) or fails (when the status changes to CREATE_FAILED).
+        /// The last time the resource was modified. The timestamp depends on the status of the job:    CREATE_PENDING - The CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    CREATE_STOPPING - The current timestamp.    CREATE_STOPPED - When the job stopped.    ACTIVE or CREATE_FAILED - When the job finished or failed.
         public let lastModificationTime: Date?
         /// If an error occurred, an informational message about the error.
         public let message: String?
@@ -1281,7 +1281,7 @@ extension ForecastService {
         public let predictorExecutionDetails: PredictorExecutionDetails?
         /// The name of the predictor.
         public let predictorName: String?
-        /// The status of the predictor. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     UPDATE_PENDING, UPDATE_IN_PROGRESS, UPDATE_FAILED     The Status of the predictor must be ACTIVE before you can use the predictor to create a forecast.
+        /// The status of the predictor. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     CREATE_STOPPING, CREATE_STOPPED     The Status of the predictor must be ACTIVE before you can use the predictor to create a forecast.
         public let status: String?
         /// The default training parameters or overrides selected during model training. When running AutoML or choosing HPO with CNN-QR or DeepAR+, the optimized values for the chosen hyperparameters are returned. For more information, see aws-forecast-choosing-recipes.
         public let trainingParameters: [String: String]?
@@ -1540,11 +1540,11 @@ extension ForecastService {
         public let forecastExportJobArn: String?
         /// The name of the forecast export job.
         public let forecastExportJobName: String?
-        /// When the last successful export job finished.
+        /// The last time the resource was modified. The timestamp depends on the status of the job:    CREATE_PENDING - The CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    CREATE_STOPPING - The current timestamp.    CREATE_STOPPED - When the job stopped.    ACTIVE or CREATE_FAILED - When the job finished or failed.
         public let lastModificationTime: Date?
         /// If an error occurred, an informational message about the error.
         public let message: String?
-        /// The status of the forecast export job. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the forecast export job must be ACTIVE before you can access the forecast in your S3 bucket.
+        /// The status of the forecast export job. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     CREATE_STOPPING, CREATE_STOPPED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the forecast export job must be ACTIVE before you can access the forecast in your S3 bucket.
         public let status: String?
 
         public init(creationTime: Date? = nil, destination: DataDestination? = nil, forecastExportJobArn: String? = nil, forecastExportJobName: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil) {
@@ -1577,13 +1577,13 @@ extension ForecastService {
         public let forecastArn: String?
         /// The name of the forecast.
         public let forecastName: String?
-        /// Initially, the same as CreationTime (status is CREATE_PENDING). Updated when inference (creating the forecast) starts (status changed to CREATE_IN_PROGRESS), and when inference is complete (status changed to ACTIVE) or fails (status changed to CREATE_FAILED).
+        /// The last time the resource was modified. The timestamp depends on the status of the job:    CREATE_PENDING - The CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    CREATE_STOPPING - The current timestamp.    CREATE_STOPPED - When the job stopped.    ACTIVE or CREATE_FAILED - When the job finished or failed.
         public let lastModificationTime: Date?
         /// If an error occurred, an informational message about the error.
         public let message: String?
         /// The ARN of the predictor used to generate the forecast.
         public let predictorArn: String?
-        /// The status of the forecast. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the forecast must be ACTIVE before you can query or export the forecast.
+        /// The status of the forecast. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     CREATE_STOPPING, CREATE_STOPPED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the forecast must be ACTIVE before you can query or export the forecast.
         public let status: String?
 
         public init(creationTime: Date? = nil, datasetGroupArn: String? = nil, forecastArn: String? = nil, forecastName: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, predictorArn: String? = nil, status: String? = nil) {
@@ -1942,7 +1942,7 @@ extension ForecastService {
     }
 
     public struct ListPredictorBacktestExportJobsRequest: AWSEncodableShape {
-        /// An array of filters. For each filter, provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the predictor backtest export jobs that match the statement from the list. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT. To include the predictor backtest export jobs that match the statement, specify IS. To exclude matching predictor backtest export jobs, specify IS_NOT.    Key - The name of the parameter to filter on. Valid values are PredictorBacktestExportJobArn and Status.    Value - The value to match.
+        /// An array of filters. For each filter, provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the predictor backtest export jobs that match the statement from the list. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT. To include the predictor backtest export jobs that match the statement, specify IS. To exclude matching predictor backtest export jobs, specify IS_NOT.    Key - The name of the parameter to filter on. Valid values are PredictorArn and Status.    Value - The value to match.
         public let filters: [Filter]?
         /// The number of items to return in the response.
         public let maxResults: Int?
@@ -2128,7 +2128,7 @@ extension ForecastService {
         /// When the predictor backtest export job was created.
         public let creationTime: Date?
         public let destination: DataDestination?
-        /// When the last successful export job finished.
+        /// The last time the resource was modified. The timestamp depends on the status of the job:    CREATE_PENDING - The CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    CREATE_STOPPING - The current timestamp.    CREATE_STOPPED - When the job stopped.    ACTIVE or CREATE_FAILED - When the job finished or failed.
         public let lastModificationTime: Date?
         /// Information about any errors that may have occurred during the backtest export.
         public let message: String?
@@ -2136,7 +2136,7 @@ extension ForecastService {
         public let predictorBacktestExportJobArn: String?
         /// The name of the predictor backtest export job.
         public let predictorBacktestExportJobName: String?
-        /// The status of the predictor backtest export job. States include:     ACTIVE     CREATE_PENDING     CREATE_IN_PROGRESS     CREATE_FAILED     DELETE_PENDING     DELETE_IN_PROGRESS     DELETE_FAILED
+        /// The status of the predictor backtest export job. States include:     ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     CREATE_STOPPING, CREATE_STOPPED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED
         public let status: String?
 
         public init(creationTime: Date? = nil, destination: DataDestination? = nil, lastModificationTime: Date? = nil, message: String? = nil, predictorBacktestExportJobArn: String? = nil, predictorBacktestExportJobName: String? = nil, status: String? = nil) {
@@ -2195,7 +2195,7 @@ extension ForecastService {
         public let creationTime: Date?
         /// The Amazon Resource Name (ARN) of the dataset group that contains the data used to train the predictor.
         public let datasetGroupArn: String?
-        /// Initially, the same as CreationTime (status is CREATE_PENDING). Updated when training starts (status changed to CREATE_IN_PROGRESS), and when training is complete (status changed to ACTIVE) or fails (status changed to CREATE_FAILED).
+        /// The last time the resource was modified. The timestamp depends on the status of the job:    CREATE_PENDING - The CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    CREATE_STOPPING - The current timestamp.    CREATE_STOPPED - When the job stopped.    ACTIVE or CREATE_FAILED - When the job finished or failed.
         public let lastModificationTime: Date?
         /// If an error occurred, an informational message about the error.
         public let message: String?
@@ -2203,7 +2203,7 @@ extension ForecastService {
         public let predictorArn: String?
         /// The name of the predictor.
         public let predictorName: String?
-        /// The status of the predictor. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     UPDATE_PENDING, UPDATE_IN_PROGRESS, UPDATE_FAILED     The Status of the predictor must be ACTIVE before you can use the predictor to create a forecast.
+        /// The status of the predictor. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     CREATE_STOPPING, CREATE_STOPPED     The Status of the predictor must be ACTIVE before you can use the predictor to create a forecast.
         public let status: String?
 
         public init(creationTime: Date? = nil, datasetGroupArn: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, predictorArn: String? = nil, predictorName: String? = nil, status: String? = nil) {
@@ -2338,6 +2338,24 @@ extension ForecastService {
             case max = "Max"
             case min = "Min"
             case stddev = "Stddev"
+        }
+    }
+
+    public struct StopResourceRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) that identifies the resource to stop. The supported ARNs are DatasetImportJobArn, PredictorArn, PredictorBacktestExportJobArn, ForecastArn, and ForecastExportJobArn.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
         }
     }
 

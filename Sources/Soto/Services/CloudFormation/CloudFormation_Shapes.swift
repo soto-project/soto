@@ -157,6 +157,12 @@ extension CloudFormation {
         public var description: String { return self.rawValue }
     }
 
+    public enum RegionConcurrencyType: String, CustomStringConvertible, Codable {
+        case parallel = "PARALLEL"
+        case sequential = "SEQUENTIAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RegistrationStatus: String, CustomStringConvertible, Codable {
         case complete = "COMPLETE"
         case failed = "FAILED"
@@ -1123,12 +1129,14 @@ extension CloudFormation {
         /// The names of one or more AWS accounts for which you want to deploy stack set updates.
         @OptionalCustomCoding<StandardArrayCoder>
         public var accounts: [String]?
+        public let accountsUrl: String?
         /// The organization root ID or organizational unit (OU) IDs to which StackSets deploys.
         @OptionalCustomCoding<StandardArrayCoder>
         public var organizationalUnitIds: [String]?
 
-        public init(accounts: [String]? = nil, organizationalUnitIds: [String]? = nil) {
+        public init(accounts: [String]? = nil, accountsUrl: String? = nil, organizationalUnitIds: [String]? = nil) {
             self.accounts = accounts
+            self.accountsUrl = accountsUrl
             self.organizationalUnitIds = organizationalUnitIds
         }
 
@@ -1136,6 +1144,9 @@ extension CloudFormation {
             try self.accounts?.forEach {
                 try validate($0, name: "accounts[]", parent: name, pattern: "^[0-9]{12}$")
             }
+            try self.validate(self.accountsUrl, name: "accountsUrl", parent: name, max: 5120)
+            try self.validate(self.accountsUrl, name: "accountsUrl", parent: name, min: 1)
+            try self.validate(self.accountsUrl, name: "accountsUrl", parent: name, pattern: "(s3://|http(s?)://).+")
             try self.organizationalUnitIds?.forEach {
                 try validate($0, name: "organizationalUnitIds[]", parent: name, pattern: "^(ou-[a-z0-9]{4,32}-[a-z0-9]{8,32}|r-[a-z0-9]{4,32})$")
             }
@@ -1143,6 +1154,7 @@ extension CloudFormation {
 
         private enum CodingKeys: String, CodingKey {
             case accounts = "Accounts"
+            case accountsUrl = "AccountsUrl"
             case organizationalUnitIds = "OrganizationalUnitIds"
         }
     }
@@ -4177,15 +4189,17 @@ extension CloudFormation {
         public let maxConcurrentCount: Int?
         /// The maximum percentage of accounts in which to perform this operation at one time. When calculating the number of accounts based on the specified percentage, AWS CloudFormation rounds down to the next whole number. This is true except in cases where rounding down would result is zero. In this case, CloudFormation sets the number as one instead. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Conditional: You must specify either MaxConcurrentCount or MaxConcurrentPercentage, but not both.
         public let maxConcurrentPercentage: Int?
+        public let regionConcurrencyType: RegionConcurrencyType?
         /// The order of the Regions in where you want to perform the stack operation.
         @OptionalCustomCoding<StandardArrayCoder>
         public var regionOrder: [String]?
 
-        public init(failureToleranceCount: Int? = nil, failureTolerancePercentage: Int? = nil, maxConcurrentCount: Int? = nil, maxConcurrentPercentage: Int? = nil, regionOrder: [String]? = nil) {
+        public init(failureToleranceCount: Int? = nil, failureTolerancePercentage: Int? = nil, maxConcurrentCount: Int? = nil, maxConcurrentPercentage: Int? = nil, regionConcurrencyType: RegionConcurrencyType? = nil, regionOrder: [String]? = nil) {
             self.failureToleranceCount = failureToleranceCount
             self.failureTolerancePercentage = failureTolerancePercentage
             self.maxConcurrentCount = maxConcurrentCount
             self.maxConcurrentPercentage = maxConcurrentPercentage
+            self.regionConcurrencyType = regionConcurrencyType
             self.regionOrder = regionOrder
         }
 
@@ -4206,6 +4220,7 @@ extension CloudFormation {
             case failureTolerancePercentage = "FailureTolerancePercentage"
             case maxConcurrentCount = "MaxConcurrentCount"
             case maxConcurrentPercentage = "MaxConcurrentPercentage"
+            case regionConcurrencyType = "RegionConcurrencyType"
             case regionOrder = "RegionOrder"
         }
     }

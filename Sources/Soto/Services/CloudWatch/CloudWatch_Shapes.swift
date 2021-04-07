@@ -51,6 +51,12 @@ extension CloudWatch {
         public var description: String { return self.rawValue }
     }
 
+    public enum MetricStreamOutputFormat: String, CustomStringConvertible, Codable {
+        case json
+        case opentelemetry07 = "opentelemetry0.7"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RecentlyActive: String, CustomStringConvertible, Codable {
         case pt3h = "PT3H"
         public var description: String { return self.rawValue }
@@ -473,6 +479,28 @@ extension CloudWatch {
         private enum CodingKeys: String, CodingKey {
             case failures = "Failures"
         }
+    }
+
+    public struct DeleteMetricStreamInput: AWSEncodableShape {
+        /// The name of the metric stream to delete.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct DeleteMetricStreamOutput: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DescribeAlarmHistoryInput: AWSEncodableShape {
@@ -1237,6 +1265,74 @@ extension CloudWatch {
         }
     }
 
+    public struct GetMetricStreamInput: AWSEncodableShape {
+        /// The name of the metric stream to retrieve information about.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct GetMetricStreamOutput: AWSDecodableShape {
+        /// The ARN of the metric stream.
+        public let arn: String?
+        /// The date that the metric stream was created.
+        public let creationDate: Date?
+        /// If this array of metric namespaces is present, then these namespaces are the only metric namespaces that are not streamed by this metric stream. In this case, all other metric namespaces in the account are streamed by this metric stream.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var excludeFilters: [MetricStreamFilter]?
+        /// The ARN of the Amazon Kinesis Firehose delivery stream that is used by this metric stream.
+        public let firehoseArn: String?
+        /// If this array of metric namespaces is present, then these namespaces are the only metric namespaces that are streamed by this metric stream.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var includeFilters: [MetricStreamFilter]?
+        /// The date of the most recent update to the metric stream's configuration.
+        public let lastUpdateDate: Date?
+        /// The name of the metric stream.
+        public let name: String?
+        public let outputFormat: MetricStreamOutputFormat?
+        /// The ARN of the IAM role that is used by this metric stream.
+        public let roleArn: String?
+        /// The state of the metric stream. The possible values are running and stopped.
+        public let state: String?
+
+        public init(arn: String? = nil, creationDate: Date? = nil, excludeFilters: [MetricStreamFilter]? = nil, firehoseArn: String? = nil, includeFilters: [MetricStreamFilter]? = nil, lastUpdateDate: Date? = nil, name: String? = nil, outputFormat: MetricStreamOutputFormat? = nil, roleArn: String? = nil, state: String? = nil) {
+            self.arn = arn
+            self.creationDate = creationDate
+            self.excludeFilters = excludeFilters
+            self.firehoseArn = firehoseArn
+            self.includeFilters = includeFilters
+            self.lastUpdateDate = lastUpdateDate
+            self.name = name
+            self.outputFormat = outputFormat
+            self.roleArn = roleArn
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationDate = "CreationDate"
+            case excludeFilters = "ExcludeFilters"
+            case firehoseArn = "FirehoseArn"
+            case includeFilters = "IncludeFilters"
+            case lastUpdateDate = "LastUpdateDate"
+            case name = "Name"
+            case outputFormat = "OutputFormat"
+            case roleArn = "RoleArn"
+            case state = "State"
+        }
+    }
+
     public struct GetMetricWidgetImageInput: AWSEncodableShape {
         /// A JSON string that defines the bitmap graph to be retrieved. The string includes the metrics to include in the graph, statistics, annotations, title, axis limits, and so on. You can include only one MetricWidget parameter in each GetMetricWidgetImage call. For more information about the syntax of MetricWidget see GetMetricWidgetImage: Metric Widget Structure and Syntax. If any metric on the graph could not load all the requested data points, an orange triangle with an exclamation point appears next to the graph legend.
         public let metricWidget: String
@@ -1417,6 +1513,46 @@ extension CloudWatch {
 
         private enum CodingKeys: String, CodingKey {
             case dashboardEntries = "DashboardEntries"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListMetricStreamsInput: AWSEncodableShape {
+        /// The maximum number of results to return in one operation.
+        public let maxResults: Int?
+        /// Include this value, if it was returned by the previous call, to get the next set of metric streams.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListMetricStreamsOutput: AWSDecodableShape {
+        /// The array of metric stream information.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var entries: [MetricStreamEntry]?
+        /// The token that marks the start of the next batch of returned results. You can use this token in a subsequent operation to get the next batch of results.
+        public let nextToken: String?
+
+        public init(entries: [MetricStreamEntry]? = nil, nextToken: String? = nil) {
+            self.entries = entries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entries = "Entries"
             case nextToken = "NextToken"
         }
     }
@@ -1852,6 +1988,62 @@ extension CloudWatch {
         }
     }
 
+    public struct MetricStreamEntry: AWSDecodableShape {
+        /// The ARN of the metric stream.
+        public let arn: String?
+        /// The date that the metric stream was originally created.
+        public let creationDate: Date?
+        /// The ARN of the Kinesis Firehose devlivery stream that is used for this metric stream.
+        public let firehoseArn: String?
+        /// The date that the configuration of this metric stream was most recently updated.
+        public let lastUpdateDate: Date?
+        /// The name of the metric stream.
+        public let name: String?
+        /// The output format of this metric stream. Valid values are json and opentelemetry0.7.
+        public let outputFormat: MetricStreamOutputFormat?
+        /// The current state of this stream. Valid values are running and stopped.
+        public let state: String?
+
+        public init(arn: String? = nil, creationDate: Date? = nil, firehoseArn: String? = nil, lastUpdateDate: Date? = nil, name: String? = nil, outputFormat: MetricStreamOutputFormat? = nil, state: String? = nil) {
+            self.arn = arn
+            self.creationDate = creationDate
+            self.firehoseArn = firehoseArn
+            self.lastUpdateDate = lastUpdateDate
+            self.name = name
+            self.outputFormat = outputFormat
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationDate = "CreationDate"
+            case firehoseArn = "FirehoseArn"
+            case lastUpdateDate = "LastUpdateDate"
+            case name = "Name"
+            case outputFormat = "OutputFormat"
+            case state = "State"
+        }
+    }
+
+    public struct MetricStreamFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the metric namespace in the filter.
+        public let namespace: String?
+
+        public init(namespace: String? = nil) {
+            self.namespace = namespace
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
+            try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "[^:].*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case namespace = "Namespace"
+        }
+    }
+
     public struct PartialFailure: AWSDecodableShape {
         /// The type of error.
         public let exceptionType: String?
@@ -2106,7 +2298,7 @@ extension CloudWatch {
         public var metrics: [MetricDataQuery]?
         /// The namespace for the metric associated specified in MetricName.
         public let namespace: String?
-        /// The actions to execute when this alarm transitions to an OK state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover | arn:aws:automate:region:ec2:reboot | arn:aws:sns:region:account-id:sns-topic-name  | arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name   Valid Values (for use with IAM roles): arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0
+        /// The actions to execute when this alarm transitions to an OK state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover | arn:aws:automate:region:ec2:reboot | arn:aws:sns:region:account-id:sns-topic-name  | arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name   Valid Values (for use with IAM roles): arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Recover/1.0
         @OptionalCustomCoding<StandardArrayCoder>
         public var oKActions: [String]?
         /// The length, in seconds, used each time the metric specified in MetricName is evaluated. Valid values are 10, 30, and any multiple of 60.  Period is required for alarms based on static thresholds. If you are creating an alarm based on a metric math expression, you specify the period for each metric within the objects in the Metrics array. Be sure to specify 10 or 30 only for metrics that are stored by a PutMetricData call with a StorageResolution of 1. If you specify a period of 10 or 30 for a metric that does not have sub-minute resolution, the alarm still attempts to gather data at the period rate that you specify. In this case, it does not receive data for the attempts that do not correspond to a one-minute data resolution, and the alarm might often lapse into INSUFFICENT_DATA status. Specifying 10 or 30 also sets this alarm as a high-resolution alarm, which has a higher charge than other alarms. For more information about pricing, see Amazon CloudWatch Pricing. An alarm's total current evaluation period can be no longer than one day, so Period multiplied by EvaluationPeriods cannot be more than 86,400 seconds.
@@ -2250,6 +2442,77 @@ extension CloudWatch {
         }
     }
 
+    public struct PutMetricStreamInput: AWSEncodableShape {
+        /// If you specify this parameter, the stream sends metrics from all metric namespaces except for the namespaces that you specify here. You cannot include ExcludeFilters and IncludeFilters in the same operation.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var excludeFilters: [MetricStreamFilter]?
+        /// The ARN of the Amazon Kinesis Firehose delivery stream to use for this metric stream. This Amazon Kinesis Firehose delivery stream must already exist and must be in the same account as the metric stream.
+        public let firehoseArn: String
+        /// If you specify this parameter, the stream sends only the metrics from the metric namespaces that you specify here. You cannot include IncludeFilters and ExcludeFilters in the same operation.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var includeFilters: [MetricStreamFilter]?
+        /// If you are creating a new metric stream, this is the name for the new stream. The name must be different than the names of other metric streams in this account and Region. If you are updating a metric stream, specify the name of that stream here. Valid characters are A-Z, a-z, 0-9, "-" and "_".
+        public let name: String
+        /// The output format for the stream. Valid values are json and opentelemetry0.7. For more information about metric stream output formats, see  Metric streams output formats.
+        public let outputFormat: MetricStreamOutputFormat
+        /// The ARN of an IAM role that this metric stream will use to access Amazon Kinesis Firehose resources. This IAM role must already exist and must be in the same account as the metric stream. This IAM role must include the following permissions:   firehose:PutRecord   firehose:PutRecordBatch
+        public let roleArn: String
+        /// A list of key-value pairs to associate with the metric stream. You can associate as many as 50 tags with a metric stream. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var tags: [Tag]?
+
+        public init(excludeFilters: [MetricStreamFilter]? = nil, firehoseArn: String, includeFilters: [MetricStreamFilter]? = nil, name: String, outputFormat: MetricStreamOutputFormat, roleArn: String, tags: [Tag]? = nil) {
+            self.excludeFilters = excludeFilters
+            self.firehoseArn = firehoseArn
+            self.includeFilters = includeFilters
+            self.name = name
+            self.outputFormat = outputFormat
+            self.roleArn = roleArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.excludeFilters?.forEach {
+                try $0.validate(name: "\(name).excludeFilters[]")
+            }
+            try self.validate(self.firehoseArn, name: "firehoseArn", parent: name, max: 1024)
+            try self.validate(self.firehoseArn, name: "firehoseArn", parent: name, min: 1)
+            try self.includeFilters?.forEach {
+                try $0.validate(name: "\(name).includeFilters[]")
+            }
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1024)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case excludeFilters = "ExcludeFilters"
+            case firehoseArn = "FirehoseArn"
+            case includeFilters = "IncludeFilters"
+            case name = "Name"
+            case outputFormat = "OutputFormat"
+            case roleArn = "RoleArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct PutMetricStreamOutput: AWSDecodableShape {
+        /// The ARN of the metric stream.
+        public let arn: String?
+
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+        }
+    }
+
     public struct Range: AWSEncodableShape & AWSDecodableShape {
         /// The end time of the range to exclude. The format is yyyy-MM-dd'T'HH:mm:ss. For example, 2019-07-01T23:59:59.
         public let endTime: Date
@@ -2301,6 +2564,31 @@ extension CloudWatch {
         }
     }
 
+    public struct StartMetricStreamsInput: AWSEncodableShape {
+        /// The array of the names of metric streams to start streaming. This is an "all or nothing" operation. If you do not have permission to access all of the metric streams that you list here, then none of the streams that you list in the operation will start streaming.
+        @CustomCoding<StandardArrayCoder>
+        public var names: [String]
+
+        public init(names: [String]) {
+            self.names = names
+        }
+
+        public func validate(name: String) throws {
+            try self.names.forEach {
+                try validate($0, name: "names[]", parent: name, max: 255)
+                try validate($0, name: "names[]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case names = "Names"
+        }
+    }
+
+    public struct StartMetricStreamsOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct StatisticSet: AWSEncodableShape {
         /// The maximum value of the sample set.
         public let maximum: Double
@@ -2324,6 +2612,31 @@ extension CloudWatch {
             case sampleCount = "SampleCount"
             case sum = "Sum"
         }
+    }
+
+    public struct StopMetricStreamsInput: AWSEncodableShape {
+        /// The array of the names of metric streams to stop streaming. This is an "all or nothing" operation. If you do not have permission to access all of the metric streams that you list here, then none of the streams that you list in the operation will stop streaming.
+        @CustomCoding<StandardArrayCoder>
+        public var names: [String]
+
+        public init(names: [String]) {
+            self.names = names
+        }
+
+        public func validate(name: String) throws {
+            try self.names.forEach {
+                try validate($0, name: "names[]", parent: name, max: 255)
+                try validate($0, name: "names[]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case names = "Names"
+        }
+    }
+
+    public struct StopMetricStreamsOutput: AWSDecodableShape {
+        public init() {}
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {

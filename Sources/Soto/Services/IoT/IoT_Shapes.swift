@@ -10436,7 +10436,8 @@ extension IoT {
             AWSMemberEncoding(label: "attributeValue", location: .querystring(locationName: "attributeValue")),
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "thingTypeName", location: .querystring(locationName: "thingTypeName"))
+            AWSMemberEncoding(label: "thingTypeName", location: .querystring(locationName: "thingTypeName")),
+            AWSMemberEncoding(label: "usePrefixAttributeValue", location: .querystring(locationName: "usePrefixAttributeValue"))
         ]
 
         /// The attribute name used to search for things.
@@ -10449,13 +10450,16 @@ extension IoT {
         public let nextToken: String?
         /// The name of the thing type used to search for things.
         public let thingTypeName: String?
+        /// When true, the action returns the thing resources with attribute values that start with the attributeValue provided. When false, or not present, the action returns only the thing resources with attribute values that match the entire attributeValue provided.
+        public let usePrefixAttributeValue: Bool?
 
-        public init(attributeName: String? = nil, attributeValue: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, thingTypeName: String? = nil) {
+        public init(attributeName: String? = nil, attributeValue: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, thingTypeName: String? = nil, usePrefixAttributeValue: Bool? = nil) {
             self.attributeName = attributeName
             self.attributeValue = attributeValue
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.thingTypeName = thingTypeName
+            self.usePrefixAttributeValue = usePrefixAttributeValue
         }
 
         public func validate(name: String) throws {

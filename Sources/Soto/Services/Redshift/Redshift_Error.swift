@@ -19,6 +19,7 @@ import SotoCore
 /// Error enum for Redshift
 public struct RedshiftErrorType: AWSErrorType {
     enum Code: String {
+        case accessToClusterDeniedFault = "AccessToClusterDenied"
         case accessToSnapshotDeniedFault = "AccessToSnapshotDenied"
         case authorizationAlreadyExistsFault = "AuthorizationAlreadyExists"
         case authorizationNotFoundFault = "AuthorizationNotFound"
@@ -46,6 +47,13 @@ public struct RedshiftErrorType: AWSErrorType {
         case copyToRegionDisabledFault = "CopyToRegionDisabledFault"
         case dependentServiceRequestThrottlingFault = "DependentServiceRequestThrottlingFault"
         case dependentServiceUnavailableFault = "DependentServiceUnavailableFault"
+        case endpointAlreadyExistsFault = "EndpointAlreadyExists"
+        case endpointAuthorizationAlreadyExistsFault = "EndpointAuthorizationAlreadyExists"
+        case endpointAuthorizationNotFoundFault = "EndpointAuthorizationNotFound"
+        case endpointAuthorizationsPerClusterLimitExceededFault = "EndpointAuthorizationsPerClusterLimitExceeded"
+        case endpointNotFoundFault = "EndpointNotFound"
+        case endpointsPerAuthorizationLimitExceededFault = "EndpointsPerAuthorizationLimitExceeded"
+        case endpointsPerClusterLimitExceededFault = "EndpointsPerClusterLimitExceeded"
         case eventSubscriptionQuotaExceededFault = "EventSubscriptionQuotaExceeded"
         case hsmClientCertificateAlreadyExistsFault = "HsmClientCertificateAlreadyExistsFault"
         case hsmClientCertificateNotFoundFault = "HsmClientCertificateNotFoundFault"
@@ -57,6 +65,7 @@ public struct RedshiftErrorType: AWSErrorType {
         case incompatibleOrderableOptions = "IncompatibleOrderableOptions"
         case insufficientClusterCapacityFault = "InsufficientClusterCapacity"
         case insufficientS3BucketPolicyFault = "InsufficientS3BucketPolicyFault"
+        case invalidAuthorizationStateFault = "InvalidAuthorizationState"
         case invalidClusterParameterGroupStateFault = "InvalidClusterParameterGroupState"
         case invalidClusterSecurityGroupStateFault = "InvalidClusterSecurityGroupState"
         case invalidClusterSnapshotScheduleStateFault = "InvalidClusterSnapshotScheduleState"
@@ -66,6 +75,7 @@ public struct RedshiftErrorType: AWSErrorType {
         case invalidClusterSubnetStateFault = "InvalidClusterSubnetStateFault"
         case invalidClusterTrackFault = "InvalidClusterTrack"
         case invalidElasticIpFault = "InvalidElasticIpFault"
+        case invalidEndpointStateFault = "InvalidEndpointState"
         case invalidHsmClientCertificateStateFault = "InvalidHsmClientCertificateStateFault"
         case invalidHsmConfigurationStateFault = "InvalidHsmConfigurationStateFault"
         case invalidReservedNodeStateFault = "InvalidReservedNodeState"
@@ -146,6 +156,8 @@ public struct RedshiftErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// You are not authorized to access the cluster.
+    public static var accessToClusterDeniedFault: Self { .init(.accessToClusterDeniedFault) }
     /// The owner of the specified snapshot has not authorized your account to access the snapshot.
     public static var accessToSnapshotDeniedFault: Self { .init(.accessToSnapshotDeniedFault) }
     /// The specified CIDR block or EC2 security group is already authorized for the specified cluster security group.
@@ -200,6 +212,20 @@ public struct RedshiftErrorType: AWSErrorType {
     public static var dependentServiceRequestThrottlingFault: Self { .init(.dependentServiceRequestThrottlingFault) }
     /// Your request cannot be completed because a dependent internal service is temporarily unavailable. Wait 30 to 60 seconds and try again.
     public static var dependentServiceUnavailableFault: Self { .init(.dependentServiceUnavailableFault) }
+    /// The account already has a Redshift-managed VPC endpoint with the given identifier.
+    public static var endpointAlreadyExistsFault: Self { .init(.endpointAlreadyExistsFault) }
+    /// The authorization already exists for this endpoint.
+    public static var endpointAuthorizationAlreadyExistsFault: Self { .init(.endpointAuthorizationAlreadyExistsFault) }
+    /// The authorization for this endpoint can't be found.
+    public static var endpointAuthorizationNotFoundFault: Self { .init(.endpointAuthorizationNotFoundFault) }
+    /// The number of endpoint authorizations per cluster has exceeded its limit.
+    public static var endpointAuthorizationsPerClusterLimitExceededFault: Self { .init(.endpointAuthorizationsPerClusterLimitExceededFault) }
+    /// The endpoint name doesn't refer to an existing endpoint.
+    public static var endpointNotFoundFault: Self { .init(.endpointNotFoundFault) }
+    /// The number of Redshift-managed VPC endpoints per authorization has exceeded its limit.
+    public static var endpointsPerAuthorizationLimitExceededFault: Self { .init(.endpointsPerAuthorizationLimitExceededFault) }
+    /// The number of Redshift-managed VPC endpoints per cluster has exceeded its limit.
+    public static var endpointsPerClusterLimitExceededFault: Self { .init(.endpointsPerClusterLimitExceededFault) }
     /// The request would exceed the allowed number of event subscriptions for this account. For information about increasing your quota, go to Limits in Amazon Redshift in the Amazon Redshift Cluster Management Guide.
     public static var eventSubscriptionQuotaExceededFault: Self { .init(.eventSubscriptionQuotaExceededFault) }
     /// There is already an existing Amazon Redshift HSM client certificate with the specified identifier.
@@ -222,6 +248,8 @@ public struct RedshiftErrorType: AWSErrorType {
     public static var insufficientClusterCapacityFault: Self { .init(.insufficientClusterCapacityFault) }
     /// The cluster does not have read bucket or put object permissions on the S3 bucket specified when enabling logging.
     public static var insufficientS3BucketPolicyFault: Self { .init(.insufficientS3BucketPolicyFault) }
+    /// The status of the authorization is not valid.
+    public static var invalidAuthorizationStateFault: Self { .init(.invalidAuthorizationStateFault) }
     /// The cluster parameter group action can not be completed because another task is in progress that involves the parameter group. Wait a few moments and try the operation again.
     public static var invalidClusterParameterGroupStateFault: Self { .init(.invalidClusterParameterGroupStateFault) }
     /// The state of the cluster security group is not available.
@@ -240,6 +268,8 @@ public struct RedshiftErrorType: AWSErrorType {
     public static var invalidClusterTrackFault: Self { .init(.invalidClusterTrackFault) }
     /// The Elastic IP (EIP) is invalid or cannot be found.
     public static var invalidElasticIpFault: Self { .init(.invalidElasticIpFault) }
+    /// The status of the endpoint is not valid.
+    public static var invalidEndpointStateFault: Self { .init(.invalidEndpointStateFault) }
     /// The specified HSM client certificate is not in the available state, or it is still in use by one or more Amazon Redshift clusters.
     public static var invalidHsmClientCertificateStateFault: Self { .init(.invalidHsmClientCertificateStateFault) }
     /// The specified HSM configuration is not in the available state, or it is still in use by one or more Amazon Redshift clusters.

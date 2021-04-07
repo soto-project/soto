@@ -763,10 +763,12 @@ extension ElasticsearchService {
         public let nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions?
         /// Option to set time, in UTC format, of the daily automated snapshot. Default value is 0 hours.
         public let snapshotOptions: SnapshotOptions?
+        /// A list of Tag added during domain creation.
+        public let tagList: [Tag]?
         /// Options to specify the subnets and security groups for VPC endpoint. For more information, see Creating a VPC in VPC Endpoints for Amazon Elasticsearch Service Domains
         public let vPCOptions: VPCOptions?
 
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, autoTuneOptions: AutoTuneOptionsInput? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, eBSOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil, elasticsearchVersion: String? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, vPCOptions: VPCOptions? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, autoTuneOptions: AutoTuneOptionsInput? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, eBSOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil, elasticsearchVersion: String? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, tagList: [Tag]? = nil, vPCOptions: VPCOptions? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
@@ -781,6 +783,7 @@ extension ElasticsearchService {
             self.logPublishingOptions = logPublishingOptions
             self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
             self.snapshotOptions = snapshotOptions
+            self.tagList = tagList
             self.vPCOptions = vPCOptions
         }
 
@@ -793,6 +796,9 @@ extension ElasticsearchService {
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[a-z][a-z0-9\\-]+")
             try self.encryptionAtRestOptions?.validate(name: "\(name).encryptionAtRestOptions")
+            try self.tagList?.forEach {
+                try $0.validate(name: "\(name).tagList[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -810,6 +816,7 @@ extension ElasticsearchService {
             case logPublishingOptions = "LogPublishingOptions"
             case nodeToNodeEncryptionOptions = "NodeToNodeEncryptionOptions"
             case snapshotOptions = "SnapshotOptions"
+            case tagList = "TagList"
             case vPCOptions = "VPCOptions"
         }
     }

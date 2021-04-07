@@ -18,7 +18,7 @@
 
 /// Service object for interacting with AWS Macie2 service.
 ///
-/// Amazon Macie is a fully managed data security and data privacy service that uses machine learning and pattern matching to discover and protect your sensitive data in AWS. Macie automates the discovery of sensitive data, such as PII and intellectual property, to provide you with insight into the data that your organization stores in AWS. Macie also provides an inventory of your Amazon S3 buckets, which it continually monitors for you. If Macie detects sensitive data or potential data access issues, it generates detailed findings for you to review and act upon as necessary.
+/// Amazon Macie is a fully managed data security and data privacy service that uses machine learning and pattern matching to discover and protect your sensitive data in AWS. Macie automates the discovery of sensitive data, such as PII and intellectual property, to provide you with insight into the data that your organization stores in AWS. Macie also provides an inventory of your Amazon S3 buckets, which it continually monitors foryou. If Macie detects sensitive data or potential data access issues, it generates detailed findings for you to review and act upon as necessary.
 public struct Macie2: AWSService {
     // MARK: Member variables
 
@@ -212,6 +212,11 @@ public struct Macie2: AWSService {
         return self.client.execute(operation: "GetFindingsFilter", path: "/findingsfilters/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieves the configuration settings for publishing findings to AWS Security Hub.
+    public func getFindingsPublicationConfiguration(_ input: GetFindingsPublicationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFindingsPublicationConfigurationResponse> {
+        return self.client.execute(operation: "GetFindingsPublicationConfiguration", path: "/findings-publication-configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Retrieves the count of Amazon Macie membership invitations that were received by an account.
     public func getInvitationsCount(_ input: GetInvitationsCountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetInvitationsCountResponse> {
         return self.client.execute(operation: "GetInvitationsCount", path: "/invitations/count", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -285,6 +290,11 @@ public struct Macie2: AWSService {
     /// Creates or updates the configuration settings for storing data classification results.
     public func putClassificationExportConfiguration(_ input: PutClassificationExportConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutClassificationExportConfigurationResponse> {
         return self.client.execute(operation: "PutClassificationExportConfiguration", path: "/classification-export-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the configuration settings for publishing findings to AWS Security Hub.
+    public func putFindingsPublicationConfiguration(_ input: PutFindingsPublicationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutFindingsPublicationConfigurationResponse> {
+        return self.client.execute(operation: "PutFindingsPublicationConfiguration", path: "/findings-publication-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Adds or updates one or more tags (keys and values) that are associated with a classification job, custom data identifier, findings filter, or member account.

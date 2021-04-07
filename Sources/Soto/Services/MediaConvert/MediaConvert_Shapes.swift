@@ -88,9 +88,29 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum Ac3DynamicRangeCompressionLine: String, CustomStringConvertible, Codable {
+        case filmLight = "FILM_LIGHT"
+        case filmStandard = "FILM_STANDARD"
+        case musicLight = "MUSIC_LIGHT"
+        case musicStandard = "MUSIC_STANDARD"
+        case none = "NONE"
+        case speech = "SPEECH"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Ac3DynamicRangeCompressionProfile: String, CustomStringConvertible, Codable {
         case filmStandard = "FILM_STANDARD"
         case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Ac3DynamicRangeCompressionRf: String, CustomStringConvertible, Codable {
+        case filmLight = "FILM_LIGHT"
+        case filmStandard = "FILM_STANDARD"
+        case musicLight = "MUSIC_LIGHT"
+        case musicStandard = "MUSIC_STANDARD"
+        case none = "NONE"
+        case speech = "SPEECH"
         public var description: String { return self.rawValue }
     }
 
@@ -409,6 +429,7 @@ extension MediaConvert {
         case stl = "STL"
         case teletext = "TELETEXT"
         case ttml = "TTML"
+        case webvtt = "WEBVTT"
         public var description: String { return self.rawValue }
     }
 
@@ -460,6 +481,12 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum CmafPtsOffsetHandlingForBFrames: String, CustomStringConvertible, Codable {
+        case matchInitialPts = "MATCH_INITIAL_PTS"
+        case zeroBased = "ZERO_BASED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CmafSegmentControl: String, CustomStringConvertible, Codable {
         case segmentedFiles = "SEGMENTED_FILES"
         case singleFile = "SINGLE_FILE"
@@ -493,6 +520,19 @@ extension MediaConvert {
     public enum CmfcAudioDuration: String, CustomStringConvertible, Codable {
         case defaultCodecDuration = "DEFAULT_CODEC_DURATION"
         case matchVideoDuration = "MATCH_VIDEO_DURATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CmfcAudioTrackType: String, CustomStringConvertible, Codable {
+        case alternateAudioAutoSelect = "ALTERNATE_AUDIO_AUTO_SELECT"
+        case alternateAudioAutoSelectDefault = "ALTERNATE_AUDIO_AUTO_SELECT_DEFAULT"
+        case alternateAudioNotAutoSelect = "ALTERNATE_AUDIO_NOT_AUTO_SELECT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CmfcDescriptiveVideoServiceFlag: String, CustomStringConvertible, Codable {
+        case dontFlag = "DONT_FLAG"
+        case flag = "FLAG"
         public var description: String { return self.rawValue }
     }
 
@@ -564,6 +604,12 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum DashIsoGroupAudioChannelConfigSchemeIdUri: String, CustomStringConvertible, Codable {
+        case dolbyChannelConfiguration = "DOLBY_CHANNEL_CONFIGURATION"
+        case mpegChannelConfiguration = "MPEG_CHANNEL_CONFIGURATION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DashIsoHbbtvCompliance: String, CustomStringConvertible, Codable {
         case hbbtv15 = "HBBTV_1_5"
         case none = "NONE"
@@ -579,6 +625,12 @@ extension MediaConvert {
     public enum DashIsoPlaybackDeviceCompatibility: String, CustomStringConvertible, Codable {
         case cencV1 = "CENC_V1"
         case unencryptedSei = "UNENCRYPTED_SEI"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DashIsoPtsOffsetHandlingForBFrames: String, CustomStringConvertible, Codable {
+        case matchInitialPts = "MATCH_INITIAL_PTS"
+        case zeroBased = "ZERO_BASED"
         public var description: String { return self.rawValue }
     }
 
@@ -1288,6 +1340,12 @@ extension MediaConvert {
     public enum HlsCodecSpecification: String, CustomStringConvertible, Codable {
         case rfc4281 = "RFC_4281"
         case rfc6381 = "RFC_6381"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HlsDescriptiveVideoServiceFlag: String, CustomStringConvertible, Codable {
+        case dontFlag = "DONT_FLAG"
+        case flag = "FLAG"
         public var description: String { return self.rawValue }
     }
 
@@ -2394,6 +2452,12 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum WebvttStylePassthrough: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AacSettings: AWSEncodableShape & AWSDecodableShape {
@@ -2457,8 +2521,12 @@ extension MediaConvert {
         public let codingMode: Ac3CodingMode?
         /// Sets the dialnorm for the output. If blank and input audio is Dolby Digital, dialnorm will be passed through.
         public let dialnorm: Int?
-        /// If set to FILM_STANDARD, adds dynamic range compression signaling to the output bitstream as defined in the Dolby Digital specification.
+        /// Choose the Dolby Digital dynamic range control (DRC) profile that MediaConvert uses when encoding the metadata in the Dolby Digital stream for the line operating mode. Related setting: When you use this setting, MediaConvert ignores any value you provide for Dynamic range compression profile (DynamicRangeCompressionProfile). For information about the Dolby Digital DRC operating modes and profiles, see the Dynamic Range Control chapter of the Dolby Metadata Guide at https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
+        public let dynamicRangeCompressionLine: Ac3DynamicRangeCompressionLine?
+        /// When you want to add Dolby dynamic range compression (DRC) signaling to your output stream, we recommend that you use the mode-specific settings instead of Dynamic range compression profile (DynamicRangeCompressionProfile). The mode-specific settings are Dynamic range compression profile, line mode (dynamicRangeCompressionLine) and Dynamic range compression profile, RF mode (dynamicRangeCompressionRf). Note that when you specify values for all three settings, MediaConvert ignores the value of this setting in favor of the mode-specific settings. If you do use this setting instead of the mode-specific settings, choose None (NONE) to leave out DRC signaling. Keep the default Film standard (FILM_STANDARD) to set the profile to Dolby's film standard profile for all operating modes.
         public let dynamicRangeCompressionProfile: Ac3DynamicRangeCompressionProfile?
+        /// Choose the Dolby Digital dynamic range control (DRC) profile that MediaConvert uses when encoding the metadata in the Dolby Digital stream for the RF operating mode. Related setting: When you use this setting, MediaConvert ignores any value you provide for Dynamic range compression profile (DynamicRangeCompressionProfile). For information about the Dolby Digital DRC operating modes and profiles, see the Dynamic Range Control chapter of the Dolby Metadata Guide at https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
+        public let dynamicRangeCompressionRf: Ac3DynamicRangeCompressionRf?
         /// Applies a 120Hz lowpass filter to the LFE channel prior to encoding. Only valid with 3_2_LFE coding mode.
         public let lfeFilter: Ac3LfeFilter?
         /// When set to FOLLOW_INPUT, encoder metadata will be sourced from the DD, DD+, or DolbyE decoder that supplied this audio data. If audio was not supplied from one of these streams, then the static metadata settings will be used.
@@ -2466,12 +2534,14 @@ extension MediaConvert {
         /// This value is always 48000. It represents the sample rate in Hz.
         public let sampleRate: Int?
 
-        public init(bitrate: Int? = nil, bitstreamMode: Ac3BitstreamMode? = nil, codingMode: Ac3CodingMode? = nil, dialnorm: Int? = nil, dynamicRangeCompressionProfile: Ac3DynamicRangeCompressionProfile? = nil, lfeFilter: Ac3LfeFilter? = nil, metadataControl: Ac3MetadataControl? = nil, sampleRate: Int? = nil) {
+        public init(bitrate: Int? = nil, bitstreamMode: Ac3BitstreamMode? = nil, codingMode: Ac3CodingMode? = nil, dialnorm: Int? = nil, dynamicRangeCompressionLine: Ac3DynamicRangeCompressionLine? = nil, dynamicRangeCompressionProfile: Ac3DynamicRangeCompressionProfile? = nil, dynamicRangeCompressionRf: Ac3DynamicRangeCompressionRf? = nil, lfeFilter: Ac3LfeFilter? = nil, metadataControl: Ac3MetadataControl? = nil, sampleRate: Int? = nil) {
             self.bitrate = bitrate
             self.bitstreamMode = bitstreamMode
             self.codingMode = codingMode
             self.dialnorm = dialnorm
+            self.dynamicRangeCompressionLine = dynamicRangeCompressionLine
             self.dynamicRangeCompressionProfile = dynamicRangeCompressionProfile
+            self.dynamicRangeCompressionRf = dynamicRangeCompressionRf
             self.lfeFilter = lfeFilter
             self.metadataControl = metadataControl
             self.sampleRate = sampleRate
@@ -2491,7 +2561,9 @@ extension MediaConvert {
             case bitstreamMode
             case codingMode
             case dialnorm
+            case dynamicRangeCompressionLine
             case dynamicRangeCompressionProfile
+            case dynamicRangeCompressionRf
             case lfeFilter
             case metadataControl
             case sampleRate
@@ -3284,8 +3356,10 @@ extension MediaConvert {
         public let teletextDestinationSettings: TeletextDestinationSettings?
         /// Settings specific to TTML caption outputs, including Pass style information (TtmlStylePassthrough).
         public let ttmlDestinationSettings: TtmlDestinationSettings?
+        /// WEBVTT Destination Settings
+        public let webvttDestinationSettings: WebvttDestinationSettings?
 
-        public init(burninDestinationSettings: BurninDestinationSettings? = nil, destinationType: CaptionDestinationType? = nil, dvbSubDestinationSettings: DvbSubDestinationSettings? = nil, embeddedDestinationSettings: EmbeddedDestinationSettings? = nil, imscDestinationSettings: ImscDestinationSettings? = nil, sccDestinationSettings: SccDestinationSettings? = nil, teletextDestinationSettings: TeletextDestinationSettings? = nil, ttmlDestinationSettings: TtmlDestinationSettings? = nil) {
+        public init(burninDestinationSettings: BurninDestinationSettings? = nil, destinationType: CaptionDestinationType? = nil, dvbSubDestinationSettings: DvbSubDestinationSettings? = nil, embeddedDestinationSettings: EmbeddedDestinationSettings? = nil, imscDestinationSettings: ImscDestinationSettings? = nil, sccDestinationSettings: SccDestinationSettings? = nil, teletextDestinationSettings: TeletextDestinationSettings? = nil, ttmlDestinationSettings: TtmlDestinationSettings? = nil, webvttDestinationSettings: WebvttDestinationSettings? = nil) {
             self.burninDestinationSettings = burninDestinationSettings
             self.destinationType = destinationType
             self.dvbSubDestinationSettings = dvbSubDestinationSettings
@@ -3294,6 +3368,7 @@ extension MediaConvert {
             self.sccDestinationSettings = sccDestinationSettings
             self.teletextDestinationSettings = teletextDestinationSettings
             self.ttmlDestinationSettings = ttmlDestinationSettings
+            self.webvttDestinationSettings = webvttDestinationSettings
         }
 
         public func validate(name: String) throws {
@@ -3312,6 +3387,7 @@ extension MediaConvert {
             case sccDestinationSettings
             case teletextDestinationSettings
             case ttmlDestinationSettings
+            case webvttDestinationSettings
         }
     }
 
@@ -3374,7 +3450,7 @@ extension MediaConvert {
         public let dvbSubSourceSettings: DvbSubSourceSettings?
         /// Settings for embedded captions Source
         public let embeddedSourceSettings: EmbeddedSourceSettings?
-        /// If your input captions are SCC, SMI, SRT, STL, TTML, or IMSC 1.1 in an xml file, specify the URI of the input caption source file. If your caption source is IMSC in an IMF package, use TrackSourceSettings instead of FileSoureSettings.
+        /// If your input captions are SCC, SMI, SRT, STL, TTML, WebVTT, or IMSC 1.1 in an xml file, specify the URI of the input caption source file. If your caption source is IMSC in an IMF package, use TrackSourceSettings instead of FileSoureSettings.
         public let fileSourceSettings: FileSourceSettings?
         /// Use Source (SourceType) to identify the format of your input captions.  The service cannot auto-detect caption format.
         public let sourceType: CaptionSourceType?
@@ -3524,6 +3600,8 @@ extension MediaConvert {
         public let minFinalSegmentLength: Double?
         /// Specify whether your DASH profile is on-demand or main. When you choose Main profile (MAIN_PROFILE), the service signals  urn:mpeg:dash:profile:isoff-main:2011 in your .mpd DASH manifest. When you choose On-demand (ON_DEMAND_PROFILE), the service signals urn:mpeg:dash:profile:isoff-on-demand:2011 in your .mpd. When you choose On-demand, you must also set the output group setting Segment control (SegmentControl) to Single file (SINGLE_FILE).
         public let mpdProfile: CmafMpdProfile?
+        /// Use this setting only when your output video stream has B-frames, which causes the initial presentation time stamp (PTS) to be offset from the initial decode time stamp (DTS). Specify how MediaConvert handles PTS when writing time stamps in output DASH manifests. Choose Match initial PTS (MATCH_INITIAL_PTS) when you want MediaConvert to use the initial PTS as the first time stamp in the manifest. Choose Zero-based (ZERO_BASED) to have MediaConvert ignore the initial PTS in the video stream and instead write the initial time stamp as zero in the manifest. For outputs that don't have B-frames, the time stamps in your DASH manifests start at zero regardless of your choice here.
+        public let ptsOffsetHandlingForBFrames: CmafPtsOffsetHandlingForBFrames?
         /// When set to SINGLE_FILE, a single output file is generated, which is internally segmented using the Fragment Length and Segment Length. When set to SEGMENTED_FILES, separate segment files will be created.
         public let segmentControl: CmafSegmentControl?
         /// Use this setting to specify the length, in seconds, of each individual CMAF segment. This value applies to the whole package; that is, to every output in the output group. Note that segments end on the first keyframe after this number of seconds, so the actual segment length might be slightly longer. If you set Segment control (CmafSegmentControl) to single file, the service puts the content of each output in a single file that has metadata that marks these segments. If you set it to segmented files, the service creates multiple files for each output, each with the content of one segment.
@@ -3537,7 +3615,7 @@ extension MediaConvert {
         /// When you enable Precise segment duration in DASH manifests (writeSegmentTimelineInRepresentation), your DASH manifest shows precise segment durations. The segment duration information appears inside the SegmentTimeline element, inside SegmentTemplate at the Representation level. When this feature isn't enabled, the segment durations in your DASH manifest are approximate. The segment duration information appears in the duration attribute of the SegmentTemplate element.
         public let writeSegmentTimelineInRepresentation: CmafWriteSegmentTimelineInRepresentation?
 
-        public init(additionalManifests: [CmafAdditionalManifest]? = nil, baseUrl: String? = nil, clientCache: CmafClientCache? = nil, codecSpecification: CmafCodecSpecification? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: CmafEncryptionSettings? = nil, fragmentLength: Int? = nil, manifestCompression: CmafManifestCompression? = nil, manifestDurationFormat: CmafManifestDurationFormat? = nil, minBufferTime: Int? = nil, minFinalSegmentLength: Double? = nil, mpdProfile: CmafMpdProfile? = nil, segmentControl: CmafSegmentControl? = nil, segmentLength: Int? = nil, streamInfResolution: CmafStreamInfResolution? = nil, writeDashManifest: CmafWriteDASHManifest? = nil, writeHlsManifest: CmafWriteHLSManifest? = nil, writeSegmentTimelineInRepresentation: CmafWriteSegmentTimelineInRepresentation? = nil) {
+        public init(additionalManifests: [CmafAdditionalManifest]? = nil, baseUrl: String? = nil, clientCache: CmafClientCache? = nil, codecSpecification: CmafCodecSpecification? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: CmafEncryptionSettings? = nil, fragmentLength: Int? = nil, manifestCompression: CmafManifestCompression? = nil, manifestDurationFormat: CmafManifestDurationFormat? = nil, minBufferTime: Int? = nil, minFinalSegmentLength: Double? = nil, mpdProfile: CmafMpdProfile? = nil, ptsOffsetHandlingForBFrames: CmafPtsOffsetHandlingForBFrames? = nil, segmentControl: CmafSegmentControl? = nil, segmentLength: Int? = nil, streamInfResolution: CmafStreamInfResolution? = nil, writeDashManifest: CmafWriteDASHManifest? = nil, writeHlsManifest: CmafWriteHLSManifest? = nil, writeSegmentTimelineInRepresentation: CmafWriteSegmentTimelineInRepresentation? = nil) {
             self.additionalManifests = additionalManifests
             self.baseUrl = baseUrl
             self.clientCache = clientCache
@@ -3551,6 +3629,7 @@ extension MediaConvert {
             self.minBufferTime = minBufferTime
             self.minFinalSegmentLength = minFinalSegmentLength
             self.mpdProfile = mpdProfile
+            self.ptsOffsetHandlingForBFrames = ptsOffsetHandlingForBFrames
             self.segmentControl = segmentControl
             self.segmentLength = segmentLength
             self.streamInfResolution = streamInfResolution
@@ -3588,6 +3667,7 @@ extension MediaConvert {
             case minBufferTime
             case minFinalSegmentLength
             case mpdProfile
+            case ptsOffsetHandlingForBFrames
             case segmentControl
             case segmentLength
             case streamInfResolution
@@ -3600,6 +3680,14 @@ extension MediaConvert {
     public struct CmfcSettings: AWSEncodableShape & AWSDecodableShape {
         /// Specify this setting only when your output will be consumed by a downstream repackaging workflow that is sensitive to very small duration differences between video and audio. For this situation, choose Match video duration (MATCH_VIDEO_DURATION). In all other cases, keep the default value, Default codec duration (DEFAULT_CODEC_DURATION). When you choose Match video duration, MediaConvert pads the output audio streams with silence or trims them to ensure that the total duration of each audio stream is at least as long as the total duration of the video stream. After padding or trimming, the audio stream duration is no more than one frame longer than the video stream. MediaConvert applies audio padding or trimming only to the end of the last segment of the output. For unsegmented outputs, MediaConvert adds padding only to the end of the file. When you keep the default value, any minor discrepancies between audio and video duration will depend on your output audio codec.
         public let audioDuration: CmfcAudioDuration?
+        /// Specify the audio rendition group for this audio rendition. Specify up to one value for each audio output in your output group. This value appears in your HLS parent manifest in the EXT-X-MEDIA tag of TYPE=AUDIO, as the value for the GROUP-ID attribute. For example, if you specify "audio_aac_1" for Audio group ID, it appears in your manifest like this: #EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID="audio_aac_1". Related setting: To associate the rendition group that this audio track belongs to with a video rendition, include the same value that you provide here for that video output's setting Audio rendition sets (audioRenditionSets).
+        public let audioGroupId: String?
+        /// List the audio rendition groups that you want included with this video rendition. Use a comma-separated list. For example, say you want to include the audio rendition groups that have the audio group IDs "audio_aac_1" and "audio_dolby". Then you would specify this value: "audio_aac_1, audio_dolby". Related setting: The rendition groups that you include in your comma-separated list should all match values that you specify in the setting Audio group ID (AudioGroupId) for audio renditions in the same output group as this video rendition. Default behavior: If you don't specify anything here and for Audio group ID, MediaConvert puts each audio variant in its own audio rendition group and associates it with every video variant. Each value in your list appears in your HLS parent manifest in the EXT-X-STREAM-INF tag as the value for the AUDIO attribute. To continue the previous example, say that the file name for the child manifest for your video rendition is "amazing_video_1.m3u8". Then, in your parent manifest, each value will appear on separate lines, like this: #EXT-X-STREAM-INF:AUDIO="audio_aac_1"... amazing_video_1.m3u8 #EXT-X-STREAM-INF:AUDIO="audio_dolby"... amazing_video_1.m3u8
+        public let audioRenditionSets: String?
+        /// Use this setting to control the values that MediaConvert puts in your HLS parent playlist to control how the client player selects which audio track to play. The other options for this setting determine the values that MediaConvert writes for the DEFAULT and AUTOSELECT attributes of the EXT-X-MEDIA entry for the audio variant. For more information about these attributes, see the Apple documentation article https://developer.apple.com/documentation/http_live_streaming/example_playlists_for_http_live_streaming/adding_alternate_media_to_a_playlist. Choose Alternate audio, auto select, default (ALTERNATE_AUDIO_AUTO_SELECT_DEFAULT) to set DEFAULT=YES and AUTOSELECT=YES. Choose this value for only one variant in your output group. Choose Alternate audio, auto select, not default (ALTERNATE_AUDIO_AUTO_SELECT) to set DEFAULT=NO and AUTOSELECT=YES. Choose Alternate Audio, Not Auto Select to set DEFAULT=NO and AUTOSELECT=NO. When you don't specify a value for this setting, MediaConvert defaults to Alternate audio, auto select, default. When there is more than one variant in your output group, you must explicitly choose a value for this setting.
+        public let audioTrackType: CmfcAudioTrackType?
+        /// Specify whether to flag this audio track as descriptive video service (DVS) in your HLS parent manifest. When you choose Flag (FLAG), MediaConvert includes the parameter CHARACTERISTICS="public.accessibility.describes-video" in the EXT-X-MEDIA entry for this track. When you keep the default choice, Don't flag (DONT_FLAG), MediaConvert leaves this parameter out. The DVS flag can help with accessibility on Apple devices. For more information, see the Apple documentation.
+        public let descriptiveVideoServiceFlag: CmfcDescriptiveVideoServiceFlag?
         /// Choose Include (INCLUDE) to have MediaConvert generate an HLS child manifest that lists only the I-frames for this rendition, in addition to your regular manifest for this rendition. You might use this manifest as part of a workflow that creates preview functions for your video. MediaConvert adds both the I-frame only child manifest and the regular child manifest to the parent manifest. When you don't need the I-frame only child manifest, keep the default value Exclude (EXCLUDE).
         public let iFrameOnlyManifest: CmfcIFrameOnlyManifest?
         /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose INSERT to put SCTE-35 markers in this output at the insertion points that you specify in an ESAM XML document. Provide the document in the setting SCC XML (sccXml).
@@ -3607,8 +3695,12 @@ extension MediaConvert {
         /// Ignore this setting unless you have SCTE-35 markers in your input video file. Choose Passthrough (PASSTHROUGH) if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None (NONE) if you don't want those SCTE-35 markers in this output.
         public let scte35Source: CmfcScte35Source?
 
-        public init(audioDuration: CmfcAudioDuration? = nil, iFrameOnlyManifest: CmfcIFrameOnlyManifest? = nil, scte35Esam: CmfcScte35Esam? = nil, scte35Source: CmfcScte35Source? = nil) {
+        public init(audioDuration: CmfcAudioDuration? = nil, audioGroupId: String? = nil, audioRenditionSets: String? = nil, audioTrackType: CmfcAudioTrackType? = nil, descriptiveVideoServiceFlag: CmfcDescriptiveVideoServiceFlag? = nil, iFrameOnlyManifest: CmfcIFrameOnlyManifest? = nil, scte35Esam: CmfcScte35Esam? = nil, scte35Source: CmfcScte35Source? = nil) {
             self.audioDuration = audioDuration
+            self.audioGroupId = audioGroupId
+            self.audioRenditionSets = audioRenditionSets
+            self.audioTrackType = audioTrackType
+            self.descriptiveVideoServiceFlag = descriptiveVideoServiceFlag
             self.iFrameOnlyManifest = iFrameOnlyManifest
             self.scte35Esam = scte35Esam
             self.scte35Source = scte35Source
@@ -3616,6 +3708,10 @@ extension MediaConvert {
 
         private enum CodingKeys: String, CodingKey {
             case audioDuration
+            case audioGroupId
+            case audioRenditionSets
+            case audioTrackType
+            case descriptiveVideoServiceFlag
             case iFrameOnlyManifest
             case scte35Esam
             case scte35Source
@@ -4012,6 +4108,8 @@ extension MediaConvert {
     public struct DashIsoGroupSettings: AWSEncodableShape & AWSDecodableShape {
         /// By default, the service creates one .mpd DASH manifest for each DASH ISO output group in your job. This default manifest references every output in the output group. To create additional DASH manifests that reference a subset of the outputs in the output group, specify a list of them here.
         public let additionalManifests: [DashAdditionalManifest]?
+        /// Use this setting only when your audio codec is a Dolby one (AC3, EAC3, or Atmos) and your downstream workflow requires that your DASH manifest use the Dolby channel configuration tag, rather than the MPEG one. For example, you might need to use this to make dynamic ad insertion work. Specify which audio channel configuration scheme ID URI MediaConvert writes in your DASH manifest. Keep the default value, MPEG channel configuration (MPEG_CHANNEL_CONFIGURATION), to have MediaConvert write this: urn:mpeg:mpegB:cicp:ChannelConfiguration. Choose Dolby channel configuration (DOLBY_CHANNEL_CONFIGURATION) to have MediaConvert write this instead: tag:dolby.com,2014:dash:audio_channel_configuration:2011.
+        public let audioChannelConfigSchemeIdUri: DashIsoGroupAudioChannelConfigSchemeIdUri?
         /// A partial URI prefix that will be put in the manifest (.mpd) file at the top level BaseURL element. Can be used if streams are delivered from a different URL than the manifest file.
         public let baseUrl: String?
         /// Use Destination (Destination) to specify the S3 output location and the output filename base. Destination accepts format identifiers. If you do not specify the base filename in the URI, the service will use the filename of the input file. If your job has multiple inputs, the service uses the filename of the first input file.
@@ -4030,6 +4128,8 @@ extension MediaConvert {
         public let minFinalSegmentLength: Double?
         /// Specify whether your DASH profile is on-demand or main. When you choose Main profile (MAIN_PROFILE), the service signals  urn:mpeg:dash:profile:isoff-main:2011 in your .mpd DASH manifest. When you choose On-demand (ON_DEMAND_PROFILE), the service signals urn:mpeg:dash:profile:isoff-on-demand:2011 in your .mpd. When you choose On-demand, you must also set the output group setting Segment control (SegmentControl) to Single file (SINGLE_FILE).
         public let mpdProfile: DashIsoMpdProfile?
+        /// Use this setting only when your output video stream has B-frames, which causes the initial presentation time stamp (PTS) to be offset from the initial decode time stamp (DTS). Specify how MediaConvert handles PTS when writing time stamps in output DASH manifests. Choose Match initial PTS (MATCH_INITIAL_PTS) when you want MediaConvert to use the initial PTS as the first time stamp in the manifest. Choose Zero-based (ZERO_BASED) to have MediaConvert ignore the initial PTS in the video stream and instead write the initial time stamp as zero in the manifest. For outputs that don't have B-frames, the time stamps in your DASH manifests start at zero regardless of your choice here.
+        public let ptsOffsetHandlingForBFrames: DashIsoPtsOffsetHandlingForBFrames?
         /// When set to SINGLE_FILE, a single output file is generated, which is internally segmented using the Fragment Length and Segment Length. When set to SEGMENTED_FILES, separate segment files will be created.
         public let segmentControl: DashIsoSegmentControl?
         /// Length of mpd segments to create (in seconds). Note that segments will end on the next keyframe after this number of seconds, so actual segment length may be longer. When Emit Single File is checked, the segmentation is internal to a single output file and it does not cause the creation of many output files as in other output types.
@@ -4037,8 +4137,9 @@ extension MediaConvert {
         /// If you get an HTTP error in the 400 range when you play back your DASH output, enable this setting and run your transcoding job again. When you enable this setting, the service writes precise segment durations in the DASH manifest. The segment duration information appears inside the SegmentTimeline element, inside SegmentTemplate at the Representation level. When you don't enable this setting, the service writes approximate segment durations in your DASH manifest.
         public let writeSegmentTimelineInRepresentation: DashIsoWriteSegmentTimelineInRepresentation?
 
-        public init(additionalManifests: [DashAdditionalManifest]? = nil, baseUrl: String? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: DashIsoEncryptionSettings? = nil, fragmentLength: Int? = nil, hbbtvCompliance: DashIsoHbbtvCompliance? = nil, minBufferTime: Int? = nil, minFinalSegmentLength: Double? = nil, mpdProfile: DashIsoMpdProfile? = nil, segmentControl: DashIsoSegmentControl? = nil, segmentLength: Int? = nil, writeSegmentTimelineInRepresentation: DashIsoWriteSegmentTimelineInRepresentation? = nil) {
+        public init(additionalManifests: [DashAdditionalManifest]? = nil, audioChannelConfigSchemeIdUri: DashIsoGroupAudioChannelConfigSchemeIdUri? = nil, baseUrl: String? = nil, destination: String? = nil, destinationSettings: DestinationSettings? = nil, encryption: DashIsoEncryptionSettings? = nil, fragmentLength: Int? = nil, hbbtvCompliance: DashIsoHbbtvCompliance? = nil, minBufferTime: Int? = nil, minFinalSegmentLength: Double? = nil, mpdProfile: DashIsoMpdProfile? = nil, ptsOffsetHandlingForBFrames: DashIsoPtsOffsetHandlingForBFrames? = nil, segmentControl: DashIsoSegmentControl? = nil, segmentLength: Int? = nil, writeSegmentTimelineInRepresentation: DashIsoWriteSegmentTimelineInRepresentation? = nil) {
             self.additionalManifests = additionalManifests
+            self.audioChannelConfigSchemeIdUri = audioChannelConfigSchemeIdUri
             self.baseUrl = baseUrl
             self.destination = destination
             self.destinationSettings = destinationSettings
@@ -4048,6 +4149,7 @@ extension MediaConvert {
             self.minBufferTime = minBufferTime
             self.minFinalSegmentLength = minFinalSegmentLength
             self.mpdProfile = mpdProfile
+            self.ptsOffsetHandlingForBFrames = ptsOffsetHandlingForBFrames
             self.segmentControl = segmentControl
             self.segmentLength = segmentLength
             self.writeSegmentTimelineInRepresentation = writeSegmentTimelineInRepresentation
@@ -4070,6 +4172,7 @@ extension MediaConvert {
 
         private enum CodingKeys: String, CodingKey {
             case additionalManifests
+            case audioChannelConfigSchemeIdUri
             case baseUrl
             case destination
             case destinationSettings
@@ -4079,6 +4182,7 @@ extension MediaConvert {
             case minBufferTime
             case minFinalSegmentLength
             case mpdProfile
+            case ptsOffsetHandlingForBFrames
             case segmentControl
             case segmentLength
             case writeSegmentTimelineInRepresentation
@@ -4589,9 +4693,9 @@ extension MediaConvert {
         public let dcFilter: Eac3DcFilter?
         /// Sets the dialnorm for the output. If blank and input audio is Dolby Digital Plus, dialnorm will be passed through.
         public let dialnorm: Int?
-        /// Specify the absolute peak level for a signal with dynamic range compression.
+        /// Choose the Dolby Digital dynamic range control (DRC) profile that MediaConvert uses when encoding the metadata in the Dolby Digital stream for the line operating mode. Related setting: When you use this setting, MediaConvert ignores any value you provide for Dynamic range compression profile (DynamicRangeCompressionProfile). For information about the Dolby Digital DRC operating modes and profiles, see the Dynamic Range Control chapter of the Dolby Metadata Guide at https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
         public let dynamicRangeCompressionLine: Eac3DynamicRangeCompressionLine?
-        /// Specify how the service limits the audio dynamic range when compressing the audio.
+        /// Choose the Dolby Digital dynamic range control (DRC) profile that MediaConvert uses when encoding the metadata in the Dolby Digital stream for the RF operating mode. Related setting: When you use this setting, MediaConvert ignores any value you provide for Dynamic range compression profile (DynamicRangeCompressionProfile). For information about the Dolby Digital DRC operating modes and profiles, see the Dynamic Range Control chapter of the Dolby Metadata Guide at https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
         public let dynamicRangeCompressionRf: Eac3DynamicRangeCompressionRf?
         /// When encoding 3/2 audio, controls whether the LFE channel is enabled
         public let lfeControl: Eac3LfeControl?
@@ -4849,7 +4953,7 @@ extension MediaConvert {
         public let convert608To708: FileSourceConvert608To708?
         /// Ignore this setting unless your input captions format is SCC. To have the service compensate for differing frame rates between your input captions and input video, specify the frame rate of the captions file. Specify this value as a fraction, using the settings Framerate numerator (framerateNumerator) and Framerate denominator (framerateDenominator). For example, you might specify 24 / 1 for 24 fps, 25 / 1 for 25 fps, 24000 / 1001 for 23.976 fps, or 30000 / 1001 for 29.97 fps.
         public let framerate: CaptionSourceFramerate?
-        /// External caption file used for loading captions. Accepted file extensions are 'scc', 'ttml', 'dfxp', 'stl', 'srt', 'xml', and 'smi'.
+        /// External caption file used for loading captions. Accepted file extensions are 'scc', 'ttml', 'dfxp', 'stl', 'srt', 'xml', 'smi', and 'vtt'.
         public let sourceFile: String?
         /// Specifies a time delta in seconds to offset the captions from the source file.
         public let timeDelta: Int?
@@ -4864,7 +4968,7 @@ extension MediaConvert {
         public func validate(name: String) throws {
             try self.framerate?.validate(name: "\(name).framerate")
             try self.validate(self.sourceFile, name: "sourceFile", parent: name, min: 14)
-            try self.validate(self.sourceFile, name: "sourceFile", parent: name, pattern: "^((s3://(.*?)\\.(scc|SCC|ttml|TTML|dfxp|DFXP|stl|STL|srt|SRT|xml|XML|smi|SMI))|(https?://(.*?)\\.(scc|SCC|ttml|TTML|dfxp|DFXP|stl|STL|srt|SRT|xml|XML|smi|SMI)(\\?([^&=]+=[^&]+&)*[^&=]+=[^&]+)?))$")
+            try self.validate(self.sourceFile, name: "sourceFile", parent: name, pattern: "^((s3://(.*?)\\.(scc|SCC|ttml|TTML|dfxp|DFXP|stl|STL|srt|SRT|xml|XML|smi|SMI|vtt|VTT))|(https?://(.*?)\\.(scc|SCC|ttml|TTML|dfxp|DFXP|stl|STL|srt|SRT|xml|XML|smi|SMI|vtt|VTT)(\\?([^&=]+=[^&]+&)*[^&=]+=[^&]+)?))$")
             try self.validate(self.timeDelta, name: "timeDelta", parent: name, max: 2_147_483_647)
             try self.validate(self.timeDelta, name: "timeDelta", parent: name, min: -2_147_483_648)
         }
@@ -5805,7 +5909,7 @@ extension MediaConvert {
     }
 
     public struct HlsSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the group to which the audio Rendition belongs.
+        /// Specifies the group to which the audio rendition belongs.
         public let audioGroupId: String?
         /// Use this setting only in audio-only outputs. Choose MPEG-2 Transport Stream (M2TS) to create a file in an MPEG2-TS container. Keep the default value Automatic (AUTOMATIC) to create an audio-only file in a raw container. Regardless of the value that you specify here, if this output has video, the service will place the output into an MPEG2-TS container.
         public let audioOnlyContainer: HlsAudioOnlyContainer?
@@ -5813,16 +5917,19 @@ extension MediaConvert {
         public let audioRenditionSets: String?
         /// Four types of audio-only tracks are supported: Audio-Only Variant Stream The client can play back this audio-only stream instead of video in low-bandwidth scenarios. Represented as an EXT-X-STREAM-INF in the HLS manifest. Alternate Audio, Auto Select, Default Alternate rendition that the client should try to play back by default. Represented as an EXT-X-MEDIA in the HLS manifest with DEFAULT=YES, AUTOSELECT=YES Alternate Audio, Auto Select, Not Default Alternate rendition that the client may try to play back by default. Represented as an EXT-X-MEDIA in the HLS manifest with DEFAULT=NO, AUTOSELECT=YES Alternate Audio, not Auto Select Alternate rendition that the client will not try to play back by default. Represented as an EXT-X-MEDIA in the HLS manifest with DEFAULT=NO, AUTOSELECT=NO
         public let audioTrackType: HlsAudioTrackType?
+        /// Specify whether to flag this audio track as descriptive video service (DVS) in your HLS parent manifest. When you choose Flag (FLAG), MediaConvert includes the parameter CHARACTERISTICS="public.accessibility.describes-video" in the EXT-X-MEDIA entry for this track. When you keep the default choice, Don't flag (DONT_FLAG), MediaConvert leaves this parameter out. The DVS flag can help with accessibility on Apple devices. For more information, see the Apple documentation.
+        public let descriptiveVideoServiceFlag: HlsDescriptiveVideoServiceFlag?
         /// Choose Include (INCLUDE) to have MediaConvert generate a child manifest that lists only the I-frames for this rendition, in addition to your regular manifest for this rendition. You might use this manifest as part of a workflow that creates preview functions for your video. MediaConvert adds both the I-frame only child manifest and the regular child manifest to the parent manifest. When you don't need the I-frame only child manifest, keep the default value Exclude (EXCLUDE).
         public let iFrameOnlyManifest: HlsIFrameOnlyManifest?
         /// Use this setting to add an identifying string to the filename of each segment. The service adds this string between the name modifier and segment index number. You can use format identifiers in the string. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/using-variables-in-your-job-settings.html
         public let segmentModifier: String?
 
-        public init(audioGroupId: String? = nil, audioOnlyContainer: HlsAudioOnlyContainer? = nil, audioRenditionSets: String? = nil, audioTrackType: HlsAudioTrackType? = nil, iFrameOnlyManifest: HlsIFrameOnlyManifest? = nil, segmentModifier: String? = nil) {
+        public init(audioGroupId: String? = nil, audioOnlyContainer: HlsAudioOnlyContainer? = nil, audioRenditionSets: String? = nil, audioTrackType: HlsAudioTrackType? = nil, descriptiveVideoServiceFlag: HlsDescriptiveVideoServiceFlag? = nil, iFrameOnlyManifest: HlsIFrameOnlyManifest? = nil, segmentModifier: String? = nil) {
             self.audioGroupId = audioGroupId
             self.audioOnlyContainer = audioOnlyContainer
             self.audioRenditionSets = audioRenditionSets
             self.audioTrackType = audioTrackType
+            self.descriptiveVideoServiceFlag = descriptiveVideoServiceFlag
             self.iFrameOnlyManifest = iFrameOnlyManifest
             self.segmentModifier = segmentModifier
         }
@@ -5832,6 +5939,7 @@ extension MediaConvert {
             case audioOnlyContainer
             case audioRenditionSets
             case audioTrackType
+            case descriptiveVideoServiceFlag
             case iFrameOnlyManifest
             case segmentModifier
         }
@@ -8013,7 +8121,7 @@ extension MediaConvert {
     public struct OutputChannelMapping: AWSEncodableShape & AWSDecodableShape {
         /// Use this setting to specify your remix values when they are integers, such as -10, 0, or 4.
         public let inputChannels: [Int]?
-        /// Use this setting to specify your remix values when they have a decimal component, such as -10.312, 0.08, or 4.9. MediaConvert rounds your remixing values to the nearest thousandth.
+        /// Use this setting to specify your remix values when they have a decimal component, such as  -10.312, 0.08, or 4.9. MediaConvert rounds your remixing values to the nearest thousandth.
         public let inputChannelsFineTune: [Double]?
 
         public init(inputChannels: [Int]? = nil, inputChannelsFineTune: [Double]? = nil) {
@@ -8895,7 +9003,7 @@ extension MediaConvert {
     }
 
     public struct TtmlDestinationSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Pass through style and position information from a TTML-like input source (TTML, SMPTE-TT) to the TTML output.
+        /// Pass through style and position information from a TTML-like input source (TTML, IMSC, SMPTE-TT) to the TTML output.
         public let stylePassthrough: TtmlStylePassthrough?
 
         public init(stylePassthrough: TtmlStylePassthrough? = nil) {
@@ -9614,6 +9722,19 @@ extension MediaConvert {
             case channels
             case format
             case sampleRate
+        }
+    }
+
+    public struct WebvttDestinationSettings: AWSEncodableShape & AWSDecodableShape {
+        /// If your input captions format is teletext or teletext inside of STL, enable this setting to pass through style, color, and position information to your WebVTT output captions.
+        public let stylePassthrough: WebvttStylePassthrough?
+
+        public init(stylePassthrough: WebvttStylePassthrough? = nil) {
+            self.stylePassthrough = stylePassthrough
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stylePassthrough
         }
     }
 }

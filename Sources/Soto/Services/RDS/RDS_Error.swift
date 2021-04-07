@@ -51,7 +51,10 @@ public struct RDSErrorType: AWSErrorType {
         case dBParameterGroupAlreadyExistsFault = "DBParameterGroupAlreadyExists"
         case dBParameterGroupNotFoundFault = "DBParameterGroupNotFound"
         case dBParameterGroupQuotaExceededFault = "DBParameterGroupQuotaExceeded"
-        case dBProxyAlreadyExistsFault = "DBProxyTargetExistsFault"
+        case dBProxyAlreadyExistsFault = "DBProxyAlreadyExistsFault"
+        case dBProxyEndpointAlreadyExistsFault = "DBProxyEndpointAlreadyExistsFault"
+        case dBProxyEndpointNotFoundFault = "DBProxyEndpointNotFoundFault"
+        case dBProxyEndpointQuotaExceededFault = "DBProxyEndpointQuotaExceededFault"
         case dBProxyNotFoundFault = "DBProxyNotFoundFault"
         case dBProxyQuotaExceededFault = "DBProxyQuotaExceededFault"
         case dBProxyTargetAlreadyRegisteredFault = "DBProxyTargetAlreadyRegisteredFault"
@@ -93,6 +96,7 @@ public struct RDSErrorType: AWSErrorType {
         case invalidDBInstanceAutomatedBackupStateFault = "InvalidDBInstanceAutomatedBackupState"
         case invalidDBInstanceStateFault = "InvalidDBInstanceState"
         case invalidDBParameterGroupStateFault = "InvalidDBParameterGroupState"
+        case invalidDBProxyEndpointStateFault = "InvalidDBProxyEndpointStateFault"
         case invalidDBProxyStateFault = "InvalidDBProxyStateFault"
         case invalidDBSecurityGroupStateFault = "InvalidDBSecurityGroupState"
         case invalidDBSnapshotStateFault = "InvalidDBSnapshotState"
@@ -217,6 +221,12 @@ public struct RDSErrorType: AWSErrorType {
     public static var dBParameterGroupQuotaExceededFault: Self { .init(.dBParameterGroupQuotaExceededFault) }
     /// The specified proxy name must be unique for all proxies owned by your AWS account in the specified AWS Region.
     public static var dBProxyAlreadyExistsFault: Self { .init(.dBProxyAlreadyExistsFault) }
+    /// The specified DB proxy endpoint name must be unique for all DB proxy endpoints owned by your AWS account in the specified AWS Region.
+    public static var dBProxyEndpointAlreadyExistsFault: Self { .init(.dBProxyEndpointAlreadyExistsFault) }
+    /// The DB proxy endpoint doesn't exist.
+    public static var dBProxyEndpointNotFoundFault: Self { .init(.dBProxyEndpointNotFoundFault) }
+    /// The DB proxy already has the maximum number of endpoints.
+    public static var dBProxyEndpointQuotaExceededFault: Self { .init(.dBProxyEndpointQuotaExceededFault) }
     /// The specified proxy name doesn't correspond to a proxy owned by your AWS account in the specified AWS Region.
     public static var dBProxyNotFoundFault: Self { .init(.dBProxyNotFoundFault) }
     /// Your AWS account already has the maximum number of proxies in the specified AWS Region.
@@ -299,6 +309,8 @@ public struct RDSErrorType: AWSErrorType {
     public static var invalidDBInstanceStateFault: Self { .init(.invalidDBInstanceStateFault) }
     /// The DB parameter group is in use or is in an invalid state. If you are attempting to delete the parameter group, you can't delete it when the parameter group is in this state.
     public static var invalidDBParameterGroupStateFault: Self { .init(.invalidDBParameterGroupStateFault) }
+    /// You can't perform this operation while the DB proxy endpoint is in a particular state.
+    public static var invalidDBProxyEndpointStateFault: Self { .init(.invalidDBProxyEndpointStateFault) }
     /// The requested operation can't be performed while the proxy is in this state.
     public static var invalidDBProxyStateFault: Self { .init(.invalidDBProxyStateFault) }
     /// The state of the DB security group doesn't allow deletion.

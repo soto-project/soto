@@ -231,6 +231,59 @@ extension Athena {
         )
     }
 
+    ///  Lists the prepared statements in the specfied workgroup.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listPreparedStatementsPaginator<Result>(
+        _ input: ListPreparedStatementsInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListPreparedStatementsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listPreparedStatements,
+            inputKey: \ListPreparedStatementsInput.nextToken,
+            outputKey: \ListPreparedStatementsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listPreparedStatementsPaginator(
+        _ input: ListPreparedStatementsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListPreparedStatementsOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listPreparedStatements,
+            inputKey: \ListPreparedStatementsInput.nextToken,
+            outputKey: \ListPreparedStatementsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Provides a list of available query execution IDs for the queries in the specified workgroup. If a workgroup is not specified, returns a list of query execution IDs for the primary workgroup. Requires you to have access to the workgroup in which the queries ran. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -475,6 +528,16 @@ extension Athena.ListDatabasesInput: AWSPaginateToken {
 
 extension Athena.ListNamedQueriesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Athena.ListNamedQueriesInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            workGroup: self.workGroup
+        )
+    }
+}
+
+extension Athena.ListPreparedStatementsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Athena.ListPreparedStatementsInput {
         return .init(
             maxResults: self.maxResults,
             nextToken: token,

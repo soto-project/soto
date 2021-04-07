@@ -134,11 +134,25 @@ extension Lightsail {
 
     public enum ContainerServiceState: String, CustomStringConvertible, Codable {
         case deleting = "DELETING"
+        case deploying = "DEPLOYING"
         case disabled = "DISABLED"
         case pending = "PENDING"
         case ready = "READY"
         case running = "RUNNING"
         case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContainerServiceStateDetailCode: String, CustomStringConvertible, Codable {
+        case activatingDeployment = "ACTIVATING_DEPLOYMENT"
+        case certificateLimitExceeded = "CERTIFICATE_LIMIT_EXCEEDED"
+        case creatingDeployment = "CREATING_DEPLOYMENT"
+        case creatingNetworkInfrastructure = "CREATING_NETWORK_INFRASTRUCTURE"
+        case creatingSystemResources = "CREATING_SYSTEM_RESOURCES"
+        case evaluatingHealthCheck = "EVALUATING_HEALTH_CHECK"
+        case provisioningCertificate = "PROVISIONING_CERTIFICATE"
+        case provisioningService = "PROVISIONING_SERVICE"
+        case unknownError = "UNKNOWN_ERROR"
         public var description: String { return self.rawValue }
     }
 
@@ -1574,14 +1588,16 @@ extension Lightsail {
         public let resourceType: ResourceType?
         /// The scale specification of the container service. The scale specifies the allocated compute nodes of the container service.
         public let scale: Int?
-        /// The current state of the container service. The state can be:    Pending - The container service is being created.    Ready - The container service is created but does not have a container deployment.    Disabled - The container service is disabled.    Updating - The container service capacity or other setting is being updated.    Deploying - The container service is launching a container deployment.    Running - The container service is created and it has a container deployment.
+        /// The current state of the container service. The following container service states are possible:    PENDING - The container service is being created.    READY - The container service is running but it does not have an active container deployment.    DEPLOYING - The container service is launching a container deployment.    RUNNING - The container service is running and it has an active container deployment.    UPDATING - The container service capacity or its custom domains are being updated.    DELETING - The container service is being deleted.    DISABLED - The container service is disabled, and its active deployment and containers, if any, are shut down.
         public let state: ContainerServiceState?
+        /// An object that describes the current state of the container service.  The state detail is populated only when a container service is in a PENDING, DEPLOYING, or UPDATING state.
+        public let stateDetail: ContainerServiceStateDetail?
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
         public let tags: [Tag]?
         /// The publicly accessible URL of the container service. If no public endpoint is specified in the currentDeployment, this URL returns a 404 response.
         public let url: String?
 
-        public init(arn: String? = nil, containerServiceName: String? = nil, createdAt: Date? = nil, currentDeployment: ContainerServiceDeployment? = nil, isDisabled: Bool? = nil, location: ResourceLocation? = nil, nextDeployment: ContainerServiceDeployment? = nil, power: ContainerServicePowerName? = nil, powerId: String? = nil, principalArn: String? = nil, privateDomainName: String? = nil, publicDomainNames: [String: [String]]? = nil, resourceType: ResourceType? = nil, scale: Int? = nil, state: ContainerServiceState? = nil, tags: [Tag]? = nil, url: String? = nil) {
+        public init(arn: String? = nil, containerServiceName: String? = nil, createdAt: Date? = nil, currentDeployment: ContainerServiceDeployment? = nil, isDisabled: Bool? = nil, location: ResourceLocation? = nil, nextDeployment: ContainerServiceDeployment? = nil, power: ContainerServicePowerName? = nil, powerId: String? = nil, principalArn: String? = nil, privateDomainName: String? = nil, publicDomainNames: [String: [String]]? = nil, resourceType: ResourceType? = nil, scale: Int? = nil, state: ContainerServiceState? = nil, stateDetail: ContainerServiceStateDetail? = nil, tags: [Tag]? = nil, url: String? = nil) {
             self.arn = arn
             self.containerServiceName = containerServiceName
             self.createdAt = createdAt
@@ -1597,6 +1613,7 @@ extension Lightsail {
             self.resourceType = resourceType
             self.scale = scale
             self.state = state
+            self.stateDetail = stateDetail
             self.tags = tags
             self.url = url
         }
@@ -1617,6 +1634,7 @@ extension Lightsail {
             case resourceType
             case scale
             case state
+            case stateDetail
             case tags
             case url
         }
@@ -1802,6 +1820,23 @@ extension Lightsail {
             case password
             case registry
             case username
+        }
+    }
+
+    public struct ContainerServiceStateDetail: AWSDecodableShape {
+        /// The state code of the container service. The following state codes are possible:   The following state codes are possible if your container service is in a DEPLOYING or UPDATING state:    CREATING_SYSTEM_RESOURCES - The system resources for your container service are being created.    CREATING_NETWORK_INFRASTRUCTURE - The network infrastructure for your container service are being created.    PROVISIONING_CERTIFICATE - The SSL/TLS certificate for your container service is being created.    PROVISIONING_SERVICE - Your container service is being provisioned.    CREATING_DEPLOYMENT - Your deployment is being created on your container service.    EVALUATING_HEALTH_CHECK - The health of your deployment is being evaluated.    ACTIVATING_DEPLOYMENT - Your deployment is being activated.     The following state codes are possible if your container service is in a PENDING state:    CERTIFICATE_LIMIT_EXCEEDED - The SSL/TLS certificate required for your container service exceeds the maximum number of certificates allowed for your account.    UNKNOWN_ERROR - An error was experienced when your container service was being created.
+        public let code: ContainerServiceStateDetailCode?
+        /// A message that provides more information for the state code.  The state detail is populated only when a container service is in a PENDING, DEPLOYING, or UPDATING state.
+        public let message: String?
+
+        public init(code: ContainerServiceStateDetailCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code
+            case message
         }
     }
 

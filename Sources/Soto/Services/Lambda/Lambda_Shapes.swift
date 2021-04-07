@@ -651,7 +651,7 @@ extension Lambda {
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
             try self.validate(self.functionResponseTypes, name: "functionResponseTypes", parent: name, max: 1)
-            try self.validate(self.functionResponseTypes, name: "functionResponseTypes", parent: name, min: 1)
+            try self.validate(self.functionResponseTypes, name: "functionResponseTypes", parent: name, min: 0)
             try self.validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, max: 300)
             try self.validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, min: 0)
             try self.validate(self.maximumRecordAgeInSeconds, name: "maximumRecordAgeInSeconds", parent: name, max: 604_800)
@@ -2590,7 +2590,7 @@ extension Lambda {
         public let marker: String?
         /// For Lambda@Edge functions, the AWS Region of the master function. For example, us-east-1 filters the list of functions to only include Lambda@Edge functions replicated from a master function in US East (N. Virginia). If specified, you must set FunctionVersion to ALL.
         public let masterRegion: SotoCore.Region?
-        /// The maximum number of functions to return.
+        /// The maximum number of functions to return in the response. Note that ListFunctions returns a maximum of 50 items in each response, even if you set the number higher.
         public let maxItems: Int?
 
         public init(functionVersion: FunctionVersion? = nil, marker: String? = nil, masterRegion: SotoCore.Region? = nil, maxItems: Int? = nil) {
@@ -3577,7 +3577,7 @@ extension Lambda {
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
             try self.validate(self.functionResponseTypes, name: "functionResponseTypes", parent: name, max: 1)
-            try self.validate(self.functionResponseTypes, name: "functionResponseTypes", parent: name, min: 1)
+            try self.validate(self.functionResponseTypes, name: "functionResponseTypes", parent: name, min: 0)
             try self.validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, max: 300)
             try self.validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, min: 0)
             try self.validate(self.maximumRecordAgeInSeconds, name: "maximumRecordAgeInSeconds", parent: name, max: 604_800)

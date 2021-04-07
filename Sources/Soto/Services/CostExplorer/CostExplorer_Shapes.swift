@@ -47,6 +47,18 @@ extension CostExplorer {
         public var description: String { return self.rawValue }
     }
 
+    public enum CostCategoryInheritedValueDimensionName: String, CustomStringConvertible, Codable {
+        case linkedAccountName = "LINKED_ACCOUNT_NAME"
+        case tag = "TAG"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CostCategoryRuleType: String, CustomStringConvertible, Codable {
+        case inheritedValue = "INHERITED_VALUE"
+        case regular = "REGULAR"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CostCategoryRuleVersion: String, CustomStringConvertible, Codable {
         case costcategoryexpressionV1 = "CostCategoryExpression.v1"
         public var description: String { return self.rawValue }
@@ -443,6 +455,7 @@ extension CostExplorer {
     public struct CostCategory: AWSDecodableShape {
         ///  The unique identifier for your Cost Category.
         public let costCategoryArn: String
+        public let defaultValue: String?
         ///  The Cost Category's effective end date.
         public let effectiveEnd: String?
         ///  The Cost Category's effective start date.
@@ -454,8 +467,9 @@ extension CostExplorer {
         public let rules: [CostCategoryRule]
         public let ruleVersion: CostCategoryRuleVersion
 
-        public init(costCategoryArn: String, effectiveEnd: String? = nil, effectiveStart: String, name: String, processingStatus: [CostCategoryProcessingStatus]? = nil, rules: [CostCategoryRule], ruleVersion: CostCategoryRuleVersion) {
+        public init(costCategoryArn: String, defaultValue: String? = nil, effectiveEnd: String? = nil, effectiveStart: String, name: String, processingStatus: [CostCategoryProcessingStatus]? = nil, rules: [CostCategoryRule], ruleVersion: CostCategoryRuleVersion) {
             self.costCategoryArn = costCategoryArn
+            self.defaultValue = defaultValue
             self.effectiveEnd = effectiveEnd
             self.effectiveStart = effectiveStart
             self.name = name
@@ -466,12 +480,36 @@ extension CostExplorer {
 
         private enum CodingKeys: String, CodingKey {
             case costCategoryArn = "CostCategoryArn"
+            case defaultValue = "DefaultValue"
             case effectiveEnd = "EffectiveEnd"
             case effectiveStart = "EffectiveStart"
             case name = "Name"
             case processingStatus = "ProcessingStatus"
             case rules = "Rules"
             case ruleVersion = "RuleVersion"
+        }
+    }
+
+    public struct CostCategoryInheritedValueDimension: AWSEncodableShape & AWSDecodableShape {
+        /// The key to extract cost category values.
+        public let dimensionKey: String?
+        /// The name of dimension for which to group costs. If you specify LINKED_ACCOUNT_NAME, the cost category value will be based on account name. If you specify TAG, the cost category value will be based on the value of the specified tag key.
+        public let dimensionName: CostCategoryInheritedValueDimensionName?
+
+        public init(dimensionKey: String? = nil, dimensionName: CostCategoryInheritedValueDimensionName? = nil) {
+            self.dimensionKey = dimensionKey
+            self.dimensionName = dimensionName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dimensionKey, name: "dimensionKey", parent: name, max: 1024)
+            try self.validate(self.dimensionKey, name: "dimensionKey", parent: name, min: 0)
+            try self.validate(self.dimensionKey, name: "dimensionKey", parent: name, pattern: "[\\S\\s]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensionKey = "DimensionKey"
+            case dimensionName = "DimensionName"
         }
     }
 
@@ -495,6 +533,7 @@ extension CostExplorer {
     public struct CostCategoryReference: AWSDecodableShape {
         ///  The unique identifier for your Cost Category.
         public let costCategoryArn: String?
+        public let defaultValue: String?
         ///  The Cost Category's effective end date.
         public let effectiveEnd: String?
         ///  The Cost Category's effective start date.
@@ -507,8 +546,9 @@ extension CostExplorer {
         ///  A list of unique cost category values in a specific cost category.
         public let values: [String]?
 
-        public init(costCategoryArn: String? = nil, effectiveEnd: String? = nil, effectiveStart: String? = nil, name: String? = nil, numberOfRules: Int? = nil, processingStatus: [CostCategoryProcessingStatus]? = nil, values: [String]? = nil) {
+        public init(costCategoryArn: String? = nil, defaultValue: String? = nil, effectiveEnd: String? = nil, effectiveStart: String? = nil, name: String? = nil, numberOfRules: Int? = nil, processingStatus: [CostCategoryProcessingStatus]? = nil, values: [String]? = nil) {
             self.costCategoryArn = costCategoryArn
+            self.defaultValue = defaultValue
             self.effectiveEnd = effectiveEnd
             self.effectiveStart = effectiveStart
             self.name = name
@@ -519,6 +559,7 @@ extension CostExplorer {
 
         private enum CodingKeys: String, CodingKey {
             case costCategoryArn = "CostCategoryArn"
+            case defaultValue = "DefaultValue"
             case effectiveEnd = "EffectiveEnd"
             case effectiveStart = "EffectiveStart"
             case name = "Name"
@@ -529,24 +570,33 @@ extension CostExplorer {
     }
 
     public struct CostCategoryRule: AWSEncodableShape & AWSDecodableShape {
+        /// The value the line item will be categorized as, if the line item contains the matched dimension.
+        public let inheritedValue: CostCategoryInheritedValueDimension?
         /// An Expression object used to categorize costs. This supports dimensions, tags, and nested expressions. Currently the only dimensions supported are LINKED_ACCOUNT, SERVICE_CODE, RECORD_TYPE, and LINKED_ACCOUNT_NAME. Root level OR is not supported. We recommend that you create a separate rule instead.  RECORD_TYPE is a dimension used for Cost Explorer APIs, and is also supported for Cost Category expressions. This dimension uses different terms, depending on whether you're using the console or API/JSON editor. For a detailed comparison, see Term Comparisons in the AWS Billing and Cost Management User Guide.
-        public let rule: Expression
-        public let value: String
+        public let rule: Expression?
+        /// You can define the CostCategoryRule rule type as either REGULAR or INHERITED_VALUE. The INHERITED_VALUE rule type adds the flexibility of defining a rule that dynamically inherits the cost category value from the dimension value defined by CostCategoryInheritedValueDimension. For example, if you wanted to dynamically group costs based on the value of a specific tag key, you would first choose an inherited value rule type, then choose the tag dimension and specify the tag key to use.
+        public let type: CostCategoryRuleType?
+        public let value: String?
 
-        public init(rule: Expression, value: String) {
+        public init(inheritedValue: CostCategoryInheritedValueDimension? = nil, rule: Expression? = nil, type: CostCategoryRuleType? = nil, value: String? = nil) {
+            self.inheritedValue = inheritedValue
             self.rule = rule
+            self.type = type
             self.value = value
         }
 
         public func validate(name: String) throws {
-            try self.rule.validate(name: "\(name).rule")
-            try self.validate(self.value, name: "value", parent: name, max: 255)
+            try self.inheritedValue?.validate(name: "\(name).inheritedValue")
+            try self.rule?.validate(name: "\(name).rule")
+            try self.validate(self.value, name: "value", parent: name, max: 50)
             try self.validate(self.value, name: "value", parent: name, min: 1)
             try self.validate(self.value, name: "value", parent: name, pattern: "^(?! )[\\p{L}\\p{N}\\p{Z}-_]*(?<! )$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case inheritedValue = "InheritedValue"
             case rule = "Rule"
+            case type = "Type"
             case value = "Value"
         }
     }
@@ -565,7 +615,7 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.key, name: "key", parent: name, max: 255)
+            try self.validate(self.key, name: "key", parent: name, max: 50)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^(?! )[\\p{L}\\p{N}\\p{Z}-_]*(?<! )$")
             try self.values?.forEach {
@@ -748,19 +798,24 @@ extension CostExplorer {
     }
 
     public struct CreateCostCategoryDefinitionRequest: AWSEncodableShape {
+        public let defaultValue: String?
         public let name: String
         /// The Cost Category rules used to categorize costs. For more information, see CostCategoryRule.
         public let rules: [CostCategoryRule]
         public let ruleVersion: CostCategoryRuleVersion
 
-        public init(name: String, rules: [CostCategoryRule], ruleVersion: CostCategoryRuleVersion) {
+        public init(defaultValue: String? = nil, name: String, rules: [CostCategoryRule], ruleVersion: CostCategoryRuleVersion) {
+            self.defaultValue = defaultValue
             self.name = name
             self.rules = rules
             self.ruleVersion = ruleVersion
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.defaultValue, name: "defaultValue", parent: name, max: 50)
+            try self.validate(self.defaultValue, name: "defaultValue", parent: name, min: 1)
+            try self.validate(self.defaultValue, name: "defaultValue", parent: name, pattern: "^(?! )[\\p{L}\\p{N}\\p{Z}-_]*(?<! )$")
+            try self.validate(self.name, name: "name", parent: name, max: 50)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^(?! )[\\p{L}\\p{N}\\p{Z}-_]*(?<! )$")
             try self.rules.forEach {
@@ -771,6 +826,7 @@ extension CostExplorer {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case defaultValue = "DefaultValue"
             case name = "Name"
             case rules = "Rules"
             case ruleVersion = "RuleVersion"
@@ -1658,7 +1714,7 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.costCategoryName, name: "costCategoryName", parent: name, max: 255)
+            try self.validate(self.costCategoryName, name: "costCategoryName", parent: name, max: 50)
             try self.validate(self.costCategoryName, name: "costCategoryName", parent: name, min: 1)
             try self.validate(self.costCategoryName, name: "costCategoryName", parent: name, pattern: "^(?! )[\\p{L}\\p{N}\\p{Z}-_]*(?<! )$")
             try self.filter?.validate(name: "\(name).filter")
@@ -3928,12 +3984,14 @@ extension CostExplorer {
     public struct UpdateCostCategoryDefinitionRequest: AWSEncodableShape {
         /// The unique identifier for your Cost Category.
         public let costCategoryArn: String
+        public let defaultValue: String?
         /// The Expression object used to categorize costs. For more information, see CostCategoryRule .
         public let rules: [CostCategoryRule]
         public let ruleVersion: CostCategoryRuleVersion
 
-        public init(costCategoryArn: String, rules: [CostCategoryRule], ruleVersion: CostCategoryRuleVersion) {
+        public init(costCategoryArn: String, defaultValue: String? = nil, rules: [CostCategoryRule], ruleVersion: CostCategoryRuleVersion) {
             self.costCategoryArn = costCategoryArn
+            self.defaultValue = defaultValue
             self.rules = rules
             self.ruleVersion = ruleVersion
         }
@@ -3942,6 +4000,9 @@ extension CostExplorer {
             try self.validate(self.costCategoryArn, name: "costCategoryArn", parent: name, max: 2048)
             try self.validate(self.costCategoryArn, name: "costCategoryArn", parent: name, min: 20)
             try self.validate(self.costCategoryArn, name: "costCategoryArn", parent: name, pattern: "arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+")
+            try self.validate(self.defaultValue, name: "defaultValue", parent: name, max: 50)
+            try self.validate(self.defaultValue, name: "defaultValue", parent: name, min: 1)
+            try self.validate(self.defaultValue, name: "defaultValue", parent: name, pattern: "^(?! )[\\p{L}\\p{N}\\p{Z}-_]*(?<! )$")
             try self.rules.forEach {
                 try $0.validate(name: "\(name).rules[]")
             }
@@ -3951,6 +4012,7 @@ extension CostExplorer {
 
         private enum CodingKeys: String, CodingKey {
             case costCategoryArn = "CostCategoryArn"
+            case defaultValue = "DefaultValue"
             case rules = "Rules"
             case ruleVersion = "RuleVersion"
         }

@@ -315,6 +315,46 @@ extension Athena {
         }
     }
 
+    public struct CreatePreparedStatementInput: AWSEncodableShape {
+        /// The description of the prepared statement.
+        public let description: String?
+        /// The query string for the prepared statement.
+        public let queryStatement: String
+        /// The name of the prepared statement.
+        public let statementName: String
+        /// The name of the workgroup to which the prepared statement belongs.
+        public let workGroup: String
+
+        public init(description: String? = nil, queryStatement: String, statementName: String, workGroup: String) {
+            self.description = description
+            self.queryStatement = queryStatement
+            self.statementName = statementName
+            self.workGroup = workGroup
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.queryStatement, name: "queryStatement", parent: name, max: 262_144)
+            try self.validate(self.queryStatement, name: "queryStatement", parent: name, min: 1)
+            try self.validate(self.statementName, name: "statementName", parent: name, max: 256)
+            try self.validate(self.statementName, name: "statementName", parent: name, min: 1)
+            try self.validate(self.statementName, name: "statementName", parent: name, pattern: "[a-zA-Z_][a-zA-Z0-9_@:]{1,256}")
+            try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case queryStatement = "QueryStatement"
+            case statementName = "StatementName"
+            case workGroup = "WorkGroup"
+        }
+    }
+
+    public struct CreatePreparedStatementOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct CreateWorkGroupInput: AWSEncodableShape {
         /// The configuration for the workgroup, which includes the location in Amazon S3 where query results are stored, the encryption configuration, if any, used for encrypting query results, whether the Amazon CloudWatch Metrics are enabled for the workgroup, the limit for the amount of bytes scanned (cutoff) per query, if it is specified, and whether workgroup's settings (specified with EnforceWorkGroupConfiguration) in the WorkGroupConfiguration override client-side settings. See WorkGroupConfiguration$EnforceWorkGroupConfiguration.
         public let configuration: WorkGroupConfiguration?
@@ -467,6 +507,34 @@ extension Athena {
     }
 
     public struct DeleteNamedQueryOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeletePreparedStatementInput: AWSEncodableShape {
+        /// The name of the prepared statement to delete.
+        public let statementName: String
+        /// The workgroup to which the statement to be deleted belongs.
+        public let workGroup: String
+
+        public init(statementName: String, workGroup: String) {
+            self.statementName = statementName
+            self.workGroup = workGroup
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.statementName, name: "statementName", parent: name, max: 256)
+            try self.validate(self.statementName, name: "statementName", parent: name, min: 1)
+            try self.validate(self.statementName, name: "statementName", parent: name, pattern: "[a-zA-Z_][a-zA-Z0-9_@:]{1,256}")
+            try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statementName = "StatementName"
+            case workGroup = "WorkGroup"
+        }
+    }
+
+    public struct DeletePreparedStatementOutput: AWSDecodableShape {
         public init() {}
     }
 
@@ -629,6 +697,43 @@ extension Athena {
 
         private enum CodingKeys: String, CodingKey {
             case namedQuery = "NamedQuery"
+        }
+    }
+
+    public struct GetPreparedStatementInput: AWSEncodableShape {
+        /// The name of the prepared statement to retrieve.
+        public let statementName: String
+        /// The workgroup to which the statement to be retrieved belongs.
+        public let workGroup: String
+
+        public init(statementName: String, workGroup: String) {
+            self.statementName = statementName
+            self.workGroup = workGroup
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.statementName, name: "statementName", parent: name, max: 256)
+            try self.validate(self.statementName, name: "statementName", parent: name, min: 1)
+            try self.validate(self.statementName, name: "statementName", parent: name, pattern: "[a-zA-Z_][a-zA-Z0-9_@:]{1,256}")
+            try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statementName = "StatementName"
+            case workGroup = "WorkGroup"
+        }
+    }
+
+    public struct GetPreparedStatementOutput: AWSDecodableShape {
+        /// The name of the prepared statement that was retrieved.
+        public let preparedStatement: PreparedStatement?
+
+        public init(preparedStatement: PreparedStatement? = nil) {
+            self.preparedStatement = preparedStatement
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case preparedStatement = "PreparedStatement"
         }
     }
 
@@ -957,6 +1062,52 @@ extension Athena {
         }
     }
 
+    public struct ListPreparedStatementsInput: AWSEncodableShape {
+        /// The maximum number of results to return in this request.
+        public let maxResults: Int?
+        /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+        public let nextToken: String?
+        /// The workgroup to list the prepared statements for.
+        public let workGroup: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, workGroup: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.workGroup = workGroup
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case workGroup = "WorkGroup"
+        }
+    }
+
+    public struct ListPreparedStatementsOutput: AWSDecodableShape {
+        /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+        public let nextToken: String?
+        /// The list of prepared statements for the workgroup.
+        public let preparedStatements: [PreparedStatementSummary]?
+
+        public init(nextToken: String? = nil, preparedStatements: [PreparedStatementSummary]? = nil) {
+            self.nextToken = nextToken
+            self.preparedStatements = preparedStatements
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case preparedStatements = "PreparedStatements"
+        }
+    }
+
     public struct ListQueryExecutionsInput: AWSEncodableShape {
         /// The maximum number of query executions to return in this request.
         public let maxResults: Int?
@@ -1180,6 +1331,52 @@ extension Athena {
             case namedQueryId = "NamedQueryId"
             case queryString = "QueryString"
             case workGroup = "WorkGroup"
+        }
+    }
+
+    public struct PreparedStatement: AWSDecodableShape {
+        /// The description of the prepared statement.
+        public let description: String?
+        /// The last modified time of the prepared statement.
+        public let lastModifiedTime: Date?
+        /// The query string for the prepared statement.
+        public let queryStatement: String?
+        /// The name of the prepared statement.
+        public let statementName: String?
+        /// The name of the workgroup to which the prepared statement belongs.
+        public let workGroupName: String?
+
+        public init(description: String? = nil, lastModifiedTime: Date? = nil, queryStatement: String? = nil, statementName: String? = nil, workGroupName: String? = nil) {
+            self.description = description
+            self.lastModifiedTime = lastModifiedTime
+            self.queryStatement = queryStatement
+            self.statementName = statementName
+            self.workGroupName = workGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case lastModifiedTime = "LastModifiedTime"
+            case queryStatement = "QueryStatement"
+            case statementName = "StatementName"
+            case workGroupName = "WorkGroupName"
+        }
+    }
+
+    public struct PreparedStatementSummary: AWSDecodableShape {
+        /// The last modified time of the prepared statement.
+        public let lastModifiedTime: Date?
+        /// The name of the prepared statement.
+        public let statementName: String?
+
+        public init(lastModifiedTime: Date? = nil, statementName: String? = nil) {
+            self.lastModifiedTime = lastModifiedTime
+            self.statementName = statementName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastModifiedTime = "LastModifiedTime"
+            case statementName = "StatementName"
         }
     }
 
@@ -1670,6 +1867,46 @@ extension Athena {
     }
 
     public struct UpdateDataCatalogOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdatePreparedStatementInput: AWSEncodableShape {
+        /// The description of the prepared statement.
+        public let description: String?
+        /// The query string for the prepared statement.
+        public let queryStatement: String
+        /// The name of the prepared statement.
+        public let statementName: String
+        /// The workgroup for the prepared statement.
+        public let workGroup: String
+
+        public init(description: String? = nil, queryStatement: String, statementName: String, workGroup: String) {
+            self.description = description
+            self.queryStatement = queryStatement
+            self.statementName = statementName
+            self.workGroup = workGroup
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.queryStatement, name: "queryStatement", parent: name, max: 262_144)
+            try self.validate(self.queryStatement, name: "queryStatement", parent: name, min: 1)
+            try self.validate(self.statementName, name: "statementName", parent: name, max: 256)
+            try self.validate(self.statementName, name: "statementName", parent: name, min: 1)
+            try self.validate(self.statementName, name: "statementName", parent: name, pattern: "[a-zA-Z_][a-zA-Z0-9_@:]{1,256}")
+            try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case queryStatement = "QueryStatement"
+            case statementName = "StatementName"
+            case workGroup = "WorkGroup"
+        }
+    }
+
+    public struct UpdatePreparedStatementOutput: AWSDecodableShape {
         public init() {}
     }
 

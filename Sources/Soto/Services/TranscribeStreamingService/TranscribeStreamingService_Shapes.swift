@@ -38,6 +38,7 @@ extension TranscribeStreamingService {
         case jaJp = "ja-JP"
         case koKr = "ko-KR"
         case ptBr = "pt-BR"
+        case zhCn = "zh-CN"
         public var description: String { return self.rawValue }
     }
 
@@ -109,7 +110,7 @@ extension TranscribeStreamingService {
     }
 
     public struct AudioStream: AWSEncodableShape {
-        /// A blob of audio from your application. You audio stream consists of one or more audio events. For information on audio encoding formats, see input. For more information on stream encoding, see event-stream.
+        /// A blob of audio from your application. You audio stream consists of one or more audio events. For information on audio encoding formats in Amazon Transcribe, see input. For information on audio encoding formats in Amazon Transcribe Medical, see input-med. For more information on stream encoding in Amazon Transcribe, see event-stream. For information on stream encoding in Amazon Transcribe Medical, see event-stream-med.
         public let audioEvent: AudioEvent?
 
         public init(audioEvent: AudioEvent? = nil) {
@@ -158,6 +159,8 @@ extension TranscribeStreamingService {
     }
 
     public struct Item: AWSDecodableShape {
+        /// A value between 0 and 1 for an item that is a confidence score that Amazon Transcribe assigns to each word or phrase that it transcribes.
+        public let confidence: Double?
         /// The word or punctuation that was recognized in the input audio.
         public let content: String?
         /// The offset from the beginning of the audio stream to the end of the audio that resulted in the item.
@@ -171,7 +174,8 @@ extension TranscribeStreamingService {
         /// Indicates whether a word in the item matches a word in the vocabulary filter you've chosen for your real-time stream. If true then a word in the item matches your vocabulary filter.
         public let vocabularyFilterMatch: Bool?
 
-        public init(content: String? = nil, endTime: Double? = nil, speaker: String? = nil, startTime: Double? = nil, type: ItemType? = nil, vocabularyFilterMatch: Bool? = nil) {
+        public init(confidence: Double? = nil, content: String? = nil, endTime: Double? = nil, speaker: String? = nil, startTime: Double? = nil, type: ItemType? = nil, vocabularyFilterMatch: Bool? = nil) {
+            self.confidence = confidence
             self.content = content
             self.endTime = endTime
             self.speaker = speaker
@@ -181,6 +185,7 @@ extension TranscribeStreamingService {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case confidence = "Confidence"
             case content = "Content"
             case endTime = "EndTime"
             case speaker = "Speaker"

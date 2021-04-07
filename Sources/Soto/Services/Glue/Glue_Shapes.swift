@@ -2900,7 +2900,7 @@ extension Glue {
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.validate(self.registryName, name: "registryName", parent: name, max: 255)
             try self.validate(self.registryName, name: "registryName", parent: name, min: 1)
-            try self.validate(self.registryName, name: "registryName", parent: name, pattern: "[a-zA-Z0-9-_$#]+")
+            try self.validate(self.registryName, name: "registryName", parent: name, pattern: "[a-zA-Z0-9-_$#.]+")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -2977,7 +2977,7 @@ extension Glue {
             try self.validate(self.schemaDefinition, name: "schemaDefinition", parent: name, pattern: ".*\\S.*")
             try self.validate(self.schemaName, name: "schemaName", parent: name, max: 255)
             try self.validate(self.schemaName, name: "schemaName", parent: name, min: 1)
-            try self.validate(self.schemaName, name: "schemaName", parent: name, pattern: "[a-zA-Z0-9-_$#]+")
+            try self.validate(self.schemaName, name: "schemaName", parent: name, pattern: "[a-zA-Z0-9-_$#.]+")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -6349,7 +6349,7 @@ extension Glue {
     }
 
     public struct GetResourcePolicyRequest: AWSEncodableShape {
-        /// The ARN of the AWS Glue resource for the resource policy to be retrieved. For more information about AWS Glue resource ARNs, see the AWS Glue ARN string pattern
+        /// The ARN of the AWS Glue resource for which to retrieve the resource policy. If not supplied, the Data Catalog resource policy is returned. Use GetResourcePolicies to view all existing resource policies. For more information see Specifying AWS Glue Resource ARNs.
         public let resourceArn: String?
 
         public init(resourceArn: String? = nil) {
@@ -8570,15 +8570,19 @@ extension Glue {
         public let createdTime: String?
         /// The metadata key’s corresponding value.
         public let metadataValue: String?
+        /// Other metadata belonging to the same metadata key.
+        public let otherMetadataValueList: [OtherMetadataValueListItem]?
 
-        public init(createdTime: String? = nil, metadataValue: String? = nil) {
+        public init(createdTime: String? = nil, metadataValue: String? = nil, otherMetadataValueList: [OtherMetadataValueListItem]? = nil) {
             self.createdTime = createdTime
             self.metadataValue = metadataValue
+            self.otherMetadataValueList = otherMetadataValueList
         }
 
         private enum CodingKeys: String, CodingKey {
             case createdTime = "CreatedTime"
             case metadataValue = "MetadataValue"
+            case otherMetadataValueList = "OtherMetadataValueList"
         }
     }
 
@@ -8701,6 +8705,23 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case column = "Column"
             case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct OtherMetadataValueListItem: AWSDecodableShape {
+        /// The time at which the entry was created.
+        public let createdTime: String?
+        /// The metadata key’s corresponding value for the other metadata belonging to the same metadata key.
+        public let metadataValue: String?
+
+        public init(createdTime: String? = nil, metadataValue: String? = nil) {
+            self.createdTime = createdTime
+            self.metadataValue = metadataValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTime = "CreatedTime"
+            case metadataValue = "MetadataValue"
         }
     }
 
@@ -9034,15 +9055,15 @@ extension Glue {
     }
 
     public struct PutResourcePolicyRequest: AWSEncodableShape {
-        /// Allows you to specify if you want to use both resource-level and account/catalog-level resource policies. A resource-level policy is a policy attached to an individual resource such as a database or a table. The default value of NO indicates that resource-level policies cannot co-exist with an account-level policy. A value of YES means the use of both resource-level and account/catalog-level resource policies is allowed.
+        /// If 'TRUE', indicates that you are using both methods to grant cross-account access to Data Catalog resources:   By directly updating the resource policy with PutResourePolicy    By using the Grant permissions command on the AWS Management Console.   Must be set to 'TRUE' if you have already used the Management Console to grant cross-account access, otherwise the call fails. Default is 'FALSE'.
         public let enableHybrid: EnableHybridValues?
-        /// A value of MUST_EXIST is used to update a policy. A value of NOT_EXIST is used to create a new policy. If a value of NONE or a null value is used, the call will not depend on the existence of a policy.
+        /// A value of MUST_EXIST is used to update a policy. A value of NOT_EXIST is used to create a new policy. If a value of NONE or a null value is used, the call does not depend on the existence of a policy.
         public let policyExistsCondition: ExistCondition?
         /// The hash value returned when the previous policy was set using PutResourcePolicy. Its purpose is to prevent concurrent modifications of a policy. Do not use this parameter if no previous policy has been set.
         public let policyHashCondition: String?
         /// Contains the policy document to set, in JSON format.
         public let policyInJson: String
-        /// The ARN of the AWS Glue resource for the resource policy to be set. For more information about AWS Glue resource ARNs, see the AWS Glue ARN string pattern
+        /// Do not use. For internal use only.
         public let resourceArn: String?
 
         public init(enableHybrid: EnableHybridValues? = nil, policyExistsCondition: ExistCondition? = nil, policyHashCondition: String? = nil, policyInJson: String, resourceArn: String? = nil) {
@@ -9342,7 +9363,7 @@ extension Glue {
             try self.validate(self.registryArn, name: "registryArn", parent: name, pattern: "arn:aws:glue:.*")
             try self.validate(self.registryName, name: "registryName", parent: name, max: 255)
             try self.validate(self.registryName, name: "registryName", parent: name, min: 1)
-            try self.validate(self.registryName, name: "registryName", parent: name, pattern: "[a-zA-Z0-9-_$#]+")
+            try self.validate(self.registryName, name: "registryName", parent: name, pattern: "[a-zA-Z0-9-_$#.]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9683,13 +9704,13 @@ extension Glue {
         public func validate(name: String) throws {
             try self.validate(self.registryName, name: "registryName", parent: name, max: 255)
             try self.validate(self.registryName, name: "registryName", parent: name, min: 1)
-            try self.validate(self.registryName, name: "registryName", parent: name, pattern: "[a-zA-Z0-9-_$#]+")
+            try self.validate(self.registryName, name: "registryName", parent: name, pattern: "[a-zA-Z0-9-_$#.]+")
             try self.validate(self.schemaArn, name: "schemaArn", parent: name, max: 10240)
             try self.validate(self.schemaArn, name: "schemaArn", parent: name, min: 1)
             try self.validate(self.schemaArn, name: "schemaArn", parent: name, pattern: "arn:aws:glue:.*")
             try self.validate(self.schemaName, name: "schemaName", parent: name, max: 255)
             try self.validate(self.schemaName, name: "schemaName", parent: name, min: 1)
-            try self.validate(self.schemaName, name: "schemaName", parent: name, pattern: "[a-zA-Z0-9-_$#]+")
+            try self.validate(self.schemaName, name: "schemaName", parent: name, pattern: "[a-zA-Z0-9-_$#.]+")
         }
 
         private enum CodingKeys: String, CodingKey {

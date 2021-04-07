@@ -56,6 +56,12 @@ extension WorkMail {
         public var description: String { return self.rawValue }
     }
 
+    public enum MobileDeviceAccessRuleEffect: String, CustomStringConvertible, Codable {
+        case allow = "ALLOW"
+        case deny = "DENY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PermissionType: String, CustomStringConvertible, Codable {
         case fullAccess = "FULL_ACCESS"
         case sendAs = "SEND_AS"
@@ -339,6 +345,151 @@ extension WorkMail {
 
         private enum CodingKeys: String, CodingKey {
             case groupId = "GroupId"
+        }
+    }
+
+    public struct CreateMobileDeviceAccessRuleRequest: AWSEncodableShape {
+        /// The idempotency token for the client request.
+        public let clientToken: String?
+        /// The rule description.
+        public let description: String?
+        /// Device models that the rule will match.
+        public let deviceModels: [String]?
+        /// Device operating systems that the rule will match.
+        public let deviceOperatingSystems: [String]?
+        /// Device types that the rule will match.
+        public let deviceTypes: [String]?
+        /// Device user agents that the rule will match.
+        public let deviceUserAgents: [String]?
+        /// The effect of the rule when it matches. Allowed values are ALLOW or DENY.
+        public let effect: MobileDeviceAccessRuleEffect
+        /// The rule name.
+        public let name: String
+        /// Device models that the rule will not match. All other device models will match.
+        public let notDeviceModels: [String]?
+        /// Device operating systems that the rule will not match. All other device operating systems will match.
+        public let notDeviceOperatingSystems: [String]?
+        /// Device types that the rule will not match. All other device types will match.
+        public let notDeviceTypes: [String]?
+        /// Device user agents that the rule will not match. All other device user agents will match.
+        public let notDeviceUserAgents: [String]?
+        /// The Amazon WorkMail organization under which the rule will be created.
+        public let organizationId: String
+
+        public init(clientToken: String? = CreateMobileDeviceAccessRuleRequest.idempotencyToken(), description: String? = nil, deviceModels: [String]? = nil, deviceOperatingSystems: [String]? = nil, deviceTypes: [String]? = nil, deviceUserAgents: [String]? = nil, effect: MobileDeviceAccessRuleEffect, name: String, notDeviceModels: [String]? = nil, notDeviceOperatingSystems: [String]? = nil, notDeviceTypes: [String]? = nil, notDeviceUserAgents: [String]? = nil, organizationId: String) {
+            self.clientToken = clientToken
+            self.description = description
+            self.deviceModels = deviceModels
+            self.deviceOperatingSystems = deviceOperatingSystems
+            self.deviceTypes = deviceTypes
+            self.deviceUserAgents = deviceUserAgents
+            self.effect = effect
+            self.name = name
+            self.notDeviceModels = notDeviceModels
+            self.notDeviceOperatingSystems = notDeviceOperatingSystems
+            self.notDeviceTypes = notDeviceTypes
+            self.notDeviceUserAgents = notDeviceUserAgents
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[\\x21-\\x7e]+")
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[\\S\\s]+")
+            try self.deviceModels?.forEach {
+                try validate($0, name: "deviceModels[]", parent: name, max: 256)
+                try validate($0, name: "deviceModels[]", parent: name, min: 1)
+                try validate($0, name: "deviceModels[]", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            }
+            try self.validate(self.deviceModels, name: "deviceModels", parent: name, max: 10)
+            try self.validate(self.deviceModels, name: "deviceModels", parent: name, min: 1)
+            try self.deviceOperatingSystems?.forEach {
+                try validate($0, name: "deviceOperatingSystems[]", parent: name, max: 256)
+                try validate($0, name: "deviceOperatingSystems[]", parent: name, min: 1)
+                try validate($0, name: "deviceOperatingSystems[]", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            }
+            try self.validate(self.deviceOperatingSystems, name: "deviceOperatingSystems", parent: name, max: 10)
+            try self.validate(self.deviceOperatingSystems, name: "deviceOperatingSystems", parent: name, min: 1)
+            try self.deviceTypes?.forEach {
+                try validate($0, name: "deviceTypes[]", parent: name, max: 256)
+                try validate($0, name: "deviceTypes[]", parent: name, min: 1)
+                try validate($0, name: "deviceTypes[]", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            }
+            try self.validate(self.deviceTypes, name: "deviceTypes", parent: name, max: 10)
+            try self.validate(self.deviceTypes, name: "deviceTypes", parent: name, min: 1)
+            try self.deviceUserAgents?.forEach {
+                try validate($0, name: "deviceUserAgents[]", parent: name, max: 256)
+                try validate($0, name: "deviceUserAgents[]", parent: name, min: 1)
+                try validate($0, name: "deviceUserAgents[]", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            }
+            try self.validate(self.deviceUserAgents, name: "deviceUserAgents", parent: name, max: 10)
+            try self.validate(self.deviceUserAgents, name: "deviceUserAgents", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[\\S\\s]+")
+            try self.notDeviceModels?.forEach {
+                try validate($0, name: "notDeviceModels[]", parent: name, max: 256)
+                try validate($0, name: "notDeviceModels[]", parent: name, min: 1)
+                try validate($0, name: "notDeviceModels[]", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            }
+            try self.validate(self.notDeviceModels, name: "notDeviceModels", parent: name, max: 10)
+            try self.validate(self.notDeviceModels, name: "notDeviceModels", parent: name, min: 1)
+            try self.notDeviceOperatingSystems?.forEach {
+                try validate($0, name: "notDeviceOperatingSystems[]", parent: name, max: 256)
+                try validate($0, name: "notDeviceOperatingSystems[]", parent: name, min: 1)
+                try validate($0, name: "notDeviceOperatingSystems[]", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            }
+            try self.validate(self.notDeviceOperatingSystems, name: "notDeviceOperatingSystems", parent: name, max: 10)
+            try self.validate(self.notDeviceOperatingSystems, name: "notDeviceOperatingSystems", parent: name, min: 1)
+            try self.notDeviceTypes?.forEach {
+                try validate($0, name: "notDeviceTypes[]", parent: name, max: 256)
+                try validate($0, name: "notDeviceTypes[]", parent: name, min: 1)
+                try validate($0, name: "notDeviceTypes[]", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            }
+            try self.validate(self.notDeviceTypes, name: "notDeviceTypes", parent: name, max: 10)
+            try self.validate(self.notDeviceTypes, name: "notDeviceTypes", parent: name, min: 1)
+            try self.notDeviceUserAgents?.forEach {
+                try validate($0, name: "notDeviceUserAgents[]", parent: name, max: 256)
+                try validate($0, name: "notDeviceUserAgents[]", parent: name, min: 1)
+                try validate($0, name: "notDeviceUserAgents[]", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            }
+            try self.validate(self.notDeviceUserAgents, name: "notDeviceUserAgents", parent: name, max: 10)
+            try self.validate(self.notDeviceUserAgents, name: "notDeviceUserAgents", parent: name, min: 1)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case deviceModels = "DeviceModels"
+            case deviceOperatingSystems = "DeviceOperatingSystems"
+            case deviceTypes = "DeviceTypes"
+            case deviceUserAgents = "DeviceUserAgents"
+            case effect = "Effect"
+            case name = "Name"
+            case notDeviceModels = "NotDeviceModels"
+            case notDeviceOperatingSystems = "NotDeviceOperatingSystems"
+            case notDeviceTypes = "NotDeviceTypes"
+            case notDeviceUserAgents = "NotDeviceUserAgents"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct CreateMobileDeviceAccessRuleResponse: AWSDecodableShape {
+        /// The identifier for the newly created mobile device access rule.
+        public let mobileDeviceAccessRuleId: String?
+
+        public init(mobileDeviceAccessRuleId: String? = nil) {
+            self.mobileDeviceAccessRuleId = mobileDeviceAccessRuleId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mobileDeviceAccessRuleId = "MobileDeviceAccessRuleId"
         }
     }
 
@@ -645,6 +796,36 @@ extension WorkMail {
     }
 
     public struct DeleteMailboxPermissionsResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteMobileDeviceAccessRuleRequest: AWSEncodableShape {
+        /// The identifier of the rule to be deleted.
+        public let mobileDeviceAccessRuleId: String
+        /// The Amazon WorkMail organization under which the rule will be deleted.
+        public let organizationId: String
+
+        public init(mobileDeviceAccessRuleId: String, organizationId: String) {
+            self.mobileDeviceAccessRuleId = mobileDeviceAccessRuleId
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.mobileDeviceAccessRuleId, name: "mobileDeviceAccessRuleId", parent: name, max: 64)
+            try self.validate(self.mobileDeviceAccessRuleId, name: "mobileDeviceAccessRuleId", parent: name, min: 1)
+            try self.validate(self.mobileDeviceAccessRuleId, name: "mobileDeviceAccessRuleId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mobileDeviceAccessRuleId = "MobileDeviceAccessRuleId"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct DeleteMobileDeviceAccessRuleResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -1416,6 +1597,70 @@ extension WorkMail {
         }
     }
 
+    public struct GetMobileDeviceAccessEffectRequest: AWSEncodableShape {
+        /// Device model the simulated user will report.
+        public let deviceModel: String?
+        /// Device operating system the simulated user will report.
+        public let deviceOperatingSystem: String?
+        /// Device type the simulated user will report.
+        public let deviceType: String?
+        /// Device user agent the simulated user will report.
+        public let deviceUserAgent: String?
+        /// The Amazon WorkMail organization to simulate the access effect for.
+        public let organizationId: String
+
+        public init(deviceModel: String? = nil, deviceOperatingSystem: String? = nil, deviceType: String? = nil, deviceUserAgent: String? = nil, organizationId: String) {
+            self.deviceModel = deviceModel
+            self.deviceOperatingSystem = deviceOperatingSystem
+            self.deviceType = deviceType
+            self.deviceUserAgent = deviceUserAgent
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deviceModel, name: "deviceModel", parent: name, max: 256)
+            try self.validate(self.deviceModel, name: "deviceModel", parent: name, min: 1)
+            try self.validate(self.deviceModel, name: "deviceModel", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try self.validate(self.deviceOperatingSystem, name: "deviceOperatingSystem", parent: name, max: 256)
+            try self.validate(self.deviceOperatingSystem, name: "deviceOperatingSystem", parent: name, min: 1)
+            try self.validate(self.deviceOperatingSystem, name: "deviceOperatingSystem", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try self.validate(self.deviceType, name: "deviceType", parent: name, max: 256)
+            try self.validate(self.deviceType, name: "deviceType", parent: name, min: 1)
+            try self.validate(self.deviceType, name: "deviceType", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try self.validate(self.deviceUserAgent, name: "deviceUserAgent", parent: name, max: 256)
+            try self.validate(self.deviceUserAgent, name: "deviceUserAgent", parent: name, min: 1)
+            try self.validate(self.deviceUserAgent, name: "deviceUserAgent", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceModel = "DeviceModel"
+            case deviceOperatingSystem = "DeviceOperatingSystem"
+            case deviceType = "DeviceType"
+            case deviceUserAgent = "DeviceUserAgent"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct GetMobileDeviceAccessEffectResponse: AWSDecodableShape {
+        /// The effect of the simulated access, ALLOW or DENY, after evaluating mobile device access rules in the Amazon WorkMail organization for the simulated user parameters.
+        public let effect: MobileDeviceAccessRuleEffect?
+        /// A list of the rules which matched the simulated user input and produced the effect.
+        public let matchedRules: [MobileDeviceAccessMatchedRule]?
+
+        public init(effect: MobileDeviceAccessRuleEffect? = nil, matchedRules: [MobileDeviceAccessMatchedRule]? = nil) {
+            self.effect = effect
+            self.matchedRules = matchedRules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case effect = "Effect"
+            case matchedRules = "MatchedRules"
+        }
+    }
+
     public struct Group: AWSDecodableShape {
         /// The date indicating when the group was disabled from Amazon WorkMail use.
         public let disabledDate: Date?
@@ -1744,6 +1989,38 @@ extension WorkMail {
         }
     }
 
+    public struct ListMobileDeviceAccessRulesRequest: AWSEncodableShape {
+        /// The Amazon WorkMail organization for which to list the rules.
+        public let organizationId: String
+
+        public init(organizationId: String) {
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct ListMobileDeviceAccessRulesResponse: AWSDecodableShape {
+        /// The list of mobile device access rules that exist under the specified Amazon WorkMail organization.
+        public let rules: [MobileDeviceAccessRule]?
+
+        public init(rules: [MobileDeviceAccessRule]? = nil) {
+            self.rules = rules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rules = "Rules"
+        }
+    }
+
     public struct ListOrganizationsRequest: AWSEncodableShape {
         /// The maximum number of results to return in a single call.
         public let maxResults: Int?
@@ -2045,6 +2322,88 @@ extension WorkMail {
             case name = "Name"
             case state = "State"
             case type = "Type"
+        }
+    }
+
+    public struct MobileDeviceAccessMatchedRule: AWSDecodableShape {
+        /// Identifier of the rule that a simulated user matches.
+        public let mobileDeviceAccessRuleId: String?
+        /// Name of a rule that a simulated user matches.
+        public let name: String?
+
+        public init(mobileDeviceAccessRuleId: String? = nil, name: String? = nil) {
+            self.mobileDeviceAccessRuleId = mobileDeviceAccessRuleId
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mobileDeviceAccessRuleId = "MobileDeviceAccessRuleId"
+            case name = "Name"
+        }
+    }
+
+    public struct MobileDeviceAccessRule: AWSDecodableShape {
+        /// The date and time at which an access rule was created.
+        public let dateCreated: Date?
+        /// The date and time at which an access rule was modified.
+        public let dateModified: Date?
+        /// The description of a mobile access rule.
+        public let description: String?
+        /// Device models that a rule will match.
+        public let deviceModels: [String]?
+        /// Device operating systems that a rule will match.
+        public let deviceOperatingSystems: [String]?
+        /// Device types that a rule will match.
+        public let deviceTypes: [String]?
+        /// Device user agents that a rule will match.
+        public let deviceUserAgents: [String]?
+        /// The effect of the rule when it matches. Allowed values are ALLOW or DENY.
+        public let effect: MobileDeviceAccessRuleEffect?
+        /// The ID assigned to a mobile access rule.
+        public let mobileDeviceAccessRuleId: String?
+        /// The name of a mobile access rule.
+        public let name: String?
+        /// Device models that a rule will not match. All other device models will match.
+        public let notDeviceModels: [String]?
+        /// Device operating systems that a rule will not match. All other device types will match.
+        public let notDeviceOperatingSystems: [String]?
+        /// Device types that a rule will not match. All other device types will match.
+        public let notDeviceTypes: [String]?
+        /// Device user agents that a rule will not match. All other device user agents will match.
+        public let notDeviceUserAgents: [String]?
+
+        public init(dateCreated: Date? = nil, dateModified: Date? = nil, description: String? = nil, deviceModels: [String]? = nil, deviceOperatingSystems: [String]? = nil, deviceTypes: [String]? = nil, deviceUserAgents: [String]? = nil, effect: MobileDeviceAccessRuleEffect? = nil, mobileDeviceAccessRuleId: String? = nil, name: String? = nil, notDeviceModels: [String]? = nil, notDeviceOperatingSystems: [String]? = nil, notDeviceTypes: [String]? = nil, notDeviceUserAgents: [String]? = nil) {
+            self.dateCreated = dateCreated
+            self.dateModified = dateModified
+            self.description = description
+            self.deviceModels = deviceModels
+            self.deviceOperatingSystems = deviceOperatingSystems
+            self.deviceTypes = deviceTypes
+            self.deviceUserAgents = deviceUserAgents
+            self.effect = effect
+            self.mobileDeviceAccessRuleId = mobileDeviceAccessRuleId
+            self.name = name
+            self.notDeviceModels = notDeviceModels
+            self.notDeviceOperatingSystems = notDeviceOperatingSystems
+            self.notDeviceTypes = notDeviceTypes
+            self.notDeviceUserAgents = notDeviceUserAgents
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateCreated = "DateCreated"
+            case dateModified = "DateModified"
+            case description = "Description"
+            case deviceModels = "DeviceModels"
+            case deviceOperatingSystems = "DeviceOperatingSystems"
+            case deviceTypes = "DeviceTypes"
+            case deviceUserAgents = "DeviceUserAgents"
+            case effect = "Effect"
+            case mobileDeviceAccessRuleId = "MobileDeviceAccessRuleId"
+            case name = "Name"
+            case notDeviceModels = "NotDeviceModels"
+            case notDeviceOperatingSystems = "NotDeviceOperatingSystems"
+            case notDeviceTypes = "NotDeviceTypes"
+            case notDeviceUserAgents = "NotDeviceUserAgents"
         }
     }
 
@@ -2597,6 +2956,142 @@ extension WorkMail {
     }
 
     public struct UpdateMailboxQuotaResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateMobileDeviceAccessRuleRequest: AWSEncodableShape {
+        /// The updated rule description.
+        public let description: String?
+        /// Device models that the updated rule will match.
+        public let deviceModels: [String]?
+        /// Device operating systems that the updated rule will match.
+        public let deviceOperatingSystems: [String]?
+        /// Device types that the updated rule will match.
+        public let deviceTypes: [String]?
+        /// User agents that the updated rule will match.
+        public let deviceUserAgents: [String]?
+        /// The effect of the rule when it matches. Allowed values are ALLOW or DENY.
+        public let effect: MobileDeviceAccessRuleEffect
+        /// The identifier of the rule to be updated.
+        public let mobileDeviceAccessRuleId: String
+        /// The updated rule name.
+        public let name: String
+        /// Device models that the updated rule will not match. All other device models will match.
+        public let notDeviceModels: [String]?
+        /// Device operating systems that the updated rule will not match. All other device operating systems will match.
+        public let notDeviceOperatingSystems: [String]?
+        /// Device types that the updated rule will not match. All other device types will match.
+        public let notDeviceTypes: [String]?
+        /// User agents that the updated rule will not match. All other user agents will match.
+        public let notDeviceUserAgents: [String]?
+        /// The Amazon WorkMail organization under which the rule will be updated.
+        public let organizationId: String
+
+        public init(description: String? = nil, deviceModels: [String]? = nil, deviceOperatingSystems: [String]? = nil, deviceTypes: [String]? = nil, deviceUserAgents: [String]? = nil, effect: MobileDeviceAccessRuleEffect, mobileDeviceAccessRuleId: String, name: String, notDeviceModels: [String]? = nil, notDeviceOperatingSystems: [String]? = nil, notDeviceTypes: [String]? = nil, notDeviceUserAgents: [String]? = nil, organizationId: String) {
+            self.description = description
+            self.deviceModels = deviceModels
+            self.deviceOperatingSystems = deviceOperatingSystems
+            self.deviceTypes = deviceTypes
+            self.deviceUserAgents = deviceUserAgents
+            self.effect = effect
+            self.mobileDeviceAccessRuleId = mobileDeviceAccessRuleId
+            self.name = name
+            self.notDeviceModels = notDeviceModels
+            self.notDeviceOperatingSystems = notDeviceOperatingSystems
+            self.notDeviceTypes = notDeviceTypes
+            self.notDeviceUserAgents = notDeviceUserAgents
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[\\S\\s]+")
+            try self.deviceModels?.forEach {
+                try validate($0, name: "deviceModels[]", parent: name, max: 256)
+                try validate($0, name: "deviceModels[]", parent: name, min: 1)
+                try validate($0, name: "deviceModels[]", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            }
+            try self.validate(self.deviceModels, name: "deviceModels", parent: name, max: 10)
+            try self.validate(self.deviceModels, name: "deviceModels", parent: name, min: 1)
+            try self.deviceOperatingSystems?.forEach {
+                try validate($0, name: "deviceOperatingSystems[]", parent: name, max: 256)
+                try validate($0, name: "deviceOperatingSystems[]", parent: name, min: 1)
+                try validate($0, name: "deviceOperatingSystems[]", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            }
+            try self.validate(self.deviceOperatingSystems, name: "deviceOperatingSystems", parent: name, max: 10)
+            try self.validate(self.deviceOperatingSystems, name: "deviceOperatingSystems", parent: name, min: 1)
+            try self.deviceTypes?.forEach {
+                try validate($0, name: "deviceTypes[]", parent: name, max: 256)
+                try validate($0, name: "deviceTypes[]", parent: name, min: 1)
+                try validate($0, name: "deviceTypes[]", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            }
+            try self.validate(self.deviceTypes, name: "deviceTypes", parent: name, max: 10)
+            try self.validate(self.deviceTypes, name: "deviceTypes", parent: name, min: 1)
+            try self.deviceUserAgents?.forEach {
+                try validate($0, name: "deviceUserAgents[]", parent: name, max: 256)
+                try validate($0, name: "deviceUserAgents[]", parent: name, min: 1)
+                try validate($0, name: "deviceUserAgents[]", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            }
+            try self.validate(self.deviceUserAgents, name: "deviceUserAgents", parent: name, max: 10)
+            try self.validate(self.deviceUserAgents, name: "deviceUserAgents", parent: name, min: 1)
+            try self.validate(self.mobileDeviceAccessRuleId, name: "mobileDeviceAccessRuleId", parent: name, max: 64)
+            try self.validate(self.mobileDeviceAccessRuleId, name: "mobileDeviceAccessRuleId", parent: name, min: 1)
+            try self.validate(self.mobileDeviceAccessRuleId, name: "mobileDeviceAccessRuleId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[\\S\\s]+")
+            try self.notDeviceModels?.forEach {
+                try validate($0, name: "notDeviceModels[]", parent: name, max: 256)
+                try validate($0, name: "notDeviceModels[]", parent: name, min: 1)
+                try validate($0, name: "notDeviceModels[]", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            }
+            try self.validate(self.notDeviceModels, name: "notDeviceModels", parent: name, max: 10)
+            try self.validate(self.notDeviceModels, name: "notDeviceModels", parent: name, min: 1)
+            try self.notDeviceOperatingSystems?.forEach {
+                try validate($0, name: "notDeviceOperatingSystems[]", parent: name, max: 256)
+                try validate($0, name: "notDeviceOperatingSystems[]", parent: name, min: 1)
+                try validate($0, name: "notDeviceOperatingSystems[]", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            }
+            try self.validate(self.notDeviceOperatingSystems, name: "notDeviceOperatingSystems", parent: name, max: 10)
+            try self.validate(self.notDeviceOperatingSystems, name: "notDeviceOperatingSystems", parent: name, min: 1)
+            try self.notDeviceTypes?.forEach {
+                try validate($0, name: "notDeviceTypes[]", parent: name, max: 256)
+                try validate($0, name: "notDeviceTypes[]", parent: name, min: 1)
+                try validate($0, name: "notDeviceTypes[]", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            }
+            try self.validate(self.notDeviceTypes, name: "notDeviceTypes", parent: name, max: 10)
+            try self.validate(self.notDeviceTypes, name: "notDeviceTypes", parent: name, min: 1)
+            try self.notDeviceUserAgents?.forEach {
+                try validate($0, name: "notDeviceUserAgents[]", parent: name, max: 256)
+                try validate($0, name: "notDeviceUserAgents[]", parent: name, min: 1)
+                try validate($0, name: "notDeviceUserAgents[]", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            }
+            try self.validate(self.notDeviceUserAgents, name: "notDeviceUserAgents", parent: name, max: 10)
+            try self.validate(self.notDeviceUserAgents, name: "notDeviceUserAgents", parent: name, min: 1)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case deviceModels = "DeviceModels"
+            case deviceOperatingSystems = "DeviceOperatingSystems"
+            case deviceTypes = "DeviceTypes"
+            case deviceUserAgents = "DeviceUserAgents"
+            case effect = "Effect"
+            case mobileDeviceAccessRuleId = "MobileDeviceAccessRuleId"
+            case name = "Name"
+            case notDeviceModels = "NotDeviceModels"
+            case notDeviceOperatingSystems = "NotDeviceOperatingSystems"
+            case notDeviceTypes = "NotDeviceTypes"
+            case notDeviceUserAgents = "NotDeviceUserAgents"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct UpdateMobileDeviceAccessRuleResponse: AWSDecodableShape {
         public init() {}
     }
 

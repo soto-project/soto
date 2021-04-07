@@ -6387,6 +6387,31 @@ extension SecurityHub {
         }
     }
 
+    public struct AwsS3AccountPublicAccessBlockDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether to reject calls to update an S3 bucket if the calls include a public access control list (ACL).
+        public let blockPublicAcls: Bool?
+        /// Indicates whether to reject calls to update the access policy for an S3 bucket or access point if the policy allows public access.
+        public let blockPublicPolicy: Bool?
+        /// Indicates whether Amazon S3 ignores public ACLs that are associated with an S3 bucket.
+        public let ignorePublicAcls: Bool?
+        /// Indicates whether to restrict access to an access point or S3 bucket that has a public policy to only AWS service principals and authorized users within the S3 bucket owner's account.
+        public let restrictPublicBuckets: Bool?
+
+        public init(blockPublicAcls: Bool? = nil, blockPublicPolicy: Bool? = nil, ignorePublicAcls: Bool? = nil, restrictPublicBuckets: Bool? = nil) {
+            self.blockPublicAcls = blockPublicAcls
+            self.blockPublicPolicy = blockPublicPolicy
+            self.ignorePublicAcls = ignorePublicAcls
+            self.restrictPublicBuckets = restrictPublicBuckets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blockPublicAcls = "BlockPublicAcls"
+            case blockPublicPolicy = "BlockPublicPolicy"
+            case ignorePublicAcls = "IgnorePublicAcls"
+            case restrictPublicBuckets = "RestrictPublicBuckets"
+        }
+    }
+
     public struct AwsS3BucketDetails: AWSEncodableShape & AWSDecodableShape {
         /// Indicates when the S3 bucket was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
         public let createdAt: String?
@@ -6394,13 +6419,16 @@ extension SecurityHub {
         public let ownerId: String?
         /// The display name of the owner of the S3 bucket.
         public let ownerName: String?
+        /// Provides information about the Amazon S3 Public Access Block configuration for the S3 bucket.
+        public let publicAccessBlockConfiguration: AwsS3AccountPublicAccessBlockDetails?
         /// The encryption rules that are applied to the S3 bucket.
         public let serverSideEncryptionConfiguration: AwsS3BucketServerSideEncryptionConfiguration?
 
-        public init(createdAt: String? = nil, ownerId: String? = nil, ownerName: String? = nil, serverSideEncryptionConfiguration: AwsS3BucketServerSideEncryptionConfiguration? = nil) {
+        public init(createdAt: String? = nil, ownerId: String? = nil, ownerName: String? = nil, publicAccessBlockConfiguration: AwsS3AccountPublicAccessBlockDetails? = nil, serverSideEncryptionConfiguration: AwsS3BucketServerSideEncryptionConfiguration? = nil) {
             self.createdAt = createdAt
             self.ownerId = ownerId
             self.ownerName = ownerName
+            self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
             self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
         }
 
@@ -6415,6 +6443,7 @@ extension SecurityHub {
             case createdAt = "CreatedAt"
             case ownerId = "OwnerId"
             case ownerName = "OwnerName"
+            case publicAccessBlockConfiguration = "PublicAccessBlockConfiguration"
             case serverSideEncryptionConfiguration = "ServerSideEncryptionConfiguration"
         }
     }
@@ -6595,6 +6624,8 @@ extension SecurityHub {
         public let criticality: Int?
         /// A finding's description.  In this release, Description is a required property.
         public let description: String
+        /// In a BatchImportFindings request, finding providers use FindingProviderFields to provide and update their own values for confidence, criticality, related findings, severity, and types.
+        public let findingProviderFields: FindingProviderFields?
         /// Indicates when the security-findings provider first observed the potential security issue that a finding captured. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
         public let firstObservedAt: String?
         /// The identifier for the solution-specific component (a discrete unit of logic) that generated a finding. In various security-findings providers' solutions, this generator can be called a rule, a check, a detector, a plugin, etc.
@@ -6630,7 +6661,7 @@ extension SecurityHub {
         /// The schema version that a finding is formatted for.
         public let schemaVersion: String
         /// A finding's severity.
-        public let severity: Severity
+        public let severity: Severity?
         /// A URL that links to a page about the current finding in the security-findings provider's solution.
         public let sourceUrl: String?
         /// Threat intelligence details related to a finding.
@@ -6638,7 +6669,7 @@ extension SecurityHub {
         /// A finding's title.  In this release, Title is a required property.
         public let title: String
         /// One or more finding types in the format of namespace/category/classifier that classify a finding. Valid namespace values are: Software and Configuration Checks | TTPs | Effects | Unusual Behaviors | Sensitive Data Identifications
-        public let types: [String]
+        public let types: [String]?
         /// Indicates when the security-findings provider last updated the finding record. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
         public let updatedAt: String
         /// A list of name/value string pairs associated with the finding. These are custom, user-defined fields added to a finding.
@@ -6652,7 +6683,7 @@ extension SecurityHub {
         /// The workflow state of a finding.
         public let workflowState: WorkflowState?
 
-        public init(action: Action? = nil, awsAccountId: String, compliance: Compliance? = nil, confidence: Int? = nil, createdAt: String, criticality: Int? = nil, description: String, firstObservedAt: String? = nil, generatorId: String, id: String, lastObservedAt: String? = nil, malware: [Malware]? = nil, network: Network? = nil, networkPath: [NetworkPathComponent]? = nil, note: Note? = nil, patchSummary: PatchSummary? = nil, process: ProcessDetails? = nil, productArn: String, productFields: [String: String]? = nil, recordState: RecordState? = nil, relatedFindings: [RelatedFinding]? = nil, remediation: Remediation? = nil, resources: [Resource], schemaVersion: String, severity: Severity, sourceUrl: String? = nil, threatIntelIndicators: [ThreatIntelIndicator]? = nil, title: String, types: [String], updatedAt: String, userDefinedFields: [String: String]? = nil, verificationState: VerificationState? = nil, vulnerabilities: [Vulnerability]? = nil, workflow: Workflow? = nil, workflowState: WorkflowState? = nil) {
+        public init(action: Action? = nil, awsAccountId: String, compliance: Compliance? = nil, confidence: Int? = nil, createdAt: String, criticality: Int? = nil, description: String, findingProviderFields: FindingProviderFields? = nil, firstObservedAt: String? = nil, generatorId: String, id: String, lastObservedAt: String? = nil, malware: [Malware]? = nil, network: Network? = nil, networkPath: [NetworkPathComponent]? = nil, note: Note? = nil, patchSummary: PatchSummary? = nil, process: ProcessDetails? = nil, productArn: String, productFields: [String: String]? = nil, recordState: RecordState? = nil, relatedFindings: [RelatedFinding]? = nil, remediation: Remediation? = nil, resources: [Resource], schemaVersion: String, severity: Severity? = nil, sourceUrl: String? = nil, threatIntelIndicators: [ThreatIntelIndicator]? = nil, title: String, types: [String]? = nil, updatedAt: String, userDefinedFields: [String: String]? = nil, verificationState: VerificationState? = nil, vulnerabilities: [Vulnerability]? = nil, workflow: Workflow? = nil, workflowState: WorkflowState? = nil) {
             self.action = action
             self.awsAccountId = awsAccountId
             self.compliance = compliance
@@ -6660,6 +6691,7 @@ extension SecurityHub {
             self.createdAt = createdAt
             self.criticality = criticality
             self.description = description
+            self.findingProviderFields = findingProviderFields
             self.firstObservedAt = firstObservedAt
             self.generatorId = generatorId
             self.id = id
@@ -6696,6 +6728,7 @@ extension SecurityHub {
             try self.compliance?.validate(name: "\(name).compliance")
             try self.validate(self.createdAt, name: "createdAt", parent: name, pattern: ".*\\S.*")
             try self.validate(self.description, name: "description", parent: name, pattern: ".*\\S.*")
+            try self.findingProviderFields?.validate(name: "\(name).findingProviderFields")
             try self.validate(self.firstObservedAt, name: "firstObservedAt", parent: name, pattern: ".*\\S.*")
             try self.validate(self.generatorId, name: "generatorId", parent: name, pattern: ".*\\S.*")
             try self.validate(self.id, name: "id", parent: name, pattern: ".*\\S.*")
@@ -6723,13 +6756,13 @@ extension SecurityHub {
                 try $0.validate(name: "\(name).resources[]")
             }
             try self.validate(self.schemaVersion, name: "schemaVersion", parent: name, pattern: ".*\\S.*")
-            try self.severity.validate(name: "\(name).severity")
+            try self.severity?.validate(name: "\(name).severity")
             try self.validate(self.sourceUrl, name: "sourceUrl", parent: name, pattern: ".*\\S.*")
             try self.threatIntelIndicators?.forEach {
                 try $0.validate(name: "\(name).threatIntelIndicators[]")
             }
             try self.validate(self.title, name: "title", parent: name, pattern: ".*\\S.*")
-            try self.types.forEach {
+            try self.types?.forEach {
                 try validate($0, name: "types[]", parent: name, pattern: ".*\\S.*")
             }
             try self.validate(self.updatedAt, name: "updatedAt", parent: name, pattern: ".*\\S.*")
@@ -6750,6 +6783,7 @@ extension SecurityHub {
             case createdAt = "CreatedAt"
             case criticality = "Criticality"
             case description = "Description"
+            case findingProviderFields = "FindingProviderFields"
             case firstObservedAt = "FirstObservedAt"
             case generatorId = "GeneratorId"
             case id = "Id"
@@ -6796,6 +6830,20 @@ extension SecurityHub {
         public let criticality: [NumberFilter]?
         /// A finding's description.
         public let description: [StringFilter]?
+        /// The finding provider value for the finding confidence. Confidence is defined as the likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0-100 basis using a ratio scale, where 0 means zero percent confidence and 100 means 100 percent confidence.
+        public let findingProviderFieldsConfidence: [NumberFilter]?
+        /// The finding provider value for the level of importance assigned to the resources associated with the findings. A score of 0 means that the underlying resources have no criticality, and a score of 100 is reserved for the most critical resources.
+        public let findingProviderFieldsCriticality: [NumberFilter]?
+        /// The finding identifier of a related finding that is identified by the finding provider.
+        public let findingProviderFieldsRelatedFindingsId: [StringFilter]?
+        /// The ARN of the solution that generated a related finding that is identified by the finding provider.
+        public let findingProviderFieldsRelatedFindingsProductArn: [StringFilter]?
+        /// The finding provider value for the severity label.
+        public let findingProviderFieldsSeverityLabel: [StringFilter]?
+        /// The finding provider's original value for the severity.
+        public let findingProviderFieldsSeverityOriginal: [StringFilter]?
+        /// One or more finding types that the finding provider assigned to the finding. Uses the format of namespace/category/classifier that classify a finding. Valid namespace values are: Software and Configuration Checks | TTPs | Effects | Unusual Behaviors | Sensitive Data Identifications
+        public let findingProviderFieldsTypes: [StringFilter]?
         /// An ISO8601-formatted timestamp that indicates when the security-findings provider first observed the potential security issue that a finding captured.
         public let firstObservedAt: [DateFilter]?
         /// The identifier for the solution-specific component (a discrete unit of logic) that generated a finding. In various security-findings providers' solutions, this generator can be called a rule, a check, a detector, a plugin, etc.
@@ -6918,10 +6966,6 @@ extension SecurityHub {
         public let resourceType: [StringFilter]?
         /// The label of a finding's severity.
         public let severityLabel: [StringFilter]?
-        /// The normalized severity of a finding.
-        public let severityNormalized: [NumberFilter]?
-        /// The native severity as defined by the security-findings provider's solution that generated the finding.
-        public let severityProduct: [NumberFilter]?
         /// A URL that links to a page about the current finding in the security-findings provider's solution.
         public let sourceUrl: [StringFilter]?
         /// The category of a threat intelligence indicator.
@@ -6951,7 +6995,7 @@ extension SecurityHub {
         /// The status of the investigation into a finding. Allowed values are the following.    NEW - The initial state of a finding, before it is reviewed. Security Hub also resets the workflow status from NOTIFIED or RESOLVED to NEW in the following cases:   The record state changes from ARCHIVED to ACTIVE.   The compliance status changes from PASSED to either WARNING, FAILED, or NOT_AVAILABLE.      NOTIFIED - Indicates that the resource owner has been notified about the security issue. Used when the initial reviewer is not the resource owner, and needs intervention from the resource owner.    SUPPRESSED - The finding will not be reviewed again and will not be acted upon.    RESOLVED - The finding was reviewed and remediated and is now considered resolved.
         public let workflowStatus: [StringFilter]?
 
-        public init(awsAccountId: [StringFilter]? = nil, companyName: [StringFilter]? = nil, complianceStatus: [StringFilter]? = nil, confidence: [NumberFilter]? = nil, createdAt: [DateFilter]? = nil, criticality: [NumberFilter]? = nil, description: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, generatorId: [StringFilter]? = nil, id: [StringFilter]? = nil, keyword: [KeywordFilter]? = nil, lastObservedAt: [DateFilter]? = nil, malwareName: [StringFilter]? = nil, malwarePath: [StringFilter]? = nil, malwareState: [StringFilter]? = nil, malwareType: [StringFilter]? = nil, networkDestinationDomain: [StringFilter]? = nil, networkDestinationIpV4: [IpFilter]? = nil, networkDestinationIpV6: [IpFilter]? = nil, networkDestinationPort: [NumberFilter]? = nil, networkDirection: [StringFilter]? = nil, networkProtocol: [StringFilter]? = nil, networkSourceDomain: [StringFilter]? = nil, networkSourceIpV4: [IpFilter]? = nil, networkSourceIpV6: [IpFilter]? = nil, networkSourceMac: [StringFilter]? = nil, networkSourcePort: [NumberFilter]? = nil, noteText: [StringFilter]? = nil, noteUpdatedAt: [DateFilter]? = nil, noteUpdatedBy: [StringFilter]? = nil, processLaunchedAt: [DateFilter]? = nil, processName: [StringFilter]? = nil, processParentPid: [NumberFilter]? = nil, processPath: [StringFilter]? = nil, processPid: [NumberFilter]? = nil, processTerminatedAt: [DateFilter]? = nil, productArn: [StringFilter]? = nil, productFields: [MapFilter]? = nil, productName: [StringFilter]? = nil, recommendationText: [StringFilter]? = nil, recordState: [StringFilter]? = nil, relatedFindingsId: [StringFilter]? = nil, relatedFindingsProductArn: [StringFilter]? = nil, resourceAwsEc2InstanceIamInstanceProfileArn: [StringFilter]? = nil, resourceAwsEc2InstanceImageId: [StringFilter]? = nil, resourceAwsEc2InstanceIpV4Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceIpV6Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceKeyName: [StringFilter]? = nil, resourceAwsEc2InstanceLaunchedAt: [DateFilter]? = nil, resourceAwsEc2InstanceSubnetId: [StringFilter]? = nil, resourceAwsEc2InstanceType: [StringFilter]? = nil, resourceAwsEc2InstanceVpcId: [StringFilter]? = nil, resourceAwsIamAccessKeyCreatedAt: [DateFilter]? = nil, resourceAwsIamAccessKeyStatus: [StringFilter]? = nil, resourceAwsIamAccessKeyUserName: [StringFilter]? = nil, resourceAwsS3BucketOwnerId: [StringFilter]? = nil, resourceAwsS3BucketOwnerName: [StringFilter]? = nil, resourceContainerImageId: [StringFilter]? = nil, resourceContainerImageName: [StringFilter]? = nil, resourceContainerLaunchedAt: [DateFilter]? = nil, resourceContainerName: [StringFilter]? = nil, resourceDetailsOther: [MapFilter]? = nil, resourceId: [StringFilter]? = nil, resourcePartition: [StringFilter]? = nil, resourceRegion: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, severityLabel: [StringFilter]? = nil, severityNormalized: [NumberFilter]? = nil, severityProduct: [NumberFilter]? = nil, sourceUrl: [StringFilter]? = nil, threatIntelIndicatorCategory: [StringFilter]? = nil, threatIntelIndicatorLastObservedAt: [DateFilter]? = nil, threatIntelIndicatorSource: [StringFilter]? = nil, threatIntelIndicatorSourceUrl: [StringFilter]? = nil, threatIntelIndicatorType: [StringFilter]? = nil, threatIntelIndicatorValue: [StringFilter]? = nil, title: [StringFilter]? = nil, type: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, userDefinedFields: [MapFilter]? = nil, verificationState: [StringFilter]? = nil, workflowState: [StringFilter]? = nil, workflowStatus: [StringFilter]? = nil) {
+        public init(awsAccountId: [StringFilter]? = nil, companyName: [StringFilter]? = nil, complianceStatus: [StringFilter]? = nil, confidence: [NumberFilter]? = nil, createdAt: [DateFilter]? = nil, criticality: [NumberFilter]? = nil, description: [StringFilter]? = nil, findingProviderFieldsConfidence: [NumberFilter]? = nil, findingProviderFieldsCriticality: [NumberFilter]? = nil, findingProviderFieldsRelatedFindingsId: [StringFilter]? = nil, findingProviderFieldsRelatedFindingsProductArn: [StringFilter]? = nil, findingProviderFieldsSeverityLabel: [StringFilter]? = nil, findingProviderFieldsSeverityOriginal: [StringFilter]? = nil, findingProviderFieldsTypes: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, generatorId: [StringFilter]? = nil, id: [StringFilter]? = nil, keyword: [KeywordFilter]? = nil, lastObservedAt: [DateFilter]? = nil, malwareName: [StringFilter]? = nil, malwarePath: [StringFilter]? = nil, malwareState: [StringFilter]? = nil, malwareType: [StringFilter]? = nil, networkDestinationDomain: [StringFilter]? = nil, networkDestinationIpV4: [IpFilter]? = nil, networkDestinationIpV6: [IpFilter]? = nil, networkDestinationPort: [NumberFilter]? = nil, networkDirection: [StringFilter]? = nil, networkProtocol: [StringFilter]? = nil, networkSourceDomain: [StringFilter]? = nil, networkSourceIpV4: [IpFilter]? = nil, networkSourceIpV6: [IpFilter]? = nil, networkSourceMac: [StringFilter]? = nil, networkSourcePort: [NumberFilter]? = nil, noteText: [StringFilter]? = nil, noteUpdatedAt: [DateFilter]? = nil, noteUpdatedBy: [StringFilter]? = nil, processLaunchedAt: [DateFilter]? = nil, processName: [StringFilter]? = nil, processParentPid: [NumberFilter]? = nil, processPath: [StringFilter]? = nil, processPid: [NumberFilter]? = nil, processTerminatedAt: [DateFilter]? = nil, productArn: [StringFilter]? = nil, productFields: [MapFilter]? = nil, productName: [StringFilter]? = nil, recommendationText: [StringFilter]? = nil, recordState: [StringFilter]? = nil, relatedFindingsId: [StringFilter]? = nil, relatedFindingsProductArn: [StringFilter]? = nil, resourceAwsEc2InstanceIamInstanceProfileArn: [StringFilter]? = nil, resourceAwsEc2InstanceImageId: [StringFilter]? = nil, resourceAwsEc2InstanceIpV4Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceIpV6Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceKeyName: [StringFilter]? = nil, resourceAwsEc2InstanceLaunchedAt: [DateFilter]? = nil, resourceAwsEc2InstanceSubnetId: [StringFilter]? = nil, resourceAwsEc2InstanceType: [StringFilter]? = nil, resourceAwsEc2InstanceVpcId: [StringFilter]? = nil, resourceAwsIamAccessKeyCreatedAt: [DateFilter]? = nil, resourceAwsIamAccessKeyStatus: [StringFilter]? = nil, resourceAwsIamAccessKeyUserName: [StringFilter]? = nil, resourceAwsS3BucketOwnerId: [StringFilter]? = nil, resourceAwsS3BucketOwnerName: [StringFilter]? = nil, resourceContainerImageId: [StringFilter]? = nil, resourceContainerImageName: [StringFilter]? = nil, resourceContainerLaunchedAt: [DateFilter]? = nil, resourceContainerName: [StringFilter]? = nil, resourceDetailsOther: [MapFilter]? = nil, resourceId: [StringFilter]? = nil, resourcePartition: [StringFilter]? = nil, resourceRegion: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, severityLabel: [StringFilter]? = nil, sourceUrl: [StringFilter]? = nil, threatIntelIndicatorCategory: [StringFilter]? = nil, threatIntelIndicatorLastObservedAt: [DateFilter]? = nil, threatIntelIndicatorSource: [StringFilter]? = nil, threatIntelIndicatorSourceUrl: [StringFilter]? = nil, threatIntelIndicatorType: [StringFilter]? = nil, threatIntelIndicatorValue: [StringFilter]? = nil, title: [StringFilter]? = nil, type: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, userDefinedFields: [MapFilter]? = nil, verificationState: [StringFilter]? = nil, workflowState: [StringFilter]? = nil, workflowStatus: [StringFilter]? = nil) {
             self.awsAccountId = awsAccountId
             self.companyName = companyName
             self.complianceStatus = complianceStatus
@@ -6959,6 +7003,13 @@ extension SecurityHub {
             self.createdAt = createdAt
             self.criticality = criticality
             self.description = description
+            self.findingProviderFieldsConfidence = findingProviderFieldsConfidence
+            self.findingProviderFieldsCriticality = findingProviderFieldsCriticality
+            self.findingProviderFieldsRelatedFindingsId = findingProviderFieldsRelatedFindingsId
+            self.findingProviderFieldsRelatedFindingsProductArn = findingProviderFieldsRelatedFindingsProductArn
+            self.findingProviderFieldsSeverityLabel = findingProviderFieldsSeverityLabel
+            self.findingProviderFieldsSeverityOriginal = findingProviderFieldsSeverityOriginal
+            self.findingProviderFieldsTypes = findingProviderFieldsTypes
             self.firstObservedAt = firstObservedAt
             self.generatorId = generatorId
             self.id = id
@@ -7020,8 +7071,6 @@ extension SecurityHub {
             self.resourceTags = resourceTags
             self.resourceType = resourceType
             self.severityLabel = severityLabel
-            self.severityNormalized = severityNormalized
-            self.severityProduct = severityProduct
             self.sourceUrl = sourceUrl
             self.threatIntelIndicatorCategory = threatIntelIndicatorCategory
             self.threatIntelIndicatorLastObservedAt = threatIntelIndicatorLastObservedAt
@@ -7053,6 +7102,21 @@ extension SecurityHub {
             }
             try self.description?.forEach {
                 try $0.validate(name: "\(name).description[]")
+            }
+            try self.findingProviderFieldsRelatedFindingsId?.forEach {
+                try $0.validate(name: "\(name).findingProviderFieldsRelatedFindingsId[]")
+            }
+            try self.findingProviderFieldsRelatedFindingsProductArn?.forEach {
+                try $0.validate(name: "\(name).findingProviderFieldsRelatedFindingsProductArn[]")
+            }
+            try self.findingProviderFieldsSeverityLabel?.forEach {
+                try $0.validate(name: "\(name).findingProviderFieldsSeverityLabel[]")
+            }
+            try self.findingProviderFieldsSeverityOriginal?.forEach {
+                try $0.validate(name: "\(name).findingProviderFieldsSeverityOriginal[]")
+            }
+            try self.findingProviderFieldsTypes?.forEach {
+                try $0.validate(name: "\(name).findingProviderFieldsTypes[]")
             }
             try self.firstObservedAt?.forEach {
                 try $0.validate(name: "\(name).firstObservedAt[]")
@@ -7277,6 +7341,13 @@ extension SecurityHub {
             case createdAt = "CreatedAt"
             case criticality = "Criticality"
             case description = "Description"
+            case findingProviderFieldsConfidence = "FindingProviderFieldsConfidence"
+            case findingProviderFieldsCriticality = "FindingProviderFieldsCriticality"
+            case findingProviderFieldsRelatedFindingsId = "FindingProviderFieldsRelatedFindingsId"
+            case findingProviderFieldsRelatedFindingsProductArn = "FindingProviderFieldsRelatedFindingsProductArn"
+            case findingProviderFieldsSeverityLabel = "FindingProviderFieldsSeverityLabel"
+            case findingProviderFieldsSeverityOriginal = "FindingProviderFieldsSeverityOriginal"
+            case findingProviderFieldsTypes = "FindingProviderFieldsTypes"
             case firstObservedAt = "FirstObservedAt"
             case generatorId = "GeneratorId"
             case id = "Id"
@@ -7338,8 +7409,6 @@ extension SecurityHub {
             case resourceTags = "ResourceTags"
             case resourceType = "ResourceType"
             case severityLabel = "SeverityLabel"
-            case severityNormalized = "SeverityNormalized"
-            case severityProduct = "SeverityProduct"
             case sourceUrl = "SourceUrl"
             case threatIntelIndicatorCategory = "ThreatIntelIndicatorCategory"
             case threatIntelIndicatorLastObservedAt = "ThreatIntelIndicatorLastObservedAt"
@@ -7747,6 +7816,8 @@ extension SecurityHub {
             try self.findings.forEach {
                 try $0.validate(name: "\(name).findings[]")
             }
+            try self.validate(self.findings, name: "findings", parent: name, max: 100)
+            try self.validate(self.findings, name: "findings", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7883,6 +7954,36 @@ extension SecurityHub {
         }
     }
 
+    public struct Cell: AWSEncodableShape & AWSDecodableShape {
+        /// For a Microsoft Excel workbook, provides the location of the cell, as an absolute cell reference, that contains the data. For example, Sheet2!C5 for cell C5 on Sheet2.
+        public let cellReference: String?
+        /// The column number of the column that contains the data. For a Microsoft Excel workbook, the column number corresponds to the alphabetical column identifiers. For example, a value of 1 for Column corresponds to the A column in the workbook.
+        public let column: Int64?
+        /// The name of the column that contains the data.
+        public let columnName: String?
+        /// The row number of the row that contains the data.
+        public let row: Int64?
+
+        public init(cellReference: String? = nil, column: Int64? = nil, columnName: String? = nil, row: Int64? = nil) {
+            self.cellReference = cellReference
+            self.column = column
+            self.columnName = columnName
+            self.row = row
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cellReference, name: "cellReference", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.columnName, name: "columnName", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cellReference = "CellReference"
+            case column = "Column"
+            case columnName = "ColumnName"
+            case row = "Row"
+        }
+    }
+
     public struct CidrBlockAssociation: AWSEncodableShape & AWSDecodableShape {
         /// The association ID for the IPv4 CIDR block.
         public let associationId: String?
@@ -7924,6 +8025,70 @@ extension SecurityHub {
 
         private enum CodingKeys: String, CodingKey {
             case cityName = "CityName"
+        }
+    }
+
+    public struct ClassificationResult: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether there are additional occurrences of sensitive data that are not included in the finding. This occurs when the number of occurrences exceeds the maximum that can be included.
+        public let additionalOccurrences: Bool?
+        /// Provides details about sensitive data that was identified based on customer-defined configuration.
+        public let customDataIdentifiers: CustomDataIdentifiersResult?
+        /// The type of content that the finding applies to.
+        public let mimeType: String?
+        /// Provides details about sensitive data that was identified based on built-in configuration.
+        public let sensitiveData: [SensitiveDataResult]?
+        /// The total size in bytes of the affected data.
+        public let sizeClassified: Int64?
+        /// The current status of the sensitive data detection.
+        public let status: ClassificationStatus?
+
+        public init(additionalOccurrences: Bool? = nil, customDataIdentifiers: CustomDataIdentifiersResult? = nil, mimeType: String? = nil, sensitiveData: [SensitiveDataResult]? = nil, sizeClassified: Int64? = nil, status: ClassificationStatus? = nil) {
+            self.additionalOccurrences = additionalOccurrences
+            self.customDataIdentifiers = customDataIdentifiers
+            self.mimeType = mimeType
+            self.sensitiveData = sensitiveData
+            self.sizeClassified = sizeClassified
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.customDataIdentifiers?.validate(name: "\(name).customDataIdentifiers")
+            try self.validate(self.mimeType, name: "mimeType", parent: name, pattern: ".*\\S.*")
+            try self.sensitiveData?.forEach {
+                try $0.validate(name: "\(name).sensitiveData[]")
+            }
+            try self.status?.validate(name: "\(name).status")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalOccurrences = "AdditionalOccurrences"
+            case customDataIdentifiers = "CustomDataIdentifiers"
+            case mimeType = "MimeType"
+            case sensitiveData = "SensitiveData"
+            case sizeClassified = "SizeClassified"
+            case status = "Status"
+        }
+    }
+
+    public struct ClassificationStatus: AWSEncodableShape & AWSDecodableShape {
+        /// The code that represents the status of the sensitive data detection.
+        public let code: String?
+        /// A longer description of the current status of the sensitive data detection.
+        public let reason: String?
+
+        public init(code: String? = nil, reason: String? = nil) {
+            self.code = code
+            self.reason = reason
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.code, name: "code", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.reason, name: "reason", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case reason = "Reason"
         }
     }
 
@@ -8123,6 +8288,60 @@ extension SecurityHub {
         }
     }
 
+    public struct CustomDataIdentifiersDetections: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the custom identifier that was used to detect the sensitive data.
+        public let arn: String?
+        /// The total number of occurrences of sensitive data that were detected.
+        public let count: Int64?
+        /// he name of the custom identifier that detected the sensitive data.
+        public let name: String?
+        /// Details about the sensitive data that was detected.
+        public let occurrences: Occurrences?
+
+        public init(arn: String? = nil, count: Int64? = nil, name: String? = nil, occurrences: Occurrences? = nil) {
+            self.arn = arn
+            self.count = count
+            self.name = name
+            self.occurrences = occurrences
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+            try self.occurrences?.validate(name: "\(name).occurrences")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case count = "Count"
+            case name = "Name"
+            case occurrences = "Occurrences"
+        }
+    }
+
+    public struct CustomDataIdentifiersResult: AWSEncodableShape & AWSDecodableShape {
+        /// The list of detected instances of sensitive data.
+        public let detections: [CustomDataIdentifiersDetections]?
+        /// The total number of occurrences of sensitive data.
+        public let totalCount: Int64?
+
+        public init(detections: [CustomDataIdentifiersDetections]? = nil, totalCount: Int64? = nil) {
+            self.detections = detections
+            self.totalCount = totalCount
+        }
+
+        public func validate(name: String) throws {
+            try self.detections?.forEach {
+                try $0.validate(name: "\(name).detections[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detections = "Detections"
+            case totalCount = "TotalCount"
+        }
+    }
+
     public struct Cvss: AWSEncodableShape & AWSDecodableShape {
         /// The base CVSS score.
         public let baseScore: Double?
@@ -8146,6 +8365,28 @@ extension SecurityHub {
             case baseScore = "BaseScore"
             case baseVector = "BaseVector"
             case version = "Version"
+        }
+    }
+
+    public struct DataClassificationDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The path to the folder or file that contains the sensitive data.
+        public let detailedResultsLocation: String?
+        /// The details about the sensitive data that was detected on the resource.
+        public let result: ClassificationResult?
+
+        public init(detailedResultsLocation: String? = nil, result: ClassificationResult? = nil) {
+            self.detailedResultsLocation = detailedResultsLocation
+            self.result = result
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.detailedResultsLocation, name: "detailedResultsLocation", parent: name, pattern: ".*\\S.*")
+            try self.result?.validate(name: "\(name).result")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detailedResultsLocation = "DetailedResultsLocation"
+            case result = "Result"
         }
     }
 
@@ -8780,6 +9021,70 @@ extension SecurityHub {
 
     public struct EnableSecurityHubResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct FindingProviderFields: AWSEncodableShape & AWSDecodableShape {
+        /// A finding's confidence. Confidence is defined as the likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0-100 basis using a ratio scale, where 0 means zero percent confidence and 100 means 100 percent confidence.
+        public let confidence: Int?
+        /// The level of importance assigned to the resources associated with the finding. A score of 0 means that the underlying resources have no criticality, and a score of 100 is reserved for the most critical resources.
+        public let criticality: Int?
+        /// A list of findings that are related to the current finding.
+        public let relatedFindings: [RelatedFinding]?
+        /// The severity of a finding.
+        public let severity: FindingProviderSeverity?
+        /// One or more finding types in the format of namespace/category/classifier that classify a finding. Valid namespace values are: Software and Configuration Checks | TTPs | Effects | Unusual Behaviors | Sensitive Data Identifications
+        public let types: [String]?
+
+        public init(confidence: Int? = nil, criticality: Int? = nil, relatedFindings: [RelatedFinding]? = nil, severity: FindingProviderSeverity? = nil, types: [String]? = nil) {
+            self.confidence = confidence
+            self.criticality = criticality
+            self.relatedFindings = relatedFindings
+            self.severity = severity
+            self.types = types
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.confidence, name: "confidence", parent: name, max: 100)
+            try self.validate(self.confidence, name: "confidence", parent: name, min: 0)
+            try self.validate(self.criticality, name: "criticality", parent: name, max: 100)
+            try self.validate(self.criticality, name: "criticality", parent: name, min: 0)
+            try self.relatedFindings?.forEach {
+                try $0.validate(name: "\(name).relatedFindings[]")
+            }
+            try self.severity?.validate(name: "\(name).severity")
+            try self.types?.forEach {
+                try validate($0, name: "types[]", parent: name, pattern: ".*\\S.*")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confidence = "Confidence"
+            case criticality = "Criticality"
+            case relatedFindings = "RelatedFindings"
+            case severity = "Severity"
+            case types = "Types"
+        }
+    }
+
+    public struct FindingProviderSeverity: AWSEncodableShape & AWSDecodableShape {
+        /// The severity label assigned to the finding by the finding provider.
+        public let label: SeverityLabel?
+        /// The finding provider's original value for the severity.
+        public let original: String?
+
+        public init(label: SeverityLabel? = nil, original: String? = nil) {
+            self.label = label
+            self.original = original
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.original, name: "original", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case label = "Label"
+            case original = "Original"
+        }
     }
 
     public struct GeoLocation: AWSEncodableShape & AWSDecodableShape {
@@ -9854,6 +10159,65 @@ extension SecurityHub {
         }
     }
 
+    public struct Occurrences: AWSEncodableShape & AWSDecodableShape {
+        /// Occurrences of sensitive data detected in Microsoft Excel workbooks, comma-separated value (CSV) files, or tab-separated value (TSV) files.
+        public let cells: [Cell]?
+        /// Occurrences of sensitive data detected in a non-binary text file or a Microsoft Word file. Non-binary text files include files such as HTML, XML, JSON, and TXT files.
+        public let lineRanges: [Range]?
+        /// Occurrences of sensitive data detected in a binary text file.
+        public let offsetRanges: [Range]?
+        /// Occurrences of sensitive data in an Adobe Portable Document Format (PDF) file.
+        public let pages: [Page]?
+        /// Occurrences of sensitive data in an Apache Avro object container or an Apache Parquet file.
+        public let records: [Record]?
+
+        public init(cells: [Cell]? = nil, lineRanges: [Range]? = nil, offsetRanges: [Range]? = nil, pages: [Page]? = nil, records: [Record]? = nil) {
+            self.cells = cells
+            self.lineRanges = lineRanges
+            self.offsetRanges = offsetRanges
+            self.pages = pages
+            self.records = records
+        }
+
+        public func validate(name: String) throws {
+            try self.cells?.forEach {
+                try $0.validate(name: "\(name).cells[]")
+            }
+            try self.records?.forEach {
+                try $0.validate(name: "\(name).records[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cells = "Cells"
+            case lineRanges = "LineRanges"
+            case offsetRanges = "OffsetRanges"
+            case pages = "Pages"
+            case records = "Records"
+        }
+    }
+
+    public struct Page: AWSEncodableShape & AWSDecodableShape {
+        /// An occurrence of sensitive data detected in a non-binary text file or a Microsoft Word file. Non-binary text files include files such as HTML, XML, JSON, and TXT files.
+        public let lineRange: Range?
+        /// An occurrence of sensitive data detected in a binary text file.
+        public let offsetRange: Range?
+        /// The page number of the page that contains the sensitive data.
+        public let pageNumber: Int64?
+
+        public init(lineRange: Range? = nil, offsetRange: Range? = nil, pageNumber: Int64? = nil) {
+            self.lineRange = lineRange
+            self.offsetRange = offsetRange
+            self.pageNumber = pageNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lineRange = "LineRange"
+            case offsetRange = "OffsetRange"
+            case pageNumber = "PageNumber"
+        }
+    }
+
     public struct PatchSummary: AWSEncodableShape & AWSDecodableShape {
         /// The number of patches from the compliance standard that failed to install.
         public let failedCount: Int?
@@ -10067,6 +10431,27 @@ extension SecurityHub {
         }
     }
 
+    public struct Range: AWSEncodableShape & AWSDecodableShape {
+        /// The number of lines (for a line range) or characters (for an offset range) from the beginning of the file to the end of the sensitive data.
+        public let end: Int64?
+        /// The number of lines (for a line range) or characters (for an offset range) from the beginning of the file to the end of the sensitive data.
+        public let start: Int64?
+        /// In the line where the sensitive data starts, the column within the line where the sensitive data starts.
+        public let startColumn: Int64?
+
+        public init(end: Int64? = nil, start: Int64? = nil, startColumn: Int64? = nil) {
+            self.end = end
+            self.start = start
+            self.startColumn = startColumn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case end = "End"
+            case start = "Start"
+            case startColumn = "StartColumn"
+        }
+    }
+
     public struct Recommendation: AWSEncodableShape & AWSDecodableShape {
         /// Describes the recommended steps to take to remediate an issue identified in a finding.
         public let text: String?
@@ -10086,6 +10471,27 @@ extension SecurityHub {
         private enum CodingKeys: String, CodingKey {
             case text = "Text"
             case url = "Url"
+        }
+    }
+
+    public struct Record: AWSEncodableShape & AWSDecodableShape {
+        /// The path, as a JSONPath expression, to the field in the record that contains the data. If the field name is longer than 20 characters, it is truncated. If the path is longer than 250 characters, it is truncated.
+        public let jsonPath: String?
+        /// The record index, starting from 0, for the record that contains the data.
+        public let recordIndex: Int64?
+
+        public init(jsonPath: String? = nil, recordIndex: Int64? = nil) {
+            self.jsonPath = jsonPath
+            self.recordIndex = recordIndex
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jsonPath, name: "jsonPath", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jsonPath = "JsonPath"
+            case recordIndex = "RecordIndex"
         }
     }
 
@@ -10129,6 +10535,8 @@ extension SecurityHub {
     }
 
     public struct Resource: AWSEncodableShape & AWSDecodableShape {
+        /// Contains information about sensitive data that was detected on the resource.
+        public let dataClassification: DataClassificationDetails?
         /// Additional details about the resource related to a finding.
         public let details: ResourceDetails?
         /// The canonical identifier for the given resource type.
@@ -10144,7 +10552,8 @@ extension SecurityHub {
         /// The type of the resource that details are provided for. If possible, set Type to one of the supported resource types. For example, if the resource is an EC2 instance, then set Type to AwsEc2Instance. If the resource does not match any of the provided types, then set Type to Other.
         public let type: String
 
-        public init(details: ResourceDetails? = nil, id: String, partition: Partition? = nil, region: String? = nil, resourceRole: String? = nil, tags: [String: String]? = nil, type: String) {
+        public init(dataClassification: DataClassificationDetails? = nil, details: ResourceDetails? = nil, id: String, partition: Partition? = nil, region: String? = nil, resourceRole: String? = nil, tags: [String: String]? = nil, type: String) {
+            self.dataClassification = dataClassification
             self.details = details
             self.id = id
             self.partition = partition
@@ -10155,6 +10564,7 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
+            try self.dataClassification?.validate(name: "\(name).dataClassification")
             try self.details?.validate(name: "\(name).details")
             try self.validate(self.id, name: "id", parent: name, pattern: ".*\\S.*")
             try self.validate(self.region, name: "region", parent: name, pattern: ".*\\S.*")
@@ -10167,6 +10577,7 @@ extension SecurityHub {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dataClassification = "DataClassification"
             case details = "Details"
             case id = "Id"
             case partition = "Partition"
@@ -10242,6 +10653,8 @@ extension SecurityHub {
         public let awsRdsDbSnapshot: AwsRdsDbSnapshotDetails?
         /// Contains details about an Amazon Redshift cluster.
         public let awsRedshiftCluster: AwsRedshiftClusterDetails?
+        /// Details about the Amazon S3 Public Access Block configuration for an account.
+        public let awsS3AccountPublicAccessBlock: AwsS3AccountPublicAccessBlockDetails?
         /// Details about an Amazon S3 bucket related to a finding.
         public let awsS3Bucket: AwsS3BucketDetails?
         /// Details about an Amazon S3 object related to a finding.
@@ -10261,7 +10674,7 @@ extension SecurityHub {
         /// Details about a resource that are not available in a type-specific details object. Use the Other object in the following cases.   The type-specific object does not contain all of the fields that you want to populate. In this case, first use the type-specific object to populate those fields. Use the Other object to populate the fields that are missing from the type-specific object.   The resource type does not have a corresponding object. This includes resources for which the type is Other.
         public let other: [String: String]?
 
-        public init(awsApiGatewayRestApi: AwsApiGatewayRestApiDetails? = nil, awsApiGatewayStage: AwsApiGatewayStageDetails? = nil, awsApiGatewayV2Api: AwsApiGatewayV2ApiDetails? = nil, awsApiGatewayV2Stage: AwsApiGatewayV2StageDetails? = nil, awsAutoScalingAutoScalingGroup: AwsAutoScalingAutoScalingGroupDetails? = nil, awsCertificateManagerCertificate: AwsCertificateManagerCertificateDetails? = nil, awsCloudFrontDistribution: AwsCloudFrontDistributionDetails? = nil, awsCloudTrailTrail: AwsCloudTrailTrailDetails? = nil, awsCodeBuildProject: AwsCodeBuildProjectDetails? = nil, awsDynamoDbTable: AwsDynamoDbTableDetails? = nil, awsEc2Eip: AwsEc2EipDetails? = nil, awsEc2Instance: AwsEc2InstanceDetails? = nil, awsEc2NetworkInterface: AwsEc2NetworkInterfaceDetails? = nil, awsEc2SecurityGroup: AwsEc2SecurityGroupDetails? = nil, awsEc2Volume: AwsEc2VolumeDetails? = nil, awsEc2Vpc: AwsEc2VpcDetails? = nil, awsElasticsearchDomain: AwsElasticsearchDomainDetails? = nil, awsElbLoadBalancer: AwsElbLoadBalancerDetails? = nil, awsElbv2LoadBalancer: AwsElbv2LoadBalancerDetails? = nil, awsIamAccessKey: AwsIamAccessKeyDetails? = nil, awsIamGroup: AwsIamGroupDetails? = nil, awsIamPolicy: AwsIamPolicyDetails? = nil, awsIamRole: AwsIamRoleDetails? = nil, awsIamUser: AwsIamUserDetails? = nil, awsKmsKey: AwsKmsKeyDetails? = nil, awsLambdaFunction: AwsLambdaFunctionDetails? = nil, awsLambdaLayerVersion: AwsLambdaLayerVersionDetails? = nil, awsRdsDbCluster: AwsRdsDbClusterDetails? = nil, awsRdsDbClusterSnapshot: AwsRdsDbClusterSnapshotDetails? = nil, awsRdsDbInstance: AwsRdsDbInstanceDetails? = nil, awsRdsDbSnapshot: AwsRdsDbSnapshotDetails? = nil, awsRedshiftCluster: AwsRedshiftClusterDetails? = nil, awsS3Bucket: AwsS3BucketDetails? = nil, awsS3Object: AwsS3ObjectDetails? = nil, awsSecretsManagerSecret: AwsSecretsManagerSecretDetails? = nil, awsSnsTopic: AwsSnsTopicDetails? = nil, awsSqsQueue: AwsSqsQueueDetails? = nil, awsSsmPatchCompliance: AwsSsmPatchComplianceDetails? = nil, awsWafWebAcl: AwsWafWebAclDetails? = nil, container: ContainerDetails? = nil, other: [String: String]? = nil) {
+        public init(awsApiGatewayRestApi: AwsApiGatewayRestApiDetails? = nil, awsApiGatewayStage: AwsApiGatewayStageDetails? = nil, awsApiGatewayV2Api: AwsApiGatewayV2ApiDetails? = nil, awsApiGatewayV2Stage: AwsApiGatewayV2StageDetails? = nil, awsAutoScalingAutoScalingGroup: AwsAutoScalingAutoScalingGroupDetails? = nil, awsCertificateManagerCertificate: AwsCertificateManagerCertificateDetails? = nil, awsCloudFrontDistribution: AwsCloudFrontDistributionDetails? = nil, awsCloudTrailTrail: AwsCloudTrailTrailDetails? = nil, awsCodeBuildProject: AwsCodeBuildProjectDetails? = nil, awsDynamoDbTable: AwsDynamoDbTableDetails? = nil, awsEc2Eip: AwsEc2EipDetails? = nil, awsEc2Instance: AwsEc2InstanceDetails? = nil, awsEc2NetworkInterface: AwsEc2NetworkInterfaceDetails? = nil, awsEc2SecurityGroup: AwsEc2SecurityGroupDetails? = nil, awsEc2Volume: AwsEc2VolumeDetails? = nil, awsEc2Vpc: AwsEc2VpcDetails? = nil, awsElasticsearchDomain: AwsElasticsearchDomainDetails? = nil, awsElbLoadBalancer: AwsElbLoadBalancerDetails? = nil, awsElbv2LoadBalancer: AwsElbv2LoadBalancerDetails? = nil, awsIamAccessKey: AwsIamAccessKeyDetails? = nil, awsIamGroup: AwsIamGroupDetails? = nil, awsIamPolicy: AwsIamPolicyDetails? = nil, awsIamRole: AwsIamRoleDetails? = nil, awsIamUser: AwsIamUserDetails? = nil, awsKmsKey: AwsKmsKeyDetails? = nil, awsLambdaFunction: AwsLambdaFunctionDetails? = nil, awsLambdaLayerVersion: AwsLambdaLayerVersionDetails? = nil, awsRdsDbCluster: AwsRdsDbClusterDetails? = nil, awsRdsDbClusterSnapshot: AwsRdsDbClusterSnapshotDetails? = nil, awsRdsDbInstance: AwsRdsDbInstanceDetails? = nil, awsRdsDbSnapshot: AwsRdsDbSnapshotDetails? = nil, awsRedshiftCluster: AwsRedshiftClusterDetails? = nil, awsS3AccountPublicAccessBlock: AwsS3AccountPublicAccessBlockDetails? = nil, awsS3Bucket: AwsS3BucketDetails? = nil, awsS3Object: AwsS3ObjectDetails? = nil, awsSecretsManagerSecret: AwsSecretsManagerSecretDetails? = nil, awsSnsTopic: AwsSnsTopicDetails? = nil, awsSqsQueue: AwsSqsQueueDetails? = nil, awsSsmPatchCompliance: AwsSsmPatchComplianceDetails? = nil, awsWafWebAcl: AwsWafWebAclDetails? = nil, container: ContainerDetails? = nil, other: [String: String]? = nil) {
             self.awsApiGatewayRestApi = awsApiGatewayRestApi
             self.awsApiGatewayStage = awsApiGatewayStage
             self.awsApiGatewayV2Api = awsApiGatewayV2Api
@@ -10294,6 +10707,7 @@ extension SecurityHub {
             self.awsRdsDbInstance = awsRdsDbInstance
             self.awsRdsDbSnapshot = awsRdsDbSnapshot
             self.awsRedshiftCluster = awsRedshiftCluster
+            self.awsS3AccountPublicAccessBlock = awsS3AccountPublicAccessBlock
             self.awsS3Bucket = awsS3Bucket
             self.awsS3Object = awsS3Object
             self.awsSecretsManagerSecret = awsSecretsManagerSecret
@@ -10385,6 +10799,7 @@ extension SecurityHub {
             case awsRdsDbInstance = "AwsRdsDbInstance"
             case awsRdsDbSnapshot = "AwsRdsDbSnapshot"
             case awsRedshiftCluster = "AwsRedshiftCluster"
+            case awsS3AccountPublicAccessBlock = "AwsS3AccountPublicAccessBlock"
             case awsS3Bucket = "AwsS3Bucket"
             case awsS3Object = "AwsS3Object"
             case awsSecretsManagerSecret = "AwsSecretsManagerSecret"
@@ -10411,6 +10826,60 @@ extension SecurityHub {
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
             case processingResult = "ProcessingResult"
+        }
+    }
+
+    public struct SensitiveDataDetections: AWSEncodableShape & AWSDecodableShape {
+        /// The total number of occurrences of sensitive data that were detected.
+        public let count: Int64?
+        /// Details about the sensitive data that was detected.
+        public let occurrences: Occurrences?
+        /// The type of sensitive data that was detected. For example, the type might indicate that the data is an email address.
+        public let type: String?
+
+        public init(count: Int64? = nil, occurrences: Occurrences? = nil, type: String? = nil) {
+            self.count = count
+            self.occurrences = occurrences
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.occurrences?.validate(name: "\(name).occurrences")
+            try self.validate(self.type, name: "type", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case count = "Count"
+            case occurrences = "Occurrences"
+            case type = "Type"
+        }
+    }
+
+    public struct SensitiveDataResult: AWSEncodableShape & AWSDecodableShape {
+        /// The category of sensitive data that was detected. For example, the category can indicate that the sensitive data involved credentials, financial information, or personal information.
+        public let category: String?
+        /// The list of detected instances of sensitive data.
+        public let detections: [SensitiveDataDetections]?
+        /// The total number of occurrences of sensitive data.
+        public let totalCount: Int64?
+
+        public init(category: String? = nil, detections: [SensitiveDataDetections]? = nil, totalCount: Int64? = nil) {
+            self.category = category
+            self.detections = detections
+            self.totalCount = totalCount
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.category, name: "category", parent: name, pattern: ".*\\S.*")
+            try self.detections?.forEach {
+                try $0.validate(name: "\(name).detections[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case category = "Category"
+            case detections = "Detections"
+            case totalCount = "TotalCount"
         }
     }
 

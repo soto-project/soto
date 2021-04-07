@@ -20,6 +20,16 @@ import SotoCore
 extension FraudDetector {
     // MARK: Enums
 
+    public enum AsyncJobStatus: String, CustomStringConvertible, Codable {
+        case cancelInProgress = "CANCEL_IN_PROGRESS"
+        case canceled = "CANCELED"
+        case complete = "COMPLETE"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case inProgressInitializing = "IN_PROGRESS_INITIALIZING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DataSource: String, CustomStringConvertible, Codable {
         case event = "EVENT"
         case externalModelScore = "EXTERNAL_MODEL_SCORE"
@@ -210,6 +220,172 @@ extension FraudDetector {
             case errors
             case variables
         }
+    }
+
+    public struct BatchPrediction: AWSDecodableShape {
+        /// The ARN of batch prediction job.
+        public let arn: String?
+        /// Timestamp of when the batch prediction job comleted.
+        public let completionTime: String?
+        /// The name of the detector.
+        public let detectorName: String?
+        /// The detector version.
+        public let detectorVersion: String?
+        /// The name of the event type.
+        public let eventTypeName: String?
+        /// The reason a batch prediction job failed.
+        public let failureReason: String?
+        /// The ARN of the IAM role to use for this job request.
+        public let iamRoleArn: String?
+        /// The Amazon S3 location of your training file.
+        public let inputPath: String?
+        /// The job ID for the batch prediction.
+        public let jobId: String?
+        /// Timestamp of most recent heartbeat indicating the batch prediction job was making progress.
+        public let lastHeartbeatTime: String?
+        /// The Amazon S3 location of your output file.
+        public let outputPath: String?
+        /// The number of records processed by the batch prediction job.
+        public let processedRecordsCount: Int?
+        /// Timestamp of when the batch prediction job started.
+        public let startTime: String?
+        /// The batch prediction status.
+        public let status: AsyncJobStatus?
+        /// The total number of records in the batch prediction job.
+        public let totalRecordsCount: Int?
+
+        public init(arn: String? = nil, completionTime: String? = nil, detectorName: String? = nil, detectorVersion: String? = nil, eventTypeName: String? = nil, failureReason: String? = nil, iamRoleArn: String? = nil, inputPath: String? = nil, jobId: String? = nil, lastHeartbeatTime: String? = nil, outputPath: String? = nil, processedRecordsCount: Int? = nil, startTime: String? = nil, status: AsyncJobStatus? = nil, totalRecordsCount: Int? = nil) {
+            self.arn = arn
+            self.completionTime = completionTime
+            self.detectorName = detectorName
+            self.detectorVersion = detectorVersion
+            self.eventTypeName = eventTypeName
+            self.failureReason = failureReason
+            self.iamRoleArn = iamRoleArn
+            self.inputPath = inputPath
+            self.jobId = jobId
+            self.lastHeartbeatTime = lastHeartbeatTime
+            self.outputPath = outputPath
+            self.processedRecordsCount = processedRecordsCount
+            self.startTime = startTime
+            self.status = status
+            self.totalRecordsCount = totalRecordsCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case completionTime
+            case detectorName
+            case detectorVersion
+            case eventTypeName
+            case failureReason
+            case iamRoleArn
+            case inputPath
+            case jobId
+            case lastHeartbeatTime
+            case outputPath
+            case processedRecordsCount
+            case startTime
+            case status
+            case totalRecordsCount
+        }
+    }
+
+    public struct CancelBatchPredictionJobRequest: AWSEncodableShape {
+        /// The ID of the batch prediction job to cancel.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
+            try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[0-9a-z_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId
+        }
+    }
+
+    public struct CancelBatchPredictionJobResult: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct CreateBatchPredictionJobRequest: AWSEncodableShape {
+        /// The name of the detector.
+        public let detectorName: String
+        /// The detector version.
+        public let detectorVersion: String?
+        /// The name of the event type.
+        public let eventTypeName: String
+        /// The ARN of the IAM role to use for this job request.
+        public let iamRoleArn: String
+        /// The Amazon S3 location of your training file.
+        public let inputPath: String
+        /// The ID of the batch prediction job.
+        public let jobId: String
+        /// The Amazon S3 location of your output file.
+        public let outputPath: String
+        /// A collection of key and value pairs.
+        public let tags: [Tag]?
+
+        public init(detectorName: String, detectorVersion: String? = nil, eventTypeName: String, iamRoleArn: String, inputPath: String, jobId: String, outputPath: String, tags: [Tag]? = nil) {
+            self.detectorName = detectorName
+            self.detectorVersion = detectorVersion
+            self.eventTypeName = eventTypeName
+            self.iamRoleArn = iamRoleArn
+            self.inputPath = inputPath
+            self.jobId = jobId
+            self.outputPath = outputPath
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.detectorName, name: "detectorName", parent: name, max: 64)
+            try self.validate(self.detectorName, name: "detectorName", parent: name, min: 1)
+            try self.validate(self.detectorName, name: "detectorName", parent: name, pattern: "^[0-9a-z_-]+$")
+            try self.validate(self.detectorVersion, name: "detectorVersion", parent: name, max: 5)
+            try self.validate(self.detectorVersion, name: "detectorVersion", parent: name, min: 1)
+            try self.validate(self.detectorVersion, name: "detectorVersion", parent: name, pattern: "^([1-9][0-9]*)$")
+            try self.validate(self.eventTypeName, name: "eventTypeName", parent: name, max: 64)
+            try self.validate(self.eventTypeName, name: "eventTypeName", parent: name, min: 1)
+            try self.validate(self.eventTypeName, name: "eventTypeName", parent: name, pattern: "^[0-9a-z_-]+$")
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, max: 256)
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, min: 1)
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, pattern: "^arn\\:aws[a-z-]{0,15}\\:iam\\:\\:[0-9]{12}\\:role\\/[^\\s]{2,64}$")
+            try self.validate(self.inputPath, name: "inputPath", parent: name, max: 512)
+            try self.validate(self.inputPath, name: "inputPath", parent: name, min: 1)
+            try self.validate(self.inputPath, name: "inputPath", parent: name, pattern: "^s3:\\/\\/(.+)$")
+            try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
+            try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[0-9a-z_-]+$")
+            try self.validate(self.outputPath, name: "outputPath", parent: name, max: 512)
+            try self.validate(self.outputPath, name: "outputPath", parent: name, min: 1)
+            try self.validate(self.outputPath, name: "outputPath", parent: name, pattern: "^s3:\\/\\/(.+)$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detectorName
+            case detectorVersion
+            case eventTypeName
+            case iamRoleArn
+            case inputPath
+            case jobId
+            case outputPath
+            case tags
+        }
+    }
+
+    public struct CreateBatchPredictionJobResult: AWSDecodableShape {
+        public init() {}
     }
 
     public struct CreateDetectorVersionRequest: AWSEncodableShape {
@@ -538,6 +714,29 @@ extension FraudDetector {
             case fieldLevelMessages
             case fileLevelMessages
         }
+    }
+
+    public struct DeleteBatchPredictionJobRequest: AWSEncodableShape {
+        /// The ID of the batch prediction job to delete.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
+            try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[0-9a-z_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId
+        }
+    }
+
+    public struct DeleteBatchPredictionJobResult: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteDetectorRequest: AWSEncodableShape {
@@ -1216,6 +1415,52 @@ extension FraudDetector {
             case content
             case title
             case type
+        }
+    }
+
+    public struct GetBatchPredictionJobsRequest: AWSEncodableShape {
+        /// The batch prediction job for which to get the details.
+        public let jobId: String?
+        /// The maximum number of objects to return for the request.
+        public let maxResults: Int?
+        /// The next token from the previous request.
+        public let nextToken: String?
+
+        public init(jobId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.jobId = jobId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
+            try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[0-9a-z_-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId
+            case maxResults
+            case nextToken
+        }
+    }
+
+    public struct GetBatchPredictionJobsResult: AWSDecodableShape {
+        /// An array containing the details of each batch prediction job.
+        public let batchPredictions: [BatchPrediction]?
+        /// The next token for the subsequent request.
+        public let nextToken: String?
+
+        public init(batchPredictions: [BatchPrediction]? = nil, nextToken: String? = nil) {
+            self.batchPredictions = batchPredictions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case batchPredictions
+            case nextToken
         }
     }
 

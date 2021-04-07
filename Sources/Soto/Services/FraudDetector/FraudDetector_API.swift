@@ -73,6 +73,16 @@ public struct FraudDetector: AWSService {
         return self.client.execute(operation: "BatchGetVariable", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Cancels the specified batch prediction job.
+    public func cancelBatchPredictionJob(_ input: CancelBatchPredictionJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CancelBatchPredictionJobResult> {
+        return self.client.execute(operation: "CancelBatchPredictionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a batch prediction job.
+    public func createBatchPredictionJob(_ input: CreateBatchPredictionJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateBatchPredictionJobResult> {
+        return self.client.execute(operation: "CreateBatchPredictionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a detector version. The detector version starts in a DRAFT status.
     public func createDetectorVersion(_ input: CreateDetectorVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDetectorVersionResult> {
         return self.client.execute(operation: "CreateDetectorVersion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -96,6 +106,11 @@ public struct FraudDetector: AWSService {
     /// Creates a variable.
     public func createVariable(_ input: CreateVariableRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateVariableResult> {
         return self.client.execute(operation: "CreateVariable", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a batch prediction job.
+    public func deleteBatchPredictionJob(_ input: DeleteBatchPredictionJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteBatchPredictionJobResult> {
+        return self.client.execute(operation: "DeleteBatchPredictionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes the detector. Before deleting a detector, you must first delete all detector versions and rule versions associated with the detector. When you delete a detector, Amazon Fraud Detector permanently deletes the detector and the data is no longer stored in Amazon Fraud Detector.
@@ -166,6 +181,11 @@ public struct FraudDetector: AWSService {
     /// Gets all of the model versions for the specified model type or for the specified model type and model ID. You can also get details for a single, specified model version.
     public func describeModelVersions(_ input: DescribeModelVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeModelVersionsResult> {
         return self.client.execute(operation: "DescribeModelVersions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets all batch prediction jobs or a specific job if you specify a job ID. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 50 records per page. If you provide a maxResults, the value must be between 1 and 50. To get the next page results, provide the pagination token from the GetBatchPredictionJobsResponse as part of your request. A null pagination token fetches the records from the beginning.
+    public func getBatchPredictionJobs(_ input: GetBatchPredictionJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBatchPredictionJobsResult> {
+        return self.client.execute(operation: "GetBatchPredictionJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets a particular detector version.

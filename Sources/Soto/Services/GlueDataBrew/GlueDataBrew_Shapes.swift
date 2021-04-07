@@ -70,6 +70,17 @@ extension GlueDataBrew {
         public var description: String { return self.rawValue }
     }
 
+    public enum Order: String, CustomStringConvertible, Codable {
+        case ascending = "ASCENDING"
+        case descending = "DESCENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OrderedBy: String, CustomStringConvertible, Codable {
+        case lastModifiedDate = "LAST_MODIFIED_DATE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OutputFormat: String, CustomStringConvertible, Codable {
         case avro = "AVRO"
         case csv = "CSV"
@@ -78,6 +89,13 @@ extension GlueDataBrew {
         case orc = "ORC"
         case parquet = "PARQUET"
         case xml = "XML"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ParameterType: String, CustomStringConvertible, Codable {
+        case datetime = "Datetime"
+        case number = "Number"
+        case string = "String"
         public var description: String { return self.rawValue }
     }
 
@@ -110,6 +128,7 @@ extension GlueDataBrew {
 
     public enum Source: String, CustomStringConvertible, Codable {
         case dataCatalog = "DATA-CATALOG"
+        case database = "DATABASE"
         case s3 = "S3"
         public var description: String { return self.rawValue }
     }
@@ -195,20 +214,23 @@ extension GlueDataBrew {
     }
 
     public struct CreateDatasetRequest: AWSEncodableShape {
-        /// Specifies the file format of a dataset created from an S3 file or folder.
+        /// The file format of a dataset that is created from an S3 file or folder.
         public let format: InputFormat?
         public let formatOptions: FormatOptions?
         public let input: Input
         /// The name of the dataset to be created. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space.
         public let name: String
+        /// A set of options that defines how DataBrew interprets an S3 path of the dataset.
+        public let pathOptions: PathOptions?
         /// Metadata tags to apply to this dataset.
         public let tags: [String: String]?
 
-        public init(format: InputFormat? = nil, formatOptions: FormatOptions? = nil, input: Input, name: String, tags: [String: String]? = nil) {
+        public init(format: InputFormat? = nil, formatOptions: FormatOptions? = nil, input: Input, name: String, pathOptions: PathOptions? = nil, tags: [String: String]? = nil) {
             self.format = format
             self.formatOptions = formatOptions
             self.input = input
             self.name = name
+            self.pathOptions = pathOptions
             self.tags = tags
         }
 
@@ -217,6 +239,7 @@ extension GlueDataBrew {
             try self.input.validate(name: "\(name).input")
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.pathOptions?.validate(name: "\(name).pathOptions")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -229,6 +252,7 @@ extension GlueDataBrew {
             case formatOptions = "FormatOptions"
             case input = "Input"
             case name = "Name"
+            case pathOptions = "PathOptions"
             case tags = "Tags"
         }
     }
@@ -602,9 +626,9 @@ extension GlueDataBrew {
     }
 
     public struct CsvOptions: AWSEncodableShape & AWSDecodableShape {
-        /// A single character that specifies the delimiter being used in the Csv file.
+        /// A single character that specifies the delimiter being used in the CSV file.
         public let delimiter: String?
-        /// A variable that specifies whether the first row in the file will be parsed as the header. If false, column names will be auto-generated.
+        /// A variable that specifies whether the first row in the file is parsed as the header. If this value is false, column names are auto-generated.
         public let headerRow: Bool?
 
         public init(delimiter: String? = nil, headerRow: Bool? = nil) {
@@ -624,7 +648,7 @@ extension GlueDataBrew {
     }
 
     public struct CsvOutputOptions: AWSEncodableShape & AWSDecodableShape {
-        /// A single character that specifies the delimiter used to create Csv job output.
+        /// A single character that specifies the delimiter used to create CSV job output.
         public let delimiter: String?
 
         public init(delimiter: String? = nil) {
@@ -676,6 +700,34 @@ extension GlueDataBrew {
         }
     }
 
+    public struct DatabaseInputDefinition: AWSEncodableShape & AWSDecodableShape {
+        /// The table within the target database.
+        public let databaseTableName: String
+        /// The AWS Glue Connection that stores the connection information for the target database.
+        public let glueConnectionName: String
+        public let tempDirectory: S3Location?
+
+        public init(databaseTableName: String, glueConnectionName: String, tempDirectory: S3Location? = nil) {
+            self.databaseTableName = databaseTableName
+            self.glueConnectionName = glueConnectionName
+            self.tempDirectory = tempDirectory
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.databaseTableName, name: "databaseTableName", parent: name, max: 255)
+            try self.validate(self.databaseTableName, name: "databaseTableName", parent: name, min: 1)
+            try self.validate(self.glueConnectionName, name: "glueConnectionName", parent: name, max: 255)
+            try self.validate(self.glueConnectionName, name: "glueConnectionName", parent: name, min: 1)
+            try self.tempDirectory?.validate(name: "\(name).tempDirectory")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseTableName = "DatabaseTableName"
+            case glueConnectionName = "GlueConnectionName"
+            case tempDirectory = "TempDirectory"
+        }
+    }
+
     public struct Dataset: AWSDecodableShape {
         /// The ID of the AWS account that owns the dataset.
         public let accountId: String?
@@ -683,9 +735,9 @@ extension GlueDataBrew {
         public let createDate: Date?
         /// The Amazon Resource Name (ARN) of the user who created the dataset.
         public let createdBy: String?
-        /// Specifies the file format of a dataset created from an S3 file or folder.
+        /// The file format of a dataset that is created from an S3 file or folder.
         public let format: InputFormat?
-        /// Options that define how DataBrew interprets the data in the dataset.
+        /// A set of options that define how DataBrew interprets the data in the dataset.
         public let formatOptions: FormatOptions?
         /// Information on how DataBrew can find the dataset, in either the AWS Glue Data Catalog or Amazon S3.
         public let input: Input
@@ -695,6 +747,8 @@ extension GlueDataBrew {
         public let lastModifiedDate: Date?
         /// The unique name of the dataset.
         public let name: String
+        /// A set of options that defines how DataBrew interprets an S3 path of the dataset.
+        public let pathOptions: PathOptions?
         /// The unique Amazon Resource Name (ARN) for the dataset.
         public let resourceArn: String?
         /// The location of the data for the dataset, either Amazon S3 or the AWS Glue Data Catalog.
@@ -702,7 +756,7 @@ extension GlueDataBrew {
         /// Metadata tags that have been applied to the dataset.
         public let tags: [String: String]?
 
-        public init(accountId: String? = nil, createDate: Date? = nil, createdBy: String? = nil, format: InputFormat? = nil, formatOptions: FormatOptions? = nil, input: Input, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, name: String, resourceArn: String? = nil, source: Source? = nil, tags: [String: String]? = nil) {
+        public init(accountId: String? = nil, createDate: Date? = nil, createdBy: String? = nil, format: InputFormat? = nil, formatOptions: FormatOptions? = nil, input: Input, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, name: String, pathOptions: PathOptions? = nil, resourceArn: String? = nil, source: Source? = nil, tags: [String: String]? = nil) {
             self.accountId = accountId
             self.createDate = createDate
             self.createdBy = createdBy
@@ -712,6 +766,7 @@ extension GlueDataBrew {
             self.lastModifiedBy = lastModifiedBy
             self.lastModifiedDate = lastModifiedDate
             self.name = name
+            self.pathOptions = pathOptions
             self.resourceArn = resourceArn
             self.source = source
             self.tags = tags
@@ -727,9 +782,78 @@ extension GlueDataBrew {
             case lastModifiedBy = "LastModifiedBy"
             case lastModifiedDate = "LastModifiedDate"
             case name = "Name"
+            case pathOptions = "PathOptions"
             case resourceArn = "ResourceArn"
             case source = "Source"
             case tags = "Tags"
+        }
+    }
+
+    public struct DatasetParameter: AWSEncodableShape & AWSDecodableShape {
+        /// Optional boolean value that defines whether the captured value of this parameter should be loaded as an additional column in the dataset.
+        public let createColumn: Bool?
+        /// Additional parameter options such as a format and a timezone. Required for datetime parameters.
+        public let datetimeOptions: DatetimeOptions?
+        /// The optional filter expression structure to apply additional matching criteria to the parameter.
+        public let filter: FilterExpression?
+        /// The name of the parameter that is used in the dataset's S3 path.
+        public let name: String
+        /// The type of the dataset parameter, can be one of a 'String', 'Number' or 'Datetime'.
+        public let type: ParameterType
+
+        public init(createColumn: Bool? = nil, datetimeOptions: DatetimeOptions? = nil, filter: FilterExpression? = nil, name: String, type: ParameterType) {
+            self.createColumn = createColumn
+            self.datetimeOptions = datetimeOptions
+            self.filter = filter
+            self.name = name
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.datetimeOptions?.validate(name: "\(name).datetimeOptions")
+            try self.filter?.validate(name: "\(name).filter")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createColumn = "CreateColumn"
+            case datetimeOptions = "DatetimeOptions"
+            case filter = "Filter"
+            case name = "Name"
+            case type = "Type"
+        }
+    }
+
+    public struct DatetimeOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Required option, that defines the datetime format used for a date parameter in the S3 path. Should use only supported datetime specifiers and separation characters, all litera a-z or A-Z character should be escaped with single quotes. E.g. "MM.dd.yyyy-'at'-HH:mm".
+        public let format: String
+        /// Optional value for a non-US locale code, needed for correct interpretation of some date formats.
+        public let localeCode: String?
+        /// Optional value for a timezone offset of the datetime parameter value in the S3 path. Shouldn't be used if Format for this parameter includes timezone fields. If no offset specified, UTC is assumed.
+        public let timezoneOffset: String?
+
+        public init(format: String, localeCode: String? = nil, timezoneOffset: String? = nil) {
+            self.format = format
+            self.localeCode = localeCode
+            self.timezoneOffset = timezoneOffset
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.format, name: "format", parent: name, max: 100)
+            try self.validate(self.format, name: "format", parent: name, min: 2)
+            try self.validate(self.localeCode, name: "localeCode", parent: name, max: 100)
+            try self.validate(self.localeCode, name: "localeCode", parent: name, min: 2)
+            try self.validate(self.localeCode, name: "localeCode", parent: name, pattern: "^[A-Za-z0-9_\\.#@\\-]+$")
+            try self.validate(self.timezoneOffset, name: "timezoneOffset", parent: name, max: 6)
+            try self.validate(self.timezoneOffset, name: "timezoneOffset", parent: name, min: 1)
+            try self.validate(self.timezoneOffset, name: "timezoneOffset", parent: name, pattern: "^(Z|[-+](\\d|\\d{2}|\\d{2}:?\\d{2}))$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case format = "Format"
+            case localeCode = "LocaleCode"
+            case timezoneOffset = "TimezoneOffset"
         }
     }
 
@@ -933,7 +1057,7 @@ extension GlueDataBrew {
         public let createDate: Date?
         /// The identifier (user name) of the user who created the dataset.
         public let createdBy: String?
-        /// Specifies the file format of a dataset created from an S3 file or folder.
+        /// The file format of a dataset that is created from an S3 file or folder.
         public let format: InputFormat?
         public let formatOptions: FormatOptions?
         public let input: Input
@@ -943,6 +1067,8 @@ extension GlueDataBrew {
         public let lastModifiedDate: Date?
         /// The name of the dataset.
         public let name: String
+        /// A set of options that defines how DataBrew interprets an S3 path of the dataset.
+        public let pathOptions: PathOptions?
         /// The Amazon Resource Name (ARN) of the dataset.
         public let resourceArn: String?
         /// The location of the data for this dataset, Amazon S3 or the AWS Glue Data Catalog.
@@ -950,7 +1076,7 @@ extension GlueDataBrew {
         /// Metadata tags associated with this dataset.
         public let tags: [String: String]?
 
-        public init(createDate: Date? = nil, createdBy: String? = nil, format: InputFormat? = nil, formatOptions: FormatOptions? = nil, input: Input, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, name: String, resourceArn: String? = nil, source: Source? = nil, tags: [String: String]? = nil) {
+        public init(createDate: Date? = nil, createdBy: String? = nil, format: InputFormat? = nil, formatOptions: FormatOptions? = nil, input: Input, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, name: String, pathOptions: PathOptions? = nil, resourceArn: String? = nil, source: Source? = nil, tags: [String: String]? = nil) {
             self.createDate = createDate
             self.createdBy = createdBy
             self.format = format
@@ -959,6 +1085,7 @@ extension GlueDataBrew {
             self.lastModifiedBy = lastModifiedBy
             self.lastModifiedDate = lastModifiedDate
             self.name = name
+            self.pathOptions = pathOptions
             self.resourceArn = resourceArn
             self.source = source
             self.tags = tags
@@ -973,6 +1100,7 @@ extension GlueDataBrew {
             case lastModifiedBy = "LastModifiedBy"
             case lastModifiedDate = "LastModifiedDate"
             case name = "Name"
+            case pathOptions = "PathOptions"
             case resourceArn = "ResourceArn"
             case source = "Source"
             case tags = "Tags"
@@ -1418,11 +1546,11 @@ extension GlueDataBrew {
     }
 
     public struct ExcelOptions: AWSEncodableShape & AWSDecodableShape {
-        /// A variable that specifies whether the first row in the file will be parsed as the header. If false, column names will be auto-generated.
+        /// A variable that specifies whether the first row in the file is parsed as the header. If this value is false, column names are auto-generated.
         public let headerRow: Bool?
-        /// Specifies one or more sheet numbers in the Excel file, which will be included in the dataset.
+        /// One or more sheet numbers in the Excel file that will be included in the dataset.
         public let sheetIndexes: [Int]?
-        /// Specifies one or more named sheets in the Excel file, which will be included in the dataset.
+        /// One or more named sheets in the Excel file that will be included in the dataset.
         public let sheetNames: [String]?
 
         public init(headerRow: Bool? = nil, sheetIndexes: [Int]? = nil, sheetNames: [String]? = nil) {
@@ -1453,8 +1581,62 @@ extension GlueDataBrew {
         }
     }
 
+    public struct FilesLimit: AWSEncodableShape & AWSDecodableShape {
+        /// The number of S3 files to select.
+        public let maxFiles: Int
+        /// A criteria to use for S3 files sorting before their selection. By default uses DESCENDING order, i.e. most recent files are selected first. Anotherpossible value is ASCENDING.
+        public let order: Order?
+        /// A criteria to use for S3 files sorting before their selection. By default uses LAST_MODIFIED_DATE as a sorting criteria. Currently it's the only allowed value.
+        public let orderedBy: OrderedBy?
+
+        public init(maxFiles: Int, order: Order? = nil, orderedBy: OrderedBy? = nil) {
+            self.maxFiles = maxFiles
+            self.order = order
+            self.orderedBy = orderedBy
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxFiles, name: "maxFiles", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxFiles = "MaxFiles"
+            case order = "Order"
+            case orderedBy = "OrderedBy"
+        }
+    }
+
+    public struct FilterExpression: AWSEncodableShape & AWSDecodableShape {
+        /// The expression which includes condition names followed by substitution variables, possibly grouped and combined with other conditions. For example, "(starts_with :prefix1 or starts_with :prefix2) and (ends_with :suffix1 or ends_with :suffix2)". Substitution variables should start with ':' symbol.
+        public let expression: String
+        /// The map of substitution variable names to their values used in this filter expression.
+        public let valuesMap: [String: String]
+
+        public init(expression: String, valuesMap: [String: String]) {
+            self.expression = expression
+            self.valuesMap = valuesMap
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.expression, name: "expression", parent: name, max: 1024)
+            try self.validate(self.expression, name: "expression", parent: name, min: 4)
+            try self.validate(self.expression, name: "expression", parent: name, pattern: "^[<>0-9A-Za-z_:)(!= ]+$")
+            try self.valuesMap.forEach {
+                try validate($0.key, name: "valuesMap.key", parent: name, max: 128)
+                try validate($0.key, name: "valuesMap.key", parent: name, min: 2)
+                try validate($0.key, name: "valuesMap.key", parent: name, pattern: "^:[A-Za-z0-9_]+$")
+                try validate($0.value, name: "valuesMap[\"\($0.key)\"]", parent: name, max: 1024)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expression = "Expression"
+            case valuesMap = "ValuesMap"
+        }
+    }
+
     public struct FormatOptions: AWSEncodableShape & AWSDecodableShape {
-        /// Options that define how Csv input is to be interpreted by DataBrew.
+        /// Options that define how CSV input is to be interpreted by DataBrew.
         public let csv: CsvOptions?
         /// Options that define how Excel input is to be interpreted by DataBrew.
         public let excel: ExcelOptions?
@@ -1480,22 +1662,27 @@ extension GlueDataBrew {
     }
 
     public struct Input: AWSEncodableShape & AWSDecodableShape {
+        /// Connection information for dataset input files stored in a database.
+        public let databaseInputDefinition: DatabaseInputDefinition?
         /// The AWS Glue Data Catalog parameters for the data.
         public let dataCatalogInputDefinition: DataCatalogInputDefinition?
         /// The Amazon S3 location where the data is stored.
         public let s3InputDefinition: S3Location?
 
-        public init(dataCatalogInputDefinition: DataCatalogInputDefinition? = nil, s3InputDefinition: S3Location? = nil) {
+        public init(databaseInputDefinition: DatabaseInputDefinition? = nil, dataCatalogInputDefinition: DataCatalogInputDefinition? = nil, s3InputDefinition: S3Location? = nil) {
+            self.databaseInputDefinition = databaseInputDefinition
             self.dataCatalogInputDefinition = dataCatalogInputDefinition
             self.s3InputDefinition = s3InputDefinition
         }
 
         public func validate(name: String) throws {
+            try self.databaseInputDefinition?.validate(name: "\(name).databaseInputDefinition")
             try self.dataCatalogInputDefinition?.validate(name: "\(name).dataCatalogInputDefinition")
             try self.s3InputDefinition?.validate(name: "\(name).s3InputDefinition")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case databaseInputDefinition = "DatabaseInputDefinition"
             case dataCatalogInputDefinition = "DataCatalogInputDefinition"
             case s3InputDefinition = "S3InputDefinition"
         }
@@ -1512,9 +1699,9 @@ extension GlueDataBrew {
         public let datasetName: String?
         /// The Amazon Resource Name (ARN) of an encryption key that is used to protect the job output. For more information, see Encrypting data written by DataBrew jobs
         public let encryptionKeyArn: String?
-        /// The encryption mode for the job, which can be one of the following:    SSE-KMS - Server-side encryption with AWS KMS-managed keys.    SSE-S3 - Server-side encryption with keys managed by Amazon S3.
+        /// The encryption mode for the job, which can be one of the following:    SSE-KMS - Server-side encryption with keys managed by AWS KMS.    SSE-S3 - Server-side encryption with keys managed by Amazon S3.
         public let encryptionMode: EncryptionMode?
-        /// Sample configuration for profile jobs only. Determines the number of rows on which the profile job will be executed. If a JobSample value is not provided, the default value will be used. The default value is CUSTOM_ROWS for the mode parameter and 20000 for the size parameter.
+        /// A sample configuration for profile jobs only, which determines the number of rows on which the profile job is run. If a JobSample value isn't provided, the default value is used. The default value is CUSTOM_ROWS for the mode parameter and 20,000 for the size parameter.
         public let jobSample: JobSample?
         /// The Amazon Resource Name (ARN) of the user who last modified the job.
         public let lastModifiedBy: String?
@@ -1536,7 +1723,7 @@ extension GlueDataBrew {
         public let recipeReference: RecipeReference?
         /// The unique Amazon Resource Name (ARN) for the job.
         public let resourceArn: String?
-        /// The Amazon Resource Name (ARN) of the role that will be assumed for this job.
+        /// The Amazon Resource Name (ARN) of the role to be assumed for this job.
         public let roleArn: String?
         /// Metadata tags that have been applied to the job.
         public let tags: [String: String]?
@@ -1607,7 +1794,7 @@ extension GlueDataBrew {
         public let executionTime: Int?
         /// The name of the job being processed during this run.
         public let jobName: String?
-        /// Sample configuration for profile jobs only. Determines the number of rows on which the profile job will be executed. If a JobSample value is not provided, the default value will be used. The default value is CUSTOM_ROWS for the mode parameter and 20000 for the size parameter.
+        /// A sample configuration for profile jobs only, which determines the number of rows on which the profile job is run. If a JobSample value isn't provided, the default is used. The default value is CUSTOM_ROWS for the mode parameter and 20,000 for the size parameter.
         public let jobSample: JobSample?
         /// The name of an Amazon CloudWatch log group, where the job writes diagnostic messages when it runs.
         public let logGroupName: String?
@@ -1664,9 +1851,9 @@ extension GlueDataBrew {
     }
 
     public struct JobSample: AWSEncodableShape & AWSDecodableShape {
-        /// Determines whether the profile job will be executed on the entire dataset or on a specified number of rows. Must be one of the following:   FULL_DATASET: Profile job will be executed on the entire dataset.   CUSTOM_ROWS: Profile job will be executed on the number of rows specified in the Size parameter.
+        /// A value that determines whether the profile job is run on the entire dataset or a specified number of rows. This value must be one of the following:   FULL_DATASET - The profile job is run on the entire dataset.   CUSTOM_ROWS - The profile job is run on the number of rows specified in the Size parameter.
         public let mode: SampleMode?
-        /// Size parameter is only required when the mode is CUSTOM_ROWS. Profile job will be executed on the the specified number of rows. The maximum value for size is Long.MAX_VALUE. Long.MAX_VALUE = 9223372036854775807
+        /// The Size parameter is only required when the mode is CUSTOM_ROWS. The profile job is run on the specified number of rows. The maximum value for size is Long.MAX_VALUE. Long.MAX_VALUE = 9223372036854775807
         public let size: Int64?
 
         public init(mode: SampleMode? = nil, size: Int64? = nil) {
@@ -2068,7 +2255,7 @@ extension GlueDataBrew {
         public let compressionFormat: CompressionFormat?
         /// The data format of the output of the job.
         public let format: OutputFormat?
-        /// Options that define how DataBrew formats job output files.
+        /// Represents options that define how DataBrew formats job output files.
         public let formatOptions: OutputFormatOptions?
         /// The location in Amazon S3 where the job writes its output.
         public let location: S3Location
@@ -2107,7 +2294,7 @@ extension GlueDataBrew {
     }
 
     public struct OutputFormatOptions: AWSEncodableShape & AWSDecodableShape {
-        /// Options that define how DataBrew writes Csv output.
+        /// Represents a set of options that define the structure of comma-separated value (CSV) job output.
         public let csv: CsvOutputOptions?
 
         public init(csv: CsvOutputOptions? = nil) {
@@ -2120,6 +2307,37 @@ extension GlueDataBrew {
 
         private enum CodingKeys: String, CodingKey {
             case csv = "Csv"
+        }
+    }
+
+    public struct PathOptions: AWSEncodableShape & AWSDecodableShape {
+        /// If provided, this structure imposes a limit on a number of files that should be selected.
+        public let filesLimit: FilesLimit?
+        /// If provided, this structure defines a date range for matching S3 objects based on their LastModifiedDate attribute in S3.
+        public let lastModifiedDateCondition: FilterExpression?
+        /// A structure that maps names of parameters used in the S3 path of a dataset to their definitions.
+        public let parameters: [String: DatasetParameter]?
+
+        public init(filesLimit: FilesLimit? = nil, lastModifiedDateCondition: FilterExpression? = nil, parameters: [String: DatasetParameter]? = nil) {
+            self.filesLimit = filesLimit
+            self.lastModifiedDateCondition = lastModifiedDateCondition
+            self.parameters = parameters
+        }
+
+        public func validate(name: String) throws {
+            try self.filesLimit?.validate(name: "\(name).filesLimit")
+            try self.lastModifiedDateCondition?.validate(name: "\(name).lastModifiedDateCondition")
+            try self.parameters?.forEach {
+                try validate($0.key, name: "parameters.key", parent: name, max: 255)
+                try validate($0.key, name: "parameters.key", parent: name, min: 1)
+                try $0.value.validate(name: "\(name).parameters[\"\($0.key)\"]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filesLimit = "FilesLimit"
+            case lastModifiedDateCondition = "LastModifiedDateCondition"
+            case parameters = "Parameters"
         }
     }
 
@@ -2148,7 +2366,7 @@ extension GlueDataBrew {
         public let resourceArn: String?
         /// The Amazon Resource Name (ARN) of the role that will be assumed for this project.
         public let roleArn: String?
-        /// The sample size and sampling type to apply to the data. If this parameter isn't specified, then the sample will consiste of the first 500 rows from the dataset.
+        /// The sample size and sampling type to apply to the data. If this parameter isn't specified, then the sample consists of the first 500 rows from the dataset.
         public let sample: Sample?
         /// Metadata tags that have been applied to the project.
         public let tags: [String: String]?
@@ -2246,7 +2464,7 @@ extension GlueDataBrew {
         public let publishedBy: String?
         /// The date and time when the recipe was published.
         public let publishedDate: Date?
-        /// The identifier for the version for the recipe. Must be one of the following:   Numeric version (X.Y) - X and Y stand for major and minor version numbers. The maximum length of each is 6 digits, and neither can be negative values. Both X and Y are required, and "0.0" is not a valid version.    LATEST_WORKING - the most recent valid version being developed in a DataBrew project.    LATEST_PUBLISHED - the most recent published version.
+        /// The identifier for the version for the recipe. Must be one of the following:   Numeric version (X.Y) - X and Y stand for major and minor version numbers. The maximum length of each is 6 digits, and neither can be negative values. Both X and Y are required, and "0.0" isn't a valid version.    LATEST_WORKING - the most recent valid version being developed in a DataBrew project.    LATEST_PUBLISHED - the most recent published version.
         public let recipeVersion: String?
         /// The Amazon Resource Name (ARN) for the recipe.
         public let resourceArn: String?
@@ -2345,7 +2563,7 @@ extension GlueDataBrew {
     public struct RecipeStep: AWSEncodableShape & AWSDecodableShape {
         /// The particular action to be performed in the recipe step.
         public let action: RecipeAction
-        /// One or more conditions that must be met, in order for the recipe step to succeed.  All of the conditions in the array must be met. In other words, all of the conditions must be combined using a logical AND operation.
+        /// One or more conditions that must be met for the recipe step to succeed.  All of the conditions in the array must be met. In other words, all of the conditions must be combined using a logical AND operation.
         public let conditionExpressions: [ConditionExpression]?
 
         public init(action: RecipeAction, conditionExpressions: [ConditionExpression]? = nil) {
@@ -2440,7 +2658,7 @@ extension GlueDataBrew {
         public let createDate: Date?
         /// The Amazon Resource Name (ARN) of the user who created the schedule.
         public let createdBy: String?
-        /// The date(s) and time(s) when the job will run. For more information, see Cron expressions in the AWS Glue DataBrew Developer Guide.
+        /// The dates and times when the job is to run. For more information, see Cron expressions in the AWS Glue DataBrew Developer Guide.
         public let cronExpression: String?
         /// A list of jobs to be run, according to the schedule.
         public let jobNames: [String]?
@@ -2735,18 +2953,21 @@ extension GlueDataBrew {
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
-        /// Specifies the file format of a dataset created from an S3 file or folder.
+        /// The file format of a dataset that is created from an S3 file or folder.
         public let format: InputFormat?
         public let formatOptions: FormatOptions?
         public let input: Input
         /// The name of the dataset to be updated.
         public let name: String
+        /// A set of options that defines how DataBrew interprets an S3 path of the dataset.
+        public let pathOptions: PathOptions?
 
-        public init(format: InputFormat? = nil, formatOptions: FormatOptions? = nil, input: Input, name: String) {
+        public init(format: InputFormat? = nil, formatOptions: FormatOptions? = nil, input: Input, name: String, pathOptions: PathOptions? = nil) {
             self.format = format
             self.formatOptions = formatOptions
             self.input = input
             self.name = name
+            self.pathOptions = pathOptions
         }
 
         public func validate(name: String) throws {
@@ -2754,12 +2975,14 @@ extension GlueDataBrew {
             try self.input.validate(name: "\(name).input")
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.pathOptions?.validate(name: "\(name).pathOptions")
         }
 
         private enum CodingKeys: String, CodingKey {
             case format = "Format"
             case formatOptions = "FormatOptions"
             case input = "Input"
+            case pathOptions = "PathOptions"
         }
     }
 

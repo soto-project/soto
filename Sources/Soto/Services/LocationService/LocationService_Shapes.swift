@@ -341,7 +341,7 @@ extension LocationService {
     public struct BatchPutGeofenceRequestEntry: AWSEncodableShape {
         /// The identifier for the geofence to be stored in a given geofence collection.
         public let geofenceId: String
-        /// The geometry details for the geofence.
+        /// Contains the polygon details to specify the position of the geofence.  Each geofence polygon can have a maximum of 1,000 vertices.
         public let geometry: GeofenceGeometry
 
         public init(geofenceId: String, geometry: GeofenceGeometry) {
@@ -407,7 +407,7 @@ extension LocationService {
         public let deviceId: String
         /// Contains details related to the error code such as the error code and error message.
         public let error: BatchItemError
-        /// The timestamp for when a position sample was attempted in  ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
+        /// The timestamp at which the device position was determined. Uses  ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
         @CustomCoding<ISO8601DateCoder>
         public var sampleTime: Date
 
@@ -469,17 +469,20 @@ extension LocationService {
     }
 
     public struct CreateGeofenceCollectionRequest: AWSEncodableShape {
-        /// A custom name for the geofence collection. Requirements:   Contain only alphanumeric characters (A–Z, a–z, 0-9), hyphens (-), and underscores (_).    Must be a unique geofence collection name.   No spaces allowed. For example, ExampleGeofenceCollection.
+        /// A custom name for the geofence collection. Requirements:   Contain only alphanumeric characters (A–Z, a–z, 0-9), hyphens (-), periods (.), and underscores (_).    Must be a unique geofence collection name.   No spaces allowed. For example, ExampleGeofenceCollection.
         public let collectionName: String
         /// An optional description for the geofence collection.
         public let description: String?
-        /// Specifies the pricing plan for your geofence collection. There's three pricing plan options:    RequestBasedUsage — Selects the "Request-Based Usage" pricing plan.    MobileAssetTracking — Selects the "Mobile Asset Tracking" pricing plan.    MobileAssetManagement — Selects the "Mobile Asset Management" pricing plan.   For additional details and restrictions on each pricing plan option, see the Amazon Location Service pricing page.
+        /// Specifies the pricing plan for your geofence collection. For additional details and restrictions on each pricing plan option, see the Amazon Location Service pricing page.
         public let pricingPlan: PricingPlan
+        /// Specifies the plan data source. Required if the Mobile Asset Tracking (MAT) or the Mobile Asset Management (MAM) pricing plan is selected. Billing is determined by the resource usage, the associated pricing plan, and the data source that was specified. For more information about each pricing plan option and restrictions, see the Amazon Location Service pricing page. Valid Values: Esri | Here
+        public let pricingPlanDataSource: String?
 
-        public init(collectionName: String, description: String? = nil, pricingPlan: PricingPlan) {
+        public init(collectionName: String, description: String? = nil, pricingPlan: PricingPlan, pricingPlanDataSource: String? = nil) {
             self.collectionName = collectionName
             self.description = description
             self.pricingPlan = pricingPlan
+            self.pricingPlanDataSource = pricingPlanDataSource
         }
 
         public func validate(name: String) throws {
@@ -494,6 +497,7 @@ extension LocationService {
             case collectionName = "CollectionName"
             case description = "Description"
             case pricingPlan = "PricingPlan"
+            case pricingPlanDataSource = "PricingPlanDataSource"
         }
     }
 
@@ -524,9 +528,9 @@ extension LocationService {
         public let configuration: MapConfiguration
         /// An optional description for the map resource.
         public let description: String?
-        /// The name for the map resource. Requirements:   Must contain only alphanumeric characters (A–Z, a–z, 0–9), hyphens (-), and underscores (_).    Must be a unique map resource name.    No spaces allowed. For example, ExampleMap.
+        /// The name for the map resource. Requirements:   Must contain only alphanumeric characters (A–Z, a–z, 0–9), hyphens (-), periods (.), and underscores (_).    Must be a unique map resource name.    No spaces allowed. For example, ExampleMap.
         public let mapName: String
-        /// Specifies the pricing plan for your map resource. There's three pricing plan options:    RequestBasedUsage — Selects the "Request-Based Usage" pricing plan.    MobileAssetTracking — Selects the "Mobile Asset Tracking" pricing plan.    MobileAssetManagement — Selects the "Mobile Asset Management" pricing plan.   For additional details and restrictions on each pricing plan option, see the Amazon Location Service pricing page.
+        /// Specifies the pricing plan for your map resource. For additional details and restrictions on each pricing plan option, see the Amazon Location Service pricing page.
         public let pricingPlan: PricingPlan
 
         public init(configuration: MapConfiguration, description: String? = nil, mapName: String, pricingPlan: PricingPlan) {
@@ -576,15 +580,15 @@ extension LocationService {
     }
 
     public struct CreatePlaceIndexRequest: AWSEncodableShape {
-        /// Specifies the data provider of geospatial data.
+        /// Specifies the data provider of geospatial data.  This field is case-sensitive. Enter the valid values as shown. For example, entering HERE will return an error.  Valid values include:    Esri     Here    For additional details on data providers, see the Amazon Location Service data providers page.
         public let dataSource: String
         /// Specifies the data storage option for requesting Places.
         public let dataSourceConfiguration: DataSourceConfiguration?
         /// The optional description for the Place index resource.
         public let description: String?
-        /// The name of the Place index resource.  Requirements:   Contain only alphanumeric characters (A-Z, a-z, 0-9) , hyphens (-) and underscores (_) ).   Must be a unique Place index resource name.   No spaces allowed. For example, ExamplePlaceIndex.
+        /// The name of the Place index resource.  Requirements:   Contain only alphanumeric characters (A-Z, a-z, 0-9) , hyphens (-), periods (.), and underscores (_).   Must be a unique Place index resource name.   No spaces allowed. For example, ExamplePlaceIndex.
         public let indexName: String
-        /// Specifies the pricing plan for your Place index resource. There's three pricing plan options:    RequestBasedUsage — Selects the "Request-Based Usage" pricing plan.    MobileAssetTracking — Selects the "Mobile Asset Tracking" pricing plan.    MobileAssetManagement — Selects the "Mobile Asset Management" pricing plan.   For additional details and restrictions on each pricing plan option, see the Amazon Location Service pricing page.
+        /// Specifies the pricing plan for your Place index resource. For additional details and restrictions on each pricing plan option, see the Amazon Location Service pricing page.
         public let pricingPlan: PricingPlan
 
         public init(dataSource: String, dataSourceConfiguration: DataSourceConfiguration? = nil, description: String? = nil, indexName: String, pricingPlan: PricingPlan) {
@@ -637,14 +641,17 @@ extension LocationService {
     public struct CreateTrackerRequest: AWSEncodableShape {
         /// An optional description for the tracker resource.
         public let description: String?
-        /// Specifies the pricing plan for your tracker resource. There's three pricing plan options:    RequestBasedUsage — Selects the "Request-Based Usage" pricing plan.    MobileAssetTracking — Selects the "Mobile Asset Tracking" pricing plan.    MobileAssetManagement — Selects the "Mobile Asset Management" pricing plan.   For additional details and restrictions on each pricing plan option, see the Amazon Location Service pricing page.
+        /// Specifies the pricing plan for your tracker resource. For additional details and restrictions on each pricing plan option, see the Amazon Location Service pricing page.
         public let pricingPlan: PricingPlan
-        /// The name for the tracker resource. Requirements:   Contain only alphanumeric characters (A-Z, a-z, 0-9) , hyphens (-) and underscores (_).   Must be a unique tracker resource name.   No spaces allowed. For example, ExampleTracker.
+        /// Specifies the plan data source. Required if the Mobile Asset Tracking (MAT) or the Mobile Asset Management (MAM) pricing plan is selected. Billing is determined by the resource usage, the associated pricing plan, and data source that was specified. For more information about each pricing plan option and restrictions, see the Amazon Location Service pricing page. Valid Values: Esri | Here
+        public let pricingPlanDataSource: String?
+        /// The name for the tracker resource. Requirements:   Contain only alphanumeric characters (A-Z, a-z, 0-9) , hyphens (-), periods (.), and underscores (_).   Must be a unique tracker resource name.   No spaces allowed. For example, ExampleTracker.
         public let trackerName: String
 
-        public init(description: String? = nil, pricingPlan: PricingPlan, trackerName: String) {
+        public init(description: String? = nil, pricingPlan: PricingPlan, pricingPlanDataSource: String? = nil, trackerName: String) {
             self.description = description
             self.pricingPlan = pricingPlan
+            self.pricingPlanDataSource = pricingPlanDataSource
             self.trackerName = trackerName
         }
 
@@ -659,6 +666,7 @@ extension LocationService {
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case pricingPlan = "PricingPlan"
+            case pricingPlanDataSource = "PricingPlanDataSource"
             case trackerName = "TrackerName"
         }
     }
@@ -829,15 +837,21 @@ extension LocationService {
         public var createTime: Date
         /// The optional description for the geofence collection.
         public let description: String
+        /// The pricing plan selected for the specified geofence collection. For additional details and restrictions on each pricing plan option, see the Amazon Location Service pricing page.
+        public let pricingPlan: PricingPlan
+        /// The data source selected for the geofence collection and associated pricing plan.
+        public let pricingPlanDataSource: String?
         /// The timestamp for when the geofence collection was last updated in ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
-        public init(collectionArn: String, collectionName: String, createTime: Date, description: String, updateTime: Date) {
+        public init(collectionArn: String, collectionName: String, createTime: Date, description: String, pricingPlan: PricingPlan, pricingPlanDataSource: String? = nil, updateTime: Date) {
             self.collectionArn = collectionArn
             self.collectionName = collectionName
             self.createTime = createTime
             self.description = description
+            self.pricingPlan = pricingPlan
+            self.pricingPlanDataSource = pricingPlanDataSource
             self.updateTime = updateTime
         }
 
@@ -846,6 +860,8 @@ extension LocationService {
             case collectionName = "CollectionName"
             case createTime = "CreateTime"
             case description = "Description"
+            case pricingPlan = "PricingPlan"
+            case pricingPlanDataSource = "PricingPlanDataSource"
             case updateTime = "UpdateTime"
         }
     }
@@ -885,17 +901,20 @@ extension LocationService {
         public let mapArn: String
         /// The map style selected from an available provider.
         public let mapName: String
+        /// The pricing plan selected for the specified map resource.  &lt;p&gt;For additional details and restrictions on each pricing plan option, see the &lt;a href=&quot;https://aws.amazon.com/location/pricing/&quot;&gt;Amazon Location Service pricing page&lt;/a&gt;.&lt;/p&gt;
+        public let pricingPlan: PricingPlan
         /// The timestamp for when the map resource was last update in ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
-        public init(configuration: MapConfiguration, createTime: Date, dataSource: String, description: String, mapArn: String, mapName: String, updateTime: Date) {
+        public init(configuration: MapConfiguration, createTime: Date, dataSource: String, description: String, mapArn: String, mapName: String, pricingPlan: PricingPlan, updateTime: Date) {
             self.configuration = configuration
             self.createTime = createTime
             self.dataSource = dataSource
             self.description = description
             self.mapArn = mapArn
             self.mapName = mapName
+            self.pricingPlan = pricingPlan
             self.updateTime = updateTime
         }
 
@@ -906,6 +925,7 @@ extension LocationService {
             case description = "Description"
             case mapArn = "MapArn"
             case mapName = "MapName"
+            case pricingPlan = "PricingPlan"
             case updateTime = "UpdateTime"
         }
     }
@@ -935,7 +955,7 @@ extension LocationService {
         /// The timestamp for when the Place index resource was created in ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
         @CustomCoding<ISO8601DateCoder>
         public var createTime: Date
-        /// The data provider of geospatial data.
+        /// The data provider of geospatial data. Indicates one of the available providers:    Esri     Here    For additional details on data providers, see the Amazon Location Service data providers page.
         public let dataSource: String
         /// The specified data storage option for requesting Places.
         public let dataSourceConfiguration: DataSourceConfiguration
@@ -945,17 +965,20 @@ extension LocationService {
         public let indexArn: String
         /// The name of the Place index resource being described.
         public let indexName: String
+        /// The pricing plan selected for the specified Place index resource. For additional details and restrictions on each pricing plan option, see the Amazon Location Service pricing page.
+        public let pricingPlan: PricingPlan
         /// The timestamp for when the Place index resource was last updated in ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
-        public init(createTime: Date, dataSource: String, dataSourceConfiguration: DataSourceConfiguration, description: String, indexArn: String, indexName: String, updateTime: Date) {
+        public init(createTime: Date, dataSource: String, dataSourceConfiguration: DataSourceConfiguration, description: String, indexArn: String, indexName: String, pricingPlan: PricingPlan, updateTime: Date) {
             self.createTime = createTime
             self.dataSource = dataSource
             self.dataSourceConfiguration = dataSourceConfiguration
             self.description = description
             self.indexArn = indexArn
             self.indexName = indexName
+            self.pricingPlan = pricingPlan
             self.updateTime = updateTime
         }
 
@@ -966,6 +989,7 @@ extension LocationService {
             case description = "Description"
             case indexArn = "IndexArn"
             case indexName = "IndexName"
+            case pricingPlan = "PricingPlan"
             case updateTime = "UpdateTime"
         }
     }
@@ -997,6 +1021,10 @@ extension LocationService {
         public var createTime: Date
         /// The optional description for the tracker resource.
         public let description: String
+        /// The pricing plan selected for the specified tracker resource. For additional details and restrictions on each pricing plan option, see the Amazon Location Service pricing page.
+        public let pricingPlan: PricingPlan
+        /// The data source selected for the tracker resource and associated pricing plan.
+        public let pricingPlanDataSource: String?
         /// The Amazon Resource Name (ARN) for the tracker resource. Used when you need to specify a resource across all AWS.
         public let trackerArn: String
         /// The name of the tracker resource.
@@ -1005,9 +1033,11 @@ extension LocationService {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
-        public init(createTime: Date, description: String, trackerArn: String, trackerName: String, updateTime: Date) {
+        public init(createTime: Date, description: String, pricingPlan: PricingPlan, pricingPlanDataSource: String? = nil, trackerArn: String, trackerName: String, updateTime: Date) {
             self.createTime = createTime
             self.description = description
+            self.pricingPlan = pricingPlan
+            self.pricingPlanDataSource = pricingPlanDataSource
             self.trackerArn = trackerArn
             self.trackerName = trackerName
             self.updateTime = updateTime
@@ -1016,6 +1046,8 @@ extension LocationService {
         private enum CodingKeys: String, CodingKey {
             case createTime = "CreateTime"
             case description = "Description"
+            case pricingPlan = "PricingPlan"
+            case pricingPlanDataSource = "PricingPlanDataSource"
             case trackerArn = "TrackerArn"
             case trackerName = "TrackerName"
             case updateTime = "UpdateTime"
@@ -1027,10 +1059,10 @@ extension LocationService {
         public let deviceId: String?
         /// The last known device position.
         public let position: [Double]
-        /// The timestamp for when the tracker resource recieved the position in  ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
+        /// The timestamp for when the tracker resource received the device position in  ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
         @CustomCoding<ISO8601DateCoder>
         public var receivedTime: Date
-        /// The timestamp for when the position was detected and sampled in  ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
+        /// The timestamp at which the device's position was determined. Uses  ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
         @CustomCoding<ISO8601DateCoder>
         public var sampleTime: Date
 
@@ -1052,9 +1084,9 @@ extension LocationService {
     public struct DevicePositionUpdate: AWSEncodableShape {
         /// The device associated to the position update.
         public let deviceId: String
-        /// The latest device position defined in WGS 84 format: [Xlongitude, Ylatitude].
+        /// The latest device position defined in WGS 84 format: [X or longitude, Y or latitude].
         public let position: [Double]
-        /// The timestamp for when the position update was received in ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ
+        /// The timestamp at which the device's position was determined. Uses ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ
         @CustomCoding<ISO8601DateCoder>
         public var sampleTime: Date
 
@@ -1139,12 +1171,12 @@ extension LocationService {
 
         /// The device whose position history you want to retrieve.
         public let deviceId: String
-        /// Specify the end time for the position history in  ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.    The given time for EndTimeExclusive must be after the time for StartTimeInclusive.
+        /// Specify the end time for the position history in  ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ. By default, the value will be the time that the request is made. Requirement:   The time specified for EndTimeExclusive must be after the time for StartTimeInclusive.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var endTimeExclusive: Date?
         /// The pagination token specifying which page of results to return in the response. If no token is provided, the default page is the first page.  Default value: null
         public let nextToken: String?
-        /// Specify the start time for the position history in  ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.    The given time for EndTimeExclusive must be after the time for StartTimeInclusive.
+        /// Specify the start time for the position history in  ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ. By default, the value will be 24 hours prior to the time that the request is made. Requirement:   The time specified for StartTimeInclusive must be before EndTimeExclusive.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var startTimeInclusive: Date?
         /// The tracker resource receiving the request for the device position history.
@@ -1199,7 +1231,7 @@ extension LocationService {
             AWSMemberEncoding(label: "trackerName", location: .uri(locationName: "TrackerName"))
         ]
 
-        /// The device whose position you want to retreieve.
+        /// The device whose position you want to retrieve.
         public let deviceId: String
         /// The tracker resource receiving the position update.
         public let trackerName: String
@@ -1226,10 +1258,10 @@ extension LocationService {
         public let deviceId: String?
         /// The last known device position.
         public let position: [Double]
-        /// The timestamp for when the tracker resource recieved the position in  ISO 8601  format: YYYY-MM-DDThh:mm:ss.sssZ.
+        /// The timestamp for when the tracker resource received the device position in  ISO 8601  format: YYYY-MM-DDThh:mm:ss.sssZ.
         @CustomCoding<ISO8601DateCoder>
         public var receivedTime: Date
-        /// The timestamp for when the position was detected and sampled in  ISO 8601  format: YYYY-MM-DDThh:mm:ss.sssZ.
+        /// The timestamp at which the device's position was determined. Uses  ISO 8601  format: YYYY-MM-DDThh:mm:ss.sssZ.
         @CustomCoding<ISO8601DateCoder>
         public var sampleTime: Date
 
@@ -1569,14 +1601,20 @@ extension LocationService {
         public var createTime: Date
         /// The description for the geofence collection
         public let description: String
+        /// The pricing plan for the specified geofence collection. For additional details and restrictions on each pricing plan option, see the Amazon Location Service pricing page.
+        public let pricingPlan: PricingPlan
+        /// The data source selected for the geofence collection and associated pricing plan.
+        public let pricingPlanDataSource: String?
         /// Specifies a timestamp for when the resource was last updated in ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
-        public init(collectionName: String, createTime: Date, description: String, updateTime: Date) {
+        public init(collectionName: String, createTime: Date, description: String, pricingPlan: PricingPlan, pricingPlanDataSource: String? = nil, updateTime: Date) {
             self.collectionName = collectionName
             self.createTime = createTime
             self.description = description
+            self.pricingPlan = pricingPlan
+            self.pricingPlanDataSource = pricingPlanDataSource
             self.updateTime = updateTime
         }
 
@@ -1584,6 +1622,8 @@ extension LocationService {
             case collectionName = "CollectionName"
             case createTime = "CreateTime"
             case description = "Description"
+            case pricingPlan = "PricingPlan"
+            case pricingPlanDataSource = "PricingPlanDataSource"
             case updateTime = "UpdateTime"
         }
     }
@@ -1715,15 +1755,18 @@ extension LocationService {
         public let description: String
         /// The name of the associated map resource.
         public let mapName: String
+        /// The pricing plan for the specified map resource. For additional details and restrictions on each pricing plan option, see the Amazon Location Service pricing page.
+        public let pricingPlan: PricingPlan
         /// The timestamp for when the map resource was last updated in ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
-        public init(createTime: Date, dataSource: String, description: String, mapName: String, updateTime: Date) {
+        public init(createTime: Date, dataSource: String, description: String, mapName: String, pricingPlan: PricingPlan, updateTime: Date) {
             self.createTime = createTime
             self.dataSource = dataSource
             self.description = description
             self.mapName = mapName
+            self.pricingPlan = pricingPlan
             self.updateTime = updateTime
         }
 
@@ -1732,6 +1775,7 @@ extension LocationService {
             case dataSource = "DataSource"
             case description = "Description"
             case mapName = "MapName"
+            case pricingPlan = "PricingPlan"
             case updateTime = "UpdateTime"
         }
     }
@@ -1781,21 +1825,24 @@ extension LocationService {
         /// The timestamp for when the Place index resource was created in ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
         @CustomCoding<ISO8601DateCoder>
         public var createTime: Date
-        /// The data provider of geospatial data.
+        /// The data provider of geospatial data. Indicates one of the available providers:   Esri   HERE   For additional details on data providers, see the Amazon Location Service data providers page.
         public let dataSource: String
         /// The optional description for the Place index resource.
         public let description: String
         /// The name of the Place index resource.
         public let indexName: String
+        /// The pricing plan for the specified Place index resource. For additional details and restrictions on each pricing plan option, see the Amazon Location Service pricing page.
+        public let pricingPlan: PricingPlan
         /// The timestamp for when the Place index resource was last updated in ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
-        public init(createTime: Date, dataSource: String, description: String, indexName: String, updateTime: Date) {
+        public init(createTime: Date, dataSource: String, description: String, indexName: String, pricingPlan: PricingPlan, updateTime: Date) {
             self.createTime = createTime
             self.dataSource = dataSource
             self.description = description
             self.indexName = indexName
+            self.pricingPlan = pricingPlan
             self.updateTime = updateTime
         }
 
@@ -1804,6 +1851,7 @@ extension LocationService {
             case dataSource = "DataSource"
             case description = "Description"
             case indexName = "IndexName"
+            case pricingPlan = "PricingPlan"
             case updateTime = "UpdateTime"
         }
     }
@@ -1906,15 +1954,21 @@ extension LocationService {
         public var createTime: Date
         /// The description for the tracker resource.
         public let description: String
+        /// The pricing plan for the specified tracker resource. For additional details and restrictions on each pricing plan option, see the Amazon Location Service pricing page.
+        public let pricingPlan: PricingPlan
+        /// The data source selected for the tracker resource and associated pricing plan.
+        public let pricingPlanDataSource: String?
         /// The name of the tracker resource.
         public let trackerName: String
-        /// The timestamp for when the position was detected and sampled in  ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
+        /// The timestamp at which the device's position was determined. Uses  ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
-        public init(createTime: Date, description: String, trackerName: String, updateTime: Date) {
+        public init(createTime: Date, description: String, pricingPlan: PricingPlan, pricingPlanDataSource: String? = nil, trackerName: String, updateTime: Date) {
             self.createTime = createTime
             self.description = description
+            self.pricingPlan = pricingPlan
+            self.pricingPlanDataSource = pricingPlanDataSource
             self.trackerName = trackerName
             self.updateTime = updateTime
         }
@@ -1922,6 +1976,8 @@ extension LocationService {
         private enum CodingKeys: String, CodingKey {
             case createTime = "CreateTime"
             case description = "Description"
+            case pricingPlan = "PricingPlan"
+            case pricingPlanDataSource = "PricingPlanDataSource"
             case trackerName = "TrackerName"
             case updateTime = "UpdateTime"
         }
@@ -2017,7 +2073,7 @@ extension LocationService {
         public let collectionName: String
         /// An identifier for the geofence. For example, ExampleGeofence-1.
         public let geofenceId: String
-        /// Contains the polygon details to specify the position of the geofence.
+        /// Contains the polygon details to specify the position of the geofence.  Each geofence polygon can have a maximum of 1,000 vertices.
         public let geometry: GeofenceGeometry
 
         public init(collectionName: String, geofenceId: String, geometry: GeofenceGeometry) {
@@ -2142,7 +2198,7 @@ extension LocationService {
     }
 
     public struct SearchPlaceIndexForPositionSummary: AWSDecodableShape {
-        /// The data provider of geospatial data for the Place index resource.
+        /// The data provider of geospatial data. Indicates one of the available providers:   Esri   HERE   For additional details on data providers, see the Amazon Location Service data providers page.
         public let dataSource: String
         /// An optional parameter. The maximum number of results returned per request.  Default value: 50
         public let maxResults: Int?
@@ -2237,7 +2293,7 @@ extension LocationService {
     public struct SearchPlaceIndexForTextSummary: AWSDecodableShape {
         /// Contains the coordinates for the bias position entered in the geocoding request.
         public let biasPosition: [Double]?
-        /// The data provider of geospatial data for the Place index resource.
+        /// The data provider of geospatial data. Indicates one of the available providers:   Esri   HERE   For additional details on data providers, see the Amazon Location Service data providers page.
         public let dataSource: String
         /// Contains the coordinates for the optional bounding box coordinated entered in the geocoding request.
         public let filterBBox: [Double]?

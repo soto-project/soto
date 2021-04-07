@@ -108,6 +108,17 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
+    public enum ObjectLambdaAllowedFeature: String, CustomStringConvertible, Codable {
+        case getobjectPartnumber = "GetObject-PartNumber"
+        case getobjectRange = "GetObject-Range"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ObjectLambdaTransformationConfigurationAction: String, CustomStringConvertible, Codable {
+        case getobject = "GetObject"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OperationName: String, CustomStringConvertible, Codable {
         case lambdainvoke = "LambdaInvoke"
         case s3deleteobjecttagging = "S3DeleteObjectTagging"
@@ -291,6 +302,29 @@ extension S3Control {
         }
     }
 
+    public struct AwsLambdaTransformation: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the AWS Lambda function.
+        public let functionArn: String
+        /// Additional JSON that provides supplemental data to the Lambda function used to transform objects.
+        public let functionPayload: String?
+
+        public init(functionArn: String, functionPayload: String? = nil) {
+            self.functionArn = functionArn
+            self.functionPayload = functionPayload
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.functionArn, name: "functionArn", parent: name, max: 1024)
+            try self.validate(self.functionArn, name: "functionArn", parent: name, min: 1)
+            try self.validate(self.functionArn, name: "functionArn", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionArn = "FunctionArn"
+            case functionPayload = "FunctionPayload"
+        }
+    }
+
     public struct BucketLevel: AWSEncodableShape & AWSDecodableShape {
         /// A container for the bucket-level activity metrics for Amazon S3 Storage Lens
         public let activityMetrics: ActivityMetrics?
@@ -312,6 +346,53 @@ extension S3Control {
         }
     }
 
+    public struct CreateAccessPointForObjectLambdaRequest: AWSEncodableShape {
+        public static let _xmlNamespace: String? = "http://awss3control.amazonaws.com/doc/2018-08-20/"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+        ]
+
+        /// The AWS account ID for owner of the specified Object Lambda Access Point.
+        public let accountId: String
+        /// Object Lambda Access Point configuration as a JSON document.
+        public let configuration: ObjectLambdaConfiguration
+        /// The name you want to assign to this Object Lambda Access Point.
+        public let name: String
+
+        public init(accountId: String, configuration: ObjectLambdaConfiguration, name: String) {
+            self.accountId = accountId
+            self.configuration = configuration
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.configuration.validate(name: "\(name).configuration")
+            try self.validate(self.name, name: "name", parent: name, max: 45)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9]([a-z0-9\\-]*[a-z0-9])?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "Configuration"
+        }
+    }
+
+    public struct CreateAccessPointForObjectLambdaResult: AWSDecodableShape {
+        /// Specifies the ARN for the Object Lambda Access Point.
+        public let objectLambdaAccessPointArn: String?
+
+        public init(objectLambdaAccessPointArn: String? = nil) {
+            self.objectLambdaAccessPointArn = objectLambdaAccessPointArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectLambdaAccessPointArn = "ObjectLambdaAccessPointArn"
+        }
+    }
+
     public struct CreateAccessPointRequest: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://awss3control.amazonaws.com/doc/2018-08-20/"
         public static var _encoding = [
@@ -325,6 +406,7 @@ extension S3Control {
         public let bucket: String
         /// The name you want to assign to this access point.
         public let name: String
+        ///  The PublicAccessBlock configuration that you want to apply to the access point.
         public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration?
         /// If you include this field, Amazon S3 restricts access to this access point to requests from the specified virtual private cloud (VPC).  This is required for creating an access point for Amazon S3 on Outposts buckets.
         public let vpcConfiguration: VpcConfiguration?
@@ -481,13 +563,13 @@ extension S3Control {
         public let description: String?
         /// Configuration parameters for the manifest.
         public let manifest: JobManifest
-        /// The operation that you want this job to perform on every object listed in the manifest. For more information about the available operations, see Operations in the Amazon Simple Storage Service Developer Guide.
+        /// The action that you want this job to perform on every object listed in the manifest. For more information about the available actions, see Operations in the Amazon Simple Storage Service User Guide.
         public let operation: JobOperation
         /// The numerical priority for this job. Higher numbers indicate higher priority.
         public let priority: Int
         /// Configuration parameters for the optional job-completion report.
         public let report: JobReport
-        /// The Amazon Resource Name (ARN) for the AWS Identity and Access Management (IAM) role that Batch Operations will use to run this job's operation on every object in the manifest.
+        /// The Amazon Resource Name (ARN) for the AWS Identity and Access Management (IAM) role that Batch Operations will use to run this job's action on every object in the manifest.
         public let roleArn: String
         /// A set of tags to associate with the S3 Batch Operations job. This is an optional parameter.
         @OptionalCustomCoding<StandardArrayCoder>
@@ -550,6 +632,60 @@ extension S3Control {
         private enum CodingKeys: String, CodingKey {
             case jobId = "JobId"
         }
+    }
+
+    public struct DeleteAccessPointForObjectLambdaRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+        ]
+
+        /// The account ID for the account that owns the specified Object Lambda Access Point.
+        public let accountId: String
+        /// The name of the access point you want to delete.
+        public let name: String
+
+        public init(accountId: String, name: String) {
+            self.accountId = accountId
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 45)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9]([a-z0-9\\-]*[a-z0-9])?$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAccessPointPolicyForObjectLambdaRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+        ]
+
+        /// The account ID for the account that owns the specified Object Lambda Access Point.
+        public let accountId: String
+        /// The name of the Object Lambda Access Point you want to delete the policy for.
+        public let name: String
+
+        public init(accountId: String, name: String) {
+            self.accountId = accountId
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 45)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9]([a-z0-9\\-]*[a-z0-9])?$")
+        }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteAccessPointPolicyRequest: AWSEncodableShape {
@@ -892,6 +1028,134 @@ extension S3Control {
         }
     }
 
+    public struct GetAccessPointConfigurationForObjectLambdaRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+        ]
+
+        /// The account ID for the account that owns the specified Object Lambda Access Point.
+        public let accountId: String
+        /// The name of the Object Lambda Access Point you want to return the configuration for.
+        public let name: String
+
+        public init(accountId: String, name: String) {
+            self.accountId = accountId
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 45)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9]([a-z0-9\\-]*[a-z0-9])?$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAccessPointConfigurationForObjectLambdaResult: AWSDecodableShape {
+        /// Object Lambda Access Point configuration document.
+        public let configuration: ObjectLambdaConfiguration?
+
+        public init(configuration: ObjectLambdaConfiguration? = nil) {
+            self.configuration = configuration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "Configuration"
+        }
+    }
+
+    public struct GetAccessPointForObjectLambdaRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+        ]
+
+        /// The account ID for the account that owns the specified Object Lambda Access Point.
+        public let accountId: String
+        /// The name of the Object Lambda Access Point.
+        public let name: String
+
+        public init(accountId: String, name: String) {
+            self.accountId = accountId
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 45)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9]([a-z0-9\\-]*[a-z0-9])?$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAccessPointForObjectLambdaResult: AWSDecodableShape {
+        /// The date and time when the specified Object Lambda Access Point was created.
+        public let creationDate: Date?
+        /// The name of the Object Lambda Access Point.
+        public let name: String?
+        /// Configuration to block all public access. This setting is turned on and can not be edited.
+        public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration?
+
+        public init(creationDate: Date? = nil, name: String? = nil, publicAccessBlockConfiguration: PublicAccessBlockConfiguration? = nil) {
+            self.creationDate = creationDate
+            self.name = name
+            self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate = "CreationDate"
+            case name = "Name"
+            case publicAccessBlockConfiguration = "PublicAccessBlockConfiguration"
+        }
+    }
+
+    public struct GetAccessPointPolicyForObjectLambdaRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+        ]
+
+        /// The account ID for the account that owns the specified Object Lambda Access Point.
+        public let accountId: String
+        /// The name of the Object Lambda Access Point.
+        public let name: String
+
+        public init(accountId: String, name: String) {
+            self.accountId = accountId
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 45)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9]([a-z0-9\\-]*[a-z0-9])?$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAccessPointPolicyForObjectLambdaResult: AWSDecodableShape {
+        /// Object Lambda Access Point resource policy document.
+        public let policy: String?
+
+        public init(policy: String? = nil) {
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+        }
+    }
+
     public struct GetAccessPointPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
@@ -928,6 +1192,45 @@ extension S3Control {
 
         private enum CodingKeys: String, CodingKey {
             case policy = "Policy"
+        }
+    }
+
+    public struct GetAccessPointPolicyStatusForObjectLambdaRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+        ]
+
+        /// The account ID for the account that owns the specified Object Lambda Access Point.
+        public let accountId: String
+        /// The name of the Object Lambda Access Point.
+        public let name: String
+
+        public init(accountId: String, name: String) {
+            self.accountId = accountId
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 45)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9]([a-z0-9\\-]*[a-z0-9])?$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAccessPointPolicyStatusForObjectLambdaResult: AWSDecodableShape {
+        public let policyStatus: PolicyStatus?
+
+        public init(policyStatus: PolicyStatus? = nil) {
+            self.policyStatus = policyStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyStatus = "PolicyStatus"
         }
     }
 
@@ -1869,6 +2172,58 @@ extension S3Control {
         }
     }
 
+    public struct ListAccessPointsForObjectLambdaRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The account ID for the account that owns the specified Object Lambda Access Point.
+        public let accountId: String
+        /// The maximum number of access points that you want to include in the list. If there are more than this number of access points, then the response will include a continuation token in the NextToken field that you can use to retrieve the next page of access points.
+        public let maxResults: Int?
+        /// If the list has more access points than can be returned in one call to this API, this field contains a continuation token that you can provide in subsequent calls to this API to retrieve additional access points.
+        public let nextToken: String?
+
+        public init(accountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.accountId = accountId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAccessPointsForObjectLambdaResult: AWSDecodableShape {
+        public struct _ObjectLambdaAccessPointListEncoding: ArrayCoderProperties { public static let member = "ObjectLambdaAccessPoint" }
+
+        /// If the list has more access points than can be returned in one call to this API, this field contains a continuation token that you can provide in subsequent calls to this API to retrieve additional access points.
+        public let nextToken: String?
+        /// Returns list of Object Lambda Access Points.
+        @OptionalCustomCoding<ArrayCoder<_ObjectLambdaAccessPointListEncoding, ObjectLambdaAccessPoint>>
+        public var objectLambdaAccessPointList: [ObjectLambdaAccessPoint]?
+
+        public init(nextToken: String? = nil, objectLambdaAccessPointList: [ObjectLambdaAccessPoint]? = nil) {
+            self.nextToken = nextToken
+            self.objectLambdaAccessPointList = objectLambdaAccessPointList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case objectLambdaAccessPointList = "ObjectLambdaAccessPointList"
+        }
+    }
+
     public struct ListAccessPointsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
@@ -2133,6 +2488,103 @@ extension S3Control {
         }
     }
 
+    public struct ObjectLambdaAccessPoint: AWSDecodableShape {
+        /// The name of the Object Lambda Access Point.
+        public let name: String
+        /// Specifies the ARN for the Object Lambda Access Point.
+        public let objectLambdaAccessPointArn: String?
+
+        public init(name: String, objectLambdaAccessPointArn: String? = nil) {
+            self.name = name
+            self.objectLambdaAccessPointArn = objectLambdaAccessPointArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case objectLambdaAccessPointArn = "ObjectLambdaAccessPointArn"
+        }
+    }
+
+    public struct ObjectLambdaConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public struct _AllowedFeaturesEncoding: ArrayCoderProperties { public static let member = "AllowedFeature" }
+        public struct _TransformationConfigurationsEncoding: ArrayCoderProperties { public static let member = "TransformationConfiguration" }
+
+        /// A container for allowed features. Valid inputs are GetObject-Range and GetObject-PartNumber.
+        @OptionalCustomCoding<ArrayCoder<_AllowedFeaturesEncoding, ObjectLambdaAllowedFeature>>
+        public var allowedFeatures: [ObjectLambdaAllowedFeature]?
+        /// A container for whether the CloudWatch metrics configuration is enabled.
+        public let cloudWatchMetricsEnabled: Bool?
+        /// Standard access point associated with the Object Lambda Access Point.
+        public let supportingAccessPoint: String
+        /// A container for transformation configurations for an Object Lambda Access Point.
+        @CustomCoding<ArrayCoder<_TransformationConfigurationsEncoding, ObjectLambdaTransformationConfiguration>>
+        public var transformationConfigurations: [ObjectLambdaTransformationConfiguration]
+
+        public init(allowedFeatures: [ObjectLambdaAllowedFeature]? = nil, cloudWatchMetricsEnabled: Bool? = nil, supportingAccessPoint: String, transformationConfigurations: [ObjectLambdaTransformationConfiguration]) {
+            self.allowedFeatures = allowedFeatures
+            self.cloudWatchMetricsEnabled = cloudWatchMetricsEnabled
+            self.supportingAccessPoint = supportingAccessPoint
+            self.transformationConfigurations = transformationConfigurations
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.supportingAccessPoint, name: "supportingAccessPoint", parent: name, max: 2048)
+            try self.validate(self.supportingAccessPoint, name: "supportingAccessPoint", parent: name, min: 1)
+            try self.validate(self.supportingAccessPoint, name: "supportingAccessPoint", parent: name, pattern: "arn:[^:]+:s3:[^:]*:\\d{12}:accesspoint/.*")
+            try self.transformationConfigurations.forEach {
+                try $0.validate(name: "\(name).transformationConfigurations[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedFeatures = "AllowedFeatures"
+            case cloudWatchMetricsEnabled = "CloudWatchMetricsEnabled"
+            case supportingAccessPoint = "SupportingAccessPoint"
+            case transformationConfigurations = "TransformationConfigurations"
+        }
+    }
+
+    public struct ObjectLambdaContentTransformation: AWSEncodableShape & AWSDecodableShape {
+        /// A container for an AWS Lambda function.
+        public let awsLambda: AwsLambdaTransformation?
+
+        public init(awsLambda: AwsLambdaTransformation? = nil) {
+            self.awsLambda = awsLambda
+        }
+
+        public func validate(name: String) throws {
+            try self.awsLambda?.validate(name: "\(name).awsLambda")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsLambda = "AwsLambda"
+        }
+    }
+
+    public struct ObjectLambdaTransformationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public struct _ActionsEncoding: ArrayCoderProperties { public static let member = "Action" }
+
+        /// A container for the action of an Object Lambda Access Point configuration. Valid input is GetObject.
+        @CustomCoding<ArrayCoder<_ActionsEncoding, ObjectLambdaTransformationConfigurationAction>>
+        public var actions: [ObjectLambdaTransformationConfigurationAction]
+        /// A container for the content transformation of an Object Lambda Access Point configuration.
+        public let contentTransformation: ObjectLambdaContentTransformation
+
+        public init(actions: [ObjectLambdaTransformationConfigurationAction], contentTransformation: ObjectLambdaContentTransformation) {
+            self.actions = actions
+            self.contentTransformation = contentTransformation
+        }
+
+        public func validate(name: String) throws {
+            try self.contentTransformation.validate(name: "\(name).contentTransformation")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case contentTransformation = "ContentTransformation"
+        }
+    }
+
     public struct PolicyStatus: AWSDecodableShape {
         public let isPublic: Bool?
 
@@ -2209,6 +2661,73 @@ extension S3Control {
         }
     }
 
+    public struct PutAccessPointConfigurationForObjectLambdaRequest: AWSEncodableShape {
+        public static let _xmlNamespace: String? = "http://awss3control.amazonaws.com/doc/2018-08-20/"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+        ]
+
+        /// The account ID for the account that owns the specified Object Lambda Access Point.
+        public let accountId: String
+        /// Object Lambda Access Point configuration document.
+        public let configuration: ObjectLambdaConfiguration
+        /// The name of the Object Lambda Access Point.
+        public let name: String
+
+        public init(accountId: String, configuration: ObjectLambdaConfiguration, name: String) {
+            self.accountId = accountId
+            self.configuration = configuration
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.configuration.validate(name: "\(name).configuration")
+            try self.validate(self.name, name: "name", parent: name, max: 45)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9]([a-z0-9\\-]*[a-z0-9])?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "Configuration"
+        }
+    }
+
+    public struct PutAccessPointPolicyForObjectLambdaRequest: AWSEncodableShape {
+        public static let _xmlNamespace: String? = "http://awss3control.amazonaws.com/doc/2018-08-20/"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "accountId", location: .header(locationName: "x-amz-account-id")),
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+        ]
+
+        /// The account ID for the account that owns the specified Object Lambda Access Point.
+        public let accountId: String
+        /// The name of the Object Lambda Access Point.
+        public let name: String
+        /// Object Lambda Access Point resource policy document.
+        public let policy: String
+
+        public init(accountId: String, name: String, policy: String) {
+            self.accountId = accountId
+            self.name = name
+            self.policy = policy
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 45)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9]([a-z0-9\\-]*[a-z0-9])?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+        }
+    }
+
     public struct PutAccessPointPolicyRequest: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://awss3control.amazonaws.com/doc/2018-08-20/"
         public static var _encoding = [
@@ -2220,7 +2739,7 @@ extension S3Control {
         public let accountId: String
         /// The name of the access point that you want to associate with the specified policy. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the AWS SDK and CLI, you must specify the ARN of the access point accessed in the format arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/accesspoint/&lt;my-accesspoint-name&gt;. For example, to access the access point reports-ap through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
         public let name: String
-        /// The policy that you want to apply to the specified access point. For more information about access point policies, see Managing data access with Amazon S3 Access Points in the Amazon Simple Storage Service Developer Guide.
+        /// The policy that you want to apply to the specified access point. For more information about access point policies, see Managing data access with Amazon S3 Access Points in the Amazon Simple Storage Service User Guide.
         public let policy: String
 
         public init(accountId: String, name: String, policy: String) {
@@ -2910,7 +3429,7 @@ extension S3Control {
     public struct S3SetObjectRetentionOperation: AWSEncodableShape & AWSDecodableShape {
         /// Indicates if the action should be applied to objects in the Batch Operations job even if they have Object Lock  GOVERNANCE type in place.
         public let bypassGovernanceRetention: Bool?
-        /// Contains the Object Lock retention mode to be applied to all objects in the Batch Operations job. For more information, see Using S3 Object Lock retention with S3 Batch Operations in the Amazon Simple Storage Service Developer Guide.
+        /// Contains the Object Lock retention mode to be applied to all objects in the Batch Operations job. For more information, see Using S3 Object Lock retention with S3 Batch Operations in the Amazon Simple Storage Service User Guide.
         public let retention: S3Retention
 
         public init(bypassGovernanceRetention: Bool? = nil, retention: S3Retention) {
@@ -2955,9 +3474,9 @@ extension S3Control {
         public func validate(name: String) throws {
             try self.validate(self.key, name: "key", parent: name, max: 1024)
             try self.validate(self.key, name: "key", parent: name, min: 1)
-            try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:=+\\-@%]*)$")
+            try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@%]*)$")
             try self.validate(self.value, name: "value", parent: name, max: 1024)
-            try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:=+\\-@%]*)$")
+            try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@%]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3130,9 +3649,9 @@ extension S3Control {
         public func validate(name: String) throws {
             try self.validate(self.key, name: "key", parent: name, max: 1024)
             try self.validate(self.key, name: "key", parent: name, min: 1)
-            try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:=+\\-@%]*)$")
+            try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@%]*)$")
             try self.validate(self.value, name: "value", parent: name, max: 1024)
-            try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:=+\\-@%]*)$")
+            try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@%]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {

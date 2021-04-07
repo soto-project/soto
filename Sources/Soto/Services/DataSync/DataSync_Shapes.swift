@@ -371,19 +371,19 @@ extension DataSync {
     }
 
     public struct CreateLocationFsxWindowsRequest: AWSEncodableShape {
-        /// The name of the Windows domain that the FSx for Windows server belongs to.
+        /// The name of the Windows domain that the FSx for Windows File Server belongs to.
         public let domain: String?
-        /// The Amazon Resource Name (ARN) for the FSx for Windows file system.
+        /// The Amazon Resource Name (ARN) for the FSx for Windows File Server file system.
         public let fsxFilesystemArn: String
-        /// The password of the user who has the permissions to access files and folders in the FSx for Windows file system.
+        /// The password of the user who has the permissions to access files and folders in the FSx for Windows File Server file system.
         public let password: String
-        /// The Amazon Resource Names (ARNs) of the security groups that are to use to configure the FSx for Windows file system.
+        /// The Amazon Resource Names (ARNs) of the security groups that are to use to configure the FSx for Windows File Server file system.
         public let securityGroupArns: [String]
-        /// A subdirectory in the location’s path. This subdirectory in the Amazon FSx for Windows file system is used to read data from the Amazon FSx for Windows source location or write data to the FSx for Windows destination.
+        /// A subdirectory in the location’s path. This subdirectory in the Amazon FSx for Windows File Server file system is used to read data from the Amazon FSx for Windows File Server source location or write data to the FSx for Windows File Server destination.
         public let subdirectory: String?
         /// The key-value pair that represents a tag that you want to add to the resource. The value can be an empty string. This value helps you manage, filter, and search for your resources. We recommend that you create a name tag for your location.
         public let tags: [TagListEntry]?
-        /// The user who has the permissions to access files and folders in the FSx for Windows file system.
+        /// The user who has the permissions to access files and folders in the FSx for Windows File Server file system.
         public let user: String
 
         public init(domain: String? = nil, fsxFilesystemArn: String, password: String, securityGroupArns: [String], subdirectory: String? = nil, tags: [TagListEntry]? = nil, user: String) {
@@ -432,7 +432,7 @@ extension DataSync {
     }
 
     public struct CreateLocationFsxWindowsResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the FSx for Windows file system location that is created.
+        /// The Amazon Resource Name (ARN) of the FSx for Windows File Server file system location that is created.
         public let locationArn: String?
 
         public init(locationArn: String? = nil) {
@@ -970,7 +970,7 @@ extension DataSync {
     }
 
     public struct DescribeLocationFsxWindowsRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the FSx for Windows location to describe.
+        /// The Amazon Resource Name (ARN) of the FSx for Windows File Server location to describe.
         public let locationArn: String
 
         public init(locationArn: String) {
@@ -988,17 +988,17 @@ extension DataSync {
     }
 
     public struct DescribeLocationFsxWindowsResponse: AWSDecodableShape {
-        /// The time that the FSx for Windows location was created.
+        /// The time that the FSx for Windows File Server location was created.
         public let creationTime: Date?
-        /// The name of the Windows domain that the FSx for Windows server belongs to.
+        /// The name of the Windows domain that the FSx for Windows File Server belongs to.
         public let domain: String?
-        /// The Amazon Resource Name (ARN) of the FSx for Windows location that was described.
+        /// The Amazon Resource Name (ARN) of the FSx for Windows File Server location that was described.
         public let locationArn: String?
-        /// The URL of the FSx for Windows location that was described.
+        /// The URL of the FSx for Windows File Server location that was described.
         public let locationUri: String?
-        /// The Amazon Resource Names (ARNs) of the security groups that are configured for the FSx for Windows file system.
+        /// The Amazon Resource Names (ARNs) of the security groups that are configured for the FSx for Windows File Server file system.
         public let securityGroupArns: [String]?
-        /// The user who has the permissions to access files and folders in the FSx for Windows file system.
+        /// The user who has the permissions to access files and folders in the FSx for Windows File Server file system.
         public let user: String?
 
         public init(creationTime: Date? = nil, domain: String? = nil, locationArn: String? = nil, locationUri: String? = nil, securityGroupArns: [String]? = nil, user: String? = nil) {
@@ -2160,6 +2160,162 @@ extension DataSync {
     }
 
     public struct UpdateAgentResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateLocationNfsRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the NFS location to update.
+        public let locationArn: String
+        public let mountOptions: NfsMountOptions?
+        public let onPremConfig: OnPremConfig?
+        /// The subdirectory in the NFS file system that is used to read data from the NFS source location or write data to the NFS destination. The NFS path should be a path that's exported by the NFS server, or a subdirectory of that path. The path should be such that it can be mounted by other NFS clients in your network. To see all the paths exported by your NFS server, run "showmount -e nfs-server-name" from an NFS client that has access to your server. You can specify any directory that appears in the results, and any subdirectory of that directory. Ensure that the NFS export is accessible without Kerberos authentication.  To transfer all the data in the folder that you specified, DataSync must have permissions to read all the data. To ensure this, either configure the NFS export with no_root_squash, or ensure that the files you want DataSync to access have permissions that allow read access for all users. Doing either option enables the agent to read the files. For the agent to access directories, you must additionally enable all execute access. If you are copying data to or from your AWS Snowcone device, see NFS Server on AWS Snowcone for more information. For information about NFS export configuration, see 18.7. The /etc/exports Configuration File in the Red Hat Enterprise Linux documentation.
+        public let subdirectory: String?
+
+        public init(locationArn: String, mountOptions: NfsMountOptions? = nil, onPremConfig: OnPremConfig? = nil, subdirectory: String? = nil) {
+            self.locationArn = locationArn
+            self.mountOptions = mountOptions
+            self.onPremConfig = onPremConfig
+            self.subdirectory = subdirectory
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.locationArn, name: "locationArn", parent: name, max: 128)
+            try self.validate(self.locationArn, name: "locationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
+            try self.onPremConfig?.validate(name: "\(name).onPremConfig")
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 4096)
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\p{Zs}]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationArn = "LocationArn"
+            case mountOptions = "MountOptions"
+            case onPremConfig = "OnPremConfig"
+            case subdirectory = "Subdirectory"
+        }
+    }
+
+    public struct UpdateLocationNfsResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateLocationObjectStorageRequest: AWSEncodableShape {
+        /// Optional. The access key is used if credentials are required to access the self-managed object storage server. If your object storage requires a user name and password to authenticate, use AccessKey and SecretKey to provide the user name and password, respectively.
+        public let accessKey: String?
+        /// The Amazon Resource Name (ARN) of the agents associated with the self-managed object storage server location.
+        public let agentArns: [String]?
+        /// The Amazon Resource Name (ARN) of the self-managed object storage server location to be updated.
+        public let locationArn: String
+        /// Optional. The secret key is used if credentials are required to access the self-managed object storage server. If your object storage requires a user name and password to authenticate, use AccessKey and SecretKey to provide the user name and password, respectively.
+        public let secretKey: String?
+        /// The port that your self-managed object storage server accepts inbound network traffic on. The server port is set by default to TCP 80 (HTTP) or TCP 443 (HTTPS). You can specify a custom port if your self-managed object storage server requires one.
+        public let serverPort: Int?
+        /// The protocol that the object storage server uses to communicate. Valid values are HTTP or HTTPS.
+        public let serverProtocol: ObjectStorageServerProtocol?
+        /// The subdirectory in the self-managed object storage server that is used to read data from.
+        public let subdirectory: String?
+
+        public init(accessKey: String? = nil, agentArns: [String]? = nil, locationArn: String, secretKey: String? = nil, serverPort: Int? = nil, serverProtocol: ObjectStorageServerProtocol? = nil, subdirectory: String? = nil) {
+            self.accessKey = accessKey
+            self.agentArns = agentArns
+            self.locationArn = locationArn
+            self.secretKey = secretKey
+            self.serverPort = serverPort
+            self.serverProtocol = serverProtocol
+            self.subdirectory = subdirectory
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessKey, name: "accessKey", parent: name, max: 200)
+            try self.validate(self.accessKey, name: "accessKey", parent: name, min: 8)
+            try self.validate(self.accessKey, name: "accessKey", parent: name, pattern: "^.+$")
+            try self.agentArns?.forEach {
+                try validate($0, name: "agentArns[]", parent: name, max: 128)
+                try validate($0, name: "agentArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
+            }
+            try self.validate(self.agentArns, name: "agentArns", parent: name, max: 4)
+            try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
+            try self.validate(self.locationArn, name: "locationArn", parent: name, max: 128)
+            try self.validate(self.locationArn, name: "locationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
+            try self.validate(self.secretKey, name: "secretKey", parent: name, max: 200)
+            try self.validate(self.secretKey, name: "secretKey", parent: name, min: 8)
+            try self.validate(self.secretKey, name: "secretKey", parent: name, pattern: "^.+$")
+            try self.validate(self.serverPort, name: "serverPort", parent: name, max: 65536)
+            try self.validate(self.serverPort, name: "serverPort", parent: name, min: 1)
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 4096)
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\p{Zs}]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessKey = "AccessKey"
+            case agentArns = "AgentArns"
+            case locationArn = "LocationArn"
+            case secretKey = "SecretKey"
+            case serverPort = "ServerPort"
+            case serverProtocol = "ServerProtocol"
+            case subdirectory = "Subdirectory"
+        }
+    }
+
+    public struct UpdateLocationObjectStorageResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateLocationSmbRequest: AWSEncodableShape {
+        /// The Amazon Resource Names (ARNs) of agents to use for a Simple Message Block (SMB) location.
+        public let agentArns: [String]?
+        /// The name of the Windows domain that the SMB server belongs to.
+        public let domain: String?
+        /// The Amazon Resource Name (ARN) of the SMB location to update.
+        public let locationArn: String
+        public let mountOptions: SmbMountOptions?
+        /// The password of the user who can mount the share has the permissions to access files and folders in the SMB share.
+        public let password: String?
+        /// The subdirectory in the SMB file system that is used to read data from the SMB source location or write data to the SMB destination. The SMB path should be a path that's exported by the SMB server, or a subdirectory of that path. The path should be such that it can be mounted by other SMB clients in your network.   Subdirectory must be specified with forward slashes. For example, /path/to/folder.  To transfer all the data in the folder that you specified, DataSync must have permissions to mount the SMB share and to access all the data in that share. To ensure this, do either of the following:   Ensure that the user/password specified belongs to the user who can mount the share and who has the appropriate permissions for all of the files and directories that you want DataSync to access.   Use credentials of a member of the Backup Operators group to mount the share.    Doing either of these options enables the agent to access the data. For the agent to access directories, you must also enable all execute access.
+        public let subdirectory: String?
+        /// The user who can mount the share has the permissions to access files and folders in the SMB share.
+        public let user: String?
+
+        public init(agentArns: [String]? = nil, domain: String? = nil, locationArn: String, mountOptions: SmbMountOptions? = nil, password: String? = nil, subdirectory: String? = nil, user: String? = nil) {
+            self.agentArns = agentArns
+            self.domain = domain
+            self.locationArn = locationArn
+            self.mountOptions = mountOptions
+            self.password = password
+            self.subdirectory = subdirectory
+            self.user = user
+        }
+
+        public func validate(name: String) throws {
+            try self.agentArns?.forEach {
+                try validate($0, name: "agentArns[]", parent: name, max: 128)
+                try validate($0, name: "agentArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
+            }
+            try self.validate(self.agentArns, name: "agentArns", parent: name, max: 4)
+            try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
+            try self.validate(self.domain, name: "domain", parent: name, max: 253)
+            try self.validate(self.domain, name: "domain", parent: name, pattern: "^([A-Za-z0-9]+[A-Za-z0-9-.]*)*[A-Za-z0-9-]*[A-Za-z0-9]$")
+            try self.validate(self.locationArn, name: "locationArn", parent: name, max: 128)
+            try self.validate(self.locationArn, name: "locationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
+            try self.validate(self.password, name: "password", parent: name, max: 104)
+            try self.validate(self.password, name: "password", parent: name, pattern: "^.{0,104}$")
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 4096)
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\$\\p{Zs}]+$")
+            try self.validate(self.user, name: "user", parent: name, max: 104)
+            try self.validate(self.user, name: "user", parent: name, pattern: "^[^\\x5B\\x5D\\\\/:;|=,+*?]{1,104}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentArns = "AgentArns"
+            case domain = "Domain"
+            case locationArn = "LocationArn"
+            case mountOptions = "MountOptions"
+            case password = "Password"
+            case subdirectory = "Subdirectory"
+            case user = "User"
+        }
+    }
+
+    public struct UpdateLocationSmbResponse: AWSDecodableShape {
         public init() {}
     }
 

@@ -20,6 +20,36 @@ import SotoCore
 extension IoTWireless {
     // MARK: Enums
 
+    public enum BatteryLevel: String, CustomStringConvertible, Codable {
+        case critical
+        case low
+        case normal
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectionStatus: String, CustomStringConvertible, Codable {
+        case connected = "Connected"
+        case disconnected = "Disconnected"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeviceState: String, CustomStringConvertible, Codable {
+        case provisioned = "Provisioned"
+        case registerednotseen = "RegisteredNotSeen"
+        case registeredreachable = "RegisteredReachable"
+        case registeredunreachable = "RegisteredUnreachable"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Event: String, CustomStringConvertible, Codable {
+        case ack
+        case discovered
+        case lost
+        case nack
+        case passthrough
+        public var description: String { return self.rawValue }
+    }
+
     public enum ExpressionType: String, CustomStringConvertible, Codable {
         case mqtttopic = "MqttTopic"
         case rulename = "RuleName"
@@ -28,6 +58,12 @@ extension IoTWireless {
 
     public enum PartnerType: String, CustomStringConvertible, Codable {
         case sidewalk = "Sidewalk"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SigningAlg: String, CustomStringConvertible, Codable {
+        case ed25519 = "Ed25519"
+        case p256r1 = "P256r1"
         public var description: String { return self.rawValue }
     }
 
@@ -123,10 +159,13 @@ extension IoTWireless {
         public let clientRequestToken: String?
         /// The Sidewalk account credentials.
         public let sidewalk: SidewalkAccountInfo
+        /// The tags to attach to the specified resource. Tags are metadata that you can use to manage a resource.
+        public let tags: [Tag]?
 
-        public init(clientRequestToken: String? = AssociateAwsAccountWithPartnerAccountRequest.idempotencyToken(), sidewalk: SidewalkAccountInfo) {
+        public init(clientRequestToken: String? = AssociateAwsAccountWithPartnerAccountRequest.idempotencyToken(), sidewalk: SidewalkAccountInfo, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.sidewalk = sidewalk
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -134,23 +173,33 @@ extension IoTWireless {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
             try self.sidewalk.validate(name: "\(name).sidewalk")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
             case sidewalk = "Sidewalk"
+            case tags = "Tags"
         }
     }
 
     public struct AssociateAwsAccountWithPartnerAccountResponse: AWSDecodableShape {
+        /// The Amazon Resource Name of the resource.
+        public let arn: String?
         /// The Sidewalk account credentials.
         public let sidewalk: SidewalkAccountInfo?
 
-        public init(sidewalk: SidewalkAccountInfo? = nil) {
+        public init(arn: String? = nil, sidewalk: SidewalkAccountInfo? = nil) {
+            self.arn = arn
             self.sidewalk = sidewalk
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
             case sidewalk = "Sidewalk"
         }
     }
@@ -250,6 +299,23 @@ extension IoTWireless {
         public init() {}
     }
 
+    public struct CertificateList: AWSDecodableShape {
+        /// The certificate chain algorithm provided by sidewalk.
+        public let signingAlg: SigningAlg
+        /// The value of the chosen sidewalk certificate.
+        public let value: String
+
+        public init(signingAlg: SigningAlg, value: String) {
+            self.signingAlg = signingAlg
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case signingAlg = "SigningAlg"
+            case value = "Value"
+        }
+    }
+
     public struct CreateDestinationRequest: AWSEncodableShape {
         /// Each resource must have a unique client request token. If you try to create a new resource with the same token as a resource that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request.
         public let clientRequestToken: String?
@@ -263,7 +329,7 @@ extension IoTWireless {
         public let name: String
         /// The ARN of the IAM Role that authorizes the destination.
         public let roleArn: String
-        /// The tags to attach to the new destination. Tags are metadata that can be used to manage a resource.
+        /// The tags to attach to the new destination. Tags are metadata that you can use to manage a resource.
         public let tags: [Tag]?
 
         public init(clientRequestToken: String? = CreateDestinationRequest.idempotencyToken(), description: String? = nil, expression: String, expressionType: ExpressionType, name: String, roleArn: String, tags: [Tag]? = nil) {
@@ -328,7 +394,7 @@ extension IoTWireless {
         public let loRaWAN: LoRaWANDeviceProfile?
         /// The name of the new resource.
         public let name: String?
-        /// The tags to attach to the new device profile Tags are metadata that can be used to manage a resource.
+        /// The tags to attach to the new device profile. Tags are metadata that you can use to manage a resource.
         public let tags: [Tag]?
 
         public init(clientRequestToken: String? = CreateDeviceProfileRequest.idempotencyToken(), loRaWAN: LoRaWANDeviceProfile? = nil, name: String? = nil, tags: [Tag]? = nil) {
@@ -383,7 +449,7 @@ extension IoTWireless {
         public let loRaWAN: LoRaWANServiceProfile?
         /// The name of the new resource.
         public let name: String?
-        /// The tags to attach to the new service profile. Tags are metadata that can be used to manage a resource.
+        /// The tags to attach to the new service profile. Tags are metadata that you can use to manage a resource.
         public let tags: [Tag]?
 
         public init(clientRequestToken: String? = CreateServiceProfileRequest.idempotencyToken(), loRaWAN: LoRaWANServiceProfile? = nil, name: String? = nil, tags: [Tag]? = nil) {
@@ -441,15 +507,18 @@ extension IoTWireless {
         public let loRaWAN: LoRaWANDevice?
         /// The name of the new resource.
         public let name: String?
+        /// The tags to attach to the new wireless device. Tags are metadata that you can use to manage a resource.
+        public let tags: [Tag]?
         /// The wireless device type.
         public let type: WirelessDeviceType
 
-        public init(clientRequestToken: String? = CreateWirelessDeviceRequest.idempotencyToken(), description: String? = nil, destinationName: String, loRaWAN: LoRaWANDevice? = nil, name: String? = nil, type: WirelessDeviceType) {
+        public init(clientRequestToken: String? = CreateWirelessDeviceRequest.idempotencyToken(), description: String? = nil, destinationName: String, loRaWAN: LoRaWANDevice? = nil, name: String? = nil, tags: [Tag]? = nil, type: WirelessDeviceType) {
             self.clientRequestToken = clientRequestToken
             self.description = description
             self.destinationName = destinationName
             self.loRaWAN = loRaWAN
             self.name = name
+            self.tags = tags
             self.type = type
         }
 
@@ -462,6 +531,11 @@ extension IoTWireless {
             try self.validate(self.destinationName, name: "destinationName", parent: name, pattern: "[a-zA-Z0-9-_]+")
             try self.loRaWAN?.validate(name: "\(name).loRaWAN")
             try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -470,6 +544,7 @@ extension IoTWireless {
             case destinationName = "DestinationName"
             case loRaWAN = "LoRaWAN"
             case name = "Name"
+            case tags = "Tags"
             case type = "Type"
         }
     }
@@ -500,7 +575,7 @@ extension IoTWireless {
         public let loRaWAN: LoRaWANGateway
         /// The name of the new resource.
         public let name: String?
-        /// The tags to attach to the new wireless gateway. Tags are metadata that can be used to manage a resource.
+        /// The tags to attach to the new wireless gateway. Tags are metadata that you can use to manage a resource.
         public let tags: [Tag]?
 
         public init(clientRequestToken: String? = CreateWirelessGatewayRequest.idempotencyToken(), description: String? = nil, loRaWAN: LoRaWANGateway, name: String? = nil, tags: [Tag]? = nil) {
@@ -558,13 +633,16 @@ extension IoTWireless {
         public let clientRequestToken: String?
         /// The name of the new resource.
         public let name: String?
+        /// The tags to attach to the specified resource. Tags are metadata that you can use to manage a resource.
+        public let tags: [Tag]?
         /// Information about the gateways to update.
         public let update: UpdateWirelessGatewayTaskCreate?
 
-        public init(autoCreateTasks: Bool, clientRequestToken: String? = CreateWirelessGatewayTaskDefinitionRequest.idempotencyToken(), name: String? = nil, update: UpdateWirelessGatewayTaskCreate? = nil) {
+        public init(autoCreateTasks: Bool, clientRequestToken: String? = CreateWirelessGatewayTaskDefinitionRequest.idempotencyToken(), name: String? = nil, tags: [Tag]? = nil, update: UpdateWirelessGatewayTaskCreate? = nil) {
             self.autoCreateTasks = autoCreateTasks
             self.clientRequestToken = clientRequestToken
             self.name = name
+            self.tags = tags
             self.update = update
         }
 
@@ -574,6 +652,11 @@ extension IoTWireless {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
             try self.validate(self.name, name: "name", parent: name, max: 2048)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
             try self.update?.validate(name: "\(name).update")
         }
 
@@ -581,19 +664,24 @@ extension IoTWireless {
             case autoCreateTasks = "AutoCreateTasks"
             case clientRequestToken = "ClientRequestToken"
             case name = "Name"
+            case tags = "Tags"
             case update = "Update"
         }
     }
 
     public struct CreateWirelessGatewayTaskDefinitionResponse: AWSDecodableShape {
+        /// The Amazon Resource Name of the resource.
+        public let arn: String?
         /// The ID of the new wireless gateway task definition.
         public let id: String?
 
-        public init(id: String? = nil) {
+        public init(arn: String? = nil, id: String? = nil) {
+            self.arn = arn
             self.id = id
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
             case id = "Id"
         }
     }
@@ -1207,6 +1295,8 @@ extension IoTWireless {
         public let loRaWAN: LoRaWANDevice?
         /// The name of the resource.
         public let name: String?
+        /// Sidewalk device object.
+        public let sidewalk: SidewalkDevice?
         /// The ARN of the thing associated with the wireless device.
         public let thingArn: String?
         /// The name of the thing associated with the wireless device. The value is empty if a thing isn't associated with the device.
@@ -1214,13 +1304,14 @@ extension IoTWireless {
         /// The wireless device type.
         public let type: WirelessDeviceType?
 
-        public init(arn: String? = nil, description: String? = nil, destinationName: String? = nil, id: String? = nil, loRaWAN: LoRaWANDevice? = nil, name: String? = nil, thingArn: String? = nil, thingName: String? = nil, type: WirelessDeviceType? = nil) {
+        public init(arn: String? = nil, description: String? = nil, destinationName: String? = nil, id: String? = nil, loRaWAN: LoRaWANDevice? = nil, name: String? = nil, sidewalk: SidewalkDevice? = nil, thingArn: String? = nil, thingName: String? = nil, type: WirelessDeviceType? = nil) {
             self.arn = arn
             self.description = description
             self.destinationName = destinationName
             self.id = id
             self.loRaWAN = loRaWAN
             self.name = name
+            self.sidewalk = sidewalk
             self.thingArn = thingArn
             self.thingName = thingName
             self.type = type
@@ -1233,6 +1324,7 @@ extension IoTWireless {
             case id = "Id"
             case loRaWAN = "LoRaWAN"
             case name = "Name"
+            case sidewalk = "Sidewalk"
             case thingArn = "ThingArn"
             case thingName = "ThingName"
             case type = "Type"
@@ -1263,18 +1355,22 @@ extension IoTWireless {
         public let lastUplinkReceivedAt: String?
         /// Information about the wireless device's operations.
         public let loRaWAN: LoRaWANDeviceMetadata?
+        /// MetaData for Sidewalk device.
+        public let sidewalk: SidewalkDeviceMetadata?
         /// The ID of the wireless device.
         public let wirelessDeviceId: String?
 
-        public init(lastUplinkReceivedAt: String? = nil, loRaWAN: LoRaWANDeviceMetadata? = nil, wirelessDeviceId: String? = nil) {
+        public init(lastUplinkReceivedAt: String? = nil, loRaWAN: LoRaWANDeviceMetadata? = nil, sidewalk: SidewalkDeviceMetadata? = nil, wirelessDeviceId: String? = nil) {
             self.lastUplinkReceivedAt = lastUplinkReceivedAt
             self.loRaWAN = loRaWAN
+            self.sidewalk = sidewalk
             self.wirelessDeviceId = wirelessDeviceId
         }
 
         private enum CodingKeys: String, CodingKey {
             case lastUplinkReceivedAt = "LastUplinkReceivedAt"
             case loRaWAN = "LoRaWAN"
+            case sidewalk = "Sidewalk"
             case wirelessDeviceId = "WirelessDeviceId"
         }
     }
@@ -1301,7 +1397,7 @@ extension IoTWireless {
     public struct GetWirelessGatewayCertificateResponse: AWSDecodableShape {
         /// The ID of the certificate associated with the wireless gateway.
         public let iotCertificateId: String?
-        /// The ID of the certificate associated with the wireless gateway and used for LoRaWANNetworkServer endpoint.
+        /// The ID of the certificate that is associated with the wireless gateway and used for the LoRaWANNetworkServer endpoint.
         public let loRaWANNetworkServerCertificateId: String?
 
         public init(iotCertificateId: String? = nil, loRaWANNetworkServerCertificateId: String? = nil) {
@@ -1427,17 +1523,21 @@ extension IoTWireless {
     }
 
     public struct GetWirelessGatewayStatisticsResponse: AWSDecodableShape {
+        /// The connection status of the wireless gateway.
+        public let connectionStatus: ConnectionStatus?
         /// The date and time when the most recent uplink was received.
         public let lastUplinkReceivedAt: String?
         /// The ID of the wireless gateway.
         public let wirelessGatewayId: String?
 
-        public init(lastUplinkReceivedAt: String? = nil, wirelessGatewayId: String? = nil) {
+        public init(connectionStatus: ConnectionStatus? = nil, lastUplinkReceivedAt: String? = nil, wirelessGatewayId: String? = nil) {
+            self.connectionStatus = connectionStatus
             self.lastUplinkReceivedAt = lastUplinkReceivedAt
             self.wirelessGatewayId = wirelessGatewayId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case connectionStatus = "ConnectionStatus"
             case lastUplinkReceivedAt = "LastUplinkReceivedAt"
             case wirelessGatewayId = "WirelessGatewayId"
         }
@@ -1464,6 +1564,8 @@ extension IoTWireless {
     }
 
     public struct GetWirelessGatewayTaskDefinitionResponse: AWSDecodableShape {
+        /// The Amazon Resource Name of the resource.
+        public let arn: String?
         /// Whether to automatically create tasks using this task definition for all gateways with the specified current version. If false, the task must me created by calling CreateWirelessGatewayTask.
         public let autoCreateTasks: Bool?
         /// The name of the resource.
@@ -1471,13 +1573,15 @@ extension IoTWireless {
         /// Information about the gateways to update.
         public let update: UpdateWirelessGatewayTaskCreate?
 
-        public init(autoCreateTasks: Bool? = nil, name: String? = nil, update: UpdateWirelessGatewayTaskCreate? = nil) {
+        public init(arn: String? = nil, autoCreateTasks: Bool? = nil, name: String? = nil, update: UpdateWirelessGatewayTaskCreate? = nil) {
+            self.arn = arn
             self.autoCreateTasks = autoCreateTasks
             self.name = name
             self.update = update
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
             case autoCreateTasks = "AutoCreateTasks"
             case name = "Name"
             case update = "Update"
@@ -1705,7 +1809,7 @@ extension IoTWireless {
             AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
         ]
 
-        /// The ARN of the resource for which to list tags.
+        /// The ARN of the resource for which you want to list tags.
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -1721,7 +1825,7 @@ extension IoTWireless {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
-        /// The tags attached to the specified resource. Tags are metadata that can be used to manage a resource
+        /// The tags to attach to the specified resource. Tags are metadata that you can use to manage a resource.
         public let tags: [Tag]?
 
         public init(tags: [Tag]? = nil) {
@@ -2571,30 +2675,92 @@ extension IoTWireless {
     public struct SidewalkAccountInfoWithFingerprint: AWSDecodableShape {
         /// The Sidewalk Amazon ID.
         public let amazonId: String?
+        /// The Amazon Resource Name of the resource.
+        public let arn: String?
         /// The fingerprint of the Sidewalk application server private key.
         public let fingerprint: String?
 
-        public init(amazonId: String? = nil, fingerprint: String? = nil) {
+        public init(amazonId: String? = nil, arn: String? = nil, fingerprint: String? = nil) {
             self.amazonId = amazonId
+            self.arn = arn
             self.fingerprint = fingerprint
         }
 
         private enum CodingKeys: String, CodingKey {
             case amazonId = "AmazonId"
+            case arn = "Arn"
             case fingerprint = "Fingerprint"
+        }
+    }
+
+    public struct SidewalkDevice: AWSDecodableShape {
+        /// The sidewalk device certificates for Ed25519 and P256r1.
+        public let deviceCertificates: [CertificateList]?
+        /// The sidewalk device identification.
+        public let sidewalkId: String?
+        /// The Sidewalk manufacturing series number.
+        public let sidewalkManufacturingSn: String?
+
+        public init(deviceCertificates: [CertificateList]? = nil, sidewalkId: String? = nil, sidewalkManufacturingSn: String? = nil) {
+            self.deviceCertificates = deviceCertificates
+            self.sidewalkId = sidewalkId
+            self.sidewalkManufacturingSn = sidewalkManufacturingSn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceCertificates = "DeviceCertificates"
+            case sidewalkId = "SidewalkId"
+            case sidewalkManufacturingSn = "SidewalkManufacturingSn"
+        }
+    }
+
+    public struct SidewalkDeviceMetadata: AWSDecodableShape {
+        /// Sidewalk device battery level.
+        public let batteryLevel: BatteryLevel?
+        /// Device state defines the device status of sidewalk device.
+        public let deviceState: DeviceState?
+        /// Sidewalk device status notification.
+        public let event: Event?
+        /// The RSSI value.
+        public let rssi: Int?
+
+        public init(batteryLevel: BatteryLevel? = nil, deviceState: DeviceState? = nil, event: Event? = nil, rssi: Int? = nil) {
+            self.batteryLevel = batteryLevel
+            self.deviceState = deviceState
+            self.event = event
+            self.rssi = rssi
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case batteryLevel = "BatteryLevel"
+            case deviceState = "DeviceState"
+            case event = "Event"
+            case rssi = "Rssi"
         }
     }
 
     public struct SidewalkListDevice: AWSDecodableShape {
         /// The Sidewalk Amazon ID.
         public let amazonId: String?
+        /// The sidewalk device certificates for Ed25519 and P256r1.
+        public let deviceCertificates: [CertificateList]?
+        /// The sidewalk device identification.
+        public let sidewalkId: String?
+        /// The Sidewalk manufacturing series number.
+        public let sidewalkManufacturingSn: String?
 
-        public init(amazonId: String? = nil) {
+        public init(amazonId: String? = nil, deviceCertificates: [CertificateList]? = nil, sidewalkId: String? = nil, sidewalkManufacturingSn: String? = nil) {
             self.amazonId = amazonId
+            self.deviceCertificates = deviceCertificates
+            self.sidewalkId = sidewalkId
+            self.sidewalkManufacturingSn = sidewalkManufacturingSn
         }
 
         private enum CodingKeys: String, CodingKey {
             case amazonId = "AmazonId"
+            case deviceCertificates = "DeviceCertificates"
+            case sidewalkId = "SidewalkId"
+            case sidewalkManufacturingSn = "SidewalkManufacturingSn"
         }
     }
 
@@ -2607,6 +2773,7 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.seq, name: "seq", parent: name, max: 16383)
             try self.validate(self.seq, name: "seq", parent: name, min: 0)
         }
 
@@ -2665,7 +2832,7 @@ extension IoTWireless {
 
         /// The ARN of the resource to add tags to.
         public let resourceArn: String
-        /// Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource.
+        /// Adds to or modifies the tags of the given resource. Tags are metadata that you can use to manage a resource.
         public let tags: [Tag]
 
         public init(resourceArn: String, tags: [Tag]) {
@@ -2945,17 +3112,21 @@ extension IoTWireless {
     }
 
     public struct UpdateWirelessGatewayTaskEntry: AWSDecodableShape {
+        /// The Amazon Resource Name of the resource.
+        public let arn: String?
         /// The ID of the new wireless gateway task entry.
         public let id: String?
         /// The properties that relate to the LoRaWAN wireless gateway.
         public let loRaWAN: LoRaWANUpdateGatewayTaskEntry?
 
-        public init(id: String? = nil, loRaWAN: LoRaWANUpdateGatewayTaskEntry? = nil) {
+        public init(arn: String? = nil, id: String? = nil, loRaWAN: LoRaWANUpdateGatewayTaskEntry? = nil) {
+            self.arn = arn
             self.id = id
             self.loRaWAN = loRaWAN
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
             case id = "Id"
             case loRaWAN = "LoRaWAN"
         }

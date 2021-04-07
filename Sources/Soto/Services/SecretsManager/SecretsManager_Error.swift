@@ -65,11 +65,11 @@ public struct SecretsManagerErrorType: AWSErrorType {
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
     /// The request failed because it would exceed one of the Secrets Manager internal limits.
     public static var limitExceededException: Self { .init(.limitExceededException) }
-    /// The policy document that you provided isn't valid.
+    /// You provided a resource-based policy with syntax errors.
     public static var malformedPolicyDocumentException: Self { .init(.malformedPolicyDocumentException) }
     /// The request failed because you did not complete all the prerequisite steps.
     public static var preconditionNotMetException: Self { .init(.preconditionNotMetException) }
-    /// The resource policy did not prevent broad access to the secret.
+    /// The BlockPublicPolicy parameter is set to true and the resource policy did not prevent broad access to the secret.
     public static var publicPolicyException: Self { .init(.publicPolicyException) }
     /// A resource with the ID you requested already exists.
     public static var resourceExistsException: Self { .init(.resourceExistsException) }

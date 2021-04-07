@@ -62,7 +62,7 @@ public struct LocationService: AWSService {
 
     // MARK: API Calls
 
-    /// Creates an association between a geofence collection and a tracker resource. This allows the tracker resource to communicate location data to the linked geofence collection.
+    /// Creates an association between a geofence collection and a tracker resource. This allows the tracker resource to communicate location data to the linked geofence collection.  Currently not supported — Cross-account configurations, such as creating associations between a tracker resource in one account and a geofence collection in another account.
     public func associateTrackerConsumer(_ input: AssociateTrackerConsumerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateTrackerConsumerResponse> {
         return self.client.execute(operation: "AssociateTrackerConsumer", path: "/tracking/v0/trackers/{TrackerName}/consumers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -72,22 +72,22 @@ public struct LocationService: AWSService {
         return self.client.execute(operation: "BatchDeleteGeofence", path: "/geofencing/v0/collections/{CollectionName}/delete-geofences", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Used in geofence monitoring. Evaluates device positions against the position of geofences in a given geofence collection.
+    /// Evaluates device positions against the geofence geometries from a given geofence collection. The evaluation determines if the device has entered or exited a geofenced area, which publishes ENTER or EXIT geofence events to Amazon EventBridge.  The last geofence that a device was observed within, if any, is tracked for 30 days after the most recent device position update
     public func batchEvaluateGeofences(_ input: BatchEvaluateGeofencesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchEvaluateGeofencesResponse> {
         return self.client.execute(operation: "BatchEvaluateGeofences", path: "/geofencing/v0/collections/{CollectionName}/positions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// A batch request to retrieve device positions.  The response will return the device positions from the last 24 hours.
+    /// A batch request to retrieve all device positions.
     public func batchGetDevicePosition(_ input: BatchGetDevicePositionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetDevicePositionResponse> {
         return self.client.execute(operation: "BatchGetDevicePosition", path: "/tracking/v0/trackers/{TrackerName}/get-positions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// A batch request for storing geofences into a given geofence collection.
+    /// A batch request for storing geofence geometries into a given geofence collection.
     public func batchPutGeofence(_ input: BatchPutGeofenceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchPutGeofenceResponse> {
         return self.client.execute(operation: "BatchPutGeofence", path: "/geofencing/v0/collections/{CollectionName}/put-geofences", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Uploads a position update for one or more devices to a tracker resource. The data is used for API queries requesting the device position and position history.  Limitation — Location data is sampled at a fixed rate of 1 position per 30 second interval, and retained for 1 year before it is deleted.
+    /// Uploads position update data for one or more devices to a tracker resource. Amazon Location uses the data when reporting the last known device position and position history.  Only one position update is stored per sample time. Location data is sampled at a fixed rate of one position per 30-second interval, and retained for one year before it is deleted.
     public func batchUpdateDevicePosition(_ input: BatchUpdateDevicePositionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchUpdateDevicePositionResponse> {
         return self.client.execute(operation: "BatchUpdateDevicePosition", path: "/tracking/v0/trackers/{TrackerName}/positions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -152,17 +152,17 @@ public struct LocationService: AWSService {
         return self.client.execute(operation: "DescribeTracker", path: "/tracking/v0/trackers/{TrackerName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Removes the association bewteen a tracker resource and a geofence collection.  Once you unlink a tracker resource from a geofence collection, the tracker positions will no longer be automatically evaluated against geofences.
+    /// Removes the association between a tracker resource and a geofence collection.  Once you unlink a tracker resource from a geofence collection, the tracker positions will no longer be automatically evaluated against geofences.
     public func disassociateTrackerConsumer(_ input: DisassociateTrackerConsumerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateTrackerConsumerResponse> {
         return self.client.execute(operation: "DisassociateTrackerConsumer", path: "/tracking/v0/trackers/{TrackerName}/consumers/{ConsumerArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves the latest device position.  Limitation — Device positions are deleted after one year.
+    /// Retrieves a device's most recent position according to its sample time.  Device positions are deleted after one year.
     public func getDevicePosition(_ input: GetDevicePositionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDevicePositionResponse> {
         return self.client.execute(operation: "GetDevicePosition", path: "/tracking/v0/trackers/{TrackerName}/devices/{DeviceId}/positions/latest", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves the device position history from a tracker resource within a specified range of time.  Limitation — Device positions are deleted after one year.
+    /// Retrieves the device position history from a tracker resource within a specified range of time.  Device positions are deleted after 1 year.
     public func getDevicePositionHistory(_ input: GetDevicePositionHistoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDevicePositionHistoryResponse> {
         return self.client.execute(operation: "GetDevicePositionHistory", path: "/tracking/v0/trackers/{TrackerName}/devices/{DeviceId}/list-positions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -222,7 +222,7 @@ public struct LocationService: AWSService {
         return self.client.execute(operation: "ListTrackers", path: "/tracking/v0/list-trackers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Stores a geofence to a given geofence collection, or updates the geometry of an existing geofence if a geofence ID is included in the request.
+    /// Stores a geofence geometry in a given geofence collection, or updates the geometry of an existing geofence if a geofence ID is included in the request.
     public func putGeofence(_ input: PutGeofenceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutGeofenceResponse> {
         return self.client.execute(operation: "PutGeofence", path: "/geofencing/v0/collections/{CollectionName}/geofences/{GeofenceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

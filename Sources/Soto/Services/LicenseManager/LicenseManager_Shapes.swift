@@ -2492,9 +2492,9 @@ extension LicenseManager {
         /// Filter name.
         public let productInformationFilterName: String
         /// Filter value.
-        public let productInformationFilterValue: [String]
+        public let productInformationFilterValue: [String]?
 
-        public init(productInformationFilterComparator: String, productInformationFilterName: String, productInformationFilterValue: [String]) {
+        public init(productInformationFilterComparator: String, productInformationFilterName: String, productInformationFilterValue: [String]? = nil) {
             self.productInformationFilterComparator = productInformationFilterComparator
             self.productInformationFilterName = productInformationFilterName
             self.productInformationFilterValue = productInformationFilterValue

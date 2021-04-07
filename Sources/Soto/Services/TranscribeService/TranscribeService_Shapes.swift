@@ -27,7 +27,11 @@ extension TranscribeService {
     }
 
     public enum CLMLanguageCode: String, CustomStringConvertible, Codable {
+        case enAu = "en-AU"
+        case enGb = "en-GB"
         case enUs = "en-US"
+        case esUs = "es-US"
+        case hiIn = "hi-IN"
         public var description: String { return self.rawValue }
     }
 
@@ -128,6 +132,7 @@ extension TranscribeService {
     public enum VocabularyFilterMethod: String, CustomStringConvertible, Codable {
         case mask
         case remove
+        case tag
         public var description: String { return self.rawValue }
     }
 
@@ -1406,7 +1411,7 @@ extension TranscribeService {
         public let showAlternatives: Bool?
         /// Determines whether the transcription job uses speaker recognition to identify different speakers in the input audio. Speaker recognition labels individual speakers in the audio file. If you set the ShowSpeakerLabels field to true, you must also set the maximum number of speaker labels MaxSpeakerLabels field. You can't set both ShowSpeakerLabels and ChannelIdentification in the same request. If you set both, your request returns a BadRequestException.
         public let showSpeakerLabels: Bool?
-        /// Set to mask to remove filtered text from the transcript and replace it with three asterisks ("***") as placeholder text. Set to remove to remove filtered text from the transcript without using placeholder text.
+        /// Set to mask to remove filtered text from the transcript and replace it with three asterisks ("***") as placeholder text. Set to remove to remove filtered text from the transcript without using placeholder text. Set to tag to mark the word in the transcription output that matches the vocabulary filter. When you set the filter method to tag, the words matching your vocabulary filter are not masked or removed.
         public let vocabularyFilterMethod: VocabularyFilterMethod?
         /// The name of the vocabulary filter to use when transcribing the audio. The filter that you specify must have the same language code as the transcription job.
         public let vocabularyFilterName: String?

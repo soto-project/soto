@@ -175,6 +175,7 @@ extension Pinpoint {
         case closed = "CLOSED"
         case completed = "COMPLETED"
         case draft = "DRAFT"
+        case paused = "PAUSED"
         public var description: String { return self.rawValue }
     }
 
@@ -6271,18 +6272,21 @@ extension Pinpoint {
         public let dailyCap: Int?
         /// The maximum number of times that a participant can enter the journey. The maximum value is 100. To allow participants to enter the journey an unlimited number of times, set this value to 0.
         public let endpointReentryCap: Int?
+        public let endpointReentryInterval: String?
         /// The maximum number of messages that the journey can send each second.
         public let messagesPerSecond: Int?
 
-        public init(dailyCap: Int? = nil, endpointReentryCap: Int? = nil, messagesPerSecond: Int? = nil) {
+        public init(dailyCap: Int? = nil, endpointReentryCap: Int? = nil, endpointReentryInterval: String? = nil, messagesPerSecond: Int? = nil) {
             self.dailyCap = dailyCap
             self.endpointReentryCap = endpointReentryCap
+            self.endpointReentryInterval = endpointReentryInterval
             self.messagesPerSecond = messagesPerSecond
         }
 
         private enum CodingKeys: String, CodingKey {
             case dailyCap = "DailyCap"
             case endpointReentryCap = "EndpointReentryCap"
+            case endpointReentryInterval = "EndpointReentryInterval"
             case messagesPerSecond = "MessagesPerSecond"
         }
     }
@@ -6327,7 +6331,7 @@ extension Pinpoint {
         public let startActivity: String?
         /// The segment that defines which users are participants in the journey.
         public let startCondition: StartCondition?
-        /// The current status of the journey. Possible values are: DRAFT - The journey is being developed and hasn't been published yet. ACTIVE - The journey has been developed and published. Depending on the journey's schedule, the journey may currently be running or scheduled to start running at a later time. If a journey's status is ACTIVE, you can't add, change, or remove activities from it. COMPLETED - The journey has been published and has finished running. All participants have entered the journey and no participants are waiting to complete the journey or any activities in the journey. CANCELLED - The journey has been stopped. If a journey's status is CANCELLED, you can't add, change, or remove activities or segment settings from the journey. CLOSED - The journey has been published and has started running. It may have also passed its scheduled end time, or passed its scheduled start time and a refresh frequency hasn't been specified for it. If a journey's status is CLOSED, you can't add participants to it, and no existing participants can enter the journey for the first time. However, any existing participants who are currently waiting to start an activity may continue the journey.
+        /// The current status of the journey. Possible values are: DRAFT - The journey is being developed and hasn't been published yet. ACTIVE - The journey has been developed and published. Depending on the journey's schedule, the journey may currently be running or scheduled to start running at a later time. If a journey's status is ACTIVE, you can't add, change, or remove activities from it. PAUSED - The journey has been paused. Amazon Pinpoint continues to perform activities that are currently in progress, until those activities are complete.  COMPLETED - The journey has been published and has finished running. All participants have entered the journey and no participants are waiting to complete the journey or any activities in the journey. CANCELLED - The journey has been stopped. If a journey's status is CANCELLED, you can't add, change, or remove activities or segment settings from the journey. CLOSED - The journey has been published and has started running. It may have also passed its scheduled end time, or passed its scheduled start time and a refresh frequency hasn't been specified for it. If a journey's status is CLOSED, you can't add participants to it, and no existing participants can enter the journey for the first time. However, any existing participants who are currently waiting to start an activity may continue the journey.
         public let state: State?
         /// This object is not used or supported.
         public let tags: [String: String]?
@@ -6427,7 +6431,7 @@ extension Pinpoint {
     }
 
     public struct JourneyStateRequest: AWSEncodableShape {
-        /// The status of the journey. Currently, the only supported value is CANCELLED. If you cancel a journey, Amazon Pinpoint continues to perform activities that are currently in progress, until those activities are complete. Amazon Pinpoint also continues to collect and aggregate analytics data for those activities, until they are complete, and any activities that were complete when you cancelled the journey. After you cancel a journey, you can't add, change, or remove any activities from the journey. In addition, Amazon Pinpoint stops evaluating the journey and doesn't perform any activities that haven't started.
+        /// The status of the journey. Currently, Supported values are ACTIVE, PAUSED, and CANCELLED If you cancel a journey, Amazon Pinpoint continues to perform activities that are currently in progress, until those activities are complete. Amazon Pinpoint also continues to collect and aggregate analytics data for those activities, until they are complete, and any activities that were complete when you cancelled the journey. After you cancel a journey, you can't add, change, or remove any activities from the journey. In addition, Amazon Pinpoint stops evaluating the journey and doesn't perform any activities that haven't started. When the journey is paused, Amazon Pinpoint continues to perform activities that are currently in progress, until those activities are complete. Endpoints will stop entering journeys when the journey is paused and will resume entering the journey after the journey is resumed. For wait activities, wait time is paused when the journey is paused. Currently, PAUSED only supports journeys with a segment refresh interval.
         public let state: State?
 
         public init(state: State? = nil) {
@@ -9907,16 +9911,18 @@ extension Pinpoint {
         public let quietTime: QuietTime?
         /// The frequency with which Amazon Pinpoint evaluates segment and event data for the journey, as a duration in ISO 8601 format.
         public let refreshFrequency: String?
+        public let refreshOnSegmentUpdate: Bool?
         /// The schedule settings for the journey.
         public let schedule: JourneySchedule?
         /// The unique identifier for the first activity in the journey. The identifier for this activity can contain a maximum of 128 characters. The characters must be alphanumeric characters.
         public let startActivity: String?
         /// The segment that defines which users are participants in the journey.
         public let startCondition: StartCondition?
-        /// The status of the journey. Valid values are: DRAFT - Saves the journey and doesn't publish it. ACTIVE - Saves and publishes the journey. Depending on the journey's schedule, the journey starts running immediately or at the scheduled start time. If a journey's status is ACTIVE, you can't add, change, or remove activities from it. The CANCELLED, COMPLETED, and CLOSED values are not supported in requests to create or update a journey. To cancel a journey, use the Journey State resource.
+        /// The status of the journey. Valid values are: DRAFT - Saves the journey and doesn't publish it. ACTIVE - Saves and publishes the journey. Depending on the journey's schedule, the journey starts running immediately or at the scheduled start time. If a journey's status is ACTIVE, you can't add, change, or remove activities from it. PAUSED, CANCELLED, COMPLETED, and CLOSED states are not supported in requests to create or update a journey. To cancel, pause, or resume a journey, use the Journey State resource.
         public let state: State?
+        public let waitForQuietTime: Bool?
 
-        public init(activities: [String: Activity]? = nil, creationDate: String? = nil, lastModifiedDate: String? = nil, limits: JourneyLimits? = nil, localTime: Bool? = nil, name: String, quietTime: QuietTime? = nil, refreshFrequency: String? = nil, schedule: JourneySchedule? = nil, startActivity: String? = nil, startCondition: StartCondition? = nil, state: State? = nil) {
+        public init(activities: [String: Activity]? = nil, creationDate: String? = nil, lastModifiedDate: String? = nil, limits: JourneyLimits? = nil, localTime: Bool? = nil, name: String, quietTime: QuietTime? = nil, refreshFrequency: String? = nil, refreshOnSegmentUpdate: Bool? = nil, schedule: JourneySchedule? = nil, startActivity: String? = nil, startCondition: StartCondition? = nil, state: State? = nil, waitForQuietTime: Bool? = nil) {
             self.activities = activities
             self.creationDate = creationDate
             self.lastModifiedDate = lastModifiedDate
@@ -9925,10 +9931,12 @@ extension Pinpoint {
             self.name = name
             self.quietTime = quietTime
             self.refreshFrequency = refreshFrequency
+            self.refreshOnSegmentUpdate = refreshOnSegmentUpdate
             self.schedule = schedule
             self.startActivity = startActivity
             self.startCondition = startCondition
             self.state = state
+            self.waitForQuietTime = waitForQuietTime
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9940,10 +9948,12 @@ extension Pinpoint {
             case name = "Name"
             case quietTime = "QuietTime"
             case refreshFrequency = "RefreshFrequency"
+            case refreshOnSegmentUpdate = "RefreshOnSegmentUpdate"
             case schedule = "Schedule"
             case startActivity = "StartActivity"
             case startCondition = "StartCondition"
             case state = "State"
+            case waitForQuietTime = "WaitForQuietTime"
         }
     }
 

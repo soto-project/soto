@@ -19,6 +19,8 @@ import SotoCore
 /// Error enum for ACM
 public struct ACMErrorType: AWSErrorType {
     enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
+        case conflictException = "ConflictException"
         case invalidArgsException = "InvalidArgsException"
         case invalidArnException = "InvalidArnException"
         case invalidDomainValidationOptionsException = "InvalidDomainValidationOptionsException"
@@ -30,7 +32,9 @@ public struct ACMErrorType: AWSErrorType {
         case resourceInUseException = "ResourceInUseException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case tagPolicyException = "TagPolicyException"
+        case throttlingException = "ThrottlingException"
         case tooManyTagsException = "TooManyTagsException"
+        case validationException = "ValidationException"
     }
 
     private let error: Code
@@ -51,6 +55,10 @@ public struct ACMErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// You do not have access required to perform this action.
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// You are trying to update a resource or configuration that is already being created or updated. Wait for the previous operation to finish and try again.
+    public static var conflictException: Self { .init(.conflictException) }
     /// One or more of of request parameters specified is not valid.
     public static var invalidArgsException: Self { .init(.invalidArgsException) }
     /// The requested Amazon Resource Name (ARN) does not refer to an existing resource.
@@ -73,8 +81,12 @@ public struct ACMErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// A specified tag did not comply with an existing tag policy and was rejected.
     public static var tagPolicyException: Self { .init(.tagPolicyException) }
+    /// The request was denied because it exceeded a quota.
+    public static var throttlingException: Self { .init(.throttlingException) }
     /// The request contains too many tags. Try the request again with fewer tags.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
+    /// The supplied input failed to satisfy constraints of an AWS service.
+    public static var validationException: Self { .init(.validationException) }
 }
 
 extension ACMErrorType: Equatable {

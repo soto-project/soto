@@ -22,6 +22,7 @@ public struct EFSErrorType: AWSErrorType {
         case accessPointAlreadyExists = "AccessPointAlreadyExists"
         case accessPointLimitExceeded = "AccessPointLimitExceeded"
         case accessPointNotFound = "AccessPointNotFound"
+        case availabilityZonesMismatch = "AvailabilityZonesMismatch"
         case badRequest = "BadRequest"
         case dependencyTimeout = "DependencyTimeout"
         case fileSystemAlreadyExists = "FileSystemAlreadyExists"
@@ -72,6 +73,8 @@ public struct EFSErrorType: AWSErrorType {
     public static var accessPointLimitExceeded: Self { .init(.accessPointLimitExceeded) }
     /// Returned if the specified AccessPointId value doesn't exist in the requester's AWS account.
     public static var accessPointNotFound: Self { .init(.accessPointNotFound) }
+    /// Returned if the Availability Zone that was specified for a mount target is different from the Availability Zone that was specified for One Zone storage classes. For more information, see Regional and One Zone storage redundancy.
+    public static var availabilityZonesMismatch: Self { .init(.availabilityZonesMismatch) }
     /// Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
     public static var badRequest: Self { .init(.badRequest) }
     /// The service timed out trying to fulfill the request, and the client should try the call again.
@@ -88,7 +91,7 @@ public struct EFSErrorType: AWSErrorType {
     public static var incorrectFileSystemLifeCycleState: Self { .init(.incorrectFileSystemLifeCycleState) }
     /// Returned if the mount target is not in the correct state for the operation.
     public static var incorrectMountTargetState: Self { .init(.incorrectMountTargetState) }
-    /// Returned if there's not enough capacity to provision additional throughput. This value might be returned when you try to create a file system in provisioned throughput mode, when you attempt to increase the provisioned throughput of an existing file system, or when you attempt to change an existing file system from bursting to provisioned throughput mode.
+    /// Returned if there's not enough capacity to provision additional throughput. This value might be returned when you try to create a file system in provisioned throughput mode, when you attempt to increase the provisioned throughput of an existing file system, or when you attempt to change an existing file system from bursting to provisioned throughput mode. Try again later.
     public static var insufficientThroughputCapacity: Self { .init(.insufficientThroughputCapacity) }
     /// Returned if an error occurred on the server side.
     public static var internalServerError: Self { .init(.internalServerError) }
@@ -116,8 +119,9 @@ public struct EFSErrorType: AWSErrorType {
     public static var throughputLimitExceeded: Self { .init(.throughputLimitExceeded) }
     /// Returned if you don’t wait at least 24 hours before changing the throughput mode, or decreasing the Provisioned Throughput value.
     public static var tooManyRequests: Self { .init(.tooManyRequests) }
+    /// Returned if the requested Amazon EFS functionality is not available in the specified Availability Zone.
     public static var unsupportedAvailabilityZone: Self { .init(.unsupportedAvailabilityZone) }
-    /// Returned if the AWS Backup service is not available in the region that the request was made.
+    /// Returned if the AWS Backup service is not available in the Region in which the request was made.
     public static var validationException: Self { .init(.validationException) }
 }
 

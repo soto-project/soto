@@ -2669,6 +2669,59 @@ extension EC2 {
         )
     }
 
+    ///  Describes a root volume replacement task. For more information, see Replace a root volume in the Amazon Elastic Compute Cloud User Guide.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeReplaceRootVolumeTasksPaginator<Result>(
+        _ input: DescribeReplaceRootVolumeTasksRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeReplaceRootVolumeTasksResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeReplaceRootVolumeTasks,
+            inputKey: \DescribeReplaceRootVolumeTasksRequest.nextToken,
+            outputKey: \DescribeReplaceRootVolumeTasksResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeReplaceRootVolumeTasksPaginator(
+        _ input: DescribeReplaceRootVolumeTasksRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeReplaceRootVolumeTasksResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeReplaceRootVolumeTasks,
+            inputKey: \DescribeReplaceRootVolumeTasksRequest.nextToken,
+            outputKey: \DescribeReplaceRootVolumeTasksResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Describes the modifications made to your Reserved Instances. If no parameter is specified, information about all your Reserved Instances modification requests is returned. If a modification ID is specified, only information about the specific modification is returned. For more information, see Modifying Reserved Instances in the Amazon EC2 User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -5707,6 +5760,18 @@ extension EC2.DescribePublicIpv4PoolsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             poolIds: self.poolIds
+        )
+    }
+}
+
+extension EC2.DescribeReplaceRootVolumeTasksRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeReplaceRootVolumeTasksRequest {
+        return .init(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            replaceRootVolumeTaskIds: self.replaceRootVolumeTaskIds
         )
     }
 }

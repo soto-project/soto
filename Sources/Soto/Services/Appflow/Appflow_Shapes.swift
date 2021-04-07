@@ -608,6 +608,7 @@ extension Appflow {
     public struct ConnectorMetadata: AWSDecodableShape {
         ///  The connector metadata specific to Amplitude.
         public let amplitude: AmplitudeMetadata?
+        ///  The connector metadata specific to Amazon Connect Customer Profiles.
         public let customerProfiles: CustomerProfilesMetadata?
         ///  The connector metadata specific to Datadog.
         public let datadog: DatadogMetadata?
@@ -617,6 +618,7 @@ extension Appflow {
         public let eventBridge: EventBridgeMetadata?
         ///  The connector metadata specific to Google Analytics.
         public let googleAnalytics: GoogleAnalyticsMetadata?
+        ///  The connector metadata specific to Amazon Honeycode.
         public let honeycode: HoneycodeMetadata?
         ///  The connector metadata specific to Infor Nexus.
         public let inforNexus: InforNexusMetadata?
@@ -853,6 +855,7 @@ extension Appflow {
         public let dynatrace: DynatraceConnectorProfileCredentials?
         ///  The connector-specific credentials required when using Google Analytics.
         public let googleAnalytics: GoogleAnalyticsConnectorProfileCredentials?
+        ///  The connector-specific credentials required when using Amazon Honeycode.
         public let honeycode: HoneycodeConnectorProfileCredentials?
         ///  The connector-specific credentials required when using Infor Nexus.
         public let inforNexus: InforNexusConnectorProfileCredentials?
@@ -944,6 +947,7 @@ extension Appflow {
         public let dynatrace: DynatraceConnectorProfileProperties?
         ///  The connector-specific properties required Google Analytics.
         public let googleAnalytics: GoogleAnalyticsConnectorProfileProperties?
+        ///  The connector-specific properties required by Amazon Honeycode.
         public let honeycode: HoneycodeConnectorProfileProperties?
         ///  The connector-specific properties required by Infor Nexus.
         public let inforNexus: InforNexusConnectorProfileProperties?
@@ -1156,7 +1160,9 @@ extension Appflow {
     }
 
     public struct CustomerProfilesDestinationProperties: AWSEncodableShape & AWSDecodableShape {
+        ///  The unique name of the Amazon Connect Customer Profiles domain.
         public let domainName: String
+        ///  The object specified in the Amazon Connect Customer Profiles flow destination.
         public let objectTypeName: String?
 
         public init(domainName: String, objectTypeName: String? = nil) {
@@ -1394,7 +1400,7 @@ extension Appflow {
     }
 
     public struct DescribeConnectorsRequest: AWSEncodableShape {
-        ///  The type of connector, such as Salesforce, Amplitude, and so on.    Locke refers to a new destination known as Amazon Connect Customer Profiles. At this time, we recommend that you do not use this destination.
+        ///  The type of connector, such as Salesforce, Amplitude, and so on.
         public let connectorTypes: [ConnectorType]?
         ///  The pagination token for the next page of data.
         public let nextToken: String?
@@ -1573,10 +1579,13 @@ extension Appflow {
     }
 
     public struct DestinationConnectorProperties: AWSEncodableShape & AWSDecodableShape {
+        ///  The properties required to query Amazon Connect Customer Profiles.
         public let customerProfiles: CustomerProfilesDestinationProperties?
         ///  The properties required to query Amazon EventBridge.
         public let eventBridge: EventBridgeDestinationProperties?
+        ///  The properties required to query Amazon Honeycode.
         public let honeycode: HoneycodeDestinationProperties?
+        ///  The properties required to query Amazon Lookout for Metrics.
         public let lookoutMetrics: LookoutMetricsDestinationProperties?
         ///  The properties required to query Amazon Redshift.
         public let redshift: RedshiftDestinationProperties?
@@ -2053,8 +2062,10 @@ extension Appflow {
     }
 
     public struct HoneycodeConnectorProfileCredentials: AWSEncodableShape {
+        ///  The credentials used to access protected Amazon Honeycode resources.
         public let accessToken: String?
         public let oAuthRequest: ConnectorOAuthRequest?
+        ///  The credentials used to acquire new access tokens.
         public let refreshToken: String?
 
         public init(accessToken: String? = nil, oAuthRequest: ConnectorOAuthRequest? = nil, refreshToken: String? = nil) {
@@ -2084,6 +2095,7 @@ extension Appflow {
 
     public struct HoneycodeDestinationProperties: AWSEncodableShape & AWSDecodableShape {
         public let errorHandlingConfig: ErrorHandlingConfig?
+        ///  The object specified in the Amazon Honeycode flow destination.
         public let object: String
 
         public init(errorHandlingConfig: ErrorHandlingConfig? = nil, object: String) {
@@ -2104,6 +2116,7 @@ extension Appflow {
     }
 
     public struct HoneycodeMetadata: AWSDecodableShape {
+        ///  The desired authorization scope for the Amazon Honeycode account.
         public let oAuthScopes: [String]?
 
         public init(oAuthScopes: [String]? = nil) {
@@ -2404,9 +2417,9 @@ extension Appflow {
     }
 
     public struct PrefixConfig: AWSEncodableShape & AWSDecodableShape {
-        ///  Determines the format of the prefix, and whether it applies to the file name, file path, or both.
-        public let prefixFormat: PrefixFormat?
         ///  Determines the level of granularity that's included in the prefix.
+        public let prefixFormat: PrefixFormat?
+        ///  Determines the format of the prefix, and whether it applies to the file name, file path, or both.
         public let prefixType: PrefixType?
 
         public init(prefixFormat: PrefixFormat? = nil, prefixType: PrefixType? = nil) {
@@ -2735,6 +2748,7 @@ extension Appflow {
     public struct ScheduledTriggerProperties: AWSEncodableShape & AWSDecodableShape {
         ///  Specifies whether a scheduled flow has an incremental data transfer or a complete data transfer for each flow run.
         public let dataPullMode: DataPullMode?
+        ///  Specifies the date range for the records to import from the connector in the first flow run.
         public let firstExecutionFrom: Date?
         ///  Specifies the scheduled end time for a schedule-triggered flow.
         public let scheduleEndTime: Date?

@@ -21,7 +21,11 @@ public struct EC2InstanceConnectErrorType: AWSErrorType {
     enum Code: String {
         case authException = "AuthException"
         case eC2InstanceNotFoundException = "EC2InstanceNotFoundException"
+        case eC2InstanceTypeInvalidException = "EC2InstanceTypeInvalidException"
         case invalidArgsException = "InvalidArgsException"
+        case serialConsoleAccessDisabledException = "SerialConsoleAccessDisabledException"
+        case serialConsoleSessionLimitExceededException = "SerialConsoleSessionLimitExceededException"
+        case serialConsoleSessionUnavailableException = "SerialConsoleSessionUnavailableException"
         case serviceException = "ServiceException"
         case throttlingException = "ThrottlingException"
     }
@@ -44,15 +48,23 @@ public struct EC2InstanceConnectErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// Indicates that either your AWS credentials are invalid or you do not have access to the EC2 instance.
+    /// Either your AWS credentials are not valid or you do not have access to the EC2 instance.
     public static var authException: Self { .init(.authException) }
-    /// Indicates that the instance requested was not found in the given zone. Check that you have provided a valid instance ID and the correct zone.
+    /// The specified instance was not found.
     public static var eC2InstanceNotFoundException: Self { .init(.eC2InstanceNotFoundException) }
-    /// Indicates that you provided bad input. Ensure you have a valid instance ID, the correct zone, and a valid SSH public key.
+    /// The instance type is not supported for connecting via the serial console. Only Nitro instance types are currently supported.
+    public static var eC2InstanceTypeInvalidException: Self { .init(.eC2InstanceTypeInvalidException) }
+    /// One of the parameters is not valid.
     public static var invalidArgsException: Self { .init(.invalidArgsException) }
-    /// Indicates that the service encountered an error. Follow the message's instructions and try again.
+    /// Your account is not authorized to use the EC2 Serial Console. To authorize your account, run the EnableSerialConsoleAccess API. For more information, see EnableSerialConsoleAccess in the Amazon EC2 API Reference.
+    public static var serialConsoleAccessDisabledException: Self { .init(.serialConsoleAccessDisabledException) }
+    /// The instance currently has 1 active serial console session. Only 1 session is supported at a time.
+    public static var serialConsoleSessionLimitExceededException: Self { .init(.serialConsoleSessionLimitExceededException) }
+    /// Unable to start a serial console session. Please try again.
+    public static var serialConsoleSessionUnavailableException: Self { .init(.serialConsoleSessionUnavailableException) }
+    /// The service encountered an error. Follow the instructions in the error message and try again.
     public static var serviceException: Self { .init(.serviceException) }
-    /// Indicates you have been making requests too frequently and have been throttled. Wait for a while and try again. If higher call volume is warranted contact AWS Support.
+    /// The requests were made too frequently and have been throttled. Wait a while and try again. To increase the limit on your request frequency, contact AWS Support.
     public static var throttlingException: Self { .init(.throttlingException) }
 }
 

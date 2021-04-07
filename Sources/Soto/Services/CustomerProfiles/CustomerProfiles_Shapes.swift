@@ -20,6 +20,12 @@ import SotoCore
 extension CustomerProfiles {
     // MARK: Enums
 
+    public enum DataPullMode: String, CustomStringConvertible, Codable {
+        case complete = "Complete"
+        case incremental = "Incremental"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FieldContentType: String, CustomStringConvertible, Codable {
         case emailAddress = "EMAIL_ADDRESS"
         case name = "NAME"
@@ -36,10 +42,131 @@ extension CustomerProfiles {
         public var description: String { return self.rawValue }
     }
 
+    public enum MarketoConnectorOperator: String, CustomStringConvertible, Codable {
+        case addition = "ADDITION"
+        case between = "BETWEEN"
+        case division = "DIVISION"
+        case greaterThan = "GREATER_THAN"
+        case lessThan = "LESS_THAN"
+        case maskAll = "MASK_ALL"
+        case maskFirstN = "MASK_FIRST_N"
+        case maskLastN = "MASK_LAST_N"
+        case multiplication = "MULTIPLICATION"
+        case noOp = "NO_OP"
+        case projection = "PROJECTION"
+        case subtraction = "SUBTRACTION"
+        case validateNonNegative = "VALIDATE_NON_NEGATIVE"
+        case validateNonNull = "VALIDATE_NON_NULL"
+        case validateNonZero = "VALIDATE_NON_ZERO"
+        case validateNumeric = "VALIDATE_NUMERIC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OperatorPropertiesKeys: String, CustomStringConvertible, Codable {
+        case concatFormat = "CONCAT_FORMAT"
+        case dataType = "DATA_TYPE"
+        case destinationDataType = "DESTINATION_DATA_TYPE"
+        case lowerBound = "LOWER_BOUND"
+        case maskLength = "MASK_LENGTH"
+        case maskValue = "MASK_VALUE"
+        case mathOperationFieldsOrder = "MATH_OPERATION_FIELDS_ORDER"
+        case sourceDataType = "SOURCE_DATA_TYPE"
+        case subfieldCategoryMap = "SUBFIELD_CATEGORY_MAP"
+        case truncateLength = "TRUNCATE_LENGTH"
+        case upperBound = "UPPER_BOUND"
+        case validationAction = "VALIDATION_ACTION"
+        case value = "VALUE"
+        case values = "VALUES"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PartyType: String, CustomStringConvertible, Codable {
         case business = "BUSINESS"
         case individual = "INDIVIDUAL"
         case other = "OTHER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3ConnectorOperator: String, CustomStringConvertible, Codable {
+        case addition = "ADDITION"
+        case between = "BETWEEN"
+        case division = "DIVISION"
+        case equalTo = "EQUAL_TO"
+        case greaterThan = "GREATER_THAN"
+        case greaterThanOrEqualTo = "GREATER_THAN_OR_EQUAL_TO"
+        case lessThan = "LESS_THAN"
+        case lessThanOrEqualTo = "LESS_THAN_OR_EQUAL_TO"
+        case maskAll = "MASK_ALL"
+        case maskFirstN = "MASK_FIRST_N"
+        case maskLastN = "MASK_LAST_N"
+        case multiplication = "MULTIPLICATION"
+        case noOp = "NO_OP"
+        case notEqualTo = "NOT_EQUAL_TO"
+        case projection = "PROJECTION"
+        case subtraction = "SUBTRACTION"
+        case validateNonNegative = "VALIDATE_NON_NEGATIVE"
+        case validateNonNull = "VALIDATE_NON_NULL"
+        case validateNonZero = "VALIDATE_NON_ZERO"
+        case validateNumeric = "VALIDATE_NUMERIC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SalesforceConnectorOperator: String, CustomStringConvertible, Codable {
+        case addition = "ADDITION"
+        case between = "BETWEEN"
+        case contains = "CONTAINS"
+        case division = "DIVISION"
+        case equalTo = "EQUAL_TO"
+        case greaterThan = "GREATER_THAN"
+        case greaterThanOrEqualTo = "GREATER_THAN_OR_EQUAL_TO"
+        case lessThan = "LESS_THAN"
+        case lessThanOrEqualTo = "LESS_THAN_OR_EQUAL_TO"
+        case maskAll = "MASK_ALL"
+        case maskFirstN = "MASK_FIRST_N"
+        case maskLastN = "MASK_LAST_N"
+        case multiplication = "MULTIPLICATION"
+        case noOp = "NO_OP"
+        case notEqualTo = "NOT_EQUAL_TO"
+        case projection = "PROJECTION"
+        case subtraction = "SUBTRACTION"
+        case validateNonNegative = "VALIDATE_NON_NEGATIVE"
+        case validateNonNull = "VALIDATE_NON_NULL"
+        case validateNonZero = "VALIDATE_NON_ZERO"
+        case validateNumeric = "VALIDATE_NUMERIC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServiceNowConnectorOperator: String, CustomStringConvertible, Codable {
+        case addition = "ADDITION"
+        case between = "BETWEEN"
+        case contains = "CONTAINS"
+        case division = "DIVISION"
+        case equalTo = "EQUAL_TO"
+        case greaterThan = "GREATER_THAN"
+        case greaterThanOrEqualTo = "GREATER_THAN_OR_EQUAL_TO"
+        case lessThan = "LESS_THAN"
+        case lessThanOrEqualTo = "LESS_THAN_OR_EQUAL_TO"
+        case maskAll = "MASK_ALL"
+        case maskFirstN = "MASK_FIRST_N"
+        case maskLastN = "MASK_LAST_N"
+        case multiplication = "MULTIPLICATION"
+        case noOp = "NO_OP"
+        case notEqualTo = "NOT_EQUAL_TO"
+        case projection = "PROJECTION"
+        case subtraction = "SUBTRACTION"
+        case validateNonNegative = "VALIDATE_NON_NEGATIVE"
+        case validateNonNull = "VALIDATE_NON_NULL"
+        case validateNonZero = "VALIDATE_NON_ZERO"
+        case validateNumeric = "VALIDATE_NUMERIC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SourceConnectorType: String, CustomStringConvertible, Codable {
+        case marketo = "Marketo"
+        case s3 = "S3"
+        case salesforce = "Salesforce"
+        case servicenow = "Servicenow"
+        case zendesk = "Zendesk"
         public var description: String { return self.rawValue }
     }
 
@@ -49,6 +176,42 @@ extension CustomerProfiles {
         case profile = "PROFILE"
         case secondary = "SECONDARY"
         case unique = "UNIQUE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TaskType: String, CustomStringConvertible, Codable {
+        case arithmetic = "Arithmetic"
+        case filter = "Filter"
+        case map = "Map"
+        case mask = "Mask"
+        case merge = "Merge"
+        case truncate = "Truncate"
+        case validate = "Validate"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TriggerType: String, CustomStringConvertible, Codable {
+        case event = "Event"
+        case ondemand = "OnDemand"
+        case scheduled = "Scheduled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ZendeskConnectorOperator: String, CustomStringConvertible, Codable {
+        case addition = "ADDITION"
+        case division = "DIVISION"
+        case greaterThan = "GREATER_THAN"
+        case maskAll = "MASK_ALL"
+        case maskFirstN = "MASK_FIRST_N"
+        case maskLastN = "MASK_LAST_N"
+        case multiplication = "MULTIPLICATION"
+        case noOp = "NO_OP"
+        case projection = "PROJECTION"
+        case subtraction = "SUBTRACTION"
+        case validateNonNegative = "VALIDATE_NON_NEGATIVE"
+        case validateNonNull = "VALIDATE_NON_NULL"
+        case validateNonZero = "VALIDATE_NON_ZERO"
+        case validateNumeric = "VALIDATE_NUMERIC"
         public var description: String { return self.rawValue }
     }
 
@@ -182,6 +345,30 @@ extension CustomerProfiles {
             case postalCode = "PostalCode"
             case province = "Province"
             case state = "State"
+        }
+    }
+
+    public struct ConnectorOperator: AWSEncodableShape {
+        public let marketo: MarketoConnectorOperator?
+        public let s3: S3ConnectorOperator?
+        public let salesforce: SalesforceConnectorOperator?
+        public let serviceNow: ServiceNowConnectorOperator?
+        public let zendesk: ZendeskConnectorOperator?
+
+        public init(marketo: MarketoConnectorOperator? = nil, s3: S3ConnectorOperator? = nil, salesforce: SalesforceConnectorOperator? = nil, serviceNow: ServiceNowConnectorOperator? = nil, zendesk: ZendeskConnectorOperator? = nil) {
+            self.marketo = marketo
+            self.s3 = s3
+            self.salesforce = salesforce
+            self.serviceNow = serviceNow
+            self.zendesk = zendesk
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marketo = "Marketo"
+            case s3 = "S3"
+            case salesforce = "Salesforce"
+            case serviceNow = "ServiceNow"
+            case zendesk = "Zendesk"
         }
     }
 
@@ -718,6 +905,48 @@ extension CustomerProfiles {
         }
     }
 
+    public struct FlowDefinition: AWSEncodableShape {
+        public let description: String?
+        public let flowName: String
+        public let kmsArn: String
+        public let sourceFlowConfig: SourceFlowConfig
+        public let tasks: [Task]
+        public let triggerConfig: TriggerConfig
+
+        public init(description: String? = nil, flowName: String, kmsArn: String, sourceFlowConfig: SourceFlowConfig, tasks: [Task], triggerConfig: TriggerConfig) {
+            self.description = description
+            self.flowName = flowName
+            self.kmsArn = kmsArn
+            self.sourceFlowConfig = sourceFlowConfig
+            self.tasks = tasks
+            self.triggerConfig = triggerConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[\\w!@#\\-.?,\\s]*")
+            try self.validate(self.flowName, name: "flowName", parent: name, max: 256)
+            try self.validate(self.flowName, name: "flowName", parent: name, pattern: "[a-zA-Z0-9][\\w!@#.-]+")
+            try self.validate(self.kmsArn, name: "kmsArn", parent: name, max: 2048)
+            try self.validate(self.kmsArn, name: "kmsArn", parent: name, min: 20)
+            try self.validate(self.kmsArn, name: "kmsArn", parent: name, pattern: "arn:aws:kms:.*:[0-9]+:.*")
+            try self.sourceFlowConfig.validate(name: "\(name).sourceFlowConfig")
+            try self.tasks.forEach {
+                try $0.validate(name: "\(name).tasks[]")
+            }
+            try self.triggerConfig.validate(name: "\(name).triggerConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case flowName = "FlowName"
+            case kmsArn = "KmsArn"
+            case sourceFlowConfig = "SourceFlowConfig"
+            case tasks = "Tasks"
+            case triggerConfig = "TriggerConfig"
+        }
+    }
+
     public struct GetDomainRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
@@ -973,6 +1202,23 @@ extension CustomerProfiles {
             case sourceName = "SourceName"
             case sourceObject = "SourceObject"
             case templateId = "TemplateId"
+        }
+    }
+
+    public struct IncrementalPullConfig: AWSEncodableShape {
+        public let datetimeTypeFieldName: String?
+
+        public init(datetimeTypeFieldName: String? = nil) {
+            self.datetimeTypeFieldName = datetimeTypeFieldName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datetimeTypeFieldName, name: "datetimeTypeFieldName", parent: name, max: 256)
+            try self.validate(self.datetimeTypeFieldName, name: "datetimeTypeFieldName", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datetimeTypeFieldName = "DatetimeTypeFieldName"
         }
     }
 
@@ -1437,6 +1683,23 @@ extension CustomerProfiles {
         }
     }
 
+    public struct MarketoSourceProperties: AWSEncodableShape {
+        public let object: String
+
+        public init(object: String) {
+            self.object = object
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.object, name: "object", parent: name, max: 512)
+            try self.validate(self.object, name: "object", parent: name, pattern: "\\S+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case object = "Object"
+        }
+    }
+
     public struct ObjectTypeField: AWSEncodableShape & AWSDecodableShape {
         /// The content type of the field. Used for determining equality when searching.
         public let contentType: FieldContentType?
@@ -1594,15 +1857,17 @@ extension CustomerProfiles {
 
         /// The unique name of the domain.
         public let domainName: String
+        public let flowDefinition: FlowDefinition?
         /// The name of the profile object type.
         public let objectTypeName: String
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// The URI of the S3 bucket or any other type of data source.
-        public let uri: String
+        public let uri: String?
 
-        public init(domainName: String, objectTypeName: String, tags: [String: String]? = nil, uri: String) {
+        public init(domainName: String, flowDefinition: FlowDefinition? = nil, objectTypeName: String, tags: [String: String]? = nil, uri: String? = nil) {
             self.domainName = domainName
+            self.flowDefinition = flowDefinition
             self.objectTypeName = objectTypeName
             self.tags = tags
             self.uri = uri
@@ -1612,6 +1877,7 @@ extension CustomerProfiles {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.flowDefinition?.validate(name: "\(name).flowDefinition")
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, max: 255)
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, min: 1)
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, pattern: "^[a-zA-Z_][a-zA-Z_0-9-]*$")
@@ -1626,6 +1892,7 @@ extension CustomerProfiles {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case flowDefinition = "FlowDefinition"
             case objectTypeName = "ObjectTypeName"
             case tags = "Tags"
             case uri = "Uri"
@@ -1853,6 +2120,91 @@ extension CustomerProfiles {
         }
     }
 
+    public struct S3SourceProperties: AWSEncodableShape {
+        public let bucketName: String
+        public let bucketPrefix: String?
+
+        public init(bucketName: String, bucketPrefix: String? = nil) {
+            self.bucketName = bucketName
+            self.bucketPrefix = bucketPrefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketName, name: "bucketName", parent: name, max: 63)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "\\S+")
+            try self.validate(self.bucketPrefix, name: "bucketPrefix", parent: name, max: 512)
+            try self.validate(self.bucketPrefix, name: "bucketPrefix", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "BucketName"
+            case bucketPrefix = "BucketPrefix"
+        }
+    }
+
+    public struct SalesforceSourceProperties: AWSEncodableShape {
+        public let enableDynamicFieldUpdate: Bool?
+        public let includeDeletedRecords: Bool?
+        public let object: String
+
+        public init(enableDynamicFieldUpdate: Bool? = nil, includeDeletedRecords: Bool? = nil, object: String) {
+            self.enableDynamicFieldUpdate = enableDynamicFieldUpdate
+            self.includeDeletedRecords = includeDeletedRecords
+            self.object = object
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.object, name: "object", parent: name, max: 512)
+            try self.validate(self.object, name: "object", parent: name, pattern: "\\S+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enableDynamicFieldUpdate = "EnableDynamicFieldUpdate"
+            case includeDeletedRecords = "IncludeDeletedRecords"
+            case object = "Object"
+        }
+    }
+
+    public struct ScheduledTriggerProperties: AWSEncodableShape {
+        public let dataPullMode: DataPullMode?
+        public let firstExecutionFrom: Date?
+        public let scheduleEndTime: Date?
+        public let scheduleExpression: String
+        public let scheduleOffset: Int64?
+        public let scheduleStartTime: Date?
+        public let timezone: String?
+
+        public init(dataPullMode: DataPullMode? = nil, firstExecutionFrom: Date? = nil, scheduleEndTime: Date? = nil, scheduleExpression: String, scheduleOffset: Int64? = nil, scheduleStartTime: Date? = nil, timezone: String? = nil) {
+            self.dataPullMode = dataPullMode
+            self.firstExecutionFrom = firstExecutionFrom
+            self.scheduleEndTime = scheduleEndTime
+            self.scheduleExpression = scheduleExpression
+            self.scheduleOffset = scheduleOffset
+            self.scheduleStartTime = scheduleStartTime
+            self.timezone = timezone
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, max: 256)
+            try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, pattern: ".*")
+            try self.validate(self.scheduleOffset, name: "scheduleOffset", parent: name, max: 36000)
+            try self.validate(self.scheduleOffset, name: "scheduleOffset", parent: name, min: 0)
+            try self.validate(self.timezone, name: "timezone", parent: name, max: 256)
+            try self.validate(self.timezone, name: "timezone", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataPullMode = "DataPullMode"
+            case firstExecutionFrom = "FirstExecutionFrom"
+            case scheduleEndTime = "ScheduleEndTime"
+            case scheduleExpression = "ScheduleExpression"
+            case scheduleOffset = "ScheduleOffset"
+            case scheduleStartTime = "ScheduleStartTime"
+            case timezone = "Timezone"
+        }
+    }
+
     public struct SearchProfilesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName")),
@@ -1919,6 +2271,83 @@ extension CustomerProfiles {
         }
     }
 
+    public struct ServiceNowSourceProperties: AWSEncodableShape {
+        public let object: String
+
+        public init(object: String) {
+            self.object = object
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.object, name: "object", parent: name, max: 512)
+            try self.validate(self.object, name: "object", parent: name, pattern: "\\S+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case object = "Object"
+        }
+    }
+
+    public struct SourceConnectorProperties: AWSEncodableShape {
+        public let marketo: MarketoSourceProperties?
+        public let s3: S3SourceProperties?
+        public let salesforce: SalesforceSourceProperties?
+        public let serviceNow: ServiceNowSourceProperties?
+        public let zendesk: ZendeskSourceProperties?
+
+        public init(marketo: MarketoSourceProperties? = nil, s3: S3SourceProperties? = nil, salesforce: SalesforceSourceProperties? = nil, serviceNow: ServiceNowSourceProperties? = nil, zendesk: ZendeskSourceProperties? = nil) {
+            self.marketo = marketo
+            self.s3 = s3
+            self.salesforce = salesforce
+            self.serviceNow = serviceNow
+            self.zendesk = zendesk
+        }
+
+        public func validate(name: String) throws {
+            try self.marketo?.validate(name: "\(name).marketo")
+            try self.s3?.validate(name: "\(name).s3")
+            try self.salesforce?.validate(name: "\(name).salesforce")
+            try self.serviceNow?.validate(name: "\(name).serviceNow")
+            try self.zendesk?.validate(name: "\(name).zendesk")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marketo = "Marketo"
+            case s3 = "S3"
+            case salesforce = "Salesforce"
+            case serviceNow = "ServiceNow"
+            case zendesk = "Zendesk"
+        }
+    }
+
+    public struct SourceFlowConfig: AWSEncodableShape {
+        public let connectorProfileName: String?
+        public let connectorType: SourceConnectorType
+        public let incrementalPullConfig: IncrementalPullConfig?
+        public let sourceConnectorProperties: SourceConnectorProperties
+
+        public init(connectorProfileName: String? = nil, connectorType: SourceConnectorType, incrementalPullConfig: IncrementalPullConfig? = nil, sourceConnectorProperties: SourceConnectorProperties) {
+            self.connectorProfileName = connectorProfileName
+            self.connectorType = connectorType
+            self.incrementalPullConfig = incrementalPullConfig
+            self.sourceConnectorProperties = sourceConnectorProperties
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectorProfileName, name: "connectorProfileName", parent: name, max: 256)
+            try self.validate(self.connectorProfileName, name: "connectorProfileName", parent: name, pattern: "[\\w/!@#+=.-]+")
+            try self.incrementalPullConfig?.validate(name: "\(name).incrementalPullConfig")
+            try self.sourceConnectorProperties.validate(name: "\(name).sourceConnectorProperties")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorProfileName = "ConnectorProfileName"
+            case connectorType = "ConnectorType"
+            case incrementalPullConfig = "IncrementalPullConfig"
+            case sourceConnectorProperties = "SourceConnectorProperties"
+        }
+    }
+
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
@@ -1952,6 +2381,78 @@ extension CustomerProfiles {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct Task: AWSEncodableShape {
+        public let connectorOperator: ConnectorOperator?
+        public let destinationField: String?
+        public let sourceFields: [String]
+        public let taskProperties: [OperatorPropertiesKeys: String]?
+        public let taskType: TaskType
+
+        public init(connectorOperator: ConnectorOperator? = nil, destinationField: String? = nil, sourceFields: [String], taskProperties: [OperatorPropertiesKeys: String]? = nil, taskType: TaskType) {
+            self.connectorOperator = connectorOperator
+            self.destinationField = destinationField
+            self.sourceFields = sourceFields
+            self.taskProperties = taskProperties
+            self.taskType = taskType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.destinationField, name: "destinationField", parent: name, max: 256)
+            try self.validate(self.destinationField, name: "destinationField", parent: name, pattern: ".*")
+            try self.sourceFields.forEach {
+                try validate($0, name: "sourceFields[]", parent: name, max: 2048)
+                try validate($0, name: "sourceFields[]", parent: name, pattern: ".*")
+            }
+            try self.taskProperties?.forEach {
+                try validate($0.value, name: "taskProperties[\"\($0.key)\"]", parent: name, max: 2048)
+                try validate($0.value, name: "taskProperties[\"\($0.key)\"]", parent: name, pattern: ".+")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorOperator = "ConnectorOperator"
+            case destinationField = "DestinationField"
+            case sourceFields = "SourceFields"
+            case taskProperties = "TaskProperties"
+            case taskType = "TaskType"
+        }
+    }
+
+    public struct TriggerConfig: AWSEncodableShape {
+        public let triggerProperties: TriggerProperties?
+        public let triggerType: TriggerType
+
+        public init(triggerProperties: TriggerProperties? = nil, triggerType: TriggerType) {
+            self.triggerProperties = triggerProperties
+            self.triggerType = triggerType
+        }
+
+        public func validate(name: String) throws {
+            try self.triggerProperties?.validate(name: "\(name).triggerProperties")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case triggerProperties = "TriggerProperties"
+            case triggerType = "TriggerType"
+        }
+    }
+
+    public struct TriggerProperties: AWSEncodableShape {
+        public let scheduled: ScheduledTriggerProperties?
+
+        public init(scheduled: ScheduledTriggerProperties? = nil) {
+            self.scheduled = scheduled
+        }
+
+        public func validate(name: String) throws {
+            try self.scheduled?.validate(name: "\(name).scheduled")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scheduled = "Scheduled"
+        }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
@@ -2307,6 +2808,23 @@ extension CustomerProfiles {
 
         private enum CodingKeys: String, CodingKey {
             case profileId = "ProfileId"
+        }
+    }
+
+    public struct ZendeskSourceProperties: AWSEncodableShape {
+        public let object: String
+
+        public init(object: String) {
+            self.object = object
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.object, name: "object", parent: name, max: 512)
+            try self.validate(self.object, name: "object", parent: name, pattern: "\\S+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case object = "Object"
         }
     }
 }

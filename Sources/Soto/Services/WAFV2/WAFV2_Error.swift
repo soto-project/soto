@@ -76,6 +76,7 @@ public struct WAFV2ErrorType: AWSErrorType {
     public static var wAFOptimisticLockException: Self { .init(.wAFOptimisticLockException) }
     /// AWS WAF is not able to access the service linked role. This can be caused by a previous PutLoggingConfiguration request, which can lock the service linked role for about 20 seconds. Please try your request again. The service linked role can also be locked by a previous DeleteServiceLinkedRole request, which can lock the role for 15 minutes or more. If you recently made a call to DeleteServiceLinkedRole, wait at least 15 minutes and try the request again. If you receive this same exception again, you will have to wait additional time until the role is unlocked.
     public static var wAFServiceLinkedRoleErrorException: Self { .init(.wAFServiceLinkedRoleErrorException) }
+    /// You tried to use a managed rule group that's available by subscription, but you aren't subscribed to it yet.
     public static var wAFSubscriptionNotFoundException: Self { .init(.wAFSubscriptionNotFoundException) }
     /// An error occurred during the tagging operation. Retry your request.
     public static var wAFTagOperationException: Self { .init(.wAFTagOperationException) }

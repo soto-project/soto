@@ -38,6 +38,7 @@ public struct ECSErrorType: AWSErrorType {
         case serverException = "ServerException"
         case serviceNotActiveException = "ServiceNotActiveException"
         case serviceNotFoundException = "ServiceNotFoundException"
+        case targetNotConnectedException = "TargetNotConnectedException"
         case targetNotFoundException = "TargetNotFoundException"
         case taskSetNotFoundException = "TaskSetNotFoundException"
         case unsupportedFeatureException = "UnsupportedFeatureException"
@@ -100,6 +101,8 @@ public struct ECSErrorType: AWSErrorType {
     public static var serviceNotActiveException: Self { .init(.serviceNotActiveException) }
     /// The specified service could not be found. You can view your available services with ListServices. Amazon ECS services are cluster-specific and Region-specific.
     public static var serviceNotFoundException: Self { .init(.serviceNotFoundException) }
+    /// The target container is not properly configured with the execute command agent or the container is no longer active or running.
+    public static var targetNotConnectedException: Self { .init(.targetNotConnectedException) }
     /// The specified target could not be found. You can view your available container instances with ListContainerInstances. Amazon ECS container instances are cluster-specific and Region-specific.
     public static var targetNotFoundException: Self { .init(.targetNotFoundException) }
     /// The specified task set could not be found. You can view your available task sets with DescribeTaskSets. Task sets are specific to each cluster, service and Region.

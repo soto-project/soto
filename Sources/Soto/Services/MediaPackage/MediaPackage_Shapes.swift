@@ -61,6 +61,16 @@ extension MediaPackage {
         public var description: String { return self.rawValue }
     }
 
+    public enum PresetSpeke20Audio: String, CustomStringConvertible, Codable {
+        case presetAudio1 = "PRESET-AUDIO-1"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PresetSpeke20Video: String, CustomStringConvertible, Codable {
+        case presetVideo1 = "PRESET-VIDEO-1"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Profile: String, CustomStringConvertible, Codable {
         case hbbtv15 = "HBBTV_1_5"
         case none = "NONE"
@@ -802,6 +812,23 @@ extension MediaPackage {
         }
     }
 
+    public struct EncryptionContractConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A collection of audio encryption presets.
+        public let presetSpeke20Audio: PresetSpeke20Audio
+        /// A collection of video encryption presets.
+        public let presetSpeke20Video: PresetSpeke20Video
+
+        public init(presetSpeke20Audio: PresetSpeke20Audio, presetSpeke20Video: PresetSpeke20Video) {
+            self.presetSpeke20Audio = presetSpeke20Audio
+            self.presetSpeke20Video = presetSpeke20Video
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case presetSpeke20Audio
+            case presetSpeke20Video
+        }
+    }
+
     public struct HarvestJob: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) assigned to the HarvestJob.
         public let arn: String?
@@ -1487,6 +1514,7 @@ extension MediaPackage {
         /// that MediaPackage will use for enforcing secure end-to-end data
         /// transfer with the key provider service.
         public let certificateArn: String?
+        public let encryptionContractConfiguration: EncryptionContractConfiguration?
         /// The resource ID to include in key requests.
         public let resourceId: String
         /// An Amazon Resource Name (ARN) of an IAM role that AWS Elemental
@@ -1497,8 +1525,9 @@ extension MediaPackage {
         /// The URL of the external key provider service.
         public let url: String
 
-        public init(certificateArn: String? = nil, resourceId: String, roleArn: String, systemIds: [String], url: String) {
+        public init(certificateArn: String? = nil, encryptionContractConfiguration: EncryptionContractConfiguration? = nil, resourceId: String, roleArn: String, systemIds: [String], url: String) {
             self.certificateArn = certificateArn
+            self.encryptionContractConfiguration = encryptionContractConfiguration
             self.resourceId = resourceId
             self.roleArn = roleArn
             self.systemIds = systemIds
@@ -1507,6 +1536,7 @@ extension MediaPackage {
 
         private enum CodingKeys: String, CodingKey {
             case certificateArn
+            case encryptionContractConfiguration
             case resourceId
             case roleArn
             case systemIds

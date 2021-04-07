@@ -29,6 +29,7 @@ extension EKS {
 
     public enum AddonIssueCode: String, CustomStringConvertible, Codable {
         case accessdenied = "AccessDenied"
+        case admissionrequestdenied = "AdmissionRequestDenied"
         case clusterunreachable = "ClusterUnreachable"
         case configurationconflict = "ConfigurationConflict"
         case insufficientnumberofreplicas = "InsufficientNumberOfReplicas"
@@ -64,6 +65,7 @@ extension EKS {
 
     public enum ErrorCode: String, CustomStringConvertible, Codable {
         case accessdenied = "AccessDenied"
+        case admissionrequestdenied = "AdmissionRequestDenied"
         case clusterunreachable = "ClusterUnreachable"
         case configurationconflict = "ConfigurationConflict"
         case enilimitreached = "EniLimitReached"

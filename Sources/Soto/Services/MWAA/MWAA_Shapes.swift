@@ -26,6 +26,8 @@ extension MWAA {
         case creating = "CREATING"
         case deleted = "DELETED"
         case deleting = "DELETING"
+        case unavailable = "UNAVAILABLE"
+        case updateFailed = "UPDATE_FAILED"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
@@ -144,6 +146,8 @@ extension MWAA {
         public let loggingConfiguration: LoggingConfigurationInput?
         /// The maximum number of workers that you want to run in your environment. MWAA scales the number of Apache Airflow workers and the Fargate containers that run your tasks up to the number you specify in this field. When there are no more tasks running, and no more in the queue, MWAA disposes of the extra containers leaving the one worker that is included with your environment.
         public let maxWorkers: Int?
+        /// The minimum number of workers that you want to run in your environment. MWAA scales the number of Apache Airflow workers and the Fargate containers that run your tasks up to the number you specify in the MaxWorkers field. When there are no more tasks running, and no more in the queue, MWAA disposes of the extra containers leaving the worker count you specify in the MinWorkers field.
+        public let minWorkers: Int?
         /// The name of your MWAA environment.
         public let name: String
         /// The VPC networking components you want to use for your environment. At least two private subnet identifiers and one VPC security group identifier are required to create an environment. For more information, see Creating the VPC network for a MWAA environment.
@@ -165,7 +169,7 @@ extension MWAA {
         /// The day and time you want MWAA to start weekly maintenance updates on your environment.
         public let weeklyMaintenanceWindowStart: String?
 
-        public init(airflowConfigurationOptions: [String: String]? = nil, airflowVersion: String? = nil, dagS3Path: String, environmentClass: String? = nil, executionRoleArn: String, kmsKey: String? = nil, loggingConfiguration: LoggingConfigurationInput? = nil, maxWorkers: Int? = nil, name: String, networkConfiguration: NetworkConfiguration, pluginsS3ObjectVersion: String? = nil, pluginsS3Path: String? = nil, requirementsS3ObjectVersion: String? = nil, requirementsS3Path: String? = nil, sourceBucketArn: String, tags: [String: String]? = nil, webserverAccessMode: WebserverAccessMode? = nil, weeklyMaintenanceWindowStart: String? = nil) {
+        public init(airflowConfigurationOptions: [String: String]? = nil, airflowVersion: String? = nil, dagS3Path: String, environmentClass: String? = nil, executionRoleArn: String, kmsKey: String? = nil, loggingConfiguration: LoggingConfigurationInput? = nil, maxWorkers: Int? = nil, minWorkers: Int? = nil, name: String, networkConfiguration: NetworkConfiguration, pluginsS3ObjectVersion: String? = nil, pluginsS3Path: String? = nil, requirementsS3ObjectVersion: String? = nil, requirementsS3Path: String? = nil, sourceBucketArn: String, tags: [String: String]? = nil, webserverAccessMode: WebserverAccessMode? = nil, weeklyMaintenanceWindowStart: String? = nil) {
             self.airflowConfigurationOptions = airflowConfigurationOptions
             self.airflowVersion = airflowVersion
             self.dagS3Path = dagS3Path
@@ -174,6 +178,7 @@ extension MWAA {
             self.kmsKey = kmsKey
             self.loggingConfiguration = loggingConfiguration
             self.maxWorkers = maxWorkers
+            self.minWorkers = minWorkers
             self.name = name
             self.networkConfiguration = networkConfiguration
             self.pluginsS3ObjectVersion = pluginsS3ObjectVersion
@@ -210,6 +215,7 @@ extension MWAA {
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 1)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^(((arn:aws(-[a-z]+)?:kms:[a-z]{2}-[a-z]+-\\d:\\d+:)?key\\/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}|(arn:aws(-[a-z]+)?:kms:[a-z]{2}-[a-z]+-\\d:\\d+:)?alias/.+)$")
             try self.validate(self.maxWorkers, name: "maxWorkers", parent: name, min: 1)
+            try self.validate(self.minWorkers, name: "minWorkers", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 80)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z][0-9a-zA-Z-_]*$")
@@ -226,7 +232,7 @@ extension MWAA {
             try self.validate(self.requirementsS3Path, name: "requirementsS3Path", parent: name, pattern: ".*")
             try self.validate(self.sourceBucketArn, name: "sourceBucketArn", parent: name, max: 1224)
             try self.validate(self.sourceBucketArn, name: "sourceBucketArn", parent: name, min: 1)
-            try self.validate(self.sourceBucketArn, name: "sourceBucketArn", parent: name, pattern: "^arn:aws(-[a-z]+)?:s3:::airflow-[a-z0-9.\\-]+$")
+            try self.validate(self.sourceBucketArn, name: "sourceBucketArn", parent: name, pattern: "^arn:aws(-[a-z]+)?:s3:::[a-z0-9.\\-]+$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -249,6 +255,7 @@ extension MWAA {
             case kmsKey = "KmsKey"
             case loggingConfiguration = "LoggingConfiguration"
             case maxWorkers = "MaxWorkers"
+            case minWorkers = "MinWorkers"
             case networkConfiguration = "NetworkConfiguration"
             case pluginsS3ObjectVersion = "PluginsS3ObjectVersion"
             case pluginsS3Path = "PluginsS3Path"
@@ -374,8 +381,10 @@ extension MWAA {
         public let lastUpdate: LastUpdate?
         /// The Logging Configuration of the Amazon MWAA Environment.
         public let loggingConfiguration: LoggingConfiguration?
-        /// The Maximum Workers of the Amazon MWAA Environment.
+        /// The maximum number of workers to run in your Amazon MWAA Environment.
         public let maxWorkers: Int?
+        /// The minimum number of workers to run in your Amazon MWAA Environment.
+        public let minWorkers: Int?
         /// The name of the Amazon MWAA Environment.
         public let name: String?
         public let networkConfiguration: NetworkConfiguration?
@@ -402,7 +411,7 @@ extension MWAA {
         /// The Weekly Maintenance Window Start of the Amazon MWAA Environment.
         public let weeklyMaintenanceWindowStart: String?
 
-        public init(airflowConfigurationOptions: [String: String]? = nil, airflowVersion: String? = nil, arn: String? = nil, createdAt: Date? = nil, dagS3Path: String? = nil, environmentClass: String? = nil, executionRoleArn: String? = nil, kmsKey: String? = nil, lastUpdate: LastUpdate? = nil, loggingConfiguration: LoggingConfiguration? = nil, maxWorkers: Int? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, pluginsS3ObjectVersion: String? = nil, pluginsS3Path: String? = nil, requirementsS3ObjectVersion: String? = nil, requirementsS3Path: String? = nil, serviceRoleArn: String? = nil, sourceBucketArn: String? = nil, status: EnvironmentStatus? = nil, tags: [String: String]? = nil, webserverAccessMode: WebserverAccessMode? = nil, webserverUrl: String? = nil, weeklyMaintenanceWindowStart: String? = nil) {
+        public init(airflowConfigurationOptions: [String: String]? = nil, airflowVersion: String? = nil, arn: String? = nil, createdAt: Date? = nil, dagS3Path: String? = nil, environmentClass: String? = nil, executionRoleArn: String? = nil, kmsKey: String? = nil, lastUpdate: LastUpdate? = nil, loggingConfiguration: LoggingConfiguration? = nil, maxWorkers: Int? = nil, minWorkers: Int? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, pluginsS3ObjectVersion: String? = nil, pluginsS3Path: String? = nil, requirementsS3ObjectVersion: String? = nil, requirementsS3Path: String? = nil, serviceRoleArn: String? = nil, sourceBucketArn: String? = nil, status: EnvironmentStatus? = nil, tags: [String: String]? = nil, webserverAccessMode: WebserverAccessMode? = nil, webserverUrl: String? = nil, weeklyMaintenanceWindowStart: String? = nil) {
             self.airflowConfigurationOptions = airflowConfigurationOptions
             self.airflowVersion = airflowVersion
             self.arn = arn
@@ -414,6 +423,7 @@ extension MWAA {
             self.lastUpdate = lastUpdate
             self.loggingConfiguration = loggingConfiguration
             self.maxWorkers = maxWorkers
+            self.minWorkers = minWorkers
             self.name = name
             self.networkConfiguration = networkConfiguration
             self.pluginsS3ObjectVersion = pluginsS3ObjectVersion
@@ -441,6 +451,7 @@ extension MWAA {
             case lastUpdate = "LastUpdate"
             case loggingConfiguration = "LoggingConfiguration"
             case maxWorkers = "MaxWorkers"
+            case minWorkers = "MinWorkers"
             case name = "Name"
             case networkConfiguration = "NetworkConfiguration"
             case pluginsS3ObjectVersion = "PluginsS3ObjectVersion"
@@ -887,8 +898,10 @@ extension MWAA {
         public let executionRoleArn: String?
         /// The Logging Configuration to update of your Amazon MWAA environment.
         public let loggingConfiguration: LoggingConfigurationInput?
-        /// The Maximum Workers to update of your Amazon MWAA environment.
+        /// The maximum number of workers to update of your Amazon MWAA environment.
         public let maxWorkers: Int?
+        /// The minimum number of workers to update of your Amazon MWAA environment.
+        public let minWorkers: Int?
         /// The name of your Amazon MWAA environment that you wish to update.
         public let name: String
         /// The Network Configuration to update of your Amazon MWAA environment.
@@ -908,7 +921,7 @@ extension MWAA {
         /// The Weekly Maintenance Window Start to update of your Amazon MWAA environment.
         public let weeklyMaintenanceWindowStart: String?
 
-        public init(airflowConfigurationOptions: [String: String]? = nil, airflowVersion: String? = nil, dagS3Path: String? = nil, environmentClass: String? = nil, executionRoleArn: String? = nil, loggingConfiguration: LoggingConfigurationInput? = nil, maxWorkers: Int? = nil, name: String, networkConfiguration: UpdateNetworkConfigurationInput? = nil, pluginsS3ObjectVersion: String? = nil, pluginsS3Path: String? = nil, requirementsS3ObjectVersion: String? = nil, requirementsS3Path: String? = nil, sourceBucketArn: String? = nil, webserverAccessMode: WebserverAccessMode? = nil, weeklyMaintenanceWindowStart: String? = nil) {
+        public init(airflowConfigurationOptions: [String: String]? = nil, airflowVersion: String? = nil, dagS3Path: String? = nil, environmentClass: String? = nil, executionRoleArn: String? = nil, loggingConfiguration: LoggingConfigurationInput? = nil, maxWorkers: Int? = nil, minWorkers: Int? = nil, name: String, networkConfiguration: UpdateNetworkConfigurationInput? = nil, pluginsS3ObjectVersion: String? = nil, pluginsS3Path: String? = nil, requirementsS3ObjectVersion: String? = nil, requirementsS3Path: String? = nil, sourceBucketArn: String? = nil, webserverAccessMode: WebserverAccessMode? = nil, weeklyMaintenanceWindowStart: String? = nil) {
             self.airflowConfigurationOptions = airflowConfigurationOptions
             self.airflowVersion = airflowVersion
             self.dagS3Path = dagS3Path
@@ -916,6 +929,7 @@ extension MWAA {
             self.executionRoleArn = executionRoleArn
             self.loggingConfiguration = loggingConfiguration
             self.maxWorkers = maxWorkers
+            self.minWorkers = minWorkers
             self.name = name
             self.networkConfiguration = networkConfiguration
             self.pluginsS3ObjectVersion = pluginsS3ObjectVersion
@@ -948,6 +962,7 @@ extension MWAA {
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 1)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:aws(-[a-z]+)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.validate(self.maxWorkers, name: "maxWorkers", parent: name, min: 1)
+            try self.validate(self.minWorkers, name: "minWorkers", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 80)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z][0-9a-zA-Z-_]*$")
@@ -964,7 +979,7 @@ extension MWAA {
             try self.validate(self.requirementsS3Path, name: "requirementsS3Path", parent: name, pattern: ".*")
             try self.validate(self.sourceBucketArn, name: "sourceBucketArn", parent: name, max: 1224)
             try self.validate(self.sourceBucketArn, name: "sourceBucketArn", parent: name, min: 1)
-            try self.validate(self.sourceBucketArn, name: "sourceBucketArn", parent: name, pattern: "^arn:aws(-[a-z]+)?:s3:::airflow-[a-z0-9.\\-]+$")
+            try self.validate(self.sourceBucketArn, name: "sourceBucketArn", parent: name, pattern: "^arn:aws(-[a-z]+)?:s3:::[a-z0-9.\\-]+$")
             try self.validate(self.weeklyMaintenanceWindowStart, name: "weeklyMaintenanceWindowStart", parent: name, max: 9)
             try self.validate(self.weeklyMaintenanceWindowStart, name: "weeklyMaintenanceWindowStart", parent: name, min: 1)
             try self.validate(self.weeklyMaintenanceWindowStart, name: "weeklyMaintenanceWindowStart", parent: name, pattern: "(MON|TUE|WED|THU|FRI|SAT|SUN):([01]\\d|2[0-3]):(00|30)")
@@ -978,6 +993,7 @@ extension MWAA {
             case executionRoleArn = "ExecutionRoleArn"
             case loggingConfiguration = "LoggingConfiguration"
             case maxWorkers = "MaxWorkers"
+            case minWorkers = "MinWorkers"
             case networkConfiguration = "NetworkConfiguration"
             case pluginsS3ObjectVersion = "PluginsS3ObjectVersion"
             case pluginsS3Path = "PluginsS3Path"

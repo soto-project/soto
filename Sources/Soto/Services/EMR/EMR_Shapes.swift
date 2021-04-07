@@ -232,6 +232,17 @@ extension EMR {
         public var description: String { return self.rawValue }
     }
 
+    public enum OnDemandCapacityReservationPreference: String, CustomStringConvertible, Codable {
+        case none
+        case open
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OnDemandCapacityReservationUsageStrategy: String, CustomStringConvertible, Codable {
+        case useCapacityReservationsFirst = "use-capacity-reservations-first"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OnDemandProvisioningAllocationStrategy: String, CustomStringConvertible, Codable {
         case lowestPrice = "lowest-price"
         public var description: String { return self.rawValue }
@@ -1125,7 +1136,7 @@ extension EMR {
     public struct CreateStudioInput: AWSEncodableShape {
         /// Specifies whether the Studio authenticates users using single sign-on (SSO) or IAM. Amazon EMR Studio currently only supports SSO authentication.
         public let authMode: AuthMode
-        /// The default Amazon S3 location to back up Amazon EMR Studio Workspaces and notebook files. A Studio user can select an alternative Amazon S3 location when creating a Workspace.
+        /// The Amazon S3 location to back up Amazon EMR Studio Workspaces and notebook files.
         public let defaultS3Location: String
         /// A detailed description of the Amazon EMR Studio.
         public let description: String?
@@ -2073,6 +2084,7 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.onDemandSpecification?.validate(name: "\(name).onDemandSpecification")
             try self.spotSpecification?.validate(name: "\(name).spotSpecification")
         }
 
@@ -2144,7 +2156,7 @@ extension EMR {
     public struct InstanceGroup: AWSDecodableShape {
         /// An automatic scaling policy for a core instance group or task instance group in an Amazon EMR cluster. The automatic scaling policy defines how an instance group dynamically adds and terminates EC2 instances in response to the value of a CloudWatch metric. See PutAutoScalingPolicy.
         public let autoScalingPolicy: AutoScalingPolicyDescription?
-        /// The bid price for each EC2 Spot Instance type as defined by InstanceType. Expressed in USD. If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
+        /// If specified, indicates that the instance group uses Spot Instances. This is the maximum price you are willing to pay for Spot Instances. Specify OnDemandPrice to set the amount equal to the On-Demand price, or specify an amount in USD.
         public let bidPrice: String?
         ///  Amazon EMR releases 4.x or later.  The list of configurations supplied for an EMR cluster instance group. You can specify a separate configuration for each instance group (master, core, and task).
         public let configurations: [Configuration]?
@@ -2221,7 +2233,7 @@ extension EMR {
     public struct InstanceGroupConfig: AWSEncodableShape {
         /// An automatic scaling policy for a core instance group or task instance group in an Amazon EMR cluster. The automatic scaling policy defines how an instance group dynamically adds and terminates EC2 instances in response to the value of a CloudWatch metric. See PutAutoScalingPolicy.
         public let autoScalingPolicy: AutoScalingPolicy?
-        /// The bid price for each EC2 Spot Instance as defined by InstanceType. Expressed in USD. If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
+        /// If specified, indicates that the instance group uses Spot Instances. This is the maximum price you are willing to pay for Spot Instances. Specify OnDemandPrice to set the amount equal to the On-Demand price, or specify an amount in USD.
         public let bidPrice: String?
         ///  Amazon EMR releases 4.x or later.  The list of configurations supplied for an EMR cluster instance group. You can specify a separate configuration for each instance group (master, core, and task).
         public let configurations: [Configuration]?
@@ -2277,7 +2289,7 @@ extension EMR {
     }
 
     public struct InstanceGroupDetail: AWSDecodableShape {
-        /// The bid price for each EC2 Spot Instance as defined by InstanceType. Expressed in USD. If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
+        /// If specified, indicates that the instance group uses Spot Instances. This is the maximum price you are willing to pay for Spot Instances. Specify OnDemandPrice to set the amount equal to the On-Demand price, or specify an amount in USD.
         public let bidPrice: String?
         /// The date/time the instance group was created.
         public let creationDateTime: Date
@@ -3395,7 +3407,7 @@ extension EMR {
     public struct ModifyClusterInput: AWSEncodableShape {
         /// The unique identifier of the cluster.
         public let clusterId: String
-        /// The number of steps that can be executed concurrently. You can specify a maximum of 256 steps.
+        /// The number of steps that can be executed concurrently. You can specify a minimum of 1 step and a maximum of 256 steps.
         public let stepConcurrencyLevel: Int?
 
         public init(clusterId: String, stepConcurrencyLevel: Int? = nil) {
@@ -3560,16 +3572,51 @@ extension EMR {
         }
     }
 
-    public struct OnDemandProvisioningSpecification: AWSEncodableShape & AWSDecodableShape {
-        ///  Specifies the strategy to use in launching On-Demand Instance fleets. Currently, the only option is lowest-price (the default), which launches the lowest price first.
-        public let allocationStrategy: OnDemandProvisioningAllocationStrategy
+    public struct OnDemandCapacityReservationOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates the instance's Capacity Reservation preferences. Possible preferences include:    open - The instance can run in any open Capacity Reservation that has matching attributes (instance type, platform, Availability Zone).    none - The instance avoids running in a Capacity Reservation even if one is available. The instance runs as an On-Demand Instance.
+        public let capacityReservationPreference: OnDemandCapacityReservationPreference?
+        /// The ARN of the Capacity Reservation resource group in which to run the instance.
+        public let capacityReservationResourceGroupArn: String?
+        /// Indicates whether to use unused Capacity Reservations for fulfilling On-Demand capacity. If you specify use-capacity-reservations-first, the fleet uses unused Capacity Reservations to fulfill On-Demand capacity up to the target On-Demand capacity. If multiple instance pools have unused Capacity Reservations, the On-Demand allocation strategy (lowest-price) is applied. If the number of unused Capacity Reservations is less than the On-Demand target capacity, the remaining On-Demand target capacity is launched according to the On-Demand allocation strategy (lowest-price). If you do not specify a value, the fleet fulfils the On-Demand capacity according to the chosen On-Demand allocation strategy.
+        public let usageStrategy: OnDemandCapacityReservationUsageStrategy?
 
-        public init(allocationStrategy: OnDemandProvisioningAllocationStrategy) {
+        public init(capacityReservationPreference: OnDemandCapacityReservationPreference? = nil, capacityReservationResourceGroupArn: String? = nil, usageStrategy: OnDemandCapacityReservationUsageStrategy? = nil) {
+            self.capacityReservationPreference = capacityReservationPreference
+            self.capacityReservationResourceGroupArn = capacityReservationResourceGroupArn
+            self.usageStrategy = usageStrategy
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.capacityReservationResourceGroupArn, name: "capacityReservationResourceGroupArn", parent: name, max: 256)
+            try self.validate(self.capacityReservationResourceGroupArn, name: "capacityReservationResourceGroupArn", parent: name, min: 0)
+            try self.validate(self.capacityReservationResourceGroupArn, name: "capacityReservationResourceGroupArn", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityReservationPreference = "CapacityReservationPreference"
+            case capacityReservationResourceGroupArn = "CapacityReservationResourceGroupArn"
+            case usageStrategy = "UsageStrategy"
+        }
+    }
+
+    public struct OnDemandProvisioningSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the strategy to use in launching On-Demand instance fleets. Currently, the only option is lowest-price (the default), which launches the lowest price first.
+        public let allocationStrategy: OnDemandProvisioningAllocationStrategy
+        /// The launch specification for On-Demand instances in the instance fleet, which determines the allocation strategy.
+        public let capacityReservationOptions: OnDemandCapacityReservationOptions?
+
+        public init(allocationStrategy: OnDemandProvisioningAllocationStrategy, capacityReservationOptions: OnDemandCapacityReservationOptions? = nil) {
             self.allocationStrategy = allocationStrategy
+            self.capacityReservationOptions = capacityReservationOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.capacityReservationOptions?.validate(name: "\(name).capacityReservationOptions")
         }
 
         private enum CodingKeys: String, CodingKey {
             case allocationStrategy = "AllocationStrategy"
+            case capacityReservationOptions = "CapacityReservationOptions"
         }
     }
 
@@ -4587,7 +4634,7 @@ extension EMR {
         public let authMode: AuthMode?
         /// The time the Amazon EMR Studio was created.
         public let creationTime: Date?
-        /// The default Amazon S3 location to back up Amazon EMR Studio Workspaces and notebook files.
+        /// The Amazon S3 location to back up Amazon EMR Studio Workspaces and notebook files.
         public let defaultS3Location: String?
         /// The detailed description of the Amazon EMR Studio.
         public let description: String?
@@ -4751,7 +4798,7 @@ extension EMR {
     }
 
     public struct UpdateStudioInput: AWSEncodableShape {
-        /// A default Amazon S3 location to back up Workspaces and notebook files for the Amazon EMR Studio. A Studio user can select an alternative Amazon S3 location when creating a Workspace.
+        /// The Amazon S3 location to back up Workspaces and notebook files for the Amazon EMR Studio.
         public let defaultS3Location: String?
         /// A detailed description to assign to the Amazon EMR Studio.
         public let description: String?

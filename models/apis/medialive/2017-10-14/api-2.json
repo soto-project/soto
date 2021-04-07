@@ -2332,6 +2332,15 @@
         }
       }
     },
+    "ArchiveCdnSettings": {
+      "type": "structure",
+      "members": {
+        "ArchiveS3Settings": {
+          "shape": "ArchiveS3Settings",
+          "locationName": "archiveS3Settings"
+        }
+      }
+    },
     "ArchiveContainerSettings": {
       "type": "structure",
       "members": {
@@ -2348,6 +2357,10 @@
     "ArchiveGroupSettings": {
       "type": "structure",
       "members": {
+        "ArchiveCdnSettings": {
+          "shape": "ArchiveCdnSettings",
+          "locationName": "archiveCdnSettings"
+        },
         "Destination": {
           "shape": "OutputLocationRef",
           "locationName": "destination"
@@ -2380,6 +2393,22 @@
       "required": [
         "ContainerSettings"
       ]
+    },
+    "ArchiveS3LogUploads": {
+      "type": "string",
+      "enum": [
+        "DISABLED",
+        "ENABLED"
+      ]
+    },
+    "ArchiveS3Settings": {
+      "type": "structure",
+      "members": {
+        "CannedAcl": {
+          "shape": "S3CannedAcl",
+          "locationName": "cannedAcl"
+        }
+      }
     },
     "AribDestinationSettings": {
       "type": "structure",
@@ -3377,6 +3406,33 @@
         "LanguageCode",
         "LanguageDescription",
         "CaptionChannel"
+      ]
+    },
+    "CaptionRectangle": {
+      "type": "structure",
+      "members": {
+        "Height": {
+          "shape": "__doubleMin0Max100",
+          "locationName": "height"
+        },
+        "LeftOffset": {
+          "shape": "__doubleMin0Max100",
+          "locationName": "leftOffset"
+        },
+        "TopOffset": {
+          "shape": "__doubleMin0Max100",
+          "locationName": "topOffset"
+        },
+        "Width": {
+          "shape": "__doubleMin0Max100",
+          "locationName": "width"
+        }
+      },
+      "required": [
+        "TopOffset",
+        "Height",
+        "Width",
+        "LeftOffset"
       ]
     },
     "CaptionSelector": {
@@ -5540,6 +5596,10 @@
           "shape": "EbuTtDFillLineGapControl",
           "locationName": "fillLineGap"
         },
+        "CopyrightHolder": {
+          "shape": "__stringMax1000",
+          "locationName": "copyrightHolder"
+        },
         "FontFamily": {
           "shape": "__string",
           "locationName": "fontFamily"
@@ -5831,12 +5891,25 @@
         "httpStatusCode": 403
       }
     },
+    "FrameCaptureCdnSettings": {
+      "type": "structure",
+      "members": {
+        "FrameCaptureS3Settings": {
+          "shape": "FrameCaptureS3Settings",
+          "locationName": "frameCaptureS3Settings"
+        }
+      }
+    },
     "FrameCaptureGroupSettings": {
       "type": "structure",
       "members": {
         "Destination": {
           "shape": "OutputLocationRef",
           "locationName": "destination"
+        },
+        "FrameCaptureCdnSettings": {
+          "shape": "FrameCaptureCdnSettings",
+          "locationName": "frameCaptureCdnSettings"
         }
       },
       "required": [
@@ -5861,6 +5934,22 @@
         "NameModifier": {
           "shape": "__string",
           "locationName": "nameModifier"
+        }
+      }
+    },
+    "FrameCaptureS3LogUploads": {
+      "type": "string",
+      "enum": [
+        "DISABLED",
+        "ENABLED"
+      ]
+    },
+    "FrameCaptureS3Settings": {
+      "type": "structure",
+      "members": {
+        "CannedAcl": {
+          "shape": "S3CannedAcl",
+          "locationName": "cannedAcl"
         }
       }
     },
@@ -6684,6 +6773,10 @@
           "shape": "HlsMediaStoreSettings",
           "locationName": "hlsMediaStoreSettings"
         },
+        "HlsS3Settings": {
+          "shape": "HlsS3Settings",
+          "locationName": "hlsS3Settings"
+        },
         "HlsWebdavSettings": {
           "shape": "HlsWebdavSettings",
           "locationName": "hlsWebdavSettings"
@@ -7066,6 +7159,22 @@
         "DISABLED",
         "ENABLED"
       ]
+    },
+    "HlsS3LogUploads": {
+      "type": "string",
+      "enum": [
+        "DISABLED",
+        "ENABLED"
+      ]
+    },
+    "HlsS3Settings": {
+      "type": "structure",
+      "members": {
+        "CannedAcl": {
+          "shape": "S3CannedAcl",
+          "locationName": "cannedAcl"
+        }
+      }
     },
     "HlsSegmentationMode": {
       "type": "string",
@@ -10517,6 +10626,15 @@
         "Destination"
       ]
     },
+    "S3CannedAcl": {
+      "type": "string",
+      "enum": [
+        "AUTHENTICATED_READ",
+        "BUCKET_OWNER_FULL_CONTROL",
+        "BUCKET_OWNER_READ",
+        "PUBLIC_READ"
+      ]
+    },
     "ScheduleAction": {
       "type": "structure",
       "members": {
@@ -11403,6 +11521,10 @@
     "TeletextSourceSettings": {
       "type": "structure",
       "members": {
+        "OutputRectangle": {
+          "shape": "CaptionRectangle",
+          "locationName": "outputRectangle"
+        },
         "PageNumber": {
           "shape": "__string",
           "locationName": "pageNumber"
@@ -11505,6 +11627,10 @@
           "shape": "__string",
           "locationName": "targetCustomerId"
         },
+        "TargetRegion": {
+          "shape": "__string",
+          "locationName": "targetRegion"
+        },
         "TransferMessage": {
           "shape": "__string",
           "locationName": "transferMessage"
@@ -11522,6 +11648,10 @@
         "TargetCustomerId": {
           "shape": "__string",
           "locationName": "targetCustomerId"
+        },
+        "TargetRegion": {
+          "shape": "__string",
+          "locationName": "targetRegion"
         },
         "TransferMessage": {
           "shape": "__string",
@@ -11551,6 +11681,10 @@
         "TargetCustomerId": {
           "shape": "__string",
           "locationName": "targetCustomerId"
+        },
+        "TargetRegion": {
+          "shape": "__string",
+          "locationName": "targetRegion"
         },
         "TransferType": {
           "shape": "InputDeviceTransferType",
@@ -12274,6 +12408,10 @@
           "shape": "VideoSelectorColorSpace",
           "locationName": "colorSpace"
         },
+        "ColorSpaceSettings": {
+          "shape": "VideoSelectorColorSpaceSettings",
+          "locationName": "colorSpaceSettings"
+        },
         "ColorSpaceUsage": {
           "shape": "VideoSelectorColorSpaceUsage",
           "locationName": "colorSpaceUsage"
@@ -12288,9 +12426,20 @@
       "type": "string",
       "enum": [
         "FOLLOW",
+        "HDR10",
+        "HLG_2020",
         "REC_601",
         "REC_709"
       ]
+    },
+    "VideoSelectorColorSpaceSettings": {
+      "type": "structure",
+      "members": {
+        "Hdr10Settings": {
+          "shape": "Hdr10Settings",
+          "locationName": "hdr10Settings"
+        }
+      }
     },
     "VideoSelectorColorSpaceUsage": {
       "type": "string",
@@ -12391,6 +12540,9 @@
       "type": "double"
     },
     "__doubleMin0Max1": {
+      "type": "double"
+    },
+    "__doubleMin0Max100": {
       "type": "double"
     },
     "__doubleMin1": {
@@ -12960,6 +13112,10 @@
     },
     "__string": {
       "type": "string"
+    },
+    "__stringMax1000": {
+      "type": "string",
+      "max": 1000
     },
     "__stringMax256": {
       "type": "string",

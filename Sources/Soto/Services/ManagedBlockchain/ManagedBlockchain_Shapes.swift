@@ -195,7 +195,7 @@ extension ManagedBlockchain {
         public let memberConfiguration: MemberConfiguration
         /// The name of the network.
         public let name: String
-        /// Tags to assign to the network. Each tag consists of a key and optional value. When specifying tags during creation, you can specify multiple key-value pairs in a single request, with an overall maximum of 50 added to each resource. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
+        /// Tags to assign to the network. Each tag consists of a key and optional value. When specifying tags during creation, you can specify multiple key-value pairs in a single request, with an overall maximum of 50 tags added to each resource. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
         public let tags: [String: String]?
         ///  The voting rules used by the network to determine if a proposal is approved.
         public let votingPolicy: VotingPolicy
@@ -274,7 +274,7 @@ extension ManagedBlockchain {
         public let networkId: String
         /// The properties of a node configuration.
         public let nodeConfiguration: NodeConfiguration
-        /// Tags to assign to the node. Each tag consists of a key and optional value. When specifying tags during creation, you can specify multiple key-value pairs in a single request, with an overall maximum of 50 added to each resource. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
+        /// Tags to assign to the node. Each tag consists of a key and optional value. When specifying tags during creation, you can specify multiple key-value pairs in a single request, with an overall maximum of 50 tags added to each resource. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
         public let tags: [String: String]?
 
         public init(clientRequestToken: String = CreateNodeInput.idempotencyToken(), memberId: String? = nil, networkId: String, nodeConfiguration: NodeConfiguration, tags: [String: String]? = nil) {
@@ -336,7 +336,7 @@ extension ManagedBlockchain {
         public let memberId: String
         ///  The unique identifier of the network for which the proposal is made.
         public let networkId: String
-        /// Tags to assign to the proposal. Each tag consists of a key and optional value. When specifying tags during creation, you can specify multiple key-value pairs in a single request, with an overall maximum of 50 added to each resource. If the proposal is for a network invitation, the invitation inherits the tags added to the proposal. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
+        /// Tags to assign to the proposal. Each tag consists of a key and optional value. When specifying tags during creation, you can specify multiple key-value pairs in a single request, with an overall maximum of 50 tags added to each resource. If the proposal is for a network invitation, the invitation inherits the tags added to the proposal. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
         public let tags: [String: String]?
 
         public init(actions: ProposalActions, clientRequestToken: String = CreateProposalInput.idempotencyToken(), description: String? = nil, memberId: String, networkId: String, tags: [String: String]? = nil) {
@@ -1091,7 +1091,7 @@ extension ManagedBlockchain {
         public let logPublishingConfiguration: MemberLogPublishingConfiguration?
         /// The name of the member.
         public let name: String
-        /// Tags assigned to the member. Tags consist of a key and optional value. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide. When specifying tags during creation, you can specify multiple key-value pairs in a single request, with an overall maximum of 50 added to each resource.
+        /// Tags assigned to the member. Tags consist of a key and optional value. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide. When specifying tags during creation, you can specify multiple key-value pairs in a single request, with an overall maximum of 50 tags added to each resource.
         public let tags: [String: String]?
 
         public init(description: String? = nil, frameworkConfiguration: MemberFrameworkConfiguration, logPublishingConfiguration: MemberLogPublishingConfiguration? = nil, name: String, tags: [String: String]? = nil) {
@@ -1364,7 +1364,7 @@ extension ManagedBlockchain {
     }
 
     public struct NetworkFrameworkAttributes: AWSDecodableShape {
-        /// Attributes of an Ethereum network for Managed Blockchain resources participating in an Ethereum network. Ethereum on Managed Blockchain is in preview release and is subject to change.
+        /// Attributes of an Ethereum network for Managed Blockchain resources participating in an Ethereum network.
         public let ethereum: NetworkEthereumAttributes?
         /// Attributes of Hyperledger Fabric for a Managed Blockchain network that uses Hyperledger Fabric.
         public let fabric: NetworkFabricAttributes?
@@ -1438,7 +1438,7 @@ extension ManagedBlockchain {
     public struct Node: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the node. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the AWS General Reference.
         public let arn: String?
-        /// The Availability Zone in which the node exists. Required for Ethereum nodes. Ethereum on Managed Blockchain is in preview release and is subject to change.
+        /// The Availability Zone in which the node exists. Required for Ethereum nodes.
         public let availabilityZone: String?
         /// The date and time that the node was created.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -1494,7 +1494,7 @@ extension ManagedBlockchain {
     }
 
     public struct NodeConfiguration: AWSEncodableShape {
-        /// The Availability Zone in which the node exists. Required for Ethereum nodes. Ethereum on Managed Blockchain is in preview release and is subject to change.
+        /// The Availability Zone in which the node exists. Required for Ethereum nodes.
         public let availabilityZone: String?
         /// The Amazon Managed Blockchain instance type for the node.
         public let instanceType: String
@@ -1570,7 +1570,7 @@ extension ManagedBlockchain {
     }
 
     public struct NodeFrameworkAttributes: AWSDecodableShape {
-        /// Attributes of Ethereum for a node on a Managed Blockchain network that uses Ethereum. Ethereum on Managed Blockchain is in preview release and is subject to change.
+        /// Attributes of Ethereum for a node on a Managed Blockchain network that uses Ethereum.
         public let ethereum: NodeEthereumAttributes?
         /// Attributes of Hyperledger Fabric for a peer node on a Managed Blockchain network that uses Hyperledger Fabric.
         public let fabric: NodeFabricAttributes?
@@ -1815,7 +1815,7 @@ extension ManagedBlockchain {
 
         /// The Amazon Resource Name (ARN) of the resource. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the AWS General Reference.
         public let resourceArn: String
-        /// The tags to assign to the specified resource. Tag values can be empty, for example, "MyTagKey" : "". You can specify multiple key-value pairs in a single request, with an overall maximum of 50 added to each resource.
+        /// The tags to assign to the specified resource. Tag values can be empty, for example, "MyTagKey" : "". You can specify multiple key-value pairs in a single request, with an overall maximum of 50 tags added to each resource.
         public let tags: [String: String]
 
         public init(resourceArn: String, tags: [String: String]) {

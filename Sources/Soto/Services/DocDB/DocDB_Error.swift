@@ -41,6 +41,7 @@ public struct DocDBErrorType: AWSErrorType {
         case dBSubnetGroupQuotaExceededFault = "DBSubnetGroupQuotaExceeded"
         case dBSubnetQuotaExceededFault = "DBSubnetQuotaExceededFault"
         case dBUpgradeDependencyFailureFault = "DBUpgradeDependencyFailure"
+        case eventSubscriptionQuotaExceededFault = "EventSubscriptionQuotaExceeded"
         case instanceQuotaExceededFault = "InstanceQuotaExceeded"
         case insufficientDBClusterCapacityFault = "InsufficientDBClusterCapacityFault"
         case insufficientDBInstanceCapacityFault = "InsufficientDBInstanceCapacity"
@@ -53,16 +54,24 @@ public struct DocDBErrorType: AWSErrorType {
         case invalidDBSnapshotStateFault = "InvalidDBSnapshotState"
         case invalidDBSubnetGroupStateFault = "InvalidDBSubnetGroupStateFault"
         case invalidDBSubnetStateFault = "InvalidDBSubnetStateFault"
+        case invalidEventSubscriptionStateFault = "InvalidEventSubscriptionState"
         case invalidRestoreFault = "InvalidRestoreFault"
         case invalidSubnet = "InvalidSubnet"
         case invalidVPCNetworkStateFault = "InvalidVPCNetworkStateFault"
         case kMSKeyNotAccessibleFault = "KMSKeyNotAccessibleFault"
         case resourceNotFoundFault = "ResourceNotFoundFault"
+        case sNSInvalidTopicFault = "SNSInvalidTopic"
+        case sNSNoAuthorizationFault = "SNSNoAuthorization"
+        case sNSTopicArnNotFoundFault = "SNSTopicArnNotFound"
         case sharedSnapshotQuotaExceededFault = "SharedSnapshotQuotaExceeded"
         case snapshotQuotaExceededFault = "SnapshotQuotaExceeded"
+        case sourceNotFoundFault = "SourceNotFound"
         case storageQuotaExceededFault = "StorageQuotaExceeded"
         case storageTypeNotSupportedFault = "StorageTypeNotSupported"
         case subnetAlreadyInUse = "SubnetAlreadyInUse"
+        case subscriptionAlreadyExistFault = "SubscriptionAlreadyExist"
+        case subscriptionCategoryNotFoundFault = "SubscriptionCategoryNotFound"
+        case subscriptionNotFoundFault = "SubscriptionNotFound"
     }
 
     private let error: Code
@@ -127,6 +136,8 @@ public struct DocDBErrorType: AWSErrorType {
     public static var dBSubnetQuotaExceededFault: Self { .init(.dBSubnetQuotaExceededFault) }
     /// The upgrade failed because a resource that the depends on can't be modified.
     public static var dBUpgradeDependencyFailureFault: Self { .init(.dBUpgradeDependencyFailureFault) }
+    /// You have reached the maximum number of event subscriptions.
+    public static var eventSubscriptionQuotaExceededFault: Self { .init(.eventSubscriptionQuotaExceededFault) }
     /// The request would cause you to exceed the allowed number of instances.
     public static var instanceQuotaExceededFault: Self { .init(.instanceQuotaExceededFault) }
     /// The cluster doesn't have enough capacity for the current operation.
@@ -151,6 +162,8 @@ public struct DocDBErrorType: AWSErrorType {
     public static var invalidDBSubnetGroupStateFault: Self { .init(.invalidDBSubnetGroupStateFault) }
     ///  The subnet isn't in the available state.
     public static var invalidDBSubnetStateFault: Self { .init(.invalidDBSubnetStateFault) }
+    /// Someone else might be modifying a subscription. Wait a few seconds, and try again.
+    public static var invalidEventSubscriptionStateFault: Self { .init(.invalidEventSubscriptionStateFault) }
     /// You cannot restore from a virtual private cloud (VPC) backup to a non-VPC DB instance.
     public static var invalidRestoreFault: Self { .init(.invalidRestoreFault) }
     /// The requested subnet is not valid, or multiple subnets were requested that are not all in a common virtual private cloud (VPC).
@@ -161,16 +174,30 @@ public struct DocDBErrorType: AWSErrorType {
     public static var kMSKeyNotAccessibleFault: Self { .init(.kMSKeyNotAccessibleFault) }
     /// The specified resource ID was not found.
     public static var resourceNotFoundFault: Self { .init(.resourceNotFoundFault) }
+    /// Amazon SNS has responded that there is a problem with the specified topic.
+    public static var sNSInvalidTopicFault: Self { .init(.sNSInvalidTopicFault) }
+    /// You do not have permission to publish to the SNS topic Amazon Resource Name (ARN).
+    public static var sNSNoAuthorizationFault: Self { .init(.sNSNoAuthorizationFault) }
+    /// The SNS topic Amazon Resource Name (ARN) does not exist.
+    public static var sNSTopicArnNotFoundFault: Self { .init(.sNSTopicArnNotFoundFault) }
     /// You have exceeded the maximum number of accounts that you can share a manual DB snapshot with.
     public static var sharedSnapshotQuotaExceededFault: Self { .init(.sharedSnapshotQuotaExceededFault) }
     /// The request would cause you to exceed the allowed number of snapshots.
     public static var snapshotQuotaExceededFault: Self { .init(.snapshotQuotaExceededFault) }
+    /// The requested source could not be found.
+    public static var sourceNotFoundFault: Self { .init(.sourceNotFoundFault) }
     /// The request would cause you to exceed the allowed amount of storage available across all instances.
     public static var storageQuotaExceededFault: Self { .init(.storageQuotaExceededFault) }
     /// Storage of the specified StorageType can't be associated with the DB instance.
     public static var storageTypeNotSupportedFault: Self { .init(.storageTypeNotSupportedFault) }
     /// The subnet is already in use in the Availability Zone.
     public static var subnetAlreadyInUse: Self { .init(.subnetAlreadyInUse) }
+    /// The provided subscription name already exists.
+    public static var subscriptionAlreadyExistFault: Self { .init(.subscriptionAlreadyExistFault) }
+    /// The provided category does not exist.
+    public static var subscriptionCategoryNotFoundFault: Self { .init(.subscriptionCategoryNotFoundFault) }
+    /// The subscription name does not exist.
+    public static var subscriptionNotFoundFault: Self { .init(.subscriptionNotFoundFault) }
 }
 
 extension DocDBErrorType: Equatable {

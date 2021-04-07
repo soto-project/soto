@@ -27,6 +27,12 @@ extension Redshift {
         public var description: String { return self.rawValue }
     }
 
+    public enum AuthorizationStatus: String, CustomStringConvertible, Codable {
+        case authorized = "Authorized"
+        case revoking = "Revoking"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Mode: String, CustomStringConvertible, Codable {
         case highPerformance = "high-performance"
         case standard
@@ -290,6 +296,38 @@ extension Redshift {
 
         private enum CodingKeys: String, CodingKey {
             case clusterSecurityGroup = "ClusterSecurityGroup"
+        }
+    }
+
+    public struct AuthorizeEndpointAccessMessage: AWSEncodableShape {
+        public struct _VpcIdsEncoding: ArrayCoderProperties { public static let member = "VpcIdentifier" }
+
+        /// The AWS account ID to grant access to.
+        public let account: String
+        /// The cluster identifier of the cluster to grant access to.
+        public let clusterIdentifier: String?
+        /// The virtual private cloud (VPC) identifiers to grant access to.
+        @OptionalCustomCoding<ArrayCoder<_VpcIdsEncoding, String>>
+        public var vpcIds: [String]?
+
+        public init(account: String, clusterIdentifier: String? = nil, vpcIds: [String]? = nil) {
+            self.account = account
+            self.clusterIdentifier = clusterIdentifier
+            self.vpcIds = vpcIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.account, name: "account", parent: name, max: 2_147_483_647)
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 2_147_483_647)
+            try self.vpcIds?.forEach {
+                try validate($0, name: "vpcIds[]", parent: name, max: 2_147_483_647)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case account = "Account"
+            case clusterIdentifier = "ClusterIdentifier"
+            case vpcIds = "VpcIds"
         }
     }
 
@@ -570,13 +608,15 @@ extension Redshift {
         /// The list of tags for the cluster.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
+        /// The total storage capacity of the cluster in megabytes.
+        public let totalStorageCapacityInMegaBytes: Int64?
         /// The identifier of the VPC the cluster is in, if the cluster is in a VPC.
         public let vpcId: String?
         /// A list of Amazon Virtual Private Cloud (Amazon VPC) security groups that are associated with the cluster. This parameter is returned only if the cluster is in a VPC.
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocationStatus: String? = nil, clusterAvailabilityStatus: String? = nil, clusterCreateTime: Date? = nil, clusterIdentifier: String? = nil, clusterNamespaceArn: String? = nil, clusterNodes: [ClusterNode]? = nil, clusterParameterGroups: [ClusterParameterGroupStatus]? = nil, clusterPublicKey: String? = nil, clusterRevisionNumber: String? = nil, clusterSecurityGroups: [ClusterSecurityGroupMembership]? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, clusterStatus: String? = nil, clusterSubnetGroupName: String? = nil, clusterVersion: String? = nil, dataTransferProgress: DataTransferProgress? = nil, dBName: String? = nil, deferredMaintenanceWindows: [DeferredMaintenanceWindow]? = nil, elasticIpStatus: ElasticIpStatus? = nil, elasticResizeNumberOfNodeOptions: String? = nil, encrypted: Bool? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, expectedNextSnapshotScheduleTime: Date? = nil, expectedNextSnapshotScheduleTimeStatus: String? = nil, hsmStatus: HsmStatus? = nil, iamRoles: [ClusterIamRole]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String? = nil, modifyStatus: String? = nil, nextMaintenanceWindowStartTime: Date? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, pendingActions: [String]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, resizeInfo: ResizeInfo? = nil, restoreStatus: RestoreStatus? = nil, snapshotScheduleIdentifier: String? = nil, snapshotScheduleState: ScheduleState? = nil, tags: [Tag]? = nil, vpcId: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocationStatus: String? = nil, clusterAvailabilityStatus: String? = nil, clusterCreateTime: Date? = nil, clusterIdentifier: String? = nil, clusterNamespaceArn: String? = nil, clusterNodes: [ClusterNode]? = nil, clusterParameterGroups: [ClusterParameterGroupStatus]? = nil, clusterPublicKey: String? = nil, clusterRevisionNumber: String? = nil, clusterSecurityGroups: [ClusterSecurityGroupMembership]? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, clusterStatus: String? = nil, clusterSubnetGroupName: String? = nil, clusterVersion: String? = nil, dataTransferProgress: DataTransferProgress? = nil, dBName: String? = nil, deferredMaintenanceWindows: [DeferredMaintenanceWindow]? = nil, elasticIpStatus: ElasticIpStatus? = nil, elasticResizeNumberOfNodeOptions: String? = nil, encrypted: Bool? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, expectedNextSnapshotScheduleTime: Date? = nil, expectedNextSnapshotScheduleTimeStatus: String? = nil, hsmStatus: HsmStatus? = nil, iamRoles: [ClusterIamRole]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String? = nil, modifyStatus: String? = nil, nextMaintenanceWindowStartTime: Date? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, pendingActions: [String]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, resizeInfo: ResizeInfo? = nil, restoreStatus: RestoreStatus? = nil, snapshotScheduleIdentifier: String? = nil, snapshotScheduleState: ScheduleState? = nil, tags: [Tag]? = nil, totalStorageCapacityInMegaBytes: Int64? = nil, vpcId: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allowVersionUpgrade = allowVersionUpgrade
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
             self.availabilityZone = availabilityZone
@@ -623,6 +663,7 @@ extension Redshift {
             self.snapshotScheduleIdentifier = snapshotScheduleIdentifier
             self.snapshotScheduleState = snapshotScheduleState
             self.tags = tags
+            self.totalStorageCapacityInMegaBytes = totalStorageCapacityInMegaBytes
             self.vpcId = vpcId
             self.vpcSecurityGroups = vpcSecurityGroups
         }
@@ -674,6 +715,7 @@ extension Redshift {
             case snapshotScheduleIdentifier = "SnapshotScheduleIdentifier"
             case snapshotScheduleState = "SnapshotScheduleState"
             case tags = "Tags"
+            case totalStorageCapacityInMegaBytes = "TotalStorageCapacityInMegaBytes"
             case vpcId = "VpcId"
             case vpcSecurityGroups = "VpcSecurityGroups"
         }
@@ -1199,7 +1241,7 @@ extension Redshift {
         public let additionalInfo: String?
         /// If true, major version upgrades can be applied during the maintenance window to the Amazon Redshift engine that is running on the cluster. When a new major version of the Amazon Redshift engine is released, you can request that the service automatically apply upgrades during the maintenance window to the Amazon Redshift engine that is running on your cluster. Default: true
         public let allowVersionUpgrade: Bool?
-        /// The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with CreateClusterSnapshot.  Default: 1  Constraints: Must be a value from 0 to 35.
+        /// The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with CreateClusterSnapshot.  You can't disable automated snapshots for RA3 node types. Set the automated retention period from 1-35 days. Default: 1  Constraints: Must be a value from 0 to 35.
         public let automatedSnapshotRetentionPeriod: Int?
         /// The EC2 Availability Zone (AZ) in which you want Amazon Redshift to provision the cluster. For example, if you have several EC2 instances running in a specific Availability Zone, then you might want the cluster to be provisioned in the same zone in order to decrease network latency. Default: A random, system-chosen Availability Zone in the region that is specified by the endpoint. Example: us-east-2d  Constraint: The specified Availability Zone must be in the same region as the current endpoint.
         public let availabilityZone: String?
@@ -1567,6 +1609,48 @@ extension Redshift {
 
         private enum CodingKeys: String, CodingKey {
             case clusterSubnetGroup = "ClusterSubnetGroup"
+        }
+    }
+
+    public struct CreateEndpointAccessMessage: AWSEncodableShape {
+        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
+
+        /// The cluster identifier of the cluster to access.
+        public let clusterIdentifier: String?
+        /// The Redshift-managed VPC endpoint name. An endpoint name must contain 1-30 characters. Valid characters are A-Z, a-z, 0-9, and hyphen(-). The first character must be a letter. The name can't contain two consecutive hyphens or end with a hyphen.
+        public let endpointName: String
+        /// The AWS account ID of the owner of the cluster. This is only required if the cluster is in another AWS account.
+        public let resourceOwner: String?
+        /// The subnet group from which Amazon Redshift chooses the subnet to deploy the endpoint.
+        public let subnetGroupName: String
+        /// The security group that defines the ports, protocols, and sources for inbound traffic that you are authorizing into your endpoint.
+        @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
+        public var vpcSecurityGroupIds: [String]?
+
+        public init(clusterIdentifier: String? = nil, endpointName: String, resourceOwner: String? = nil, subnetGroupName: String, vpcSecurityGroupIds: [String]? = nil) {
+            self.clusterIdentifier = clusterIdentifier
+            self.endpointName = endpointName
+            self.resourceOwner = resourceOwner
+            self.subnetGroupName = subnetGroupName
+            self.vpcSecurityGroupIds = vpcSecurityGroupIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 2_147_483_647)
+            try self.validate(self.endpointName, name: "endpointName", parent: name, max: 2_147_483_647)
+            try self.validate(self.resourceOwner, name: "resourceOwner", parent: name, max: 2_147_483_647)
+            try self.validate(self.subnetGroupName, name: "subnetGroupName", parent: name, max: 2_147_483_647)
+            try self.vpcSecurityGroupIds?.forEach {
+                try validate($0, name: "vpcSecurityGroupIds[]", parent: name, max: 2_147_483_647)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterIdentifier = "ClusterIdentifier"
+            case endpointName = "EndpointName"
+            case resourceOwner = "ResourceOwner"
+            case subnetGroupName = "SubnetGroupName"
+            case vpcSecurityGroupIds = "VpcSecurityGroupIds"
         }
     }
 
@@ -2185,6 +2269,23 @@ extension Redshift {
         }
     }
 
+    public struct DeleteEndpointAccessMessage: AWSEncodableShape {
+        /// The Redshift-managed VPC endpoint to delete.
+        public let endpointName: String
+
+        public init(endpointName: String) {
+            self.endpointName = endpointName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.endpointName, name: "endpointName", parent: name, max: 2_147_483_647)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointName = "EndpointName"
+        }
+    }
+
     public struct DeleteEventSubscriptionMessage: AWSEncodableShape {
         /// The name of the Amazon Redshift event notification subscription to be deleted.
         public let subscriptionName: String
@@ -2759,6 +2860,82 @@ extension Redshift {
 
         private enum CodingKeys: String, CodingKey {
             case defaultClusterParameters = "DefaultClusterParameters"
+        }
+    }
+
+    public struct DescribeEndpointAccessMessage: AWSEncodableShape {
+        /// The cluster identifier associated with the described endpoint.
+        public let clusterIdentifier: String?
+        /// The name of the endpoint to be described.
+        public let endpointName: String?
+        /// Reserved for Amazon Redshift internal use.
+        public let marker: String?
+        /// Reserved for Amazon Redshift internal use.
+        public let maxRecords: Int?
+        /// The AWS account ID of the owner of the cluster.
+        public let resourceOwner: String?
+        /// The virtual private cloud (VPC) identifier with access to the cluster.
+        public let vpcId: String?
+
+        public init(clusterIdentifier: String? = nil, endpointName: String? = nil, marker: String? = nil, maxRecords: Int? = nil, resourceOwner: String? = nil, vpcId: String? = nil) {
+            self.clusterIdentifier = clusterIdentifier
+            self.endpointName = endpointName
+            self.marker = marker
+            self.maxRecords = maxRecords
+            self.resourceOwner = resourceOwner
+            self.vpcId = vpcId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 2_147_483_647)
+            try self.validate(self.endpointName, name: "endpointName", parent: name, max: 2_147_483_647)
+            try self.validate(self.marker, name: "marker", parent: name, max: 2_147_483_647)
+            try self.validate(self.resourceOwner, name: "resourceOwner", parent: name, max: 2_147_483_647)
+            try self.validate(self.vpcId, name: "vpcId", parent: name, max: 2_147_483_647)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterIdentifier = "ClusterIdentifier"
+            case endpointName = "EndpointName"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+            case resourceOwner = "ResourceOwner"
+            case vpcId = "VpcId"
+        }
+    }
+
+    public struct DescribeEndpointAuthorizationMessage: AWSEncodableShape {
+        /// The AWS account ID of either the cluster owner (grantor) or grantee. If Grantee parameter is true, then the Account value is of the grantor.
+        public let account: String?
+        /// The cluster identifier of the cluster to access.
+        public let clusterIdentifier: String?
+        /// Indicates whether to check authorization from a grantor or grantee point of view. If true, Amazon Redshift returns endpoint authorizations that you've been granted. If false (default), checks authorization from a grantor point of view.
+        public let grantee: Bool?
+        /// Reserved for Amazon Redshift internal use.
+        public let marker: String?
+        /// Reserved for Amazon Redshift internal use.
+        public let maxRecords: Int?
+
+        public init(account: String? = nil, clusterIdentifier: String? = nil, grantee: Bool? = nil, marker: String? = nil, maxRecords: Int? = nil) {
+            self.account = account
+            self.clusterIdentifier = clusterIdentifier
+            self.grantee = grantee
+            self.marker = marker
+            self.maxRecords = maxRecords
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.account, name: "account", parent: name, max: 2_147_483_647)
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 2_147_483_647)
+            try self.validate(self.marker, name: "marker", parent: name, max: 2_147_483_647)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case account = "Account"
+            case clusterIdentifier = "ClusterIdentifier"
+            case grantee = "Grantee"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
         }
     }
 
@@ -3614,6 +3791,141 @@ extension Redshift {
         }
     }
 
+    public struct EndpointAccess: AWSDecodableShape {
+        public struct _VpcSecurityGroupsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroup" }
+
+        /// The DNS address of the endpoint.
+        public let address: String?
+        /// The cluster identifier of the cluster associated with the endpoint.
+        public let clusterIdentifier: String?
+        /// The time (UTC) that the endpoint was created.
+        public let endpointCreateTime: Date?
+        /// The name of the endpoint.
+        public let endpointName: String?
+        /// The status of the endpoint.
+        public let endpointStatus: String?
+        /// The port number on which the cluster accepts incoming connections.
+        public let port: Int?
+        /// The AWS account ID of the owner of the cluster.
+        public let resourceOwner: String?
+        /// The subnet group name where Amazon Redshift chooses to deploy the endpoint.
+        public let subnetGroupName: String?
+        public let vpcEndpoint: VpcEndpoint?
+        /// The security groups associated with the endpoint.
+        @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
+        public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
+
+        public init(address: String? = nil, clusterIdentifier: String? = nil, endpointCreateTime: Date? = nil, endpointName: String? = nil, endpointStatus: String? = nil, port: Int? = nil, resourceOwner: String? = nil, subnetGroupName: String? = nil, vpcEndpoint: VpcEndpoint? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+            self.address = address
+            self.clusterIdentifier = clusterIdentifier
+            self.endpointCreateTime = endpointCreateTime
+            self.endpointName = endpointName
+            self.endpointStatus = endpointStatus
+            self.port = port
+            self.resourceOwner = resourceOwner
+            self.subnetGroupName = subnetGroupName
+            self.vpcEndpoint = vpcEndpoint
+            self.vpcSecurityGroups = vpcSecurityGroups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case address = "Address"
+            case clusterIdentifier = "ClusterIdentifier"
+            case endpointCreateTime = "EndpointCreateTime"
+            case endpointName = "EndpointName"
+            case endpointStatus = "EndpointStatus"
+            case port = "Port"
+            case resourceOwner = "ResourceOwner"
+            case subnetGroupName = "SubnetGroupName"
+            case vpcEndpoint = "VpcEndpoint"
+            case vpcSecurityGroups = "VpcSecurityGroups"
+        }
+    }
+
+    public struct EndpointAccessList: AWSDecodableShape {
+        /// The list of endpoints with access to the cluster.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var endpointAccessList: [EndpointAccess]?
+        /// Reserved for Amazon Redshift internal use.
+        public let marker: String?
+
+        public init(endpointAccessList: [EndpointAccess]? = nil, marker: String? = nil) {
+            self.endpointAccessList = endpointAccessList
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointAccessList = "EndpointAccessList"
+            case marker = "Marker"
+        }
+    }
+
+    public struct EndpointAuthorization: AWSDecodableShape {
+        public struct _AllowedVPCsEncoding: ArrayCoderProperties { public static let member = "VpcIdentifier" }
+
+        /// Indicates whether all VPCs in the grantee account are allowed access to the cluster.
+        public let allowedAllVPCs: Bool?
+        /// The VPCs allowed access to the cluster.
+        @OptionalCustomCoding<ArrayCoder<_AllowedVPCsEncoding, String>>
+        public var allowedVPCs: [String]?
+        /// The time (UTC) when the authorization was created.
+        public let authorizeTime: Date?
+        /// The cluster identifier.
+        public let clusterIdentifier: String?
+        /// The status of the cluster.
+        public let clusterStatus: String?
+        /// The number of Redshift-managed VPC endpoints created for the authorization.
+        public let endpointCount: Int?
+        /// The AWS account ID of the grantee of the cluster.
+        public let grantee: String?
+        /// The AWS account ID of the cluster owner.
+        public let grantor: String?
+        /// The status of the authorization action.
+        public let status: AuthorizationStatus?
+
+        public init(allowedAllVPCs: Bool? = nil, allowedVPCs: [String]? = nil, authorizeTime: Date? = nil, clusterIdentifier: String? = nil, clusterStatus: String? = nil, endpointCount: Int? = nil, grantee: String? = nil, grantor: String? = nil, status: AuthorizationStatus? = nil) {
+            self.allowedAllVPCs = allowedAllVPCs
+            self.allowedVPCs = allowedVPCs
+            self.authorizeTime = authorizeTime
+            self.clusterIdentifier = clusterIdentifier
+            self.clusterStatus = clusterStatus
+            self.endpointCount = endpointCount
+            self.grantee = grantee
+            self.grantor = grantor
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedAllVPCs = "AllowedAllVPCs"
+            case allowedVPCs = "AllowedVPCs"
+            case authorizeTime = "AuthorizeTime"
+            case clusterIdentifier = "ClusterIdentifier"
+            case clusterStatus = "ClusterStatus"
+            case endpointCount = "EndpointCount"
+            case grantee = "Grantee"
+            case grantor = "Grantor"
+            case status = "Status"
+        }
+    }
+
+    public struct EndpointAuthorizationList: AWSDecodableShape {
+        /// The authorizations to an endpoint.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var endpointAuthorizationList: [EndpointAuthorization]?
+        /// Reserved for Amazon Redshift internal use.
+        public let marker: String?
+
+        public init(endpointAuthorizationList: [EndpointAuthorization]? = nil, marker: String? = nil) {
+            self.endpointAuthorizationList = endpointAuthorizationList
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointAuthorizationList = "EndpointAuthorizationList"
+            case marker = "Marker"
+        }
+    }
+
     public struct Event: AWSDecodableShape {
         public struct _EventCategoriesEncoding: ArrayCoderProperties { public static let member = "EventCategory" }
 
@@ -4245,7 +4557,7 @@ extension Redshift {
 
         /// If true, major version upgrades will be applied automatically to the cluster during the maintenance window.  Default: false
         public let allowVersionUpgrade: Bool?
-        /// The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with CreateClusterSnapshot.  If you decrease the automated snapshot retention period from its current value, existing automated snapshots that fall outside of the new retention period will be immediately deleted. Default: Uses existing setting. Constraints: Must be a value from 0 to 35.
+        /// The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with CreateClusterSnapshot.  If you decrease the automated snapshot retention period from its current value, existing automated snapshots that fall outside of the new retention period will be immediately deleted. You can't disable automated snapshots for RA3 node types. Set the automated retention period from 1-35 days. Default: Uses existing setting. Constraints: Must be a value from 0 to 35.
         public let automatedSnapshotRetentionPeriod: Int?
         /// The option to initiate relocation for an Amazon Redshift cluster to the target Availability Zone.
         public let availabilityZone: String?
@@ -4522,6 +4834,33 @@ extension Redshift {
         }
     }
 
+    public struct ModifyEndpointAccessMessage: AWSEncodableShape {
+        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
+
+        /// The endpoint to be modified.
+        public let endpointName: String
+        /// The complete list of VPC security groups associated with the endpoint after the endpoint is modified.
+        @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
+        public var vpcSecurityGroupIds: [String]?
+
+        public init(endpointName: String, vpcSecurityGroupIds: [String]? = nil) {
+            self.endpointName = endpointName
+            self.vpcSecurityGroupIds = vpcSecurityGroupIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.endpointName, name: "endpointName", parent: name, max: 2_147_483_647)
+            try self.vpcSecurityGroupIds?.forEach {
+                try validate($0, name: "vpcSecurityGroupIds[]", parent: name, max: 2_147_483_647)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointName = "EndpointName"
+            case vpcSecurityGroupIds = "VpcSecurityGroupIds"
+        }
+    }
+
     public struct ModifyEventSubscriptionMessage: AWSEncodableShape {
         public struct _EventCategoriesEncoding: ArrayCoderProperties { public static let member = "EventCategory" }
         public struct _SourceIdsEncoding: ArrayCoderProperties { public static let member = "SourceId" }
@@ -4727,6 +5066,31 @@ extension Redshift {
         }
     }
 
+    public struct NetworkInterface: AWSDecodableShape {
+        /// The Availability Zone.
+        public let availabilityZone: String?
+        /// The network interface identifier.
+        public let networkInterfaceId: String?
+        /// The IPv4 address of the network interface within the subnet.
+        public let privateIpAddress: String?
+        /// The subnet identifier.
+        public let subnetId: String?
+
+        public init(availabilityZone: String? = nil, networkInterfaceId: String? = nil, privateIpAddress: String? = nil, subnetId: String? = nil) {
+            self.availabilityZone = availabilityZone
+            self.networkInterfaceId = networkInterfaceId
+            self.privateIpAddress = privateIpAddress
+            self.subnetId = subnetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
+            case networkInterfaceId = "NetworkInterfaceId"
+            case privateIpAddress = "PrivateIpAddress"
+            case subnetId = "SubnetId"
+        }
+    }
+
     public struct NodeConfigurationOption: AWSDecodableShape {
         /// The estimated disk utilizaton percentage.
         public let estimatedDiskUtilizationPercent: Double?
@@ -4865,7 +5229,7 @@ extension Redshift {
         public let minimumEngineVersion: String?
         /// The name of the parameter.
         public let parameterName: String?
-        /// The value of the parameter.
+        /// The value of the parameter. If ParameterName is wlm_json_configuration, then the maximum size of ParameterValue is 8000 characters.
         public let parameterValue: String?
         /// The source of the parameter value, such as "engine-default" or "user".
         public let source: String?
@@ -5396,7 +5760,7 @@ extension Redshift {
         public let additionalInfo: String?
         /// If true, major version upgrades can be applied during the maintenance window to the Amazon Redshift engine that is running on the cluster.  Default: true
         public let allowVersionUpgrade: Bool?
-        /// The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with CreateClusterSnapshot.  Default: The value selected for the cluster from which the snapshot was taken. Constraints: Must be a value from 0 to 35.
+        /// The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with CreateClusterSnapshot.  You can't disable automated snapshots for RA3 node types. Set the automated retention period from 1-35 days. Default: The value selected for the cluster from which the snapshot was taken. Constraints: Must be a value from 0 to 35.
         public let automatedSnapshotRetentionPeriod: Int?
         /// The Amazon EC2 Availability Zone in which to restore the cluster. Default: A random, system-chosen Availability Zone. Example: us-east-2a
         public let availabilityZone: String?
@@ -5739,6 +6103,42 @@ extension Redshift {
 
         private enum CodingKeys: String, CodingKey {
             case clusterSecurityGroup = "ClusterSecurityGroup"
+        }
+    }
+
+    public struct RevokeEndpointAccessMessage: AWSEncodableShape {
+        public struct _VpcIdsEncoding: ArrayCoderProperties { public static let member = "VpcIdentifier" }
+
+        /// The AWS account ID whose access is to be revoked.
+        public let account: String?
+        /// The cluster to revoke access from.
+        public let clusterIdentifier: String?
+        /// Indicates whether to force the revoke action. If true, the Redshift-managed VPC endpoints associated with the endpoint authorization are also deleted.
+        public let force: Bool?
+        /// The virtual private cloud (VPC) identifiers for which access is to be revoked.
+        @OptionalCustomCoding<ArrayCoder<_VpcIdsEncoding, String>>
+        public var vpcIds: [String]?
+
+        public init(account: String? = nil, clusterIdentifier: String? = nil, force: Bool? = nil, vpcIds: [String]? = nil) {
+            self.account = account
+            self.clusterIdentifier = clusterIdentifier
+            self.force = force
+            self.vpcIds = vpcIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.account, name: "account", parent: name, max: 2_147_483_647)
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 2_147_483_647)
+            try self.vpcIds?.forEach {
+                try validate($0, name: "vpcIds[]", parent: name, max: 2_147_483_647)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case account = "Account"
+            case clusterIdentifier = "ClusterIdentifier"
+            case force = "Force"
+            case vpcIds = "VpcIds"
         }
     }
 
@@ -6534,15 +6934,26 @@ extension Redshift {
     }
 
     public struct VpcEndpoint: AWSDecodableShape {
+        public struct _NetworkInterfacesEncoding: ArrayCoderProperties { public static let member = "NetworkInterface" }
+
+        /// One or more network interfaces of the endpoint. Also known as an interface endpoint.
+        @OptionalCustomCoding<ArrayCoder<_NetworkInterfacesEncoding, NetworkInterface>>
+        public var networkInterfaces: [NetworkInterface]?
         /// The connection endpoint ID for connecting an Amazon Redshift cluster through the proxy.
         public let vpcEndpointId: String?
+        /// The VPC identifier that the endpoint is associated.
+        public let vpcId: String?
 
-        public init(vpcEndpointId: String? = nil) {
+        public init(networkInterfaces: [NetworkInterface]? = nil, vpcEndpointId: String? = nil, vpcId: String? = nil) {
+            self.networkInterfaces = networkInterfaces
             self.vpcEndpointId = vpcEndpointId
+            self.vpcId = vpcId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case networkInterfaces = "NetworkInterfaces"
             case vpcEndpointId = "VpcEndpointId"
+            case vpcId = "VpcId"
         }
     }
 

@@ -260,9 +260,11 @@ extension WellArchitected {
         public let notes: String?
         public let pillarPriorities: [String]?
         public let reviewOwner: String
+        /// The tags to be associated with the workload.
+        public let tags: [String: String]?
         public let workloadName: String
 
-        public init(accountIds: [String]? = nil, architecturalDesign: String? = nil, awsRegions: [String]? = nil, clientRequestToken: String = CreateWorkloadInput.idempotencyToken(), description: String, environment: WorkloadEnvironment, industry: String? = nil, industryType: String? = nil, lenses: [String], nonAwsRegions: [String]? = nil, notes: String? = nil, pillarPriorities: [String]? = nil, reviewOwner: String, workloadName: String) {
+        public init(accountIds: [String]? = nil, architecturalDesign: String? = nil, awsRegions: [String]? = nil, clientRequestToken: String = CreateWorkloadInput.idempotencyToken(), description: String, environment: WorkloadEnvironment, industry: String? = nil, industryType: String? = nil, lenses: [String], nonAwsRegions: [String]? = nil, notes: String? = nil, pillarPriorities: [String]? = nil, reviewOwner: String, tags: [String: String]? = nil, workloadName: String) {
             self.accountIds = accountIds
             self.architecturalDesign = architecturalDesign
             self.awsRegions = awsRegions
@@ -276,6 +278,7 @@ extension WellArchitected {
             self.notes = notes
             self.pillarPriorities = pillarPriorities
             self.reviewOwner = reviewOwner
+            self.tags = tags
             self.workloadName = workloadName
         }
 
@@ -309,6 +312,12 @@ extension WellArchitected {
             }
             try self.validate(self.reviewOwner, name: "reviewOwner", parent: name, max: 255)
             try self.validate(self.reviewOwner, name: "reviewOwner", parent: name, min: 3)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
+            }
             try self.validate(self.workloadName, name: "workloadName", parent: name, max: 100)
             try self.validate(self.workloadName, name: "workloadName", parent: name, min: 3)
         }
@@ -327,6 +336,7 @@ extension WellArchitected {
             case notes = "Notes"
             case pillarPriorities = "PillarPriorities"
             case reviewOwner = "ReviewOwner"
+            case tags = "Tags"
             case workloadName = "WorkloadName"
         }
     }
@@ -1230,6 +1240,33 @@ extension WellArchitected {
         }
     }
 
+    public struct ListTagsForResourceInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "workloadArn", location: .uri(locationName: "WorkloadArn"))
+        ]
+
+        public let workloadArn: String
+
+        public init(workloadArn: String) {
+            self.workloadArn = workloadArn
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTagsForResourceOutput: AWSDecodableShape {
+        /// The tags for the resource.
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
     public struct ListWorkloadSharesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
@@ -1481,6 +1518,69 @@ extension WellArchitected {
             case workloadId = "WorkloadId"
             case workloadName = "WorkloadName"
         }
+    }
+
+    public struct TagResourceInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "workloadArn", location: .uri(locationName: "WorkloadArn"))
+        ]
+
+        /// The tags for the resource.
+        public let tags: [String: String]
+        public let workloadArn: String
+
+        public init(tags: [String: String], workloadArn: String) {
+            self.tags = tags
+            self.workloadArn = workloadArn
+        }
+
+        public func validate(name: String) throws {
+            try self.tags.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UntagResourceInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys")),
+            AWSMemberEncoding(label: "workloadArn", location: .uri(locationName: "WorkloadArn"))
+        ]
+
+        /// The keys of the tags to be removed.
+        public let tagKeys: [String]
+        public let workloadArn: String
+
+        public init(tagKeys: [String], workloadArn: String) {
+            self.tagKeys = tagKeys
+            self.workloadArn = workloadArn
+        }
+
+        public func validate(name: String) throws {
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UntagResourceOutput: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UpdateAnswerInput: AWSEncodableShape {
@@ -1839,12 +1939,14 @@ extension WellArchitected {
         public let riskCounts: [Risk: Int]?
         /// The ID assigned to the share invitation.
         public let shareInvitationId: String?
+        /// The tags associated with the workload.
+        public let tags: [String: String]?
         public let updatedAt: Date?
         public let workloadArn: String?
         public let workloadId: String?
         public let workloadName: String?
 
-        public init(accountIds: [String]? = nil, architecturalDesign: String? = nil, awsRegions: [String]? = nil, description: String? = nil, environment: WorkloadEnvironment? = nil, improvementStatus: WorkloadImprovementStatus? = nil, industry: String? = nil, industryType: String? = nil, isReviewOwnerUpdateAcknowledged: Bool? = nil, lenses: [String]? = nil, nonAwsRegions: [String]? = nil, notes: String? = nil, owner: String? = nil, pillarPriorities: [String]? = nil, reviewOwner: String? = nil, reviewRestrictionDate: Date? = nil, riskCounts: [Risk: Int]? = nil, shareInvitationId: String? = nil, updatedAt: Date? = nil, workloadArn: String? = nil, workloadId: String? = nil, workloadName: String? = nil) {
+        public init(accountIds: [String]? = nil, architecturalDesign: String? = nil, awsRegions: [String]? = nil, description: String? = nil, environment: WorkloadEnvironment? = nil, improvementStatus: WorkloadImprovementStatus? = nil, industry: String? = nil, industryType: String? = nil, isReviewOwnerUpdateAcknowledged: Bool? = nil, lenses: [String]? = nil, nonAwsRegions: [String]? = nil, notes: String? = nil, owner: String? = nil, pillarPriorities: [String]? = nil, reviewOwner: String? = nil, reviewRestrictionDate: Date? = nil, riskCounts: [Risk: Int]? = nil, shareInvitationId: String? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil, workloadArn: String? = nil, workloadId: String? = nil, workloadName: String? = nil) {
             self.accountIds = accountIds
             self.architecturalDesign = architecturalDesign
             self.awsRegions = awsRegions
@@ -1863,6 +1965,7 @@ extension WellArchitected {
             self.reviewRestrictionDate = reviewRestrictionDate
             self.riskCounts = riskCounts
             self.shareInvitationId = shareInvitationId
+            self.tags = tags
             self.updatedAt = updatedAt
             self.workloadArn = workloadArn
             self.workloadId = workloadId
@@ -1888,6 +1991,7 @@ extension WellArchitected {
             case reviewRestrictionDate = "ReviewRestrictionDate"
             case riskCounts = "RiskCounts"
             case shareInvitationId = "ShareInvitationId"
+            case tags = "Tags"
             case updatedAt = "UpdatedAt"
             case workloadArn = "WorkloadArn"
             case workloadId = "WorkloadId"

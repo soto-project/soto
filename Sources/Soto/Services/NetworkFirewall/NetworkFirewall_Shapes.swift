@@ -470,7 +470,7 @@ extension NetworkFirewall {
         public let ruleGroup: RuleGroup?
         /// The descriptive name of the rule group. You can't change the name of a rule group after you create it.
         public let ruleGroupName: String
-        /// The name of a file containing stateful rule group rules specifications in Suricata flat format, with one rule per line. Use this to import your existing Suricata compatible rule groups.   You must provide either this rules setting or a populated RuleGroup setting, but not both.   You can provide your rule group specification in a file through this setting when you create or update your rule group. The call response returns a RuleGroup object that Network Firewall has populated from your file. Network Firewall uses the file contents to populate the rule group rules, but does not maintain a reference to the file or use the file in any way after performing the create or update. If you call DescribeRuleGroup to retrieve the rule group, Network Firewall returns rules settings inside a RuleGroup object.
+        /// A string containing stateful rule group rules specifications in Suricata flat format, with one rule per line. Use this to import your existing Suricata compatible rule groups.   You must provide either this rules setting or a populated RuleGroup setting, but not both.   You can provide your rule group specification in Suricata flat format through this setting when you create or update your rule group. The call response returns a RuleGroup object that Network Firewall has populated from your string.
         public let rules: String?
         /// The key:value pairs to associate with the resource.
         public let tags: [Tag]?
@@ -1084,7 +1084,7 @@ extension NetworkFirewall {
         public let statelessCustomActions: [CustomAction]?
         /// The actions to take on a packet if it doesn't match any of the stateless rules in the policy. If you want non-matching packets to be forwarded for stateful inspection, specify aws:forward_to_sfe.  You must specify one of the standard actions: aws:pass, aws:drop, or aws:forward_to_sfe. In addition, you can specify custom actions that are compatible with your standard section choice. For example, you could specify ["aws:pass"] or you could specify ["aws:pass", “customActionName”]. For information about compatibility, see the custom action descriptions under CustomAction.
         public let statelessDefaultActions: [String]
-        /// The actions to take on a fragmented packet if it doesn't match any of the stateless rules in the policy. If you want non-matching fragmented packets to be forwarded for stateful inspection, specify aws:forward_to_sfe.  You must specify one of the standard actions: aws:pass, aws:drop, or aws:forward_to_sfe. In addition, you can specify custom actions that are compatible with your standard section choice. For example, you could specify ["aws:pass"] or you could specify ["aws:pass", “customActionName”]. For information about compatibility, see the custom action descriptions under CustomAction.
+        /// The actions to take on a fragmented UDP packet if it doesn't match any of the stateless rules in the policy. Network Firewall only manages UDP packet fragments and silently drops packet fragments for other protocols. If you want non-matching fragmented UDP packets to be forwarded for stateful inspection, specify aws:forward_to_sfe.  You must specify one of the standard actions: aws:pass, aws:drop, or aws:forward_to_sfe. In addition, you can specify custom actions that are compatible with your standard section choice. For example, you could specify ["aws:pass"] or you could specify ["aws:pass", “customActionName”]. For information about compatibility, see the custom action descriptions under CustomAction.
         public let statelessFragmentDefaultActions: [String]
         /// References to the stateless rule groups that are used in the policy. These define the matching criteria in stateless rules.
         public let statelessRuleGroupReferences: [StatelessRuleGroupReference]?
@@ -1196,7 +1196,7 @@ extension NetworkFirewall {
         public let destinationPort: String
         /// The direction of traffic flow to inspect. If set to ANY, the inspection matches bidirectional traffic, both from the source to the destination and from the destination to the source. If set to FORWARD, the inspection only matches traffic going from the source to the destination.
         public let direction: StatefulRuleDirection
-        /// The protocol to inspect for. To match with any protocol, specify ANY.
+        /// The protocol to inspect for. To specify all, you can use IP, because all traffic on AWS and on the internet is IP.
         public let `protocol`: StatefulRuleProtocol
         /// The source IP address or address range to inspect for, in CIDR notation. To match with any address, specify ANY.  Specify an IP address or a block of IP addresses in Classless Inter-Domain Routing (CIDR) notation. Network Firewall supports all address ranges for IPv4.  Examples:    To configure Network Firewall to inspect for the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure Network Firewall to inspect for IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.
         public let source: String
@@ -1545,14 +1545,19 @@ extension NetworkFirewall {
     }
 
     public struct PerObjectStatus: AWSDecodableShape {
+        /// Indicates whether this object is in sync with the version indicated in the update token.
         public let syncStatus: PerObjectSyncStatus?
+        /// The current version of the object that is either in sync or pending synchronization.
+        public let updateToken: String?
 
-        public init(syncStatus: PerObjectSyncStatus? = nil) {
+        public init(syncStatus: PerObjectSyncStatus? = nil, updateToken: String? = nil) {
             self.syncStatus = syncStatus
+            self.updateToken = updateToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case syncStatus = "SyncStatus"
+            case updateToken = "UpdateToken"
         }
     }
 
@@ -1812,7 +1817,7 @@ extension NetworkFirewall {
     public struct RulesSource: AWSEncodableShape & AWSDecodableShape {
         /// Stateful inspection criteria for a domain list rule group.
         public let rulesSourceList: RulesSourceList?
-        /// Stateful inspection criteria, provided in Suricata compatible intrusion prevention system (IPS) rules. Suricata is an open-source network IPS that includes a standard rule-based language for network traffic inspection. These rules contain the inspection criteria and the action to take for traffic that matches the criteria, so this type of rule group doesn't have a separate action setting. You can provide the rules from a file that you've stored in an Amazon S3 bucket, or by providing the rules in a Suricata rules string. To import from Amazon S3, provide the fully qualified name of the file that contains the rules definitions. To provide a Suricata rule string, provide the complete, Suricata compatible rule.
+        /// Stateful inspection criteria, provided in Suricata compatible intrusion prevention system (IPS) rules. Suricata is an open-source network IPS that includes a standard rule-based language for network traffic inspection. These rules contain the inspection criteria and the action to take for traffic that matches the criteria, so this type of rule group doesn't have a separate action setting.
         public let rulesString: String?
         /// The 5-tuple stateful inspection criteria. This contains an array of individual 5-tuple stateful rules to be used together in a stateful rule group.
         public let statefulRules: [StatefulRule]?
@@ -1846,8 +1851,9 @@ extension NetworkFirewall {
     public struct RulesSourceList: AWSEncodableShape & AWSDecodableShape {
         /// Whether you want to allow or deny access to the domains in your target list.
         public let generatedRulesType: GeneratedRulesType
-        /// The domains that you want to inspect for in your traffic flows. To provide multiple domains, separate them with commas.
+        /// The domains that you want to inspect for in your traffic flows. To provide multiple domains, separate them with commas. Valid domain specifications are the following:   Explicit names. For example, abc.example.com matches only the domain abc.example.com.   Names that use a domain wildcard, which you indicate with an initial '.'. For example,.example.com matches example.com and matches all subdomains of example.com, such as abc.example.com and www.example.com.
         public let targets: [String]
+        /// The protocols you want to inspect. Specify TLS_SNI for HTTPS. Specity HTTP_HOST for HTTP. You can specify either or both.
         public let targetTypes: [TargetType]
 
         public init(generatedRulesType: GeneratedRulesType, targets: [String], targetTypes: [TargetType]) {
@@ -2434,7 +2440,7 @@ extension NetworkFirewall {
         public let ruleGroupArn: String?
         /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
         public let ruleGroupName: String?
-        /// The name of a file containing stateful rule group rules specifications in Suricata flat format, with one rule per line. Use this to import your existing Suricata compatible rule groups.   You must provide either this rules setting or a populated RuleGroup setting, but not both.   You can provide your rule group specification in a file through this setting when you create or update your rule group. The call response returns a RuleGroup object that Network Firewall has populated from your file. Network Firewall uses the file contents to populate the rule group rules, but does not maintain a reference to the file or use the file in any way after performing the create or update. If you call DescribeRuleGroup to retrieve the rule group, Network Firewall returns rules settings inside a RuleGroup object.
+        /// A string containing stateful rule group rules specifications in Suricata flat format, with one rule per line. Use this to import your existing Suricata compatible rule groups.   You must provide either this rules setting or a populated RuleGroup setting, but not both.   You can provide your rule group specification in Suricata flat format through this setting when you create or update your rule group. The call response returns a RuleGroup object that Network Firewall has populated from your string.
         public let rules: String?
         /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains stateless rules. If it is stateful, it contains stateful rules.   This setting is required for requests that do not include the RuleGroupARN.
         public let type: RuleGroupType?

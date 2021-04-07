@@ -322,6 +322,8 @@ extension Backup {
         public let completionWindowMinutes: Int64?
         /// An array of CopyAction objects, which contains the details of the copy operation.
         public let copyActions: [CopyAction]?
+        /// Specifies whether AWS Backup creates continuous backups. True causes AWS Backup to create continuous backups capable of point-in-time restore (PITR). False (or not specified) causes AWS Backup to create snapshot backups.
+        public let enableContinuousBackup: Bool?
         /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup transitions and expires backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.  Only Amazon EFS file system backups can be transitioned to cold storage.
         public let lifecycle: Lifecycle?
         /// An array of key-value pair strings that are assigned to resources that are associated with this rule when restored from backup.
@@ -337,9 +339,10 @@ extension Backup {
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let targetBackupVaultName: String
 
-        public init(completionWindowMinutes: Int64? = nil, copyActions: [CopyAction]? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, ruleId: String? = nil, ruleName: String, scheduleExpression: String? = nil, startWindowMinutes: Int64? = nil, targetBackupVaultName: String) {
+        public init(completionWindowMinutes: Int64? = nil, copyActions: [CopyAction]? = nil, enableContinuousBackup: Bool? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, ruleId: String? = nil, ruleName: String, scheduleExpression: String? = nil, startWindowMinutes: Int64? = nil, targetBackupVaultName: String) {
             self.completionWindowMinutes = completionWindowMinutes
             self.copyActions = copyActions
+            self.enableContinuousBackup = enableContinuousBackup
             self.lifecycle = lifecycle
             self.recoveryPointTags = recoveryPointTags
             self.ruleId = ruleId
@@ -352,6 +355,7 @@ extension Backup {
         private enum CodingKeys: String, CodingKey {
             case completionWindowMinutes = "CompletionWindowMinutes"
             case copyActions = "CopyActions"
+            case enableContinuousBackup = "EnableContinuousBackup"
             case lifecycle = "Lifecycle"
             case recoveryPointTags = "RecoveryPointTags"
             case ruleId = "RuleId"
@@ -367,6 +371,8 @@ extension Backup {
         public let completionWindowMinutes: Int64?
         /// An array of CopyAction objects, which contains the details of the copy operation.
         public let copyActions: [CopyAction]?
+        /// Specifies whether AWS Backup creates continuous backups. True causes AWS Backup to create continuous backups capable of point-in-time restore (PITR). False (or not specified) causes AWS Backup to create snapshot backups.
+        public let enableContinuousBackup: Bool?
         /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup will transition and expire backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.  Only Amazon EFS file system backups can be transitioned to cold storage.
         public let lifecycle: Lifecycle?
         /// To help organize your resources, you can assign your own metadata to the resources that you create. Each tag is a key-value pair.
@@ -380,9 +386,10 @@ extension Backup {
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let targetBackupVaultName: String
 
-        public init(completionWindowMinutes: Int64? = nil, copyActions: [CopyAction]? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, ruleName: String, scheduleExpression: String? = nil, startWindowMinutes: Int64? = nil, targetBackupVaultName: String) {
+        public init(completionWindowMinutes: Int64? = nil, copyActions: [CopyAction]? = nil, enableContinuousBackup: Bool? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, ruleName: String, scheduleExpression: String? = nil, startWindowMinutes: Int64? = nil, targetBackupVaultName: String) {
             self.completionWindowMinutes = completionWindowMinutes
             self.copyActions = copyActions
+            self.enableContinuousBackup = enableContinuousBackup
             self.lifecycle = lifecycle
             self.recoveryPointTags = recoveryPointTags
             self.ruleName = ruleName
@@ -399,6 +406,7 @@ extension Backup {
         private enum CodingKeys: String, CodingKey {
             case completionWindowMinutes = "CompletionWindowMinutes"
             case copyActions = "CopyActions"
+            case enableContinuousBackup = "EnableContinuousBackup"
             case lifecycle = "Lifecycle"
             case recoveryPointTags = "RecoveryPointTags"
             case ruleName = "RuleName"
@@ -1348,6 +1356,29 @@ extension Backup {
             case status = "Status"
             case statusMessage = "StatusMessage"
         }
+    }
+
+    public struct DisassociateRecoveryPointInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName")),
+            AWSMemberEncoding(label: "recoveryPointArn", location: .uri(locationName: "recoveryPointArn"))
+        ]
+
+        /// The unique name of an AWS Backup vault. Required.
+        public let backupVaultName: String
+        /// An Amazon Resource Name (ARN) that uniquely identifies an AWS Backup recovery point. Required.
+        public let recoveryPointArn: String
+
+        public init(backupVaultName: String, recoveryPointArn: String) {
+            self.backupVaultName = backupVaultName
+            self.recoveryPointArn = recoveryPointArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ExportBackupPlanTemplateInput: AWSEncodableShape {

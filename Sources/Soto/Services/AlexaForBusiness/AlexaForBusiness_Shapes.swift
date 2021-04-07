@@ -773,11 +773,14 @@ extension AlexaForBusiness {
         public let description: String?
         /// The name of the address book.
         public let name: String
+        /// The tags to be added to the specified resource. Do not provide system tags.
+        public let tags: [Tag]?
 
-        public init(clientRequestToken: String? = CreateAddressBookRequest.idempotencyToken(), description: String? = nil, name: String) {
+        public init(clientRequestToken: String? = CreateAddressBookRequest.idempotencyToken(), description: String? = nil, name: String, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.description = description
             self.name = name
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -790,12 +793,16 @@ extension AlexaForBusiness {
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
             case description = "Description"
             case name = "Name"
+            case tags = "Tags"
         }
     }
 
@@ -896,14 +903,17 @@ extension AlexaForBusiness {
         public let meetingSetting: MeetingSetting
         /// The information for PSTN conferencing.
         public let pSTNDialIn: PSTNDialIn?
+        /// The tags to be added to the specified resource. Do not provide system tags.
+        public let tags: [Tag]?
 
-        public init(clientRequestToken: String? = CreateConferenceProviderRequest.idempotencyToken(), conferenceProviderName: String, conferenceProviderType: ConferenceProviderType, iPDialIn: IPDialIn? = nil, meetingSetting: MeetingSetting, pSTNDialIn: PSTNDialIn? = nil) {
+        public init(clientRequestToken: String? = CreateConferenceProviderRequest.idempotencyToken(), conferenceProviderName: String, conferenceProviderType: ConferenceProviderType, iPDialIn: IPDialIn? = nil, meetingSetting: MeetingSetting, pSTNDialIn: PSTNDialIn? = nil, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.conferenceProviderName = conferenceProviderName
             self.conferenceProviderType = conferenceProviderType
             self.iPDialIn = iPDialIn
             self.meetingSetting = meetingSetting
             self.pSTNDialIn = pSTNDialIn
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -915,6 +925,9 @@ extension AlexaForBusiness {
             try self.validate(self.conferenceProviderName, name: "conferenceProviderName", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
             try self.iPDialIn?.validate(name: "\(name).iPDialIn")
             try self.pSTNDialIn?.validate(name: "\(name).pSTNDialIn")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -924,6 +937,7 @@ extension AlexaForBusiness {
             case iPDialIn = "IPDialIn"
             case meetingSetting = "MeetingSetting"
             case pSTNDialIn = "PSTNDialIn"
+            case tags = "Tags"
         }
     }
 
@@ -955,8 +969,10 @@ extension AlexaForBusiness {
         public let phoneNumbers: [PhoneNumber]?
         /// The list of SIP addresses for the contact.
         public let sipAddresses: [SipAddress]?
+        /// The tags to be added to the specified resource. Do not provide system tags.
+        public let tags: [Tag]?
 
-        public init(clientRequestToken: String? = CreateContactRequest.idempotencyToken(), displayName: String? = nil, firstName: String, lastName: String? = nil, phoneNumber: String? = nil, phoneNumbers: [PhoneNumber]? = nil, sipAddresses: [SipAddress]? = nil) {
+        public init(clientRequestToken: String? = CreateContactRequest.idempotencyToken(), displayName: String? = nil, firstName: String, lastName: String? = nil, phoneNumber: String? = nil, phoneNumbers: [PhoneNumber]? = nil, sipAddresses: [SipAddress]? = nil, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.displayName = displayName
             self.firstName = firstName
@@ -964,6 +980,7 @@ extension AlexaForBusiness {
             self.phoneNumber = phoneNumber
             self.phoneNumbers = phoneNumbers
             self.sipAddresses = sipAddresses
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -992,6 +1009,9 @@ extension AlexaForBusiness {
             }
             try self.validate(self.sipAddresses, name: "sipAddresses", parent: name, max: 1)
             try self.validate(self.sipAddresses, name: "sipAddresses", parent: name, min: 0)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1002,6 +1022,7 @@ extension AlexaForBusiness {
             case phoneNumber = "PhoneNumber"
             case phoneNumbers = "PhoneNumbers"
             case sipAddresses = "SipAddresses"
+            case tags = "Tags"
         }
     }
 
@@ -1051,11 +1072,14 @@ extension AlexaForBusiness {
         public let description: String?
         /// The name of the gateway group.
         public let name: String
+        /// The tags to be added to the specified resource. Do not provide system tags.
+        public let tags: [Tag]?
 
-        public init(clientRequestToken: String = CreateGatewayGroupRequest.idempotencyToken(), description: String? = nil, name: String) {
+        public init(clientRequestToken: String = CreateGatewayGroupRequest.idempotencyToken(), description: String? = nil, name: String, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.description = description
             self.name = name
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -1067,12 +1091,16 @@ extension AlexaForBusiness {
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
             case description = "Description"
             case name = "Name"
+            case tags = "Tags"
         }
     }
 
@@ -1152,10 +1180,12 @@ extension AlexaForBusiness {
         public let securityType: NetworkSecurityType
         /// The SSID of the Wi-Fi network.
         public let ssid: String
+        /// The tags to be added to the specified resource. Do not provide system tags.
+        public let tags: [Tag]?
         /// The root certificates of your authentication server that is installed on your devices and used to trust your authentication server during EAP negotiation.
         public let trustAnchors: [String]?
 
-        public init(certificateAuthorityArn: String? = nil, clientRequestToken: String = CreateNetworkProfileRequest.idempotencyToken(), currentPassword: String? = nil, description: String? = nil, eapMethod: NetworkEapMethod? = nil, networkProfileName: String, nextPassword: String? = nil, securityType: NetworkSecurityType, ssid: String, trustAnchors: [String]? = nil) {
+        public init(certificateAuthorityArn: String? = nil, clientRequestToken: String = CreateNetworkProfileRequest.idempotencyToken(), currentPassword: String? = nil, description: String? = nil, eapMethod: NetworkEapMethod? = nil, networkProfileName: String, nextPassword: String? = nil, securityType: NetworkSecurityType, ssid: String, tags: [Tag]? = nil, trustAnchors: [String]? = nil) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.clientRequestToken = clientRequestToken
             self.currentPassword = currentPassword
@@ -1165,6 +1195,7 @@ extension AlexaForBusiness {
             self.nextPassword = nextPassword
             self.securityType = securityType
             self.ssid = ssid
+            self.tags = tags
             self.trustAnchors = trustAnchors
         }
 
@@ -1188,6 +1219,9 @@ extension AlexaForBusiness {
             try self.validate(self.ssid, name: "ssid", parent: name, max: 32)
             try self.validate(self.ssid, name: "ssid", parent: name, min: 1)
             try self.validate(self.ssid, name: "ssid", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
             try self.trustAnchors?.forEach {
                 try validate($0, name: "trustAnchors[]", parent: name, pattern: "-{5}BEGIN CERTIFICATE-{5}\\u000D?\\u000A([A-Za-z0-9/+]{64}\\u000D?\\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\\u000D?\\u000A-{5}END CERTIFICATE-{5}(\\u000D?\\u000A)?")
             }
@@ -1205,6 +1239,7 @@ extension AlexaForBusiness {
             case nextPassword = "NextPassword"
             case securityType = "SecurityType"
             case ssid = "Ssid"
+            case tags = "Tags"
             case trustAnchors = "TrustAnchors"
         }
     }
@@ -1227,6 +1262,8 @@ extension AlexaForBusiness {
         public let address: String
         /// The user-specified token that is used during the creation of a profile.
         public let clientRequestToken: String?
+        /// Whether data retention of the profile is enabled.
+        public let dataRetentionOptIn: Bool?
         /// The distance unit to be used by devices in the profile.
         public let distanceUnit: DistanceUnit
         /// The locale of the room profile. (This is currently only available to a limited preview audience.)
@@ -1250,9 +1287,10 @@ extension AlexaForBusiness {
         /// A wake word for Alexa, Echo, Amazon, or a computer.
         public let wakeWord: WakeWord
 
-        public init(address: String, clientRequestToken: String? = CreateProfileRequest.idempotencyToken(), distanceUnit: DistanceUnit, locale: String? = nil, maxVolumeLimit: Int? = nil, meetingRoomConfiguration: CreateMeetingRoomConfiguration? = nil, profileName: String, pSTNEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, tags: [Tag]? = nil, temperatureUnit: TemperatureUnit, timezone: String, wakeWord: WakeWord) {
+        public init(address: String, clientRequestToken: String? = CreateProfileRequest.idempotencyToken(), dataRetentionOptIn: Bool? = nil, distanceUnit: DistanceUnit, locale: String? = nil, maxVolumeLimit: Int? = nil, meetingRoomConfiguration: CreateMeetingRoomConfiguration? = nil, profileName: String, pSTNEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, tags: [Tag]? = nil, temperatureUnit: TemperatureUnit, timezone: String, wakeWord: WakeWord) {
             self.address = address
             self.clientRequestToken = clientRequestToken
+            self.dataRetentionOptIn = dataRetentionOptIn
             self.distanceUnit = distanceUnit
             self.locale = locale
             self.maxVolumeLimit = maxVolumeLimit
@@ -1288,6 +1326,7 @@ extension AlexaForBusiness {
         private enum CodingKeys: String, CodingKey {
             case address = "Address"
             case clientRequestToken = "ClientRequestToken"
+            case dataRetentionOptIn = "DataRetentionOptIn"
             case distanceUnit = "DistanceUnit"
             case locale = "Locale"
             case maxVolumeLimit = "MaxVolumeLimit"
@@ -3399,6 +3438,8 @@ extension AlexaForBusiness {
         public let address: String?
         /// The ARN of the address book.
         public let addressBookArn: String?
+        /// Whether data retention of the profile is enabled.
+        public let dataRetentionOptIn: Bool?
         /// The distance unit of a room profile.
         public let distanceUnit: DistanceUnit?
         /// Retrieves if the profile is default or not.
@@ -3424,9 +3465,10 @@ extension AlexaForBusiness {
         /// The wake word of a room profile.
         public let wakeWord: WakeWord?
 
-        public init(address: String? = nil, addressBookArn: String? = nil, distanceUnit: DistanceUnit? = nil, isDefault: Bool? = nil, locale: String? = nil, maxVolumeLimit: Int? = nil, meetingRoomConfiguration: MeetingRoomConfiguration? = nil, profileArn: String? = nil, profileName: String? = nil, pSTNEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, temperatureUnit: TemperatureUnit? = nil, timezone: String? = nil, wakeWord: WakeWord? = nil) {
+        public init(address: String? = nil, addressBookArn: String? = nil, dataRetentionOptIn: Bool? = nil, distanceUnit: DistanceUnit? = nil, isDefault: Bool? = nil, locale: String? = nil, maxVolumeLimit: Int? = nil, meetingRoomConfiguration: MeetingRoomConfiguration? = nil, profileArn: String? = nil, profileName: String? = nil, pSTNEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, temperatureUnit: TemperatureUnit? = nil, timezone: String? = nil, wakeWord: WakeWord? = nil) {
             self.address = address
             self.addressBookArn = addressBookArn
+            self.dataRetentionOptIn = dataRetentionOptIn
             self.distanceUnit = distanceUnit
             self.isDefault = isDefault
             self.locale = locale
@@ -3444,6 +3486,7 @@ extension AlexaForBusiness {
         private enum CodingKeys: String, CodingKey {
             case address = "Address"
             case addressBookArn = "AddressBookArn"
+            case dataRetentionOptIn = "DataRetentionOptIn"
             case distanceUnit = "DistanceUnit"
             case isDefault = "IsDefault"
             case locale = "Locale"
@@ -3638,17 +3681,20 @@ extension AlexaForBusiness {
         public let deviceSerialNumber: String?
         /// The product ID used to identify your AVS device during authorization.
         public let productId: String
-        /// The ARN of the room with which to associate your AVS device.
+        /// The Amazon Resource Name (ARN) of the room with which to associate your AVS device.
         public let roomArn: String?
+        /// The tags to be added to the specified resource. Do not provide system tags.
+        public let tags: [Tag]?
         /// The code that is obtained after your AVS device has made a POST request to LWA as a part of the Device Authorization Request component of the OAuth code-based linking specification.
         public let userCode: String
 
-        public init(amazonId: String, clientId: String, deviceSerialNumber: String? = nil, productId: String, roomArn: String? = nil, userCode: String) {
+        public init(amazonId: String, clientId: String, deviceSerialNumber: String? = nil, productId: String, roomArn: String? = nil, tags: [Tag]? = nil, userCode: String) {
             self.amazonId = amazonId
             self.clientId = clientId
             self.deviceSerialNumber = deviceSerialNumber
             self.productId = productId
             self.roomArn = roomArn
+            self.tags = tags
             self.userCode = userCode
         }
 
@@ -3658,6 +3704,9 @@ extension AlexaForBusiness {
             try self.validate(self.deviceSerialNumber, name: "deviceSerialNumber", parent: name, pattern: "^[a-zA-Z0-9]{1,50}$")
             try self.validate(self.productId, name: "productId", parent: name, pattern: "^[a-zA-Z0-9_]{1,256}$")
             try self.validate(self.roomArn, name: "roomArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
             try self.validate(self.userCode, name: "userCode", parent: name, max: 128)
             try self.validate(self.userCode, name: "userCode", parent: name, min: 1)
         }
@@ -3668,6 +3717,7 @@ extension AlexaForBusiness {
             case deviceSerialNumber = "DeviceSerialNumber"
             case productId = "ProductId"
             case roomArn = "RoomArn"
+            case tags = "Tags"
             case userCode = "UserCode"
         }
     }
@@ -5274,6 +5324,8 @@ extension AlexaForBusiness {
     public struct UpdateProfileRequest: AWSEncodableShape {
         /// The updated address for the room profile.
         public let address: String?
+        /// Whether data retention of the profile is enabled.
+        public let dataRetentionOptIn: Bool?
         /// The updated distance unit for the room profile.
         public let distanceUnit: DistanceUnit?
         /// Sets the profile as default if selected. If this is missing, no update is done to the default status.
@@ -5299,8 +5351,9 @@ extension AlexaForBusiness {
         /// The updated wake word for the room profile.
         public let wakeWord: WakeWord?
 
-        public init(address: String? = nil, distanceUnit: DistanceUnit? = nil, isDefault: Bool? = nil, locale: String? = nil, maxVolumeLimit: Int? = nil, meetingRoomConfiguration: UpdateMeetingRoomConfiguration? = nil, profileArn: String? = nil, profileName: String? = nil, pSTNEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, temperatureUnit: TemperatureUnit? = nil, timezone: String? = nil, wakeWord: WakeWord? = nil) {
+        public init(address: String? = nil, dataRetentionOptIn: Bool? = nil, distanceUnit: DistanceUnit? = nil, isDefault: Bool? = nil, locale: String? = nil, maxVolumeLimit: Int? = nil, meetingRoomConfiguration: UpdateMeetingRoomConfiguration? = nil, profileArn: String? = nil, profileName: String? = nil, pSTNEnabled: Bool? = nil, setupModeDisabled: Bool? = nil, temperatureUnit: TemperatureUnit? = nil, timezone: String? = nil, wakeWord: WakeWord? = nil) {
             self.address = address
+            self.dataRetentionOptIn = dataRetentionOptIn
             self.distanceUnit = distanceUnit
             self.isDefault = isDefault
             self.locale = locale
@@ -5331,6 +5384,7 @@ extension AlexaForBusiness {
 
         private enum CodingKeys: String, CodingKey {
             case address = "Address"
+            case dataRetentionOptIn = "DataRetentionOptIn"
             case distanceUnit = "DistanceUnit"
             case isDefault = "IsDefault"
             case locale = "Locale"

@@ -133,7 +133,7 @@ public struct CodePipelineErrorType: AWSErrorType {
     public static var pipelineNotFoundException: Self { .init(.pipelineNotFoundException) }
     /// The pipeline version was specified in an invalid format or cannot be found.
     public static var pipelineVersionNotFoundException: Self { .init(.pipelineVersionNotFoundException) }
-    /// The request has failed because of an unknown error, exception, or failure.
+    /// The request failed because of an unknown error, exception, or failure.
     public static var requestFailedException: Self { .init(.requestFailedException) }
     /// The resource was specified in an invalid format.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }

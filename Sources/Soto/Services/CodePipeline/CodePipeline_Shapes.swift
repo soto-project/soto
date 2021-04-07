@@ -683,9 +683,9 @@ extension CodePipeline {
     }
 
     public struct ActionTypeArtifactDetails: AWSEncodableShape & AWSDecodableShape {
-        /// The maximum allowed number of artifacts that can be used with the actiontype. For example, you should specify a minimum and maximum of zero input artifacts for an action type with a category of source.
+        /// The maximum number of artifacts that can be used with the actiontype. For example, you should specify a minimum and maximum of zero input artifacts for an action type with a category of source.
         public let maximumCount: Int
-        /// The minimum allowed number of artifacts that can be used with the action type. For example, you should specify a minimum and maximum of zero input artifacts for an action type with a category of source.
+        /// The minimum number of artifacts that can be used with the action type. For example, you should specify a minimum and maximum of zero input artifacts for an action type with a category of source.
         public let minimumCount: Int
 
         public init(maximumCount: Int, minimumCount: Int) {
@@ -711,7 +711,7 @@ extension CodePipeline {
         public let description: String?
         /// Information about the executor for an action type that was created with any supported integration model.
         public let executor: ActionTypeExecutor
-        /// The action ID is composed of the action category, owner, provider, and version of the action type to be updated.
+        /// The action category, owner, provider, and version of the action type to be updated.
         public let id: ActionTypeIdentifier
         /// Details for the artifacts, such as application files, to be worked on by the action. For example, the minimum and maximum number of input artifacts allowed.
         public let inputArtifactDetails: ActionTypeArtifactDetails
@@ -765,11 +765,11 @@ extension CodePipeline {
     public struct ActionTypeExecutor: AWSEncodableShape & AWSDecodableShape {
         /// The action configuration properties for the action type. These properties are specified in the action definition when the action type is created.
         public let configuration: ExecutorConfiguration
-        /// The timeout in seconds for the job. An action execution can consist of multiple jobs. This is the timeout for a single job, and not for the entire action execution.
+        /// The timeout in seconds for the job. An action execution can have multiple jobs. This is the timeout for a single job, not the entire action execution.
         public let jobTimeout: Int?
-        /// The policy statement that specifies the permissions in the CodePipeline customer’s account that are needed to successfully run an action execution. To grant permission to another account, specify the account ID as the Principal. For AWS services, the Principal is a domain-style identifier defined by the service, like codepipeline.amazonaws.com.  The size of the passed JSON policy document cannot exceed 2048 characters.
+        /// The policy statement that specifies the permissions in the CodePipeline customer’s account that are needed to successfully run an action. To grant permission to another account, specify the account ID as the Principal, a domain-style identifier defined by the service, for example codepipeline.amazonaws.com.  The size of the passed JSON policy document cannot exceed 2048 characters.
         public let policyStatementsTemplate: String?
-        /// The integration model used to create and update the action type, such as the Lambda integration model. Each integration type has a related action engine, or executor. The available executor types are Lambda and JobWorker.
+        /// The integration model used to create and update the action type, Lambda or JobWorker.
         public let type: ExecutorType
 
         public init(configuration: ExecutorConfiguration, jobTimeout: Int? = nil, policyStatementsTemplate: String? = nil, type: ExecutorType) {
@@ -830,9 +830,9 @@ extension CodePipeline {
     }
 
     public struct ActionTypeIdentifier: AWSEncodableShape & AWSDecodableShape {
-        /// A category defines what kind of action can be taken in the stage. Valid categories are limited to one of the following values:    Source     Build     Test     Deploy     Approval     Invoke
+        /// Defines what kind of action can be taken in the stage, one of the following:    Source     Build     Test     Deploy     Approval     Invoke
         public let category: ActionCategory
-        /// The creator of the action type being called. There are two valid values for the owner field: AWS and ThirdParty.
+        /// The creator of the action type being called: AWS or ThirdParty.
         public let owner: String
         /// The provider of the action type being called. The provider name is supplied when the action type is created.
         public let provider: String
@@ -865,7 +865,7 @@ extension CodePipeline {
     }
 
     public struct ActionTypePermissions: AWSEncodableShape & AWSDecodableShape {
-        /// A list of AWS account IDs with allow access to use the action type in their pipelines.
+        /// A list of AWS account IDs with access to use the action type in their pipelines.
         public let allowedAccounts: [String]
 
         public init(allowedAccounts: [String]) {
@@ -890,9 +890,9 @@ extension CodePipeline {
         public let description: String?
         /// Whether the configuration property is a key.
         public let key: Bool
-        /// The property name. This represents a field name that is displayed to users.
+        /// The property name that is displayed to users.
         public let name: String
-        /// Determines whether the field value entered by the customer is logged. If noEcho is true, the value is not shown in CloudTrail logs for the action execution.
+        /// Whether to omit the field value entered by the customer in the log. If true, the value is not saved in CloudTrail logs for the action execution.
         public let noEcho: Bool
         /// Whether the configuration property is an optional value.
         public let optional: Bool
@@ -1632,9 +1632,9 @@ extension CodePipeline {
     }
 
     public struct GetActionTypeInput: AWSEncodableShape {
-        /// A category defines what kind of action can be taken in the stage. Valid categories are limited to one of the following values:    Source     Build     Test     Deploy     Approval     Invoke
+        /// Defines what kind of action can be taken in the stage. The following are the valid values:    Source     Build     Test     Deploy     Approval     Invoke
         public let category: ActionCategory
-        /// The creator of an action type that has been created with any supported integration model. There are two valid values for the owner field in the action type category: AWS and ThirdParty.
+        /// The creator of an action type that was created with any supported integration model. There are two valid values: AWS and ThirdParty.
         public let owner: String
         /// The provider of the action type being called. The provider name is specified when the action type is created.
         public let provider: String
@@ -2175,19 +2175,25 @@ extension CodePipeline {
     }
 
     public struct ListPipelinesInput: AWSEncodableShape {
+        /// The maximum number of pipelines to return in a single call. To retrieve the remaining pipelines, make another call with the returned nextToken value. The minimum value you can specify is 1. The maximum accepted value is 1000.
+        public let maxResults: Int?
         /// An identifier that was returned from the previous list pipelines call. It can be used to return the next set of pipelines in the list.
         public let nextToken: String?
 
-        public init(nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case maxResults
             case nextToken
         }
     }
@@ -3414,14 +3420,14 @@ extension CodePipeline {
 
     public struct UpdateActionTypeInput: AWSEncodableShape {
         /// The action type definition for the action type to be updated.
-        public let actionType: ActionTypeDeclaration?
+        public let actionType: ActionTypeDeclaration
 
-        public init(actionType: ActionTypeDeclaration? = nil) {
+        public init(actionType: ActionTypeDeclaration) {
             self.actionType = actionType
         }
 
         public func validate(name: String) throws {
-            try self.actionType?.validate(name: "\(name).actionType")
+            try self.actionType.validate(name: "\(name).actionType")
         }
 
         private enum CodingKeys: String, CodingKey {
