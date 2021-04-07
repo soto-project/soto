@@ -238,7 +238,6 @@ extension ComprehendMedical {
         }
 
         public func validate(name: String) throws {
-            try self.jobName?.forEach {}
             try self.validate(self.jobName, name: "jobName", parent: name, max: 256)
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
@@ -326,7 +325,6 @@ extension ComprehendMedical {
         }
 
         public func validate(name: String) throws {
-            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 32)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
@@ -359,7 +357,6 @@ extension ComprehendMedical {
         }
 
         public func validate(name: String) throws {
-            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 32)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
@@ -392,7 +389,6 @@ extension ComprehendMedical {
         }
 
         public func validate(name: String) throws {
-            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 32)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
@@ -425,7 +421,6 @@ extension ComprehendMedical {
         }
 
         public func validate(name: String) throws {
-            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 32)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
@@ -458,7 +453,6 @@ extension ComprehendMedical {
         }
 
         public func validate(name: String) throws {
-            try self.text.forEach {}
             try self.validate(self.text, name: "text", parent: name, max: 20000)
             try self.validate(self.text, name: "text", parent: name, min: 1)
         }
@@ -502,7 +496,6 @@ extension ComprehendMedical {
         }
 
         public func validate(name: String) throws {
-            try self.text.forEach {}
             try self.validate(self.text, name: "text", parent: name, max: 20000)
             try self.validate(self.text, name: "text", parent: name, min: 1)
         }
@@ -546,7 +539,6 @@ extension ComprehendMedical {
         }
 
         public func validate(name: String) throws {
-            try self.text.forEach {}
             try self.validate(self.text, name: "text", parent: name, max: 20000)
             try self.validate(self.text, name: "text", parent: name, min: 1)
         }
@@ -759,7 +751,6 @@ extension ComprehendMedical {
         }
 
         public func validate(name: String) throws {
-            try self.text.forEach {}
             try self.validate(self.text, name: "text", parent: name, max: 10000)
             try self.validate(self.text, name: "text", parent: name, min: 1)
         }
@@ -799,7 +790,6 @@ extension ComprehendMedical {
         }
 
         public func validate(name: String) throws {
-            try self.text.forEach {}
             try self.validate(self.text, name: "text", parent: name, max: 10000)
             try self.validate(self.text, name: "text", parent: name, min: 1)
         }
@@ -842,11 +832,9 @@ extension ComprehendMedical {
         }
 
         public func validate(name: String) throws {
-            try self.s3Bucket.forEach {}
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, max: 63)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, min: 3)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "^[0-9a-z\\.\\-_]*(?!\\.)$")
-            try self.s3Key?.forEach {}
             try self.validate(self.s3Key, name: "s3Key", parent: name, max: 1024)
             try self.validate(self.s3Key, name: "s3Key", parent: name, pattern: ".*")
         }
@@ -873,11 +861,8 @@ extension ComprehendMedical {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
-            try self.filter?.forEach {}
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -921,11 +906,8 @@ extension ComprehendMedical {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
-            try self.filter?.forEach {}
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -969,11 +951,8 @@ extension ComprehendMedical {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
-            try self.filter?.forEach {}
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -1017,11 +996,8 @@ extension ComprehendMedical {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
-            try self.filter?.forEach {}
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -1061,11 +1037,9 @@ extension ComprehendMedical {
         }
 
         public func validate(name: String) throws {
-            try self.s3Bucket.forEach {}
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, max: 63)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, min: 3)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "^[0-9a-z\\.\\-_]*(?!\\.)$")
-            try self.s3Key?.forEach {}
             try self.validate(self.s3Key, name: "s3Key", parent: name, max: 1024)
             try self.validate(self.s3Key, name: "s3Key", parent: name, pattern: ".*")
         }
@@ -1231,26 +1205,20 @@ extension ComprehendMedical {
         }
 
         public func validate(name: String) throws {
-            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.dataAccessRoleArn.forEach {}
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, max: 2048)
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, min: 20)
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
             try self.inputDataConfig.validate(name: "\(name).inputDataConfig")
-            try self.inputDataConfig.forEach {}
-            try self.jobName?.forEach {}
             try self.validate(self.jobName, name: "jobName", parent: name, max: 256)
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
-            try self.kMSKey?.forEach {}
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, max: 2048)
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, min: 1)
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, pattern: ".*")
             try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
-            try self.outputDataConfig.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1304,26 +1272,20 @@ extension ComprehendMedical {
         }
 
         public func validate(name: String) throws {
-            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.dataAccessRoleArn.forEach {}
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, max: 2048)
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, min: 20)
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
             try self.inputDataConfig.validate(name: "\(name).inputDataConfig")
-            try self.inputDataConfig.forEach {}
-            try self.jobName?.forEach {}
             try self.validate(self.jobName, name: "jobName", parent: name, max: 256)
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
-            try self.kMSKey?.forEach {}
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, max: 2048)
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, min: 1)
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, pattern: ".*")
             try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
-            try self.outputDataConfig.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1377,26 +1339,20 @@ extension ComprehendMedical {
         }
 
         public func validate(name: String) throws {
-            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.dataAccessRoleArn.forEach {}
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, max: 2048)
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, min: 20)
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
             try self.inputDataConfig.validate(name: "\(name).inputDataConfig")
-            try self.inputDataConfig.forEach {}
-            try self.jobName?.forEach {}
             try self.validate(self.jobName, name: "jobName", parent: name, max: 256)
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
-            try self.kMSKey?.forEach {}
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, max: 2048)
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, min: 1)
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, pattern: ".*")
             try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
-            try self.outputDataConfig.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1450,26 +1406,20 @@ extension ComprehendMedical {
         }
 
         public func validate(name: String) throws {
-            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.dataAccessRoleArn.forEach {}
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, max: 2048)
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, min: 20)
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
             try self.inputDataConfig.validate(name: "\(name).inputDataConfig")
-            try self.inputDataConfig.forEach {}
-            try self.jobName?.forEach {}
             try self.validate(self.jobName, name: "jobName", parent: name, max: 256)
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
-            try self.kMSKey?.forEach {}
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, max: 2048)
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, min: 1)
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, pattern: ".*")
             try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
-            try self.outputDataConfig.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1505,7 +1455,6 @@ extension ComprehendMedical {
         }
 
         public func validate(name: String) throws {
-            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 32)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
@@ -1538,7 +1487,6 @@ extension ComprehendMedical {
         }
 
         public func validate(name: String) throws {
-            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 32)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
@@ -1571,7 +1519,6 @@ extension ComprehendMedical {
         }
 
         public func validate(name: String) throws {
-            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 32)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
@@ -1604,7 +1551,6 @@ extension ComprehendMedical {
         }
 
         public func validate(name: String) throws {
-            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 32)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")

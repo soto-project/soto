@@ -128,30 +128,22 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.activationKey.forEach {}
             try self.validate(self.activationKey, name: "activationKey", parent: name, max: 50)
             try self.validate(self.activationKey, name: "activationKey", parent: name, min: 1)
-            try self.gatewayName.forEach {}
             try self.validate(self.gatewayName, name: "gatewayName", parent: name, max: 255)
             try self.validate(self.gatewayName, name: "gatewayName", parent: name, min: 2)
             try self.validate(self.gatewayName, name: "gatewayName", parent: name, pattern: "^[ -\\.0-\\[\\]-~]*[!-\\.0-\\[\\]-~][ -\\.0-\\[\\]-~]*$")
-            try self.gatewayRegion.forEach {}
             try self.validate(self.gatewayRegion, name: "gatewayRegion", parent: name, max: 25)
             try self.validate(self.gatewayRegion, name: "gatewayRegion", parent: name, min: 1)
-            try self.gatewayTimezone.forEach {}
             try self.validate(self.gatewayTimezone, name: "gatewayTimezone", parent: name, max: 10)
             try self.validate(self.gatewayTimezone, name: "gatewayTimezone", parent: name, min: 3)
-            try self.gatewayType?.forEach {}
             try self.validate(self.gatewayType, name: "gatewayType", parent: name, max: 20)
             try self.validate(self.gatewayType, name: "gatewayType", parent: name, min: 2)
-            try self.mediumChangerType?.forEach {}
             try self.validate(self.mediumChangerType, name: "mediumChangerType", parent: name, max: 50)
             try self.validate(self.mediumChangerType, name: "mediumChangerType", parent: name, min: 2)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
-            try self.tapeDriveType?.forEach {}
             try self.validate(self.tapeDriveType, name: "tapeDriveType", parent: name, max: 50)
             try self.validate(self.tapeDriveType, name: "tapeDriveType", parent: name, min: 2)
         }
@@ -195,8 +187,6 @@ extension StorageGateway {
                 try validate($0, name: "diskIds[]", parent: name, max: 300)
                 try validate($0, name: "diskIds[]", parent: name, min: 1)
             }
-            try self.diskIds.forEach {}
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
         }
@@ -231,13 +221,11 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 500)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 50)
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -274,8 +262,6 @@ extension StorageGateway {
                 try validate($0, name: "diskIds[]", parent: name, max: 300)
                 try validate($0, name: "diskIds[]", parent: name, min: 1)
             }
-            try self.diskIds.forEach {}
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
         }
@@ -313,8 +299,6 @@ extension StorageGateway {
                 try validate($0, name: "diskIds[]", parent: name, max: 300)
                 try validate($0, name: "diskIds[]", parent: name, min: 1)
             }
-            try self.diskIds.forEach {}
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
         }
@@ -352,10 +336,8 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.poolId.forEach {}
             try self.validate(self.poolId, name: "poolId", parent: name, max: 100)
             try self.validate(self.poolId, name: "poolId", parent: name, min: 1)
-            try self.tapeARN.forEach {}
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, max: 500)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, min: 50)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
@@ -402,19 +384,14 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.diskId?.forEach {}
             try self.validate(self.diskId, name: "diskId", parent: name, max: 300)
             try self.validate(self.diskId, name: "diskId", parent: name, min: 1)
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
-            try self.networkInterfaceId.forEach {}
             try self.validate(self.networkInterfaceId, name: "networkInterfaceId", parent: name, pattern: "\\A(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}\\z")
-            try self.targetName?.forEach {}
             try self.validate(self.targetName, name: "targetName", parent: name, max: 200)
             try self.validate(self.targetName, name: "targetName", parent: name, min: 1)
             try self.validate(self.targetName, name: "targetName", parent: name, pattern: "^[-\\.;a-z0-9]+$")
-            try self.volumeARN.forEach {}
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, max: 500)
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, min: 50)
         }
@@ -482,13 +459,10 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.minimumNumTapes.forEach {}
             try self.validate(self.minimumNumTapes, name: "minimumNumTapes", parent: name, max: 10)
             try self.validate(self.minimumNumTapes, name: "minimumNumTapes", parent: name, min: 1)
-            try self.poolId.forEach {}
             try self.validate(self.poolId, name: "poolId", parent: name, max: 100)
             try self.validate(self.poolId, name: "poolId", parent: name, min: 1)
-            try self.tapeBarcodePrefix.forEach {}
             try self.validate(self.tapeBarcodePrefix, name: "tapeBarcodePrefix", parent: name, max: 4)
             try self.validate(self.tapeBarcodePrefix, name: "tapeBarcodePrefix", parent: name, min: 1)
             try self.validate(self.tapeBarcodePrefix, name: "tapeBarcodePrefix", parent: name, pattern: "^[A-Z]*$")
@@ -530,27 +504,20 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.averageDownloadRateLimitInBitsPerSec?.forEach {}
             try self.validate(self.averageDownloadRateLimitInBitsPerSec, name: "averageDownloadRateLimitInBitsPerSec", parent: name, min: 102_400)
-            try self.averageUploadRateLimitInBitsPerSec?.forEach {}
             try self.validate(self.averageUploadRateLimitInBitsPerSec, name: "averageUploadRateLimitInBitsPerSec", parent: name, min: 51200)
             try self.daysOfWeek.forEach {
                 try validate($0, name: "daysOfWeek[]", parent: name, max: 6)
                 try validate($0, name: "daysOfWeek[]", parent: name, min: 0)
             }
-            try self.daysOfWeek.forEach {}
             try self.validate(self.daysOfWeek, name: "daysOfWeek", parent: name, max: 7)
             try self.validate(self.daysOfWeek, name: "daysOfWeek", parent: name, min: 1)
-            try self.endHourOfDay.forEach {}
             try self.validate(self.endHourOfDay, name: "endHourOfDay", parent: name, max: 23)
             try self.validate(self.endHourOfDay, name: "endHourOfDay", parent: name, min: 0)
-            try self.endMinuteOfHour.forEach {}
             try self.validate(self.endMinuteOfHour, name: "endMinuteOfHour", parent: name, max: 59)
             try self.validate(self.endMinuteOfHour, name: "endMinuteOfHour", parent: name, min: 0)
-            try self.startHourOfDay.forEach {}
             try self.validate(self.startHourOfDay, name: "startHourOfDay", parent: name, max: 23)
             try self.validate(self.startHourOfDay, name: "startHourOfDay", parent: name, min: 0)
-            try self.startMinuteOfHour.forEach {}
             try self.validate(self.startMinuteOfHour, name: "startMinuteOfHour", parent: name, max: 59)
             try self.validate(self.startMinuteOfHour, name: "startMinuteOfHour", parent: name, min: 0)
         }
@@ -650,10 +617,8 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
-            try self.tapeARN.forEach {}
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, max: 500)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, min: 50)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
@@ -689,10 +654,8 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
-            try self.tapeARN.forEach {}
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, max: 500)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, min: 50)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
@@ -777,28 +740,20 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 5)
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
-            try self.kMSKey?.forEach {}
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, max: 2048)
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, min: 7)
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, pattern: "(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)")
-            try self.networkInterfaceId.forEach {}
             try self.validate(self.networkInterfaceId, name: "networkInterfaceId", parent: name, pattern: "\\A(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}\\z")
-            try self.snapshotId?.forEach {}
             try self.validate(self.snapshotId, name: "snapshotId", parent: name, pattern: "\\Asnap-([0-9A-Fa-f]{8}|[0-9A-Fa-f]{17})\\z")
-            try self.sourceVolumeARN?.forEach {}
             try self.validate(self.sourceVolumeARN, name: "sourceVolumeARN", parent: name, max: 500)
             try self.validate(self.sourceVolumeARN, name: "sourceVolumeARN", parent: name, min: 50)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
-            try self.targetName.forEach {}
             try self.validate(self.targetName, name: "targetName", parent: name, max: 200)
             try self.validate(self.targetName, name: "targetName", parent: name, min: 1)
             try self.validate(self.targetName, name: "targetName", parent: name, pattern: "^[-\\.;a-z0-9]+$")
@@ -898,45 +853,33 @@ extension StorageGateway {
             try self.clientList?.forEach {
                 try validate($0, name: "clientList[]", parent: name, pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))?$")
             }
-            try self.clientList?.forEach {}
             try self.validate(self.clientList, name: "clientList", parent: name, max: 100)
             try self.validate(self.clientList, name: "clientList", parent: name, min: 1)
-            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 5)
-            try self.defaultStorageClass?.forEach {}
             try self.validate(self.defaultStorageClass, name: "defaultStorageClass", parent: name, max: 50)
             try self.validate(self.defaultStorageClass, name: "defaultStorageClass", parent: name, min: 5)
-            try self.fileShareName?.forEach {}
             try self.validate(self.fileShareName, name: "fileShareName", parent: name, max: 255)
             try self.validate(self.fileShareName, name: "fileShareName", parent: name, min: 1)
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
-            try self.kMSKey?.forEach {}
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, max: 2048)
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, min: 7)
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, pattern: "(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)")
-            try self.locationARN.forEach {}
             try self.validate(self.locationARN, name: "locationARN", parent: name, max: 1400)
             try self.validate(self.locationARN, name: "locationARN", parent: name, min: 16)
             try self.nFSFileShareDefaults?.validate(name: "\(name).nFSFileShareDefaults")
-            try self.nFSFileShareDefaults?.forEach {}
-            try self.notificationPolicy?.forEach {}
             try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, max: 100)
             try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, min: 2)
             try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, pattern: "^\\{[\\w\\s:\\{\\}\\[\\]\"]*}$")
-            try self.role.forEach {}
             try self.validate(self.role, name: "role", parent: name, max: 2048)
             try self.validate(self.role, name: "role", parent: name, min: 20)
             try self.validate(self.role, name: "role", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):iam::([0-9]+):role/(\\S+)$")
-            try self.squash?.forEach {}
             try self.validate(self.squash, name: "squash", parent: name, max: 15)
             try self.validate(self.squash, name: "squash", parent: name, min: 5)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1053,57 +996,43 @@ extension StorageGateway {
                 try validate($0, name: "adminUserList[]", parent: name, max: 64)
                 try validate($0, name: "adminUserList[]", parent: name, min: 1)
             }
-            try self.adminUserList?.forEach {}
             try self.validate(self.adminUserList, name: "adminUserList", parent: name, max: 100)
             try self.validate(self.adminUserList, name: "adminUserList", parent: name, min: 0)
-            try self.auditDestinationARN?.forEach {}
             try self.validate(self.auditDestinationARN, name: "auditDestinationARN", parent: name, max: 1024)
-            try self.authentication?.forEach {}
             try self.validate(self.authentication, name: "authentication", parent: name, max: 15)
             try self.validate(self.authentication, name: "authentication", parent: name, min: 5)
-            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 5)
-            try self.defaultStorageClass?.forEach {}
             try self.validate(self.defaultStorageClass, name: "defaultStorageClass", parent: name, max: 50)
             try self.validate(self.defaultStorageClass, name: "defaultStorageClass", parent: name, min: 5)
-            try self.fileShareName?.forEach {}
             try self.validate(self.fileShareName, name: "fileShareName", parent: name, max: 255)
             try self.validate(self.fileShareName, name: "fileShareName", parent: name, min: 1)
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
             try self.invalidUserList?.forEach {
                 try validate($0, name: "invalidUserList[]", parent: name, max: 64)
                 try validate($0, name: "invalidUserList[]", parent: name, min: 1)
             }
-            try self.invalidUserList?.forEach {}
             try self.validate(self.invalidUserList, name: "invalidUserList", parent: name, max: 100)
             try self.validate(self.invalidUserList, name: "invalidUserList", parent: name, min: 0)
-            try self.kMSKey?.forEach {}
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, max: 2048)
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, min: 7)
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, pattern: "(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)")
-            try self.locationARN.forEach {}
             try self.validate(self.locationARN, name: "locationARN", parent: name, max: 1400)
             try self.validate(self.locationARN, name: "locationARN", parent: name, min: 16)
-            try self.notificationPolicy?.forEach {}
             try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, max: 100)
             try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, min: 2)
             try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, pattern: "^\\{[\\w\\s:\\{\\}\\[\\]\"]*}$")
-            try self.role.forEach {}
             try self.validate(self.role, name: "role", parent: name, max: 2048)
             try self.validate(self.role, name: "role", parent: name, min: 20)
             try self.validate(self.role, name: "role", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):iam::([0-9]+):role/(\\S+)$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validUserList?.forEach {
                 try validate($0, name: "validUserList[]", parent: name, max: 64)
                 try validate($0, name: "validUserList[]", parent: name, min: 1)
             }
-            try self.validUserList?.forEach {}
             try self.validate(self.validUserList, name: "validUserList", parent: name, max: 100)
             try self.validate(self.validUserList, name: "validUserList", parent: name, min: 0)
         }
@@ -1163,14 +1092,11 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.snapshotDescription.forEach {}
             try self.validate(self.snapshotDescription, name: "snapshotDescription", parent: name, max: 255)
             try self.validate(self.snapshotDescription, name: "snapshotDescription", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
-            try self.volumeARN.forEach {}
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, max: 500)
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, min: 50)
         }
@@ -1218,14 +1144,11 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.snapshotDescription.forEach {}
             try self.validate(self.snapshotDescription, name: "snapshotDescription", parent: name, max: 255)
             try self.validate(self.snapshotDescription, name: "snapshotDescription", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
-            try self.volumeARN.forEach {}
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, max: 500)
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, min: 50)
         }
@@ -1286,25 +1209,18 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.diskId.forEach {}
             try self.validate(self.diskId, name: "diskId", parent: name, max: 300)
             try self.validate(self.diskId, name: "diskId", parent: name, min: 1)
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
-            try self.kMSKey?.forEach {}
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, max: 2048)
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, min: 7)
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, pattern: "(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)")
-            try self.networkInterfaceId.forEach {}
             try self.validate(self.networkInterfaceId, name: "networkInterfaceId", parent: name, pattern: "\\A(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}\\z")
-            try self.snapshotId?.forEach {}
             try self.validate(self.snapshotId, name: "snapshotId", parent: name, pattern: "\\Asnap-([0-9A-Fa-f]{8}|[0-9A-Fa-f]{17})\\z")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
-            try self.targetName.forEach {}
             try self.validate(self.targetName, name: "targetName", parent: name, max: 200)
             try self.validate(self.targetName, name: "targetName", parent: name, min: 1)
             try self.validate(self.targetName, name: "targetName", parent: name, pattern: "^[-\\.;a-z0-9]+$")
@@ -1365,17 +1281,14 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.poolName.forEach {}
             try self.validate(self.poolName, name: "poolName", parent: name, max: 100)
             try self.validate(self.poolName, name: "poolName", parent: name, min: 1)
             try self.validate(self.poolName, name: "poolName", parent: name, pattern: "^[ -\\.0-\\[\\]-~]*[!-\\.0-\\[\\]-~][ -\\.0-\\[\\]-~]*$")
-            try self.retentionLockTimeInDays?.forEach {}
             try self.validate(self.retentionLockTimeInDays, name: "retentionLockTimeInDays", parent: name, max: 36500)
             try self.validate(self.retentionLockTimeInDays, name: "retentionLockTimeInDays", parent: name, min: 0)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1430,21 +1343,16 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
-            try self.kMSKey?.forEach {}
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, max: 2048)
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, min: 7)
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, pattern: "(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)")
-            try self.poolId?.forEach {}
             try self.validate(self.poolId, name: "poolId", parent: name, max: 100)
             try self.validate(self.poolId, name: "poolId", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
-            try self.tapeBarcode.forEach {}
             try self.validate(self.tapeBarcode, name: "tapeBarcode", parent: name, max: 16)
             try self.validate(self.tapeBarcode, name: "tapeBarcode", parent: name, min: 7)
             try self.validate(self.tapeBarcode, name: "tapeBarcode", parent: name, pattern: "^[A-Z0-9]*$")
@@ -1511,27 +1419,20 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 5)
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
-            try self.kMSKey?.forEach {}
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, max: 2048)
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, min: 7)
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, pattern: "(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)")
-            try self.numTapesToCreate.forEach {}
             try self.validate(self.numTapesToCreate, name: "numTapesToCreate", parent: name, max: 10)
             try self.validate(self.numTapesToCreate, name: "numTapesToCreate", parent: name, min: 1)
-            try self.poolId?.forEach {}
             try self.validate(self.poolId, name: "poolId", parent: name, max: 100)
             try self.validate(self.poolId, name: "poolId", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
-            try self.tapeBarcodePrefix.forEach {}
             try self.validate(self.tapeBarcodePrefix, name: "tapeBarcodePrefix", parent: name, max: 4)
             try self.validate(self.tapeBarcodePrefix, name: "tapeBarcodePrefix", parent: name, min: 1)
             try self.validate(self.tapeBarcodePrefix, name: "tapeBarcodePrefix", parent: name, pattern: "^[A-Z]*$")
@@ -1572,7 +1473,6 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
         }
@@ -1605,10 +1505,8 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.bandwidthType.forEach {}
             try self.validate(self.bandwidthType, name: "bandwidthType", parent: name, max: 25)
             try self.validate(self.bandwidthType, name: "bandwidthType", parent: name, min: 3)
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
         }
@@ -1643,11 +1541,9 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.initiatorName.forEach {}
             try self.validate(self.initiatorName, name: "initiatorName", parent: name, max: 255)
             try self.validate(self.initiatorName, name: "initiatorName", parent: name, min: 1)
             try self.validate(self.initiatorName, name: "initiatorName", parent: name, pattern: "[0-9a-z:.-]+")
-            try self.targetARN.forEach {}
             try self.validate(self.targetARN, name: "targetARN", parent: name, max: 800)
             try self.validate(self.targetARN, name: "targetARN", parent: name, min: 50)
         }
@@ -1687,7 +1583,6 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.fileShareARN.forEach {}
             try self.validate(self.fileShareARN, name: "fileShareARN", parent: name, max: 500)
             try self.validate(self.fileShareARN, name: "fileShareARN", parent: name, min: 50)
         }
@@ -1719,7 +1614,6 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
         }
@@ -1750,7 +1644,6 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.volumeARN.forEach {}
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, max: 500)
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, min: 50)
         }
@@ -1785,7 +1678,6 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.tapeARN.forEach {}
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, max: 500)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, min: 50)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
@@ -1825,10 +1717,8 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
-            try self.tapeARN.forEach {}
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, max: 500)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, min: 50)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
@@ -1863,7 +1753,6 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.poolARN.forEach {}
             try self.validate(self.poolARN, name: "poolARN", parent: name, max: 500)
             try self.validate(self.poolARN, name: "poolARN", parent: name, min: 50)
         }
@@ -1895,7 +1784,6 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.volumeARN.forEach {}
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, max: 500)
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, min: 50)
         }
@@ -1926,7 +1814,6 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
         }
@@ -1964,7 +1851,6 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
         }
@@ -2002,7 +1888,6 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
         }
@@ -2036,7 +1921,6 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
         }
@@ -2095,7 +1979,6 @@ extension StorageGateway {
                 try validate($0, name: "volumeARNs[]", parent: name, max: 500)
                 try validate($0, name: "volumeARNs[]", parent: name, min: 50)
             }
-            try self.volumeARNs.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2125,7 +2008,6 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.targetARN.forEach {}
             try self.validate(self.targetARN, name: "targetARN", parent: name, max: 800)
             try self.validate(self.targetARN, name: "targetARN", parent: name, min: 50)
         }
@@ -2156,7 +2038,6 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
         }
@@ -2254,7 +2135,6 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
         }
@@ -2309,7 +2189,6 @@ extension StorageGateway {
                 try validate($0, name: "fileShareARNList[]", parent: name, max: 500)
                 try validate($0, name: "fileShareARNList[]", parent: name, min: 50)
             }
-            try self.fileShareARNList.forEach {}
             try self.validate(self.fileShareARNList, name: "fileShareARNList", parent: name, max: 10)
             try self.validate(self.fileShareARNList, name: "fileShareARNList", parent: name, min: 1)
         }
@@ -2345,7 +2224,6 @@ extension StorageGateway {
                 try validate($0, name: "fileShareARNList[]", parent: name, max: 500)
                 try validate($0, name: "fileShareARNList[]", parent: name, min: 50)
             }
-            try self.fileShareARNList.forEach {}
             try self.validate(self.fileShareARNList, name: "fileShareARNList", parent: name, max: 10)
             try self.validate(self.fileShareARNList, name: "fileShareARNList", parent: name, min: 1)
         }
@@ -2376,7 +2254,6 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
         }
@@ -2427,7 +2304,6 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.volumeARN.forEach {}
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, max: 500)
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, min: 50)
         }
@@ -2483,7 +2359,6 @@ extension StorageGateway {
                 try validate($0, name: "volumeARNs[]", parent: name, max: 500)
                 try validate($0, name: "volumeARNs[]", parent: name, min: 50)
             }
-            try self.volumeARNs.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2519,9 +2394,7 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 1000)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
             try self.tapeARNs?.forEach {
@@ -2529,7 +2402,6 @@ extension StorageGateway {
                 try validate($0, name: "tapeARNs[]", parent: name, min: 50)
                 try validate($0, name: "tapeARNs[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
             }
-            try self.tapeARNs?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2570,12 +2442,9 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 1000)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
         }
@@ -2624,12 +2493,9 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 1000)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
             try self.tapeARNs?.forEach {
@@ -2637,7 +2503,6 @@ extension StorageGateway {
                 try validate($0, name: "tapeARNs[]", parent: name, min: 50)
                 try validate($0, name: "tapeARNs[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
             }
-            try self.tapeARNs?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2673,7 +2538,6 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
         }
@@ -2724,19 +2588,15 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 1000)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
             try self.vTLDeviceARNs?.forEach {
                 try validate($0, name: "vTLDeviceARNs[]", parent: name, max: 500)
                 try validate($0, name: "vTLDeviceARNs[]", parent: name, min: 50)
             }
-            try self.vTLDeviceARNs?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2775,7 +2635,6 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
         }
@@ -2821,7 +2680,6 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.volumeARN.forEach {}
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, max: 500)
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, min: 50)
         }
@@ -2878,7 +2736,6 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
         }
@@ -3033,25 +2890,18 @@ extension StorageGateway {
                 try validate($0, name: "domainControllers[]", parent: name, min: 6)
                 try validate($0, name: "domainControllers[]", parent: name, pattern: "^(([a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9\\-]*[A-Za-z0-9])(:(\\d+))?$")
             }
-            try self.domainControllers?.forEach {}
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 1024)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z]{2,}$")
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
-            try self.organizationalUnit?.forEach {}
             try self.validate(self.organizationalUnit, name: "organizationalUnit", parent: name, max: 1024)
             try self.validate(self.organizationalUnit, name: "organizationalUnit", parent: name, min: 1)
-            try self.password.forEach {}
             try self.validate(self.password, name: "password", parent: name, max: 1024)
             try self.validate(self.password, name: "password", parent: name, min: 1)
             try self.validate(self.password, name: "password", parent: name, pattern: "^[ -~]+$")
-            try self.timeoutInSeconds?.forEach {}
             try self.validate(self.timeoutInSeconds, name: "timeoutInSeconds", parent: name, max: 3600)
             try self.validate(self.timeoutInSeconds, name: "timeoutInSeconds", parent: name, min: 0)
-            try self.userName.forEach {}
             try self.validate(self.userName, name: "userName", parent: name, max: 1024)
             try self.validate(self.userName, name: "userName", parent: name, min: 1)
             try self.validate(self.userName, name: "userName", parent: name, pattern: "^\\w[\\w\\.\\- ]*$")
@@ -3093,7 +2943,6 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.gatewayARN?.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
         }
@@ -3131,12 +2980,9 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.gatewayARN?.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 1000)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
         }
@@ -3181,9 +3027,7 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 1000)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
         }
@@ -3219,7 +3063,6 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
         }
@@ -3260,12 +3103,9 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 1000)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
-            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 500)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 50)
         }
@@ -3313,16 +3153,13 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 1000)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
             try self.poolARNs?.forEach {
                 try validate($0, name: "poolARNs[]", parent: name, max: 500)
                 try validate($0, name: "poolARNs[]", parent: name, min: 50)
             }
-            try self.poolARNs?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3363,9 +3200,7 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 1000)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
             try self.tapeARNs?.forEach {
@@ -3373,7 +3208,6 @@ extension StorageGateway {
                 try validate($0, name: "tapeARNs[]", parent: name, min: 50)
                 try validate($0, name: "tapeARNs[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
             }
-            try self.tapeARNs?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3408,7 +3242,6 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.volumeARN.forEach {}
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, max: 500)
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, min: 50)
         }
@@ -3439,7 +3272,6 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
         }
@@ -3479,12 +3311,9 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.gatewayARN?.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 1000)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
         }
@@ -3534,18 +3363,14 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.directoryMode?.forEach {}
             try self.validate(self.directoryMode, name: "directoryMode", parent: name, max: 4)
             try self.validate(self.directoryMode, name: "directoryMode", parent: name, min: 1)
             try self.validate(self.directoryMode, name: "directoryMode", parent: name, pattern: "^[0-7]{4}$")
-            try self.fileMode?.forEach {}
             try self.validate(self.fileMode, name: "fileMode", parent: name, max: 4)
             try self.validate(self.fileMode, name: "fileMode", parent: name, min: 1)
             try self.validate(self.fileMode, name: "fileMode", parent: name, pattern: "^[0-7]{4}$")
-            try self.groupId?.forEach {}
             try self.validate(self.groupId, name: "groupId", parent: name, max: 4_294_967_294)
             try self.validate(self.groupId, name: "groupId", parent: name, min: 0)
-            try self.ownerId?.forEach {}
             try self.validate(self.ownerId, name: "ownerId", parent: name, max: 4_294_967_294)
             try self.validate(self.ownerId, name: "ownerId", parent: name, min: 0)
         }
@@ -3668,7 +3493,6 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.fileShareARN.forEach {}
             try self.validate(self.fileShareARN, name: "fileShareARN", parent: name, max: 500)
             try self.validate(self.fileShareARN, name: "fileShareARN", parent: name, min: 50)
         }
@@ -3741,14 +3565,12 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.fileShareARN.forEach {}
             try self.validate(self.fileShareARN, name: "fileShareARN", parent: name, max: 500)
             try self.validate(self.fileShareARN, name: "fileShareARN", parent: name, min: 50)
             try self.folderList?.forEach {
                 try validate($0, name: "folderList[]", parent: name, max: 1024)
                 try validate($0, name: "folderList[]", parent: name, min: 1)
             }
-            try self.folderList?.forEach {}
             try self.validate(self.folderList, name: "folderList", parent: name, max: 50)
             try self.validate(self.folderList, name: "folderList", parent: name, min: 1)
         }
@@ -3787,7 +3609,6 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 500)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 50)
             try self.tagKeys.forEach {
@@ -3795,7 +3616,6 @@ extension StorageGateway {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
-            try self.tagKeys.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3825,7 +3645,6 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
         }
@@ -3859,10 +3678,8 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
-            try self.tapeARN.forEach {}
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, max: 500)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, min: 50)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
@@ -3898,10 +3715,8 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
-            try self.tapeARN.forEach {}
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, max: 500)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, min: 50)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
@@ -4041,10 +3856,8 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
-            try self.localConsolePassword.forEach {}
             try self.validate(self.localConsolePassword, name: "localConsolePassword", parent: name, max: 512)
             try self.validate(self.localConsolePassword, name: "localConsolePassword", parent: name, min: 6)
             try self.validate(self.localConsolePassword, name: "localConsolePassword", parent: name, pattern: "^[ -~]+$")
@@ -4080,10 +3893,8 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
-            try self.password.forEach {}
             try self.validate(self.password, name: "password", parent: name, max: 512)
             try self.validate(self.password, name: "password", parent: name, min: 6)
             try self.validate(self.password, name: "password", parent: name, pattern: "^[ -~]+$")
@@ -4115,7 +3926,6 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
         }
@@ -4145,7 +3955,6 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
         }
@@ -4175,7 +3984,6 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
         }
@@ -4277,11 +4085,9 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
         }
 
@@ -4491,10 +4297,8 @@ extension StorageGateway {
             try self.automaticTapeCreationRules.forEach {
                 try $0.validate(name: "\(name).automaticTapeCreationRules[]")
             }
-            try self.automaticTapeCreationRules.forEach {}
             try self.validate(self.automaticTapeCreationRules, name: "automaticTapeCreationRules", parent: name, max: 10)
             try self.validate(self.automaticTapeCreationRules, name: "automaticTapeCreationRules", parent: name, min: 1)
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
         }
@@ -4531,11 +4335,8 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.averageDownloadRateLimitInBitsPerSec?.forEach {}
             try self.validate(self.averageDownloadRateLimitInBitsPerSec, name: "averageDownloadRateLimitInBitsPerSec", parent: name, min: 102_400)
-            try self.averageUploadRateLimitInBitsPerSec?.forEach {}
             try self.validate(self.averageUploadRateLimitInBitsPerSec, name: "averageUploadRateLimitInBitsPerSec", parent: name, min: 51200)
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
         }
@@ -4573,10 +4374,8 @@ extension StorageGateway {
             try self.bandwidthRateLimitIntervals.forEach {
                 try $0.validate(name: "\(name).bandwidthRateLimitIntervals[]")
             }
-            try self.bandwidthRateLimitIntervals.forEach {}
             try self.validate(self.bandwidthRateLimitIntervals, name: "bandwidthRateLimitIntervals", parent: name, max: 20)
             try self.validate(self.bandwidthRateLimitIntervals, name: "bandwidthRateLimitIntervals", parent: name, min: 0)
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
         }
@@ -4617,17 +4416,13 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.initiatorName.forEach {}
             try self.validate(self.initiatorName, name: "initiatorName", parent: name, max: 255)
             try self.validate(self.initiatorName, name: "initiatorName", parent: name, min: 1)
             try self.validate(self.initiatorName, name: "initiatorName", parent: name, pattern: "[0-9a-z:.-]+")
-            try self.secretToAuthenticateInitiator.forEach {}
             try self.validate(self.secretToAuthenticateInitiator, name: "secretToAuthenticateInitiator", parent: name, max: 100)
             try self.validate(self.secretToAuthenticateInitiator, name: "secretToAuthenticateInitiator", parent: name, min: 1)
-            try self.secretToAuthenticateTarget?.forEach {}
             try self.validate(self.secretToAuthenticateTarget, name: "secretToAuthenticateTarget", parent: name, max: 100)
             try self.validate(self.secretToAuthenticateTarget, name: "secretToAuthenticateTarget", parent: name, min: 1)
-            try self.targetARN.forEach {}
             try self.validate(self.targetARN, name: "targetARN", parent: name, max: 800)
             try self.validate(self.targetARN, name: "targetARN", parent: name, min: 50)
         }
@@ -4673,16 +4468,12 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.cloudWatchLogGroupARN?.forEach {}
             try self.validate(self.cloudWatchLogGroupARN, name: "cloudWatchLogGroupARN", parent: name, max: 562)
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
-            try self.gatewayName?.forEach {}
             try self.validate(self.gatewayName, name: "gatewayName", parent: name, max: 255)
             try self.validate(self.gatewayName, name: "gatewayName", parent: name, min: 2)
             try self.validate(self.gatewayName, name: "gatewayName", parent: name, pattern: "^[ -\\.0-\\[\\]-~]*[!-\\.0-\\[\\]-~][ -\\.0-\\[\\]-~]*$")
-            try self.gatewayTimezone?.forEach {}
             try self.validate(self.gatewayTimezone, name: "gatewayTimezone", parent: name, max: 10)
             try self.validate(self.gatewayTimezone, name: "gatewayTimezone", parent: name, min: 3)
         }
@@ -4719,7 +4510,6 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
         }
@@ -4761,19 +4551,14 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.dayOfMonth?.forEach {}
             try self.validate(self.dayOfMonth, name: "dayOfMonth", parent: name, max: 28)
             try self.validate(self.dayOfMonth, name: "dayOfMonth", parent: name, min: 1)
-            try self.dayOfWeek?.forEach {}
             try self.validate(self.dayOfWeek, name: "dayOfWeek", parent: name, max: 6)
             try self.validate(self.dayOfWeek, name: "dayOfWeek", parent: name, min: 0)
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
-            try self.hourOfDay.forEach {}
             try self.validate(self.hourOfDay, name: "hourOfDay", parent: name, max: 23)
             try self.validate(self.hourOfDay, name: "hourOfDay", parent: name, min: 0)
-            try self.minuteOfHour.forEach {}
             try self.validate(self.minuteOfHour, name: "minuteOfHour", parent: name, max: 59)
             try self.validate(self.minuteOfHour, name: "minuteOfHour", parent: name, min: 0)
         }
@@ -4850,29 +4635,21 @@ extension StorageGateway {
             try self.clientList?.forEach {
                 try validate($0, name: "clientList[]", parent: name, pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))?$")
             }
-            try self.clientList?.forEach {}
             try self.validate(self.clientList, name: "clientList", parent: name, max: 100)
             try self.validate(self.clientList, name: "clientList", parent: name, min: 1)
-            try self.defaultStorageClass?.forEach {}
             try self.validate(self.defaultStorageClass, name: "defaultStorageClass", parent: name, max: 50)
             try self.validate(self.defaultStorageClass, name: "defaultStorageClass", parent: name, min: 5)
-            try self.fileShareARN.forEach {}
             try self.validate(self.fileShareARN, name: "fileShareARN", parent: name, max: 500)
             try self.validate(self.fileShareARN, name: "fileShareARN", parent: name, min: 50)
-            try self.fileShareName?.forEach {}
             try self.validate(self.fileShareName, name: "fileShareName", parent: name, max: 255)
             try self.validate(self.fileShareName, name: "fileShareName", parent: name, min: 1)
-            try self.kMSKey?.forEach {}
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, max: 2048)
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, min: 7)
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, pattern: "(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)")
             try self.nFSFileShareDefaults?.validate(name: "\(name).nFSFileShareDefaults")
-            try self.nFSFileShareDefaults?.forEach {}
-            try self.notificationPolicy?.forEach {}
             try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, max: 100)
             try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, min: 2)
             try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, pattern: "^\\{[\\w\\s:\\{\\}\\[\\]\"]*}$")
-            try self.squash?.forEach {}
             try self.validate(self.squash, name: "squash", parent: name, max: 15)
             try self.validate(self.squash, name: "squash", parent: name, min: 5)
         }
@@ -4972,32 +4749,24 @@ extension StorageGateway {
                 try validate($0, name: "adminUserList[]", parent: name, max: 64)
                 try validate($0, name: "adminUserList[]", parent: name, min: 1)
             }
-            try self.adminUserList?.forEach {}
             try self.validate(self.adminUserList, name: "adminUserList", parent: name, max: 100)
             try self.validate(self.adminUserList, name: "adminUserList", parent: name, min: 0)
-            try self.auditDestinationARN?.forEach {}
             try self.validate(self.auditDestinationARN, name: "auditDestinationARN", parent: name, max: 1024)
-            try self.defaultStorageClass?.forEach {}
             try self.validate(self.defaultStorageClass, name: "defaultStorageClass", parent: name, max: 50)
             try self.validate(self.defaultStorageClass, name: "defaultStorageClass", parent: name, min: 5)
-            try self.fileShareARN.forEach {}
             try self.validate(self.fileShareARN, name: "fileShareARN", parent: name, max: 500)
             try self.validate(self.fileShareARN, name: "fileShareARN", parent: name, min: 50)
-            try self.fileShareName?.forEach {}
             try self.validate(self.fileShareName, name: "fileShareName", parent: name, max: 255)
             try self.validate(self.fileShareName, name: "fileShareName", parent: name, min: 1)
             try self.invalidUserList?.forEach {
                 try validate($0, name: "invalidUserList[]", parent: name, max: 64)
                 try validate($0, name: "invalidUserList[]", parent: name, min: 1)
             }
-            try self.invalidUserList?.forEach {}
             try self.validate(self.invalidUserList, name: "invalidUserList", parent: name, max: 100)
             try self.validate(self.invalidUserList, name: "invalidUserList", parent: name, min: 0)
-            try self.kMSKey?.forEach {}
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, max: 2048)
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, min: 7)
             try self.validate(self.kMSKey, name: "kMSKey", parent: name, pattern: "(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)")
-            try self.notificationPolicy?.forEach {}
             try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, max: 100)
             try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, min: 2)
             try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, pattern: "^\\{[\\w\\s:\\{\\}\\[\\]\"]*}$")
@@ -5005,7 +4774,6 @@ extension StorageGateway {
                 try validate($0, name: "validUserList[]", parent: name, max: 64)
                 try validate($0, name: "validUserList[]", parent: name, min: 1)
             }
-            try self.validUserList?.forEach {}
             try self.validate(self.validUserList, name: "validUserList", parent: name, max: 100)
             try self.validate(self.validUserList, name: "validUserList", parent: name, min: 0)
         }
@@ -5056,7 +4824,6 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
         }
@@ -5090,7 +4857,6 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.gatewayARN.forEach {}
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
         }
@@ -5134,20 +4900,15 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 255)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.recurrenceInHours.forEach {}
             try self.validate(self.recurrenceInHours, name: "recurrenceInHours", parent: name, max: 24)
             try self.validate(self.recurrenceInHours, name: "recurrenceInHours", parent: name, min: 1)
-            try self.startAt.forEach {}
             try self.validate(self.startAt, name: "startAt", parent: name, max: 23)
             try self.validate(self.startAt, name: "startAt", parent: name, min: 0)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
-            try self.volumeARN.forEach {}
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, max: 500)
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, min: 50)
         }
@@ -5186,10 +4947,8 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.deviceType.forEach {}
             try self.validate(self.deviceType, name: "deviceType", parent: name, max: 50)
             try self.validate(self.deviceType, name: "deviceType", parent: name, min: 2)
-            try self.vTLDeviceARN.forEach {}
             try self.validate(self.vTLDeviceARN, name: "vTLDeviceARN", parent: name, max: 500)
             try self.validate(self.vTLDeviceARN, name: "vTLDeviceARN", parent: name, min: 50)
         }

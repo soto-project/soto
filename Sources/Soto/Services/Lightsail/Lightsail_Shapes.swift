@@ -679,7 +679,6 @@ extension Lightsail {
 
         public func validate(name: String) throws {
             try self.autoSnapshotAddOnRequest?.validate(name: "\(name).autoSnapshotAddOnRequest")
-            try self.autoSnapshotAddOnRequest?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -786,7 +785,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.staticIpName.forEach {}
             try self.validate(self.staticIpName, name: "staticIpName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -820,9 +818,7 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.certificateName.forEach {}
             try self.validate(self.certificateName, name: "certificateName", parent: name, pattern: "\\w[\\w\\-]*\\w")
-            try self.distributionName.forEach {}
             try self.validate(self.distributionName, name: "distributionName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -860,11 +856,8 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.diskName.forEach {}
             try self.validate(self.diskName, name: "diskName", parent: name, pattern: "\\w[\\w\\-]*\\w")
-            try self.diskPath.forEach {}
             try self.validate(self.diskPath, name: "diskPath", parent: name, pattern: ".*\\S.*")
-            try self.instanceName.forEach {}
             try self.validate(self.instanceName, name: "instanceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -903,8 +896,6 @@ extension Lightsail {
             try self.instanceNames.forEach {
                 try validate($0, name: "instanceNames[]", parent: name, pattern: "\\w[\\w\\-]*\\w")
             }
-            try self.instanceNames.forEach {}
-            try self.loadBalancerName.forEach {}
             try self.validate(self.loadBalancerName, name: "loadBalancerName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -939,9 +930,7 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.certificateName.forEach {}
             try self.validate(self.certificateName, name: "certificateName", parent: name, pattern: "\\w[\\w\\-]*\\w")
-            try self.loadBalancerName.forEach {}
             try self.validate(self.loadBalancerName, name: "loadBalancerName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -976,9 +965,7 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.instanceName.forEach {}
             try self.validate(self.instanceName, name: "instanceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
-            try self.staticIpName.forEach {}
             try self.validate(self.staticIpName, name: "staticIpName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -1027,7 +1014,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.snapshotTimeOfDay?.forEach {}
             try self.validate(self.snapshotTimeOfDay, name: "snapshotTimeOfDay", parent: name, pattern: "^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")
         }
 
@@ -1248,9 +1234,7 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.allowedHTTPMethods?.forEach {}
             try self.validate(self.allowedHTTPMethods, name: "allowedHTTPMethods", parent: name, pattern: ".*\\S.*")
-            try self.cachedHTTPMethods?.forEach {}
             try self.validate(self.cachedHTTPMethods, name: "cachedHTTPMethods", parent: name, pattern: ".*\\S.*")
         }
 
@@ -1400,10 +1384,8 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.instanceName.forEach {}
             try self.validate(self.instanceName, name: "instanceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
             try self.portInfo.validate(name: "\(name).portInfo")
-            try self.portInfo.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1912,9 +1894,7 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.sourceSnapshotName?.forEach {}
             try self.validate(self.sourceSnapshotName, name: "sourceSnapshotName", parent: name, pattern: "\\w[\\w\\-]*\\w")
-            try self.targetSnapshotName.forEach {}
             try self.validate(self.targetSnapshotName, name: "targetSnapshotName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -1995,7 +1975,6 @@ extension Lightsail {
             try self.instances.forEach {
                 try $0.validate(name: "\(name).instances[]")
             }
-            try self.instances.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2028,7 +2007,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.contactEndpoint.forEach {}
             try self.validate(self.contactEndpoint, name: "contactEndpoint", parent: name, max: 256)
             try self.validate(self.contactEndpoint, name: "contactEndpoint", parent: name, min: 1)
         }
@@ -2072,7 +2050,6 @@ extension Lightsail {
                 try validate($0.key, name: "containers.key", parent: name, min: 1)
                 try validate($0.key, name: "containers.key", parent: name, pattern: "^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$")
             }
-            try self.serviceName.forEach {}
             try self.validate(self.serviceName, name: "serviceName", parent: name, max: 63)
             try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
             try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$")
@@ -2140,11 +2117,8 @@ extension Lightsail {
 
         public func validate(name: String) throws {
             try self.deployment?.validate(name: "\(name).deployment")
-            try self.deployment?.forEach {}
-            try self.scale.forEach {}
             try self.validate(self.scale, name: "scale", parent: name, max: 20)
             try self.validate(self.scale, name: "scale", parent: name, min: 1)
-            try self.serviceName.forEach {}
             try self.validate(self.serviceName, name: "serviceName", parent: name, max: 63)
             try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
             try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$")
@@ -2209,12 +2183,8 @@ extension Lightsail {
             try self.addOns?.forEach {
                 try $0.validate(name: "\(name).addOns[]")
             }
-            try self.addOns?.forEach {}
-            try self.availabilityZone.forEach {}
             try self.validate(self.availabilityZone, name: "availabilityZone", parent: name, pattern: ".*\\S.*")
-            try self.diskName.forEach {}
             try self.validate(self.diskName, name: "diskName", parent: name, pattern: "\\w[\\w\\-]*\\w")
-            try self.diskSnapshotName?.forEach {}
             try self.validate(self.diskSnapshotName, name: "diskSnapshotName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -2268,10 +2238,7 @@ extension Lightsail {
             try self.addOns?.forEach {
                 try $0.validate(name: "\(name).addOns[]")
             }
-            try self.addOns?.forEach {}
-            try self.availabilityZone.forEach {}
             try self.validate(self.availabilityZone, name: "availabilityZone", parent: name, pattern: ".*\\S.*")
-            try self.diskName.forEach {}
             try self.validate(self.diskName, name: "diskName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -2315,11 +2282,8 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.diskName?.forEach {}
             try self.validate(self.diskName, name: "diskName", parent: name, pattern: "\\w[\\w\\-]*\\w")
-            try self.diskSnapshotName.forEach {}
             try self.validate(self.diskSnapshotName, name: "diskSnapshotName", parent: name, pattern: "\\w[\\w\\-]*\\w")
-            try self.instanceName?.forEach {}
             try self.validate(self.instanceName, name: "instanceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -2375,11 +2339,8 @@ extension Lightsail {
 
         public func validate(name: String) throws {
             try self.cacheBehaviorSettings?.validate(name: "\(name).cacheBehaviorSettings")
-            try self.cacheBehaviorSettings?.forEach {}
-            try self.distributionName.forEach {}
             try self.validate(self.distributionName, name: "distributionName", parent: name, pattern: "\\w[\\w\\-]*\\w")
             try self.origin.validate(name: "\(name).origin")
-            try self.origin.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2424,7 +2385,6 @@ extension Lightsail {
 
         public func validate(name: String) throws {
             try self.domainEntry.validate(name: "\(name).domainEntry")
-            try self.domainEntry.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2491,9 +2451,7 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.instanceName.forEach {}
             try self.validate(self.instanceName, name: "instanceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
-            try self.instanceSnapshotName.forEach {}
             try self.validate(self.instanceSnapshotName, name: "instanceSnapshotName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -2565,15 +2523,11 @@ extension Lightsail {
             try self.addOns?.forEach {
                 try $0.validate(name: "\(name).addOns[]")
             }
-            try self.addOns?.forEach {}
             try self.attachedDiskMapping?.forEach {
                 try validate($0.key, name: "attachedDiskMapping.key", parent: name, pattern: "\\w[\\w\\-]*\\w")
             }
-            try self.bundleId.forEach {}
             try self.validate(self.bundleId, name: "bundleId", parent: name, pattern: ".*\\S.*")
-            try self.instanceSnapshotName?.forEach {}
             try self.validate(self.instanceSnapshotName, name: "instanceSnapshotName", parent: name, pattern: "\\w[\\w\\-]*\\w")
-            try self.keyPairName?.forEach {}
             try self.validate(self.keyPairName, name: "keyPairName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -2643,12 +2597,8 @@ extension Lightsail {
             try self.addOns?.forEach {
                 try $0.validate(name: "\(name).addOns[]")
             }
-            try self.addOns?.forEach {}
-            try self.blueprintId.forEach {}
             try self.validate(self.blueprintId, name: "blueprintId", parent: name, pattern: ".*\\S.*")
-            try self.bundleId.forEach {}
             try self.validate(self.bundleId, name: "bundleId", parent: name, pattern: ".*\\S.*")
-            try self.keyPairName?.forEach {}
             try self.validate(self.keyPairName, name: "keyPairName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -2690,7 +2640,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.keyPairName.forEach {}
             try self.validate(self.keyPairName, name: "keyPairName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -2755,12 +2704,9 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.certificateName?.forEach {}
             try self.validate(self.certificateName, name: "certificateName", parent: name, pattern: "\\w[\\w\\-]*\\w")
-            try self.instancePort.forEach {}
             try self.validate(self.instancePort, name: "instancePort", parent: name, max: 65535)
             try self.validate(self.instancePort, name: "instancePort", parent: name, min: -1)
-            try self.loadBalancerName.forEach {}
             try self.validate(self.loadBalancerName, name: "loadBalancerName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -2810,9 +2756,7 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.certificateName.forEach {}
             try self.validate(self.certificateName, name: "certificateName", parent: name, pattern: "\\w[\\w\\-]*\\w")
-            try self.loadBalancerName.forEach {}
             try self.validate(self.loadBalancerName, name: "loadBalancerName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -2871,11 +2815,8 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.relationalDatabaseName.forEach {}
             try self.validate(self.relationalDatabaseName, name: "relationalDatabaseName", parent: name, pattern: "\\w[\\w\\-]*\\w")
-            try self.relationalDatabaseSnapshotName?.forEach {}
             try self.validate(self.relationalDatabaseSnapshotName, name: "relationalDatabaseSnapshotName", parent: name, pattern: "\\w[\\w\\-]*\\w")
-            try self.sourceRelationalDatabaseName?.forEach {}
             try self.validate(self.sourceRelationalDatabaseName, name: "sourceRelationalDatabaseName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -2944,7 +2885,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.relationalDatabaseName.forEach {}
             try self.validate(self.relationalDatabaseName, name: "relationalDatabaseName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -2991,9 +2931,7 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.relationalDatabaseName.forEach {}
             try self.validate(self.relationalDatabaseName, name: "relationalDatabaseName", parent: name, pattern: "\\w[\\w\\-]*\\w")
-            try self.relationalDatabaseSnapshotName.forEach {}
             try self.validate(self.relationalDatabaseSnapshotName, name: "relationalDatabaseSnapshotName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -3026,7 +2964,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.alarmName.forEach {}
             try self.validate(self.alarmName, name: "alarmName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -3060,9 +2997,7 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.date.forEach {}
             try self.validate(self.date, name: "date", parent: name, pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$")
-            try self.resourceName.forEach {}
             try self.validate(self.resourceName, name: "resourceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -3149,7 +3084,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.serviceName.forEach {}
             try self.validate(self.serviceName, name: "serviceName", parent: name, max: 63)
             try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
             try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$")
@@ -3174,7 +3108,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.serviceName.forEach {}
             try self.validate(self.serviceName, name: "serviceName", parent: name, max: 63)
             try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
             try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$")
@@ -3201,7 +3134,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.diskName.forEach {}
             try self.validate(self.diskName, name: "diskName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -3233,7 +3165,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.diskSnapshotName.forEach {}
             try self.validate(self.diskSnapshotName, name: "diskSnapshotName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -3264,7 +3195,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.distributionName?.forEach {}
             try self.validate(self.distributionName, name: "distributionName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -3299,7 +3229,6 @@ extension Lightsail {
 
         public func validate(name: String) throws {
             try self.domainEntry.validate(name: "\(name).domainEntry")
-            try self.domainEntry.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3359,7 +3288,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.instanceName.forEach {}
             try self.validate(self.instanceName, name: "instanceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -3391,7 +3319,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.instanceSnapshotName.forEach {}
             try self.validate(self.instanceSnapshotName, name: "instanceSnapshotName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -3422,7 +3349,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.keyPairName.forEach {}
             try self.validate(self.keyPairName, name: "keyPairName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -3453,7 +3379,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.instanceName.forEach {}
             try self.validate(self.instanceName, name: "instanceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -3484,7 +3409,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.loadBalancerName.forEach {}
             try self.validate(self.loadBalancerName, name: "loadBalancerName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -3521,9 +3445,7 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.certificateName.forEach {}
             try self.validate(self.certificateName, name: "certificateName", parent: name, pattern: "\\w[\\w\\-]*\\w")
-            try self.loadBalancerName.forEach {}
             try self.validate(self.loadBalancerName, name: "loadBalancerName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -3562,9 +3484,7 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.finalRelationalDatabaseSnapshotName?.forEach {}
             try self.validate(self.finalRelationalDatabaseSnapshotName, name: "finalRelationalDatabaseSnapshotName", parent: name, pattern: "\\w[\\w\\-]*\\w")
-            try self.relationalDatabaseName.forEach {}
             try self.validate(self.relationalDatabaseName, name: "relationalDatabaseName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -3597,7 +3517,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.relationalDatabaseSnapshotName.forEach {}
             try self.validate(self.relationalDatabaseSnapshotName, name: "relationalDatabaseSnapshotName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -3645,7 +3564,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.distributionName.forEach {}
             try self.validate(self.distributionName, name: "distributionName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -3676,7 +3594,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.diskName.forEach {}
             try self.validate(self.diskName, name: "diskName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -3713,8 +3630,6 @@ extension Lightsail {
             try self.instanceNames.forEach {
                 try validate($0, name: "instanceNames[]", parent: name, pattern: "\\w[\\w\\-]*\\w")
             }
-            try self.instanceNames.forEach {}
-            try self.loadBalancerName.forEach {}
             try self.validate(self.loadBalancerName, name: "loadBalancerName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -3746,7 +3661,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.staticIpName.forEach {}
             try self.validate(self.staticIpName, name: "staticIpName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -3780,7 +3694,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.resourceName.forEach {}
             try self.validate(self.resourceName, name: "resourceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -3909,9 +3822,7 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.newDiskName?.forEach {}
             try self.validate(self.newDiskName, name: "newDiskName", parent: name, pattern: "\\w[\\w\\-]*\\w")
-            try self.originalDiskPath?.forEach {}
             try self.validate(self.originalDiskPath, name: "originalDiskPath", parent: name, pattern: ".*\\S.*")
         }
 
@@ -4094,7 +4005,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.id?.forEach {}
             try self.validate(self.id, name: "id", parent: name, pattern: ".*\\S.*")
         }
 
@@ -4158,8 +4068,6 @@ extension Lightsail {
 
         public func validate(name: String) throws {
             try self.addOnRequest.validate(name: "\(name).addOnRequest")
-            try self.addOnRequest.forEach {}
-            try self.resourceName.forEach {}
             try self.validate(self.resourceName, name: "resourceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -4294,7 +4202,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.sourceSnapshotName.forEach {}
             try self.validate(self.sourceSnapshotName, name: "sourceSnapshotName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -4361,9 +4268,7 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.alarmName?.forEach {}
             try self.validate(self.alarmName, name: "alarmName", parent: name, pattern: "\\w[\\w\\-]*\\w")
-            try self.monitoredResourceName?.forEach {}
             try self.validate(self.monitoredResourceName, name: "monitoredResourceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -4400,7 +4305,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.resourceName.forEach {}
             try self.validate(self.resourceName, name: "resourceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -4614,7 +4518,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.serviceName.forEach {}
             try self.validate(self.serviceName, name: "serviceName", parent: name, max: 63)
             try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
             try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$")
@@ -4662,7 +4565,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.serviceName.forEach {}
             try self.validate(self.serviceName, name: "serviceName", parent: name, max: 63)
             try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
             try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$")
@@ -4704,7 +4606,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.serviceName.forEach {}
             try self.validate(self.serviceName, name: "serviceName", parent: name, max: 63)
             try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
             try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$")
@@ -4752,10 +4653,8 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.period.forEach {}
             try self.validate(self.period, name: "period", parent: name, max: 86400)
             try self.validate(self.period, name: "period", parent: name, min: 60)
-            try self.serviceName.forEach {}
             try self.validate(self.serviceName, name: "serviceName", parent: name, max: 63)
             try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
             try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$")
@@ -4814,7 +4713,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.serviceName?.forEach {}
             try self.validate(self.serviceName, name: "serviceName", parent: name, max: 63)
             try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
             try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$")
@@ -4834,7 +4732,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.diskName.forEach {}
             try self.validate(self.diskName, name: "diskName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -4865,7 +4762,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.diskSnapshotName.forEach {}
             try self.validate(self.diskSnapshotName, name: "diskSnapshotName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -4973,7 +4869,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.distributionName?.forEach {}
             try self.validate(self.distributionName, name: "distributionName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -5026,9 +4921,7 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.distributionName.forEach {}
             try self.validate(self.distributionName, name: "distributionName", parent: name, pattern: "\\w[\\w\\-]*\\w")
-            try self.period.forEach {}
             try self.validate(self.period, name: "period", parent: name, max: 86400)
             try self.validate(self.period, name: "period", parent: name, min: 60)
         }
@@ -5073,7 +4966,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.distributionName?.forEach {}
             try self.validate(self.distributionName, name: "distributionName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -5198,7 +5090,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.instanceName.forEach {}
             try self.validate(self.instanceName, name: "instanceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -5248,9 +5139,7 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.instanceName.forEach {}
             try self.validate(self.instanceName, name: "instanceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
-            try self.period.forEach {}
             try self.validate(self.period, name: "period", parent: name, max: 86400)
             try self.validate(self.period, name: "period", parent: name, min: 60)
         }
@@ -5292,7 +5181,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.instanceName.forEach {}
             try self.validate(self.instanceName, name: "instanceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -5323,7 +5211,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.instanceName.forEach {}
             try self.validate(self.instanceName, name: "instanceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -5354,7 +5241,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.instanceSnapshotName.forEach {}
             try self.validate(self.instanceSnapshotName, name: "instanceSnapshotName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -5415,7 +5301,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.instanceName.forEach {}
             try self.validate(self.instanceName, name: "instanceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -5476,7 +5361,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.keyPairName.forEach {}
             try self.validate(self.keyPairName, name: "keyPairName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -5555,9 +5439,7 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.loadBalancerName.forEach {}
             try self.validate(self.loadBalancerName, name: "loadBalancerName", parent: name, pattern: "\\w[\\w\\-]*\\w")
-            try self.period.forEach {}
             try self.validate(self.period, name: "period", parent: name, max: 86400)
             try self.validate(self.period, name: "period", parent: name, min: 60)
         }
@@ -5599,7 +5481,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.loadBalancerName.forEach {}
             try self.validate(self.loadBalancerName, name: "loadBalancerName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -5630,7 +5511,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.loadBalancerName.forEach {}
             try self.validate(self.loadBalancerName, name: "loadBalancerName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -5691,7 +5571,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.operationId.forEach {}
             try self.validate(self.operationId, name: "operationId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -5725,7 +5604,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.resourceName.forEach {}
             try self.validate(self.resourceName, name: "resourceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -5887,7 +5765,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.relationalDatabaseName.forEach {}
             try self.validate(self.relationalDatabaseName, name: "relationalDatabaseName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -5939,7 +5816,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.relationalDatabaseName.forEach {}
             try self.validate(self.relationalDatabaseName, name: "relationalDatabaseName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -5983,7 +5859,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.relationalDatabaseName.forEach {}
             try self.validate(self.relationalDatabaseName, name: "relationalDatabaseName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -6017,7 +5892,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.relationalDatabaseName.forEach {}
             try self.validate(self.relationalDatabaseName, name: "relationalDatabaseName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -6071,10 +5945,8 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.period.forEach {}
             try self.validate(self.period, name: "period", parent: name, max: 86400)
             try self.validate(self.period, name: "period", parent: name, min: 60)
-            try self.relationalDatabaseName.forEach {}
             try self.validate(self.relationalDatabaseName, name: "relationalDatabaseName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -6118,7 +5990,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.relationalDatabaseName.forEach {}
             try self.validate(self.relationalDatabaseName, name: "relationalDatabaseName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -6154,7 +6025,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.relationalDatabaseName.forEach {}
             try self.validate(self.relationalDatabaseName, name: "relationalDatabaseName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -6185,7 +6055,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.relationalDatabaseSnapshotName.forEach {}
             try self.validate(self.relationalDatabaseSnapshotName, name: "relationalDatabaseSnapshotName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -6276,7 +6145,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.staticIpName.forEach {}
             try self.validate(self.staticIpName, name: "staticIpName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -6394,7 +6262,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.keyPairName.forEach {}
             try self.validate(self.keyPairName, name: "keyPairName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -6432,7 +6299,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -6606,9 +6472,7 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.instanceType.forEach {}
             try self.validate(self.instanceType, name: "instanceType", parent: name, pattern: ".*\\S.*")
-            try self.sourceName.forEach {}
             try self.validate(self.sourceName, name: "sourceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -7390,10 +7254,8 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.instanceName.forEach {}
             try self.validate(self.instanceName, name: "instanceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
             try self.portInfo.validate(name: "\(name).portInfo")
-            try self.portInfo.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7597,10 +7459,8 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.fromPort?.forEach {}
             try self.validate(self.fromPort, name: "fromPort", parent: name, max: 65535)
             try self.validate(self.fromPort, name: "fromPort", parent: name, min: -1)
-            try self.toPort?.forEach {}
             try self.validate(self.toPort, name: "toPort", parent: name, max: 65535)
             try self.validate(self.toPort, name: "toPort", parent: name, min: -1)
         }
@@ -7654,9 +7514,7 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.alarmName.forEach {}
             try self.validate(self.alarmName, name: "alarmName", parent: name, pattern: "\\w[\\w\\-]*\\w")
-            try self.monitoredResourceName.forEach {}
             try self.validate(self.monitoredResourceName, name: "monitoredResourceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -7700,12 +7558,10 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.instanceName.forEach {}
             try self.validate(self.instanceName, name: "instanceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
             try self.portInfos.forEach {
                 try $0.validate(name: "\(name).portInfos[]")
             }
-            try self.portInfos.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7753,7 +7609,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.instanceName.forEach {}
             try self.validate(self.instanceName, name: "instanceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -7784,7 +7639,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.relationalDatabaseName.forEach {}
             try self.validate(self.relationalDatabaseName, name: "relationalDatabaseName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -7854,11 +7708,9 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.label.forEach {}
             try self.validate(self.label, name: "label", parent: name, max: 53)
             try self.validate(self.label, name: "label", parent: name, min: 1)
             try self.validate(self.label, name: "label", parent: name, pattern: "^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$")
-            try self.serviceName.forEach {}
             try self.validate(self.serviceName, name: "serviceName", parent: name, max: 63)
             try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
             try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$")
@@ -8256,7 +8108,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.staticIpName.forEach {}
             try self.validate(self.staticIpName, name: "staticIpName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -8312,7 +8163,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.distributionName?.forEach {}
             try self.validate(self.distributionName, name: "distributionName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -8421,7 +8271,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.resourceName.forEach {}
             try self.validate(self.resourceName, name: "resourceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -8454,7 +8303,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.instanceName.forEach {}
             try self.validate(self.instanceName, name: "instanceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -8485,7 +8333,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.relationalDatabaseName.forEach {}
             try self.validate(self.relationalDatabaseName, name: "relationalDatabaseName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -8564,7 +8411,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.instanceName.forEach {}
             try self.validate(self.instanceName, name: "instanceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -8599,9 +8445,7 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.relationalDatabaseName.forEach {}
             try self.validate(self.relationalDatabaseName, name: "relationalDatabaseName", parent: name, pattern: "\\w[\\w\\-]*\\w")
-            try self.relationalDatabaseSnapshotName?.forEach {}
             try self.validate(self.relationalDatabaseSnapshotName, name: "relationalDatabaseSnapshotName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -8656,9 +8500,7 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn?.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[^:]*):([a-zA-Z0-9-]+):([a-z0-9-]+):([0-9]+):([a-zA-Z]+)/([a-zA-Z0-9-]+)$")
-            try self.resourceName.forEach {}
             try self.validate(self.resourceName, name: "resourceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -8694,7 +8536,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.alarmName.forEach {}
             try self.validate(self.alarmName, name: "alarmName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -8749,9 +8590,7 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn?.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[^:]*):([a-zA-Z0-9-]+):([a-z0-9-]+):([0-9]+):([a-zA-Z]+)/([a-zA-Z0-9-]+)$")
-            try self.resourceName.forEach {}
             try self.validate(self.resourceName, name: "resourceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -8796,10 +8635,8 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.scale?.forEach {}
             try self.validate(self.scale, name: "scale", parent: name, max: 20)
             try self.validate(self.scale, name: "scale", parent: name, min: 1)
-            try self.serviceName.forEach {}
             try self.validate(self.serviceName, name: "serviceName", parent: name, max: 63)
             try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
             try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$")
@@ -8839,7 +8676,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.distributionName?.forEach {}
             try self.validate(self.distributionName, name: "distributionName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -8886,11 +8722,8 @@ extension Lightsail {
 
         public func validate(name: String) throws {
             try self.cacheBehaviorSettings?.validate(name: "\(name).cacheBehaviorSettings")
-            try self.cacheBehaviorSettings?.forEach {}
-            try self.distributionName.forEach {}
             try self.validate(self.distributionName, name: "distributionName", parent: name, pattern: "\\w[\\w\\-]*\\w")
             try self.origin?.validate(name: "\(name).origin")
-            try self.origin?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8929,7 +8762,6 @@ extension Lightsail {
 
         public func validate(name: String) throws {
             try self.domainEntry.validate(name: "\(name).domainEntry")
-            try self.domainEntry.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8966,10 +8798,8 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.attributeValue.forEach {}
             try self.validate(self.attributeValue, name: "attributeValue", parent: name, max: 256)
             try self.validate(self.attributeValue, name: "attributeValue", parent: name, min: 1)
-            try self.loadBalancerName.forEach {}
             try self.validate(self.loadBalancerName, name: "loadBalancerName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -9005,7 +8835,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.relationalDatabaseName.forEach {}
             try self.validate(self.relationalDatabaseName, name: "relationalDatabaseName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 
@@ -9064,7 +8893,6 @@ extension Lightsail {
         }
 
         public func validate(name: String) throws {
-            try self.relationalDatabaseName.forEach {}
             try self.validate(self.relationalDatabaseName, name: "relationalDatabaseName", parent: name, pattern: "\\w[\\w\\-]*\\w")
         }
 

@@ -120,17 +120,13 @@ extension CodeArtifact {
         }
 
         public func validate(name: String) throws {
-            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 50)
             try self.validate(self.domain, name: "domain", parent: name, min: 2)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "[a-z][a-z0-9\\-]{0,48}[a-z0-9]")
-            try self.domainOwner?.forEach {}
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, max: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, min: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "[0-9]{12}")
-            try self.externalConnection.forEach {}
             try self.validate(self.externalConnection, name: "externalConnection", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9._\\-:]{1,99}")
-            try self.repository.forEach {}
             try self.validate(self.repository, name: "repository", parent: name, max: 100)
             try self.validate(self.repository, name: "repository", parent: name, min: 2)
             try self.validate(self.repository, name: "repository", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}")
@@ -201,27 +197,21 @@ extension CodeArtifact {
         }
 
         public func validate(name: String) throws {
-            try self.destinationRepository.forEach {}
             try self.validate(self.destinationRepository, name: "destinationRepository", parent: name, max: 100)
             try self.validate(self.destinationRepository, name: "destinationRepository", parent: name, min: 2)
             try self.validate(self.destinationRepository, name: "destinationRepository", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}")
-            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 50)
             try self.validate(self.domain, name: "domain", parent: name, min: 2)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "[a-z][a-z0-9\\-]{0,48}[a-z0-9]")
-            try self.domainOwner?.forEach {}
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, max: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, min: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "[0-9]{12}")
-            try self.namespace?.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "[^!#/\\s]+")
-            try self.package.forEach {}
             try self.validate(self.package, name: "package", parent: name, max: 255)
             try self.validate(self.package, name: "package", parent: name, min: 1)
             try self.validate(self.package, name: "package", parent: name, pattern: "[^!#/\\s]+")
-            try self.sourceRepository.forEach {}
             try self.validate(self.sourceRepository, name: "sourceRepository", parent: name, max: 100)
             try self.validate(self.sourceRepository, name: "sourceRepository", parent: name, min: 2)
             try self.validate(self.sourceRepository, name: "sourceRepository", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}")
@@ -238,7 +228,6 @@ extension CodeArtifact {
                 try validate($0, name: "versions[]", parent: name, min: 1)
                 try validate($0, name: "versions[]", parent: name, pattern: "[^!#/\\s]+")
             }
-            try self.versions?.forEach {}
             try self.validate(self.versions, name: "versions", parent: name, max: 100)
         }
 
@@ -286,18 +275,15 @@ extension CodeArtifact {
         }
 
         public func validate(name: String) throws {
-            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 50)
             try self.validate(self.domain, name: "domain", parent: name, min: 2)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "[a-z][a-z0-9\\-]{0,48}[a-z0-9]")
-            try self.encryptionKey?.forEach {}
             try self.validate(self.encryptionKey, name: "encryptionKey", parent: name, max: 1011)
             try self.validate(self.encryptionKey, name: "encryptionKey", parent: name, min: 1)
             try self.validate(self.encryptionKey, name: "encryptionKey", parent: name, pattern: "\\S+")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -351,31 +337,25 @@ extension CodeArtifact {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, pattern: "\\P{C}+")
-            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 50)
             try self.validate(self.domain, name: "domain", parent: name, min: 2)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "[a-z][a-z0-9\\-]{0,48}[a-z0-9]")
-            try self.domainOwner?.forEach {}
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, max: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, min: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "[0-9]{12}")
-            try self.repository.forEach {}
             try self.validate(self.repository, name: "repository", parent: name, max: 100)
             try self.validate(self.repository, name: "repository", parent: name, min: 2)
             try self.validate(self.repository, name: "repository", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
             try self.upstreams?.forEach {
                 try $0.validate(name: "\(name).upstreams[]")
             }
-            try self.upstreams?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -419,15 +399,12 @@ extension CodeArtifact {
         }
 
         public func validate(name: String) throws {
-            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 50)
             try self.validate(self.domain, name: "domain", parent: name, min: 2)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "[a-z][a-z0-9\\-]{0,48}[a-z0-9]")
-            try self.domainOwner?.forEach {}
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, max: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, min: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "[0-9]{12}")
-            try self.policyRevision?.forEach {}
             try self.validate(self.policyRevision, name: "policyRevision", parent: name, max: 100)
             try self.validate(self.policyRevision, name: "policyRevision", parent: name, min: 1)
             try self.validate(self.policyRevision, name: "policyRevision", parent: name, pattern: "\\S+")
@@ -466,11 +443,9 @@ extension CodeArtifact {
         }
 
         public func validate(name: String) throws {
-            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 50)
             try self.validate(self.domain, name: "domain", parent: name, min: 2)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "[a-z][a-z0-9\\-]{0,48}[a-z0-9]")
-            try self.domainOwner?.forEach {}
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, max: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, min: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "[0-9]{12}")
@@ -531,23 +506,18 @@ extension CodeArtifact {
         }
 
         public func validate(name: String) throws {
-            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 50)
             try self.validate(self.domain, name: "domain", parent: name, min: 2)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "[a-z][a-z0-9\\-]{0,48}[a-z0-9]")
-            try self.domainOwner?.forEach {}
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, max: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, min: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "[0-9]{12}")
-            try self.namespace?.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "[^!#/\\s]+")
-            try self.package.forEach {}
             try self.validate(self.package, name: "package", parent: name, max: 255)
             try self.validate(self.package, name: "package", parent: name, min: 1)
             try self.validate(self.package, name: "package", parent: name, pattern: "[^!#/\\s]+")
-            try self.repository.forEach {}
             try self.validate(self.repository, name: "repository", parent: name, max: 100)
             try self.validate(self.repository, name: "repository", parent: name, min: 2)
             try self.validate(self.repository, name: "repository", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}")
@@ -556,7 +526,6 @@ extension CodeArtifact {
                 try validate($0, name: "versions[]", parent: name, min: 1)
                 try validate($0, name: "versions[]", parent: name, pattern: "[^!#/\\s]+")
             }
-            try self.versions.forEach {}
             try self.validate(self.versions, name: "versions", parent: name, max: 100)
         }
 
@@ -608,19 +577,15 @@ extension CodeArtifact {
         }
 
         public func validate(name: String) throws {
-            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 50)
             try self.validate(self.domain, name: "domain", parent: name, min: 2)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "[a-z][a-z0-9\\-]{0,48}[a-z0-9]")
-            try self.domainOwner?.forEach {}
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, max: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, min: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "[0-9]{12}")
-            try self.policyRevision?.forEach {}
             try self.validate(self.policyRevision, name: "policyRevision", parent: name, max: 100)
             try self.validate(self.policyRevision, name: "policyRevision", parent: name, min: 1)
             try self.validate(self.policyRevision, name: "policyRevision", parent: name, pattern: "\\S+")
-            try self.repository.forEach {}
             try self.validate(self.repository, name: "repository", parent: name, max: 100)
             try self.validate(self.repository, name: "repository", parent: name, min: 2)
             try self.validate(self.repository, name: "repository", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}")
@@ -663,15 +628,12 @@ extension CodeArtifact {
         }
 
         public func validate(name: String) throws {
-            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 50)
             try self.validate(self.domain, name: "domain", parent: name, min: 2)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "[a-z][a-z0-9\\-]{0,48}[a-z0-9]")
-            try self.domainOwner?.forEach {}
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, max: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, min: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "[0-9]{12}")
-            try self.repository.forEach {}
             try self.validate(self.repository, name: "repository", parent: name, max: 100)
             try self.validate(self.repository, name: "repository", parent: name, min: 2)
             try self.validate(self.repository, name: "repository", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}")
@@ -710,11 +672,9 @@ extension CodeArtifact {
         }
 
         public func validate(name: String) throws {
-            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 50)
             try self.validate(self.domain, name: "domain", parent: name, min: 2)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "[a-z][a-z0-9\\-]{0,48}[a-z0-9]")
-            try self.domainOwner?.forEach {}
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, max: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, min: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "[0-9]{12}")
@@ -772,27 +732,21 @@ extension CodeArtifact {
         }
 
         public func validate(name: String) throws {
-            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 50)
             try self.validate(self.domain, name: "domain", parent: name, min: 2)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "[a-z][a-z0-9\\-]{0,48}[a-z0-9]")
-            try self.domainOwner?.forEach {}
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, max: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, min: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "[0-9]{12}")
-            try self.namespace?.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "[^!#/\\s]+")
-            try self.package.forEach {}
             try self.validate(self.package, name: "package", parent: name, max: 255)
             try self.validate(self.package, name: "package", parent: name, min: 1)
             try self.validate(self.package, name: "package", parent: name, pattern: "[^!#/\\s]+")
-            try self.packageVersion.forEach {}
             try self.validate(self.packageVersion, name: "packageVersion", parent: name, max: 255)
             try self.validate(self.packageVersion, name: "packageVersion", parent: name, min: 1)
             try self.validate(self.packageVersion, name: "packageVersion", parent: name, pattern: "[^!#/\\s]+")
-            try self.repository.forEach {}
             try self.validate(self.repository, name: "repository", parent: name, max: 100)
             try self.validate(self.repository, name: "repository", parent: name, min: 2)
             try self.validate(self.repository, name: "repository", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}")
@@ -835,15 +789,12 @@ extension CodeArtifact {
         }
 
         public func validate(name: String) throws {
-            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 50)
             try self.validate(self.domain, name: "domain", parent: name, min: 2)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "[a-z][a-z0-9\\-]{0,48}[a-z0-9]")
-            try self.domainOwner?.forEach {}
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, max: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, min: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "[0-9]{12}")
-            try self.repository.forEach {}
             try self.validate(self.repository, name: "repository", parent: name, max: 100)
             try self.validate(self.repository, name: "repository", parent: name, min: 2)
             try self.validate(self.repository, name: "repository", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}")
@@ -890,17 +841,13 @@ extension CodeArtifact {
         }
 
         public func validate(name: String) throws {
-            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 50)
             try self.validate(self.domain, name: "domain", parent: name, min: 2)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "[a-z][a-z0-9\\-]{0,48}[a-z0-9]")
-            try self.domainOwner?.forEach {}
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, max: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, min: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "[0-9]{12}")
-            try self.externalConnection.forEach {}
             try self.validate(self.externalConnection, name: "externalConnection", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9._\\-:]{1,99}")
-            try self.repository.forEach {}
             try self.validate(self.repository, name: "repository", parent: name, max: 100)
             try self.validate(self.repository, name: "repository", parent: name, min: 2)
             try self.validate(self.repository, name: "repository", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}")
@@ -964,23 +911,18 @@ extension CodeArtifact {
         }
 
         public func validate(name: String) throws {
-            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 50)
             try self.validate(self.domain, name: "domain", parent: name, min: 2)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "[a-z][a-z0-9\\-]{0,48}[a-z0-9]")
-            try self.domainOwner?.forEach {}
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, max: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, min: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "[0-9]{12}")
-            try self.namespace?.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "[^!#/\\s]+")
-            try self.package.forEach {}
             try self.validate(self.package, name: "package", parent: name, max: 255)
             try self.validate(self.package, name: "package", parent: name, min: 1)
             try self.validate(self.package, name: "package", parent: name, pattern: "[^!#/\\s]+")
-            try self.repository.forEach {}
             try self.validate(self.repository, name: "repository", parent: name, max: 100)
             try self.validate(self.repository, name: "repository", parent: name, min: 2)
             try self.validate(self.repository, name: "repository", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}")
@@ -997,7 +939,6 @@ extension CodeArtifact {
                 try validate($0, name: "versions[]", parent: name, min: 1)
                 try validate($0, name: "versions[]", parent: name, pattern: "[^!#/\\s]+")
             }
-            try self.versions.forEach {}
             try self.validate(self.versions, name: "versions", parent: name, max: 100)
         }
 
@@ -1124,15 +1065,12 @@ extension CodeArtifact {
         }
 
         public func validate(name: String) throws {
-            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 50)
             try self.validate(self.domain, name: "domain", parent: name, min: 2)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "[a-z][a-z0-9\\-]{0,48}[a-z0-9]")
-            try self.domainOwner?.forEach {}
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, max: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, min: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "[0-9]{12}")
-            try self.durationSeconds?.forEach {}
             try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, max: 43200)
             try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, min: 0)
         }
@@ -1174,11 +1112,9 @@ extension CodeArtifact {
         }
 
         public func validate(name: String) throws {
-            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 50)
             try self.validate(self.domain, name: "domain", parent: name, min: 2)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "[a-z][a-z0-9\\-]{0,48}[a-z0-9]")
-            try self.domainOwner?.forEach {}
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, max: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, min: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "[0-9]{12}")
@@ -1245,35 +1181,27 @@ extension CodeArtifact {
         }
 
         public func validate(name: String) throws {
-            try self.asset.forEach {}
             try self.validate(self.asset, name: "asset", parent: name, max: 255)
             try self.validate(self.asset, name: "asset", parent: name, min: 1)
             try self.validate(self.asset, name: "asset", parent: name, pattern: "\\P{C}+")
-            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 50)
             try self.validate(self.domain, name: "domain", parent: name, min: 2)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "[a-z][a-z0-9\\-]{0,48}[a-z0-9]")
-            try self.domainOwner?.forEach {}
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, max: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, min: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "[0-9]{12}")
-            try self.namespace?.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "[^!#/\\s]+")
-            try self.package.forEach {}
             try self.validate(self.package, name: "package", parent: name, max: 255)
             try self.validate(self.package, name: "package", parent: name, min: 1)
             try self.validate(self.package, name: "package", parent: name, pattern: "[^!#/\\s]+")
-            try self.packageVersion.forEach {}
             try self.validate(self.packageVersion, name: "packageVersion", parent: name, max: 255)
             try self.validate(self.packageVersion, name: "packageVersion", parent: name, min: 1)
             try self.validate(self.packageVersion, name: "packageVersion", parent: name, pattern: "[^!#/\\s]+")
-            try self.packageVersionRevision?.forEach {}
             try self.validate(self.packageVersionRevision, name: "packageVersionRevision", parent: name, max: 50)
             try self.validate(self.packageVersionRevision, name: "packageVersionRevision", parent: name, min: 1)
             try self.validate(self.packageVersionRevision, name: "packageVersionRevision", parent: name, pattern: "\\S+")
-            try self.repository.forEach {}
             try self.validate(self.repository, name: "repository", parent: name, max: 100)
             try self.validate(self.repository, name: "repository", parent: name, min: 2)
             try self.validate(self.repository, name: "repository", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}")
@@ -1353,27 +1281,21 @@ extension CodeArtifact {
         }
 
         public func validate(name: String) throws {
-            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 50)
             try self.validate(self.domain, name: "domain", parent: name, min: 2)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "[a-z][a-z0-9\\-]{0,48}[a-z0-9]")
-            try self.domainOwner?.forEach {}
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, max: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, min: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "[0-9]{12}")
-            try self.namespace?.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "[^!#/\\s]+")
-            try self.package.forEach {}
             try self.validate(self.package, name: "package", parent: name, max: 255)
             try self.validate(self.package, name: "package", parent: name, min: 1)
             try self.validate(self.package, name: "package", parent: name, pattern: "[^!#/\\s]+")
-            try self.packageVersion.forEach {}
             try self.validate(self.packageVersion, name: "packageVersion", parent: name, max: 255)
             try self.validate(self.packageVersion, name: "packageVersion", parent: name, min: 1)
             try self.validate(self.packageVersion, name: "packageVersion", parent: name, pattern: "[^!#/\\s]+")
-            try self.repository.forEach {}
             try self.validate(self.repository, name: "repository", parent: name, max: 100)
             try self.validate(self.repository, name: "repository", parent: name, min: 2)
             try self.validate(self.repository, name: "repository", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}")
@@ -1440,15 +1362,12 @@ extension CodeArtifact {
         }
 
         public func validate(name: String) throws {
-            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 50)
             try self.validate(self.domain, name: "domain", parent: name, min: 2)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "[a-z][a-z0-9\\-]{0,48}[a-z0-9]")
-            try self.domainOwner?.forEach {}
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, max: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, min: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "[0-9]{12}")
-            try self.repository.forEach {}
             try self.validate(self.repository, name: "repository", parent: name, max: 100)
             try self.validate(self.repository, name: "repository", parent: name, min: 2)
             try self.validate(self.repository, name: "repository", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}")
@@ -1491,15 +1410,12 @@ extension CodeArtifact {
         }
 
         public func validate(name: String) throws {
-            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 50)
             try self.validate(self.domain, name: "domain", parent: name, min: 2)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "[a-z][a-z0-9\\-]{0,48}[a-z0-9]")
-            try self.domainOwner?.forEach {}
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, max: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, min: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "[0-9]{12}")
-            try self.repository.forEach {}
             try self.validate(self.repository, name: "repository", parent: name, max: 100)
             try self.validate(self.repository, name: "repository", parent: name, min: 2)
             try self.validate(self.repository, name: "repository", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}")
@@ -1550,10 +1466,8 @@ extension CodeArtifact {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "\\S+")
@@ -1627,34 +1541,26 @@ extension CodeArtifact {
         }
 
         public func validate(name: String) throws {
-            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 50)
             try self.validate(self.domain, name: "domain", parent: name, min: 2)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "[a-z][a-z0-9\\-]{0,48}[a-z0-9]")
-            try self.domainOwner?.forEach {}
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, max: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, min: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "[0-9]{12}")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.namespace?.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "[^!#/\\s]+")
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "\\S+")
-            try self.package.forEach {}
             try self.validate(self.package, name: "package", parent: name, max: 255)
             try self.validate(self.package, name: "package", parent: name, min: 1)
             try self.validate(self.package, name: "package", parent: name, pattern: "[^!#/\\s]+")
-            try self.packageVersion.forEach {}
             try self.validate(self.packageVersion, name: "packageVersion", parent: name, max: 255)
             try self.validate(self.packageVersion, name: "packageVersion", parent: name, min: 1)
             try self.validate(self.packageVersion, name: "packageVersion", parent: name, pattern: "[^!#/\\s]+")
-            try self.repository.forEach {}
             try self.validate(self.repository, name: "repository", parent: name, max: 100)
             try self.validate(self.repository, name: "repository", parent: name, min: 2)
             try self.validate(self.repository, name: "repository", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}")
@@ -1741,31 +1647,24 @@ extension CodeArtifact {
         }
 
         public func validate(name: String) throws {
-            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 50)
             try self.validate(self.domain, name: "domain", parent: name, min: 2)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "[a-z][a-z0-9\\-]{0,48}[a-z0-9]")
-            try self.domainOwner?.forEach {}
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, max: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, min: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "[0-9]{12}")
-            try self.namespace?.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "[^!#/\\s]+")
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "\\S+")
-            try self.package.forEach {}
             try self.validate(self.package, name: "package", parent: name, max: 255)
             try self.validate(self.package, name: "package", parent: name, min: 1)
             try self.validate(self.package, name: "package", parent: name, pattern: "[^!#/\\s]+")
-            try self.packageVersion.forEach {}
             try self.validate(self.packageVersion, name: "packageVersion", parent: name, max: 255)
             try self.validate(self.packageVersion, name: "packageVersion", parent: name, min: 1)
             try self.validate(self.packageVersion, name: "packageVersion", parent: name, pattern: "[^!#/\\s]+")
-            try self.repository.forEach {}
             try self.validate(self.repository, name: "repository", parent: name, max: 100)
             try self.validate(self.repository, name: "repository", parent: name, min: 2)
             try self.validate(self.repository, name: "repository", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}")
@@ -1860,30 +1759,23 @@ extension CodeArtifact {
         }
 
         public func validate(name: String) throws {
-            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 50)
             try self.validate(self.domain, name: "domain", parent: name, min: 2)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "[a-z][a-z0-9\\-]{0,48}[a-z0-9]")
-            try self.domainOwner?.forEach {}
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, max: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, min: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "[0-9]{12}")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.namespace?.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "[^!#/\\s]+")
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "\\S+")
-            try self.package.forEach {}
             try self.validate(self.package, name: "package", parent: name, max: 255)
             try self.validate(self.package, name: "package", parent: name, min: 1)
             try self.validate(self.package, name: "package", parent: name, pattern: "[^!#/\\s]+")
-            try self.repository.forEach {}
             try self.validate(self.repository, name: "repository", parent: name, max: 100)
             try self.validate(self.repository, name: "repository", parent: name, min: 2)
             try self.validate(self.repository, name: "repository", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}")
@@ -1966,30 +1858,23 @@ extension CodeArtifact {
         }
 
         public func validate(name: String) throws {
-            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 50)
             try self.validate(self.domain, name: "domain", parent: name, min: 2)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "[a-z][a-z0-9\\-]{0,48}[a-z0-9]")
-            try self.domainOwner?.forEach {}
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, max: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, min: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "[0-9]{12}")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.namespace?.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "[^!#/\\s]+")
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "\\S+")
-            try self.packagePrefix?.forEach {}
             try self.validate(self.packagePrefix, name: "packagePrefix", parent: name, max: 255)
             try self.validate(self.packagePrefix, name: "packagePrefix", parent: name, min: 1)
             try self.validate(self.packagePrefix, name: "packagePrefix", parent: name, pattern: "[^!#/\\s]+")
-            try self.repository.forEach {}
             try self.validate(self.repository, name: "repository", parent: name, max: 100)
             try self.validate(self.repository, name: "repository", parent: name, min: 2)
             try self.validate(self.repository, name: "repository", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}")
@@ -2048,26 +1933,20 @@ extension CodeArtifact {
         }
 
         public func validate(name: String) throws {
-            try self.administratorAccount?.forEach {}
             try self.validate(self.administratorAccount, name: "administratorAccount", parent: name, max: 12)
             try self.validate(self.administratorAccount, name: "administratorAccount", parent: name, min: 12)
             try self.validate(self.administratorAccount, name: "administratorAccount", parent: name, pattern: "[0-9]{12}")
-            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 50)
             try self.validate(self.domain, name: "domain", parent: name, min: 2)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "[a-z][a-z0-9\\-]{0,48}[a-z0-9]")
-            try self.domainOwner?.forEach {}
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, max: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, min: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "[0-9]{12}")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "\\S+")
-            try self.repositoryPrefix?.forEach {}
             try self.validate(self.repositoryPrefix, name: "repositoryPrefix", parent: name, max: 100)
             try self.validate(self.repositoryPrefix, name: "repositoryPrefix", parent: name, min: 2)
             try self.validate(self.repositoryPrefix, name: "repositoryPrefix", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}")
@@ -2114,14 +1993,11 @@ extension CodeArtifact {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "\\S+")
-            try self.repositoryPrefix?.forEach {}
             try self.validate(self.repositoryPrefix, name: "repositoryPrefix", parent: name, max: 100)
             try self.validate(self.repositoryPrefix, name: "repositoryPrefix", parent: name, min: 2)
             try self.validate(self.repositoryPrefix, name: "repositoryPrefix", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}")
@@ -2160,7 +2036,6 @@ extension CodeArtifact {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "\\S+")
@@ -2341,18 +2216,14 @@ extension CodeArtifact {
         }
 
         public func validate(name: String) throws {
-            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 50)
             try self.validate(self.domain, name: "domain", parent: name, min: 2)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "[a-z][a-z0-9\\-]{0,48}[a-z0-9]")
-            try self.domainOwner?.forEach {}
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, max: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, min: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "[0-9]{12}")
-            try self.policyDocument.forEach {}
             try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 5120)
             try self.validate(self.policyDocument, name: "policyDocument", parent: name, min: 1)
-            try self.policyRevision?.forEach {}
             try self.validate(self.policyRevision, name: "policyRevision", parent: name, max: 100)
             try self.validate(self.policyRevision, name: "policyRevision", parent: name, min: 1)
             try self.validate(self.policyRevision, name: "policyRevision", parent: name, pattern: "\\S+")
@@ -2406,22 +2277,17 @@ extension CodeArtifact {
         }
 
         public func validate(name: String) throws {
-            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 50)
             try self.validate(self.domain, name: "domain", parent: name, min: 2)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "[a-z][a-z0-9\\-]{0,48}[a-z0-9]")
-            try self.domainOwner?.forEach {}
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, max: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, min: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "[0-9]{12}")
-            try self.policyDocument.forEach {}
             try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 5120)
             try self.validate(self.policyDocument, name: "policyDocument", parent: name, min: 1)
-            try self.policyRevision?.forEach {}
             try self.validate(self.policyRevision, name: "policyRevision", parent: name, max: 100)
             try self.validate(self.policyRevision, name: "policyRevision", parent: name, min: 1)
             try self.validate(self.policyRevision, name: "policyRevision", parent: name, pattern: "\\S+")
-            try self.repository.forEach {}
             try self.validate(self.repository, name: "repository", parent: name, max: 100)
             try self.validate(self.repository, name: "repository", parent: name, min: 2)
             try self.validate(self.repository, name: "repository", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}")
@@ -2591,10 +2457,8 @@ extension CodeArtifact {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
-            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
         }
@@ -2621,14 +2485,12 @@ extension CodeArtifact {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "\\S+")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -2658,7 +2520,6 @@ extension CodeArtifact {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "\\S+")
@@ -2666,7 +2527,6 @@ extension CodeArtifact {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
-            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
         }
@@ -2725,23 +2585,18 @@ extension CodeArtifact {
         }
 
         public func validate(name: String) throws {
-            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 50)
             try self.validate(self.domain, name: "domain", parent: name, min: 2)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "[a-z][a-z0-9\\-]{0,48}[a-z0-9]")
-            try self.domainOwner?.forEach {}
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, max: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, min: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "[0-9]{12}")
-            try self.namespace?.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "[^!#/\\s]+")
-            try self.package.forEach {}
             try self.validate(self.package, name: "package", parent: name, max: 255)
             try self.validate(self.package, name: "package", parent: name, min: 1)
             try self.validate(self.package, name: "package", parent: name, pattern: "[^!#/\\s]+")
-            try self.repository.forEach {}
             try self.validate(self.repository, name: "repository", parent: name, max: 100)
             try self.validate(self.repository, name: "repository", parent: name, min: 2)
             try self.validate(self.repository, name: "repository", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}")
@@ -2758,7 +2613,6 @@ extension CodeArtifact {
                 try validate($0, name: "versions[]", parent: name, min: 1)
                 try validate($0, name: "versions[]", parent: name, pattern: "[^!#/\\s]+")
             }
-            try self.versions.forEach {}
             try self.validate(self.versions, name: "versions", parent: name, max: 100)
         }
 
@@ -2814,25 +2668,20 @@ extension CodeArtifact {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, pattern: "\\P{C}+")
-            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 50)
             try self.validate(self.domain, name: "domain", parent: name, min: 2)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "[a-z][a-z0-9\\-]{0,48}[a-z0-9]")
-            try self.domainOwner?.forEach {}
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, max: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, min: 12)
             try self.validate(self.domainOwner, name: "domainOwner", parent: name, pattern: "[0-9]{12}")
-            try self.repository.forEach {}
             try self.validate(self.repository, name: "repository", parent: name, max: 100)
             try self.validate(self.repository, name: "repository", parent: name, min: 2)
             try self.validate(self.repository, name: "repository", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}")
             try self.upstreams?.forEach {
                 try $0.validate(name: "\(name).upstreams[]")
             }
-            try self.upstreams?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2863,7 +2712,6 @@ extension CodeArtifact {
         }
 
         public func validate(name: String) throws {
-            try self.repositoryName.forEach {}
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9._\\-]{1,99}")

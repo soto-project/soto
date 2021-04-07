@@ -287,7 +287,6 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try self.logGroupArn?.forEach {}
             try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, max: 256)
             try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, min: 1)
         }
@@ -309,13 +308,11 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 80)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -368,21 +365,16 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try self.definition.forEach {}
             try self.validate(self.definition, name: "definition", parent: name, max: 1_048_576)
             try self.validate(self.definition, name: "definition", parent: name, min: 1)
             try self.loggingConfiguration?.validate(name: "\(name).loggingConfiguration")
-            try self.loggingConfiguration?.forEach {}
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 80)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -422,7 +414,6 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try self.activityArn.forEach {}
             try self.validate(self.activityArn, name: "activityArn", parent: name, max: 256)
             try self.validate(self.activityArn, name: "activityArn", parent: name, min: 1)
         }
@@ -445,7 +436,6 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try self.stateMachineArn.forEach {}
             try self.validate(self.stateMachineArn, name: "stateMachineArn", parent: name, max: 256)
             try self.validate(self.stateMachineArn, name: "stateMachineArn", parent: name, min: 1)
         }
@@ -468,7 +458,6 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try self.activityArn.forEach {}
             try self.validate(self.activityArn, name: "activityArn", parent: name, max: 256)
             try self.validate(self.activityArn, name: "activityArn", parent: name, min: 1)
         }
@@ -508,7 +497,6 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try self.executionArn.forEach {}
             try self.validate(self.executionArn, name: "executionArn", parent: name, max: 256)
             try self.validate(self.executionArn, name: "executionArn", parent: name, min: 1)
         }
@@ -578,7 +566,6 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try self.executionArn.forEach {}
             try self.validate(self.executionArn, name: "executionArn", parent: name, max: 256)
             try self.validate(self.executionArn, name: "executionArn", parent: name, min: 1)
         }
@@ -633,7 +620,6 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try self.stateMachineArn.forEach {}
             try self.validate(self.stateMachineArn, name: "stateMachineArn", parent: name, max: 256)
             try self.validate(self.stateMachineArn, name: "stateMachineArn", parent: name, min: 1)
         }
@@ -821,10 +807,8 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try self.activityArn.forEach {}
             try self.validate(self.activityArn, name: "activityArn", parent: name, max: 256)
             try self.validate(self.activityArn, name: "activityArn", parent: name, min: 1)
-            try self.workerName?.forEach {}
             try self.validate(self.workerName, name: "workerName", parent: name, max: 80)
             try self.validate(self.workerName, name: "workerName", parent: name, min: 1)
         }
@@ -873,13 +857,10 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try self.executionArn.forEach {}
             try self.validate(self.executionArn, name: "executionArn", parent: name, max: 256)
             try self.validate(self.executionArn, name: "executionArn", parent: name, min: 1)
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1182,10 +1163,8 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1231,13 +1210,10 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.stateMachineArn.forEach {}
             try self.validate(self.stateMachineArn, name: "stateMachineArn", parent: name, max: 256)
             try self.validate(self.stateMachineArn, name: "stateMachineArn", parent: name, min: 1)
         }
@@ -1279,10 +1255,8 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1318,7 +1292,6 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
         }
@@ -1351,7 +1324,6 @@ extension SFN {
 
         public func validate(name: String) throws {
             try self.cloudWatchLogsLogGroup?.validate(name: "\(name).cloudWatchLogsLogGroup")
-            try self.cloudWatchLogsLogGroup?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1377,7 +1349,6 @@ extension SFN {
             try self.destinations?.forEach {
                 try $0.validate(name: "\(name).destinations[]")
             }
-            try self.destinations?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1432,13 +1403,10 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try self.cause?.forEach {}
             try self.validate(self.cause, name: "cause", parent: name, max: 32768)
             try self.validate(self.cause, name: "cause", parent: name, min: 0)
-            try self.error?.forEach {}
             try self.validate(self.error, name: "error", parent: name, max: 256)
             try self.validate(self.error, name: "error", parent: name, min: 0)
-            try self.taskToken.forEach {}
             try self.validate(self.taskToken, name: "taskToken", parent: name, max: 1024)
             try self.validate(self.taskToken, name: "taskToken", parent: name, min: 1)
         }
@@ -1463,7 +1431,6 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try self.taskToken.forEach {}
             try self.validate(self.taskToken, name: "taskToken", parent: name, max: 1024)
             try self.validate(self.taskToken, name: "taskToken", parent: name, min: 1)
         }
@@ -1489,9 +1456,7 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try self.output.forEach {}
             try self.validate(self.output, name: "output", parent: name, max: 262_144)
-            try self.taskToken.forEach {}
             try self.validate(self.taskToken, name: "taskToken", parent: name, max: 1024)
             try self.validate(self.taskToken, name: "taskToken", parent: name, min: 1)
         }
@@ -1524,15 +1489,11 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try self.input?.forEach {}
             try self.validate(self.input, name: "input", parent: name, max: 262_144)
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 80)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.stateMachineArn.forEach {}
             try self.validate(self.stateMachineArn, name: "stateMachineArn", parent: name, max: 256)
             try self.validate(self.stateMachineArn, name: "stateMachineArn", parent: name, min: 1)
-            try self.traceHeader?.forEach {}
             try self.validate(self.traceHeader, name: "traceHeader", parent: name, max: 256)
             try self.validate(self.traceHeader, name: "traceHeader", parent: name, min: 0)
             try self.validate(self.traceHeader, name: "traceHeader", parent: name, pattern: "\\p{ASCII}*")
@@ -1581,15 +1542,11 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try self.input?.forEach {}
             try self.validate(self.input, name: "input", parent: name, max: 262_144)
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 80)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.stateMachineArn.forEach {}
             try self.validate(self.stateMachineArn, name: "stateMachineArn", parent: name, max: 256)
             try self.validate(self.stateMachineArn, name: "stateMachineArn", parent: name, min: 1)
-            try self.traceHeader?.forEach {}
             try self.validate(self.traceHeader, name: "traceHeader", parent: name, max: 256)
             try self.validate(self.traceHeader, name: "traceHeader", parent: name, min: 0)
             try self.validate(self.traceHeader, name: "traceHeader", parent: name, pattern: "\\p{ASCII}*")
@@ -1747,13 +1704,10 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try self.cause?.forEach {}
             try self.validate(self.cause, name: "cause", parent: name, max: 32768)
             try self.validate(self.cause, name: "cause", parent: name, min: 0)
-            try self.error?.forEach {}
             try self.validate(self.error, name: "error", parent: name, max: 256)
             try self.validate(self.error, name: "error", parent: name, min: 0)
-            try self.executionArn.forEach {}
             try self.validate(self.executionArn, name: "executionArn", parent: name, max: 256)
             try self.validate(self.executionArn, name: "executionArn", parent: name, min: 1)
         }
@@ -1790,10 +1744,8 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
-            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
         }
@@ -1816,13 +1768,11 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2060,14 +2010,12 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
-            try self.tagKeys.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2101,15 +2049,11 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try self.definition?.forEach {}
             try self.validate(self.definition, name: "definition", parent: name, max: 1_048_576)
             try self.validate(self.definition, name: "definition", parent: name, min: 1)
             try self.loggingConfiguration?.validate(name: "\(name).loggingConfiguration")
-            try self.loggingConfiguration?.forEach {}
-            try self.roleArn?.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
-            try self.stateMachineArn.forEach {}
             try self.validate(self.stateMachineArn, name: "stateMachineArn", parent: name, max: 256)
             try self.validate(self.stateMachineArn, name: "stateMachineArn", parent: name, min: 1)
         }

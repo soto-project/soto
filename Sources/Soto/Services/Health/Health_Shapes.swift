@@ -129,13 +129,10 @@ extension Health {
         }
 
         public func validate(name: String) throws {
-            try self.eventArn.forEach {}
             try self.validate(self.eventArn, name: "eventArn", parent: name, max: 1600)
             try self.validate(self.eventArn, name: "eventArn", parent: name, pattern: "arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\\w-]+){3}")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 10)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 10000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9=/+_.-]{4,10000}")
@@ -187,21 +184,17 @@ extension Health {
         }
 
         public func validate(name: String) throws {
-            try self.locale?.forEach {}
             try self.validate(self.locale, name: "locale", parent: name, max: 256)
             try self.validate(self.locale, name: "locale", parent: name, min: 2)
             try self.validate(self.locale, name: "locale", parent: name, pattern: ".{2,256}")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 10)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 10000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9=/+_.-]{4,10000}")
             try self.organizationEntityFilters.forEach {
                 try $0.validate(name: "\(name).organizationEntityFilters[]")
             }
-            try self.organizationEntityFilters.forEach {}
             try self.validate(self.organizationEntityFilters, name: "organizationEntityFilters", parent: name, max: 10)
             try self.validate(self.organizationEntityFilters, name: "organizationEntityFilters", parent: name, min: 1)
         }
@@ -254,15 +247,11 @@ extension Health {
 
         public func validate(name: String) throws {
             try self.filter.validate(name: "\(name).filter")
-            try self.filter.forEach {}
-            try self.locale?.forEach {}
             try self.validate(self.locale, name: "locale", parent: name, max: 256)
             try self.validate(self.locale, name: "locale", parent: name, min: 2)
             try self.validate(self.locale, name: "locale", parent: name, pattern: ".{2,256}")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 10)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 10000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9=/+_.-]{4,10000}")
@@ -306,7 +295,6 @@ extension Health {
                 try validate($0, name: "eventArns[]", parent: name, max: 1600)
                 try validate($0, name: "eventArns[]", parent: name, pattern: "arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\\w-]+){3}")
             }
-            try self.eventArns?.forEach {}
             try self.validate(self.eventArns, name: "eventArns", parent: name, max: 50)
             try self.validate(self.eventArns, name: "eventArns", parent: name, min: 1)
         }
@@ -348,11 +336,8 @@ extension Health {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
-            try self.filter?.forEach {}
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 10)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 10000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9=/+_.-]{4,10000}")
@@ -395,14 +380,12 @@ extension Health {
         }
 
         public func validate(name: String) throws {
-            try self.locale?.forEach {}
             try self.validate(self.locale, name: "locale", parent: name, max: 256)
             try self.validate(self.locale, name: "locale", parent: name, min: 2)
             try self.validate(self.locale, name: "locale", parent: name, pattern: ".{2,256}")
             try self.organizationEventDetailFilters.forEach {
                 try $0.validate(name: "\(name).organizationEventDetailFilters[]")
             }
-            try self.organizationEventDetailFilters.forEach {}
             try self.validate(self.organizationEventDetailFilters, name: "organizationEventDetailFilters", parent: name, max: 10)
             try self.validate(self.organizationEventDetailFilters, name: "organizationEventDetailFilters", parent: name, min: 1)
         }
@@ -446,10 +429,8 @@ extension Health {
                 try validate($0, name: "eventArns[]", parent: name, max: 1600)
                 try validate($0, name: "eventArns[]", parent: name, pattern: "arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\\w-]+){3}")
             }
-            try self.eventArns.forEach {}
             try self.validate(self.eventArns, name: "eventArns", parent: name, max: 10)
             try self.validate(self.eventArns, name: "eventArns", parent: name, min: 1)
-            try self.locale?.forEach {}
             try self.validate(self.locale, name: "locale", parent: name, max: 256)
             try self.validate(self.locale, name: "locale", parent: name, min: 2)
             try self.validate(self.locale, name: "locale", parent: name, pattern: ".{2,256}")
@@ -497,15 +478,11 @@ extension Health {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
-            try self.filter?.forEach {}
-            try self.locale?.forEach {}
             try self.validate(self.locale, name: "locale", parent: name, max: 256)
             try self.validate(self.locale, name: "locale", parent: name, min: 2)
             try self.validate(self.locale, name: "locale", parent: name, pattern: ".{2,256}")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 10)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 10000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9=/+_.-]{4,10000}")
@@ -555,15 +532,11 @@ extension Health {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
-            try self.filter?.forEach {}
-            try self.locale?.forEach {}
             try self.validate(self.locale, name: "locale", parent: name, max: 256)
             try self.validate(self.locale, name: "locale", parent: name, min: 2)
             try self.validate(self.locale, name: "locale", parent: name, pattern: ".{2,256}")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 10)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 10000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9=/+_.-]{4,10000}")
@@ -613,15 +586,11 @@ extension Health {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
-            try self.filter?.forEach {}
-            try self.locale?.forEach {}
             try self.validate(self.locale, name: "locale", parent: name, max: 256)
             try self.validate(self.locale, name: "locale", parent: name, min: 2)
             try self.validate(self.locale, name: "locale", parent: name, pattern: ".{2,256}")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 10)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 10000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9=/+_.-]{4,10000}")
@@ -710,30 +679,24 @@ extension Health {
                 try validate($0, name: "entityArns[]", parent: name, max: 1600)
                 try validate($0, name: "entityArns[]", parent: name, pattern: ".{0,1600}")
             }
-            try self.entityArns?.forEach {}
             try self.validate(self.entityArns, name: "entityArns", parent: name, max: 100)
             try self.validate(self.entityArns, name: "entityArns", parent: name, min: 1)
             try self.entityValues?.forEach {
                 try validate($0, name: "entityValues[]", parent: name, max: 1224)
                 try validate($0, name: "entityValues[]", parent: name, pattern: ".{0,1224}")
             }
-            try self.entityValues?.forEach {}
             try self.validate(self.entityValues, name: "entityValues", parent: name, max: 100)
             try self.validate(self.entityValues, name: "entityValues", parent: name, min: 1)
             try self.eventArns.forEach {
                 try validate($0, name: "eventArns[]", parent: name, max: 1600)
                 try validate($0, name: "eventArns[]", parent: name, pattern: "arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\\w-]+){3}")
             }
-            try self.eventArns.forEach {}
             try self.validate(self.eventArns, name: "eventArns", parent: name, max: 10)
             try self.validate(self.eventArns, name: "eventArns", parent: name, min: 1)
-            try self.lastUpdatedTimes?.forEach {}
             try self.validate(self.lastUpdatedTimes, name: "lastUpdatedTimes", parent: name, max: 10)
             try self.validate(self.lastUpdatedTimes, name: "lastUpdatedTimes", parent: name, min: 1)
-            try self.statusCodes?.forEach {}
             try self.validate(self.statusCodes, name: "statusCodes", parent: name, max: 3)
             try self.validate(self.statusCodes, name: "statusCodes", parent: name, min: 1)
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
 
@@ -812,10 +775,8 @@ extension Health {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId?.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^\\S+$")
-            try self.eventArn.forEach {}
             try self.validate(self.eventArn, name: "eventArn", parent: name, max: 1600)
             try self.validate(self.eventArn, name: "eventArn", parent: name, pattern: "arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\\w-]+){3}")
         }
@@ -948,35 +909,28 @@ extension Health {
                 try validate($0, name: "availabilityZones[]", parent: name, min: 6)
                 try validate($0, name: "availabilityZones[]", parent: name, pattern: "[a-z]{2}\\-[0-9a-z\\-]{4,16}")
             }
-            try self.availabilityZones?.forEach {}
-            try self.endTimes?.forEach {}
             try self.validate(self.endTimes, name: "endTimes", parent: name, max: 10)
             try self.validate(self.endTimes, name: "endTimes", parent: name, min: 1)
             try self.entityArns?.forEach {
                 try validate($0, name: "entityArns[]", parent: name, max: 1600)
                 try validate($0, name: "entityArns[]", parent: name, pattern: ".{0,1600}")
             }
-            try self.entityArns?.forEach {}
             try self.validate(self.entityArns, name: "entityArns", parent: name, max: 100)
             try self.validate(self.entityArns, name: "entityArns", parent: name, min: 1)
             try self.entityValues?.forEach {
                 try validate($0, name: "entityValues[]", parent: name, max: 1224)
                 try validate($0, name: "entityValues[]", parent: name, pattern: ".{0,1224}")
             }
-            try self.entityValues?.forEach {}
             try self.validate(self.entityValues, name: "entityValues", parent: name, max: 100)
             try self.validate(self.entityValues, name: "entityValues", parent: name, min: 1)
             try self.eventArns?.forEach {
                 try validate($0, name: "eventArns[]", parent: name, max: 1600)
                 try validate($0, name: "eventArns[]", parent: name, pattern: "arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\\w-]+){3}")
             }
-            try self.eventArns?.forEach {}
             try self.validate(self.eventArns, name: "eventArns", parent: name, max: 10)
             try self.validate(self.eventArns, name: "eventArns", parent: name, min: 1)
-            try self.eventStatusCodes?.forEach {}
             try self.validate(self.eventStatusCodes, name: "eventStatusCodes", parent: name, max: 6)
             try self.validate(self.eventStatusCodes, name: "eventStatusCodes", parent: name, min: 1)
-            try self.eventTypeCategories?.forEach {}
             try self.validate(self.eventTypeCategories, name: "eventTypeCategories", parent: name, max: 10)
             try self.validate(self.eventTypeCategories, name: "eventTypeCategories", parent: name, min: 1)
             try self.eventTypeCodes?.forEach {
@@ -984,10 +938,8 @@ extension Health {
                 try validate($0, name: "eventTypeCodes[]", parent: name, min: 3)
                 try validate($0, name: "eventTypeCodes[]", parent: name, pattern: "[^:/]{3,100}")
             }
-            try self.eventTypeCodes?.forEach {}
             try self.validate(self.eventTypeCodes, name: "eventTypeCodes", parent: name, max: 10)
             try self.validate(self.eventTypeCodes, name: "eventTypeCodes", parent: name, min: 1)
-            try self.lastUpdatedTimes?.forEach {}
             try self.validate(self.lastUpdatedTimes, name: "lastUpdatedTimes", parent: name, max: 10)
             try self.validate(self.lastUpdatedTimes, name: "lastUpdatedTimes", parent: name, min: 1)
             try self.regions?.forEach {
@@ -995,7 +947,6 @@ extension Health {
                 try validate($0, name: "regions[]", parent: name, min: 2)
                 try validate($0, name: "regions[]", parent: name, pattern: "[^:/]{2,25}")
             }
-            try self.regions?.forEach {}
             try self.validate(self.regions, name: "regions", parent: name, max: 10)
             try self.validate(self.regions, name: "regions", parent: name, min: 1)
             try self.services?.forEach {
@@ -1003,13 +954,10 @@ extension Health {
                 try validate($0, name: "services[]", parent: name, min: 2)
                 try validate($0, name: "services[]", parent: name, pattern: "[^:/]{2,30}")
             }
-            try self.services?.forEach {}
             try self.validate(self.services, name: "services", parent: name, max: 10)
             try self.validate(self.services, name: "services", parent: name, min: 1)
-            try self.startTimes?.forEach {}
             try self.validate(self.startTimes, name: "startTimes", parent: name, max: 10)
             try self.validate(self.startTimes, name: "startTimes", parent: name, min: 1)
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
 
@@ -1066,7 +1014,6 @@ extension Health {
         }
 
         public func validate(name: String) throws {
-            try self.eventTypeCategories?.forEach {}
             try self.validate(self.eventTypeCategories, name: "eventTypeCategories", parent: name, max: 10)
             try self.validate(self.eventTypeCategories, name: "eventTypeCategories", parent: name, min: 1)
             try self.eventTypeCodes?.forEach {
@@ -1074,7 +1021,6 @@ extension Health {
                 try validate($0, name: "eventTypeCodes[]", parent: name, min: 3)
                 try validate($0, name: "eventTypeCodes[]", parent: name, pattern: "[a-zA-Z0-9\\_\\-]{3,100}")
             }
-            try self.eventTypeCodes?.forEach {}
             try self.validate(self.eventTypeCodes, name: "eventTypeCodes", parent: name, max: 10)
             try self.validate(self.eventTypeCodes, name: "eventTypeCodes", parent: name, min: 1)
             try self.services?.forEach {
@@ -1082,7 +1028,6 @@ extension Health {
                 try validate($0, name: "services[]", parent: name, min: 2)
                 try validate($0, name: "services[]", parent: name, pattern: "[^:/]{2,30}")
             }
-            try self.services?.forEach {}
             try self.validate(self.services, name: "services", parent: name, max: 10)
             try self.validate(self.services, name: "services", parent: name, min: 1)
         }
@@ -1256,27 +1201,22 @@ extension Health {
                 try validate($0, name: "awsAccountIds[]", parent: name, max: 12)
                 try validate($0, name: "awsAccountIds[]", parent: name, pattern: "^\\S+$")
             }
-            try self.awsAccountIds?.forEach {}
             try self.validate(self.awsAccountIds, name: "awsAccountIds", parent: name, max: 50)
             try self.validate(self.awsAccountIds, name: "awsAccountIds", parent: name, min: 1)
             try self.entityArns?.forEach {
                 try validate($0, name: "entityArns[]", parent: name, max: 1600)
                 try validate($0, name: "entityArns[]", parent: name, pattern: ".{0,1600}")
             }
-            try self.entityArns?.forEach {}
             try self.validate(self.entityArns, name: "entityArns", parent: name, max: 100)
             try self.validate(self.entityArns, name: "entityArns", parent: name, min: 1)
             try self.entityValues?.forEach {
                 try validate($0, name: "entityValues[]", parent: name, max: 1224)
                 try validate($0, name: "entityValues[]", parent: name, pattern: ".{0,1224}")
             }
-            try self.entityValues?.forEach {}
             try self.validate(self.entityValues, name: "entityValues", parent: name, max: 100)
             try self.validate(self.entityValues, name: "entityValues", parent: name, min: 1)
-            try self.eventStatusCodes?.forEach {}
             try self.validate(self.eventStatusCodes, name: "eventStatusCodes", parent: name, max: 6)
             try self.validate(self.eventStatusCodes, name: "eventStatusCodes", parent: name, min: 1)
-            try self.eventTypeCategories?.forEach {}
             try self.validate(self.eventTypeCategories, name: "eventTypeCategories", parent: name, max: 10)
             try self.validate(self.eventTypeCategories, name: "eventTypeCategories", parent: name, min: 1)
             try self.eventTypeCodes?.forEach {
@@ -1284,7 +1224,6 @@ extension Health {
                 try validate($0, name: "eventTypeCodes[]", parent: name, min: 3)
                 try validate($0, name: "eventTypeCodes[]", parent: name, pattern: "[^:/]{3,100}")
             }
-            try self.eventTypeCodes?.forEach {}
             try self.validate(self.eventTypeCodes, name: "eventTypeCodes", parent: name, max: 10)
             try self.validate(self.eventTypeCodes, name: "eventTypeCodes", parent: name, min: 1)
             try self.regions?.forEach {
@@ -1292,7 +1231,6 @@ extension Health {
                 try validate($0, name: "regions[]", parent: name, min: 2)
                 try validate($0, name: "regions[]", parent: name, pattern: "[^:/]{2,25}")
             }
-            try self.regions?.forEach {}
             try self.validate(self.regions, name: "regions", parent: name, max: 10)
             try self.validate(self.regions, name: "regions", parent: name, min: 1)
             try self.services?.forEach {
@@ -1300,7 +1238,6 @@ extension Health {
                 try validate($0, name: "services[]", parent: name, min: 2)
                 try validate($0, name: "services[]", parent: name, pattern: "[^:/]{2,30}")
             }
-            try self.services?.forEach {}
             try self.validate(self.services, name: "services", parent: name, max: 10)
             try self.validate(self.services, name: "services", parent: name, min: 1)
         }

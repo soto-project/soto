@@ -459,9 +459,7 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
-            try self.analyzerArn.forEach {}
             try self.validate(self.analyzerArn, name: "analyzerArn", parent: name, pattern: "^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$")
-            try self.ruleName.forEach {}
             try self.validate(self.ruleName, name: "ruleName", parent: name, max: 255)
             try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
             try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
@@ -523,7 +521,6 @@ extension AccessAnalyzer {
 
         public func validate(name: String) throws {
             try self.s3Bucket?.validate(name: "\(name).s3Bucket")
-            try self.s3Bucket?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -550,7 +547,6 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
-            try self.analyzerArn.forEach {}
             try self.validate(self.analyzerArn, name: "analyzerArn", parent: name, pattern: "^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$")
             try self.configurations.forEach {
                 try $0.value.validate(name: "\(name).configurations[\"\($0.key)\"]")
@@ -598,14 +594,12 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
-            try self.analyzerName.forEach {}
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, max: 255)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, min: 1)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
             try self.archiveRules?.forEach {
                 try $0.validate(name: "\(name).archiveRules[]")
             }
-            try self.archiveRules?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -652,14 +646,12 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
-            try self.analyzerName.forEach {}
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, max: 255)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, min: 1)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
             try self.filter.forEach {
                 try $0.value.validate(name: "\(name).filter[\"\($0.key)\"]")
             }
-            try self.ruleName.forEach {}
             try self.validate(self.ruleName, name: "ruleName", parent: name, max: 255)
             try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
             try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
@@ -690,13 +682,10 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
-            try self.contains?.forEach {}
             try self.validate(self.contains, name: "contains", parent: name, max: 20)
             try self.validate(self.contains, name: "contains", parent: name, min: 1)
-            try self.eq?.forEach {}
             try self.validate(self.eq, name: "eq", parent: name, max: 20)
             try self.validate(self.eq, name: "eq", parent: name, min: 1)
-            try self.neq?.forEach {}
             try self.validate(self.neq, name: "neq", parent: name, max: 20)
             try self.validate(self.neq, name: "neq", parent: name, min: 1)
         }
@@ -726,7 +715,6 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
-            try self.analyzerName.forEach {}
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, max: 255)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, min: 1)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
@@ -756,11 +744,9 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
-            try self.analyzerName.forEach {}
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, max: 255)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, min: 1)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
-            try self.ruleName.forEach {}
             try self.validate(self.ruleName, name: "ruleName", parent: name, max: 255)
             try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
             try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
@@ -952,9 +938,7 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
-            try self.accessPreviewId.forEach {}
             try self.validate(self.accessPreviewId, name: "accessPreviewId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.analyzerArn.forEach {}
             try self.validate(self.analyzerArn, name: "analyzerArn", parent: name, pattern: "^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$")
         }
 
@@ -991,9 +975,7 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
-            try self.analyzerArn.forEach {}
             try self.validate(self.analyzerArn, name: "analyzerArn", parent: name, pattern: "^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$")
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:[^:]*:[^:]*:[^:]*:[^:]*:.*$")
         }
 
@@ -1026,7 +1008,6 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
-            try self.analyzerName.forEach {}
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, max: 255)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, min: 1)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
@@ -1065,11 +1046,9 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
-            try self.analyzerName.forEach {}
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, max: 255)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, min: 1)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
-            try self.ruleName.forEach {}
             try self.validate(self.ruleName, name: "ruleName", parent: name, max: 255)
             try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
             try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
@@ -1107,7 +1086,6 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
-            try self.analyzerArn.forEach {}
             try self.validate(self.analyzerArn, name: "analyzerArn", parent: name, pattern: "^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$")
         }
 
@@ -1155,7 +1133,6 @@ extension AccessAnalyzer {
             try self.filter.forEach {
                 try $0.value.validate(name: "\(name).filter[\"\($0.key)\"]")
             }
-            try self.ruleName.forEach {}
             try self.validate(self.ruleName, name: "ruleName", parent: name, max: 255)
             try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
             try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
@@ -1259,9 +1236,7 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
-            try self.accessPreviewId.forEach {}
             try self.validate(self.accessPreviewId, name: "accessPreviewId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.analyzerArn.forEach {}
             try self.validate(self.analyzerArn, name: "analyzerArn", parent: name, pattern: "^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$")
             try self.filter?.forEach {
                 try $0.value.validate(name: "\(name).filter[\"\($0.key)\"]")
@@ -1314,7 +1289,6 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
-            try self.analyzerArn.forEach {}
             try self.validate(self.analyzerArn, name: "analyzerArn", parent: name, pattern: "^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$")
         }
 
@@ -1356,7 +1330,6 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
-            try self.analyzerArn.forEach {}
             try self.validate(self.analyzerArn, name: "analyzerArn", parent: name, pattern: "^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$")
         }
 
@@ -1446,7 +1419,6 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
-            try self.analyzerName.forEach {}
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, max: 255)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, min: 1)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
@@ -1493,7 +1465,6 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
-            try self.analyzerArn.forEach {}
             try self.validate(self.analyzerArn, name: "analyzerArn", parent: name, pattern: "^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$")
             try self.filter?.forEach {
                 try $0.value.validate(name: "\(name).filter[\"\($0.key)\"]")
@@ -1583,7 +1554,6 @@ extension AccessAnalyzer {
 
         public func validate(name: String) throws {
             try self.vpcConfiguration?.validate(name: "\(name).vpcConfiguration")
-            try self.vpcConfiguration?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1654,7 +1624,6 @@ extension AccessAnalyzer {
 
         public func validate(name: String) throws {
             try self.networkOrigin?.validate(name: "\(name).networkOrigin")
-            try self.networkOrigin?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1806,9 +1775,7 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
-            try self.analyzerArn.forEach {}
             try self.validate(self.analyzerArn, name: "analyzerArn", parent: name, pattern: "^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$")
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:[^:]*:[^:]*:[^:]*:[^:]*:.*$")
         }
 
@@ -1918,14 +1885,12 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
-            try self.analyzerName.forEach {}
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, max: 255)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, min: 1)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
             try self.filter.forEach {
                 try $0.value.validate(name: "\(name).filter[\"\($0.key)\"]")
             }
-            try self.ruleName.forEach {}
             try self.validate(self.ruleName, name: "ruleName", parent: name, max: 255)
             try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
             try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
@@ -1958,9 +1923,7 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
-            try self.analyzerArn.forEach {}
             try self.validate(self.analyzerArn, name: "analyzerArn", parent: name, pattern: "^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$")
-            try self.resourceArn?.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:[^:]*:[^:]*:[^:]*:[^:]*:.*$")
         }
 
@@ -2060,7 +2023,6 @@ extension AccessAnalyzer {
         }
 
         public func validate(name: String) throws {
-            try self.vpcId.forEach {}
             try self.validate(self.vpcId, name: "vpcId", parent: name, pattern: "^vpc-([0-9a-f]){8}(([0-9a-f]){9})?$")
         }
 

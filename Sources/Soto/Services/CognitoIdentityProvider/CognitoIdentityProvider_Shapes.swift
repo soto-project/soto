@@ -301,7 +301,6 @@ extension CognitoIdentityProvider {
             try self.recoveryMechanisms?.forEach {
                 try $0.validate(name: "\(name).recoveryMechanisms[]")
             }
-            try self.recoveryMechanisms?.forEach {}
             try self.validate(self.recoveryMechanisms, name: "recoveryMechanisms", parent: name, max: 2)
             try self.validate(self.recoveryMechanisms, name: "recoveryMechanisms", parent: name, min: 1)
         }
@@ -362,7 +361,6 @@ extension CognitoIdentityProvider {
 
         public func validate(name: String) throws {
             try self.notifyConfiguration?.validate(name: "\(name).notifyConfiguration")
-            try self.notifyConfiguration?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -386,10 +384,8 @@ extension CognitoIdentityProvider {
             try self.customAttributes.forEach {
                 try $0.validate(name: "\(name).customAttributes[]")
             }
-            try self.customAttributes.forEach {}
             try self.validate(self.customAttributes, name: "customAttributes", parent: name, max: 25)
             try self.validate(self.customAttributes, name: "customAttributes", parent: name, min: 1)
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -420,15 +416,12 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.groupName.forEach {}
             try self.validate(self.groupName, name: "groupName", parent: name, max: 128)
             try self.validate(self.groupName, name: "groupName", parent: name, min: 1)
             try self.validate(self.groupName, name: "groupName", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 128)
             try self.validate(self.username, name: "username", parent: name, min: 1)
             try self.validate(self.username, name: "username", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -456,11 +449,9 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 128)
             try self.validate(self.username, name: "username", parent: name, min: 1)
             try self.validate(self.username, name: "username", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -493,8 +484,6 @@ extension CognitoIdentityProvider {
 
         public func validate(name: String) throws {
             try self.inviteMessageTemplate?.validate(name: "\(name).inviteMessageTemplate")
-            try self.inviteMessageTemplate?.forEach {}
-            try self.unusedAccountValidityDays?.forEach {}
             try self.validate(self.unusedAccountValidityDays, name: "unusedAccountValidityDays", parent: name, max: 365)
             try self.validate(self.unusedAccountValidityDays, name: "unusedAccountValidityDays", parent: name, min: 0)
         }
@@ -539,26 +528,21 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.temporaryPassword?.forEach {}
             try self.validate(self.temporaryPassword, name: "temporaryPassword", parent: name, max: 256)
             try self.validate(self.temporaryPassword, name: "temporaryPassword", parent: name, min: 6)
             try self.validate(self.temporaryPassword, name: "temporaryPassword", parent: name, pattern: "[\\S]+")
             try self.userAttributes?.forEach {
                 try $0.validate(name: "\(name).userAttributes[]")
             }
-            try self.userAttributes?.forEach {}
-            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 128)
             try self.validate(self.username, name: "username", parent: name, min: 1)
             try self.validate(self.username, name: "username", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
             try self.validationData?.forEach {
                 try $0.validate(name: "\(name).validationData[]")
             }
-            try self.validationData?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -607,12 +591,9 @@ extension CognitoIdentityProvider {
                 try validate($0, name: "userAttributeNames[]", parent: name, min: 1)
                 try validate($0, name: "userAttributeNames[]", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
             }
-            try self.userAttributeNames.forEach {}
-            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 128)
             try self.validate(self.username, name: "username", parent: name, min: 1)
             try self.validate(self.username, name: "username", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -641,11 +622,9 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 128)
             try self.validate(self.username, name: "username", parent: name, min: 1)
             try self.validate(self.username, name: "username", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -670,7 +649,6 @@ extension CognitoIdentityProvider {
 
         public func validate(name: String) throws {
             try self.user.validate(name: "\(name).user")
-            try self.user.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -695,11 +673,9 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 128)
             try self.validate(self.username, name: "username", parent: name, min: 1)
             try self.validate(self.username, name: "username", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -727,11 +703,9 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 128)
             try self.validate(self.username, name: "username", parent: name, min: 1)
             try self.validate(self.username, name: "username", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -762,15 +736,12 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.deviceKey.forEach {}
             try self.validate(self.deviceKey, name: "deviceKey", parent: name, max: 55)
             try self.validate(self.deviceKey, name: "deviceKey", parent: name, min: 1)
             try self.validate(self.deviceKey, name: "deviceKey", parent: name, pattern: "[\\w-]+_[0-9a-f-]+")
-            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 128)
             try self.validate(self.username, name: "username", parent: name, min: 1)
             try self.validate(self.username, name: "username", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -798,15 +769,12 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.deviceKey.forEach {}
             try self.validate(self.deviceKey, name: "deviceKey", parent: name, max: 55)
             try self.validate(self.deviceKey, name: "deviceKey", parent: name, min: 1)
             try self.validate(self.deviceKey, name: "deviceKey", parent: name, pattern: "[\\w-]+_[0-9a-f-]+")
-            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 128)
             try self.validate(self.username, name: "username", parent: name, min: 1)
             try self.validate(self.username, name: "username", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -844,11 +812,9 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 128)
             try self.validate(self.username, name: "username", parent: name, min: 1)
             try self.validate(self.username, name: "username", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -932,11 +898,9 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.clientId.forEach {}
             try self.validate(self.clientId, name: "clientId", parent: name, max: 128)
             try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
             try self.validate(self.clientId, name: "clientId", parent: name, pattern: "[\\w+]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -994,9 +958,7 @@ extension CognitoIdentityProvider {
 
         public func validate(name: String) throws {
             try self.destinationUser.validate(name: "\(name).destinationUser")
-            try self.destinationUser.forEach {}
             try self.sourceUser.validate(name: "\(name).sourceUser")
-            try self.sourceUser.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1028,17 +990,13 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 60)
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
-            try self.paginationToken?.forEach {}
             try self.validate(self.paginationToken, name: "paginationToken", parent: name, min: 1)
             try self.validate(self.paginationToken, name: "paginationToken", parent: name, pattern: "[\\S]+")
-            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 128)
             try self.validate(self.username, name: "username", parent: name, min: 1)
             try self.validate(self.username, name: "username", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -1087,17 +1045,13 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 60)
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\S]+")
-            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 128)
             try self.validate(self.username, name: "username", parent: name, min: 1)
             try self.validate(self.username, name: "username", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -1146,17 +1100,13 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 60)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\S]+")
-            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 128)
             try self.validate(self.username, name: "username", parent: name, min: 1)
             try self.validate(self.username, name: "username", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -1202,15 +1152,12 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.groupName.forEach {}
             try self.validate(self.groupName, name: "groupName", parent: name, max: 128)
             try self.validate(self.groupName, name: "groupName", parent: name, min: 1)
             try self.validate(self.groupName, name: "groupName", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 128)
             try self.validate(self.username, name: "username", parent: name, min: 1)
             try self.validate(self.username, name: "username", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -1238,11 +1185,9 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 128)
             try self.validate(self.username, name: "username", parent: name, min: 1)
             try self.validate(self.username, name: "username", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -1289,14 +1234,11 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.clientId.forEach {}
             try self.validate(self.clientId, name: "clientId", parent: name, max: 128)
             try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
             try self.validate(self.clientId, name: "clientId", parent: name, pattern: "[\\w+]+")
-            try self.session?.forEach {}
             try self.validate(self.session, name: "session", parent: name, max: 2048)
             try self.validate(self.session, name: "session", parent: name, min: 20)
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -1357,11 +1299,9 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 128)
             try self.validate(self.username, name: "username", parent: name, min: 1)
             try self.validate(self.username, name: "username", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -1397,15 +1337,12 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.password.forEach {}
             try self.validate(self.password, name: "password", parent: name, max: 256)
             try self.validate(self.password, name: "password", parent: name, min: 6)
             try self.validate(self.password, name: "password", parent: name, pattern: "[\\S]+")
-            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 128)
             try self.validate(self.username, name: "username", parent: name, min: 1)
             try self.validate(self.username, name: "username", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -1441,12 +1378,9 @@ extension CognitoIdentityProvider {
             try self.mFAOptions.forEach {
                 try $0.validate(name: "\(name).mFAOptions[]")
             }
-            try self.mFAOptions.forEach {}
-            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 128)
             try self.validate(self.username, name: "username", parent: name, min: 1)
             try self.validate(self.username, name: "username", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -1481,15 +1415,12 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.eventId.forEach {}
             try self.validate(self.eventId, name: "eventId", parent: name, max: 50)
             try self.validate(self.eventId, name: "eventId", parent: name, min: 1)
             try self.validate(self.eventId, name: "eventId", parent: name, pattern: "[\\w+-]+")
-            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 128)
             try self.validate(self.username, name: "username", parent: name, min: 1)
             try self.validate(self.username, name: "username", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -1525,15 +1456,12 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.deviceKey.forEach {}
             try self.validate(self.deviceKey, name: "deviceKey", parent: name, max: 55)
             try self.validate(self.deviceKey, name: "deviceKey", parent: name, min: 1)
             try self.validate(self.deviceKey, name: "deviceKey", parent: name, pattern: "[\\w-]+_[0-9a-f-]+")
-            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 128)
             try self.validate(self.username, name: "username", parent: name, min: 1)
             try self.validate(self.username, name: "username", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -1572,12 +1500,9 @@ extension CognitoIdentityProvider {
             try self.userAttributes.forEach {
                 try $0.validate(name: "\(name).userAttributes[]")
             }
-            try self.userAttributes.forEach {}
-            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 128)
             try self.validate(self.username, name: "username", parent: name, min: 1)
             try self.validate(self.username, name: "username", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -1607,11 +1532,9 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 128)
             try self.validate(self.username, name: "username", parent: name, min: 1)
             try self.validate(self.username, name: "username", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -1648,13 +1571,10 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.applicationArn?.forEach {}
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 2048)
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 20)
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?")
-            try self.applicationId?.forEach {}
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[0-9a-fA-F]+$")
-            try self.roleArn?.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?")
@@ -1694,9 +1614,7 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.accessToken?.forEach {}
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "[A-Za-z0-9-_=.]+")
-            try self.session?.forEach {}
             try self.validate(self.session, name: "session", parent: name, max: 2048)
             try self.validate(self.session, name: "session", parent: name, min: 20)
         }
@@ -1736,11 +1654,9 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 32)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 2048)
         }
 
@@ -1856,13 +1772,10 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.accessToken.forEach {}
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "[A-Za-z0-9-_=.]+")
-            try self.previousPassword.forEach {}
             try self.validate(self.previousPassword, name: "previousPassword", parent: name, max: 256)
             try self.validate(self.previousPassword, name: "previousPassword", parent: name, min: 6)
             try self.validate(self.previousPassword, name: "previousPassword", parent: name, pattern: "[\\S]+")
-            try self.proposedPassword.forEach {}
             try self.validate(self.proposedPassword, name: "proposedPassword", parent: name, max: 256)
             try self.validate(self.proposedPassword, name: "proposedPassword", parent: name, min: 6)
             try self.validate(self.proposedPassword, name: "proposedPassword", parent: name, pattern: "[\\S]+")
@@ -1948,13 +1861,10 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.accessToken.forEach {}
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "[A-Za-z0-9-_=.]+")
-            try self.deviceKey.forEach {}
             try self.validate(self.deviceKey, name: "deviceKey", parent: name, max: 55)
             try self.validate(self.deviceKey, name: "deviceKey", parent: name, min: 1)
             try self.validate(self.deviceKey, name: "deviceKey", parent: name, pattern: "[\\w-]+_[0-9a-f-]+")
-            try self.deviceName?.forEach {}
             try self.validate(self.deviceName, name: "deviceName", parent: name, max: 1024)
             try self.validate(self.deviceName, name: "deviceName", parent: name, min: 1)
         }
@@ -2010,23 +1920,18 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.clientId.forEach {}
             try self.validate(self.clientId, name: "clientId", parent: name, max: 128)
             try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
             try self.validate(self.clientId, name: "clientId", parent: name, pattern: "[\\w+]+")
-            try self.confirmationCode.forEach {}
             try self.validate(self.confirmationCode, name: "confirmationCode", parent: name, max: 2048)
             try self.validate(self.confirmationCode, name: "confirmationCode", parent: name, min: 1)
             try self.validate(self.confirmationCode, name: "confirmationCode", parent: name, pattern: "[\\S]+")
-            try self.password.forEach {}
             try self.validate(self.password, name: "password", parent: name, max: 256)
             try self.validate(self.password, name: "password", parent: name, min: 6)
             try self.validate(self.password, name: "password", parent: name, pattern: "[\\S]+")
-            try self.secretHash?.forEach {}
             try self.validate(self.secretHash, name: "secretHash", parent: name, max: 128)
             try self.validate(self.secretHash, name: "secretHash", parent: name, min: 1)
             try self.validate(self.secretHash, name: "secretHash", parent: name, pattern: "[\\w+=/]+")
-            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 128)
             try self.validate(self.username, name: "username", parent: name, min: 1)
             try self.validate(self.username, name: "username", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
@@ -2078,19 +1983,15 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.clientId.forEach {}
             try self.validate(self.clientId, name: "clientId", parent: name, max: 128)
             try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
             try self.validate(self.clientId, name: "clientId", parent: name, pattern: "[\\w+]+")
-            try self.confirmationCode.forEach {}
             try self.validate(self.confirmationCode, name: "confirmationCode", parent: name, max: 2048)
             try self.validate(self.confirmationCode, name: "confirmationCode", parent: name, min: 1)
             try self.validate(self.confirmationCode, name: "confirmationCode", parent: name, pattern: "[\\S]+")
-            try self.secretHash?.forEach {}
             try self.validate(self.secretHash, name: "secretHash", parent: name, max: 128)
             try self.validate(self.secretHash, name: "secretHash", parent: name, min: 1)
             try self.validate(self.secretHash, name: "secretHash", parent: name, pattern: "[\\w+=/]+")
-            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 128)
             try self.validate(self.username, name: "username", parent: name, min: 1)
             try self.validate(self.username, name: "username", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
@@ -2162,19 +2063,14 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2048)
-            try self.groupName.forEach {}
             try self.validate(self.groupName, name: "groupName", parent: name, max: 128)
             try self.validate(self.groupName, name: "groupName", parent: name, min: 1)
             try self.validate(self.groupName, name: "groupName", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.precedence?.forEach {}
             try self.validate(self.precedence, name: "precedence", parent: name, min: 0)
-            try self.roleArn?.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -2235,14 +2131,11 @@ extension CognitoIdentityProvider {
                 try validate($0, name: "idpIdentifiers[]", parent: name, min: 1)
                 try validate($0, name: "idpIdentifiers[]", parent: name, pattern: "[\\w\\s+=.@-]+")
             }
-            try self.idpIdentifiers?.forEach {}
             try self.validate(self.idpIdentifiers, name: "idpIdentifiers", parent: name, max: 50)
             try self.validate(self.idpIdentifiers, name: "idpIdentifiers", parent: name, min: 0)
-            try self.providerName.forEach {}
             try self.validate(self.providerName, name: "providerName", parent: name, max: 32)
             try self.validate(self.providerName, name: "providerName", parent: name, min: 1)
             try self.validate(self.providerName, name: "providerName", parent: name, pattern: "[^_][\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}][^_]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -2289,20 +2182,16 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.identifier.forEach {}
             try self.validate(self.identifier, name: "identifier", parent: name, max: 256)
             try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
             try self.validate(self.identifier, name: "identifier", parent: name, pattern: "[\\x21\\x23-\\x5B\\x5D-\\x7E]+")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\w\\s+=,.@-]+")
             try self.scopes?.forEach {
                 try $0.validate(name: "\(name).scopes[]")
             }
-            try self.scopes?.forEach {}
             try self.validate(self.scopes, name: "scopes", parent: name, max: 100)
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -2344,15 +2233,12 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.cloudWatchLogsRoleArn.forEach {}
             try self.validate(self.cloudWatchLogsRoleArn, name: "cloudWatchLogsRoleArn", parent: name, max: 2048)
             try self.validate(self.cloudWatchLogsRoleArn, name: "cloudWatchLogsRoleArn", parent: name, min: 20)
             try self.validate(self.cloudWatchLogsRoleArn, name: "cloudWatchLogsRoleArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?")
-            try self.jobName.forEach {}
             try self.validate(self.jobName, name: "jobName", parent: name, max: 128)
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "[\\w\\s+=,.@-]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -2441,10 +2327,8 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.accessTokenValidity?.forEach {}
             try self.validate(self.accessTokenValidity, name: "accessTokenValidity", parent: name, max: 86400)
             try self.validate(self.accessTokenValidity, name: "accessTokenValidity", parent: name, min: 1)
-            try self.allowedOAuthFlows?.forEach {}
             try self.validate(self.allowedOAuthFlows, name: "allowedOAuthFlows", parent: name, max: 3)
             try self.validate(self.allowedOAuthFlows, name: "allowedOAuthFlows", parent: name, min: 0)
             try self.allowedOAuthScopes?.forEach {
@@ -2452,27 +2336,21 @@ extension CognitoIdentityProvider {
                 try validate($0, name: "allowedOAuthScopes[]", parent: name, min: 1)
                 try validate($0, name: "allowedOAuthScopes[]", parent: name, pattern: "[\\x21\\x23-\\x5B\\x5D-\\x7E]+")
             }
-            try self.allowedOAuthScopes?.forEach {}
             try self.validate(self.allowedOAuthScopes, name: "allowedOAuthScopes", parent: name, max: 50)
             try self.analyticsConfiguration?.validate(name: "\(name).analyticsConfiguration")
-            try self.analyticsConfiguration?.forEach {}
             try self.callbackURLs?.forEach {
                 try validate($0, name: "callbackURLs[]", parent: name, max: 1024)
                 try validate($0, name: "callbackURLs[]", parent: name, min: 1)
                 try validate($0, name: "callbackURLs[]", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
             }
-            try self.callbackURLs?.forEach {}
             try self.validate(self.callbackURLs, name: "callbackURLs", parent: name, max: 100)
             try self.validate(self.callbackURLs, name: "callbackURLs", parent: name, min: 0)
-            try self.clientName.forEach {}
             try self.validate(self.clientName, name: "clientName", parent: name, max: 128)
             try self.validate(self.clientName, name: "clientName", parent: name, min: 1)
             try self.validate(self.clientName, name: "clientName", parent: name, pattern: "[\\w\\s+=,.@-]+")
-            try self.defaultRedirectURI?.forEach {}
             try self.validate(self.defaultRedirectURI, name: "defaultRedirectURI", parent: name, max: 1024)
             try self.validate(self.defaultRedirectURI, name: "defaultRedirectURI", parent: name, min: 1)
             try self.validate(self.defaultRedirectURI, name: "defaultRedirectURI", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.idTokenValidity?.forEach {}
             try self.validate(self.idTokenValidity, name: "idTokenValidity", parent: name, max: 86400)
             try self.validate(self.idTokenValidity, name: "idTokenValidity", parent: name, min: 1)
             try self.logoutURLs?.forEach {
@@ -2480,15 +2358,12 @@ extension CognitoIdentityProvider {
                 try validate($0, name: "logoutURLs[]", parent: name, min: 1)
                 try validate($0, name: "logoutURLs[]", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
             }
-            try self.logoutURLs?.forEach {}
             try self.validate(self.logoutURLs, name: "logoutURLs", parent: name, max: 100)
             try self.validate(self.logoutURLs, name: "logoutURLs", parent: name, min: 0)
             try self.readAttributes?.forEach {
                 try validate($0, name: "readAttributes[]", parent: name, max: 2048)
                 try validate($0, name: "readAttributes[]", parent: name, min: 1)
             }
-            try self.readAttributes?.forEach {}
-            try self.refreshTokenValidity?.forEach {}
             try self.validate(self.refreshTokenValidity, name: "refreshTokenValidity", parent: name, max: 315_360_000)
             try self.validate(self.refreshTokenValidity, name: "refreshTokenValidity", parent: name, min: 0)
             try self.supportedIdentityProviders?.forEach {
@@ -2496,8 +2371,6 @@ extension CognitoIdentityProvider {
                 try validate($0, name: "supportedIdentityProviders[]", parent: name, min: 1)
                 try validate($0, name: "supportedIdentityProviders[]", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
             }
-            try self.supportedIdentityProviders?.forEach {}
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -2505,7 +2378,6 @@ extension CognitoIdentityProvider {
                 try validate($0, name: "writeAttributes[]", parent: name, max: 2048)
                 try validate($0, name: "writeAttributes[]", parent: name, min: 1)
             }
-            try self.writeAttributes?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2560,12 +2432,9 @@ extension CognitoIdentityProvider {
 
         public func validate(name: String) throws {
             try self.customDomainConfig?.validate(name: "\(name).customDomainConfig")
-            try self.customDomainConfig?.forEach {}
-            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 63)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "^[a-z0-9](?:[a-z0-9\\-]{0,61}[a-z0-9])?$")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -2661,40 +2530,28 @@ extension CognitoIdentityProvider {
 
         public func validate(name: String) throws {
             try self.accountRecoverySetting?.validate(name: "\(name).accountRecoverySetting")
-            try self.accountRecoverySetting?.forEach {}
             try self.adminCreateUserConfig?.validate(name: "\(name).adminCreateUserConfig")
-            try self.adminCreateUserConfig?.forEach {}
             try self.emailConfiguration?.validate(name: "\(name).emailConfiguration")
-            try self.emailConfiguration?.forEach {}
-            try self.emailVerificationMessage?.forEach {}
             try self.validate(self.emailVerificationMessage, name: "emailVerificationMessage", parent: name, max: 20000)
             try self.validate(self.emailVerificationMessage, name: "emailVerificationMessage", parent: name, min: 6)
             try self.validate(self.emailVerificationMessage, name: "emailVerificationMessage", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\s*]*\\{####\\}[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\s*]*")
-            try self.emailVerificationSubject?.forEach {}
             try self.validate(self.emailVerificationSubject, name: "emailVerificationSubject", parent: name, max: 140)
             try self.validate(self.emailVerificationSubject, name: "emailVerificationSubject", parent: name, min: 1)
             try self.validate(self.emailVerificationSubject, name: "emailVerificationSubject", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\s]+")
             try self.lambdaConfig?.validate(name: "\(name).lambdaConfig")
-            try self.lambdaConfig?.forEach {}
             try self.policies?.validate(name: "\(name).policies")
-            try self.policies?.forEach {}
-            try self.poolName.forEach {}
             try self.validate(self.poolName, name: "poolName", parent: name, max: 128)
             try self.validate(self.poolName, name: "poolName", parent: name, min: 1)
             try self.validate(self.poolName, name: "poolName", parent: name, pattern: "[\\w\\s+=,.@-]+")
             try self.schema?.forEach {
                 try $0.validate(name: "\(name).schema[]")
             }
-            try self.schema?.forEach {}
             try self.validate(self.schema, name: "schema", parent: name, max: 50)
             try self.validate(self.schema, name: "schema", parent: name, min: 1)
-            try self.smsAuthenticationMessage?.forEach {}
             try self.validate(self.smsAuthenticationMessage, name: "smsAuthenticationMessage", parent: name, max: 140)
             try self.validate(self.smsAuthenticationMessage, name: "smsAuthenticationMessage", parent: name, min: 6)
             try self.validate(self.smsAuthenticationMessage, name: "smsAuthenticationMessage", parent: name, pattern: ".*\\{####\\}.*")
             try self.smsConfiguration?.validate(name: "\(name).smsConfiguration")
-            try self.smsConfiguration?.forEach {}
-            try self.smsVerificationMessage?.forEach {}
             try self.validate(self.smsVerificationMessage, name: "smsVerificationMessage", parent: name, max: 140)
             try self.validate(self.smsVerificationMessage, name: "smsVerificationMessage", parent: name, min: 6)
             try self.validate(self.smsVerificationMessage, name: "smsVerificationMessage", parent: name, pattern: ".*\\{####\\}.*")
@@ -2705,7 +2562,6 @@ extension CognitoIdentityProvider {
                 try validate($0.value, name: "userPoolTags[\"\($0.key)\"]", parent: name, min: 0)
             }
             try self.verificationMessageTemplate?.validate(name: "\(name).verificationMessageTemplate")
-            try self.verificationMessageTemplate?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2755,7 +2611,6 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.certificateArn.forEach {}
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?")
@@ -2778,7 +2633,6 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.lambdaArn.forEach {}
             try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, max: 2048)
             try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, min: 20)
             try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?")
@@ -2802,7 +2656,6 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.lambdaArn.forEach {}
             try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, max: 2048)
             try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, min: 20)
             try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?")
@@ -2826,11 +2679,9 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.groupName.forEach {}
             try self.validate(self.groupName, name: "groupName", parent: name, max: 128)
             try self.validate(self.groupName, name: "groupName", parent: name, min: 1)
             try self.validate(self.groupName, name: "groupName", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -2854,11 +2705,9 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.providerName.forEach {}
             try self.validate(self.providerName, name: "providerName", parent: name, max: 32)
             try self.validate(self.providerName, name: "providerName", parent: name, min: 1)
             try self.validate(self.providerName, name: "providerName", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -2882,11 +2731,9 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.identifier.forEach {}
             try self.validate(self.identifier, name: "identifier", parent: name, max: 256)
             try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
             try self.validate(self.identifier, name: "identifier", parent: name, pattern: "[\\x21\\x23-\\x5B\\x5D-\\x7E]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -2910,14 +2757,12 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.accessToken.forEach {}
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "[A-Za-z0-9-_=.]+")
             try self.userAttributeNames.forEach {
                 try validate($0, name: "userAttributeNames[]", parent: name, max: 32)
                 try validate($0, name: "userAttributeNames[]", parent: name, min: 1)
                 try validate($0, name: "userAttributeNames[]", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
             }
-            try self.userAttributeNames.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2942,11 +2787,9 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.clientId.forEach {}
             try self.validate(self.clientId, name: "clientId", parent: name, max: 128)
             try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
             try self.validate(self.clientId, name: "clientId", parent: name, pattern: "[\\w+]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -2970,11 +2813,9 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 63)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "^[a-z0-9](?:[a-z0-9\\-]{0,61}[a-z0-9])?$")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -2999,7 +2840,6 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -3019,7 +2859,6 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.accessToken.forEach {}
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "[A-Za-z0-9-_=.]+")
         }
 
@@ -3040,11 +2879,9 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.providerName.forEach {}
             try self.validate(self.providerName, name: "providerName", parent: name, max: 32)
             try self.validate(self.providerName, name: "providerName", parent: name, min: 1)
             try self.validate(self.providerName, name: "providerName", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -3081,11 +2918,9 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.identifier.forEach {}
             try self.validate(self.identifier, name: "identifier", parent: name, max: 256)
             try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
             try self.validate(self.identifier, name: "identifier", parent: name, pattern: "[\\x21\\x23-\\x5B\\x5D-\\x7E]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -3122,11 +2957,9 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.clientId?.forEach {}
             try self.validate(self.clientId, name: "clientId", parent: name, max: 128)
             try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
             try self.validate(self.clientId, name: "clientId", parent: name, pattern: "[\\w+]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -3163,11 +2996,9 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 55)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "import-[0-9a-zA-Z-]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -3204,11 +3035,9 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.clientId.forEach {}
             try self.validate(self.clientId, name: "clientId", parent: name, max: 128)
             try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
             try self.validate(self.clientId, name: "clientId", parent: name, pattern: "[\\w+]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -3242,7 +3071,6 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 63)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "^[a-z0-9](?:[a-z0-9\\-]{0,61}[a-z0-9])?$")
@@ -3275,7 +3103,6 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -3424,13 +3251,10 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.configurationSet?.forEach {}
             try self.validate(self.configurationSet, name: "configurationSet", parent: name, max: 64)
             try self.validate(self.configurationSet, name: "configurationSet", parent: name, min: 1)
             try self.validate(self.configurationSet, name: "configurationSet", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
-            try self.replyToEmailAddress?.forEach {}
             try self.validate(self.replyToEmailAddress, name: "replyToEmailAddress", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+@[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.sourceArn?.forEach {}
             try self.validate(self.sourceArn, name: "sourceArn", parent: name, max: 2048)
             try self.validate(self.sourceArn, name: "sourceArn", parent: name, min: 20)
             try self.validate(self.sourceArn, name: "sourceArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?")
@@ -3528,9 +3352,7 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.accessToken?.forEach {}
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "[A-Za-z0-9-_=.]+")
-            try self.deviceKey.forEach {}
             try self.validate(self.deviceKey, name: "deviceKey", parent: name, max: 55)
             try self.validate(self.deviceKey, name: "deviceKey", parent: name, min: 1)
             try self.validate(self.deviceKey, name: "deviceKey", parent: name, pattern: "[\\w-]+_[0-9a-f-]+")
@@ -3566,15 +3388,12 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.clientId.forEach {}
             try self.validate(self.clientId, name: "clientId", parent: name, max: 128)
             try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
             try self.validate(self.clientId, name: "clientId", parent: name, pattern: "[\\w+]+")
-            try self.secretHash?.forEach {}
             try self.validate(self.secretHash, name: "secretHash", parent: name, max: 128)
             try self.validate(self.secretHash, name: "secretHash", parent: name, min: 1)
             try self.validate(self.secretHash, name: "secretHash", parent: name, pattern: "[\\w+=/]+")
-            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 128)
             try self.validate(self.username, name: "username", parent: name, min: 1)
             try self.validate(self.username, name: "username", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
@@ -3612,7 +3431,6 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -3652,9 +3470,7 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.accessToken?.forEach {}
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "[A-Za-z0-9-_=.]+")
-            try self.deviceKey.forEach {}
             try self.validate(self.deviceKey, name: "deviceKey", parent: name, max: 55)
             try self.validate(self.deviceKey, name: "deviceKey", parent: name, min: 1)
             try self.validate(self.deviceKey, name: "deviceKey", parent: name, pattern: "[\\w-]+_[0-9a-f-]+")
@@ -3691,11 +3507,9 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.groupName.forEach {}
             try self.validate(self.groupName, name: "groupName", parent: name, max: 128)
             try self.validate(self.groupName, name: "groupName", parent: name, min: 1)
             try self.validate(self.groupName, name: "groupName", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -3732,11 +3546,9 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.idpIdentifier.forEach {}
             try self.validate(self.idpIdentifier, name: "idpIdentifier", parent: name, max: 40)
             try self.validate(self.idpIdentifier, name: "idpIdentifier", parent: name, min: 1)
             try self.validate(self.idpIdentifier, name: "idpIdentifier", parent: name, pattern: "[\\w\\s+=.@-]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -3770,7 +3582,6 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -3806,11 +3617,9 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.clientId?.forEach {}
             try self.validate(self.clientId, name: "clientId", parent: name, max: 128)
             try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
             try self.validate(self.clientId, name: "clientId", parent: name, pattern: "[\\w+]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -3850,9 +3659,7 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.accessToken.forEach {}
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "[A-Za-z0-9-_=.]+")
-            try self.attributeName.forEach {}
             try self.validate(self.attributeName, name: "attributeName", parent: name, max: 32)
             try self.validate(self.attributeName, name: "attributeName", parent: name, min: 1)
             try self.validate(self.attributeName, name: "attributeName", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
@@ -3887,7 +3694,6 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -3928,7 +3734,6 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.accessToken.forEach {}
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "[A-Za-z0-9-_=.]+")
         }
 
@@ -3975,7 +3780,6 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.accessToken.forEach {}
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "[A-Za-z0-9-_=.]+")
         }
 
@@ -4107,7 +3911,6 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.clientId.forEach {}
             try self.validate(self.clientId, name: "clientId", parent: name, max: 128)
             try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
             try self.validate(self.clientId, name: "clientId", parent: name, pattern: "[\\w+]+")
@@ -4193,51 +3996,38 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.createAuthChallenge?.forEach {}
             try self.validate(self.createAuthChallenge, name: "createAuthChallenge", parent: name, max: 2048)
             try self.validate(self.createAuthChallenge, name: "createAuthChallenge", parent: name, min: 20)
             try self.validate(self.createAuthChallenge, name: "createAuthChallenge", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?")
             try self.customEmailSender?.validate(name: "\(name).customEmailSender")
-            try self.customEmailSender?.forEach {}
-            try self.customMessage?.forEach {}
             try self.validate(self.customMessage, name: "customMessage", parent: name, max: 2048)
             try self.validate(self.customMessage, name: "customMessage", parent: name, min: 20)
             try self.validate(self.customMessage, name: "customMessage", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?")
             try self.customSMSSender?.validate(name: "\(name).customSMSSender")
-            try self.customSMSSender?.forEach {}
-            try self.defineAuthChallenge?.forEach {}
             try self.validate(self.defineAuthChallenge, name: "defineAuthChallenge", parent: name, max: 2048)
             try self.validate(self.defineAuthChallenge, name: "defineAuthChallenge", parent: name, min: 20)
             try self.validate(self.defineAuthChallenge, name: "defineAuthChallenge", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?")
-            try self.kMSKeyID?.forEach {}
             try self.validate(self.kMSKeyID, name: "kMSKeyID", parent: name, max: 2048)
             try self.validate(self.kMSKeyID, name: "kMSKeyID", parent: name, min: 20)
             try self.validate(self.kMSKeyID, name: "kMSKeyID", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?")
-            try self.postAuthentication?.forEach {}
             try self.validate(self.postAuthentication, name: "postAuthentication", parent: name, max: 2048)
             try self.validate(self.postAuthentication, name: "postAuthentication", parent: name, min: 20)
             try self.validate(self.postAuthentication, name: "postAuthentication", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?")
-            try self.postConfirmation?.forEach {}
             try self.validate(self.postConfirmation, name: "postConfirmation", parent: name, max: 2048)
             try self.validate(self.postConfirmation, name: "postConfirmation", parent: name, min: 20)
             try self.validate(self.postConfirmation, name: "postConfirmation", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?")
-            try self.preAuthentication?.forEach {}
             try self.validate(self.preAuthentication, name: "preAuthentication", parent: name, max: 2048)
             try self.validate(self.preAuthentication, name: "preAuthentication", parent: name, min: 20)
             try self.validate(self.preAuthentication, name: "preAuthentication", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?")
-            try self.preSignUp?.forEach {}
             try self.validate(self.preSignUp, name: "preSignUp", parent: name, max: 2048)
             try self.validate(self.preSignUp, name: "preSignUp", parent: name, min: 20)
             try self.validate(self.preSignUp, name: "preSignUp", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?")
-            try self.preTokenGeneration?.forEach {}
             try self.validate(self.preTokenGeneration, name: "preTokenGeneration", parent: name, max: 2048)
             try self.validate(self.preTokenGeneration, name: "preTokenGeneration", parent: name, min: 20)
             try self.validate(self.preTokenGeneration, name: "preTokenGeneration", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?")
-            try self.userMigration?.forEach {}
             try self.validate(self.userMigration, name: "userMigration", parent: name, max: 2048)
             try self.validate(self.userMigration, name: "userMigration", parent: name, min: 20)
             try self.validate(self.userMigration, name: "userMigration", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?")
-            try self.verifyAuthChallengeResponse?.forEach {}
             try self.validate(self.verifyAuthChallengeResponse, name: "verifyAuthChallengeResponse", parent: name, max: 2048)
             try self.validate(self.verifyAuthChallengeResponse, name: "verifyAuthChallengeResponse", parent: name, min: 20)
             try self.validate(self.verifyAuthChallengeResponse, name: "verifyAuthChallengeResponse", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?")
@@ -4275,12 +4065,9 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.accessToken.forEach {}
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "[A-Za-z0-9-_=.]+")
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 60)
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
-            try self.paginationToken?.forEach {}
             try self.validate(self.paginationToken, name: "paginationToken", parent: name, min: 1)
             try self.validate(self.paginationToken, name: "paginationToken", parent: name, pattern: "[\\S]+")
         }
@@ -4324,13 +4111,10 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 60)
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\S]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -4375,13 +4159,10 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 60)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\S]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -4426,13 +4207,10 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\S]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -4471,7 +4249,6 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?")
@@ -4510,13 +4287,10 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 60)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.paginationToken?.forEach {}
             try self.validate(self.paginationToken, name: "paginationToken", parent: name, min: 1)
             try self.validate(self.paginationToken, name: "paginationToken", parent: name, pattern: "[\\S]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -4561,13 +4335,10 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 60)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\S]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -4609,10 +4380,8 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 60)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\S]+")
         }
@@ -4658,17 +4427,13 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.groupName.forEach {}
             try self.validate(self.groupName, name: "groupName", parent: name, max: 128)
             try self.validate(self.groupName, name: "groupName", parent: name, min: 1)
             try self.validate(self.groupName, name: "groupName", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 60)
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\S]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -4725,16 +4490,11 @@ extension CognitoIdentityProvider {
                 try validate($0, name: "attributesToGet[]", parent: name, min: 1)
                 try validate($0, name: "attributesToGet[]", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
             }
-            try self.attributesToGet?.forEach {}
-            try self.filter?.forEach {}
             try self.validate(self.filter, name: "filter", parent: name, max: 256)
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 60)
             try self.validate(self.limit, name: "limit", parent: name, min: 0)
-            try self.paginationToken?.forEach {}
             try self.validate(self.paginationToken, name: "paginationToken", parent: name, min: 1)
             try self.validate(self.paginationToken, name: "paginationToken", parent: name, pattern: "[\\S]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -4778,7 +4538,6 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.attributeName?.forEach {}
             try self.validate(self.attributeName, name: "attributeName", parent: name, max: 32)
             try self.validate(self.attributeName, name: "attributeName", parent: name, min: 1)
             try self.validate(self.attributeName, name: "attributeName", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
@@ -4805,15 +4564,12 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.emailMessage?.forEach {}
             try self.validate(self.emailMessage, name: "emailMessage", parent: name, max: 20000)
             try self.validate(self.emailMessage, name: "emailMessage", parent: name, min: 6)
             try self.validate(self.emailMessage, name: "emailMessage", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\s*]*\\{####\\}[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\s*]*")
-            try self.emailSubject?.forEach {}
             try self.validate(self.emailSubject, name: "emailSubject", parent: name, max: 140)
             try self.validate(self.emailSubject, name: "emailSubject", parent: name, min: 1)
             try self.validate(self.emailSubject, name: "emailSubject", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\s]+")
-            try self.sMSMessage?.forEach {}
             try self.validate(self.sMSMessage, name: "sMSMessage", parent: name, max: 140)
             try self.validate(self.sMSMessage, name: "sMSMessage", parent: name, min: 6)
             try self.validate(self.sMSMessage, name: "sMSMessage", parent: name, pattern: ".*\\{####\\}.*")
@@ -4868,12 +4624,8 @@ extension CognitoIdentityProvider {
 
         public func validate(name: String) throws {
             try self.blockEmail?.validate(name: "\(name).blockEmail")
-            try self.blockEmail?.forEach {}
             try self.mfaEmail?.validate(name: "\(name).mfaEmail")
-            try self.mfaEmail?.forEach {}
             try self.noActionEmail?.validate(name: "\(name).noActionEmail")
-            try self.noActionEmail?.forEach {}
-            try self.sourceArn.forEach {}
             try self.validate(self.sourceArn, name: "sourceArn", parent: name, max: 2048)
             try self.validate(self.sourceArn, name: "sourceArn", parent: name, min: 20)
             try self.validate(self.sourceArn, name: "sourceArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?")
@@ -4904,15 +4656,12 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.htmlBody?.forEach {}
             try self.validate(self.htmlBody, name: "htmlBody", parent: name, max: 20000)
             try self.validate(self.htmlBody, name: "htmlBody", parent: name, min: 6)
             try self.validate(self.htmlBody, name: "htmlBody", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\s*]+")
-            try self.subject.forEach {}
             try self.validate(self.subject, name: "subject", parent: name, max: 140)
             try self.validate(self.subject, name: "subject", parent: name, min: 1)
             try self.validate(self.subject, name: "subject", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\s]+")
-            try self.textBody?.forEach {}
             try self.validate(self.textBody, name: "textBody", parent: name, max: 20000)
             try self.validate(self.textBody, name: "textBody", parent: name, min: 6)
             try self.validate(self.textBody, name: "textBody", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\s*]+")
@@ -4966,10 +4715,8 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.minimumLength?.forEach {}
             try self.validate(self.minimumLength, name: "minimumLength", parent: name, max: 99)
             try self.validate(self.minimumLength, name: "minimumLength", parent: name, min: 6)
-            try self.temporaryPasswordValidityDays?.forEach {}
             try self.validate(self.temporaryPasswordValidityDays, name: "temporaryPasswordValidityDays", parent: name, max: 365)
             try self.validate(self.temporaryPasswordValidityDays, name: "temporaryPasswordValidityDays", parent: name, min: 0)
         }
@@ -5024,7 +4771,6 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.providerName?.forEach {}
             try self.validate(self.providerName, name: "providerName", parent: name, max: 32)
             try self.validate(self.providerName, name: "providerName", parent: name, min: 1)
             try self.validate(self.providerName, name: "providerName", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
@@ -5049,7 +4795,6 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.priority.forEach {}
             try self.validate(self.priority, name: "priority", parent: name, max: 2)
             try self.validate(self.priority, name: "priority", parent: name, min: 1)
         }
@@ -5084,15 +4829,12 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.clientId.forEach {}
             try self.validate(self.clientId, name: "clientId", parent: name, max: 128)
             try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
             try self.validate(self.clientId, name: "clientId", parent: name, pattern: "[\\w+]+")
-            try self.secretHash?.forEach {}
             try self.validate(self.secretHash, name: "secretHash", parent: name, max: 128)
             try self.validate(self.secretHash, name: "secretHash", parent: name, min: 1)
             try self.validate(self.secretHash, name: "secretHash", parent: name, pattern: "[\\w+=/]+")
-            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 128)
             try self.validate(self.username, name: "username", parent: name, min: 1)
             try self.validate(self.username, name: "username", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
@@ -5133,10 +4875,8 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.scopeDescription.forEach {}
             try self.validate(self.scopeDescription, name: "scopeDescription", parent: name, max: 256)
             try self.validate(self.scopeDescription, name: "scopeDescription", parent: name, min: 1)
-            try self.scopeName.forEach {}
             try self.validate(self.scopeName, name: "scopeName", parent: name, max: 256)
             try self.validate(self.scopeName, name: "scopeName", parent: name, min: 1)
             try self.validate(self.scopeName, name: "scopeName", parent: name, pattern: "[\\x21\\x23-\\x2E\\x30-\\x5B\\x5D-\\x7E]+")
@@ -5200,11 +4940,9 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.clientId.forEach {}
             try self.validate(self.clientId, name: "clientId", parent: name, max: 128)
             try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
             try self.validate(self.clientId, name: "clientId", parent: name, pattern: "[\\w+]+")
-            try self.session?.forEach {}
             try self.validate(self.session, name: "session", parent: name, max: 2048)
             try self.validate(self.session, name: "session", parent: name, min: 20)
         }
@@ -5290,9 +5028,7 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.blockedIPRangeList?.forEach {}
             try self.validate(self.blockedIPRangeList, name: "blockedIPRangeList", parent: name, max: 20)
-            try self.skippedIPRangeList?.forEach {}
             try self.validate(self.skippedIPRangeList, name: "skippedIPRangeList", parent: name, max: 20)
         }
 
@@ -5346,7 +5082,6 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 20)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
@@ -5385,14 +5120,10 @@ extension CognitoIdentityProvider {
 
         public func validate(name: String) throws {
             try self.accountTakeoverRiskConfiguration?.validate(name: "\(name).accountTakeoverRiskConfiguration")
-            try self.accountTakeoverRiskConfiguration?.forEach {}
-            try self.clientId?.forEach {}
             try self.validate(self.clientId, name: "clientId", parent: name, max: 128)
             try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
             try self.validate(self.clientId, name: "clientId", parent: name, pattern: "[\\w+]+")
             try self.riskExceptionConfiguration?.validate(name: "\(name).riskExceptionConfiguration")
-            try self.riskExceptionConfiguration?.forEach {}
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -5438,11 +5169,9 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.clientId?.forEach {}
             try self.validate(self.clientId, name: "clientId", parent: name, max: 128)
             try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
             try self.validate(self.clientId, name: "clientId", parent: name, pattern: "[\\w+]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -5484,7 +5213,6 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.accessToken.forEach {}
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "[A-Za-z0-9-_=.]+")
         }
 
@@ -5518,8 +5246,6 @@ extension CognitoIdentityProvider {
 
         public func validate(name: String) throws {
             try self.smsMfaConfiguration?.validate(name: "\(name).smsMfaConfiguration")
-            try self.smsMfaConfiguration?.forEach {}
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -5566,12 +5292,10 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.accessToken.forEach {}
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "[A-Za-z0-9-_=.]+")
             try self.mFAOptions.forEach {
                 try $0.validate(name: "\(name).mFAOptions[]")
             }
-            try self.mFAOptions.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5617,30 +5341,24 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.clientId.forEach {}
             try self.validate(self.clientId, name: "clientId", parent: name, max: 128)
             try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
             try self.validate(self.clientId, name: "clientId", parent: name, pattern: "[\\w+]+")
-            try self.password.forEach {}
             try self.validate(self.password, name: "password", parent: name, max: 256)
             try self.validate(self.password, name: "password", parent: name, min: 6)
             try self.validate(self.password, name: "password", parent: name, pattern: "[\\S]+")
-            try self.secretHash?.forEach {}
             try self.validate(self.secretHash, name: "secretHash", parent: name, max: 128)
             try self.validate(self.secretHash, name: "secretHash", parent: name, min: 1)
             try self.validate(self.secretHash, name: "secretHash", parent: name, pattern: "[\\w+=/]+")
             try self.userAttributes?.forEach {
                 try $0.validate(name: "\(name).userAttributes[]")
             }
-            try self.userAttributes?.forEach {}
-            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 128)
             try self.validate(self.username, name: "username", parent: name, min: 1)
             try self.validate(self.username, name: "username", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
             try self.validationData?.forEach {
                 try $0.validate(name: "\(name).validationData[]")
             }
-            try self.validationData?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5689,7 +5407,6 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.snsCallerArn.forEach {}
             try self.validate(self.snsCallerArn, name: "snsCallerArn", parent: name, max: 2048)
             try self.validate(self.snsCallerArn, name: "snsCallerArn", parent: name, min: 20)
             try self.validate(self.snsCallerArn, name: "snsCallerArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?")
@@ -5713,12 +5430,10 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.smsAuthenticationMessage?.forEach {}
             try self.validate(self.smsAuthenticationMessage, name: "smsAuthenticationMessage", parent: name, max: 140)
             try self.validate(self.smsAuthenticationMessage, name: "smsAuthenticationMessage", parent: name, min: 6)
             try self.validate(self.smsAuthenticationMessage, name: "smsAuthenticationMessage", parent: name, pattern: ".*\\{####\\}.*")
             try self.smsConfiguration?.validate(name: "\(name).smsConfiguration")
-            try self.smsConfiguration?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5769,11 +5484,9 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 55)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "import-[0-9a-zA-Z-]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -5810,11 +5523,9 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 55)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "import-[0-9a-zA-Z-]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -5868,7 +5579,6 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?")
@@ -5960,7 +5670,6 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?")
@@ -5968,7 +5677,6 @@ extension CognitoIdentityProvider {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
-            try self.tagKeys.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6002,17 +5710,13 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.eventId.forEach {}
             try self.validate(self.eventId, name: "eventId", parent: name, max: 50)
             try self.validate(self.eventId, name: "eventId", parent: name, min: 1)
             try self.validate(self.eventId, name: "eventId", parent: name, pattern: "[\\w+-]+")
-            try self.feedbackToken.forEach {}
             try self.validate(self.feedbackToken, name: "feedbackToken", parent: name, pattern: "[A-Za-z0-9-_=.]+")
-            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 128)
             try self.validate(self.username, name: "username", parent: name, min: 1)
             try self.validate(self.username, name: "username", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -6046,9 +5750,7 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.accessToken.forEach {}
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "[A-Za-z0-9-_=.]+")
-            try self.deviceKey.forEach {}
             try self.validate(self.deviceKey, name: "deviceKey", parent: name, max: 55)
             try self.validate(self.deviceKey, name: "deviceKey", parent: name, min: 1)
             try self.validate(self.deviceKey, name: "deviceKey", parent: name, pattern: "[\\w-]+_[0-9a-f-]+")
@@ -6086,19 +5788,14 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2048)
-            try self.groupName.forEach {}
             try self.validate(self.groupName, name: "groupName", parent: name, max: 128)
             try self.validate(self.groupName, name: "groupName", parent: name, min: 1)
             try self.validate(self.groupName, name: "groupName", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.precedence?.forEach {}
             try self.validate(self.precedence, name: "precedence", parent: name, min: 0)
-            try self.roleArn?.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -6156,14 +5853,11 @@ extension CognitoIdentityProvider {
                 try validate($0, name: "idpIdentifiers[]", parent: name, min: 1)
                 try validate($0, name: "idpIdentifiers[]", parent: name, pattern: "[\\w\\s+=.@-]+")
             }
-            try self.idpIdentifiers?.forEach {}
             try self.validate(self.idpIdentifiers, name: "idpIdentifiers", parent: name, max: 50)
             try self.validate(self.idpIdentifiers, name: "idpIdentifiers", parent: name, min: 0)
-            try self.providerName.forEach {}
             try self.validate(self.providerName, name: "providerName", parent: name, max: 32)
             try self.validate(self.providerName, name: "providerName", parent: name, min: 1)
             try self.validate(self.providerName, name: "providerName", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -6209,20 +5903,16 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.identifier.forEach {}
             try self.validate(self.identifier, name: "identifier", parent: name, max: 256)
             try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
             try self.validate(self.identifier, name: "identifier", parent: name, pattern: "[\\x21\\x23-\\x5B\\x5D-\\x7E]+")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\w\\s+=,.@-]+")
             try self.scopes?.forEach {
                 try $0.validate(name: "\(name).scopes[]")
             }
-            try self.scopes?.forEach {}
             try self.validate(self.scopes, name: "scopes", parent: name, max: 100)
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -6264,12 +5954,10 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.accessToken.forEach {}
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "[A-Za-z0-9-_=.]+")
             try self.userAttributes.forEach {
                 try $0.validate(name: "\(name).userAttributes[]")
             }
-            try self.userAttributes.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6355,10 +6043,8 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.accessTokenValidity?.forEach {}
             try self.validate(self.accessTokenValidity, name: "accessTokenValidity", parent: name, max: 86400)
             try self.validate(self.accessTokenValidity, name: "accessTokenValidity", parent: name, min: 1)
-            try self.allowedOAuthFlows?.forEach {}
             try self.validate(self.allowedOAuthFlows, name: "allowedOAuthFlows", parent: name, max: 3)
             try self.validate(self.allowedOAuthFlows, name: "allowedOAuthFlows", parent: name, min: 0)
             try self.allowedOAuthScopes?.forEach {
@@ -6366,31 +6052,24 @@ extension CognitoIdentityProvider {
                 try validate($0, name: "allowedOAuthScopes[]", parent: name, min: 1)
                 try validate($0, name: "allowedOAuthScopes[]", parent: name, pattern: "[\\x21\\x23-\\x5B\\x5D-\\x7E]+")
             }
-            try self.allowedOAuthScopes?.forEach {}
             try self.validate(self.allowedOAuthScopes, name: "allowedOAuthScopes", parent: name, max: 50)
             try self.analyticsConfiguration?.validate(name: "\(name).analyticsConfiguration")
-            try self.analyticsConfiguration?.forEach {}
             try self.callbackURLs?.forEach {
                 try validate($0, name: "callbackURLs[]", parent: name, max: 1024)
                 try validate($0, name: "callbackURLs[]", parent: name, min: 1)
                 try validate($0, name: "callbackURLs[]", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
             }
-            try self.callbackURLs?.forEach {}
             try self.validate(self.callbackURLs, name: "callbackURLs", parent: name, max: 100)
             try self.validate(self.callbackURLs, name: "callbackURLs", parent: name, min: 0)
-            try self.clientId.forEach {}
             try self.validate(self.clientId, name: "clientId", parent: name, max: 128)
             try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
             try self.validate(self.clientId, name: "clientId", parent: name, pattern: "[\\w+]+")
-            try self.clientName?.forEach {}
             try self.validate(self.clientName, name: "clientName", parent: name, max: 128)
             try self.validate(self.clientName, name: "clientName", parent: name, min: 1)
             try self.validate(self.clientName, name: "clientName", parent: name, pattern: "[\\w\\s+=,.@-]+")
-            try self.defaultRedirectURI?.forEach {}
             try self.validate(self.defaultRedirectURI, name: "defaultRedirectURI", parent: name, max: 1024)
             try self.validate(self.defaultRedirectURI, name: "defaultRedirectURI", parent: name, min: 1)
             try self.validate(self.defaultRedirectURI, name: "defaultRedirectURI", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.idTokenValidity?.forEach {}
             try self.validate(self.idTokenValidity, name: "idTokenValidity", parent: name, max: 86400)
             try self.validate(self.idTokenValidity, name: "idTokenValidity", parent: name, min: 1)
             try self.logoutURLs?.forEach {
@@ -6398,15 +6077,12 @@ extension CognitoIdentityProvider {
                 try validate($0, name: "logoutURLs[]", parent: name, min: 1)
                 try validate($0, name: "logoutURLs[]", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
             }
-            try self.logoutURLs?.forEach {}
             try self.validate(self.logoutURLs, name: "logoutURLs", parent: name, max: 100)
             try self.validate(self.logoutURLs, name: "logoutURLs", parent: name, min: 0)
             try self.readAttributes?.forEach {
                 try validate($0, name: "readAttributes[]", parent: name, max: 2048)
                 try validate($0, name: "readAttributes[]", parent: name, min: 1)
             }
-            try self.readAttributes?.forEach {}
-            try self.refreshTokenValidity?.forEach {}
             try self.validate(self.refreshTokenValidity, name: "refreshTokenValidity", parent: name, max: 315_360_000)
             try self.validate(self.refreshTokenValidity, name: "refreshTokenValidity", parent: name, min: 0)
             try self.supportedIdentityProviders?.forEach {
@@ -6414,8 +6090,6 @@ extension CognitoIdentityProvider {
                 try validate($0, name: "supportedIdentityProviders[]", parent: name, min: 1)
                 try validate($0, name: "supportedIdentityProviders[]", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
             }
-            try self.supportedIdentityProviders?.forEach {}
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -6423,7 +6097,6 @@ extension CognitoIdentityProvider {
                 try validate($0, name: "writeAttributes[]", parent: name, max: 2048)
                 try validate($0, name: "writeAttributes[]", parent: name, min: 1)
             }
-            try self.writeAttributes?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6478,12 +6151,9 @@ extension CognitoIdentityProvider {
 
         public func validate(name: String) throws {
             try self.customDomainConfig.validate(name: "\(name).customDomainConfig")
-            try self.customDomainConfig.forEach {}
-            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 63)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "^[a-z0-9](?:[a-z0-9\\-]{0,61}[a-z0-9])?$")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -6567,34 +6237,23 @@ extension CognitoIdentityProvider {
 
         public func validate(name: String) throws {
             try self.accountRecoverySetting?.validate(name: "\(name).accountRecoverySetting")
-            try self.accountRecoverySetting?.forEach {}
             try self.adminCreateUserConfig?.validate(name: "\(name).adminCreateUserConfig")
-            try self.adminCreateUserConfig?.forEach {}
             try self.emailConfiguration?.validate(name: "\(name).emailConfiguration")
-            try self.emailConfiguration?.forEach {}
-            try self.emailVerificationMessage?.forEach {}
             try self.validate(self.emailVerificationMessage, name: "emailVerificationMessage", parent: name, max: 20000)
             try self.validate(self.emailVerificationMessage, name: "emailVerificationMessage", parent: name, min: 6)
             try self.validate(self.emailVerificationMessage, name: "emailVerificationMessage", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\s*]*\\{####\\}[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\s*]*")
-            try self.emailVerificationSubject?.forEach {}
             try self.validate(self.emailVerificationSubject, name: "emailVerificationSubject", parent: name, max: 140)
             try self.validate(self.emailVerificationSubject, name: "emailVerificationSubject", parent: name, min: 1)
             try self.validate(self.emailVerificationSubject, name: "emailVerificationSubject", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\s]+")
             try self.lambdaConfig?.validate(name: "\(name).lambdaConfig")
-            try self.lambdaConfig?.forEach {}
             try self.policies?.validate(name: "\(name).policies")
-            try self.policies?.forEach {}
-            try self.smsAuthenticationMessage?.forEach {}
             try self.validate(self.smsAuthenticationMessage, name: "smsAuthenticationMessage", parent: name, max: 140)
             try self.validate(self.smsAuthenticationMessage, name: "smsAuthenticationMessage", parent: name, min: 6)
             try self.validate(self.smsAuthenticationMessage, name: "smsAuthenticationMessage", parent: name, pattern: ".*\\{####\\}.*")
             try self.smsConfiguration?.validate(name: "\(name).smsConfiguration")
-            try self.smsConfiguration?.forEach {}
-            try self.smsVerificationMessage?.forEach {}
             try self.validate(self.smsVerificationMessage, name: "smsVerificationMessage", parent: name, max: 140)
             try self.validate(self.smsVerificationMessage, name: "smsVerificationMessage", parent: name, min: 6)
             try self.validate(self.smsVerificationMessage, name: "smsVerificationMessage", parent: name, pattern: ".*\\{####\\}.*")
-            try self.userPoolId.forEach {}
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -6605,7 +6264,6 @@ extension CognitoIdentityProvider {
                 try validate($0.value, name: "userPoolTags[\"\($0.key)\"]", parent: name, min: 0)
             }
             try self.verificationMessageTemplate?.validate(name: "\(name).verificationMessageTemplate")
-            try self.verificationMessageTemplate?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6881,7 +6539,6 @@ extension CognitoIdentityProvider {
 
         public func validate(name: String) throws {
             try self.passwordPolicy?.validate(name: "\(name).passwordPolicy")
-            try self.passwordPolicy?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7096,23 +6753,18 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.emailMessage?.forEach {}
             try self.validate(self.emailMessage, name: "emailMessage", parent: name, max: 20000)
             try self.validate(self.emailMessage, name: "emailMessage", parent: name, min: 6)
             try self.validate(self.emailMessage, name: "emailMessage", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\s*]*\\{####\\}[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\s*]*")
-            try self.emailMessageByLink?.forEach {}
             try self.validate(self.emailMessageByLink, name: "emailMessageByLink", parent: name, max: 20000)
             try self.validate(self.emailMessageByLink, name: "emailMessageByLink", parent: name, min: 6)
             try self.validate(self.emailMessageByLink, name: "emailMessageByLink", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\s*]*\\{##[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\s*]*##\\}[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\s*]*")
-            try self.emailSubject?.forEach {}
             try self.validate(self.emailSubject, name: "emailSubject", parent: name, max: 140)
             try self.validate(self.emailSubject, name: "emailSubject", parent: name, min: 1)
             try self.validate(self.emailSubject, name: "emailSubject", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\s]+")
-            try self.emailSubjectByLink?.forEach {}
             try self.validate(self.emailSubjectByLink, name: "emailSubjectByLink", parent: name, max: 140)
             try self.validate(self.emailSubjectByLink, name: "emailSubjectByLink", parent: name, min: 1)
             try self.validate(self.emailSubjectByLink, name: "emailSubjectByLink", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\s]+")
-            try self.smsMessage?.forEach {}
             try self.validate(self.smsMessage, name: "smsMessage", parent: name, max: 140)
             try self.validate(self.smsMessage, name: "smsMessage", parent: name, min: 6)
             try self.validate(self.smsMessage, name: "smsMessage", parent: name, pattern: ".*\\{####\\}.*")
@@ -7146,12 +6798,9 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.accessToken?.forEach {}
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "[A-Za-z0-9-_=.]+")
-            try self.session?.forEach {}
             try self.validate(self.session, name: "session", parent: name, max: 2048)
             try self.validate(self.session, name: "session", parent: name, min: 20)
-            try self.userCode.forEach {}
             try self.validate(self.userCode, name: "userCode", parent: name, max: 6)
             try self.validate(self.userCode, name: "userCode", parent: name, min: 6)
             try self.validate(self.userCode, name: "userCode", parent: name, pattern: "[0-9]+")
@@ -7197,13 +6846,10 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.accessToken.forEach {}
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "[A-Za-z0-9-_=.]+")
-            try self.attributeName.forEach {}
             try self.validate(self.attributeName, name: "attributeName", parent: name, max: 32)
             try self.validate(self.attributeName, name: "attributeName", parent: name, min: 1)
             try self.validate(self.attributeName, name: "attributeName", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
-            try self.code.forEach {}
             try self.validate(self.code, name: "code", parent: name, max: 2048)
             try self.validate(self.code, name: "code", parent: name, min: 1)
             try self.validate(self.code, name: "code", parent: name, pattern: "[\\S]+")

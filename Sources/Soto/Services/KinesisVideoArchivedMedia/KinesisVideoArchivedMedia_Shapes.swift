@@ -220,11 +220,9 @@ extension KinesisVideoArchivedMedia {
         }
 
         public func validate(name: String) throws {
-            try self.streamARN?.forEach {}
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
-            try self.streamName?.forEach {}
             try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -292,17 +290,13 @@ extension KinesisVideoArchivedMedia {
         }
 
         public func validate(name: String) throws {
-            try self.expires?.forEach {}
             try self.validate(self.expires, name: "expires", parent: name, max: 43200)
             try self.validate(self.expires, name: "expires", parent: name, min: 300)
-            try self.maxManifestFragmentResults?.forEach {}
             try self.validate(self.maxManifestFragmentResults, name: "maxManifestFragmentResults", parent: name, max: 5000)
             try self.validate(self.maxManifestFragmentResults, name: "maxManifestFragmentResults", parent: name, min: 1)
-            try self.streamARN?.forEach {}
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
-            try self.streamName?.forEach {}
             try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -366,17 +360,13 @@ extension KinesisVideoArchivedMedia {
         }
 
         public func validate(name: String) throws {
-            try self.expires?.forEach {}
             try self.validate(self.expires, name: "expires", parent: name, max: 43200)
             try self.validate(self.expires, name: "expires", parent: name, min: 300)
-            try self.maxMediaPlaylistFragmentResults?.forEach {}
             try self.validate(self.maxMediaPlaylistFragmentResults, name: "maxMediaPlaylistFragmentResults", parent: name, max: 5000)
             try self.validate(self.maxMediaPlaylistFragmentResults, name: "maxMediaPlaylistFragmentResults", parent: name, min: 1)
-            try self.streamARN?.forEach {}
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
-            try self.streamName?.forEach {}
             try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -428,14 +418,11 @@ extension KinesisVideoArchivedMedia {
                 try validate($0, name: "fragments[]", parent: name, min: 1)
                 try validate($0, name: "fragments[]", parent: name, pattern: "^[0-9]+$")
             }
-            try self.fragments.forEach {}
             try self.validate(self.fragments, name: "fragments", parent: name, max: 1000)
             try self.validate(self.fragments, name: "fragments", parent: name, min: 1)
-            try self.streamARN?.forEach {}
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
-            try self.streamName?.forEach {}
             try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -528,18 +515,14 @@ extension KinesisVideoArchivedMedia {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9+/]+={0,2}")
-            try self.streamARN?.forEach {}
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
-            try self.streamName?.forEach {}
             try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")

@@ -95,11 +95,9 @@ extension Signer {
         }
 
         public func validate(name: String) throws {
-            try self.profileName.forEach {}
             try self.validate(self.profileName, name: "profileName", parent: name, max: 64)
             try self.validate(self.profileName, name: "profileName", parent: name, min: 2)
             try self.validate(self.profileName, name: "profileName", parent: name, pattern: "^[a-zA-Z0-9_]{2,}")
-            try self.profileVersion?.forEach {}
             try self.validate(self.profileVersion, name: "profileVersion", parent: name, max: 10)
             try self.validate(self.profileVersion, name: "profileVersion", parent: name, min: 10)
             try self.validate(self.profileVersion, name: "profileVersion", parent: name, pattern: "^[a-zA-Z0-9]{10}$")
@@ -140,7 +138,6 @@ extension Signer {
         }
 
         public func validate(name: String) throws {
-            try self.profileName.forEach {}
             try self.validate(self.profileName, name: "profileName", parent: name, max: 64)
             try self.validate(self.profileName, name: "profileName", parent: name, min: 2)
             try self.validate(self.profileName, name: "profileName", parent: name, pattern: "^[a-zA-Z0-9_]{2,}")
@@ -356,11 +353,9 @@ extension Signer {
         }
 
         public func validate(name: String) throws {
-            try self.profileName.forEach {}
             try self.validate(self.profileName, name: "profileName", parent: name, max: 64)
             try self.validate(self.profileName, name: "profileName", parent: name, min: 2)
             try self.validate(self.profileName, name: "profileName", parent: name, pattern: "^[a-zA-Z0-9_]{2,}")
-            try self.profileOwner?.forEach {}
             try self.validate(self.profileOwner, name: "profileOwner", parent: name, max: 12)
             try self.validate(self.profileOwner, name: "profileOwner", parent: name, min: 12)
             try self.validate(self.profileOwner, name: "profileOwner", parent: name, pattern: "^[0-9]{12}$")
@@ -466,7 +461,6 @@ extension Signer {
         }
 
         public func validate(name: String) throws {
-            try self.profileName.forEach {}
             try self.validate(self.profileName, name: "profileName", parent: name, max: 64)
             try self.validate(self.profileName, name: "profileName", parent: name, min: 2)
             try self.validate(self.profileName, name: "profileName", parent: name, pattern: "^[a-zA-Z0-9_]{2,}")
@@ -545,11 +539,9 @@ extension Signer {
         }
 
         public func validate(name: String) throws {
-            try self.jobInvoker?.forEach {}
             try self.validate(self.jobInvoker, name: "jobInvoker", parent: name, max: 12)
             try self.validate(self.jobInvoker, name: "jobInvoker", parent: name, min: 12)
             try self.validate(self.jobInvoker, name: "jobInvoker", parent: name, pattern: "^[0-9]{12}$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -603,7 +595,6 @@ extension Signer {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -657,7 +648,6 @@ extension Signer {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -766,7 +756,6 @@ extension Signer {
         }
 
         public func validate(name: String) throws {
-            try self.profileName.forEach {}
             try self.validate(self.profileName, name: "profileName", parent: name, max: 64)
             try self.validate(self.profileName, name: "profileName", parent: name, min: 2)
             try self.validate(self.profileName, name: "profileName", parent: name, pattern: "^[a-zA-Z0-9_]{2,}")
@@ -830,7 +819,6 @@ extension Signer {
         }
 
         public func validate(name: String) throws {
-            try self.profileName.forEach {}
             try self.validate(self.profileName, name: "profileName", parent: name, max: 64)
             try self.validate(self.profileName, name: "profileName", parent: name, min: 2)
             try self.validate(self.profileName, name: "profileName", parent: name, pattern: "^[a-zA-Z0-9_]{2,}")
@@ -871,11 +859,9 @@ extension Signer {
         }
 
         public func validate(name: String) throws {
-            try self.jobOwner?.forEach {}
             try self.validate(self.jobOwner, name: "jobOwner", parent: name, max: 12)
             try self.validate(self.jobOwner, name: "jobOwner", parent: name, min: 12)
             try self.validate(self.jobOwner, name: "jobOwner", parent: name, pattern: "^[0-9]{12}$")
-            try self.reason.forEach {}
             try self.validate(self.reason, name: "reason", parent: name, max: 500)
             try self.validate(self.reason, name: "reason", parent: name, min: 1)
         }
@@ -908,15 +894,12 @@ extension Signer {
         }
 
         public func validate(name: String) throws {
-            try self.profileName.forEach {}
             try self.validate(self.profileName, name: "profileName", parent: name, max: 64)
             try self.validate(self.profileName, name: "profileName", parent: name, min: 2)
             try self.validate(self.profileName, name: "profileName", parent: name, pattern: "^[a-zA-Z0-9_]{2,}")
-            try self.profileVersion.forEach {}
             try self.validate(self.profileVersion, name: "profileVersion", parent: name, max: 10)
             try self.validate(self.profileVersion, name: "profileVersion", parent: name, min: 10)
             try self.validate(self.profileVersion, name: "profileVersion", parent: name, pattern: "^[a-zA-Z0-9]{10}$")
-            try self.reason.forEach {}
             try self.validate(self.reason, name: "reason", parent: name, max: 500)
             try self.validate(self.reason, name: "reason", parent: name, min: 1)
         }
@@ -1332,11 +1315,9 @@ extension Signer {
         }
 
         public func validate(name: String) throws {
-            try self.profileName.forEach {}
             try self.validate(self.profileName, name: "profileName", parent: name, max: 64)
             try self.validate(self.profileName, name: "profileName", parent: name, min: 2)
             try self.validate(self.profileName, name: "profileName", parent: name, pattern: "^[a-zA-Z0-9_]{2,}")
-            try self.profileOwner?.forEach {}
             try self.validate(self.profileOwner, name: "profileOwner", parent: name, max: 12)
             try self.validate(self.profileOwner, name: "profileOwner", parent: name, min: 12)
             try self.validate(self.profileOwner, name: "profileOwner", parent: name, pattern: "^[0-9]{12}$")
@@ -1423,7 +1404,6 @@ extension Signer {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
             }
-            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }

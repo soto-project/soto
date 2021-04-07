@@ -103,14 +103,11 @@ extension FMS {
         }
 
         public func validate(name: String) throws {
-            try self.appName.forEach {}
             try self.validate(self.appName, name: "appName", parent: name, max: 128)
             try self.validate(self.appName, name: "appName", parent: name, min: 1)
             try self.validate(self.appName, name: "appName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try self.port.forEach {}
             try self.validate(self.port, name: "port", parent: name, max: 65535)
             try self.validate(self.port, name: "port", parent: name, min: 0)
-            try self.`protocol`.forEach {}
             try self.validate(self.`protocol`, name: "`protocol`", parent: name, max: 20)
             try self.validate(self.`protocol`, name: "`protocol`", parent: name, min: 1)
             try self.validate(self.`protocol`, name: "`protocol`", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -153,16 +150,12 @@ extension FMS {
             try self.appsList.forEach {
                 try $0.validate(name: "\(name).appsList[]")
             }
-            try self.appsList.forEach {}
-            try self.listId?.forEach {}
             try self.validate(self.listId, name: "listId", parent: name, max: 36)
             try self.validate(self.listId, name: "listId", parent: name, min: 36)
             try self.validate(self.listId, name: "listId", parent: name, pattern: "^[a-z0-9A-Z-]{36}$")
-            try self.listName.forEach {}
             try self.validate(self.listName, name: "listName", parent: name, max: 128)
             try self.validate(self.listName, name: "listName", parent: name, min: 1)
             try self.validate(self.listName, name: "listName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try self.listUpdateToken?.forEach {}
             try self.validate(self.listUpdateToken, name: "listUpdateToken", parent: name, max: 1024)
             try self.validate(self.listUpdateToken, name: "listUpdateToken", parent: name, min: 1)
             try self.validate(self.listUpdateToken, name: "listUpdateToken", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -218,7 +211,6 @@ extension FMS {
         }
 
         public func validate(name: String) throws {
-            try self.adminAccount.forEach {}
             try self.validate(self.adminAccount, name: "adminAccount", parent: name, max: 1024)
             try self.validate(self.adminAccount, name: "adminAccount", parent: name, min: 1)
             try self.validate(self.adminAccount, name: "adminAccount", parent: name, pattern: "^[0-9]+$")
@@ -318,7 +310,6 @@ extension FMS {
         }
 
         public func validate(name: String) throws {
-            try self.listId.forEach {}
             try self.validate(self.listId, name: "listId", parent: name, max: 36)
             try self.validate(self.listId, name: "listId", parent: name, min: 36)
             try self.validate(self.listId, name: "listId", parent: name, pattern: "^[a-z0-9A-Z-]{36}$")
@@ -345,7 +336,6 @@ extension FMS {
         }
 
         public func validate(name: String) throws {
-            try self.policyId.forEach {}
             try self.validate(self.policyId, name: "policyId", parent: name, max: 36)
             try self.validate(self.policyId, name: "policyId", parent: name, min: 36)
             try self.validate(self.policyId, name: "policyId", parent: name, pattern: "^[a-z0-9A-Z-]{36}$")
@@ -366,7 +356,6 @@ extension FMS {
         }
 
         public func validate(name: String) throws {
-            try self.listId.forEach {}
             try self.validate(self.listId, name: "listId", parent: name, max: 36)
             try self.validate(self.listId, name: "listId", parent: name, min: 36)
             try self.validate(self.listId, name: "listId", parent: name, pattern: "^[a-z0-9A-Z-]{36}$")
@@ -502,7 +491,6 @@ extension FMS {
         }
 
         public func validate(name: String) throws {
-            try self.listId.forEach {}
             try self.validate(self.listId, name: "listId", parent: name, max: 36)
             try self.validate(self.listId, name: "listId", parent: name, min: 36)
             try self.validate(self.listId, name: "listId", parent: name, pattern: "^[a-z0-9A-Z-]{36}$")
@@ -543,11 +531,9 @@ extension FMS {
         }
 
         public func validate(name: String) throws {
-            try self.memberAccount.forEach {}
             try self.validate(self.memberAccount, name: "memberAccount", parent: name, max: 1024)
             try self.validate(self.memberAccount, name: "memberAccount", parent: name, min: 1)
             try self.validate(self.memberAccount, name: "memberAccount", parent: name, pattern: "^[0-9]+$")
-            try self.policyId.forEach {}
             try self.validate(self.policyId, name: "policyId", parent: name, max: 36)
             try self.validate(self.policyId, name: "policyId", parent: name, min: 36)
             try self.validate(self.policyId, name: "policyId", parent: name, pattern: "^[a-z0-9A-Z-]{36}$")
@@ -602,7 +588,6 @@ extension FMS {
         }
 
         public func validate(name: String) throws {
-            try self.policyId.forEach {}
             try self.validate(self.policyId, name: "policyId", parent: name, max: 36)
             try self.validate(self.policyId, name: "policyId", parent: name, min: 36)
             try self.validate(self.policyId, name: "policyId", parent: name, pattern: "^[a-z0-9A-Z-]{36}$")
@@ -654,18 +639,14 @@ extension FMS {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.memberAccountId?.forEach {}
             try self.validate(self.memberAccountId, name: "memberAccountId", parent: name, max: 1024)
             try self.validate(self.memberAccountId, name: "memberAccountId", parent: name, min: 1)
             try self.validate(self.memberAccountId, name: "memberAccountId", parent: name, pattern: "^[0-9]+$")
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try self.policyId.forEach {}
             try self.validate(self.policyId, name: "policyId", parent: name, max: 36)
             try self.validate(self.policyId, name: "policyId", parent: name, min: 36)
             try self.validate(self.policyId, name: "policyId", parent: name, pattern: "^[a-z0-9A-Z-]{36}$")
@@ -718,7 +699,6 @@ extension FMS {
         }
 
         public func validate(name: String) throws {
-            try self.listId.forEach {}
             try self.validate(self.listId, name: "listId", parent: name, max: 36)
             try self.validate(self.listId, name: "listId", parent: name, min: 36)
             try self.validate(self.listId, name: "listId", parent: name, pattern: "^[a-z0-9A-Z-]{36}$")
@@ -765,19 +745,15 @@ extension FMS {
         }
 
         public func validate(name: String) throws {
-            try self.memberAccount.forEach {}
             try self.validate(self.memberAccount, name: "memberAccount", parent: name, max: 1024)
             try self.validate(self.memberAccount, name: "memberAccount", parent: name, min: 1)
             try self.validate(self.memberAccount, name: "memberAccount", parent: name, pattern: "^[0-9]+$")
-            try self.policyId.forEach {}
             try self.validate(self.policyId, name: "policyId", parent: name, max: 36)
             try self.validate(self.policyId, name: "policyId", parent: name, min: 36)
             try self.validate(self.policyId, name: "policyId", parent: name, pattern: "^[a-z0-9A-Z-]{36}$")
-            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 1024)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try self.resourceType.forEach {}
             try self.validate(self.resourceType, name: "resourceType", parent: name, max: 128)
             try self.validate(self.resourceType, name: "resourceType", parent: name, min: 1)
             try self.validate(self.resourceType, name: "resourceType", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -819,10 +795,8 @@ extension FMS {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -867,14 +841,11 @@ extension FMS {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try self.policyId.forEach {}
             try self.validate(self.policyId, name: "policyId", parent: name, max: 36)
             try self.validate(self.policyId, name: "policyId", parent: name, min: 36)
             try self.validate(self.policyId, name: "policyId", parent: name, pattern: "^[a-z0-9A-Z-]{36}$")
@@ -916,10 +887,8 @@ extension FMS {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -960,10 +929,8 @@ extension FMS {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -1007,10 +974,8 @@ extension FMS {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -1049,7 +1014,6 @@ extension FMS {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1024)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -1258,25 +1222,20 @@ extension FMS {
         }
 
         public func validate(name: String) throws {
-            try self.policyId?.forEach {}
             try self.validate(self.policyId, name: "policyId", parent: name, max: 36)
             try self.validate(self.policyId, name: "policyId", parent: name, min: 36)
             try self.validate(self.policyId, name: "policyId", parent: name, pattern: "^[a-z0-9A-Z-]{36}$")
-            try self.policyName.forEach {}
             try self.validate(self.policyName, name: "policyName", parent: name, max: 128)
             try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
             try self.validate(self.policyName, name: "policyName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try self.policyUpdateToken?.forEach {}
             try self.validate(self.policyUpdateToken, name: "policyUpdateToken", parent: name, max: 1024)
             try self.validate(self.policyUpdateToken, name: "policyUpdateToken", parent: name, min: 1)
             try self.validate(self.policyUpdateToken, name: "policyUpdateToken", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             try self.resourceTags?.forEach {
                 try $0.validate(name: "\(name).resourceTags[]")
             }
-            try self.resourceTags?.forEach {}
             try self.validate(self.resourceTags, name: "resourceTags", parent: name, max: 8)
             try self.validate(self.resourceTags, name: "resourceTags", parent: name, min: 0)
-            try self.resourceType.forEach {}
             try self.validate(self.resourceType, name: "resourceType", parent: name, max: 128)
             try self.validate(self.resourceType, name: "resourceType", parent: name, min: 1)
             try self.validate(self.resourceType, name: "resourceType", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -1285,9 +1244,7 @@ extension FMS {
                 try validate($0, name: "resourceTypeList[]", parent: name, min: 1)
                 try validate($0, name: "resourceTypeList[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
-            try self.resourceTypeList?.forEach {}
             try self.securityServicePolicyData.validate(name: "\(name).securityServicePolicyData")
-            try self.securityServicePolicyData.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1439,15 +1396,12 @@ extension FMS {
         }
 
         public func validate(name: String) throws {
-            try self.listId?.forEach {}
             try self.validate(self.listId, name: "listId", parent: name, max: 36)
             try self.validate(self.listId, name: "listId", parent: name, min: 36)
             try self.validate(self.listId, name: "listId", parent: name, pattern: "^[a-z0-9A-Z-]{36}$")
-            try self.listName.forEach {}
             try self.validate(self.listName, name: "listName", parent: name, max: 128)
             try self.validate(self.listName, name: "listName", parent: name, min: 1)
             try self.validate(self.listName, name: "listName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try self.listUpdateToken?.forEach {}
             try self.validate(self.listUpdateToken, name: "listUpdateToken", parent: name, max: 1024)
             try self.validate(self.listUpdateToken, name: "listUpdateToken", parent: name, min: 1)
             try self.validate(self.listUpdateToken, name: "listUpdateToken", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -1461,7 +1415,6 @@ extension FMS {
                 try validate($0, name: "protocolsList[]", parent: name, min: 1)
                 try validate($0, name: "protocolsList[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
-            try self.protocolsList.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1513,11 +1466,9 @@ extension FMS {
 
         public func validate(name: String) throws {
             try self.appsList.validate(name: "\(name).appsList")
-            try self.appsList.forEach {}
             try self.tagList?.forEach {
                 try $0.validate(name: "\(name).tagList[]")
             }
-            try self.tagList?.forEach {}
             try self.validate(self.tagList, name: "tagList", parent: name, max: 200)
             try self.validate(self.tagList, name: "tagList", parent: name, min: 0)
         }
@@ -1557,11 +1508,9 @@ extension FMS {
         }
 
         public func validate(name: String) throws {
-            try self.snsRoleName.forEach {}
             try self.validate(self.snsRoleName, name: "snsRoleName", parent: name, max: 1024)
             try self.validate(self.snsRoleName, name: "snsRoleName", parent: name, min: 1)
             try self.validate(self.snsRoleName, name: "snsRoleName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try self.snsTopicArn.forEach {}
             try self.validate(self.snsTopicArn, name: "snsTopicArn", parent: name, max: 1024)
             try self.validate(self.snsTopicArn, name: "snsTopicArn", parent: name, min: 1)
             try self.validate(self.snsTopicArn, name: "snsTopicArn", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -1586,11 +1535,9 @@ extension FMS {
 
         public func validate(name: String) throws {
             try self.policy.validate(name: "\(name).policy")
-            try self.policy.forEach {}
             try self.tagList?.forEach {
                 try $0.validate(name: "\(name).tagList[]")
             }
-            try self.tagList?.forEach {}
             try self.validate(self.tagList, name: "tagList", parent: name, max: 200)
             try self.validate(self.tagList, name: "tagList", parent: name, min: 0)
         }
@@ -1631,11 +1578,9 @@ extension FMS {
 
         public func validate(name: String) throws {
             try self.protocolsList.validate(name: "\(name).protocolsList")
-            try self.protocolsList.forEach {}
             try self.tagList?.forEach {
                 try $0.validate(name: "\(name).tagList[]")
             }
-            try self.tagList?.forEach {}
             try self.validate(self.tagList, name: "tagList", parent: name, max: 200)
             try self.validate(self.tagList, name: "tagList", parent: name, min: 0)
         }
@@ -1675,11 +1620,9 @@ extension FMS {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
@@ -1809,7 +1752,6 @@ extension FMS {
         }
 
         public func validate(name: String) throws {
-            try self.managedServiceData?.forEach {}
             try self.validate(self.managedServiceData, name: "managedServiceData", parent: name, max: 4096)
             try self.validate(self.managedServiceData, name: "managedServiceData", parent: name, min: 1)
             try self.validate(self.managedServiceData, name: "managedServiceData", parent: name, pattern: ".*")
@@ -1871,11 +1813,9 @@ extension FMS {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
             try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -1899,14 +1839,12 @@ extension FMS {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1024)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             try self.tagList.forEach {
                 try $0.validate(name: "\(name).tagList[]")
             }
-            try self.tagList.forEach {}
             try self.validate(self.tagList, name: "tagList", parent: name, max: 200)
             try self.validate(self.tagList, name: "tagList", parent: name, min: 0)
         }
@@ -1933,7 +1871,6 @@ extension FMS {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1024)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -1942,7 +1879,6 @@ extension FMS {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
-            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
         }

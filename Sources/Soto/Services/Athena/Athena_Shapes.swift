@@ -74,7 +74,6 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
-            try self.namedQueryIds.forEach {}
             try self.validate(self.namedQueryIds, name: "namedQueryIds", parent: name, max: 50)
             try self.validate(self.namedQueryIds, name: "namedQueryIds", parent: name, min: 1)
         }
@@ -110,7 +109,6 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
-            try self.queryExecutionIds.forEach {}
             try self.validate(self.queryExecutionIds, name: "queryExecutionIds", parent: name, max: 50)
             try self.validate(self.queryExecutionIds, name: "queryExecutionIds", parent: name, min: 1)
         }
@@ -228,10 +226,8 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -244,7 +240,6 @@ extension Athena {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -284,22 +279,16 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
-            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 128)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
-            try self.database.forEach {}
             try self.validate(self.database, name: "database", parent: name, max: 255)
             try self.validate(self.database, name: "database", parent: name, min: 1)
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.queryString.forEach {}
             try self.validate(self.queryString, name: "queryString", parent: name, max: 262_144)
             try self.validate(self.queryString, name: "queryString", parent: name, min: 1)
-            try self.workGroup?.forEach {}
             try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
         }
 
@@ -344,17 +333,13 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.queryStatement.forEach {}
             try self.validate(self.queryStatement, name: "queryStatement", parent: name, max: 262_144)
             try self.validate(self.queryStatement, name: "queryStatement", parent: name, min: 1)
-            try self.statementName.forEach {}
             try self.validate(self.statementName, name: "statementName", parent: name, max: 256)
             try self.validate(self.statementName, name: "statementName", parent: name, min: 1)
             try self.validate(self.statementName, name: "statementName", parent: name, pattern: "[a-zA-Z_][a-zA-Z0-9_@:]{1,256}")
-            try self.workGroup.forEach {}
             try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
         }
 
@@ -389,16 +374,12 @@ extension Athena {
 
         public func validate(name: String) throws {
             try self.configuration?.validate(name: "\(name).configuration")
-            try self.configuration?.forEach {}
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 0)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -498,7 +479,6 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -542,11 +522,9 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
-            try self.statementName.forEach {}
             try self.validate(self.statementName, name: "statementName", parent: name, max: 256)
             try self.validate(self.statementName, name: "statementName", parent: name, min: 1)
             try self.validate(self.statementName, name: "statementName", parent: name, pattern: "[a-zA-Z_][a-zA-Z0-9_@:]{1,256}")
-            try self.workGroup.forEach {}
             try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
         }
 
@@ -572,7 +550,6 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
-            try self.workGroup.forEach {}
             try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
         }
 
@@ -615,10 +592,8 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
-            try self.effectiveEngineVersion?.forEach {}
             try self.validate(self.effectiveEngineVersion, name: "effectiveEngineVersion", parent: name, max: 128)
             try self.validate(self.effectiveEngineVersion, name: "effectiveEngineVersion", parent: name, min: 1)
-            try self.selectedEngineVersion?.forEach {}
             try self.validate(self.selectedEngineVersion, name: "selectedEngineVersion", parent: name, max: 128)
             try self.validate(self.selectedEngineVersion, name: "selectedEngineVersion", parent: name, min: 1)
         }
@@ -638,7 +613,6 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -674,11 +648,9 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
-            try self.catalogName.forEach {}
             try self.validate(self.catalogName, name: "catalogName", parent: name, max: 256)
             try self.validate(self.catalogName, name: "catalogName", parent: name, min: 1)
             try self.validate(self.catalogName, name: "catalogName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 128)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
         }
@@ -740,11 +712,9 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
-            try self.statementName.forEach {}
             try self.validate(self.statementName, name: "statementName", parent: name, max: 256)
             try self.validate(self.statementName, name: "statementName", parent: name, min: 1)
             try self.validate(self.statementName, name: "statementName", parent: name, pattern: "[a-zA-Z_][a-zA-Z0-9_@:]{1,256}")
-            try self.workGroup.forEach {}
             try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
         }
 
@@ -808,10 +778,8 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -859,14 +827,11 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
-            try self.catalogName.forEach {}
             try self.validate(self.catalogName, name: "catalogName", parent: name, max: 256)
             try self.validate(self.catalogName, name: "catalogName", parent: name, min: 1)
             try self.validate(self.catalogName, name: "catalogName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 128)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
-            try self.tableName.forEach {}
             try self.validate(self.tableName, name: "tableName", parent: name, max: 128)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
         }
@@ -900,7 +865,6 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
-            try self.workGroup.forEach {}
             try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
         }
 
@@ -934,10 +898,8 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 2)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -980,14 +942,11 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
-            try self.catalogName.forEach {}
             try self.validate(self.catalogName, name: "catalogName", parent: name, max: 256)
             try self.validate(self.catalogName, name: "catalogName", parent: name, min: 1)
             try self.validate(self.catalogName, name: "catalogName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1028,10 +987,8 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1074,13 +1031,10 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.workGroup?.forEach {}
             try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
         }
 
@@ -1123,13 +1077,10 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.workGroup.forEach {}
             try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
         }
 
@@ -1172,13 +1123,10 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.workGroup?.forEach {}
             try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
         }
 
@@ -1227,20 +1175,15 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
-            try self.catalogName.forEach {}
             try self.validate(self.catalogName, name: "catalogName", parent: name, max: 256)
             try self.validate(self.catalogName, name: "catalogName", parent: name, min: 1)
             try self.validate(self.catalogName, name: "catalogName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 128)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
-            try self.expression?.forEach {}
             try self.validate(self.expression, name: "expression", parent: name, max: 256)
             try self.validate(self.expression, name: "expression", parent: name, min: 0)
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1286,12 +1229,9 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 75)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
         }
@@ -1332,10 +1272,8 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1499,11 +1437,9 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
-            try self.catalog?.forEach {}
             try self.validate(self.catalog, name: "catalog", parent: name, max: 256)
             try self.validate(self.catalog, name: "catalog", parent: name, min: 1)
             try self.validate(self.catalog, name: "catalog", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-            try self.database?.forEach {}
             try self.validate(self.database, name: "database", parent: name, max: 255)
             try self.validate(self.database, name: "database", parent: name, min: 1)
         }
@@ -1682,15 +1618,11 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
-            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 128)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
             try self.queryExecutionContext?.validate(name: "\(name).queryExecutionContext")
-            try self.queryExecutionContext?.forEach {}
-            try self.queryString.forEach {}
             try self.validate(self.queryString, name: "queryString", parent: name, max: 262_144)
             try self.validate(self.queryString, name: "queryString", parent: name, min: 1)
-            try self.workGroup?.forEach {}
             try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
         }
 
@@ -1782,10 +1714,8 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
-            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
-            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
         }
@@ -1808,13 +1738,11 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
-            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1881,14 +1809,12 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
-            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
-            try self.tagKeys.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1919,10 +1845,8 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
@@ -1964,17 +1888,13 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.queryStatement.forEach {}
             try self.validate(self.queryStatement, name: "queryStatement", parent: name, max: 262_144)
             try self.validate(self.queryStatement, name: "queryStatement", parent: name, min: 1)
-            try self.statementName.forEach {}
             try self.validate(self.statementName, name: "statementName", parent: name, max: 256)
             try self.validate(self.statementName, name: "statementName", parent: name, min: 1)
             try self.validate(self.statementName, name: "statementName", parent: name, pattern: "[a-zA-Z_][a-zA-Z0-9_@:]{1,256}")
-            try self.workGroup.forEach {}
             try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
         }
 
@@ -2009,11 +1929,8 @@ extension Athena {
 
         public func validate(name: String) throws {
             try self.configurationUpdates?.validate(name: "\(name).configurationUpdates")
-            try self.configurationUpdates?.forEach {}
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 0)
-            try self.workGroup.forEach {}
             try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "[a-zA-Z0-9._-]{1,128}")
         }
 
@@ -2082,10 +1999,8 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
-            try self.bytesScannedCutoffPerQuery?.forEach {}
             try self.validate(self.bytesScannedCutoffPerQuery, name: "bytesScannedCutoffPerQuery", parent: name, min: 10_000_000)
             try self.engineVersion?.validate(name: "\(name).engineVersion")
-            try self.engineVersion?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2125,10 +2040,8 @@ extension Athena {
         }
 
         public func validate(name: String) throws {
-            try self.bytesScannedCutoffPerQuery?.forEach {}
             try self.validate(self.bytesScannedCutoffPerQuery, name: "bytesScannedCutoffPerQuery", parent: name, min: 10_000_000)
             try self.engineVersion?.validate(name: "\(name).engineVersion")
-            try self.engineVersion?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {

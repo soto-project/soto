@@ -166,15 +166,12 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.emailAddress?.forEach {}
             try self.validate(self.emailAddress, name: "emailAddress", parent: name, max: 320)
             try self.validate(self.emailAddress, name: "emailAddress", parent: name, min: 1)
             try self.validate(self.emailAddress, name: "emailAddress", parent: name, pattern: "^.*@.*$")
-            try self.id?.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 12)
             try self.validate(self.id, name: "id", parent: name, min: 12)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9]{12}$")
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 50)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\u007E]+$")
@@ -196,7 +193,6 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.serviceName?.forEach {}
             try self.validate(self.serviceName, name: "serviceName", parent: name, max: 40)
             try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
             try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[a-zA-Z0-9-\\s().]+$")
@@ -693,7 +689,6 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.destination?.forEach {}
             try self.validate(self.destination, name: "destination", parent: name, max: 1024)
             try self.validate(self.destination, name: "destination", parent: name, min: 1)
             try self.validate(self.destination, name: "destination", parent: name, pattern: "^(S|s)3:\\/\\/[a-zA-Z0-9-_\\/.]+$")
@@ -721,11 +716,9 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentId.forEach {}
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, max: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, min: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.evidenceFolderId.forEach {}
             try self.validate(self.evidenceFolderId, name: "evidenceFolderId", parent: name, max: 36)
             try self.validate(self.evidenceFolderId, name: "evidenceFolderId", parent: name, min: 36)
             try self.validate(self.evidenceFolderId, name: "evidenceFolderId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
@@ -759,11 +752,9 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentId.forEach {}
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, max: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, min: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.evidenceFolderId.forEach {}
             try self.validate(self.evidenceFolderId, name: "evidenceFolderId", parent: name, max: 36)
             try self.validate(self.evidenceFolderId, name: "evidenceFolderId", parent: name, min: 36)
             try self.validate(self.evidenceFolderId, name: "evidenceFolderId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
@@ -772,7 +763,6 @@ extension AuditManager {
                 try validate($0, name: "evidenceIds[]", parent: name, min: 36)
                 try validate($0, name: "evidenceIds[]", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             }
-            try self.evidenceIds.forEach {}
             try self.validate(self.evidenceIds, name: "evidenceIds", parent: name, max: 50)
             try self.validate(self.evidenceIds, name: "evidenceIds", parent: name, min: 0)
         }
@@ -837,14 +827,12 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentId.forEach {}
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, max: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, min: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.createDelegationRequests.forEach {
                 try $0.validate(name: "\(name).createDelegationRequests[]")
             }
-            try self.createDelegationRequests.forEach {}
             try self.validate(self.createDelegationRequests, name: "createDelegationRequests", parent: name, max: 50)
             try self.validate(self.createDelegationRequests, name: "createDelegationRequests", parent: name, min: 1)
         }
@@ -908,7 +896,6 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentId.forEach {}
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, max: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, min: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
@@ -917,7 +904,6 @@ extension AuditManager {
                 try validate($0, name: "delegationIds[]", parent: name, min: 36)
                 try validate($0, name: "delegationIds[]", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             }
-            try self.delegationIds.forEach {}
             try self.validate(self.delegationIds, name: "delegationIds", parent: name, max: 50)
             try self.validate(self.delegationIds, name: "delegationIds", parent: name, min: 1)
         }
@@ -959,11 +945,9 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentId.forEach {}
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, max: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, min: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.evidenceFolderId.forEach {}
             try self.validate(self.evidenceFolderId, name: "evidenceFolderId", parent: name, max: 36)
             try self.validate(self.evidenceFolderId, name: "evidenceFolderId", parent: name, min: 36)
             try self.validate(self.evidenceFolderId, name: "evidenceFolderId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
@@ -972,7 +956,6 @@ extension AuditManager {
                 try validate($0, name: "evidenceIds[]", parent: name, min: 36)
                 try validate($0, name: "evidenceIds[]", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             }
-            try self.evidenceIds.forEach {}
             try self.validate(self.evidenceIds, name: "evidenceIds", parent: name, max: 50)
             try self.validate(self.evidenceIds, name: "evidenceIds", parent: name, min: 0)
         }
@@ -1045,22 +1028,18 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentId.forEach {}
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, max: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, min: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.controlId.forEach {}
             try self.validate(self.controlId, name: "controlId", parent: name, max: 36)
             try self.validate(self.controlId, name: "controlId", parent: name, min: 36)
             try self.validate(self.controlId, name: "controlId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.controlSetId.forEach {}
             try self.validate(self.controlSetId, name: "controlSetId", parent: name, max: 300)
             try self.validate(self.controlSetId, name: "controlSetId", parent: name, min: 1)
             try self.validate(self.controlSetId, name: "controlSetId", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
             try self.manualEvidence.forEach {
                 try $0.validate(name: "\(name).manualEvidence[]")
             }
-            try self.manualEvidence.forEach {}
             try self.validate(self.manualEvidence, name: "manualEvidence", parent: name, max: 50)
             try self.validate(self.manualEvidence, name: "manualEvidence", parent: name, min: 1)
         }
@@ -1231,19 +1210,14 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.sourceDescription?.forEach {}
             try self.validate(self.sourceDescription, name: "sourceDescription", parent: name, max: 1000)
             try self.validate(self.sourceDescription, name: "sourceDescription", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
-            try self.sourceId?.forEach {}
             try self.validate(self.sourceId, name: "sourceId", parent: name, max: 36)
             try self.validate(self.sourceId, name: "sourceId", parent: name, min: 36)
             try self.validate(self.sourceId, name: "sourceId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.sourceKeyword?.validate(name: "\(name).sourceKeyword")
-            try self.sourceKeyword?.forEach {}
-            try self.sourceName?.forEach {}
             try self.validate(self.sourceName, name: "sourceName", parent: name, max: 100)
             try self.validate(self.sourceName, name: "sourceName", parent: name, min: 1)
-            try self.troubleshootingText?.forEach {}
             try self.validate(self.troubleshootingText, name: "troubleshootingText", parent: name, max: 1000)
             try self.validate(self.troubleshootingText, name: "troubleshootingText", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
         }
@@ -1323,7 +1297,6 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.id?.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 36)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
@@ -1349,9 +1322,7 @@ extension AuditManager {
             try self.controls?.forEach {
                 try $0.validate(name: "\(name).controls[]")
             }
-            try self.controls?.forEach {}
             try self.validate(self.controls, name: "controls", parent: name, min: 1)
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 300)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\_]*$")
@@ -1384,19 +1355,15 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.complianceType?.forEach {}
             try self.validate(self.complianceType, name: "complianceType", parent: name, max: 100)
             try self.validate(self.complianceType, name: "complianceType", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
             try self.controlSets.forEach {
                 try $0.validate(name: "\(name).controlSets[]")
             }
-            try self.controlSets.forEach {}
             try self.validate(self.controlSets, name: "controlSets", parent: name, min: 1)
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 300)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
@@ -1451,14 +1418,11 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentId.forEach {}
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, max: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, min: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 300)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_\\.]+$")
@@ -1510,24 +1474,18 @@ extension AuditManager {
 
         public func validate(name: String) throws {
             try self.assessmentReportsDestination.validate(name: "\(name).assessmentReportsDestination")
-            try self.assessmentReportsDestination.forEach {}
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
-            try self.frameworkId.forEach {}
             try self.validate(self.frameworkId, name: "frameworkId", parent: name, max: 36)
             try self.validate(self.frameworkId, name: "frameworkId", parent: name, min: 36)
             try self.validate(self.frameworkId, name: "frameworkId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 300)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
             try self.roles.forEach {
                 try $0.validate(name: "\(name).roles[]")
             }
-            try self.roles.forEach {}
             try self.scope.validate(name: "\(name).scope")
-            try self.scope.forEach {}
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1587,15 +1545,11 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.sourceDescription?.forEach {}
             try self.validate(self.sourceDescription, name: "sourceDescription", parent: name, max: 1000)
             try self.validate(self.sourceDescription, name: "sourceDescription", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
             try self.sourceKeyword?.validate(name: "\(name).sourceKeyword")
-            try self.sourceKeyword?.forEach {}
-            try self.sourceName?.forEach {}
             try self.validate(self.sourceName, name: "sourceName", parent: name, max: 100)
             try self.validate(self.sourceName, name: "sourceName", parent: name, min: 1)
-            try self.troubleshootingText?.forEach {}
             try self.validate(self.troubleshootingText, name: "troubleshootingText", parent: name, max: 1000)
             try self.validate(self.troubleshootingText, name: "troubleshootingText", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
         }
@@ -1638,21 +1592,16 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.actionPlanInstructions?.forEach {}
             try self.validate(self.actionPlanInstructions, name: "actionPlanInstructions", parent: name, max: 1000)
             try self.validate(self.actionPlanInstructions, name: "actionPlanInstructions", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
-            try self.actionPlanTitle?.forEach {}
             try self.validate(self.actionPlanTitle, name: "actionPlanTitle", parent: name, max: 300)
             try self.validate(self.actionPlanTitle, name: "actionPlanTitle", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
             try self.controlMappingSources.forEach {
                 try $0.validate(name: "\(name).controlMappingSources[]")
             }
-            try self.controlMappingSources.forEach {}
             try self.validate(self.controlMappingSources, name: "controlMappingSources", parent: name, min: 1)
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 300)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
@@ -1664,7 +1613,6 @@ extension AuditManager {
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: ".{0,255}")
             }
-            try self.testingInformation?.forEach {}
             try self.validate(self.testingInformation, name: "testingInformation", parent: name, max: 1000)
             try self.validate(self.testingInformation, name: "testingInformation", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
         }
@@ -1711,14 +1659,11 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.comment?.forEach {}
             try self.validate(self.comment, name: "comment", parent: name, max: 350)
             try self.validate(self.comment, name: "comment", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
-            try self.controlSetId?.forEach {}
             try self.validate(self.controlSetId, name: "controlSetId", parent: name, max: 300)
             try self.validate(self.controlSetId, name: "controlSetId", parent: name, min: 1)
             try self.validate(self.controlSetId, name: "controlSetId", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
-            try self.roleArn?.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:.*:iam:.*")
@@ -1835,7 +1780,6 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.frameworkId.forEach {}
             try self.validate(self.frameworkId, name: "frameworkId", parent: name, max: 36)
             try self.validate(self.frameworkId, name: "frameworkId", parent: name, min: 36)
             try self.validate(self.frameworkId, name: "frameworkId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
@@ -1865,11 +1809,9 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentId.forEach {}
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, max: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, min: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.assessmentReportId.forEach {}
             try self.validate(self.assessmentReportId, name: "assessmentReportId", parent: name, max: 36)
             try self.validate(self.assessmentReportId, name: "assessmentReportId", parent: name, min: 36)
             try self.validate(self.assessmentReportId, name: "assessmentReportId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
@@ -1895,7 +1837,6 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentId.forEach {}
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, max: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, min: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
@@ -1921,7 +1862,6 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.controlId.forEach {}
             try self.validate(self.controlId, name: "controlId", parent: name, max: 36)
             try self.validate(self.controlId, name: "controlId", parent: name, min: 36)
             try self.validate(self.controlId, name: "controlId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
@@ -1960,7 +1900,6 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.adminAccountId?.forEach {}
             try self.validate(self.adminAccountId, name: "adminAccountId", parent: name, max: 12)
             try self.validate(self.adminAccountId, name: "adminAccountId", parent: name, min: 12)
             try self.validate(self.adminAccountId, name: "adminAccountId", parent: name, pattern: "^[0-9]{12}$")
@@ -1991,11 +1930,9 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentId.forEach {}
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, max: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, min: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.evidenceFolderId.forEach {}
             try self.validate(self.evidenceFolderId, name: "evidenceFolderId", parent: name, max: 36)
             try self.validate(self.evidenceFolderId, name: "evidenceFolderId", parent: name, min: 36)
             try self.validate(self.evidenceFolderId, name: "evidenceFolderId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
@@ -2199,7 +2136,6 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.frameworkId.forEach {}
             try self.validate(self.frameworkId, name: "frameworkId", parent: name, max: 36)
             try self.validate(self.frameworkId, name: "frameworkId", parent: name, min: 36)
             try self.validate(self.frameworkId, name: "frameworkId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
@@ -2238,11 +2174,9 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentId.forEach {}
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, max: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, min: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.assessmentReportId.forEach {}
             try self.validate(self.assessmentReportId, name: "assessmentReportId", parent: name, max: 36)
             try self.validate(self.assessmentReportId, name: "assessmentReportId", parent: name, min: 36)
             try self.validate(self.assessmentReportId, name: "assessmentReportId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
@@ -2276,7 +2210,6 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentId.forEach {}
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, max: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, min: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
@@ -2326,22 +2259,17 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentId.forEach {}
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, max: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, min: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.controlId?.forEach {}
             try self.validate(self.controlId, name: "controlId", parent: name, max: 36)
             try self.validate(self.controlId, name: "controlId", parent: name, min: 36)
             try self.validate(self.controlId, name: "controlId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.controlSetId?.forEach {}
             try self.validate(self.controlSetId, name: "controlSetId", parent: name, max: 300)
             try self.validate(self.controlSetId, name: "controlSetId", parent: name, min: 1)
             try self.validate(self.controlSetId, name: "controlSetId", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=]*$")
@@ -2380,7 +2308,6 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.controlId.forEach {}
             try self.validate(self.controlId, name: "controlId", parent: name, max: 36)
             try self.validate(self.controlId, name: "controlId", parent: name, min: 36)
             try self.validate(self.controlId, name: "controlId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
@@ -2419,10 +2346,8 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=]*$")
@@ -2477,22 +2402,17 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentId.forEach {}
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, max: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, min: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.controlSetId.forEach {}
             try self.validate(self.controlSetId, name: "controlSetId", parent: name, max: 300)
             try self.validate(self.controlSetId, name: "controlSetId", parent: name, min: 1)
             try self.validate(self.controlSetId, name: "controlSetId", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
-            try self.evidenceFolderId.forEach {}
             try self.validate(self.evidenceFolderId, name: "evidenceFolderId", parent: name, max: 36)
             try self.validate(self.evidenceFolderId, name: "evidenceFolderId", parent: name, min: 36)
             try self.validate(self.evidenceFolderId, name: "evidenceFolderId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=]*$")
@@ -2539,15 +2459,12 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentId.forEach {}
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, max: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, min: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.controlSetId.forEach {}
             try self.validate(self.controlSetId, name: "controlSetId", parent: name, max: 300)
             try self.validate(self.controlSetId, name: "controlSetId", parent: name, min: 1)
             try self.validate(self.controlSetId, name: "controlSetId", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
-            try self.evidenceFolderId.forEach {}
             try self.validate(self.evidenceFolderId, name: "evidenceFolderId", parent: name, max: 36)
             try self.validate(self.evidenceFolderId, name: "evidenceFolderId", parent: name, min: 36)
             try self.validate(self.evidenceFolderId, name: "evidenceFolderId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
@@ -2598,22 +2515,17 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentId.forEach {}
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, max: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, min: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.controlId.forEach {}
             try self.validate(self.controlId, name: "controlId", parent: name, max: 36)
             try self.validate(self.controlId, name: "controlId", parent: name, min: 36)
             try self.validate(self.controlId, name: "controlId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.controlSetId.forEach {}
             try self.validate(self.controlSetId, name: "controlSetId", parent: name, max: 300)
             try self.validate(self.controlSetId, name: "controlSetId", parent: name, min: 1)
             try self.validate(self.controlSetId, name: "controlSetId", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=]*$")
@@ -2660,14 +2572,11 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentId.forEach {}
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, max: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, min: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=]*$")
@@ -2718,19 +2627,15 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentId.forEach {}
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, max: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, min: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.controlSetId.forEach {}
             try self.validate(self.controlSetId, name: "controlSetId", parent: name, max: 300)
             try self.validate(self.controlSetId, name: "controlSetId", parent: name, min: 1)
             try self.validate(self.controlSetId, name: "controlSetId", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
-            try self.evidenceFolderId.forEach {}
             try self.validate(self.evidenceFolderId, name: "evidenceFolderId", parent: name, max: 36)
             try self.validate(self.evidenceFolderId, name: "evidenceFolderId", parent: name, min: 36)
             try self.validate(self.evidenceFolderId, name: "evidenceFolderId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.evidenceId.forEach {}
             try self.validate(self.evidenceId, name: "evidenceId", parent: name, max: 36)
             try self.validate(self.evidenceId, name: "evidenceId", parent: name, min: 36)
             try self.validate(self.evidenceId, name: "evidenceId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
@@ -2839,10 +2744,8 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=]*$")
@@ -2885,10 +2788,8 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=]*$")
@@ -2931,10 +2832,8 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=]*$")
@@ -2981,10 +2880,8 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=]*$")
@@ -3031,10 +2928,8 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=]*$")
@@ -3077,10 +2972,8 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=]*$")
@@ -3119,7 +3012,6 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:.*:auditmanager:.*")
@@ -3150,7 +3042,6 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.s3ResourcePath?.forEach {}
             try self.validate(self.s3ResourcePath, name: "s3ResourcePath", parent: name, max: 1024)
             try self.validate(self.s3ResourcePath, name: "s3ResourcePath", parent: name, min: 1)
             try self.validate(self.s3ResourcePath, name: "s3ResourcePath", parent: name, pattern: "^(S|s)3:\\/\\/[a-zA-Z0-9-_\\/.]+$")
@@ -3214,11 +3105,9 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.delegatedAdminAccount?.forEach {}
             try self.validate(self.delegatedAdminAccount, name: "delegatedAdminAccount", parent: name, max: 12)
             try self.validate(self.delegatedAdminAccount, name: "delegatedAdminAccount", parent: name, min: 12)
             try self.validate(self.delegatedAdminAccount, name: "delegatedAdminAccount", parent: name, pattern: "^[0-9]{12}$")
-            try self.kmsKey?.forEach {}
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 7)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^arn:.*:kms:.*|DEFAULT")
@@ -3252,7 +3141,6 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.adminAccountId.forEach {}
             try self.validate(self.adminAccountId, name: "adminAccountId", parent: name, max: 12)
             try self.validate(self.adminAccountId, name: "adminAccountId", parent: name, min: 12)
             try self.validate(self.adminAccountId, name: "adminAccountId", parent: name, pattern: "^[0-9]{12}$")
@@ -3309,7 +3197,6 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.roleArn?.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:.*:iam:.*")
@@ -3336,11 +3223,9 @@ extension AuditManager {
             try self.awsAccounts?.forEach {
                 try $0.validate(name: "\(name).awsAccounts[]")
             }
-            try self.awsAccounts?.forEach {}
             try self.awsServices?.forEach {
                 try $0.validate(name: "\(name).awsServices[]")
             }
-            try self.awsServices?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3415,7 +3300,6 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.keywordValue?.forEach {}
             try self.validate(self.keywordValue, name: "keywordValue", parent: name, max: 100)
             try self.validate(self.keywordValue, name: "keywordValue", parent: name, min: 1)
             try self.validate(self.keywordValue, name: "keywordValue", parent: name, pattern: "^[a-zA-Z_0-9-\\s().]+$")
@@ -3443,7 +3327,6 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:.*:auditmanager:.*")
@@ -3500,7 +3383,6 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:.*:auditmanager:.*")
@@ -3509,7 +3391,6 @@ extension AuditManager {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
             }
-            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
@@ -3548,18 +3429,14 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentId.forEach {}
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, max: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, min: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.commentBody?.forEach {}
             try self.validate(self.commentBody, name: "commentBody", parent: name, max: 500)
             try self.validate(self.commentBody, name: "commentBody", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
-            try self.controlId.forEach {}
             try self.validate(self.controlId, name: "controlId", parent: name, max: 36)
             try self.validate(self.controlId, name: "controlId", parent: name, min: 36)
             try self.validate(self.controlId, name: "controlId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.controlSetId.forEach {}
             try self.validate(self.controlSetId, name: "controlSetId", parent: name, max: 300)
             try self.validate(self.controlSetId, name: "controlSetId", parent: name, min: 1)
             try self.validate(self.controlSetId, name: "controlSetId", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
@@ -3607,14 +3484,11 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentId.forEach {}
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, max: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, min: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.comment.forEach {}
             try self.validate(self.comment, name: "comment", parent: name, max: 350)
             try self.validate(self.comment, name: "comment", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
-            try self.controlSetId.forEach {}
             try self.validate(self.controlSetId, name: "controlSetId", parent: name, max: 2048)
             try self.validate(self.controlSetId, name: "controlSetId", parent: name, min: 0)
             try self.validate(self.controlSetId, name: "controlSetId", parent: name, pattern: ".*")
@@ -3657,13 +3531,10 @@ extension AuditManager {
             try self.controls?.forEach {
                 try $0.validate(name: "\(name).controls[]")
             }
-            try self.controls?.forEach {}
             try self.validate(self.controls, name: "controls", parent: name, min: 1)
-            try self.id?.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 36)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 300)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\_]*$")
@@ -3701,22 +3572,17 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.complianceType?.forEach {}
             try self.validate(self.complianceType, name: "complianceType", parent: name, max: 100)
             try self.validate(self.complianceType, name: "complianceType", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
             try self.controlSets.forEach {
                 try $0.validate(name: "\(name).controlSets[]")
             }
-            try self.controlSets.forEach {}
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
-            try self.frameworkId.forEach {}
             try self.validate(self.frameworkId, name: "frameworkId", parent: name, max: 36)
             try self.validate(self.frameworkId, name: "frameworkId", parent: name, min: 36)
             try self.validate(self.frameworkId, name: "frameworkId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 300)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
@@ -3771,25 +3637,19 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentDescription?.forEach {}
             try self.validate(self.assessmentDescription, name: "assessmentDescription", parent: name, max: 1000)
             try self.validate(self.assessmentDescription, name: "assessmentDescription", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
-            try self.assessmentId.forEach {}
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, max: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, min: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
-            try self.assessmentName?.forEach {}
             try self.validate(self.assessmentName, name: "assessmentName", parent: name, max: 300)
             try self.validate(self.assessmentName, name: "assessmentName", parent: name, min: 1)
             try self.validate(self.assessmentName, name: "assessmentName", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
             try self.assessmentReportsDestination?.validate(name: "\(name).assessmentReportsDestination")
-            try self.assessmentReportsDestination?.forEach {}
             try self.roles?.forEach {
                 try $0.validate(name: "\(name).roles[]")
             }
-            try self.roles?.forEach {}
             try self.scope.validate(name: "\(name).scope")
-            try self.scope.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3830,7 +3690,6 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentId.forEach {}
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, max: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, min: 36)
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
@@ -3885,29 +3744,22 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.actionPlanInstructions?.forEach {}
             try self.validate(self.actionPlanInstructions, name: "actionPlanInstructions", parent: name, max: 1000)
             try self.validate(self.actionPlanInstructions, name: "actionPlanInstructions", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
-            try self.actionPlanTitle?.forEach {}
             try self.validate(self.actionPlanTitle, name: "actionPlanTitle", parent: name, max: 300)
             try self.validate(self.actionPlanTitle, name: "actionPlanTitle", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
-            try self.controlId.forEach {}
             try self.validate(self.controlId, name: "controlId", parent: name, max: 36)
             try self.validate(self.controlId, name: "controlId", parent: name, min: 36)
             try self.validate(self.controlId, name: "controlId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.controlMappingSources.forEach {
                 try $0.validate(name: "\(name).controlMappingSources[]")
             }
-            try self.controlMappingSources.forEach {}
             try self.validate(self.controlMappingSources, name: "controlMappingSources", parent: name, min: 1)
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 300)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
-            try self.testingInformation?.forEach {}
             try self.validate(self.testingInformation, name: "testingInformation", parent: name, max: 1000)
             try self.validate(self.testingInformation, name: "testingInformation", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
         }
@@ -3954,16 +3806,12 @@ extension AuditManager {
 
         public func validate(name: String) throws {
             try self.defaultAssessmentReportsDestination?.validate(name: "\(name).defaultAssessmentReportsDestination")
-            try self.defaultAssessmentReportsDestination?.forEach {}
             try self.defaultProcessOwners?.forEach {
                 try $0.validate(name: "\(name).defaultProcessOwners[]")
             }
-            try self.defaultProcessOwners?.forEach {}
-            try self.kmsKey?.forEach {}
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 7)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^arn:.*:kms:.*|DEFAULT")
-            try self.snsTopic?.forEach {}
             try self.validate(self.snsTopic, name: "snsTopic", parent: name, max: 2048)
             try self.validate(self.snsTopic, name: "snsTopic", parent: name, min: 20)
             try self.validate(self.snsTopic, name: "snsTopic", parent: name, pattern: "^arn:.*:sns:.*")
@@ -3999,7 +3847,6 @@ extension AuditManager {
         }
 
         public func validate(name: String) throws {
-            try self.s3RelativePath.forEach {}
             try self.validate(self.s3RelativePath, name: "s3RelativePath", parent: name, max: 1024)
             try self.validate(self.s3RelativePath, name: "s3RelativePath", parent: name, min: 1)
             try self.validate(self.s3RelativePath, name: "s3RelativePath", parent: name, pattern: "^(S|s)3:\\/\\/[a-zA-Z0-9-_\\/.]+$")

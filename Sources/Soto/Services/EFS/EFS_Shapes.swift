@@ -157,21 +157,16 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: ".+")
-            try self.fileSystemId.forEach {}
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
             try self.posixUser?.validate(name: "\(name).posixUser")
-            try self.posixUser?.forEach {}
             try self.rootDirectory?.validate(name: "\(name).rootDirectory")
-            try self.rootDirectory?.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -216,23 +211,18 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try self.availabilityZoneName?.forEach {}
             try self.validate(self.availabilityZoneName, name: "availabilityZoneName", parent: name, max: 64)
             try self.validate(self.availabilityZoneName, name: "availabilityZoneName", parent: name, min: 1)
             try self.validate(self.availabilityZoneName, name: "availabilityZoneName", parent: name, pattern: ".+")
-            try self.creationToken.forEach {}
             try self.validate(self.creationToken, name: "creationToken", parent: name, max: 64)
             try self.validate(self.creationToken, name: "creationToken", parent: name, min: 1)
             try self.validate(self.creationToken, name: "creationToken", parent: name, pattern: ".+")
-            try self.kmsKeyId?.forEach {}
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|alias/[a-zA-Z0-9/_-]+|(arn:aws[-a-z]*:kms:[a-z0-9-]+:\\d{12}:((key/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})|(alias/[a-zA-Z0-9/_-]+))))$")
-            try self.provisionedThroughputInMibps?.forEach {}
             try self.validate(self.provisionedThroughputInMibps, name: "provisionedThroughputInMibps", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -266,10 +256,8 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try self.fileSystemId.forEach {}
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
-            try self.ipAddress?.forEach {}
             try self.validate(self.ipAddress, name: "ipAddress", parent: name, max: 15)
             try self.validate(self.ipAddress, name: "ipAddress", parent: name, min: 7)
             try self.validate(self.ipAddress, name: "ipAddress", parent: name, pattern: "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}$")
@@ -278,9 +266,7 @@ extension EFS {
                 try validate($0, name: "securityGroups[]", parent: name, min: 11)
                 try validate($0, name: "securityGroups[]", parent: name, pattern: "^sg-[0-9a-f]{8,40}")
             }
-            try self.securityGroups?.forEach {}
             try self.validate(self.securityGroups, name: "securityGroups", parent: name, max: 5)
-            try self.subnetId.forEach {}
             try self.validate(self.subnetId, name: "subnetId", parent: name, max: 47)
             try self.validate(self.subnetId, name: "subnetId", parent: name, min: 15)
             try self.validate(self.subnetId, name: "subnetId", parent: name, pattern: "^subnet-[0-9a-f]{8,40}$")
@@ -310,13 +296,11 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try self.fileSystemId.forEach {}
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -339,13 +323,10 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try self.ownerGid.forEach {}
             try self.validate(self.ownerGid, name: "ownerGid", parent: name, max: 4_294_967_295)
             try self.validate(self.ownerGid, name: "ownerGid", parent: name, min: 0)
-            try self.ownerUid.forEach {}
             try self.validate(self.ownerUid, name: "ownerUid", parent: name, max: 4_294_967_295)
             try self.validate(self.ownerUid, name: "ownerUid", parent: name, min: 0)
-            try self.permissions.forEach {}
             try self.validate(self.permissions, name: "permissions", parent: name, max: 4)
             try self.validate(self.permissions, name: "permissions", parent: name, min: 3)
             try self.validate(self.permissions, name: "permissions", parent: name, pattern: "^[0-7]{3,4}$")
@@ -371,7 +352,6 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try self.accessPointId.forEach {}
             try self.validate(self.accessPointId, name: "accessPointId", parent: name, max: 128)
             try self.validate(self.accessPointId, name: "accessPointId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:access-point/fsap-[0-9a-f]{8,40}|fsap-[0-9a-f]{8,40})$")
         }
@@ -392,7 +372,6 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try self.fileSystemId.forEach {}
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
         }
@@ -413,7 +392,6 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try self.fileSystemId.forEach {}
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
         }
@@ -434,7 +412,6 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try self.mountTargetId.forEach {}
             try self.validate(self.mountTargetId, name: "mountTargetId", parent: name, max: 45)
             try self.validate(self.mountTargetId, name: "mountTargetId", parent: name, min: 13)
             try self.validate(self.mountTargetId, name: "mountTargetId", parent: name, pattern: "^fsmt-[0-9a-f]{8,40}$")
@@ -459,7 +436,6 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try self.fileSystemId.forEach {}
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
             try self.tagKeys.forEach {
@@ -467,7 +443,6 @@ extension EFS {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?![aA]{1}[wW]{1}[sS]{1}:)([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
             }
-            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
@@ -502,15 +477,11 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try self.accessPointId?.forEach {}
             try self.validate(self.accessPointId, name: "accessPointId", parent: name, max: 128)
             try self.validate(self.accessPointId, name: "accessPointId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:access-point/fsap-[0-9a-f]{8,40}|fsap-[0-9a-f]{8,40})$")
-            try self.fileSystemId?.forEach {}
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 128)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".+")
@@ -549,7 +520,6 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try self.fileSystemId.forEach {}
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
         }
@@ -570,7 +540,6 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try self.fileSystemId.forEach {}
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
         }
@@ -603,18 +572,14 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try self.creationToken?.forEach {}
             try self.validate(self.creationToken, name: "creationToken", parent: name, max: 64)
             try self.validate(self.creationToken, name: "creationToken", parent: name, min: 1)
             try self.validate(self.creationToken, name: "creationToken", parent: name, pattern: ".+")
-            try self.fileSystemId?.forEach {}
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
-            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 128)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
             try self.validate(self.marker, name: "marker", parent: name, pattern: ".+")
-            try self.maxItems?.forEach {}
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
         }
 
@@ -655,7 +620,6 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try self.fileSystemId.forEach {}
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
         }
@@ -676,7 +640,6 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try self.mountTargetId.forEach {}
             try self.validate(self.mountTargetId, name: "mountTargetId", parent: name, max: 45)
             try self.validate(self.mountTargetId, name: "mountTargetId", parent: name, min: 13)
             try self.validate(self.mountTargetId, name: "mountTargetId", parent: name, pattern: "^fsmt-[0-9a-f]{8,40}$")
@@ -727,19 +690,14 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try self.accessPointId?.forEach {}
             try self.validate(self.accessPointId, name: "accessPointId", parent: name, max: 128)
             try self.validate(self.accessPointId, name: "accessPointId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:access-point/fsap-[0-9a-f]{8,40}|fsap-[0-9a-f]{8,40})$")
-            try self.fileSystemId?.forEach {}
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
-            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 128)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
             try self.validate(self.marker, name: "marker", parent: name, pattern: ".+")
-            try self.maxItems?.forEach {}
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
-            try self.mountTargetId?.forEach {}
             try self.validate(self.mountTargetId, name: "mountTargetId", parent: name, max: 45)
             try self.validate(self.mountTargetId, name: "mountTargetId", parent: name, min: 13)
             try self.validate(self.mountTargetId, name: "mountTargetId", parent: name, pattern: "^fsmt-[0-9a-f]{8,40}$")
@@ -790,14 +748,11 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try self.fileSystemId.forEach {}
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
-            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 128)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
             try self.validate(self.marker, name: "marker", parent: name, pattern: ".+")
-            try self.maxItems?.forEach {}
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
         }
 
@@ -991,13 +946,10 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 128)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".+")
-            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 128)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:(access-point/fsap|file-system/fs)-[0-9a-f]{8,40}|fs(ap)?-[0-9a-f]{8,40})$")
         }
@@ -1038,7 +990,6 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try self.mountTargetId.forEach {}
             try self.validate(self.mountTargetId, name: "mountTargetId", parent: name, max: 45)
             try self.validate(self.mountTargetId, name: "mountTargetId", parent: name, min: 13)
             try self.validate(self.mountTargetId, name: "mountTargetId", parent: name, pattern: "^fsmt-[0-9a-f]{8,40}$")
@@ -1047,7 +998,6 @@ extension EFS {
                 try validate($0, name: "securityGroups[]", parent: name, min: 11)
                 try validate($0, name: "securityGroups[]", parent: name, pattern: "^sg-[0-9a-f]{8,40}")
             }
-            try self.securityGroups?.forEach {}
             try self.validate(self.securityGroups, name: "securityGroups", parent: name, max: 5)
         }
 
@@ -1120,17 +1070,14 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try self.gid.forEach {}
             try self.validate(self.gid, name: "gid", parent: name, max: 4_294_967_295)
             try self.validate(self.gid, name: "gid", parent: name, min: 0)
             try self.secondaryGids?.forEach {
                 try validate($0, name: "secondaryGids[]", parent: name, max: 4_294_967_295)
                 try validate($0, name: "secondaryGids[]", parent: name, min: 0)
             }
-            try self.secondaryGids?.forEach {}
             try self.validate(self.secondaryGids, name: "secondaryGids", parent: name, max: 16)
             try self.validate(self.secondaryGids, name: "secondaryGids", parent: name, min: 0)
-            try self.uid.forEach {}
             try self.validate(self.uid, name: "uid", parent: name, max: 4_294_967_295)
             try self.validate(self.uid, name: "uid", parent: name, min: 0)
         }
@@ -1158,7 +1105,6 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try self.fileSystemId.forEach {}
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
         }
@@ -1187,10 +1133,8 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try self.fileSystemId.forEach {}
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
-            try self.policy.forEach {}
             try self.validate(self.policy, name: "policy", parent: name, max: 20000)
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
             try self.validate(self.policy, name: "policy", parent: name, pattern: "[\\s\\S]+")
@@ -1218,7 +1162,6 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try self.fileSystemId.forEach {}
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
         }
@@ -1241,8 +1184,6 @@ extension EFS {
 
         public func validate(name: String) throws {
             try self.creationInfo?.validate(name: "\(name).creationInfo")
-            try self.creationInfo?.forEach {}
-            try self.path?.forEach {}
             try self.validate(self.path, name: "path", parent: name, max: 100)
             try self.validate(self.path, name: "path", parent: name, min: 1)
             try self.validate(self.path, name: "path", parent: name, pattern: "^(\\/|(\\/(?!\\.)+[^$#<>;`|&?{}^*/\\n]+){1,4})$")
@@ -1266,11 +1207,9 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^(?![aA]{1}[wW]{1}[sS]{1}:)([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
-            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
@@ -1296,13 +1235,11 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 128)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:(access-point/fsap|file-system/fs)-[0-9a-f]{8,40}|fs(ap)?-[0-9a-f]{8,40})$")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1327,7 +1264,6 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 128)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:(access-point/fsap|file-system/fs)-[0-9a-f]{8,40}|fs(ap)?-[0-9a-f]{8,40})$")
             try self.tagKeys.forEach {
@@ -1335,7 +1271,6 @@ extension EFS {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?![aA]{1}[wW]{1}[sS]{1}:)([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
             }
-            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
@@ -1362,10 +1297,8 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try self.fileSystemId.forEach {}
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
-            try self.provisionedThroughputInMibps?.forEach {}
             try self.validate(self.provisionedThroughputInMibps, name: "provisionedThroughputInMibps", parent: name, min: 1)
         }
 

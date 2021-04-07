@@ -91,12 +91,9 @@ extension MigrationHub {
 
         public func validate(name: String) throws {
             try self.createdArtifact.validate(name: "\(name).createdArtifact")
-            try self.createdArtifact.forEach {}
-            try self.migrationTaskName.forEach {}
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, max: 256)
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, min: 1)
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, pattern: "[^:|]+")
-            try self.progressUpdateStream.forEach {}
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, max: 50)
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, min: 1)
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, pattern: "[^/:|\\000-\\037]+")
@@ -133,12 +130,9 @@ extension MigrationHub {
 
         public func validate(name: String) throws {
             try self.discoveredResource.validate(name: "\(name).discoveredResource")
-            try self.discoveredResource.forEach {}
-            try self.migrationTaskName.forEach {}
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, max: 256)
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, min: 1)
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, pattern: "[^:|]+")
-            try self.progressUpdateStream.forEach {}
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, max: 50)
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, min: 1)
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, pattern: "[^/:|\\000-\\037]+")
@@ -168,7 +162,6 @@ extension MigrationHub {
         }
 
         public func validate(name: String) throws {
-            try self.progressUpdateStreamName.forEach {}
             try self.validate(self.progressUpdateStreamName, name: "progressUpdateStreamName", parent: name, max: 50)
             try self.validate(self.progressUpdateStreamName, name: "progressUpdateStreamName", parent: name, min: 1)
             try self.validate(self.progressUpdateStreamName, name: "progressUpdateStreamName", parent: name, pattern: "[^/:|\\000-\\037]+")
@@ -196,11 +189,9 @@ extension MigrationHub {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 500)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, pattern: "^.{0,500}$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1600)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "arn:[a-z-]+:[a-z0-9-]+:(?:[a-z0-9-]+|):(?:[0-9]{12}|):.*")
@@ -224,7 +215,6 @@ extension MigrationHub {
         }
 
         public func validate(name: String) throws {
-            try self.progressUpdateStreamName.forEach {}
             try self.validate(self.progressUpdateStreamName, name: "progressUpdateStreamName", parent: name, max: 50)
             try self.validate(self.progressUpdateStreamName, name: "progressUpdateStreamName", parent: name, min: 1)
             try self.validate(self.progressUpdateStreamName, name: "progressUpdateStreamName", parent: name, pattern: "[^/:|\\000-\\037]+")
@@ -249,7 +239,6 @@ extension MigrationHub {
         }
 
         public func validate(name: String) throws {
-            try self.applicationId.forEach {}
             try self.validate(self.applicationId, name: "applicationId", parent: name, max: 1600)
             try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^.{1,1600}$")
@@ -289,11 +278,9 @@ extension MigrationHub {
         }
 
         public func validate(name: String) throws {
-            try self.migrationTaskName.forEach {}
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, max: 256)
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, min: 1)
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, pattern: "[^:|]+")
-            try self.progressUpdateStream.forEach {}
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, max: 50)
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, min: 1)
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, pattern: "[^/:|\\000-\\037]+")
@@ -336,15 +323,12 @@ extension MigrationHub {
         }
 
         public func validate(name: String) throws {
-            try self.createdArtifactName.forEach {}
             try self.validate(self.createdArtifactName, name: "createdArtifactName", parent: name, max: 1600)
             try self.validate(self.createdArtifactName, name: "createdArtifactName", parent: name, min: 1)
             try self.validate(self.createdArtifactName, name: "createdArtifactName", parent: name, pattern: "arn:[a-z-]+:[a-z0-9-]+:(?:[a-z0-9-]+|):(?:[0-9]{12}|):.*")
-            try self.migrationTaskName.forEach {}
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, max: 256)
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, min: 1)
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, pattern: "[^:|]+")
-            try self.progressUpdateStream.forEach {}
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, max: 50)
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, min: 1)
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, pattern: "[^/:|\\000-\\037]+")
@@ -380,15 +364,12 @@ extension MigrationHub {
         }
 
         public func validate(name: String) throws {
-            try self.configurationId.forEach {}
             try self.validate(self.configurationId, name: "configurationId", parent: name, max: 1600)
             try self.validate(self.configurationId, name: "configurationId", parent: name, min: 1)
             try self.validate(self.configurationId, name: "configurationId", parent: name, pattern: "^.{1,1600}$")
-            try self.migrationTaskName.forEach {}
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, max: 256)
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, min: 1)
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, pattern: "[^:|]+")
-            try self.progressUpdateStream.forEach {}
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, max: 50)
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, min: 1)
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, pattern: "[^/:|\\000-\\037]+")
@@ -418,11 +399,9 @@ extension MigrationHub {
         }
 
         public func validate(name: String) throws {
-            try self.configurationId.forEach {}
             try self.validate(self.configurationId, name: "configurationId", parent: name, max: 1600)
             try self.validate(self.configurationId, name: "configurationId", parent: name, min: 1)
             try self.validate(self.configurationId, name: "configurationId", parent: name, pattern: "^.{1,1600}$")
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 500)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, pattern: "^.{0,500}$")
@@ -449,11 +428,9 @@ extension MigrationHub {
         }
 
         public func validate(name: String) throws {
-            try self.migrationTaskName.forEach {}
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, max: 256)
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, min: 1)
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, pattern: "[^:|]+")
-            try self.progressUpdateStream.forEach {}
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, max: 50)
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, min: 1)
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, pattern: "[^/:|\\000-\\037]+")
@@ -490,13 +467,10 @@ extension MigrationHub {
                 try validate($0, name: "applicationIds[]", parent: name, min: 1)
                 try validate($0, name: "applicationIds[]", parent: name, pattern: "^.{1,1600}$")
             }
-            try self.applicationIds?.forEach {}
             try self.validate(self.applicationIds, name: "applicationIds", parent: name, max: 100)
             try self.validate(self.applicationIds, name: "applicationIds", parent: name, min: 1)
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9\\/\\+\\=]{0,2048}$")
@@ -544,18 +518,14 @@ extension MigrationHub {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.migrationTaskName.forEach {}
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, max: 256)
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, min: 1)
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, pattern: "[^:|]+")
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9\\/\\+\\=]{0,2048}$")
-            try self.progressUpdateStream.forEach {}
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, max: 50)
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, min: 1)
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, pattern: "[^/:|\\000-\\037]+")
@@ -604,18 +574,14 @@ extension MigrationHub {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.migrationTaskName.forEach {}
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, max: 256)
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, min: 1)
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, pattern: "[^:|]+")
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9\\/\\+\\=]{0,2048}$")
-            try self.progressUpdateStream.forEach {}
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, max: 50)
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, min: 1)
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, pattern: "[^/:|\\000-\\037]+")
@@ -661,14 +627,11 @@ extension MigrationHub {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9\\/\\+\\=]{0,2048}$")
-            try self.resourceName?.forEach {}
             try self.validate(self.resourceName, name: "resourceName", parent: name, max: 1600)
             try self.validate(self.resourceName, name: "resourceName", parent: name, min: 1)
             try self.validate(self.resourceName, name: "resourceName", parent: name, pattern: "^.{1,1600}$")
@@ -710,10 +673,8 @@ extension MigrationHub {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9\\/\\+\\=]{0,2048}$")
@@ -822,7 +783,6 @@ extension MigrationHub {
         }
 
         public func validate(name: String) throws {
-            try self.applicationId.forEach {}
             try self.validate(self.applicationId, name: "applicationId", parent: name, max: 1600)
             try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^.{1,1600}$")
@@ -864,18 +824,14 @@ extension MigrationHub {
         }
 
         public func validate(name: String) throws {
-            try self.migrationTaskName.forEach {}
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, max: 256)
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, min: 1)
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, pattern: "[^:|]+")
-            try self.nextUpdateSeconds.forEach {}
             try self.validate(self.nextUpdateSeconds, name: "nextUpdateSeconds", parent: name, min: 0)
-            try self.progressUpdateStream.forEach {}
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, max: 50)
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, min: 1)
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, pattern: "[^/:|\\000-\\037]+")
             try self.task.validate(name: "\(name).task")
-            try self.task.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -923,18 +879,15 @@ extension MigrationHub {
         }
 
         public func validate(name: String) throws {
-            try self.migrationTaskName.forEach {}
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, max: 256)
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, min: 1)
             try self.validate(self.migrationTaskName, name: "migrationTaskName", parent: name, pattern: "[^:|]+")
-            try self.progressUpdateStream.forEach {}
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, max: 50)
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, min: 1)
             try self.validate(self.progressUpdateStream, name: "progressUpdateStream", parent: name, pattern: "[^/:|\\000-\\037]+")
             try self.resourceAttributeList.forEach {
                 try $0.validate(name: "\(name).resourceAttributeList[]")
             }
-            try self.resourceAttributeList.forEach {}
             try self.validate(self.resourceAttributeList, name: "resourceAttributeList", parent: name, max: 100)
             try self.validate(self.resourceAttributeList, name: "resourceAttributeList", parent: name, min: 1)
         }
@@ -963,7 +916,6 @@ extension MigrationHub {
         }
 
         public func validate(name: String) throws {
-            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 1)
             try self.validate(self.value, name: "value", parent: name, pattern: "^.{1,256}$")
@@ -990,10 +942,8 @@ extension MigrationHub {
         }
 
         public func validate(name: String) throws {
-            try self.progressPercent?.forEach {}
             try self.validate(self.progressPercent, name: "progressPercent", parent: name, max: 100)
             try self.validate(self.progressPercent, name: "progressPercent", parent: name, min: 0)
-            try self.statusDetail?.forEach {}
             try self.validate(self.statusDetail, name: "statusDetail", parent: name, max: 500)
             try self.validate(self.statusDetail, name: "statusDetail", parent: name, min: 0)
             try self.validate(self.statusDetail, name: "statusDetail", parent: name, pattern: "^.{0,500}$")

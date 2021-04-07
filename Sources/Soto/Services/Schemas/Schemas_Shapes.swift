@@ -52,10 +52,8 @@ extension Schemas {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 0)
-            try self.sourceArn.forEach {}
             try self.validate(self.sourceArn, name: "sourceArn", parent: name, max: 1600)
             try self.validate(self.sourceArn, name: "sourceArn", parent: name, min: 20)
         }
@@ -110,7 +108,6 @@ extension Schemas {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 0)
         }
@@ -165,10 +162,8 @@ extension Schemas {
         }
 
         public func validate(name: String) throws {
-            try self.content.forEach {}
             try self.validate(self.content, name: "content", parent: name, max: 100_000)
             try self.validate(self.content, name: "content", parent: name, min: 1)
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 0)
         }
@@ -607,7 +602,6 @@ extension Schemas {
                 try validate($0, name: "events[]", parent: name, max: 100_000)
                 try validate($0, name: "events[]", parent: name, min: 1)
             }
-            try self.events.forEach {}
             try self.validate(self.events, name: "events", parent: name, max: 10)
             try self.validate(self.events, name: "events", parent: name, min: 1)
         }
@@ -1185,7 +1179,6 @@ extension Schemas {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 0)
         }
@@ -1236,7 +1229,6 @@ extension Schemas {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 0)
         }
@@ -1290,13 +1282,10 @@ extension Schemas {
         }
 
         public func validate(name: String) throws {
-            try self.clientTokenId?.forEach {}
             try self.validate(self.clientTokenId, name: "clientTokenId", parent: name, max: 36)
             try self.validate(self.clientTokenId, name: "clientTokenId", parent: name, min: 0)
-            try self.content?.forEach {}
             try self.validate(self.content, name: "content", parent: name, max: 100_000)
             try self.validate(self.content, name: "content", parent: name, min: 1)
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 0)
         }

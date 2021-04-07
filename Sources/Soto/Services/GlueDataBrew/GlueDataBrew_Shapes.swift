@@ -151,14 +151,12 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.recipeVersions.forEach {
                 try validate($0, name: "recipeVersions[]", parent: name, max: 16)
                 try validate($0, name: "recipeVersions[]", parent: name, min: 1)
             }
-            try self.recipeVersions.forEach {}
             try self.validate(self.recipeVersions, name: "recipeVersions", parent: name, max: 50)
             try self.validate(self.recipeVersions, name: "recipeVersions", parent: name, min: 1)
         }
@@ -200,14 +198,11 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.condition.forEach {}
             try self.validate(self.condition, name: "condition", parent: name, max: 128)
             try self.validate(self.condition, name: "condition", parent: name, min: 1)
             try self.validate(self.condition, name: "condition", parent: name, pattern: "^[A-Z\\_]+$")
-            try self.targetColumn.forEach {}
             try self.validate(self.targetColumn, name: "targetColumn", parent: name, max: 1024)
             try self.validate(self.targetColumn, name: "targetColumn", parent: name, min: 1)
-            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 1024)
         }
 
@@ -241,14 +236,10 @@ extension GlueDataBrew {
 
         public func validate(name: String) throws {
             try self.formatOptions?.validate(name: "\(name).formatOptions")
-            try self.formatOptions?.forEach {}
             try self.input.validate(name: "\(name).input")
-            try self.input.forEach {}
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.pathOptions?.validate(name: "\(name).pathOptions")
-            try self.pathOptions?.forEach {}
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -320,20 +311,14 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.datasetName.forEach {}
             try self.validate(self.datasetName, name: "datasetName", parent: name, max: 255)
             try self.validate(self.datasetName, name: "datasetName", parent: name, min: 1)
-            try self.encryptionKeyArn?.forEach {}
             try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, max: 2048)
             try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, min: 20)
-            try self.maxRetries?.forEach {}
             try self.validate(self.maxRetries, name: "maxRetries", parent: name, min: 0)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 240)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.outputLocation.validate(name: "\(name).outputLocation")
-            try self.outputLocation.forEach {}
-            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.tags?.forEach {
@@ -341,7 +326,6 @@ extension GlueDataBrew {
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
-            try self.timeout?.forEach {}
             try self.validate(self.timeout, name: "timeout", parent: name, min: 0)
         }
 
@@ -397,20 +381,15 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.datasetName.forEach {}
             try self.validate(self.datasetName, name: "datasetName", parent: name, max: 255)
             try self.validate(self.datasetName, name: "datasetName", parent: name, min: 1)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.recipeName.forEach {}
             try self.validate(self.recipeName, name: "recipeName", parent: name, max: 255)
             try self.validate(self.recipeName, name: "recipeName", parent: name, min: 1)
-            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.sample?.validate(name: "\(name).sample")
-            try self.sample?.forEach {}
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -485,28 +464,20 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.datasetName?.forEach {}
             try self.validate(self.datasetName, name: "datasetName", parent: name, max: 255)
             try self.validate(self.datasetName, name: "datasetName", parent: name, min: 1)
-            try self.encryptionKeyArn?.forEach {}
             try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, max: 2048)
             try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, min: 20)
-            try self.maxRetries?.forEach {}
             try self.validate(self.maxRetries, name: "maxRetries", parent: name, min: 0)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 240)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.outputs.forEach {
                 try $0.validate(name: "\(name).outputs[]")
             }
-            try self.outputs.forEach {}
             try self.validate(self.outputs, name: "outputs", parent: name, min: 1)
-            try self.projectName?.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, max: 255)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
             try self.recipeReference?.validate(name: "\(name).recipeReference")
-            try self.recipeReference?.forEach {}
-            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.tags?.forEach {
@@ -514,7 +485,6 @@ extension GlueDataBrew {
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
-            try self.timeout?.forEach {}
             try self.validate(self.timeout, name: "timeout", parent: name, min: 0)
         }
 
@@ -566,15 +536,12 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.steps.forEach {
                 try $0.validate(name: "\(name).steps[]")
             }
-            try self.steps.forEach {}
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -621,16 +588,13 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.cronExpression.forEach {}
             try self.validate(self.cronExpression, name: "cronExpression", parent: name, max: 512)
             try self.validate(self.cronExpression, name: "cronExpression", parent: name, min: 1)
             try self.jobNames?.forEach {
                 try validate($0, name: "jobNames[]", parent: name, max: 240)
                 try validate($0, name: "jobNames[]", parent: name, min: 1)
             }
-            try self.jobNames?.forEach {}
             try self.validate(self.jobNames, name: "jobNames", parent: name, max: 50)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.tags?.forEach {
@@ -673,7 +637,6 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.delimiter?.forEach {}
             try self.validate(self.delimiter, name: "delimiter", parent: name, max: 1)
             try self.validate(self.delimiter, name: "delimiter", parent: name, min: 1)
         }
@@ -693,7 +656,6 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.delimiter?.forEach {}
             try self.validate(self.delimiter, name: "delimiter", parent: name, max: 1)
             try self.validate(self.delimiter, name: "delimiter", parent: name, min: 1)
         }
@@ -721,17 +683,13 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.catalogId?.forEach {}
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
-            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
-            try self.tableName.forEach {}
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.tempDirectory?.validate(name: "\(name).tempDirectory")
-            try self.tempDirectory?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -756,14 +714,11 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.databaseTableName.forEach {}
             try self.validate(self.databaseTableName, name: "databaseTableName", parent: name, max: 255)
             try self.validate(self.databaseTableName, name: "databaseTableName", parent: name, min: 1)
-            try self.glueConnectionName.forEach {}
             try self.validate(self.glueConnectionName, name: "glueConnectionName", parent: name, max: 255)
             try self.validate(self.glueConnectionName, name: "glueConnectionName", parent: name, min: 1)
             try self.tempDirectory?.validate(name: "\(name).tempDirectory")
-            try self.tempDirectory?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -856,10 +811,7 @@ extension GlueDataBrew {
 
         public func validate(name: String) throws {
             try self.datetimeOptions?.validate(name: "\(name).datetimeOptions")
-            try self.datetimeOptions?.forEach {}
             try self.filter?.validate(name: "\(name).filter")
-            try self.filter?.forEach {}
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -888,14 +840,11 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.format.forEach {}
             try self.validate(self.format, name: "format", parent: name, max: 100)
             try self.validate(self.format, name: "format", parent: name, min: 2)
-            try self.localeCode?.forEach {}
             try self.validate(self.localeCode, name: "localeCode", parent: name, max: 100)
             try self.validate(self.localeCode, name: "localeCode", parent: name, min: 2)
             try self.validate(self.localeCode, name: "localeCode", parent: name, pattern: "^[A-Za-z0-9_\\.#@\\-]+$")
-            try self.timezoneOffset?.forEach {}
             try self.validate(self.timezoneOffset, name: "timezoneOffset", parent: name, max: 6)
             try self.validate(self.timezoneOffset, name: "timezoneOffset", parent: name, min: 1)
             try self.validate(self.timezoneOffset, name: "timezoneOffset", parent: name, pattern: "^(Z|[-+](\\d|\\d{2}|\\d{2}:?\\d{2}))$")
@@ -921,7 +870,6 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -955,7 +903,6 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 240)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -989,7 +936,6 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -1027,10 +973,8 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.recipeVersion.forEach {}
             try self.validate(self.recipeVersion, name: "recipeVersion", parent: name, max: 16)
             try self.validate(self.recipeVersion, name: "recipeVersion", parent: name, min: 1)
         }
@@ -1068,7 +1012,6 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -1102,7 +1045,6 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -1178,7 +1120,6 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 240)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -1291,10 +1232,8 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 240)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.runId.forEach {}
             try self.validate(self.runId, name: "runId", parent: name, max: 255)
             try self.validate(self.runId, name: "runId", parent: name, min: 1)
         }
@@ -1383,7 +1322,6 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -1472,10 +1410,8 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.recipeVersion?.forEach {}
             try self.validate(self.recipeVersion, name: "recipeVersion", parent: name, max: 16)
             try self.validate(self.recipeVersion, name: "recipeVersion", parent: name, min: 1)
         }
@@ -1557,7 +1493,6 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -1629,14 +1564,12 @@ extension GlueDataBrew {
                 try validate($0, name: "sheetIndexes[]", parent: name, max: 200)
                 try validate($0, name: "sheetIndexes[]", parent: name, min: 0)
             }
-            try self.sheetIndexes?.forEach {}
             try self.validate(self.sheetIndexes, name: "sheetIndexes", parent: name, max: 1)
             try self.validate(self.sheetIndexes, name: "sheetIndexes", parent: name, min: 1)
             try self.sheetNames?.forEach {
                 try validate($0, name: "sheetNames[]", parent: name, max: 31)
                 try validate($0, name: "sheetNames[]", parent: name, min: 1)
             }
-            try self.sheetNames?.forEach {}
             try self.validate(self.sheetNames, name: "sheetNames", parent: name, max: 1)
             try self.validate(self.sheetNames, name: "sheetNames", parent: name, min: 1)
         }
@@ -1663,7 +1596,6 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.maxFiles.forEach {}
             try self.validate(self.maxFiles, name: "maxFiles", parent: name, min: 1)
         }
 
@@ -1686,7 +1618,6 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.expression.forEach {}
             try self.validate(self.expression, name: "expression", parent: name, max: 1024)
             try self.validate(self.expression, name: "expression", parent: name, min: 4)
             try self.validate(self.expression, name: "expression", parent: name, pattern: "^[<>0-9A-Za-z_:)(!= ]+$")
@@ -1720,9 +1651,7 @@ extension GlueDataBrew {
 
         public func validate(name: String) throws {
             try self.csv?.validate(name: "\(name).csv")
-            try self.csv?.forEach {}
             try self.excel?.validate(name: "\(name).excel")
-            try self.excel?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1748,11 +1677,8 @@ extension GlueDataBrew {
 
         public func validate(name: String) throws {
             try self.databaseInputDefinition?.validate(name: "\(name).databaseInputDefinition")
-            try self.databaseInputDefinition?.forEach {}
             try self.dataCatalogInputDefinition?.validate(name: "\(name).dataCatalogInputDefinition")
-            try self.dataCatalogInputDefinition?.forEach {}
             try self.s3InputDefinition?.validate(name: "\(name).s3InputDefinition")
-            try self.s3InputDefinition?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1971,10 +1897,8 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2020,13 +1944,10 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 240)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2076,16 +1997,12 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.datasetName?.forEach {}
             try self.validate(self.datasetName, name: "datasetName", parent: name, max: 255)
             try self.validate(self.datasetName, name: "datasetName", parent: name, min: 1)
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.projectName?.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, max: 255)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
         }
@@ -2127,10 +2044,8 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2176,13 +2091,10 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2228,13 +2140,10 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.recipeVersion?.forEach {}
             try self.validate(self.recipeVersion, name: "recipeVersion", parent: name, max: 16)
             try self.validate(self.recipeVersion, name: "recipeVersion", parent: name, min: 1)
         }
@@ -2280,13 +2189,10 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.jobName?.forEach {}
             try self.validate(self.jobName, name: "jobName", parent: name, max: 240)
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2324,7 +2230,6 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
         }
@@ -2370,14 +2275,11 @@ extension GlueDataBrew {
 
         public func validate(name: String) throws {
             try self.formatOptions?.validate(name: "\(name).formatOptions")
-            try self.formatOptions?.forEach {}
             try self.location.validate(name: "\(name).location")
-            try self.location.forEach {}
             try self.partitionColumns?.forEach {
                 try validate($0, name: "partitionColumns[]", parent: name, max: 255)
                 try validate($0, name: "partitionColumns[]", parent: name, min: 1)
             }
-            try self.partitionColumns?.forEach {}
             try self.validate(self.partitionColumns, name: "partitionColumns", parent: name, max: 200)
         }
 
@@ -2401,7 +2303,6 @@ extension GlueDataBrew {
 
         public func validate(name: String) throws {
             try self.csv?.validate(name: "\(name).csv")
-            try self.csv?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2425,9 +2326,7 @@ extension GlueDataBrew {
 
         public func validate(name: String) throws {
             try self.filesLimit?.validate(name: "\(name).filesLimit")
-            try self.filesLimit?.forEach {}
             try self.lastModifiedDateCondition?.validate(name: "\(name).lastModifiedDateCondition")
-            try self.lastModifiedDateCondition?.forEach {}
             try self.parameters?.forEach {
                 try validate($0.key, name: "parameters.key", parent: name, max: 255)
                 try validate($0.key, name: "parameters.key", parent: name, min: 1)
@@ -2523,9 +2422,7 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -2621,7 +2518,6 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.operation.forEach {}
             try self.validate(self.operation, name: "operation", parent: name, max: 128)
             try self.validate(self.operation, name: "operation", parent: name, min: 1)
             try self.validate(self.operation, name: "operation", parent: name, pattern: "^[A-Z\\_]+$")
@@ -2652,10 +2548,8 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.recipeVersion?.forEach {}
             try self.validate(self.recipeVersion, name: "recipeVersion", parent: name, max: 16)
             try self.validate(self.recipeVersion, name: "recipeVersion", parent: name, min: 1)
         }
@@ -2679,11 +2573,9 @@ extension GlueDataBrew {
 
         public func validate(name: String) throws {
             try self.action.validate(name: "\(name).action")
-            try self.action.forEach {}
             try self.conditionExpressions?.forEach {
                 try $0.validate(name: "\(name).conditionExpressions[]")
             }
-            try self.conditionExpressions?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2725,10 +2617,8 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.bucket.forEach {}
             try self.validate(self.bucket, name: "bucket", parent: name, max: 63)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
-            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 1280)
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
@@ -2751,7 +2641,6 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.size?.forEach {}
             try self.validate(self.size, name: "size", parent: name, max: 5000)
             try self.validate(self.size, name: "size", parent: name, min: 1)
         }
@@ -2837,19 +2726,14 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.clientSessionId?.forEach {}
             try self.validate(self.clientSessionId, name: "clientSessionId", parent: name, max: 255)
             try self.validate(self.clientSessionId, name: "clientSessionId", parent: name, min: 1)
             try self.validate(self.clientSessionId, name: "clientSessionId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]*$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.recipeStep?.validate(name: "\(name).recipeStep")
-            try self.recipeStep?.forEach {}
-            try self.stepIndex?.forEach {}
             try self.validate(self.stepIndex, name: "stepIndex", parent: name, min: 0)
             try self.viewFrame?.validate(name: "\(name).viewFrame")
-            try self.viewFrame?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2895,7 +2779,6 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 240)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -2932,7 +2815,6 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -2976,10 +2858,8 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 240)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.runId.forEach {}
             try self.validate(self.runId, name: "runId", parent: name, max: 255)
             try self.validate(self.runId, name: "runId", parent: name, min: 1)
         }
@@ -3016,7 +2896,6 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.tags.forEach {
@@ -3052,14 +2931,12 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
-            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
@@ -3095,14 +2972,10 @@ extension GlueDataBrew {
 
         public func validate(name: String) throws {
             try self.formatOptions?.validate(name: "\(name).formatOptions")
-            try self.formatOptions?.forEach {}
             try self.input.validate(name: "\(name).input")
-            try self.input.forEach {}
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.pathOptions?.validate(name: "\(name).pathOptions")
-            try self.pathOptions?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3165,20 +3038,14 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.encryptionKeyArn?.forEach {}
             try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, max: 2048)
             try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, min: 20)
-            try self.maxRetries?.forEach {}
             try self.validate(self.maxRetries, name: "maxRetries", parent: name, min: 0)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 240)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.outputLocation.validate(name: "\(name).outputLocation")
-            try self.outputLocation.forEach {}
-            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
-            try self.timeout?.forEach {}
             try self.validate(self.timeout, name: "timeout", parent: name, min: 0)
         }
 
@@ -3226,14 +3093,11 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.sample?.validate(name: "\(name).sample")
-            try self.sample?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3296,23 +3160,17 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.encryptionKeyArn?.forEach {}
             try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, max: 2048)
             try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, min: 20)
-            try self.maxRetries?.forEach {}
             try self.validate(self.maxRetries, name: "maxRetries", parent: name, min: 0)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 240)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.outputs.forEach {
                 try $0.validate(name: "\(name).outputs[]")
             }
-            try self.outputs.forEach {}
             try self.validate(self.outputs, name: "outputs", parent: name, min: 1)
-            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
-            try self.timeout?.forEach {}
             try self.validate(self.timeout, name: "timeout", parent: name, min: 0)
         }
 
@@ -3360,15 +3218,12 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.steps?.forEach {
                 try $0.validate(name: "\(name).steps[]")
             }
-            try self.steps?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3409,16 +3264,13 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.cronExpression.forEach {}
             try self.validate(self.cronExpression, name: "cronExpression", parent: name, max: 512)
             try self.validate(self.cronExpression, name: "cronExpression", parent: name, min: 1)
             try self.jobNames?.forEach {
                 try validate($0, name: "jobNames[]", parent: name, max: 240)
                 try validate($0, name: "jobNames[]", parent: name, min: 1)
             }
-            try self.jobNames?.forEach {}
             try self.validate(self.jobNames, name: "jobNames", parent: name, max: 50)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -3457,15 +3309,12 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
-            try self.columnRange?.forEach {}
             try self.validate(self.columnRange, name: "columnRange", parent: name, max: 20)
             try self.validate(self.columnRange, name: "columnRange", parent: name, min: 0)
             try self.hiddenColumns?.forEach {
                 try validate($0, name: "hiddenColumns[]", parent: name, max: 255)
                 try validate($0, name: "hiddenColumns[]", parent: name, min: 1)
             }
-            try self.hiddenColumns?.forEach {}
-            try self.startColumnIndex.forEach {}
             try self.validate(self.startColumnIndex, name: "startColumnIndex", parent: name, min: 0)
         }
 

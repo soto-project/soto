@@ -700,7 +700,6 @@ extension APIGateway {
 
         public func validate(name: String) throws {
             try self.location.validate(name: "\(name).location")
-            try self.location.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1275,7 +1274,6 @@ extension APIGateway {
         }
 
         public func validate(name: String) throws {
-            try self.statusCode.forEach {}
             try self.validate(self.statusCode, name: "statusCode", parent: name, pattern: "[1-5]\\d\\d")
         }
 
@@ -1330,7 +1328,6 @@ extension APIGateway {
         }
 
         public func validate(name: String) throws {
-            try self.statusCode.forEach {}
             try self.validate(self.statusCode, name: "statusCode", parent: name, pattern: "[1-5]\\d\\d")
         }
 
@@ -1598,7 +1595,6 @@ extension APIGateway {
         }
 
         public func validate(name: String) throws {
-            try self.statusCode?.forEach {}
             try self.validate(self.statusCode, name: "statusCode", parent: name, pattern: "^([1-5]\\d\\d|\\*|\\s*)$")
         }
 
@@ -2372,7 +2368,6 @@ extension APIGateway {
         }
 
         public func validate(name: String) throws {
-            try self.statusCode.forEach {}
             try self.validate(self.statusCode, name: "statusCode", parent: name, pattern: "[1-5]\\d\\d")
         }
 
@@ -2427,7 +2422,6 @@ extension APIGateway {
         }
 
         public func validate(name: String) throws {
-            try self.statusCode.forEach {}
             try self.validate(self.statusCode, name: "statusCode", parent: name, pattern: "[1-5]\\d\\d")
         }
 
@@ -3351,7 +3345,6 @@ extension APIGateway {
         }
 
         public func validate(name: String) throws {
-            try self.statusCode?.forEach {}
             try self.validate(self.statusCode, name: "statusCode", parent: name, pattern: "[1-5]\\d\\d")
         }
 
@@ -3478,7 +3471,6 @@ extension APIGateway {
         }
 
         public func validate(name: String) throws {
-            try self.statusCode.forEach {}
             try self.validate(self.statusCode, name: "statusCode", parent: name, pattern: "[1-5]\\d\\d")
         }
 
@@ -3577,7 +3569,6 @@ extension APIGateway {
         }
 
         public func validate(name: String) throws {
-            try self.statusCode.forEach {}
             try self.validate(self.statusCode, name: "statusCode", parent: name, pattern: "[1-5]\\d\\d")
         }
 
@@ -4539,7 +4530,6 @@ extension APIGateway {
         }
 
         public func validate(name: String) throws {
-            try self.statusCode.forEach {}
             try self.validate(self.statusCode, name: "statusCode", parent: name, pattern: "[1-5]\\d\\d")
         }
 
@@ -4604,7 +4594,6 @@ extension APIGateway {
         }
 
         public func validate(name: String) throws {
-            try self.statusCode.forEach {}
             try self.validate(self.statusCode, name: "statusCode", parent: name, pattern: "[1-5]\\d\\d")
         }
 

@@ -154,14 +154,12 @@ extension Inspector {
             try self.attributes.forEach {
                 try $0.validate(name: "\(name).attributes[]")
             }
-            try self.attributes.forEach {}
             try self.validate(self.attributes, name: "attributes", parent: name, max: 10)
             try self.validate(self.attributes, name: "attributes", parent: name, min: 0)
             try self.findingArns.forEach {
                 try validate($0, name: "findingArns[]", parent: name, max: 300)
                 try validate($0, name: "findingArns[]", parent: name, min: 1)
             }
-            try self.findingArns.forEach {}
             try self.validate(self.findingArns, name: "findingArns", parent: name, max: 10)
             try self.validate(self.findingArns, name: "findingArns", parent: name, min: 1)
         }
@@ -197,10 +195,8 @@ extension Inspector {
         }
 
         public func validate(name: String) throws {
-            try self.agentHealthCodes.forEach {}
             try self.validate(self.agentHealthCodes, name: "agentHealthCodes", parent: name, max: 10)
             try self.validate(self.agentHealthCodes, name: "agentHealthCodes", parent: name, min: 0)
-            try self.agentHealths.forEach {}
             try self.validate(self.agentHealths, name: "agentHealths", parent: name, max: 10)
             try self.validate(self.agentHealths, name: "agentHealths", parent: name, min: 0)
         }
@@ -386,18 +382,14 @@ extension Inspector {
 
         public func validate(name: String) throws {
             try self.durationRange?.validate(name: "\(name).durationRange")
-            try self.durationRange?.forEach {}
-            try self.namePattern?.forEach {}
             try self.validate(self.namePattern, name: "namePattern", parent: name, max: 140)
             try self.validate(self.namePattern, name: "namePattern", parent: name, min: 1)
             try self.rulesPackageArns?.forEach {
                 try validate($0, name: "rulesPackageArns[]", parent: name, max: 300)
                 try validate($0, name: "rulesPackageArns[]", parent: name, min: 1)
             }
-            try self.rulesPackageArns?.forEach {}
             try self.validate(self.rulesPackageArns, name: "rulesPackageArns", parent: name, max: 50)
             try self.validate(self.rulesPackageArns, name: "rulesPackageArns", parent: name, min: 0)
-            try self.states?.forEach {}
             try self.validate(self.states, name: "states", parent: name, max: 50)
             try self.validate(self.states, name: "states", parent: name, min: 0)
         }
@@ -501,7 +493,6 @@ extension Inspector {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentTargetNamePattern?.forEach {}
             try self.validate(self.assessmentTargetNamePattern, name: "assessmentTargetNamePattern", parent: name, max: 140)
             try self.validate(self.assessmentTargetNamePattern, name: "assessmentTargetNamePattern", parent: name, min: 1)
         }
@@ -572,15 +563,12 @@ extension Inspector {
 
         public func validate(name: String) throws {
             try self.durationRange?.validate(name: "\(name).durationRange")
-            try self.durationRange?.forEach {}
-            try self.namePattern?.forEach {}
             try self.validate(self.namePattern, name: "namePattern", parent: name, max: 140)
             try self.validate(self.namePattern, name: "namePattern", parent: name, min: 1)
             try self.rulesPackageArns?.forEach {
                 try validate($0, name: "rulesPackageArns[]", parent: name, max: 300)
                 try validate($0, name: "rulesPackageArns[]", parent: name, min: 1)
             }
-            try self.rulesPackageArns?.forEach {}
             try self.validate(self.rulesPackageArns, name: "rulesPackageArns", parent: name, max: 50)
             try self.validate(self.rulesPackageArns, name: "rulesPackageArns", parent: name, min: 0)
         }
@@ -645,10 +633,8 @@ extension Inspector {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
-            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 1)
         }
@@ -671,10 +657,8 @@ extension Inspector {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentTargetName.forEach {}
             try self.validate(self.assessmentTargetName, name: "assessmentTargetName", parent: name, max: 140)
             try self.validate(self.assessmentTargetName, name: "assessmentTargetName", parent: name, min: 1)
-            try self.resourceGroupArn?.forEach {}
             try self.validate(self.resourceGroupArn, name: "resourceGroupArn", parent: name, max: 300)
             try self.validate(self.resourceGroupArn, name: "resourceGroupArn", parent: name, min: 1)
         }
@@ -719,26 +703,21 @@ extension Inspector {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentTargetArn.forEach {}
             try self.validate(self.assessmentTargetArn, name: "assessmentTargetArn", parent: name, max: 300)
             try self.validate(self.assessmentTargetArn, name: "assessmentTargetArn", parent: name, min: 1)
-            try self.assessmentTemplateName.forEach {}
             try self.validate(self.assessmentTemplateName, name: "assessmentTemplateName", parent: name, max: 140)
             try self.validate(self.assessmentTemplateName, name: "assessmentTemplateName", parent: name, min: 1)
-            try self.durationInSeconds.forEach {}
             try self.validate(self.durationInSeconds, name: "durationInSeconds", parent: name, max: 86400)
             try self.validate(self.durationInSeconds, name: "durationInSeconds", parent: name, min: 180)
             try self.rulesPackageArns.forEach {
                 try validate($0, name: "rulesPackageArns[]", parent: name, max: 300)
                 try validate($0, name: "rulesPackageArns[]", parent: name, min: 1)
             }
-            try self.rulesPackageArns.forEach {}
             try self.validate(self.rulesPackageArns, name: "rulesPackageArns", parent: name, max: 50)
             try self.validate(self.rulesPackageArns, name: "rulesPackageArns", parent: name, min: 0)
             try self.userAttributesForFindings?.forEach {
                 try $0.validate(name: "\(name).userAttributesForFindings[]")
             }
-            try self.userAttributesForFindings?.forEach {}
             try self.validate(self.userAttributesForFindings, name: "userAttributesForFindings", parent: name, max: 10)
             try self.validate(self.userAttributesForFindings, name: "userAttributesForFindings", parent: name, min: 0)
         }
@@ -774,7 +753,6 @@ extension Inspector {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentTemplateArn.forEach {}
             try self.validate(self.assessmentTemplateArn, name: "assessmentTemplateArn", parent: name, max: 300)
             try self.validate(self.assessmentTemplateArn, name: "assessmentTemplateArn", parent: name, min: 1)
         }
@@ -809,7 +787,6 @@ extension Inspector {
             try self.resourceGroupTags.forEach {
                 try $0.validate(name: "\(name).resourceGroupTags[]")
             }
-            try self.resourceGroupTags.forEach {}
             try self.validate(self.resourceGroupTags, name: "resourceGroupTags", parent: name, max: 10)
             try self.validate(self.resourceGroupTags, name: "resourceGroupTags", parent: name, min: 1)
         }
@@ -841,7 +818,6 @@ extension Inspector {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentRunArn.forEach {}
             try self.validate(self.assessmentRunArn, name: "assessmentRunArn", parent: name, max: 300)
             try self.validate(self.assessmentRunArn, name: "assessmentRunArn", parent: name, min: 1)
         }
@@ -860,7 +836,6 @@ extension Inspector {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentTargetArn.forEach {}
             try self.validate(self.assessmentTargetArn, name: "assessmentTargetArn", parent: name, max: 300)
             try self.validate(self.assessmentTargetArn, name: "assessmentTargetArn", parent: name, min: 1)
         }
@@ -879,7 +854,6 @@ extension Inspector {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentTemplateArn.forEach {}
             try self.validate(self.assessmentTemplateArn, name: "assessmentTemplateArn", parent: name, max: 300)
             try self.validate(self.assessmentTemplateArn, name: "assessmentTemplateArn", parent: name, min: 1)
         }
@@ -902,7 +876,6 @@ extension Inspector {
                 try validate($0, name: "assessmentRunArns[]", parent: name, max: 300)
                 try validate($0, name: "assessmentRunArns[]", parent: name, min: 1)
             }
-            try self.assessmentRunArns.forEach {}
             try self.validate(self.assessmentRunArns, name: "assessmentRunArns", parent: name, max: 10)
             try self.validate(self.assessmentRunArns, name: "assessmentRunArns", parent: name, min: 1)
         }
@@ -942,7 +915,6 @@ extension Inspector {
                 try validate($0, name: "assessmentTargetArns[]", parent: name, max: 300)
                 try validate($0, name: "assessmentTargetArns[]", parent: name, min: 1)
             }
-            try self.assessmentTargetArns.forEach {}
             try self.validate(self.assessmentTargetArns, name: "assessmentTargetArns", parent: name, max: 10)
             try self.validate(self.assessmentTargetArns, name: "assessmentTargetArns", parent: name, min: 1)
         }
@@ -981,7 +953,6 @@ extension Inspector {
                 try validate($0, name: "assessmentTemplateArns[]", parent: name, max: 300)
                 try validate($0, name: "assessmentTemplateArns[]", parent: name, min: 1)
             }
-            try self.assessmentTemplateArns.forEach {}
             try self.validate(self.assessmentTemplateArns, name: "assessmentTemplateArns", parent: name, max: 10)
             try self.validate(self.assessmentTemplateArns, name: "assessmentTemplateArns", parent: name, min: 1)
         }
@@ -1045,7 +1016,6 @@ extension Inspector {
                 try validate($0, name: "exclusionArns[]", parent: name, max: 300)
                 try validate($0, name: "exclusionArns[]", parent: name, min: 1)
             }
-            try self.exclusionArns.forEach {}
             try self.validate(self.exclusionArns, name: "exclusionArns", parent: name, max: 100)
             try self.validate(self.exclusionArns, name: "exclusionArns", parent: name, min: 1)
         }
@@ -1089,7 +1059,6 @@ extension Inspector {
                 try validate($0, name: "findingArns[]", parent: name, max: 300)
                 try validate($0, name: "findingArns[]", parent: name, min: 1)
             }
-            try self.findingArns.forEach {}
             try self.validate(self.findingArns, name: "findingArns", parent: name, max: 10)
             try self.validate(self.findingArns, name: "findingArns", parent: name, min: 1)
         }
@@ -1130,7 +1099,6 @@ extension Inspector {
                 try validate($0, name: "resourceGroupArns[]", parent: name, max: 300)
                 try validate($0, name: "resourceGroupArns[]", parent: name, min: 1)
             }
-            try self.resourceGroupArns.forEach {}
             try self.validate(self.resourceGroupArns, name: "resourceGroupArns", parent: name, max: 10)
             try self.validate(self.resourceGroupArns, name: "resourceGroupArns", parent: name, min: 1)
         }
@@ -1173,7 +1141,6 @@ extension Inspector {
                 try validate($0, name: "rulesPackageArns[]", parent: name, max: 300)
                 try validate($0, name: "rulesPackageArns[]", parent: name, min: 1)
             }
-            try self.rulesPackageArns.forEach {}
             try self.validate(self.rulesPackageArns, name: "rulesPackageArns", parent: name, max: 10)
             try self.validate(self.rulesPackageArns, name: "rulesPackageArns", parent: name, min: 1)
         }
@@ -1213,10 +1180,8 @@ extension Inspector {
         }
 
         public func validate(name: String) throws {
-            try self.maxSeconds?.forEach {}
             try self.validate(self.maxSeconds, name: "maxSeconds", parent: name, max: 86400)
             try self.validate(self.maxSeconds, name: "maxSeconds", parent: name, min: 180)
-            try self.minSeconds?.forEach {}
             try self.validate(self.minSeconds, name: "minSeconds", parent: name, max: 86400)
             try self.validate(self.minSeconds, name: "minSeconds", parent: name, min: 180)
         }
@@ -1438,42 +1403,35 @@ extension Inspector {
                 try validate($0, name: "agentIds[]", parent: name, max: 128)
                 try validate($0, name: "agentIds[]", parent: name, min: 1)
             }
-            try self.agentIds?.forEach {}
             try self.validate(self.agentIds, name: "agentIds", parent: name, max: 99)
             try self.validate(self.agentIds, name: "agentIds", parent: name, min: 0)
             try self.attributes?.forEach {
                 try $0.validate(name: "\(name).attributes[]")
             }
-            try self.attributes?.forEach {}
             try self.validate(self.attributes, name: "attributes", parent: name, max: 50)
             try self.validate(self.attributes, name: "attributes", parent: name, min: 0)
             try self.autoScalingGroups?.forEach {
                 try validate($0, name: "autoScalingGroups[]", parent: name, max: 256)
                 try validate($0, name: "autoScalingGroups[]", parent: name, min: 1)
             }
-            try self.autoScalingGroups?.forEach {}
             try self.validate(self.autoScalingGroups, name: "autoScalingGroups", parent: name, max: 20)
             try self.validate(self.autoScalingGroups, name: "autoScalingGroups", parent: name, min: 0)
             try self.ruleNames?.forEach {
                 try validate($0, name: "ruleNames[]", parent: name, max: 1000)
             }
-            try self.ruleNames?.forEach {}
             try self.validate(self.ruleNames, name: "ruleNames", parent: name, max: 50)
             try self.validate(self.ruleNames, name: "ruleNames", parent: name, min: 0)
             try self.rulesPackageArns?.forEach {
                 try validate($0, name: "rulesPackageArns[]", parent: name, max: 300)
                 try validate($0, name: "rulesPackageArns[]", parent: name, min: 1)
             }
-            try self.rulesPackageArns?.forEach {}
             try self.validate(self.rulesPackageArns, name: "rulesPackageArns", parent: name, max: 50)
             try self.validate(self.rulesPackageArns, name: "rulesPackageArns", parent: name, min: 0)
-            try self.severities?.forEach {}
             try self.validate(self.severities, name: "severities", parent: name, max: 50)
             try self.validate(self.severities, name: "severities", parent: name, min: 0)
             try self.userAttributes?.forEach {
                 try $0.validate(name: "\(name).userAttributes[]")
             }
-            try self.userAttributes?.forEach {}
             try self.validate(self.userAttributes, name: "userAttributes", parent: name, max: 50)
             try self.validate(self.userAttributes, name: "userAttributes", parent: name, min: 0)
         }
@@ -1505,7 +1463,6 @@ extension Inspector {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentRunArn.forEach {}
             try self.validate(self.assessmentRunArn, name: "assessmentRunArn", parent: name, max: 300)
             try self.validate(self.assessmentRunArn, name: "assessmentRunArn", parent: name, min: 1)
         }
@@ -1555,13 +1512,10 @@ extension Inspector {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentTemplateArn.forEach {}
             try self.validate(self.assessmentTemplateArn, name: "assessmentTemplateArn", parent: name, max: 300)
             try self.validate(self.assessmentTemplateArn, name: "assessmentTemplateArn", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 300)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.previewToken.forEach {}
             try self.validate(self.previewToken, name: "previewToken", parent: name, pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
         }
 
@@ -1604,7 +1558,6 @@ extension Inspector {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentRunArn.forEach {}
             try self.validate(self.assessmentRunArn, name: "assessmentRunArn", parent: name, max: 300)
             try self.validate(self.assessmentRunArn, name: "assessmentRunArn", parent: name, min: 1)
         }
@@ -1666,12 +1619,9 @@ extension Inspector {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentRunArn.forEach {}
             try self.validate(self.assessmentRunArn, name: "assessmentRunArn", parent: name, max: 300)
             try self.validate(self.assessmentRunArn, name: "assessmentRunArn", parent: name, min: 1)
             try self.filter?.validate(name: "\(name).filter")
-            try self.filter?.forEach {}
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 300)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1723,12 +1673,9 @@ extension Inspector {
                 try validate($0, name: "assessmentTemplateArns[]", parent: name, max: 300)
                 try validate($0, name: "assessmentTemplateArns[]", parent: name, min: 1)
             }
-            try self.assessmentTemplateArns?.forEach {}
             try self.validate(self.assessmentTemplateArns, name: "assessmentTemplateArns", parent: name, max: 50)
             try self.validate(self.assessmentTemplateArns, name: "assessmentTemplateArns", parent: name, min: 0)
             try self.filter?.validate(name: "\(name).filter")
-            try self.filter?.forEach {}
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 300)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1774,8 +1721,6 @@ extension Inspector {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
-            try self.filter?.forEach {}
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 300)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1826,12 +1771,9 @@ extension Inspector {
                 try validate($0, name: "assessmentTargetArns[]", parent: name, max: 300)
                 try validate($0, name: "assessmentTargetArns[]", parent: name, min: 1)
             }
-            try self.assessmentTargetArns?.forEach {}
             try self.validate(self.assessmentTargetArns, name: "assessmentTargetArns", parent: name, max: 50)
             try self.validate(self.assessmentTargetArns, name: "assessmentTargetArns", parent: name, min: 0)
             try self.filter?.validate(name: "\(name).filter")
-            try self.filter?.forEach {}
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 300)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1876,10 +1818,8 @@ extension Inspector {
         }
 
         public func validate(name: String) throws {
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 300)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.resourceArn?.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 300)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
         }
@@ -1923,10 +1863,8 @@ extension Inspector {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentRunArn.forEach {}
             try self.validate(self.assessmentRunArn, name: "assessmentRunArn", parent: name, max: 300)
             try self.validate(self.assessmentRunArn, name: "assessmentRunArn", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 300)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1977,12 +1915,9 @@ extension Inspector {
                 try validate($0, name: "assessmentRunArns[]", parent: name, max: 300)
                 try validate($0, name: "assessmentRunArns[]", parent: name, min: 1)
             }
-            try self.assessmentRunArns?.forEach {}
             try self.validate(self.assessmentRunArns, name: "assessmentRunArns", parent: name, max: 50)
             try self.validate(self.assessmentRunArns, name: "assessmentRunArns", parent: name, min: 0)
             try self.filter?.validate(name: "\(name).filter")
-            try self.filter?.forEach {}
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 300)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2024,7 +1959,6 @@ extension Inspector {
         }
 
         public func validate(name: String) throws {
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 300)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2061,7 +1995,6 @@ extension Inspector {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 300)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
         }
@@ -2148,10 +2081,8 @@ extension Inspector {
         }
 
         public func validate(name: String) throws {
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 300)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.previewAgentsArn.forEach {}
             try self.validate(self.previewAgentsArn, name: "previewAgentsArn", parent: name, max: 300)
             try self.validate(self.previewAgentsArn, name: "previewAgentsArn", parent: name, min: 1)
         }
@@ -2206,7 +2137,6 @@ extension Inspector {
         }
 
         public func validate(name: String) throws {
-            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 300)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
         }
@@ -2232,14 +2162,12 @@ extension Inspector {
                 try validate($0, name: "attributeKeys[]", parent: name, max: 128)
                 try validate($0, name: "attributeKeys[]", parent: name, min: 1)
             }
-            try self.attributeKeys.forEach {}
             try self.validate(self.attributeKeys, name: "attributeKeys", parent: name, max: 10)
             try self.validate(self.attributeKeys, name: "attributeKeys", parent: name, min: 0)
             try self.findingArns.forEach {
                 try validate($0, name: "findingArns[]", parent: name, max: 300)
                 try validate($0, name: "findingArns[]", parent: name, min: 1)
             }
-            try self.findingArns.forEach {}
             try self.validate(self.findingArns, name: "findingArns", parent: name, max: 10)
             try self.validate(self.findingArns, name: "findingArns", parent: name, min: 1)
         }
@@ -2296,10 +2224,8 @@ extension Inspector {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
-            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 1)
         }
@@ -2385,13 +2311,11 @@ extension Inspector {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 300)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 10)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -2414,10 +2338,8 @@ extension Inspector {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentRunName?.forEach {}
             try self.validate(self.assessmentRunName, name: "assessmentRunName", parent: name, max: 140)
             try self.validate(self.assessmentRunName, name: "assessmentRunName", parent: name, min: 1)
-            try self.assessmentTemplateArn.forEach {}
             try self.validate(self.assessmentTemplateArn, name: "assessmentTemplateArn", parent: name, max: 300)
             try self.validate(self.assessmentTemplateArn, name: "assessmentTemplateArn", parent: name, min: 1)
         }
@@ -2453,7 +2375,6 @@ extension Inspector {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentRunArn.forEach {}
             try self.validate(self.assessmentRunArn, name: "assessmentRunArn", parent: name, max: 300)
             try self.validate(self.assessmentRunArn, name: "assessmentRunArn", parent: name, min: 1)
         }
@@ -2479,10 +2400,8 @@ extension Inspector {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 300)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.topicArn.forEach {}
             try self.validate(self.topicArn, name: "topicArn", parent: name, max: 300)
             try self.validate(self.topicArn, name: "topicArn", parent: name, min: 1)
         }
@@ -2527,10 +2446,8 @@ extension Inspector {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
-            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 1)
         }
@@ -2594,10 +2511,8 @@ extension Inspector {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 300)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.topicArn.forEach {}
             try self.validate(self.topicArn, name: "topicArn", parent: name, max: 300)
             try self.validate(self.topicArn, name: "topicArn", parent: name, min: 1)
         }
@@ -2624,13 +2539,10 @@ extension Inspector {
         }
 
         public func validate(name: String) throws {
-            try self.assessmentTargetArn.forEach {}
             try self.validate(self.assessmentTargetArn, name: "assessmentTargetArn", parent: name, max: 300)
             try self.validate(self.assessmentTargetArn, name: "assessmentTargetArn", parent: name, min: 1)
-            try self.assessmentTargetName.forEach {}
             try self.validate(self.assessmentTargetName, name: "assessmentTargetName", parent: name, max: 140)
             try self.validate(self.assessmentTargetName, name: "assessmentTargetName", parent: name, min: 1)
-            try self.resourceGroupArn?.forEach {}
             try self.validate(self.resourceGroupArn, name: "resourceGroupArn", parent: name, max: 300)
             try self.validate(self.resourceGroupArn, name: "resourceGroupArn", parent: name, min: 1)
         }

@@ -59,9 +59,7 @@ extension IoTJobsDataPlane {
         }
 
         public func validate(name: String) throws {
-            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[a-zA-Z0-9_-]+|^\\$next")
-            try self.thingName.forEach {}
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
             try self.validate(self.thingName, name: "thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -96,7 +94,6 @@ extension IoTJobsDataPlane {
         }
 
         public func validate(name: String) throws {
-            try self.thingName.forEach {}
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
             try self.validate(self.thingName, name: "thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -256,7 +253,6 @@ extension IoTJobsDataPlane {
                 try validate($0.value, name: "statusDetails[\"\($0.key)\"]", parent: name, min: 1)
                 try validate($0.value, name: "statusDetails[\"\($0.key)\"]", parent: name, pattern: "[^\\p{C}]*+")
             }
-            try self.thingName.forEach {}
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
             try self.validate(self.thingName, name: "thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")
@@ -319,7 +315,6 @@ extension IoTJobsDataPlane {
         }
 
         public func validate(name: String) throws {
-            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[a-zA-Z0-9_-]+")
@@ -331,7 +326,6 @@ extension IoTJobsDataPlane {
                 try validate($0.value, name: "statusDetails[\"\($0.key)\"]", parent: name, min: 1)
                 try validate($0.value, name: "statusDetails[\"\($0.key)\"]", parent: name, pattern: "[^\\p{C}]*+")
             }
-            try self.thingName.forEach {}
             try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
             try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
             try self.validate(self.thingName, name: "thingName", parent: name, pattern: "[a-zA-Z0-9:_-]+")

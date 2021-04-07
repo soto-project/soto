@@ -134,14 +134,12 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
-            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 64)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 100)
         }
 
@@ -258,22 +256,17 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
-            try self.batchPredictionDataSourceId.forEach {}
             try self.validate(self.batchPredictionDataSourceId, name: "batchPredictionDataSourceId", parent: name, max: 64)
             try self.validate(self.batchPredictionDataSourceId, name: "batchPredictionDataSourceId", parent: name, min: 1)
             try self.validate(self.batchPredictionDataSourceId, name: "batchPredictionDataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.batchPredictionId.forEach {}
             try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, max: 64)
             try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, min: 1)
             try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.batchPredictionName?.forEach {}
             try self.validate(self.batchPredictionName, name: "batchPredictionName", parent: name, max: 1024)
             try self.validate(self.batchPredictionName, name: "batchPredictionName", parent: name, pattern: ".*\\S.*|^$")
-            try self.mLModelId.forEach {}
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, max: 64)
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, min: 1)
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.outputUri.forEach {}
             try self.validate(self.outputUri, name: "outputUri", parent: name, max: 2048)
             try self.validate(self.outputUri, name: "outputUri", parent: name, pattern: "s3://([^/]+)(/.*)?")
         }
@@ -321,16 +314,12 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
-            try self.dataSourceId.forEach {}
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, max: 64)
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, min: 1)
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.dataSourceName?.forEach {}
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, max: 1024)
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, pattern: ".*\\S.*|^$")
             try self.rDSData.validate(name: "\(name).rDSData")
-            try self.rDSData.forEach {}
-            try self.roleARN.forEach {}
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 110)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
         }
@@ -378,16 +367,12 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
-            try self.dataSourceId.forEach {}
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, max: 64)
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, min: 1)
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.dataSourceName?.forEach {}
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, max: 1024)
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, pattern: ".*\\S.*|^$")
             try self.dataSpec.validate(name: "\(name).dataSpec")
-            try self.dataSpec.forEach {}
-            try self.roleARN.forEach {}
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 110)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 1)
         }
@@ -432,15 +417,12 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
-            try self.dataSourceId.forEach {}
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, max: 64)
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, min: 1)
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.dataSourceName?.forEach {}
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, max: 1024)
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, pattern: ".*\\S.*|^$")
             try self.dataSpec.validate(name: "\(name).dataSpec")
-            try self.dataSpec.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -482,18 +464,14 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
-            try self.evaluationDataSourceId.forEach {}
             try self.validate(self.evaluationDataSourceId, name: "evaluationDataSourceId", parent: name, max: 64)
             try self.validate(self.evaluationDataSourceId, name: "evaluationDataSourceId", parent: name, min: 1)
             try self.validate(self.evaluationDataSourceId, name: "evaluationDataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.evaluationId.forEach {}
             try self.validate(self.evaluationId, name: "evaluationId", parent: name, max: 64)
             try self.validate(self.evaluationId, name: "evaluationId", parent: name, min: 1)
             try self.validate(self.evaluationId, name: "evaluationId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.evaluationName?.forEach {}
             try self.validate(self.evaluationName, name: "evaluationName", parent: name, max: 1024)
             try self.validate(self.evaluationName, name: "evaluationName", parent: name, pattern: ".*\\S.*|^$")
-            try self.mLModelId.forEach {}
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, max: 64)
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, min: 1)
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -547,19 +525,14 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
-            try self.mLModelId.forEach {}
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, max: 64)
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, min: 1)
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.mLModelName?.forEach {}
             try self.validate(self.mLModelName, name: "mLModelName", parent: name, max: 1024)
             try self.validate(self.mLModelName, name: "mLModelName", parent: name, pattern: ".*\\S.*|^$")
-            try self.recipe?.forEach {}
             try self.validate(self.recipe, name: "recipe", parent: name, max: 131_071)
-            try self.recipeUri?.forEach {}
             try self.validate(self.recipeUri, name: "recipeUri", parent: name, max: 2048)
             try self.validate(self.recipeUri, name: "recipeUri", parent: name, pattern: "s3://([^/]+)(/.*)?")
-            try self.trainingDataSourceId.forEach {}
             try self.validate(self.trainingDataSourceId, name: "trainingDataSourceId", parent: name, max: 64)
             try self.validate(self.trainingDataSourceId, name: "trainingDataSourceId", parent: name, min: 1)
             try self.validate(self.trainingDataSourceId, name: "trainingDataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -598,7 +571,6 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
-            try self.mLModelId.forEach {}
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, max: 64)
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, min: 1)
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -710,7 +682,6 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
-            try self.batchPredictionId.forEach {}
             try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, max: 64)
             try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, min: 1)
             try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -743,7 +714,6 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
-            try self.dataSourceId.forEach {}
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, max: 64)
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, min: 1)
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -776,7 +746,6 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
-            try self.evaluationId.forEach {}
             try self.validate(self.evaluationId, name: "evaluationId", parent: name, max: 64)
             try self.validate(self.evaluationId, name: "evaluationId", parent: name, min: 1)
             try self.validate(self.evaluationId, name: "evaluationId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -809,7 +778,6 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
-            try self.mLModelId.forEach {}
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, max: 64)
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, min: 1)
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -842,7 +810,6 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
-            try self.mLModelId.forEach {}
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, max: 64)
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, min: 1)
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -885,7 +852,6 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
-            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 64)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -894,7 +860,6 @@ extension MachineLearning {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
-            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 100)
         }
 
@@ -961,28 +926,20 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
-            try self.eq?.forEach {}
             try self.validate(self.eq, name: "eq", parent: name, max: 1024)
             try self.validate(self.eq, name: "eq", parent: name, pattern: ".*\\S.*|^$")
-            try self.ge?.forEach {}
             try self.validate(self.ge, name: "ge", parent: name, max: 1024)
             try self.validate(self.ge, name: "ge", parent: name, pattern: ".*\\S.*|^$")
-            try self.gt?.forEach {}
             try self.validate(self.gt, name: "gt", parent: name, max: 1024)
             try self.validate(self.gt, name: "gt", parent: name, pattern: ".*\\S.*|^$")
-            try self.le?.forEach {}
             try self.validate(self.le, name: "le", parent: name, max: 1024)
             try self.validate(self.le, name: "le", parent: name, pattern: ".*\\S.*|^$")
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.lt?.forEach {}
             try self.validate(self.lt, name: "lt", parent: name, max: 1024)
             try self.validate(self.lt, name: "lt", parent: name, pattern: ".*\\S.*|^$")
-            try self.ne?.forEach {}
             try self.validate(self.ne, name: "ne", parent: name, max: 1024)
             try self.validate(self.ne, name: "ne", parent: name, pattern: ".*\\S.*|^$")
-            try self.prefix?.forEach {}
             try self.validate(self.prefix, name: "prefix", parent: name, max: 1024)
             try self.validate(self.prefix, name: "prefix", parent: name, pattern: ".*\\S.*|^$")
         }
@@ -1058,28 +1015,20 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
-            try self.eq?.forEach {}
             try self.validate(self.eq, name: "eq", parent: name, max: 1024)
             try self.validate(self.eq, name: "eq", parent: name, pattern: ".*\\S.*|^$")
-            try self.ge?.forEach {}
             try self.validate(self.ge, name: "ge", parent: name, max: 1024)
             try self.validate(self.ge, name: "ge", parent: name, pattern: ".*\\S.*|^$")
-            try self.gt?.forEach {}
             try self.validate(self.gt, name: "gt", parent: name, max: 1024)
             try self.validate(self.gt, name: "gt", parent: name, pattern: ".*\\S.*|^$")
-            try self.le?.forEach {}
             try self.validate(self.le, name: "le", parent: name, max: 1024)
             try self.validate(self.le, name: "le", parent: name, pattern: ".*\\S.*|^$")
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.lt?.forEach {}
             try self.validate(self.lt, name: "lt", parent: name, max: 1024)
             try self.validate(self.lt, name: "lt", parent: name, pattern: ".*\\S.*|^$")
-            try self.ne?.forEach {}
             try self.validate(self.ne, name: "ne", parent: name, max: 1024)
             try self.validate(self.ne, name: "ne", parent: name, pattern: ".*\\S.*|^$")
-            try self.prefix?.forEach {}
             try self.validate(self.prefix, name: "prefix", parent: name, max: 1024)
             try self.validate(self.prefix, name: "prefix", parent: name, pattern: ".*\\S.*|^$")
         }
@@ -1155,28 +1104,20 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
-            try self.eq?.forEach {}
             try self.validate(self.eq, name: "eq", parent: name, max: 1024)
             try self.validate(self.eq, name: "eq", parent: name, pattern: ".*\\S.*|^$")
-            try self.ge?.forEach {}
             try self.validate(self.ge, name: "ge", parent: name, max: 1024)
             try self.validate(self.ge, name: "ge", parent: name, pattern: ".*\\S.*|^$")
-            try self.gt?.forEach {}
             try self.validate(self.gt, name: "gt", parent: name, max: 1024)
             try self.validate(self.gt, name: "gt", parent: name, pattern: ".*\\S.*|^$")
-            try self.le?.forEach {}
             try self.validate(self.le, name: "le", parent: name, max: 1024)
             try self.validate(self.le, name: "le", parent: name, pattern: ".*\\S.*|^$")
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.lt?.forEach {}
             try self.validate(self.lt, name: "lt", parent: name, max: 1024)
             try self.validate(self.lt, name: "lt", parent: name, pattern: ".*\\S.*|^$")
-            try self.ne?.forEach {}
             try self.validate(self.ne, name: "ne", parent: name, max: 1024)
             try self.validate(self.ne, name: "ne", parent: name, pattern: ".*\\S.*|^$")
-            try self.prefix?.forEach {}
             try self.validate(self.prefix, name: "prefix", parent: name, max: 1024)
             try self.validate(self.prefix, name: "prefix", parent: name, pattern: ".*\\S.*|^$")
         }
@@ -1252,28 +1193,20 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
-            try self.eq?.forEach {}
             try self.validate(self.eq, name: "eq", parent: name, max: 1024)
             try self.validate(self.eq, name: "eq", parent: name, pattern: ".*\\S.*|^$")
-            try self.ge?.forEach {}
             try self.validate(self.ge, name: "ge", parent: name, max: 1024)
             try self.validate(self.ge, name: "ge", parent: name, pattern: ".*\\S.*|^$")
-            try self.gt?.forEach {}
             try self.validate(self.gt, name: "gt", parent: name, max: 1024)
             try self.validate(self.gt, name: "gt", parent: name, pattern: ".*\\S.*|^$")
-            try self.le?.forEach {}
             try self.validate(self.le, name: "le", parent: name, max: 1024)
             try self.validate(self.le, name: "le", parent: name, pattern: ".*\\S.*|^$")
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.lt?.forEach {}
             try self.validate(self.lt, name: "lt", parent: name, max: 1024)
             try self.validate(self.lt, name: "lt", parent: name, pattern: ".*\\S.*|^$")
-            try self.ne?.forEach {}
             try self.validate(self.ne, name: "ne", parent: name, max: 1024)
             try self.validate(self.ne, name: "ne", parent: name, pattern: ".*\\S.*|^$")
-            try self.prefix?.forEach {}
             try self.validate(self.prefix, name: "prefix", parent: name, max: 1024)
             try self.validate(self.prefix, name: "prefix", parent: name, pattern: ".*\\S.*|^$")
         }
@@ -1322,7 +1255,6 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
-            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 64)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -1426,7 +1358,6 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
-            try self.batchPredictionId.forEach {}
             try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, max: 64)
             try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, min: 1)
             try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -1526,7 +1457,6 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
-            try self.dataSourceId.forEach {}
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, max: 64)
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, min: 1)
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -1633,7 +1563,6 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
-            try self.evaluationId.forEach {}
             try self.validate(self.evaluationId, name: "evaluationId", parent: name, max: 64)
             try self.validate(self.evaluationId, name: "evaluationId", parent: name, min: 1)
             try self.validate(self.evaluationId, name: "evaluationId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -1725,7 +1654,6 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
-            try self.mLModelId.forEach {}
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, max: 64)
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, min: 1)
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -1934,11 +1862,9 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
-            try self.mLModelId.forEach {}
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, max: 64)
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, min: 1)
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.predictEndpoint.forEach {}
             try self.validate(self.predictEndpoint, name: "predictEndpoint", parent: name, max: 2048)
             try self.validate(self.predictEndpoint, name: "predictEndpoint", parent: name, pattern: "https://[a-zA-Z0-9-.]*\\.amazon(aws)?\\.com[/]?")
         }
@@ -2025,32 +1951,22 @@ extension MachineLearning {
 
         public func validate(name: String) throws {
             try self.databaseCredentials.validate(name: "\(name).databaseCredentials")
-            try self.databaseCredentials.forEach {}
             try self.databaseInformation.validate(name: "\(name).databaseInformation")
-            try self.databaseInformation.forEach {}
-            try self.dataSchema?.forEach {}
             try self.validate(self.dataSchema, name: "dataSchema", parent: name, max: 131_071)
-            try self.dataSchemaUri?.forEach {}
             try self.validate(self.dataSchemaUri, name: "dataSchemaUri", parent: name, max: 2048)
             try self.validate(self.dataSchemaUri, name: "dataSchemaUri", parent: name, pattern: "s3://([^/]+)(/.*)?")
-            try self.resourceRole.forEach {}
             try self.validate(self.resourceRole, name: "resourceRole", parent: name, max: 64)
             try self.validate(self.resourceRole, name: "resourceRole", parent: name, min: 1)
-            try self.s3StagingLocation.forEach {}
             try self.validate(self.s3StagingLocation, name: "s3StagingLocation", parent: name, max: 2048)
             try self.validate(self.s3StagingLocation, name: "s3StagingLocation", parent: name, pattern: "s3://([^/]+)(/.*)?")
             try self.securityGroupIds.forEach {
                 try validate($0, name: "securityGroupIds[]", parent: name, max: 255)
                 try validate($0, name: "securityGroupIds[]", parent: name, min: 1)
             }
-            try self.securityGroupIds.forEach {}
-            try self.selectSqlQuery.forEach {}
             try self.validate(self.selectSqlQuery, name: "selectSqlQuery", parent: name, max: 16_777_216)
             try self.validate(self.selectSqlQuery, name: "selectSqlQuery", parent: name, min: 1)
-            try self.serviceRole.forEach {}
             try self.validate(self.serviceRole, name: "serviceRole", parent: name, max: 64)
             try self.validate(self.serviceRole, name: "serviceRole", parent: name, min: 1)
-            try self.subnetId.forEach {}
             try self.validate(self.subnetId, name: "subnetId", parent: name, max: 255)
             try self.validate(self.subnetId, name: "subnetId", parent: name, min: 1)
         }
@@ -2081,10 +1997,8 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
-            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 64)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
-            try self.instanceIdentifier.forEach {}
             try self.validate(self.instanceIdentifier, name: "instanceIdentifier", parent: name, max: 63)
             try self.validate(self.instanceIdentifier, name: "instanceIdentifier", parent: name, min: 1)
             try self.validate(self.instanceIdentifier, name: "instanceIdentifier", parent: name, pattern: "[a-z0-9-]+")
@@ -2106,10 +2020,8 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
-            try self.password.forEach {}
             try self.validate(self.password, name: "password", parent: name, max: 128)
             try self.validate(self.password, name: "password", parent: name, min: 8)
-            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 128)
             try self.validate(self.username, name: "username", parent: name, min: 1)
         }
@@ -2205,18 +2117,12 @@ extension MachineLearning {
 
         public func validate(name: String) throws {
             try self.databaseCredentials.validate(name: "\(name).databaseCredentials")
-            try self.databaseCredentials.forEach {}
             try self.databaseInformation.validate(name: "\(name).databaseInformation")
-            try self.databaseInformation.forEach {}
-            try self.dataSchema?.forEach {}
             try self.validate(self.dataSchema, name: "dataSchema", parent: name, max: 131_071)
-            try self.dataSchemaUri?.forEach {}
             try self.validate(self.dataSchemaUri, name: "dataSchemaUri", parent: name, max: 2048)
             try self.validate(self.dataSchemaUri, name: "dataSchemaUri", parent: name, pattern: "s3://([^/]+)(/.*)?")
-            try self.s3StagingLocation.forEach {}
             try self.validate(self.s3StagingLocation, name: "s3StagingLocation", parent: name, max: 2048)
             try self.validate(self.s3StagingLocation, name: "s3StagingLocation", parent: name, pattern: "s3://([^/]+)(/.*)?")
-            try self.selectSqlQuery.forEach {}
             try self.validate(self.selectSqlQuery, name: "selectSqlQuery", parent: name, max: 16_777_216)
             try self.validate(self.selectSqlQuery, name: "selectSqlQuery", parent: name, min: 1)
         }
@@ -2242,11 +2148,9 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
-            try self.clusterIdentifier.forEach {}
             try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 63)
             try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, min: 1)
             try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "[a-z0-9-]+")
-            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 64)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[a-z0-9]+")
@@ -2268,10 +2172,8 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
-            try self.password.forEach {}
             try self.validate(self.password, name: "password", parent: name, max: 64)
             try self.validate(self.password, name: "password", parent: name, min: 8)
-            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 128)
             try self.validate(self.username, name: "username", parent: name, min: 1)
         }
@@ -2319,12 +2221,9 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
-            try self.dataLocationS3.forEach {}
             try self.validate(self.dataLocationS3, name: "dataLocationS3", parent: name, max: 2048)
             try self.validate(self.dataLocationS3, name: "dataLocationS3", parent: name, pattern: "s3://([^/]+)(/.*)?")
-            try self.dataSchema?.forEach {}
             try self.validate(self.dataSchema, name: "dataSchema", parent: name, max: 131_071)
-            try self.dataSchemaLocationS3?.forEach {}
             try self.validate(self.dataSchemaLocationS3, name: "dataSchemaLocationS3", parent: name, max: 2048)
             try self.validate(self.dataSchemaLocationS3, name: "dataSchemaLocationS3", parent: name, pattern: "s3://([^/]+)(/.*)?")
         }
@@ -2349,11 +2248,9 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
-            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
             try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -2377,11 +2274,9 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
-            try self.batchPredictionId.forEach {}
             try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, max: 64)
             try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, min: 1)
             try self.validate(self.batchPredictionId, name: "batchPredictionId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.batchPredictionName.forEach {}
             try self.validate(self.batchPredictionName, name: "batchPredictionName", parent: name, max: 1024)
             try self.validate(self.batchPredictionName, name: "batchPredictionName", parent: name, pattern: ".*\\S.*|^$")
         }
@@ -2417,11 +2312,9 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
-            try self.dataSourceId.forEach {}
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, max: 64)
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, min: 1)
             try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.dataSourceName.forEach {}
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, max: 1024)
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, pattern: ".*\\S.*|^$")
         }
@@ -2457,11 +2350,9 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
-            try self.evaluationId.forEach {}
             try self.validate(self.evaluationId, name: "evaluationId", parent: name, max: 64)
             try self.validate(self.evaluationId, name: "evaluationId", parent: name, min: 1)
             try self.validate(self.evaluationId, name: "evaluationId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.evaluationName.forEach {}
             try self.validate(self.evaluationName, name: "evaluationName", parent: name, max: 1024)
             try self.validate(self.evaluationName, name: "evaluationName", parent: name, pattern: ".*\\S.*|^$")
         }
@@ -2500,11 +2391,9 @@ extension MachineLearning {
         }
 
         public func validate(name: String) throws {
-            try self.mLModelId.forEach {}
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, max: 64)
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, min: 1)
             try self.validate(self.mLModelId, name: "mLModelId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.mLModelName?.forEach {}
             try self.validate(self.mLModelName, name: "mLModelName", parent: name, max: 1024)
             try self.validate(self.mLModelName, name: "mLModelName", parent: name, pattern: ".*\\S.*|^$")
         }

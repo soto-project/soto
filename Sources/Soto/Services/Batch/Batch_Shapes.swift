@@ -406,7 +406,6 @@ extension Batch {
             try self.ec2Configuration?.forEach {
                 try $0.validate(name: "\(name).ec2Configuration[]")
             }
-            try self.ec2Configuration?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -719,7 +718,6 @@ extension Batch {
 
         public func validate(name: String) throws {
             try self.computeResources?.validate(name: "\(name).computeResources")
-            try self.computeResources?.forEach {}
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1086,10 +1084,8 @@ extension Batch {
         }
 
         public func validate(name: String) throws {
-            try self.imageIdOverride?.forEach {}
             try self.validate(self.imageIdOverride, name: "imageIdOverride", parent: name, max: 256)
             try self.validate(self.imageIdOverride, name: "imageIdOverride", parent: name, min: 1)
-            try self.imageType.forEach {}
             try self.validate(self.imageType, name: "imageType", parent: name, max: 256)
             try self.validate(self.imageType, name: "imageType", parent: name, min: 1)
         }
@@ -2099,7 +2095,6 @@ extension Batch {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
-            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }

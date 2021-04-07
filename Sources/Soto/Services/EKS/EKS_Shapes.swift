@@ -333,7 +333,6 @@ extension EKS {
         }
 
         public func validate(name: String) throws {
-            try self.encryptionConfig.forEach {}
             try self.validate(self.encryptionConfig, name: "encryptionConfig", parent: name, max: 1)
         }
 
@@ -378,7 +377,6 @@ extension EKS {
 
         public func validate(name: String) throws {
             try self.oidc.validate(name: "\(name).oidc")
-            try self.oidc.forEach {}
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -560,11 +558,9 @@ extension EKS {
         }
 
         public func validate(name: String) throws {
-            try self.clusterName.forEach {}
             try self.validate(self.clusterName, name: "clusterName", parent: name, max: 100)
             try self.validate(self.clusterName, name: "clusterName", parent: name, min: 1)
             try self.validate(self.clusterName, name: "clusterName", parent: name, pattern: "^[0-9A-Za-z][A-Za-z0-9\\-_]*")
-            try self.serviceAccountRoleArn?.forEach {}
             try self.validate(self.serviceAccountRoleArn, name: "serviceAccountRoleArn", parent: name, max: 255)
             try self.validate(self.serviceAccountRoleArn, name: "serviceAccountRoleArn", parent: name, min: 1)
             try self.tags?.forEach {
@@ -629,9 +625,7 @@ extension EKS {
         }
 
         public func validate(name: String) throws {
-            try self.encryptionConfig?.forEach {}
             try self.validate(self.encryptionConfig, name: "encryptionConfig", parent: name, max: 1)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9A-Za-z][A-Za-z0-9\\-_]*")
@@ -794,7 +788,6 @@ extension EKS {
                 try validate($0.value, name: "labels[\"\($0.key)\"]", parent: name, min: 1)
             }
             try self.scalingConfig?.validate(name: "\(name).scalingConfig")
-            try self.scalingConfig?.forEach {}
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -851,7 +844,6 @@ extension EKS {
         }
 
         public func validate(name: String) throws {
-            try self.clusterName.forEach {}
             try self.validate(self.clusterName, name: "clusterName", parent: name, max: 100)
             try self.validate(self.clusterName, name: "clusterName", parent: name, min: 1)
             try self.validate(self.clusterName, name: "clusterName", parent: name, pattern: "^[0-9A-Za-z][A-Za-z0-9\\-_]*")
@@ -981,7 +973,6 @@ extension EKS {
         }
 
         public func validate(name: String) throws {
-            try self.clusterName.forEach {}
             try self.validate(self.clusterName, name: "clusterName", parent: name, max: 100)
             try self.validate(self.clusterName, name: "clusterName", parent: name, min: 1)
             try self.validate(self.clusterName, name: "clusterName", parent: name, pattern: "^[0-9A-Za-z][A-Za-z0-9\\-_]*")
@@ -1027,7 +1018,6 @@ extension EKS {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1485,11 +1475,9 @@ extension EKS {
         }
 
         public func validate(name: String) throws {
-            try self.clusterName.forEach {}
             try self.validate(self.clusterName, name: "clusterName", parent: name, max: 100)
             try self.validate(self.clusterName, name: "clusterName", parent: name, min: 1)
             try self.validate(self.clusterName, name: "clusterName", parent: name, pattern: "^[0-9A-Za-z][A-Za-z0-9\\-_]*")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1531,7 +1519,6 @@ extension EKS {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1577,7 +1564,6 @@ extension EKS {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1623,7 +1609,6 @@ extension EKS {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1669,7 +1654,6 @@ extension EKS {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1751,7 +1735,6 @@ extension EKS {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1944,11 +1927,8 @@ extension EKS {
         }
 
         public func validate(name: String) throws {
-            try self.desiredSize?.forEach {}
             try self.validate(self.desiredSize, name: "desiredSize", parent: name, min: 1)
-            try self.maxSize?.forEach {}
             try self.validate(self.maxSize, name: "maxSize", parent: name, min: 1)
-            try self.minSize?.forEach {}
             try self.validate(self.minSize, name: "minSize", parent: name, min: 1)
         }
 
@@ -2162,7 +2142,6 @@ extension EKS {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
-            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
@@ -2236,11 +2215,9 @@ extension EKS {
         }
 
         public func validate(name: String) throws {
-            try self.clusterName.forEach {}
             try self.validate(self.clusterName, name: "clusterName", parent: name, max: 100)
             try self.validate(self.clusterName, name: "clusterName", parent: name, min: 1)
             try self.validate(self.clusterName, name: "clusterName", parent: name, pattern: "^[0-9A-Za-z][A-Za-z0-9\\-_]*")
-            try self.serviceAccountRoleArn?.forEach {}
             try self.validate(self.serviceAccountRoleArn, name: "serviceAccountRoleArn", parent: name, max: 255)
             try self.validate(self.serviceAccountRoleArn, name: "serviceAccountRoleArn", parent: name, min: 1)
         }
@@ -2394,9 +2371,7 @@ extension EKS {
 
         public func validate(name: String) throws {
             try self.labels?.validate(name: "\(name).labels")
-            try self.labels?.forEach {}
             try self.scalingConfig?.validate(name: "\(name).scalingConfig")
-            try self.scalingConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -64,7 +64,6 @@ extension IoTEventsData {
             try self.messages.forEach {
                 try $0.validate(name: "\(name).messages[]")
             }
-            try self.messages.forEach {}
             try self.validate(self.messages, name: "messages", parent: name, min: 1)
         }
 
@@ -119,7 +118,6 @@ extension IoTEventsData {
             try self.detectors.forEach {
                 try $0.validate(name: "\(name).detectors[]")
             }
-            try self.detectors.forEach {}
             try self.validate(self.detectors, name: "detectors", parent: name, min: 1)
         }
 
@@ -158,11 +156,9 @@ extension IoTEventsData {
         }
 
         public func validate(name: String) throws {
-            try self.detectorModelName.forEach {}
             try self.validate(self.detectorModelName, name: "detectorModelName", parent: name, max: 128)
             try self.validate(self.detectorModelName, name: "detectorModelName", parent: name, min: 1)
             try self.validate(self.detectorModelName, name: "detectorModelName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
-            try self.keyValue?.forEach {}
             try self.validate(self.keyValue, name: "keyValue", parent: name, max: 128)
             try self.validate(self.keyValue, name: "keyValue", parent: name, min: 1)
             try self.validate(self.keyValue, name: "keyValue", parent: name, pattern: "^[a-zA-Z0-9\\-_:]+$")
@@ -253,17 +249,14 @@ extension IoTEventsData {
         }
 
         public func validate(name: String) throws {
-            try self.stateName.forEach {}
             try self.validate(self.stateName, name: "stateName", parent: name, max: 128)
             try self.validate(self.stateName, name: "stateName", parent: name, min: 1)
             try self.timers.forEach {
                 try $0.validate(name: "\(name).timers[]")
             }
-            try self.timers.forEach {}
             try self.variables.forEach {
                 try $0.validate(name: "\(name).variables[]")
             }
-            try self.variables.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -344,14 +337,11 @@ extension IoTEventsData {
         }
 
         public func validate(name: String) throws {
-            try self.detectorModelName.forEach {}
             try self.validate(self.detectorModelName, name: "detectorModelName", parent: name, max: 128)
             try self.validate(self.detectorModelName, name: "detectorModelName", parent: name, min: 1)
             try self.validate(self.detectorModelName, name: "detectorModelName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.stateName?.forEach {}
             try self.validate(self.stateName, name: "stateName", parent: name, max: 128)
             try self.validate(self.stateName, name: "stateName", parent: name, min: 1)
         }
@@ -391,11 +381,9 @@ extension IoTEventsData {
         }
 
         public func validate(name: String) throws {
-            try self.inputName.forEach {}
             try self.validate(self.inputName, name: "inputName", parent: name, max: 128)
             try self.validate(self.inputName, name: "inputName", parent: name, min: 1)
             try self.validate(self.inputName, name: "inputName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
-            try self.messageId.forEach {}
             try self.validate(self.messageId, name: "messageId", parent: name, max: 64)
             try self.validate(self.messageId, name: "messageId", parent: name, min: 1)
             try self.validate(self.messageId, name: "messageId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
@@ -437,7 +425,6 @@ extension IoTEventsData {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -466,20 +453,16 @@ extension IoTEventsData {
         }
 
         public func validate(name: String) throws {
-            try self.detectorModelName.forEach {}
             try self.validate(self.detectorModelName, name: "detectorModelName", parent: name, max: 128)
             try self.validate(self.detectorModelName, name: "detectorModelName", parent: name, min: 1)
             try self.validate(self.detectorModelName, name: "detectorModelName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
-            try self.keyValue?.forEach {}
             try self.validate(self.keyValue, name: "keyValue", parent: name, max: 128)
             try self.validate(self.keyValue, name: "keyValue", parent: name, min: 1)
             try self.validate(self.keyValue, name: "keyValue", parent: name, pattern: "^[a-zA-Z0-9\\-_:]+$")
-            try self.messageId.forEach {}
             try self.validate(self.messageId, name: "messageId", parent: name, max: 64)
             try self.validate(self.messageId, name: "messageId", parent: name, min: 1)
             try self.validate(self.messageId, name: "messageId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             try self.state.validate(name: "\(name).state")
-            try self.state.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -519,11 +502,9 @@ extension IoTEventsData {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
-            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 1024)
             try self.validate(self.value, name: "value", parent: name, min: 1)
         }

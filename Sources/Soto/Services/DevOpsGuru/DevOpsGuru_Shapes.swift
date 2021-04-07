@@ -117,7 +117,6 @@ extension DevOpsGuru {
 
         public func validate(name: String) throws {
             try self.config.validate(name: "\(name).config")
-            try self.config.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -182,7 +181,6 @@ extension DevOpsGuru {
                 try validate($0, name: "stackNames[]", parent: name, min: 1)
                 try validate($0, name: "stackNames[]", parent: name, pattern: "^[a-zA-Z*]+[a-zA-Z0-9-]*$")
             }
-            try self.stackNames?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -350,7 +348,6 @@ extension DevOpsGuru {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[\\w-]*$")
@@ -385,7 +382,6 @@ extension DevOpsGuru {
         }
 
         public func validate(name: String) throws {
-            try self.insightId?.forEach {}
             try self.validate(self.insightId, name: "insightId", parent: name, max: 100)
             try self.validate(self.insightId, name: "insightId", parent: name, min: 1)
             try self.validate(self.insightId, name: "insightId", parent: name, pattern: "^[\\w-]*$")
@@ -421,7 +417,6 @@ extension DevOpsGuru {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[\\w-]*$")
@@ -464,7 +459,6 @@ extension DevOpsGuru {
         }
 
         public func validate(name: String) throws {
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 36)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 36)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
@@ -618,7 +612,6 @@ extension DevOpsGuru {
         }
 
         public func validate(name: String) throws {
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 36)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 36)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
@@ -656,7 +649,6 @@ extension DevOpsGuru {
         }
 
         public func validate(name: String) throws {
-            try self.id?.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[\\w-]*$")
@@ -728,14 +720,11 @@ extension DevOpsGuru {
         }
 
         public func validate(name: String) throws {
-            try self.insightId.forEach {}
             try self.validate(self.insightId, name: "insightId", parent: name, max: 100)
             try self.validate(self.insightId, name: "insightId", parent: name, min: 1)
             try self.validate(self.insightId, name: "insightId", parent: name, pattern: "^[\\w-]*$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 36)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 36)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
@@ -792,16 +781,13 @@ extension DevOpsGuru {
         }
 
         public func validate(name: String) throws {
-            try self.eventSource?.forEach {}
             try self.validate(self.eventSource, name: "eventSource", parent: name, max: 50)
             try self.validate(self.eventSource, name: "eventSource", parent: name, min: 10)
             try self.validate(self.eventSource, name: "eventSource", parent: name, pattern: "^[a-z]+[a-z0-9]*\\.amazonaws\\.com|aws\\.events$")
-            try self.insightId?.forEach {}
             try self.validate(self.insightId, name: "insightId", parent: name, max: 100)
             try self.validate(self.insightId, name: "insightId", parent: name, min: 1)
             try self.validate(self.insightId, name: "insightId", parent: name, pattern: "^[\\w-]*$")
             try self.resourceCollection?.validate(name: "\(name).resourceCollection")
-            try self.resourceCollection?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -830,11 +816,8 @@ extension DevOpsGuru {
 
         public func validate(name: String) throws {
             try self.filters.validate(name: "\(name).filters")
-            try self.filters.forEach {}
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 200)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 36)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 36)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
@@ -926,10 +909,8 @@ extension DevOpsGuru {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 36)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 36)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
@@ -993,7 +974,6 @@ extension DevOpsGuru {
         }
 
         public func validate(name: String) throws {
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 36)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 36)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
@@ -1033,11 +1013,9 @@ extension DevOpsGuru {
         }
 
         public func validate(name: String) throws {
-            try self.insightId.forEach {}
             try self.validate(self.insightId, name: "insightId", parent: name, max: 100)
             try self.validate(self.insightId, name: "insightId", parent: name, min: 1)
             try self.validate(self.insightId, name: "insightId", parent: name, pattern: "^[\\w-]*$")
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 36)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 36)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
@@ -1093,7 +1071,6 @@ extension DevOpsGuru {
 
         public func validate(name: String) throws {
             try self.sns.validate(name: "\(name).sns")
-            try self.sns.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1318,7 +1295,6 @@ extension DevOpsGuru {
 
         public func validate(name: String) throws {
             try self.insightFeedback?.validate(name: "\(name).insightFeedback")
-            try self.insightFeedback?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1610,7 +1586,6 @@ extension DevOpsGuru {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 36)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
@@ -1633,7 +1608,6 @@ extension DevOpsGuru {
 
         public func validate(name: String) throws {
             try self.cloudFormation?.validate(name: "\(name).cloudFormation")
-            try self.cloudFormation?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1669,11 +1643,8 @@ extension DevOpsGuru {
 
         public func validate(name: String) throws {
             try self.resourceCollection?.validate(name: "\(name).resourceCollection")
-            try self.resourceCollection?.forEach {}
-            try self.severities?.forEach {}
             try self.validate(self.severities, name: "severities", parent: name, max: 3)
             try self.validate(self.severities, name: "severities", parent: name, min: 0)
-            try self.statuses?.forEach {}
             try self.validate(self.statuses, name: "statuses", parent: name, max: 2)
             try self.validate(self.statuses, name: "statuses", parent: name, min: 0)
         }
@@ -1707,11 +1678,8 @@ extension DevOpsGuru {
 
         public func validate(name: String) throws {
             try self.filters?.validate(name: "\(name).filters")
-            try self.filters?.forEach {}
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 36)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 36)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
@@ -1769,7 +1737,6 @@ extension DevOpsGuru {
         }
 
         public func validate(name: String) throws {
-            try self.topicArn?.forEach {}
             try self.validate(self.topicArn, name: "topicArn", parent: name, max: 1024)
             try self.validate(self.topicArn, name: "topicArn", parent: name, min: 36)
             try self.validate(self.topicArn, name: "topicArn", parent: name, pattern: "^arn:aws[a-z0-9-]*:sns:[a-z0-9-]+:\\d{12}:[^:]+$")
@@ -1811,7 +1778,6 @@ extension DevOpsGuru {
                 try validate($0, name: "stackNames[]", parent: name, min: 1)
                 try validate($0, name: "stackNames[]", parent: name, pattern: "^[a-zA-Z*]+[a-zA-Z0-9-]*$")
             }
-            try self.stackNames?.forEach {}
             try self.validate(self.stackNames, name: "stackNames", parent: name, max: 100)
             try self.validate(self.stackNames, name: "stackNames", parent: name, min: 0)
         }
@@ -1831,7 +1797,6 @@ extension DevOpsGuru {
 
         public func validate(name: String) throws {
             try self.cloudFormation?.validate(name: "\(name).cloudFormation")
-            try self.cloudFormation?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1851,7 +1816,6 @@ extension DevOpsGuru {
 
         public func validate(name: String) throws {
             try self.resourceCollection.validate(name: "\(name).resourceCollection")
-            try self.resourceCollection.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {

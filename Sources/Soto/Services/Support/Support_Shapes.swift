@@ -74,10 +74,8 @@ extension Support {
         }
 
         public func validate(name: String) throws {
-            try self.ccEmailAddresses?.forEach {}
             try self.validate(self.ccEmailAddresses, name: "ccEmailAddresses", parent: name, max: 10)
             try self.validate(self.ccEmailAddresses, name: "ccEmailAddresses", parent: name, min: 0)
-            try self.communicationBody.forEach {}
             try self.validate(self.communicationBody, name: "communicationBody", parent: name, max: 8000)
             try self.validate(self.communicationBody, name: "communicationBody", parent: name, min: 1)
         }
@@ -273,10 +271,8 @@ extension Support {
         }
 
         public func validate(name: String) throws {
-            try self.ccEmailAddresses?.forEach {}
             try self.validate(self.ccEmailAddresses, name: "ccEmailAddresses", parent: name, max: 10)
             try self.validate(self.ccEmailAddresses, name: "ccEmailAddresses", parent: name, min: 0)
-            try self.communicationBody.forEach {}
             try self.validate(self.communicationBody, name: "communicationBody", parent: name, max: 8000)
             try self.validate(self.communicationBody, name: "communicationBody", parent: name, min: 1)
         }
@@ -366,10 +362,8 @@ extension Support {
         }
 
         public func validate(name: String) throws {
-            try self.caseIdList?.forEach {}
             try self.validate(self.caseIdList, name: "caseIdList", parent: name, max: 100)
             try self.validate(self.caseIdList, name: "caseIdList", parent: name, min: 0)
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 10)
         }
@@ -425,7 +419,6 @@ extension Support {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 10)
         }
@@ -468,7 +461,6 @@ extension Support {
         }
 
         public func validate(name: String) throws {
-            try self.serviceCodeList?.forEach {}
             try self.validate(self.serviceCodeList, name: "serviceCodeList", parent: name, max: 100)
             try self.validate(self.serviceCodeList, name: "serviceCodeList", parent: name, min: 0)
         }

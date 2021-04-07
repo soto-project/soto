@@ -239,21 +239,17 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
-            try self.keyName.forEach {}
             try self.validate(self.keyName, name: "keyName", parent: name, max: 64)
             try self.validate(self.keyName, name: "keyName", parent: name, min: 1)
             try self.validate(self.keyName, name: "keyName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
-            try self.profileId.forEach {}
             try self.validate(self.profileId, name: "profileId", parent: name, pattern: "[a-f0-9]{32}")
             try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 255)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
-            try self.values.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -316,34 +312,24 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.address1?.forEach {}
             try self.validate(self.address1, name: "address1", parent: name, max: 255)
             try self.validate(self.address1, name: "address1", parent: name, min: 1)
-            try self.address2?.forEach {}
             try self.validate(self.address2, name: "address2", parent: name, max: 255)
             try self.validate(self.address2, name: "address2", parent: name, min: 1)
-            try self.address3?.forEach {}
             try self.validate(self.address3, name: "address3", parent: name, max: 255)
             try self.validate(self.address3, name: "address3", parent: name, min: 1)
-            try self.address4?.forEach {}
             try self.validate(self.address4, name: "address4", parent: name, max: 255)
             try self.validate(self.address4, name: "address4", parent: name, min: 1)
-            try self.city?.forEach {}
             try self.validate(self.city, name: "city", parent: name, max: 255)
             try self.validate(self.city, name: "city", parent: name, min: 1)
-            try self.country?.forEach {}
             try self.validate(self.country, name: "country", parent: name, max: 255)
             try self.validate(self.country, name: "country", parent: name, min: 1)
-            try self.county?.forEach {}
             try self.validate(self.county, name: "county", parent: name, max: 255)
             try self.validate(self.county, name: "county", parent: name, min: 1)
-            try self.postalCode?.forEach {}
             try self.validate(self.postalCode, name: "postalCode", parent: name, max: 255)
             try self.validate(self.postalCode, name: "postalCode", parent: name, min: 1)
-            try self.province?.forEach {}
             try self.validate(self.province, name: "province", parent: name, max: 255)
             try self.validate(self.province, name: "province", parent: name, min: 1)
-            try self.state?.forEach {}
             try self.validate(self.state, name: "state", parent: name, max: 255)
             try self.validate(self.state, name: "state", parent: name, min: 1)
         }
@@ -411,16 +397,12 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.deadLetterQueueUrl?.forEach {}
             try self.validate(self.deadLetterQueueUrl, name: "deadLetterQueueUrl", parent: name, max: 255)
             try self.validate(self.deadLetterQueueUrl, name: "deadLetterQueueUrl", parent: name, min: 0)
-            try self.defaultEncryptionKey?.forEach {}
             try self.validate(self.defaultEncryptionKey, name: "defaultEncryptionKey", parent: name, max: 255)
             try self.validate(self.defaultEncryptionKey, name: "defaultEncryptionKey", parent: name, min: 0)
-            try self.defaultExpirationDays.forEach {}
             try self.validate(self.defaultExpirationDays, name: "defaultExpirationDays", parent: name, max: 1098)
             try self.validate(self.defaultExpirationDays, name: "defaultExpirationDays", parent: name, min: 1)
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
@@ -553,14 +535,11 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.accountNumber?.forEach {}
             try self.validate(self.accountNumber, name: "accountNumber", parent: name, max: 255)
             try self.validate(self.accountNumber, name: "accountNumber", parent: name, min: 1)
-            try self.additionalInformation?.forEach {}
             try self.validate(self.additionalInformation, name: "additionalInformation", parent: name, max: 1000)
             try self.validate(self.additionalInformation, name: "additionalInformation", parent: name, min: 1)
             try self.address?.validate(name: "\(name).address")
-            try self.address?.forEach {}
             try self.attributes?.forEach {
                 try validate($0.key, name: "attributes.key", parent: name, max: 255)
                 try validate($0.key, name: "attributes.key", parent: name, min: 1)
@@ -568,51 +547,35 @@ extension CustomerProfiles {
                 try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, min: 1)
             }
             try self.billingAddress?.validate(name: "\(name).billingAddress")
-            try self.billingAddress?.forEach {}
-            try self.birthDate?.forEach {}
             try self.validate(self.birthDate, name: "birthDate", parent: name, max: 255)
             try self.validate(self.birthDate, name: "birthDate", parent: name, min: 1)
-            try self.businessEmailAddress?.forEach {}
             try self.validate(self.businessEmailAddress, name: "businessEmailAddress", parent: name, max: 255)
             try self.validate(self.businessEmailAddress, name: "businessEmailAddress", parent: name, min: 1)
-            try self.businessName?.forEach {}
             try self.validate(self.businessName, name: "businessName", parent: name, max: 255)
             try self.validate(self.businessName, name: "businessName", parent: name, min: 1)
-            try self.businessPhoneNumber?.forEach {}
             try self.validate(self.businessPhoneNumber, name: "businessPhoneNumber", parent: name, max: 255)
             try self.validate(self.businessPhoneNumber, name: "businessPhoneNumber", parent: name, min: 1)
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
-            try self.emailAddress?.forEach {}
             try self.validate(self.emailAddress, name: "emailAddress", parent: name, max: 255)
             try self.validate(self.emailAddress, name: "emailAddress", parent: name, min: 1)
-            try self.firstName?.forEach {}
             try self.validate(self.firstName, name: "firstName", parent: name, max: 255)
             try self.validate(self.firstName, name: "firstName", parent: name, min: 1)
-            try self.homePhoneNumber?.forEach {}
             try self.validate(self.homePhoneNumber, name: "homePhoneNumber", parent: name, max: 255)
             try self.validate(self.homePhoneNumber, name: "homePhoneNumber", parent: name, min: 1)
-            try self.lastName?.forEach {}
             try self.validate(self.lastName, name: "lastName", parent: name, max: 255)
             try self.validate(self.lastName, name: "lastName", parent: name, min: 1)
             try self.mailingAddress?.validate(name: "\(name).mailingAddress")
-            try self.mailingAddress?.forEach {}
-            try self.middleName?.forEach {}
             try self.validate(self.middleName, name: "middleName", parent: name, max: 255)
             try self.validate(self.middleName, name: "middleName", parent: name, min: 1)
-            try self.mobilePhoneNumber?.forEach {}
             try self.validate(self.mobilePhoneNumber, name: "mobilePhoneNumber", parent: name, max: 255)
             try self.validate(self.mobilePhoneNumber, name: "mobilePhoneNumber", parent: name, min: 1)
-            try self.personalEmailAddress?.forEach {}
             try self.validate(self.personalEmailAddress, name: "personalEmailAddress", parent: name, max: 255)
             try self.validate(self.personalEmailAddress, name: "personalEmailAddress", parent: name, min: 1)
-            try self.phoneNumber?.forEach {}
             try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, max: 255)
             try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, min: 1)
             try self.shippingAddress?.validate(name: "\(name).shippingAddress")
-            try self.shippingAddress?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -666,7 +629,6 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
@@ -704,11 +666,9 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
-            try self.uri.forEach {}
             try self.validate(self.uri, name: "uri", parent: name, max: 255)
             try self.validate(self.uri, name: "uri", parent: name, min: 1)
         }
@@ -753,21 +713,17 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
-            try self.keyName.forEach {}
             try self.validate(self.keyName, name: "keyName", parent: name, max: 64)
             try self.validate(self.keyName, name: "keyName", parent: name, min: 1)
             try self.validate(self.keyName, name: "keyName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
-            try self.profileId.forEach {}
             try self.validate(self.profileId, name: "profileId", parent: name, pattern: "[a-f0-9]{32}")
             try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 255)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
-            try self.values.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -812,17 +768,13 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
-            try self.objectTypeName.forEach {}
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, max: 255)
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, min: 1)
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, pattern: "^[a-zA-Z_][a-zA-Z_0-9-]*$")
-            try self.profileId.forEach {}
             try self.validate(self.profileId, name: "profileId", parent: name, pattern: "[a-f0-9]{32}")
-            try self.profileObjectUniqueKey.forEach {}
             try self.validate(self.profileObjectUniqueKey, name: "profileObjectUniqueKey", parent: name, max: 255)
             try self.validate(self.profileObjectUniqueKey, name: "profileObjectUniqueKey", parent: name, min: 1)
         }
@@ -864,11 +816,9 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
-            try self.objectTypeName.forEach {}
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, max: 255)
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, min: 1)
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, pattern: "^[a-zA-Z_][a-zA-Z_0-9-]*$")
@@ -906,11 +856,9 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
-            try self.profileId.forEach {}
             try self.validate(self.profileId, name: "profileId", parent: name, pattern: "[a-f0-9]{32}")
         }
 
@@ -975,24 +923,18 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\w!@#\\-.?,\\s]*")
-            try self.flowName.forEach {}
             try self.validate(self.flowName, name: "flowName", parent: name, max: 256)
             try self.validate(self.flowName, name: "flowName", parent: name, pattern: "[a-zA-Z0-9][\\w!@#.-]+")
-            try self.kmsArn.forEach {}
             try self.validate(self.kmsArn, name: "kmsArn", parent: name, max: 2048)
             try self.validate(self.kmsArn, name: "kmsArn", parent: name, min: 20)
             try self.validate(self.kmsArn, name: "kmsArn", parent: name, pattern: "arn:aws:kms:.*:[0-9]+:.*")
             try self.sourceFlowConfig.validate(name: "\(name).sourceFlowConfig")
-            try self.sourceFlowConfig.forEach {}
             try self.tasks.forEach {
                 try $0.validate(name: "\(name).tasks[]")
             }
-            try self.tasks.forEach {}
             try self.triggerConfig.validate(name: "\(name).triggerConfig")
-            try self.triggerConfig.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1018,7 +960,6 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
@@ -1084,11 +1025,9 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
-            try self.uri.forEach {}
             try self.validate(self.uri, name: "uri", parent: name, max: 255)
             try self.validate(self.uri, name: "uri", parent: name, min: 1)
         }
@@ -1148,11 +1087,9 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
-            try self.objectTypeName.forEach {}
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, max: 255)
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, min: 1)
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, pattern: "^[a-zA-Z_][a-zA-Z_0-9-]*$")
@@ -1227,7 +1164,6 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.templateId.forEach {}
             try self.validate(self.templateId, name: "templateId", parent: name, max: 64)
             try self.validate(self.templateId, name: "templateId", parent: name, min: 1)
             try self.validate(self.templateId, name: "templateId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
@@ -1277,7 +1213,6 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.datetimeTypeFieldName?.forEach {}
             try self.validate(self.datetimeTypeFieldName, name: "datetimeTypeFieldName", parent: name, max: 256)
             try self.validate(self.datetimeTypeFieldName, name: "datetimeTypeFieldName", parent: name, pattern: ".*")
         }
@@ -1307,13 +1242,10 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.uri.forEach {}
             try self.validate(self.uri, name: "uri", parent: name, max: 255)
             try self.validate(self.uri, name: "uri", parent: name, min: 1)
         }
@@ -1382,10 +1314,8 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1464,14 +1394,11 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1563,10 +1490,8 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1612,14 +1537,11 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1692,21 +1614,16 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.objectTypeName.forEach {}
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, max: 255)
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, min: 1)
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, pattern: "^[a-zA-Z_][a-zA-Z_0-9-]*$")
-            try self.profileId.forEach {}
             try self.validate(self.profileId, name: "profileId", parent: name, pattern: "[a-f0-9]{32}")
         }
 
@@ -1746,7 +1663,6 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[a-z0-9]{1,10}:profile")
         }
@@ -1775,7 +1691,6 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.object.forEach {}
             try self.validate(self.object, name: "object", parent: name, max: 512)
             try self.validate(self.object, name: "object", parent: name, pattern: "\\S+")
         }
@@ -1800,10 +1715,8 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.source?.forEach {}
             try self.validate(self.source, name: "source", parent: name, max: 1000)
             try self.validate(self.source, name: "source", parent: name, min: 1)
-            try self.target?.forEach {}
             try self.validate(self.target, name: "target", parent: name, max: 1000)
             try self.validate(self.target, name: "target", parent: name, min: 1)
         }
@@ -1832,7 +1745,6 @@ extension CustomerProfiles {
                 try validate($0, name: "fieldNames[]", parent: name, min: 1)
                 try validate($0, name: "fieldNames[]", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             }
-            try self.fieldNames?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1962,13 +1874,10 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             try self.flowDefinition?.validate(name: "\(name).flowDefinition")
-            try self.flowDefinition?.forEach {}
-            try self.objectTypeName.forEach {}
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, max: 255)
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, min: 1)
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, pattern: "^[a-zA-Z_][a-zA-Z_0-9-]*$")
@@ -1978,7 +1887,6 @@ extension CustomerProfiles {
                 try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
-            try self.uri?.forEach {}
             try self.validate(self.uri, name: "uri", parent: name, max: 255)
             try self.validate(self.uri, name: "uri", parent: name, min: 1)
         }
@@ -2043,14 +1951,11 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
-            try self.object.forEach {}
             try self.validate(self.object, name: "object", parent: name, max: 256_000)
             try self.validate(self.object, name: "object", parent: name, min: 1)
-            try self.objectTypeName.forEach {}
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, max: 255)
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, min: 1)
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, pattern: "^[a-zA-Z_][a-zA-Z_0-9-]*$")
@@ -2116,17 +2021,13 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.description.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
-            try self.encryptionKey?.forEach {}
             try self.validate(self.encryptionKey, name: "encryptionKey", parent: name, max: 255)
             try self.validate(self.encryptionKey, name: "encryptionKey", parent: name, min: 0)
-            try self.expirationDays?.forEach {}
             try self.validate(self.expirationDays, name: "expirationDays", parent: name, max: 1098)
             try self.validate(self.expirationDays, name: "expirationDays", parent: name, min: 1)
             try self.fields?.forEach {
@@ -2140,7 +2041,6 @@ extension CustomerProfiles {
                 try validate($0.key, name: "keys.key", parent: name, min: 1)
                 try validate($0.key, name: "keys.key", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             }
-            try self.objectTypeName.forEach {}
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, max: 255)
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, min: 1)
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, pattern: "^[a-zA-Z_][a-zA-Z_0-9-]*$")
@@ -2150,7 +2050,6 @@ extension CustomerProfiles {
                 try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
-            try self.templateId?.forEach {}
             try self.validate(self.templateId, name: "templateId", parent: name, max: 64)
             try self.validate(self.templateId, name: "templateId", parent: name, min: 1)
             try self.validate(self.templateId, name: "templateId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
@@ -2231,11 +2130,9 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.bucketName.forEach {}
             try self.validate(self.bucketName, name: "bucketName", parent: name, max: 63)
             try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
             try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "\\S+")
-            try self.bucketPrefix?.forEach {}
             try self.validate(self.bucketPrefix, name: "bucketPrefix", parent: name, max: 512)
             try self.validate(self.bucketPrefix, name: "bucketPrefix", parent: name, pattern: ".*")
         }
@@ -2258,7 +2155,6 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.object.forEach {}
             try self.validate(self.object, name: "object", parent: name, max: 512)
             try self.validate(self.object, name: "object", parent: name, pattern: "\\S+")
         }
@@ -2290,13 +2186,10 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.scheduleExpression.forEach {}
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, max: 256)
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, pattern: ".*")
-            try self.scheduleOffset?.forEach {}
             try self.validate(self.scheduleOffset, name: "scheduleOffset", parent: name, max: 36000)
             try self.validate(self.scheduleOffset, name: "scheduleOffset", parent: name, min: 0)
-            try self.timezone?.forEach {}
             try self.validate(self.timezone, name: "timezone", parent: name, max: 256)
             try self.validate(self.timezone, name: "timezone", parent: name, pattern: ".*")
         }
@@ -2339,25 +2232,20 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
-            try self.keyName.forEach {}
             try self.validate(self.keyName, name: "keyName", parent: name, max: 64)
             try self.validate(self.keyName, name: "keyName", parent: name, min: 1)
             try self.validate(self.keyName, name: "keyName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 255)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
-            try self.values.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2391,7 +2279,6 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.object.forEach {}
             try self.validate(self.object, name: "object", parent: name, max: 512)
             try self.validate(self.object, name: "object", parent: name, pattern: "\\S+")
         }
@@ -2418,15 +2305,10 @@ extension CustomerProfiles {
 
         public func validate(name: String) throws {
             try self.marketo?.validate(name: "\(name).marketo")
-            try self.marketo?.forEach {}
             try self.s3?.validate(name: "\(name).s3")
-            try self.s3?.forEach {}
             try self.salesforce?.validate(name: "\(name).salesforce")
-            try self.salesforce?.forEach {}
             try self.serviceNow?.validate(name: "\(name).serviceNow")
-            try self.serviceNow?.forEach {}
             try self.zendesk?.validate(name: "\(name).zendesk")
-            try self.zendesk?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2452,13 +2334,10 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.connectorProfileName?.forEach {}
             try self.validate(self.connectorProfileName, name: "connectorProfileName", parent: name, max: 256)
             try self.validate(self.connectorProfileName, name: "connectorProfileName", parent: name, pattern: "[\\w/!@#+=.-]+")
             try self.incrementalPullConfig?.validate(name: "\(name).incrementalPullConfig")
-            try self.incrementalPullConfig?.forEach {}
             try self.sourceConnectorProperties.validate(name: "\(name).sourceConnectorProperties")
-            try self.sourceConnectorProperties.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2485,7 +2364,6 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[a-z0-9]{1,10}:profile")
             try self.tags.forEach {
@@ -2521,14 +2399,12 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.destinationField?.forEach {}
             try self.validate(self.destinationField, name: "destinationField", parent: name, max: 256)
             try self.validate(self.destinationField, name: "destinationField", parent: name, pattern: ".*")
             try self.sourceFields.forEach {
                 try validate($0, name: "sourceFields[]", parent: name, max: 2048)
                 try validate($0, name: "sourceFields[]", parent: name, pattern: ".*")
             }
-            try self.sourceFields.forEach {}
             try self.taskProperties?.forEach {
                 try validate($0.value, name: "taskProperties[\"\($0.key)\"]", parent: name, max: 2048)
                 try validate($0.value, name: "taskProperties[\"\($0.key)\"]", parent: name, pattern: ".+")
@@ -2555,7 +2431,6 @@ extension CustomerProfiles {
 
         public func validate(name: String) throws {
             try self.triggerProperties?.validate(name: "\(name).triggerProperties")
-            try self.triggerProperties?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2573,7 +2448,6 @@ extension CustomerProfiles {
 
         public func validate(name: String) throws {
             try self.scheduled?.validate(name: "\(name).scheduled")
-            try self.scheduled?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2598,7 +2472,6 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[a-z0-9]{1,10}:profile")
             try self.tagKeys.forEach {
@@ -2606,7 +2479,6 @@ extension CustomerProfiles {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
             }
-            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
@@ -2654,34 +2526,24 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.address1?.forEach {}
             try self.validate(self.address1, name: "address1", parent: name, max: 255)
             try self.validate(self.address1, name: "address1", parent: name, min: 0)
-            try self.address2?.forEach {}
             try self.validate(self.address2, name: "address2", parent: name, max: 255)
             try self.validate(self.address2, name: "address2", parent: name, min: 0)
-            try self.address3?.forEach {}
             try self.validate(self.address3, name: "address3", parent: name, max: 255)
             try self.validate(self.address3, name: "address3", parent: name, min: 0)
-            try self.address4?.forEach {}
             try self.validate(self.address4, name: "address4", parent: name, max: 255)
             try self.validate(self.address4, name: "address4", parent: name, min: 0)
-            try self.city?.forEach {}
             try self.validate(self.city, name: "city", parent: name, max: 255)
             try self.validate(self.city, name: "city", parent: name, min: 0)
-            try self.country?.forEach {}
             try self.validate(self.country, name: "country", parent: name, max: 255)
             try self.validate(self.country, name: "country", parent: name, min: 0)
-            try self.county?.forEach {}
             try self.validate(self.county, name: "county", parent: name, max: 255)
             try self.validate(self.county, name: "county", parent: name, min: 0)
-            try self.postalCode?.forEach {}
             try self.validate(self.postalCode, name: "postalCode", parent: name, max: 255)
             try self.validate(self.postalCode, name: "postalCode", parent: name, min: 0)
-            try self.province?.forEach {}
             try self.validate(self.province, name: "province", parent: name, max: 255)
             try self.validate(self.province, name: "province", parent: name, min: 0)
-            try self.state?.forEach {}
             try self.validate(self.state, name: "state", parent: name, max: 255)
             try self.validate(self.state, name: "state", parent: name, min: 0)
         }
@@ -2725,16 +2587,12 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.deadLetterQueueUrl?.forEach {}
             try self.validate(self.deadLetterQueueUrl, name: "deadLetterQueueUrl", parent: name, max: 255)
             try self.validate(self.deadLetterQueueUrl, name: "deadLetterQueueUrl", parent: name, min: 0)
-            try self.defaultEncryptionKey?.forEach {}
             try self.validate(self.defaultEncryptionKey, name: "defaultEncryptionKey", parent: name, max: 255)
             try self.validate(self.defaultEncryptionKey, name: "defaultEncryptionKey", parent: name, min: 0)
-            try self.defaultExpirationDays?.forEach {}
             try self.validate(self.defaultExpirationDays, name: "defaultExpirationDays", parent: name, max: 1098)
             try self.validate(self.defaultExpirationDays, name: "defaultExpirationDays", parent: name, min: 1)
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
@@ -2870,14 +2728,11 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.accountNumber?.forEach {}
             try self.validate(self.accountNumber, name: "accountNumber", parent: name, max: 255)
             try self.validate(self.accountNumber, name: "accountNumber", parent: name, min: 0)
-            try self.additionalInformation?.forEach {}
             try self.validate(self.additionalInformation, name: "additionalInformation", parent: name, max: 1000)
             try self.validate(self.additionalInformation, name: "additionalInformation", parent: name, min: 0)
             try self.address?.validate(name: "\(name).address")
-            try self.address?.forEach {}
             try self.attributes?.forEach {
                 try validate($0.key, name: "attributes.key", parent: name, max: 255)
                 try validate($0.key, name: "attributes.key", parent: name, min: 1)
@@ -2885,53 +2740,36 @@ extension CustomerProfiles {
                 try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, min: 0)
             }
             try self.billingAddress?.validate(name: "\(name).billingAddress")
-            try self.billingAddress?.forEach {}
-            try self.birthDate?.forEach {}
             try self.validate(self.birthDate, name: "birthDate", parent: name, max: 255)
             try self.validate(self.birthDate, name: "birthDate", parent: name, min: 0)
-            try self.businessEmailAddress?.forEach {}
             try self.validate(self.businessEmailAddress, name: "businessEmailAddress", parent: name, max: 255)
             try self.validate(self.businessEmailAddress, name: "businessEmailAddress", parent: name, min: 0)
-            try self.businessName?.forEach {}
             try self.validate(self.businessName, name: "businessName", parent: name, max: 255)
             try self.validate(self.businessName, name: "businessName", parent: name, min: 0)
-            try self.businessPhoneNumber?.forEach {}
             try self.validate(self.businessPhoneNumber, name: "businessPhoneNumber", parent: name, max: 255)
             try self.validate(self.businessPhoneNumber, name: "businessPhoneNumber", parent: name, min: 0)
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
-            try self.emailAddress?.forEach {}
             try self.validate(self.emailAddress, name: "emailAddress", parent: name, max: 255)
             try self.validate(self.emailAddress, name: "emailAddress", parent: name, min: 0)
-            try self.firstName?.forEach {}
             try self.validate(self.firstName, name: "firstName", parent: name, max: 255)
             try self.validate(self.firstName, name: "firstName", parent: name, min: 0)
-            try self.homePhoneNumber?.forEach {}
             try self.validate(self.homePhoneNumber, name: "homePhoneNumber", parent: name, max: 255)
             try self.validate(self.homePhoneNumber, name: "homePhoneNumber", parent: name, min: 0)
-            try self.lastName?.forEach {}
             try self.validate(self.lastName, name: "lastName", parent: name, max: 255)
             try self.validate(self.lastName, name: "lastName", parent: name, min: 0)
             try self.mailingAddress?.validate(name: "\(name).mailingAddress")
-            try self.mailingAddress?.forEach {}
-            try self.middleName?.forEach {}
             try self.validate(self.middleName, name: "middleName", parent: name, max: 255)
             try self.validate(self.middleName, name: "middleName", parent: name, min: 0)
-            try self.mobilePhoneNumber?.forEach {}
             try self.validate(self.mobilePhoneNumber, name: "mobilePhoneNumber", parent: name, max: 255)
             try self.validate(self.mobilePhoneNumber, name: "mobilePhoneNumber", parent: name, min: 0)
-            try self.personalEmailAddress?.forEach {}
             try self.validate(self.personalEmailAddress, name: "personalEmailAddress", parent: name, max: 255)
             try self.validate(self.personalEmailAddress, name: "personalEmailAddress", parent: name, min: 0)
-            try self.phoneNumber?.forEach {}
             try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, max: 255)
             try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, min: 0)
-            try self.profileId.forEach {}
             try self.validate(self.profileId, name: "profileId", parent: name, pattern: "[a-f0-9]{32}")
             try self.shippingAddress?.validate(name: "\(name).shippingAddress")
-            try self.shippingAddress?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2981,7 +2819,6 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.object.forEach {}
             try self.validate(self.object, name: "object", parent: name, max: 512)
             try self.validate(self.object, name: "object", parent: name, pattern: "\\S+")
         }

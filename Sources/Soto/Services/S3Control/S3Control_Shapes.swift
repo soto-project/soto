@@ -281,7 +281,6 @@ extension S3Control {
 
         public func validate(name: String) throws {
             try self.bucketLevel.validate(name: "\(name).bucketLevel")
-            try self.bucketLevel.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -315,7 +314,6 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.functionArn.forEach {}
             try self.validate(self.functionArn, name: "functionArn", parent: name, max: 1024)
             try self.validate(self.functionArn, name: "functionArn", parent: name, min: 1)
             try self.validate(self.functionArn, name: "functionArn", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
@@ -340,7 +338,6 @@ extension S3Control {
 
         public func validate(name: String) throws {
             try self.prefixLevel?.validate(name: "\(name).prefixLevel")
-            try self.prefixLevel?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -370,12 +367,9 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.configuration.validate(name: "\(name).configuration")
-            try self.configuration.forEach {}
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 45)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9]([a-z0-9\\-]*[a-z0-9])?$")
@@ -426,17 +420,13 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.bucket.forEach {}
             try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 50)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.vpcConfiguration?.validate(name: "\(name).vpcConfiguration")
-            try self.vpcConfiguration?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -525,10 +515,8 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.bucket.forEach {}
             try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
-            try self.outpostId?.forEach {}
             try self.validate(self.outpostId, name: "outpostId", parent: name, max: 64)
             try self.validate(self.outpostId, name: "outpostId", parent: name, min: 1)
         }
@@ -601,32 +589,23 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.clientRequestToken.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.manifest.validate(name: "\(name).manifest")
-            try self.manifest.forEach {}
             try self.operation.validate(name: "\(name).operation")
-            try self.operation.forEach {}
-            try self.priority.forEach {}
             try self.validate(self.priority, name: "priority", parent: name, max: 2_147_483_647)
             try self.validate(self.priority, name: "priority", parent: name, min: 0)
             try self.report.validate(name: "\(name).report")
-            try self.report.forEach {}
-            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:[^:]+:iam::\\d{12}:role/.*")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -672,10 +651,8 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 45)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9]([a-z0-9\\-]*[a-z0-9])?$")
@@ -701,10 +678,8 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 45)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9]([a-z0-9\\-]*[a-z0-9])?$")
@@ -730,10 +705,8 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 50)
             try self.validate(self.name, name: "name", parent: name, min: 3)
         }
@@ -758,10 +731,8 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 50)
             try self.validate(self.name, name: "name", parent: name, min: 3)
         }
@@ -786,10 +757,8 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.bucket.forEach {}
             try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
         }
@@ -814,10 +783,8 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.bucket.forEach {}
             try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
         }
@@ -842,10 +809,8 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.bucket.forEach {}
             try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
         }
@@ -870,10 +835,8 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.bucket.forEach {}
             try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
         }
@@ -898,10 +861,8 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 36)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 5)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[a-zA-Z0-9\\-\\_]+")
@@ -927,7 +888,6 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
         }
@@ -952,10 +912,8 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.configId.forEach {}
             try self.validate(self.configId, name: "configId", parent: name, max: 64)
             try self.validate(self.configId, name: "configId", parent: name, min: 1)
             try self.validate(self.configId, name: "configId", parent: name, pattern: "[a-zA-Z0-9\\-\\_\\.]+")
@@ -981,10 +939,8 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.configId.forEach {}
             try self.validate(self.configId, name: "configId", parent: name, max: 64)
             try self.validate(self.configId, name: "configId", parent: name, min: 1)
             try self.validate(self.configId, name: "configId", parent: name, pattern: "[a-zA-Z0-9\\-\\_\\.]+")
@@ -1014,10 +970,8 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 36)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 5)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[a-zA-Z0-9\\-\\_]+")
@@ -1061,13 +1015,11 @@ extension S3Control {
                 try validate($0, name: "buckets[]", parent: name, min: 1)
                 try validate($0, name: "buckets[]", parent: name, pattern: "arn:[^:]+:s3:.*")
             }
-            try self.buckets?.forEach {}
             try self.regions?.forEach {
                 try validate($0, name: "regions[]", parent: name, max: 30)
                 try validate($0, name: "regions[]", parent: name, min: 5)
                 try validate($0, name: "regions[]", parent: name, pattern: "[a-z0-9\\-]+")
             }
-            try self.regions?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1093,10 +1045,8 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 45)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9]([a-z0-9\\-]*[a-z0-9])?$")
@@ -1135,10 +1085,8 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 45)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9]([a-z0-9\\-]*[a-z0-9])?$")
@@ -1185,10 +1133,8 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 45)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9]([a-z0-9\\-]*[a-z0-9])?$")
@@ -1227,10 +1173,8 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 50)
             try self.validate(self.name, name: "name", parent: name, min: 3)
         }
@@ -1268,10 +1212,8 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 45)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9]([a-z0-9\\-]*[a-z0-9])?$")
@@ -1309,10 +1251,8 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 50)
             try self.validate(self.name, name: "name", parent: name, min: 3)
         }
@@ -1350,10 +1290,8 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 50)
             try self.validate(self.name, name: "name", parent: name, min: 3)
         }
@@ -1410,10 +1348,8 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.bucket.forEach {}
             try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
         }
@@ -1454,10 +1390,8 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.bucket.forEach {}
             try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
         }
@@ -1495,10 +1429,8 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.bucket.forEach {}
             try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
         }
@@ -1543,10 +1475,8 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.bucket.forEach {}
             try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
         }
@@ -1585,10 +1515,8 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 36)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 5)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[a-zA-Z0-9\\-\\_]+")
@@ -1643,7 +1571,6 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
         }
@@ -1668,10 +1595,8 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.configId.forEach {}
             try self.validate(self.configId, name: "configId", parent: name, max: 64)
             try self.validate(self.configId, name: "configId", parent: name, min: 1)
             try self.validate(self.configId, name: "configId", parent: name, pattern: "[a-zA-Z0-9\\-\\_\\.]+")
@@ -1716,10 +1641,8 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.configId.forEach {}
             try self.validate(self.configId, name: "configId", parent: name, max: 64)
             try self.validate(self.configId, name: "configId", parent: name, min: 1)
             try self.validate(self.configId, name: "configId", parent: name, pattern: "[a-zA-Z0-9\\-\\_\\.]+")
@@ -1766,13 +1689,11 @@ extension S3Control {
                 try validate($0, name: "buckets[]", parent: name, min: 1)
                 try validate($0, name: "buckets[]", parent: name, pattern: "arn:[^:]+:s3:.*")
             }
-            try self.buckets?.forEach {}
             try self.regions?.forEach {
                 try validate($0, name: "regions[]", parent: name, max: 30)
                 try validate($0, name: "regions[]", parent: name, min: 5)
                 try validate($0, name: "regions[]", parent: name, pattern: "[a-z0-9\\-]+")
             }
-            try self.regions?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1930,7 +1851,6 @@ extension S3Control {
 
         public func validate(name: String) throws {
             try self.location.validate(name: "\(name).location")
-            try self.location.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1954,14 +1874,11 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.eTag.forEach {}
             try self.validate(self.eTag, name: "eTag", parent: name, max: 1024)
             try self.validate(self.eTag, name: "eTag", parent: name, min: 1)
-            try self.objectArn.forEach {}
             try self.validate(self.objectArn, name: "objectArn", parent: name, max: 2000)
             try self.validate(self.objectArn, name: "objectArn", parent: name, min: 1)
             try self.validate(self.objectArn, name: "objectArn", parent: name, pattern: "arn:[^:]+:s3:.*")
-            try self.objectVersionId?.forEach {}
             try self.validate(self.objectVersionId, name: "objectVersionId", parent: name, max: 2000)
             try self.validate(self.objectVersionId, name: "objectVersionId", parent: name, min: 1)
         }
@@ -2020,15 +1937,10 @@ extension S3Control {
 
         public func validate(name: String) throws {
             try self.lambdaInvoke?.validate(name: "\(name).lambdaInvoke")
-            try self.lambdaInvoke?.forEach {}
             try self.s3InitiateRestoreObject?.validate(name: "\(name).s3InitiateRestoreObject")
-            try self.s3InitiateRestoreObject?.forEach {}
             try self.s3PutObjectAcl?.validate(name: "\(name).s3PutObjectAcl")
-            try self.s3PutObjectAcl?.forEach {}
             try self.s3PutObjectCopy?.validate(name: "\(name).s3PutObjectCopy")
-            try self.s3PutObjectCopy?.forEach {}
             try self.s3PutObjectTagging?.validate(name: "\(name).s3PutObjectTagging")
-            try self.s3PutObjectTagging?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2082,11 +1994,9 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.bucket?.forEach {}
             try self.validate(self.bucket, name: "bucket", parent: name, max: 128)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 1)
             try self.validate(self.bucket, name: "bucket", parent: name, pattern: "arn:[^:]+:s3:.*")
-            try self.prefix?.forEach {}
             try self.validate(self.prefix, name: "prefix", parent: name, max: 512)
             try self.validate(self.prefix, name: "prefix", parent: name, min: 1)
         }
@@ -2109,7 +2019,6 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.functionArn?.forEach {}
             try self.validate(self.functionArn, name: "functionArn", parent: name, max: 1024)
             try self.validate(self.functionArn, name: "functionArn", parent: name, min: 1)
             try self.validate(self.functionArn, name: "functionArn", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
@@ -2136,7 +2045,6 @@ extension S3Control {
             try self.rules?.forEach {
                 try $0.validate(name: "\(name).rules[]")
             }
-            try self.rules?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2201,7 +2109,6 @@ extension S3Control {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
-            try self.filter?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2232,7 +2139,6 @@ extension S3Control {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2256,9 +2162,7 @@ extension S3Control {
 
         public func validate(name: String) throws {
             try self.and?.validate(name: "\(name).and")
-            try self.and?.forEach {}
             try self.tag?.validate(name: "\(name).tag")
-            try self.tag?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2289,13 +2193,10 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2348,16 +2249,12 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.bucket?.forEach {}
             try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2410,13 +2307,10 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9\\+\\:\\/\\=\\?\\#-_]+$")
@@ -2466,16 +2360,12 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.outpostId?.forEach {}
             try self.validate(self.outpostId, name: "outpostId", parent: name, max: 64)
             try self.validate(self.outpostId, name: "outpostId", parent: name, min: 1)
         }
@@ -2544,7 +2434,6 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
         }
@@ -2639,14 +2528,12 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.supportingAccessPoint.forEach {}
             try self.validate(self.supportingAccessPoint, name: "supportingAccessPoint", parent: name, max: 2048)
             try self.validate(self.supportingAccessPoint, name: "supportingAccessPoint", parent: name, min: 1)
             try self.validate(self.supportingAccessPoint, name: "supportingAccessPoint", parent: name, pattern: "arn:[^:]+:s3:[^:]*:\\d{12}:accesspoint/.*")
             try self.transformationConfigurations.forEach {
                 try $0.validate(name: "\(name).transformationConfigurations[]")
             }
-            try self.transformationConfigurations.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2667,7 +2554,6 @@ extension S3Control {
 
         public func validate(name: String) throws {
             try self.awsLambda?.validate(name: "\(name).awsLambda")
-            try self.awsLambda?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2691,7 +2577,6 @@ extension S3Control {
 
         public func validate(name: String) throws {
             try self.contentTransformation.validate(name: "\(name).contentTransformation")
-            try self.contentTransformation.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2722,7 +2607,6 @@ extension S3Control {
 
         public func validate(name: String) throws {
             try self.storageMetrics.validate(name: "\(name).storageMetrics")
-            try self.storageMetrics.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2742,7 +2626,6 @@ extension S3Control {
 
         public func validate(name: String) throws {
             try self.selectionCriteria?.validate(name: "\(name).selectionCriteria")
-            try self.selectionCriteria?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2799,12 +2682,9 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.configuration.validate(name: "\(name).configuration")
-            try self.configuration.forEach {}
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 45)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9]([a-z0-9\\-]*[a-z0-9])?$")
@@ -2836,10 +2716,8 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 45)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9]([a-z0-9\\-]*[a-z0-9])?$")
@@ -2871,10 +2749,8 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 50)
             try self.validate(self.name, name: "name", parent: name, min: 3)
         }
@@ -2907,14 +2783,11 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.bucket.forEach {}
             try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
             try self.lifecycleConfiguration?.validate(name: "\(name).lifecycleConfiguration")
-            try self.lifecycleConfiguration?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2947,10 +2820,8 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.bucket.forEach {}
             try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
         }
@@ -2982,14 +2853,11 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.bucket.forEach {}
             try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
             try self.tagging.validate(name: "\(name).tagging")
-            try self.tagging.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3019,17 +2887,14 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 36)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 5)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[a-zA-Z0-9\\-\\_]+")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3060,7 +2925,6 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
         }
@@ -3096,19 +2960,15 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.configId.forEach {}
             try self.validate(self.configId, name: "configId", parent: name, max: 64)
             try self.validate(self.configId, name: "configId", parent: name, min: 1)
             try self.validate(self.configId, name: "configId", parent: name, pattern: "[a-zA-Z0-9\\-\\_\\.]+")
             try self.storageLensConfiguration.validate(name: "\(name).storageLensConfiguration")
-            try self.storageLensConfiguration.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3140,17 +3000,14 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.configId.forEach {}
             try self.validate(self.configId, name: "configId", parent: name, max: 64)
             try self.validate(self.configId, name: "configId", parent: name, min: 1)
             try self.validate(self.configId, name: "configId", parent: name, pattern: "[a-zA-Z0-9\\-\\_\\.]+")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3203,9 +3060,7 @@ extension S3Control {
             try self.grants?.forEach {
                 try $0.validate(name: "\(name).grants[]")
             }
-            try self.grants?.forEach {}
             try self.owner.validate(name: "\(name).owner")
-            try self.owner.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3225,7 +3080,6 @@ extension S3Control {
 
         public func validate(name: String) throws {
             try self.accessControlList?.validate(name: "\(name).accessControlList")
-            try self.accessControlList?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3257,10 +3111,8 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 128)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "arn:[^:]+:s3:.*")
@@ -3325,23 +3177,16 @@ extension S3Control {
             try self.accessControlGrants?.forEach {
                 try $0.validate(name: "\(name).accessControlGrants[]")
             }
-            try self.accessControlGrants?.forEach {}
             try self.newObjectMetadata?.validate(name: "\(name).newObjectMetadata")
-            try self.newObjectMetadata?.forEach {}
             try self.newObjectTagging?.forEach {
                 try $0.validate(name: "\(name).newObjectTagging[]")
             }
-            try self.newObjectTagging?.forEach {}
-            try self.redirectLocation?.forEach {}
             try self.validate(self.redirectLocation, name: "redirectLocation", parent: name, max: 2048)
             try self.validate(self.redirectLocation, name: "redirectLocation", parent: name, min: 1)
-            try self.sSEAwsKmsKeyId?.forEach {}
             try self.validate(self.sSEAwsKmsKeyId, name: "sSEAwsKmsKeyId", parent: name, max: 2000)
             try self.validate(self.sSEAwsKmsKeyId, name: "sSEAwsKmsKeyId", parent: name, min: 1)
-            try self.targetKeyPrefix?.forEach {}
             try self.validate(self.targetKeyPrefix, name: "targetKeyPrefix", parent: name, max: 1024)
             try self.validate(self.targetKeyPrefix, name: "targetKeyPrefix", parent: name, min: 1)
-            try self.targetResource?.forEach {}
             try self.validate(self.targetResource, name: "targetResource", parent: name, max: 128)
             try self.validate(self.targetResource, name: "targetResource", parent: name, min: 1)
             try self.validate(self.targetResource, name: "targetResource", parent: name, pattern: "arn:[^:]+:s3:.*")
@@ -3382,7 +3227,6 @@ extension S3Control {
 
         public func validate(name: String) throws {
             try self.grantee?.validate(name: "\(name).grantee")
-            try self.grantee?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3403,10 +3247,8 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.displayName?.forEach {}
             try self.validate(self.displayName, name: "displayName", parent: name, max: 1024)
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
-            try self.identifier?.forEach {}
             try self.validate(self.identifier, name: "identifier", parent: name, max: 1024)
             try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
         }
@@ -3430,7 +3272,6 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.expirationInDays?.forEach {}
             try self.validate(self.expirationInDays, name: "expirationInDays", parent: name, min: 0)
         }
 
@@ -3482,24 +3323,17 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.cacheControl?.forEach {}
             try self.validate(self.cacheControl, name: "cacheControl", parent: name, max: 1024)
             try self.validate(self.cacheControl, name: "cacheControl", parent: name, min: 1)
-            try self.contentDisposition?.forEach {}
             try self.validate(self.contentDisposition, name: "contentDisposition", parent: name, max: 1024)
             try self.validate(self.contentDisposition, name: "contentDisposition", parent: name, min: 1)
-            try self.contentEncoding?.forEach {}
             try self.validate(self.contentEncoding, name: "contentEncoding", parent: name, max: 1024)
             try self.validate(self.contentEncoding, name: "contentEncoding", parent: name, min: 1)
-            try self.contentLanguage?.forEach {}
             try self.validate(self.contentLanguage, name: "contentLanguage", parent: name, max: 1024)
             try self.validate(self.contentLanguage, name: "contentLanguage", parent: name, min: 1)
-            try self.contentLength?.forEach {}
             try self.validate(self.contentLength, name: "contentLength", parent: name, min: 0)
-            try self.contentMD5?.forEach {}
             try self.validate(self.contentMD5, name: "contentMD5", parent: name, max: 1024)
             try self.validate(self.contentMD5, name: "contentMD5", parent: name, min: 1)
-            try self.contentType?.forEach {}
             try self.validate(self.contentType, name: "contentType", parent: name, max: 1024)
             try self.validate(self.contentType, name: "contentType", parent: name, min: 1)
             try self.userMetadata?.forEach {
@@ -3534,10 +3368,8 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.displayName?.forEach {}
             try self.validate(self.displayName, name: "displayName", parent: name, max: 1024)
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
-            try self.id?.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 1024)
             try self.validate(self.id, name: "id", parent: name, min: 1)
         }
@@ -3574,7 +3406,6 @@ extension S3Control {
 
         public func validate(name: String) throws {
             try self.accessControlPolicy?.validate(name: "\(name).accessControlPolicy")
-            try self.accessControlPolicy?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3624,7 +3455,6 @@ extension S3Control {
             try self.tagSet?.forEach {
                 try $0.validate(name: "\(name).tagSet[]")
             }
-            try self.tagSet?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3642,11 +3472,9 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 1024)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@%]*)$")
-            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 1024)
             try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@%]*)$")
         }
@@ -3689,12 +3517,9 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.delimiter?.forEach {}
             try self.validate(self.delimiter, name: "delimiter", parent: name, max: 1)
-            try self.maxDepth?.forEach {}
             try self.validate(self.maxDepth, name: "maxDepth", parent: name, max: 10)
             try self.validate(self.maxDepth, name: "maxDepth", parent: name, min: 1)
-            try self.minStorageBytesPercentage?.forEach {}
             try self.validate(self.minStorageBytesPercentage, name: "minStorageBytesPercentage", parent: name, max: 100)
             try self.validate(self.minStorageBytesPercentage, name: "minStorageBytesPercentage", parent: name, min: 0)
         }
@@ -3715,7 +3540,6 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1024)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "arn:[a-z\\-]+:organizations::\\d{12}:organization\\/o-[a-z0-9]{10,32}")
@@ -3757,20 +3581,13 @@ extension S3Control {
 
         public func validate(name: String) throws {
             try self.accountLevel.validate(name: "\(name).accountLevel")
-            try self.accountLevel.forEach {}
             try self.awsOrg?.validate(name: "\(name).awsOrg")
-            try self.awsOrg?.forEach {}
             try self.dataExport?.validate(name: "\(name).dataExport")
-            try self.dataExport?.forEach {}
             try self.exclude?.validate(name: "\(name).exclude")
-            try self.exclude?.forEach {}
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 64)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "[a-zA-Z0-9\\-\\_\\.]+")
             try self.include?.validate(name: "\(name).include")
-            try self.include?.forEach {}
-            try self.storageLensArn?.forEach {}
             try self.validate(self.storageLensArn, name: "storageLensArn", parent: name, max: 1024)
             try self.validate(self.storageLensArn, name: "storageLensArn", parent: name, min: 1)
             try self.validate(self.storageLensArn, name: "storageLensArn", parent: name, pattern: "arn:[a-z\\-]+:s3:[a-z0-9\\-]+:\\d{12}:storage\\-lens\\/.*")
@@ -3798,7 +3615,6 @@ extension S3Control {
 
         public func validate(name: String) throws {
             try self.s3BucketDestination.validate(name: "\(name).s3BucketDestination")
-            try self.s3BucketDestination.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3831,11 +3647,9 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 1024)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@%]*)$")
-            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 1024)
             try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@%]*)$")
         }
@@ -3861,7 +3675,6 @@ extension S3Control {
             try self.tagSet.forEach {
                 try $0.validate(name: "\(name).tagSet[]")
             }
-            try self.tagSet.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3911,14 +3724,11 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 36)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 5)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[a-zA-Z0-9\\-\\_]+")
-            try self.priority.forEach {}
             try self.validate(self.priority, name: "priority", parent: name, max: 2_147_483_647)
             try self.validate(self.priority, name: "priority", parent: name, min: 0)
         }
@@ -3968,14 +3778,11 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
-            try self.jobId.forEach {}
             try self.validate(self.jobId, name: "jobId", parent: name, max: 36)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 5)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[a-zA-Z0-9\\-\\_]+")
-            try self.statusUpdateReason?.forEach {}
             try self.validate(self.statusUpdateReason, name: "statusUpdateReason", parent: name, max: 256)
             try self.validate(self.statusUpdateReason, name: "statusUpdateReason", parent: name, min: 1)
         }
@@ -4013,7 +3820,6 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.vpcId.forEach {}
             try self.validate(self.vpcId, name: "vpcId", parent: name, max: 1024)
             try self.validate(self.vpcId, name: "vpcId", parent: name, min: 1)
         }

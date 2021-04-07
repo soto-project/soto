@@ -480,16 +480,12 @@ extension TranscribeStreamingService {
         }
 
         public func validate(name: String) throws {
-            try self.mediaSampleRateHertz.forEach {}
             try self.validate(self.mediaSampleRateHertz, name: "mediaSampleRateHertz", parent: name, max: 48000)
             try self.validate(self.mediaSampleRateHertz, name: "mediaSampleRateHertz", parent: name, min: 8000)
-            try self.numberOfChannels?.forEach {}
             try self.validate(self.numberOfChannels, name: "numberOfChannels", parent: name, min: 2)
-            try self.sessionId?.forEach {}
             try self.validate(self.sessionId, name: "sessionId", parent: name, max: 36)
             try self.validate(self.sessionId, name: "sessionId", parent: name, min: 36)
             try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}")
-            try self.vocabularyName?.forEach {}
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, max: 200)
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, min: 1)
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
@@ -634,20 +630,15 @@ extension TranscribeStreamingService {
         }
 
         public func validate(name: String) throws {
-            try self.mediaSampleRateHertz.forEach {}
             try self.validate(self.mediaSampleRateHertz, name: "mediaSampleRateHertz", parent: name, max: 48000)
             try self.validate(self.mediaSampleRateHertz, name: "mediaSampleRateHertz", parent: name, min: 8000)
-            try self.numberOfChannels?.forEach {}
             try self.validate(self.numberOfChannels, name: "numberOfChannels", parent: name, min: 2)
-            try self.sessionId?.forEach {}
             try self.validate(self.sessionId, name: "sessionId", parent: name, max: 36)
             try self.validate(self.sessionId, name: "sessionId", parent: name, min: 36)
             try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}")
-            try self.vocabularyFilterName?.forEach {}
             try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, max: 200)
             try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, min: 1)
             try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
-            try self.vocabularyName?.forEach {}
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, max: 200)
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, min: 1)
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+")

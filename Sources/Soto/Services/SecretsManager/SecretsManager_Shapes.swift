@@ -54,7 +54,6 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
-            try self.secretId.forEach {}
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
         }
@@ -121,29 +120,21 @@ extension SecretsManager {
             try self.addReplicaRegions?.forEach {
                 try $0.validate(name: "\(name).addReplicaRegions[]")
             }
-            try self.addReplicaRegions?.forEach {}
             try self.validate(self.addReplicaRegions, name: "addReplicaRegions", parent: name, min: 1)
-            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2048)
-            try self.kmsKeyId?.forEach {}
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 0)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 512)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.secretBinary?.forEach {}
             try self.validate(self.secretBinary, name: "secretBinary", parent: name, max: 65536)
             try self.validate(self.secretBinary, name: "secretBinary", parent: name, min: 0)
-            try self.secretString?.forEach {}
             try self.validate(self.secretString, name: "secretString", parent: name, max: 65536)
             try self.validate(self.secretString, name: "secretString", parent: name, min: 0)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -193,7 +184,6 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
-            try self.secretId.forEach {}
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
         }
@@ -235,7 +225,6 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
-            try self.secretId.forEach {}
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
         }
@@ -277,7 +266,6 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
-            try self.secretId.forEach {}
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
         }
@@ -380,7 +368,6 @@ extension SecretsManager {
                 try validate($0, name: "values[]", parent: name, max: 512)
                 try validate($0, name: "values[]", parent: name, pattern: "^\\!?[a-zA-Z0-9 :_@\\/\\+\\=\\.\\-]*$")
             }
-            try self.values?.forEach {}
             try self.validate(self.values, name: "values", parent: name, max: 10)
             try self.validate(self.values, name: "values", parent: name, min: 1)
         }
@@ -421,10 +408,8 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
-            try self.excludeCharacters?.forEach {}
             try self.validate(self.excludeCharacters, name: "excludeCharacters", parent: name, max: 4096)
             try self.validate(self.excludeCharacters, name: "excludeCharacters", parent: name, min: 0)
-            try self.passwordLength?.forEach {}
             try self.validate(self.passwordLength, name: "passwordLength", parent: name, max: 4096)
             try self.validate(self.passwordLength, name: "passwordLength", parent: name, min: 1)
         }
@@ -463,7 +448,6 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
-            try self.secretId.forEach {}
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
         }
@@ -509,13 +493,10 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
-            try self.secretId.forEach {}
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
-            try self.versionId?.forEach {}
             try self.validate(self.versionId, name: "versionId", parent: name, max: 64)
             try self.validate(self.versionId, name: "versionId", parent: name, min: 32)
-            try self.versionStage?.forEach {}
             try self.validate(self.versionStage, name: "versionStage", parent: name, max: 256)
             try self.validate(self.versionStage, name: "versionStage", parent: name, min: 1)
         }
@@ -582,13 +563,10 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.secretId.forEach {}
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
         }
@@ -647,12 +625,9 @@ extension SecretsManager {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 10)
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -697,10 +672,8 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
-            try self.resourcePolicy.forEach {}
             try self.validate(self.resourcePolicy, name: "resourcePolicy", parent: name, max: 20480)
             try self.validate(self.resourcePolicy, name: "resourcePolicy", parent: name, min: 1)
-            try self.secretId.forEach {}
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
         }
@@ -750,23 +723,18 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
-            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
-            try self.secretBinary?.forEach {}
             try self.validate(self.secretBinary, name: "secretBinary", parent: name, max: 65536)
             try self.validate(self.secretBinary, name: "secretBinary", parent: name, min: 0)
-            try self.secretId.forEach {}
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
-            try self.secretString?.forEach {}
             try self.validate(self.secretString, name: "secretString", parent: name, max: 65536)
             try self.validate(self.secretString, name: "secretString", parent: name, min: 0)
             try self.versionStages?.forEach {
                 try validate($0, name: "versionStages[]", parent: name, max: 256)
                 try validate($0, name: "versionStages[]", parent: name, min: 1)
             }
-            try self.versionStages?.forEach {}
             try self.validate(self.versionStages, name: "versionStages", parent: name, max: 20)
             try self.validate(self.versionStages, name: "versionStages", parent: name, min: 1)
         }
@@ -822,9 +790,7 @@ extension SecretsManager {
                 try validate($0, name: "removeReplicaRegions[]", parent: name, min: 1)
                 try validate($0, name: "removeReplicaRegions[]", parent: name, pattern: "^([a-z]+-)+\\d+$")
             }
-            try self.removeReplicaRegions.forEach {}
             try self.validate(self.removeReplicaRegions, name: "removeReplicaRegions", parent: name, min: 1)
-            try self.secretId.forEach {}
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
         }
@@ -864,10 +830,8 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
-            try self.kmsKeyId?.forEach {}
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 0)
-            try self.region?.forEach {}
             try self.validate(self.region, name: "region", parent: name, max: 128)
             try self.validate(self.region, name: "region", parent: name, min: 1)
             try self.validate(self.region, name: "region", parent: name, pattern: "^([a-z]+-)+\\d+$")
@@ -897,9 +861,7 @@ extension SecretsManager {
             try self.addReplicaRegions.forEach {
                 try $0.validate(name: "\(name).addReplicaRegions[]")
             }
-            try self.addReplicaRegions.forEach {}
             try self.validate(self.addReplicaRegions, name: "addReplicaRegions", parent: name, min: 1)
-            try self.secretId.forEach {}
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
         }
@@ -966,7 +928,6 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
-            try self.secretId.forEach {}
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
         }
@@ -1011,15 +972,11 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
-            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
-            try self.rotationLambdaARN?.forEach {}
             try self.validate(self.rotationLambdaARN, name: "rotationLambdaARN", parent: name, max: 2048)
             try self.validate(self.rotationLambdaARN, name: "rotationLambdaARN", parent: name, min: 0)
             try self.rotationRules?.validate(name: "\(name).rotationRules")
-            try self.rotationRules?.forEach {}
-            try self.secretId.forEach {}
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
         }
@@ -1062,7 +1019,6 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
-            try self.automaticallyAfterDays?.forEach {}
             try self.validate(self.automaticallyAfterDays, name: "automaticallyAfterDays", parent: name, max: 1000)
             try self.validate(self.automaticallyAfterDays, name: "automaticallyAfterDays", parent: name, min: 1)
         }
@@ -1179,7 +1135,6 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
-            try self.secretId.forEach {}
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
         }
@@ -1214,10 +1169,8 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
-            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
-            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
         }
@@ -1240,13 +1193,11 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
-            try self.secretId.forEach {}
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1267,14 +1218,12 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
-            try self.secretId.forEach {}
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
-            try self.tagKeys.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1307,21 +1256,15 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
-            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2048)
-            try self.kmsKeyId?.forEach {}
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 0)
-            try self.secretBinary?.forEach {}
             try self.validate(self.secretBinary, name: "secretBinary", parent: name, max: 65536)
             try self.validate(self.secretBinary, name: "secretBinary", parent: name, min: 0)
-            try self.secretId.forEach {}
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
-            try self.secretString?.forEach {}
             try self.validate(self.secretString, name: "secretString", parent: name, max: 65536)
             try self.validate(self.secretString, name: "secretString", parent: name, min: 0)
         }
@@ -1375,16 +1318,12 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
-            try self.moveToVersionId?.forEach {}
             try self.validate(self.moveToVersionId, name: "moveToVersionId", parent: name, max: 64)
             try self.validate(self.moveToVersionId, name: "moveToVersionId", parent: name, min: 32)
-            try self.removeFromVersionId?.forEach {}
             try self.validate(self.removeFromVersionId, name: "removeFromVersionId", parent: name, max: 64)
             try self.validate(self.removeFromVersionId, name: "removeFromVersionId", parent: name, min: 32)
-            try self.secretId.forEach {}
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
-            try self.versionStage.forEach {}
             try self.validate(self.versionStage, name: "versionStage", parent: name, max: 256)
             try self.validate(self.versionStage, name: "versionStage", parent: name, min: 1)
         }
@@ -1426,10 +1365,8 @@ extension SecretsManager {
         }
 
         public func validate(name: String) throws {
-            try self.resourcePolicy.forEach {}
             try self.validate(self.resourcePolicy, name: "resourcePolicy", parent: name, max: 20480)
             try self.validate(self.resourcePolicy, name: "resourcePolicy", parent: name, min: 1)
-            try self.secretId?.forEach {}
             try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
             try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
         }

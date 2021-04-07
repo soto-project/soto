@@ -96,7 +96,6 @@ extension CostandUsageReportService {
         }
 
         public func validate(name: String) throws {
-            try self.reportName?.forEach {}
             try self.validate(self.reportName, name: "reportName", parent: name, max: 256)
             try self.validate(self.reportName, name: "reportName", parent: name, pattern: "[0-9A-Za-z!\\-_.*\\'()]+")
         }
@@ -128,10 +127,8 @@ extension CostandUsageReportService {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 5)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 256)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[A-Za-z0-9_\\.\\-=]*")
         }
@@ -169,8 +166,6 @@ extension CostandUsageReportService {
 
         public func validate(name: String) throws {
             try self.reportDefinition.validate(name: "\(name).reportDefinition")
-            try self.reportDefinition.forEach {}
-            try self.reportName.forEach {}
             try self.validate(self.reportName, name: "reportName", parent: name, max: 256)
             try self.validate(self.reportName, name: "reportName", parent: name, pattern: "[0-9A-Za-z!\\-_.*\\'()]+")
         }
@@ -195,7 +190,6 @@ extension CostandUsageReportService {
 
         public func validate(name: String) throws {
             try self.reportDefinition.validate(name: "\(name).reportDefinition")
-            try self.reportDefinition.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -242,16 +236,12 @@ extension CostandUsageReportService {
         }
 
         public func validate(name: String) throws {
-            try self.billingViewArn?.forEach {}
             try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, max: 128)
             try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, pattern: "(arn:aws(-cn)?:billing::[0-9]{12}:billingview/)?[a-zA-Z0-9_\\+=\\.\\-@].{1,30}")
-            try self.reportName.forEach {}
             try self.validate(self.reportName, name: "reportName", parent: name, max: 256)
             try self.validate(self.reportName, name: "reportName", parent: name, pattern: "[0-9A-Za-z!\\-_.*\\'()]+")
-            try self.s3Bucket.forEach {}
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, max: 256)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "[A-Za-z0-9_\\.\\-]+")
-            try self.s3Prefix.forEach {}
             try self.validate(self.s3Prefix, name: "s3Prefix", parent: name, max: 256)
             try self.validate(self.s3Prefix, name: "s3Prefix", parent: name, pattern: "[0-9A-Za-z!\\-_.*\\'()/]*")
         }

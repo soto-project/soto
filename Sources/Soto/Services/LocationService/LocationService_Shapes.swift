@@ -61,11 +61,9 @@ extension LocationService {
         }
 
         public func validate(name: String) throws {
-            try self.consumerArn.forEach {}
             try self.validate(self.consumerArn, name: "consumerArn", parent: name, max: 1600)
             try self.validate(self.consumerArn, name: "consumerArn", parent: name, min: 0)
             try self.validate(self.consumerArn, name: "consumerArn", parent: name, pattern: "^arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:([^/].*)?$")
-            try self.trackerName.forEach {}
             try self.validate(self.trackerName, name: "trackerName", parent: name, max: 100)
             try self.validate(self.trackerName, name: "trackerName", parent: name, min: 1)
             try self.validate(self.trackerName, name: "trackerName", parent: name, pattern: "^[-._\\w]+$")
@@ -113,7 +111,6 @@ extension LocationService {
         }
 
         public func validate(name: String) throws {
-            try self.collectionName.forEach {}
             try self.validate(self.collectionName, name: "collectionName", parent: name, max: 100)
             try self.validate(self.collectionName, name: "collectionName", parent: name, min: 1)
             try self.validate(self.collectionName, name: "collectionName", parent: name, pattern: "^[-._\\w]+$")
@@ -122,7 +119,6 @@ extension LocationService {
                 try validate($0, name: "geofenceIds[]", parent: name, min: 1)
                 try validate($0, name: "geofenceIds[]", parent: name, pattern: "^[-._\\p{L}\\p{N}]+$")
             }
-            try self.geofenceIds.forEach {}
             try self.validate(self.geofenceIds, name: "geofenceIds", parent: name, max: 10)
             try self.validate(self.geofenceIds, name: "geofenceIds", parent: name, min: 1)
         }
@@ -183,14 +179,12 @@ extension LocationService {
         }
 
         public func validate(name: String) throws {
-            try self.collectionName.forEach {}
             try self.validate(self.collectionName, name: "collectionName", parent: name, max: 100)
             try self.validate(self.collectionName, name: "collectionName", parent: name, min: 1)
             try self.validate(self.collectionName, name: "collectionName", parent: name, pattern: "^[-._\\w]+$")
             try self.devicePositionUpdates.forEach {
                 try $0.validate(name: "\(name).devicePositionUpdates[]")
             }
-            try self.devicePositionUpdates.forEach {}
             try self.validate(self.devicePositionUpdates, name: "devicePositionUpdates", parent: name, max: 10)
             try self.validate(self.devicePositionUpdates, name: "devicePositionUpdates", parent: name, min: 1)
         }
@@ -251,10 +245,8 @@ extension LocationService {
                 try validate($0, name: "deviceIds[]", parent: name, min: 1)
                 try validate($0, name: "deviceIds[]", parent: name, pattern: "^[-._\\p{L}\\p{N}]+$")
             }
-            try self.deviceIds.forEach {}
             try self.validate(self.deviceIds, name: "deviceIds", parent: name, max: 10)
             try self.validate(self.deviceIds, name: "deviceIds", parent: name, min: 1)
-            try self.trackerName.forEach {}
             try self.validate(self.trackerName, name: "trackerName", parent: name, min: 1)
             try self.validate(self.trackerName, name: "trackerName", parent: name, pattern: "^[-._\\w]+$")
         }
@@ -331,14 +323,12 @@ extension LocationService {
         }
 
         public func validate(name: String) throws {
-            try self.collectionName.forEach {}
             try self.validate(self.collectionName, name: "collectionName", parent: name, max: 100)
             try self.validate(self.collectionName, name: "collectionName", parent: name, min: 1)
             try self.validate(self.collectionName, name: "collectionName", parent: name, pattern: "^[-._\\w]+$")
             try self.entries.forEach {
                 try $0.validate(name: "\(name).entries[]")
             }
-            try self.entries.forEach {}
             try self.validate(self.entries, name: "entries", parent: name, max: 10)
             try self.validate(self.entries, name: "entries", parent: name, min: 1)
         }
@@ -360,12 +350,10 @@ extension LocationService {
         }
 
         public func validate(name: String) throws {
-            try self.geofenceId.forEach {}
             try self.validate(self.geofenceId, name: "geofenceId", parent: name, max: 100)
             try self.validate(self.geofenceId, name: "geofenceId", parent: name, min: 1)
             try self.validate(self.geofenceId, name: "geofenceId", parent: name, pattern: "^[-._\\p{L}\\p{N}]+$")
             try self.geometry.validate(name: "\(name).geometry")
-            try self.geometry.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -452,14 +440,12 @@ extension LocationService {
         }
 
         public func validate(name: String) throws {
-            try self.trackerName.forEach {}
             try self.validate(self.trackerName, name: "trackerName", parent: name, max: 100)
             try self.validate(self.trackerName, name: "trackerName", parent: name, min: 1)
             try self.validate(self.trackerName, name: "trackerName", parent: name, pattern: "^[-._\\w]+$")
             try self.updates.forEach {
                 try $0.validate(name: "\(name).updates[]")
             }
-            try self.updates.forEach {}
             try self.validate(self.updates, name: "updates", parent: name, max: 10)
             try self.validate(self.updates, name: "updates", parent: name, min: 1)
         }
@@ -500,11 +486,9 @@ extension LocationService {
         }
 
         public func validate(name: String) throws {
-            try self.collectionName.forEach {}
             try self.validate(self.collectionName, name: "collectionName", parent: name, max: 100)
             try self.validate(self.collectionName, name: "collectionName", parent: name, min: 1)
             try self.validate(self.collectionName, name: "collectionName", parent: name, pattern: "^[-._\\w]+$")
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, min: 0)
         }
@@ -558,11 +542,8 @@ extension LocationService {
 
         public func validate(name: String) throws {
             try self.configuration.validate(name: "\(name).configuration")
-            try self.configuration.forEach {}
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, min: 0)
-            try self.mapName.forEach {}
             try self.validate(self.mapName, name: "mapName", parent: name, max: 100)
             try self.validate(self.mapName, name: "mapName", parent: name, min: 1)
             try self.validate(self.mapName, name: "mapName", parent: name, pattern: "^[-._\\w]+$")
@@ -619,10 +600,8 @@ extension LocationService {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, min: 0)
-            try self.indexName.forEach {}
             try self.validate(self.indexName, name: "indexName", parent: name, max: 100)
             try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
             try self.validate(self.indexName, name: "indexName", parent: name, pattern: "^[-._\\w]+$")
@@ -677,10 +656,8 @@ extension LocationService {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, min: 0)
-            try self.trackerName.forEach {}
             try self.validate(self.trackerName, name: "trackerName", parent: name, max: 100)
             try self.validate(self.trackerName, name: "trackerName", parent: name, min: 1)
             try self.validate(self.trackerName, name: "trackerName", parent: name, pattern: "^[-._\\w]+$")
@@ -742,7 +719,6 @@ extension LocationService {
         }
 
         public func validate(name: String) throws {
-            try self.collectionName.forEach {}
             try self.validate(self.collectionName, name: "collectionName", parent: name, max: 100)
             try self.validate(self.collectionName, name: "collectionName", parent: name, min: 1)
             try self.validate(self.collectionName, name: "collectionName", parent: name, pattern: "^[-._\\w]+$")
@@ -768,7 +744,6 @@ extension LocationService {
         }
 
         public func validate(name: String) throws {
-            try self.mapName.forEach {}
             try self.validate(self.mapName, name: "mapName", parent: name, max: 100)
             try self.validate(self.mapName, name: "mapName", parent: name, min: 1)
             try self.validate(self.mapName, name: "mapName", parent: name, pattern: "^[-._\\w]+$")
@@ -794,7 +769,6 @@ extension LocationService {
         }
 
         public func validate(name: String) throws {
-            try self.indexName.forEach {}
             try self.validate(self.indexName, name: "indexName", parent: name, max: 100)
             try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
             try self.validate(self.indexName, name: "indexName", parent: name, pattern: "^[-._\\w]+$")
@@ -820,7 +794,6 @@ extension LocationService {
         }
 
         public func validate(name: String) throws {
-            try self.trackerName.forEach {}
             try self.validate(self.trackerName, name: "trackerName", parent: name, max: 100)
             try self.validate(self.trackerName, name: "trackerName", parent: name, min: 1)
             try self.validate(self.trackerName, name: "trackerName", parent: name, pattern: "^[-._\\w]+$")
@@ -846,7 +819,6 @@ extension LocationService {
         }
 
         public func validate(name: String) throws {
-            try self.collectionName.forEach {}
             try self.validate(self.collectionName, name: "collectionName", parent: name, max: 100)
             try self.validate(self.collectionName, name: "collectionName", parent: name, min: 1)
             try self.validate(self.collectionName, name: "collectionName", parent: name, pattern: "^[-._\\w]+$")
@@ -907,7 +879,6 @@ extension LocationService {
         }
 
         public func validate(name: String) throws {
-            try self.mapName.forEach {}
             try self.validate(self.mapName, name: "mapName", parent: name, max: 100)
             try self.validate(self.mapName, name: "mapName", parent: name, min: 1)
             try self.validate(self.mapName, name: "mapName", parent: name, pattern: "^[-._\\w]+$")
@@ -972,7 +943,6 @@ extension LocationService {
         }
 
         public func validate(name: String) throws {
-            try self.indexName.forEach {}
             try self.validate(self.indexName, name: "indexName", parent: name, max: 100)
             try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
             try self.validate(self.indexName, name: "indexName", parent: name, pattern: "^[-._\\w]+$")
@@ -1037,7 +1007,6 @@ extension LocationService {
         }
 
         public func validate(name: String) throws {
-            try self.trackerName.forEach {}
             try self.validate(self.trackerName, name: "trackerName", parent: name, max: 100)
             try self.validate(self.trackerName, name: "trackerName", parent: name, min: 1)
             try self.validate(self.trackerName, name: "trackerName", parent: name, pattern: "^[-._\\w]+$")
@@ -1128,11 +1097,9 @@ extension LocationService {
         }
 
         public func validate(name: String) throws {
-            try self.deviceId.forEach {}
             try self.validate(self.deviceId, name: "deviceId", parent: name, max: 100)
             try self.validate(self.deviceId, name: "deviceId", parent: name, min: 1)
             try self.validate(self.deviceId, name: "deviceId", parent: name, pattern: "^[-._\\p{L}\\p{N}]+$")
-            try self.position.forEach {}
             try self.validate(self.position, name: "position", parent: name, max: 2)
             try self.validate(self.position, name: "position", parent: name, min: 2)
         }
@@ -1161,11 +1128,9 @@ extension LocationService {
         }
 
         public func validate(name: String) throws {
-            try self.consumerArn.forEach {}
             try self.validate(self.consumerArn, name: "consumerArn", parent: name, max: 1600)
             try self.validate(self.consumerArn, name: "consumerArn", parent: name, min: 0)
             try self.validate(self.consumerArn, name: "consumerArn", parent: name, pattern: "^arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:([^/].*)?$")
-            try self.trackerName.forEach {}
             try self.validate(self.trackerName, name: "trackerName", parent: name, max: 100)
             try self.validate(self.trackerName, name: "trackerName", parent: name, min: 1)
             try self.validate(self.trackerName, name: "trackerName", parent: name, pattern: "^[-._\\w]+$")
@@ -1190,7 +1155,6 @@ extension LocationService {
             try self.polygon?.forEach {
                 try validate($0, name: "polygon[]", parent: name, min: 4)
             }
-            try self.polygon?.forEach {}
             try self.validate(self.polygon, name: "polygon", parent: name, min: 1)
         }
 
@@ -1227,14 +1191,11 @@ extension LocationService {
         }
 
         public func validate(name: String) throws {
-            try self.deviceId.forEach {}
             try self.validate(self.deviceId, name: "deviceId", parent: name, max: 100)
             try self.validate(self.deviceId, name: "deviceId", parent: name, min: 1)
             try self.validate(self.deviceId, name: "deviceId", parent: name, pattern: "^[-._\\p{L}\\p{N}]+$")
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.trackerName.forEach {}
             try self.validate(self.trackerName, name: "trackerName", parent: name, max: 100)
             try self.validate(self.trackerName, name: "trackerName", parent: name, min: 1)
             try self.validate(self.trackerName, name: "trackerName", parent: name, pattern: "^[-._\\w]+$")
@@ -1281,11 +1242,9 @@ extension LocationService {
         }
 
         public func validate(name: String) throws {
-            try self.deviceId.forEach {}
             try self.validate(self.deviceId, name: "deviceId", parent: name, max: 100)
             try self.validate(self.deviceId, name: "deviceId", parent: name, min: 1)
             try self.validate(self.deviceId, name: "deviceId", parent: name, pattern: "^[-._\\p{L}\\p{N}]+$")
-            try self.trackerName.forEach {}
             try self.validate(self.trackerName, name: "trackerName", parent: name, max: 100)
             try self.validate(self.trackerName, name: "trackerName", parent: name, min: 1)
             try self.validate(self.trackerName, name: "trackerName", parent: name, pattern: "^[-._\\w]+$")
@@ -1338,11 +1297,9 @@ extension LocationService {
         }
 
         public func validate(name: String) throws {
-            try self.collectionName.forEach {}
             try self.validate(self.collectionName, name: "collectionName", parent: name, max: 100)
             try self.validate(self.collectionName, name: "collectionName", parent: name, min: 1)
             try self.validate(self.collectionName, name: "collectionName", parent: name, pattern: "^[-._\\w]+$")
-            try self.geofenceId.forEach {}
             try self.validate(self.geofenceId, name: "geofenceId", parent: name, max: 100)
             try self.validate(self.geofenceId, name: "geofenceId", parent: name, min: 1)
             try self.validate(self.geofenceId, name: "geofenceId", parent: name, pattern: "^[-._\\p{L}\\p{N}]+$")
@@ -1403,9 +1360,7 @@ extension LocationService {
         }
 
         public func validate(name: String) throws {
-            try self.fontUnicodeRange.forEach {}
             try self.validate(self.fontUnicodeRange, name: "fontUnicodeRange", parent: name, pattern: "^[0-9]+-[0-9]+\\.pbf$")
-            try self.mapName.forEach {}
             try self.validate(self.mapName, name: "mapName", parent: name, max: 100)
             try self.validate(self.mapName, name: "mapName", parent: name, min: 1)
             try self.validate(self.mapName, name: "mapName", parent: name, pattern: "^[-._\\w]+$")
@@ -1456,9 +1411,7 @@ extension LocationService {
         }
 
         public func validate(name: String) throws {
-            try self.fileName.forEach {}
             try self.validate(self.fileName, name: "fileName", parent: name, pattern: "^sprites(@2x)?\\.(png|json)$")
-            try self.mapName.forEach {}
             try self.validate(self.mapName, name: "mapName", parent: name, max: 100)
             try self.validate(self.mapName, name: "mapName", parent: name, min: 1)
             try self.validate(self.mapName, name: "mapName", parent: name, pattern: "^[-._\\w]+$")
@@ -1505,7 +1458,6 @@ extension LocationService {
         }
 
         public func validate(name: String) throws {
-            try self.mapName.forEach {}
             try self.validate(self.mapName, name: "mapName", parent: name, max: 100)
             try self.validate(self.mapName, name: "mapName", parent: name, min: 1)
             try self.validate(self.mapName, name: "mapName", parent: name, pattern: "^[-._\\w]+$")
@@ -1564,15 +1516,11 @@ extension LocationService {
         }
 
         public func validate(name: String) throws {
-            try self.mapName.forEach {}
             try self.validate(self.mapName, name: "mapName", parent: name, max: 100)
             try self.validate(self.mapName, name: "mapName", parent: name, min: 1)
             try self.validate(self.mapName, name: "mapName", parent: name, pattern: "^[-._\\w]+$")
-            try self.x.forEach {}
             try self.validate(self.x, name: "x", parent: name, pattern: "\\d+")
-            try self.y.forEach {}
             try self.validate(self.y, name: "y", parent: name, pattern: "\\d+")
-            try self.z.forEach {}
             try self.validate(self.z, name: "z", parent: name, pattern: "\\d+")
         }
 
@@ -1616,10 +1564,8 @@ extension LocationService {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1729,11 +1675,9 @@ extension LocationService {
         }
 
         public func validate(name: String) throws {
-            try self.collectionName.forEach {}
             try self.validate(self.collectionName, name: "collectionName", parent: name, max: 100)
             try self.validate(self.collectionName, name: "collectionName", parent: name, min: 1)
             try self.validate(self.collectionName, name: "collectionName", parent: name, pattern: "^[-._\\w]+$")
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1772,10 +1716,8 @@ extension LocationService {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1850,10 +1792,8 @@ extension LocationService {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1935,13 +1875,10 @@ extension LocationService {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.trackerName.forEach {}
             try self.validate(self.trackerName, name: "trackerName", parent: name, max: 100)
             try self.validate(self.trackerName, name: "trackerName", parent: name, min: 1)
             try self.validate(self.trackerName, name: "trackerName", parent: name, pattern: "^[-._\\w]+$")
@@ -1982,10 +1919,8 @@ extension LocationService {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2057,7 +1992,6 @@ extension LocationService {
         }
 
         public func validate(name: String) throws {
-            try self.style.forEach {}
             try self.validate(self.style, name: "style", parent: name, max: 100)
             try self.validate(self.style, name: "style", parent: name, min: 1)
             try self.validate(self.style, name: "style", parent: name, pattern: "^[-._\\p{L}\\p{N}]+$")
@@ -2149,16 +2083,13 @@ extension LocationService {
         }
 
         public func validate(name: String) throws {
-            try self.collectionName.forEach {}
             try self.validate(self.collectionName, name: "collectionName", parent: name, max: 100)
             try self.validate(self.collectionName, name: "collectionName", parent: name, min: 1)
             try self.validate(self.collectionName, name: "collectionName", parent: name, pattern: "^[-._\\w]+$")
-            try self.geofenceId.forEach {}
             try self.validate(self.geofenceId, name: "geofenceId", parent: name, max: 100)
             try self.validate(self.geofenceId, name: "geofenceId", parent: name, min: 1)
             try self.validate(self.geofenceId, name: "geofenceId", parent: name, pattern: "^[-._\\p{L}\\p{N}]+$")
             try self.geometry.validate(name: "\(name).geometry")
-            try self.geometry.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2234,14 +2165,11 @@ extension LocationService {
         }
 
         public func validate(name: String) throws {
-            try self.indexName.forEach {}
             try self.validate(self.indexName, name: "indexName", parent: name, max: 100)
             try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
             try self.validate(self.indexName, name: "indexName", parent: name, pattern: "^[-._\\w]+$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.position.forEach {}
             try self.validate(self.position, name: "position", parent: name, max: 2)
             try self.validate(self.position, name: "position", parent: name, min: 2)
         }
@@ -2318,26 +2246,20 @@ extension LocationService {
         }
 
         public func validate(name: String) throws {
-            try self.biasPosition?.forEach {}
             try self.validate(self.biasPosition, name: "biasPosition", parent: name, max: 2)
             try self.validate(self.biasPosition, name: "biasPosition", parent: name, min: 2)
-            try self.filterBBox?.forEach {}
             try self.validate(self.filterBBox, name: "filterBBox", parent: name, max: 6)
             try self.validate(self.filterBBox, name: "filterBBox", parent: name, min: 4)
             try self.filterCountries?.forEach {
                 try validate($0, name: "filterCountries[]", parent: name, pattern: "^[A-Z]{3}$")
             }
-            try self.filterCountries?.forEach {}
             try self.validate(self.filterCountries, name: "filterCountries", parent: name, max: 100)
             try self.validate(self.filterCountries, name: "filterCountries", parent: name, min: 1)
-            try self.indexName.forEach {}
             try self.validate(self.indexName, name: "indexName", parent: name, max: 100)
             try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
             try self.validate(self.indexName, name: "indexName", parent: name, pattern: "^[-._\\w]+$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.text.forEach {}
             try self.validate(self.text, name: "text", parent: name, max: 200)
             try self.validate(self.text, name: "text", parent: name, min: 1)
         }

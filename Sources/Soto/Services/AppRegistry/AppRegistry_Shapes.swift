@@ -124,11 +124,9 @@ extension AppRegistry {
         }
 
         public func validate(name: String) throws {
-            try self.application.forEach {}
             try self.validate(self.application, name: "application", parent: name, max: 256)
             try self.validate(self.application, name: "application", parent: name, min: 1)
             try self.validate(self.application, name: "application", parent: name, pattern: "\\w+")
-            try self.attributeGroup.forEach {}
             try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, max: 256)
             try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, min: 1)
             try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, pattern: "\\w+")
@@ -175,11 +173,9 @@ extension AppRegistry {
         }
 
         public func validate(name: String) throws {
-            try self.application.forEach {}
             try self.validate(self.application, name: "application", parent: name, max: 256)
             try self.validate(self.application, name: "application", parent: name, min: 1)
             try self.validate(self.application, name: "application", parent: name, pattern: "\\w+")
-            try self.resource.forEach {}
             try self.validate(self.resource, name: "resource", parent: name, max: 256)
             try self.validate(self.resource, name: "resource", parent: name, min: 1)
             try self.validate(self.resource, name: "resource", parent: name, pattern: "\\S+")
@@ -297,13 +293,10 @@ extension AppRegistry {
         }
 
         public func validate(name: String) throws {
-            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "\\w+")
@@ -358,17 +351,13 @@ extension AppRegistry {
         }
 
         public func validate(name: String) throws {
-            try self.attributes.forEach {}
             try self.validate(self.attributes, name: "attributes", parent: name, max: 8000)
             try self.validate(self.attributes, name: "attributes", parent: name, min: 1)
             try self.validate(self.attributes, name: "attributes", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
-            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "\\w+")
@@ -416,7 +405,6 @@ extension AppRegistry {
         }
 
         public func validate(name: String) throws {
-            try self.application.forEach {}
             try self.validate(self.application, name: "application", parent: name, max: 256)
             try self.validate(self.application, name: "application", parent: name, min: 1)
             try self.validate(self.application, name: "application", parent: name, pattern: "\\w+")
@@ -451,7 +439,6 @@ extension AppRegistry {
         }
 
         public func validate(name: String) throws {
-            try self.attributeGroup.forEach {}
             try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, max: 256)
             try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, min: 1)
             try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, pattern: "\\w+")
@@ -490,11 +477,9 @@ extension AppRegistry {
         }
 
         public func validate(name: String) throws {
-            try self.application.forEach {}
             try self.validate(self.application, name: "application", parent: name, max: 256)
             try self.validate(self.application, name: "application", parent: name, min: 1)
             try self.validate(self.application, name: "application", parent: name, pattern: "\\w+")
-            try self.attributeGroup.forEach {}
             try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, max: 256)
             try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, min: 1)
             try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, pattern: "\\w+")
@@ -541,11 +526,9 @@ extension AppRegistry {
         }
 
         public func validate(name: String) throws {
-            try self.application.forEach {}
             try self.validate(self.application, name: "application", parent: name, max: 256)
             try self.validate(self.application, name: "application", parent: name, min: 1)
             try self.validate(self.application, name: "application", parent: name, pattern: "\\w+")
-            try self.resource.forEach {}
             try self.validate(self.resource, name: "resource", parent: name, max: 256)
             try self.validate(self.resource, name: "resource", parent: name, min: 1)
             try self.validate(self.resource, name: "resource", parent: name, pattern: "\\S+")
@@ -584,7 +567,6 @@ extension AppRegistry {
         }
 
         public func validate(name: String) throws {
-            try self.application.forEach {}
             try self.validate(self.application, name: "application", parent: name, max: 256)
             try self.validate(self.application, name: "application", parent: name, min: 1)
             try self.validate(self.application, name: "application", parent: name, pattern: "\\w+")
@@ -649,7 +631,6 @@ extension AppRegistry {
         }
 
         public func validate(name: String) throws {
-            try self.attributeGroup.forEach {}
             try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, max: 256)
             try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, min: 1)
             try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, pattern: "\\w+")
@@ -718,10 +699,8 @@ extension AppRegistry {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[A-Za-z0-9+/=]+")
@@ -768,14 +747,11 @@ extension AppRegistry {
         }
 
         public func validate(name: String) throws {
-            try self.application.forEach {}
             try self.validate(self.application, name: "application", parent: name, max: 256)
             try self.validate(self.application, name: "application", parent: name, min: 1)
             try self.validate(self.application, name: "application", parent: name, pattern: "\\w+")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[A-Za-z0-9+/=]+")
@@ -822,14 +798,11 @@ extension AppRegistry {
         }
 
         public func validate(name: String) throws {
-            try self.application.forEach {}
             try self.validate(self.application, name: "application", parent: name, max: 256)
             try self.validate(self.application, name: "application", parent: name, min: 1)
             try self.validate(self.application, name: "application", parent: name, pattern: "\\w+")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[A-Za-z0-9+/=]+")
@@ -872,10 +845,8 @@ extension AppRegistry {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[A-Za-z0-9+/=]+")
@@ -914,7 +885,6 @@ extension AppRegistry {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1600)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:([a-z]{2}(-gov)?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)")
@@ -970,7 +940,6 @@ extension AppRegistry {
         }
 
         public func validate(name: String) throws {
-            try self.resource.forEach {}
             try self.validate(self.resource, name: "resource", parent: name, max: 256)
             try self.validate(self.resource, name: "resource", parent: name, min: 1)
             try self.validate(self.resource, name: "resource", parent: name, pattern: "\\S+")
@@ -1016,7 +985,6 @@ extension AppRegistry {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1600)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:([a-z]{2}(-gov)?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)")
@@ -1055,7 +1023,6 @@ extension AppRegistry {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1600)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:([a-z]{2}(-gov)?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)")
@@ -1064,7 +1031,6 @@ extension AppRegistry {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "(?!aws:)[a-zA-Z+-=._:/]+")
             }
-            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
         }
@@ -1095,13 +1061,10 @@ extension AppRegistry {
         }
 
         public func validate(name: String) throws {
-            try self.application.forEach {}
             try self.validate(self.application, name: "application", parent: name, max: 256)
             try self.validate(self.application, name: "application", parent: name, min: 1)
             try self.validate(self.application, name: "application", parent: name, pattern: "\\w+")
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "\\w+")
@@ -1148,17 +1111,13 @@ extension AppRegistry {
         }
 
         public func validate(name: String) throws {
-            try self.attributeGroup.forEach {}
             try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, max: 256)
             try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, min: 1)
             try self.validate(self.attributeGroup, name: "attributeGroup", parent: name, pattern: "\\w+")
-            try self.attributes?.forEach {}
             try self.validate(self.attributes, name: "attributes", parent: name, max: 8000)
             try self.validate(self.attributes, name: "attributes", parent: name, min: 1)
             try self.validate(self.attributes, name: "attributes", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "\\w+")

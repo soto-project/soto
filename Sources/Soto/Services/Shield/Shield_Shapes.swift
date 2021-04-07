@@ -106,7 +106,6 @@ extension Shield {
         }
 
         public func validate(name: String) throws {
-            try self.logBucket.forEach {}
             try self.validate(self.logBucket, name: "logBucket", parent: name, max: 63)
             try self.validate(self.logBucket, name: "logBucket", parent: name, min: 3)
             try self.validate(self.logBucket, name: "logBucket", parent: name, pattern: "^([a-z]|(\\d(?!\\d{0,2}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})))([a-z\\d]|(\\.(?!(\\.|-)))|(-(?!\\.))){1,61}[a-z\\d]$")
@@ -130,7 +129,6 @@ extension Shield {
         }
 
         public func validate(name: String) throws {
-            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
@@ -157,11 +155,9 @@ extension Shield {
         }
 
         public func validate(name: String) throws {
-            try self.healthCheckArn.forEach {}
             try self.validate(self.healthCheckArn, name: "healthCheckArn", parent: name, max: 2048)
             try self.validate(self.healthCheckArn, name: "healthCheckArn", parent: name, min: 1)
             try self.validate(self.healthCheckArn, name: "healthCheckArn", parent: name, pattern: "^arn:aws:route53:::healthcheck/\\S{36}$")
-            try self.protectionId.forEach {}
             try self.validate(self.protectionId, name: "protectionId", parent: name, max: 36)
             try self.validate(self.protectionId, name: "protectionId", parent: name, min: 1)
             try self.validate(self.protectionId, name: "protectionId", parent: name, pattern: "[a-zA-Z0-9\\\\-]*")
@@ -189,7 +185,6 @@ extension Shield {
             try self.emergencyContactList.forEach {
                 try $0.validate(name: "\(name).emergencyContactList[]")
             }
-            try self.emergencyContactList.forEach {}
             try self.validate(self.emergencyContactList, name: "emergencyContactList", parent: name, max: 10)
             try self.validate(self.emergencyContactList, name: "emergencyContactList", parent: name, min: 0)
         }
@@ -412,17 +407,14 @@ extension Shield {
                 try validate($0, name: "members[]", parent: name, min: 1)
                 try validate($0, name: "members[]", parent: name, pattern: "^arn:aws.*")
             }
-            try self.members?.forEach {}
             try self.validate(self.members, name: "members", parent: name, max: 10000)
             try self.validate(self.members, name: "members", parent: name, min: 0)
-            try self.protectionGroupId.forEach {}
             try self.validate(self.protectionGroupId, name: "protectionGroupId", parent: name, max: 36)
             try self.validate(self.protectionGroupId, name: "protectionGroupId", parent: name, min: 1)
             try self.validate(self.protectionGroupId, name: "protectionGroupId", parent: name, pattern: "[a-zA-Z0-9\\\\-]*")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -456,18 +448,15 @@ extension Shield {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[ a-zA-Z0-9_\\\\.\\\\-]*")
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws.*")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -509,7 +498,6 @@ extension Shield {
         }
 
         public func validate(name: String) throws {
-            try self.protectionGroupId.forEach {}
             try self.validate(self.protectionGroupId, name: "protectionGroupId", parent: name, max: 36)
             try self.validate(self.protectionGroupId, name: "protectionGroupId", parent: name, min: 1)
             try self.validate(self.protectionGroupId, name: "protectionGroupId", parent: name, pattern: "[a-zA-Z0-9\\\\-]*")
@@ -533,7 +521,6 @@ extension Shield {
         }
 
         public func validate(name: String) throws {
-            try self.protectionId.forEach {}
             try self.validate(self.protectionId, name: "protectionId", parent: name, max: 36)
             try self.validate(self.protectionId, name: "protectionId", parent: name, min: 1)
             try self.validate(self.protectionId, name: "protectionId", parent: name, pattern: "[a-zA-Z0-9\\\\-]*")
@@ -565,7 +552,6 @@ extension Shield {
         }
 
         public func validate(name: String) throws {
-            try self.attackId.forEach {}
             try self.validate(self.attackId, name: "attackId", parent: name, max: 128)
             try self.validate(self.attackId, name: "attackId", parent: name, min: 1)
             try self.validate(self.attackId, name: "attackId", parent: name, pattern: "[a-zA-Z0-9\\\\-]*")
@@ -656,7 +642,6 @@ extension Shield {
         }
 
         public func validate(name: String) throws {
-            try self.protectionGroupId.forEach {}
             try self.validate(self.protectionGroupId, name: "protectionGroupId", parent: name, max: 36)
             try self.validate(self.protectionGroupId, name: "protectionGroupId", parent: name, min: 1)
             try self.validate(self.protectionGroupId, name: "protectionGroupId", parent: name, pattern: "[a-zA-Z0-9\\\\-]*")
@@ -692,11 +677,9 @@ extension Shield {
         }
 
         public func validate(name: String) throws {
-            try self.protectionId?.forEach {}
             try self.validate(self.protectionId, name: "protectionId", parent: name, max: 36)
             try self.validate(self.protectionId, name: "protectionId", parent: name, min: 1)
             try self.validate(self.protectionId, name: "protectionId", parent: name, pattern: "[a-zA-Z0-9\\\\-]*")
-            try self.resourceArn?.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws.*")
@@ -755,7 +738,6 @@ extension Shield {
         }
 
         public func validate(name: String) throws {
-            try self.logBucket.forEach {}
             try self.validate(self.logBucket, name: "logBucket", parent: name, max: 63)
             try self.validate(self.logBucket, name: "logBucket", parent: name, min: 3)
             try self.validate(self.logBucket, name: "logBucket", parent: name, pattern: "^([a-z]|(\\d(?!\\d{0,2}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})))([a-z\\d]|(\\.(?!(\\.|-)))|(-(?!\\.))){1,61}[a-z\\d]$")
@@ -790,11 +772,9 @@ extension Shield {
         }
 
         public func validate(name: String) throws {
-            try self.healthCheckArn.forEach {}
             try self.validate(self.healthCheckArn, name: "healthCheckArn", parent: name, max: 2048)
             try self.validate(self.healthCheckArn, name: "healthCheckArn", parent: name, min: 1)
             try self.validate(self.healthCheckArn, name: "healthCheckArn", parent: name, pattern: "^arn:aws:route53:::healthcheck/\\S{36}$")
-            try self.protectionId.forEach {}
             try self.validate(self.protectionId, name: "protectionId", parent: name, max: 36)
             try self.validate(self.protectionId, name: "protectionId", parent: name, min: 1)
             try self.validate(self.protectionId, name: "protectionId", parent: name, pattern: "[a-zA-Z0-9\\\\-]*")
@@ -825,15 +805,12 @@ extension Shield {
         }
 
         public func validate(name: String) throws {
-            try self.contactNotes?.forEach {}
             try self.validate(self.contactNotes, name: "contactNotes", parent: name, max: 1024)
             try self.validate(self.contactNotes, name: "contactNotes", parent: name, min: 1)
             try self.validate(self.contactNotes, name: "contactNotes", parent: name, pattern: "^[\\w\\s\\.\\-,:/()+@]*$")
-            try self.emailAddress.forEach {}
             try self.validate(self.emailAddress, name: "emailAddress", parent: name, max: 150)
             try self.validate(self.emailAddress, name: "emailAddress", parent: name, min: 1)
             try self.validate(self.emailAddress, name: "emailAddress", parent: name, pattern: "^\\S+@\\S+\\.\\S+$")
-            try self.phoneNumber?.forEach {}
             try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, max: 16)
             try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, min: 1)
             try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, pattern: "^\\+[1-9]\\d{1,14}$")
@@ -909,10 +886,8 @@ extension Shield {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.*$")
@@ -921,7 +896,6 @@ extension Shield {
                 try validate($0, name: "resourceArns[]", parent: name, min: 1)
                 try validate($0, name: "resourceArns[]", parent: name, pattern: "^arn:aws.*")
             }
-            try self.resourceArns?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -962,10 +936,8 @@ extension Shield {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.*$")
@@ -1005,10 +977,8 @@ extension Shield {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.*$")
@@ -1052,14 +1022,11 @@ extension Shield {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.*$")
-            try self.protectionGroupId.forEach {}
             try self.validate(self.protectionGroupId, name: "protectionGroupId", parent: name, max: 36)
             try self.validate(self.protectionGroupId, name: "protectionGroupId", parent: name, min: 1)
             try self.validate(self.protectionGroupId, name: "protectionGroupId", parent: name, pattern: "[a-zA-Z0-9\\\\-]*")
@@ -1098,7 +1065,6 @@ extension Shield {
         }
 
         public func validate(name: String) throws {
-            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 2048)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws.*")
@@ -1398,10 +1364,8 @@ extension Shield {
         }
 
         public func validate(name: String) throws {
-            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
-            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
         }
@@ -1424,14 +1388,12 @@ extension Shield {
         }
 
         public func validate(name: String) throws {
-            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 2048)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws.*")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -1475,7 +1437,6 @@ extension Shield {
         }
 
         public func validate(name: String) throws {
-            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 2048)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws.*")
@@ -1483,7 +1444,6 @@ extension Shield {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
-            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
         }
@@ -1510,7 +1470,6 @@ extension Shield {
             try self.emergencyContactList?.forEach {
                 try $0.validate(name: "\(name).emergencyContactList[]")
             }
-            try self.emergencyContactList?.forEach {}
             try self.validate(self.emergencyContactList, name: "emergencyContactList", parent: name, max: 10)
             try self.validate(self.emergencyContactList, name: "emergencyContactList", parent: name, min: 0)
         }
@@ -1550,10 +1509,8 @@ extension Shield {
                 try validate($0, name: "members[]", parent: name, min: 1)
                 try validate($0, name: "members[]", parent: name, pattern: "^arn:aws.*")
             }
-            try self.members?.forEach {}
             try self.validate(self.members, name: "members", parent: name, max: 10000)
             try self.validate(self.members, name: "members", parent: name, min: 0)
-            try self.protectionGroupId.forEach {}
             try self.validate(self.protectionGroupId, name: "protectionGroupId", parent: name, max: 36)
             try self.validate(self.protectionGroupId, name: "protectionGroupId", parent: name, min: 1)
             try self.validate(self.protectionGroupId, name: "protectionGroupId", parent: name, pattern: "[a-zA-Z0-9\\\\-]*")

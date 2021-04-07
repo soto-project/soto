@@ -416,7 +416,6 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 65536)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
@@ -481,18 +480,14 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
-            try self.dataSourceName.forEach {}
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, max: 65536)
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, min: 1)
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 65536)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
-            try self.requestMappingTemplate?.forEach {}
             try self.validate(self.requestMappingTemplate, name: "requestMappingTemplate", parent: name, max: 65536)
             try self.validate(self.requestMappingTemplate, name: "requestMappingTemplate", parent: name, min: 1)
-            try self.responseMappingTemplate?.forEach {}
             try self.validate(self.responseMappingTemplate, name: "responseMappingTemplate", parent: name, max: 65536)
             try self.validate(self.responseMappingTemplate, name: "responseMappingTemplate", parent: name, min: 1)
         }
@@ -625,21 +620,16 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
-            try self.dataSourceName?.forEach {}
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, max: 65536)
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, min: 1)
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
-            try self.fieldName.forEach {}
             try self.validate(self.fieldName, name: "fieldName", parent: name, max: 65536)
             try self.validate(self.fieldName, name: "fieldName", parent: name, min: 1)
             try self.validate(self.fieldName, name: "fieldName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
-            try self.requestMappingTemplate?.forEach {}
             try self.validate(self.requestMappingTemplate, name: "requestMappingTemplate", parent: name, max: 65536)
             try self.validate(self.requestMappingTemplate, name: "requestMappingTemplate", parent: name, min: 1)
-            try self.responseMappingTemplate?.forEach {}
             try self.validate(self.responseMappingTemplate, name: "responseMappingTemplate", parent: name, max: 65536)
             try self.validate(self.responseMappingTemplate, name: "responseMappingTemplate", parent: name, min: 1)
-            try self.typeName.forEach {}
             try self.validate(self.typeName, name: "typeName", parent: name, max: 65536)
             try self.validate(self.typeName, name: "typeName", parent: name, min: 1)
             try self.validate(self.typeName, name: "typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
@@ -815,7 +805,6 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 65536)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
@@ -845,7 +834,6 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
-            try self.functionId.forEach {}
             try self.validate(self.functionId, name: "functionId", parent: name, max: 65536)
             try self.validate(self.functionId, name: "functionId", parent: name, min: 1)
             try self.validate(self.functionId, name: "functionId", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
@@ -898,11 +886,9 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
-            try self.fieldName.forEach {}
             try self.validate(self.fieldName, name: "fieldName", parent: name, max: 65536)
             try self.validate(self.fieldName, name: "fieldName", parent: name, min: 1)
             try self.validate(self.fieldName, name: "fieldName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
-            try self.typeName.forEach {}
             try self.validate(self.typeName, name: "typeName", parent: name, max: 65536)
             try self.validate(self.typeName, name: "typeName", parent: name, min: 1)
             try self.validate(self.typeName, name: "typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
@@ -932,7 +918,6 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
-            try self.typeName.forEach {}
             try self.validate(self.typeName, name: "typeName", parent: name, max: 65536)
             try self.validate(self.typeName, name: "typeName", parent: name, min: 1)
             try self.validate(self.typeName, name: "typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
@@ -1120,7 +1105,6 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 65536)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
@@ -1159,7 +1143,6 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
-            try self.functionId.forEach {}
             try self.validate(self.functionId, name: "functionId", parent: name, max: 65536)
             try self.validate(self.functionId, name: "functionId", parent: name, min: 1)
             try self.validate(self.functionId, name: "functionId", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
@@ -1270,11 +1253,9 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
-            try self.fieldName.forEach {}
             try self.validate(self.fieldName, name: "fieldName", parent: name, max: 65536)
             try self.validate(self.fieldName, name: "fieldName", parent: name, min: 1)
             try self.validate(self.fieldName, name: "fieldName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
-            try self.typeName.forEach {}
             try self.validate(self.typeName, name: "typeName", parent: name, max: 65536)
             try self.validate(self.typeName, name: "typeName", parent: name, min: 1)
             try self.validate(self.typeName, name: "typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
@@ -1349,7 +1330,6 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
-            try self.typeName.forEach {}
             try self.validate(self.typeName, name: "typeName", parent: name, max: 65536)
             try self.validate(self.typeName, name: "typeName", parent: name, min: 1)
             try self.validate(self.typeName, name: "typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
@@ -1492,10 +1472,8 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65536)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\\\S]+")
@@ -1542,10 +1520,8 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65536)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\\\S]+")
@@ -1592,10 +1568,8 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65536)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\\\S]+")
@@ -1638,10 +1612,8 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65536)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\\\S]+")
@@ -1692,10 +1664,8 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65536)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\\\S]+")
@@ -1746,10 +1716,8 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65536)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\\\S]+")
@@ -1788,7 +1756,6 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 75)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 70)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:appsync:[A-Za-z0-9_/.-]{0,63}:\\d{12}:apis/[0-9A-Za-z_-]{26}$")
@@ -1835,10 +1802,8 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65536)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\\\S]+")
@@ -2088,7 +2053,6 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 75)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 70)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:appsync:[A-Za-z0-9_/.-]{0,63}:\\d{12}:apis/[0-9A-Za-z_-]{26}$")
@@ -2155,7 +2119,6 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 75)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 70)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:appsync:[A-Za-z0-9_/.-]{0,63}:\\d{12}:apis/[0-9A-Za-z_-]{26}$")
@@ -2164,7 +2127,6 @@ extension AppSync {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
             }
-            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
@@ -2299,7 +2261,6 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 65536)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
@@ -2367,22 +2328,17 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
-            try self.dataSourceName.forEach {}
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, max: 65536)
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, min: 1)
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
-            try self.functionId.forEach {}
             try self.validate(self.functionId, name: "functionId", parent: name, max: 65536)
             try self.validate(self.functionId, name: "functionId", parent: name, min: 1)
             try self.validate(self.functionId, name: "functionId", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 65536)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
-            try self.requestMappingTemplate?.forEach {}
             try self.validate(self.requestMappingTemplate, name: "requestMappingTemplate", parent: name, max: 65536)
             try self.validate(self.requestMappingTemplate, name: "requestMappingTemplate", parent: name, min: 1)
-            try self.responseMappingTemplate?.forEach {}
             try self.validate(self.responseMappingTemplate, name: "responseMappingTemplate", parent: name, max: 65536)
             try self.validate(self.responseMappingTemplate, name: "responseMappingTemplate", parent: name, min: 1)
         }
@@ -2510,21 +2466,16 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
-            try self.dataSourceName?.forEach {}
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, max: 65536)
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, min: 1)
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
-            try self.fieldName.forEach {}
             try self.validate(self.fieldName, name: "fieldName", parent: name, max: 65536)
             try self.validate(self.fieldName, name: "fieldName", parent: name, min: 1)
             try self.validate(self.fieldName, name: "fieldName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
-            try self.requestMappingTemplate?.forEach {}
             try self.validate(self.requestMappingTemplate, name: "requestMappingTemplate", parent: name, max: 65536)
             try self.validate(self.requestMappingTemplate, name: "requestMappingTemplate", parent: name, min: 1)
-            try self.responseMappingTemplate?.forEach {}
             try self.validate(self.responseMappingTemplate, name: "responseMappingTemplate", parent: name, max: 65536)
             try self.validate(self.responseMappingTemplate, name: "responseMappingTemplate", parent: name, min: 1)
-            try self.typeName.forEach {}
             try self.validate(self.typeName, name: "typeName", parent: name, max: 65536)
             try self.validate(self.typeName, name: "typeName", parent: name, min: 1)
             try self.validate(self.typeName, name: "typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
@@ -2577,7 +2528,6 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
-            try self.typeName.forEach {}
             try self.validate(self.typeName, name: "typeName", parent: name, max: 65536)
             try self.validate(self.typeName, name: "typeName", parent: name, min: 1)
             try self.validate(self.typeName, name: "typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")

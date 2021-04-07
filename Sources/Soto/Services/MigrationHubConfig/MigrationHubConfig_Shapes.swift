@@ -42,12 +42,10 @@ extension MigrationHubConfig {
         }
 
         public func validate(name: String) throws {
-            try self.homeRegion.forEach {}
             try self.validate(self.homeRegion, name: "homeRegion", parent: name, max: 50)
             try self.validate(self.homeRegion, name: "homeRegion", parent: name, min: 1)
             try self.validate(self.homeRegion, name: "homeRegion", parent: name, pattern: "^([a-z]+)-([a-z]+)-([0-9]+)$")
             try self.target.validate(name: "\(name).target")
-            try self.target.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -91,23 +89,18 @@ extension MigrationHubConfig {
         }
 
         public func validate(name: String) throws {
-            try self.controlId?.forEach {}
             try self.validate(self.controlId, name: "controlId", parent: name, max: 50)
             try self.validate(self.controlId, name: "controlId", parent: name, min: 1)
             try self.validate(self.controlId, name: "controlId", parent: name, pattern: "^hrc-[a-z0-9]{12}$")
-            try self.homeRegion?.forEach {}
             try self.validate(self.homeRegion, name: "homeRegion", parent: name, max: 50)
             try self.validate(self.homeRegion, name: "homeRegion", parent: name, min: 1)
             try self.validate(self.homeRegion, name: "homeRegion", parent: name, pattern: "^([a-z]+)-([a-z]+)-([0-9]+)$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9\\/\\+\\=]{0,2048}$")
             try self.target?.validate(name: "\(name).target")
-            try self.target?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -190,7 +183,6 @@ extension MigrationHubConfig {
         }
 
         public func validate(name: String) throws {
-            try self.id?.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 12)
             try self.validate(self.id, name: "id", parent: name, min: 12)
             try self.validate(self.id, name: "id", parent: name, pattern: "^\\d{12}$")

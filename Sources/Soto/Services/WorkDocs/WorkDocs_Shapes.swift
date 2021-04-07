@@ -252,14 +252,11 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken?.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
-            try self.documentId.forEach {}
             try self.validate(self.documentId, name: "documentId", parent: name, max: 128)
             try self.validate(self.documentId, name: "documentId", parent: name, min: 1)
             try self.validate(self.documentId, name: "documentId", parent: name, pattern: "[\\w+-.@]+")
-            try self.versionId.forEach {}
             try self.validate(self.versionId, name: "versionId", parent: name, max: 128)
             try self.validate(self.versionId, name: "versionId", parent: name, min: 1)
             try self.validate(self.versionId, name: "versionId", parent: name, pattern: "[\\w+-.@]+")
@@ -285,10 +282,8 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken?.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
-            try self.userId.forEach {}
             try self.validate(self.userId, name: "userId", parent: name, max: 256)
             try self.validate(self.userId, name: "userId", parent: name, min: 1)
             try self.validate(self.userId, name: "userId", parent: name, pattern: "[&\\w+-.@]+")
@@ -378,16 +373,12 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken?.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
             try self.notificationOptions?.validate(name: "\(name).notificationOptions")
-            try self.notificationOptions?.forEach {}
             try self.principals.forEach {
                 try $0.validate(name: "\(name).principals[]")
             }
-            try self.principals.forEach {}
-            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 128)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "[\\w+-.@]+")
@@ -522,25 +513,19 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken?.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
-            try self.documentId.forEach {}
             try self.validate(self.documentId, name: "documentId", parent: name, max: 128)
             try self.validate(self.documentId, name: "documentId", parent: name, min: 1)
             try self.validate(self.documentId, name: "documentId", parent: name, pattern: "[\\w+-.@]+")
-            try self.parentId?.forEach {}
             try self.validate(self.parentId, name: "parentId", parent: name, max: 128)
             try self.validate(self.parentId, name: "parentId", parent: name, min: 1)
             try self.validate(self.parentId, name: "parentId", parent: name, pattern: "[\\w+-.@]+")
-            try self.text.forEach {}
             try self.validate(self.text, name: "text", parent: name, max: 2048)
             try self.validate(self.text, name: "text", parent: name, min: 1)
-            try self.threadId?.forEach {}
             try self.validate(self.threadId, name: "threadId", parent: name, max: 128)
             try self.validate(self.threadId, name: "threadId", parent: name, min: 1)
             try self.validate(self.threadId, name: "threadId", parent: name, pattern: "[\\w+-.@]+")
-            try self.versionId.forEach {}
             try self.validate(self.versionId, name: "versionId", parent: name, max: 128)
             try self.validate(self.versionId, name: "versionId", parent: name, min: 1)
             try self.validate(self.versionId, name: "versionId", parent: name, pattern: "[\\w+-.@]+")
@@ -592,7 +577,6 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken?.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
             try self.customMetadata.forEach {
@@ -603,11 +587,9 @@ extension WorkDocs {
                 try validate($0.value, name: "customMetadata[\"\($0.key)\"]", parent: name, min: 1)
                 try validate($0.value, name: "customMetadata[\"\($0.key)\"]", parent: name, pattern: "[a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]*")
             }
-            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 128)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "[\\w+-.@]+")
-            try self.versionId?.forEach {}
             try self.validate(self.versionId, name: "versionId", parent: name, max: 128)
             try self.validate(self.versionId, name: "versionId", parent: name, min: 1)
             try self.validate(self.versionId, name: "versionId", parent: name, pattern: "[\\w+-.@]+")
@@ -641,14 +623,11 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken?.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\u202D\\u202F-\\uFFFF]+")
-            try self.parentFolderId.forEach {}
             try self.validate(self.parentFolderId, name: "parentFolderId", parent: name, max: 128)
             try self.validate(self.parentFolderId, name: "parentFolderId", parent: name, min: 1)
             try self.validate(self.parentFolderId, name: "parentFolderId", parent: name, pattern: "[\\w+-.@]+")
@@ -693,7 +672,6 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken?.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
             try self.labels.forEach {
@@ -701,9 +679,7 @@ extension WorkDocs {
                 try validate($0, name: "labels[]", parent: name, min: 1)
                 try validate($0, name: "labels[]", parent: name, pattern: "[a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]*")
             }
-            try self.labels.forEach {}
             try self.validate(self.labels, name: "labels", parent: name, max: 20)
-            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 128)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "[\\w+-.@]+")
@@ -740,10 +716,8 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.endpoint.forEach {}
             try self.validate(self.endpoint, name: "endpoint", parent: name, max: 256)
             try self.validate(self.endpoint, name: "endpoint", parent: name, min: 1)
-            try self.organizationId.forEach {}
             try self.validate(self.organizationId, name: "organizationId", parent: name, max: 256)
             try self.validate(self.organizationId, name: "organizationId", parent: name, min: 1)
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "[&\\w+-.@]+")
@@ -806,33 +780,24 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken?.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
-            try self.emailAddress?.forEach {}
             try self.validate(self.emailAddress, name: "emailAddress", parent: name, max: 256)
             try self.validate(self.emailAddress, name: "emailAddress", parent: name, min: 1)
             try self.validate(self.emailAddress, name: "emailAddress", parent: name, pattern: "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")
-            try self.givenName.forEach {}
             try self.validate(self.givenName, name: "givenName", parent: name, max: 64)
             try self.validate(self.givenName, name: "givenName", parent: name, min: 1)
-            try self.organizationId?.forEach {}
             try self.validate(self.organizationId, name: "organizationId", parent: name, max: 256)
             try self.validate(self.organizationId, name: "organizationId", parent: name, min: 1)
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "[&\\w+-.@]+")
-            try self.password.forEach {}
             try self.validate(self.password, name: "password", parent: name, max: 32)
             try self.validate(self.password, name: "password", parent: name, min: 4)
             try self.validate(self.password, name: "password", parent: name, pattern: "[\\u0020-\\u00FF]+")
             try self.storageRule?.validate(name: "\(name).storageRule")
-            try self.storageRule?.forEach {}
-            try self.surname.forEach {}
             try self.validate(self.surname, name: "surname", parent: name, max: 64)
             try self.validate(self.surname, name: "surname", parent: name, min: 1)
-            try self.timeZoneId?.forEach {}
             try self.validate(self.timeZoneId, name: "timeZoneId", parent: name, max: 256)
             try self.validate(self.timeZoneId, name: "timeZoneId", parent: name, min: 1)
-            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 256)
             try self.validate(self.username, name: "username", parent: name, min: 1)
             try self.validate(self.username, name: "username", parent: name, pattern: "[\\w\\-+.]+(@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]+)?")
@@ -880,10 +845,8 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken?.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
-            try self.userId.forEach {}
             try self.validate(self.userId, name: "userId", parent: name, max: 256)
             try self.validate(self.userId, name: "userId", parent: name, min: 1)
             try self.validate(self.userId, name: "userId", parent: name, pattern: "[&\\w+-.@]+")
@@ -917,18 +880,14 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken?.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
-            try self.commentId.forEach {}
             try self.validate(self.commentId, name: "commentId", parent: name, max: 128)
             try self.validate(self.commentId, name: "commentId", parent: name, min: 1)
             try self.validate(self.commentId, name: "commentId", parent: name, pattern: "[\\w+-.@]+")
-            try self.documentId.forEach {}
             try self.validate(self.documentId, name: "documentId", parent: name, max: 128)
             try self.validate(self.documentId, name: "documentId", parent: name, min: 1)
             try self.validate(self.documentId, name: "documentId", parent: name, pattern: "[\\w+-.@]+")
-            try self.versionId.forEach {}
             try self.validate(self.versionId, name: "versionId", parent: name, max: 128)
             try self.validate(self.versionId, name: "versionId", parent: name, min: 1)
             try self.validate(self.versionId, name: "versionId", parent: name, pattern: "[\\w+-.@]+")
@@ -966,7 +925,6 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken?.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
             try self.keys?.forEach {
@@ -974,13 +932,10 @@ extension WorkDocs {
                 try validate($0, name: "keys[]", parent: name, min: 1)
                 try validate($0, name: "keys[]", parent: name, pattern: "[a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]*")
             }
-            try self.keys?.forEach {}
             try self.validate(self.keys, name: "keys", parent: name, max: 8)
-            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 128)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "[\\w+-.@]+")
-            try self.versionId?.forEach {}
             try self.validate(self.versionId, name: "versionId", parent: name, max: 128)
             try self.validate(self.versionId, name: "versionId", parent: name, min: 1)
             try self.validate(self.versionId, name: "versionId", parent: name, pattern: "[\\w+-.@]+")
@@ -1010,10 +965,8 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken?.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
-            try self.documentId.forEach {}
             try self.validate(self.documentId, name: "documentId", parent: name, max: 128)
             try self.validate(self.documentId, name: "documentId", parent: name, min: 1)
             try self.validate(self.documentId, name: "documentId", parent: name, pattern: "[\\w+-.@]+")
@@ -1039,10 +992,8 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken?.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
-            try self.folderId.forEach {}
             try self.validate(self.folderId, name: "folderId", parent: name, max: 128)
             try self.validate(self.folderId, name: "folderId", parent: name, min: 1)
             try self.validate(self.folderId, name: "folderId", parent: name, pattern: "[\\w+-.@]+")
@@ -1068,10 +1019,8 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken?.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
-            try self.folderId.forEach {}
             try self.validate(self.folderId, name: "folderId", parent: name, max: 128)
             try self.validate(self.folderId, name: "folderId", parent: name, min: 1)
             try self.validate(self.folderId, name: "folderId", parent: name, pattern: "[\\w+-.@]+")
@@ -1105,7 +1054,6 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken?.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
             try self.labels?.forEach {
@@ -1113,9 +1061,7 @@ extension WorkDocs {
                 try validate($0, name: "labels[]", parent: name, min: 1)
                 try validate($0, name: "labels[]", parent: name, pattern: "[a-zA-Z0-9._+-/=][a-zA-Z0-9 ._+-/=]*")
             }
-            try self.labels?.forEach {}
             try self.validate(self.labels, name: "labels", parent: name, max: 20)
-            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 128)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "[\\w+-.@]+")
@@ -1145,11 +1091,9 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.organizationId.forEach {}
             try self.validate(self.organizationId, name: "organizationId", parent: name, max: 256)
             try self.validate(self.organizationId, name: "organizationId", parent: name, min: 1)
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "[&\\w+-.@]+")
-            try self.subscriptionId.forEach {}
             try self.validate(self.subscriptionId, name: "subscriptionId", parent: name, max: 256)
             try self.validate(self.subscriptionId, name: "subscriptionId", parent: name, min: 1)
             try self.validate(self.subscriptionId, name: "subscriptionId", parent: name, pattern: "[&\\w+-.@]+")
@@ -1175,10 +1119,8 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken?.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
-            try self.userId.forEach {}
             try self.validate(self.userId, name: "userId", parent: name, max: 256)
             try self.validate(self.userId, name: "userId", parent: name, min: 1)
             try self.validate(self.userId, name: "userId", parent: name, pattern: "[&\\w+-.@]+")
@@ -1236,29 +1178,22 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.activityTypes?.forEach {}
             try self.validate(self.activityTypes, name: "activityTypes", parent: name, max: 1024)
             try self.validate(self.activityTypes, name: "activityTypes", parent: name, min: 1)
             try self.validate(self.activityTypes, name: "activityTypes", parent: name, pattern: "[\\w,]+")
-            try self.authenticationToken?.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 999)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 2048)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
             try self.validate(self.marker, name: "marker", parent: name, pattern: "[\\u0000-\\u00FF]+")
-            try self.organizationId?.forEach {}
             try self.validate(self.organizationId, name: "organizationId", parent: name, max: 256)
             try self.validate(self.organizationId, name: "organizationId", parent: name, min: 1)
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "[&\\w+-.@]+")
-            try self.resourceId?.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 256)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "[&\\w+-.@]+")
-            try self.userId?.forEach {}
             try self.validate(self.userId, name: "userId", parent: name, max: 256)
             try self.validate(self.userId, name: "userId", parent: name, min: 1)
             try self.validate(self.userId, name: "userId", parent: name, pattern: "[&\\w+-.@]+")
@@ -1313,21 +1248,16 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken?.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
-            try self.documentId.forEach {}
             try self.validate(self.documentId, name: "documentId", parent: name, max: 128)
             try self.validate(self.documentId, name: "documentId", parent: name, min: 1)
             try self.validate(self.documentId, name: "documentId", parent: name, pattern: "[\\w+-.@]+")
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 999)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 2048)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
             try self.validate(self.marker, name: "marker", parent: name, pattern: "[\\u0000-\\u00FF]+")
-            try self.versionId.forEach {}
             try self.validate(self.versionId, name: "versionId", parent: name, max: 128)
             try self.validate(self.versionId, name: "versionId", parent: name, min: 1)
             try self.validate(self.versionId, name: "versionId", parent: name, pattern: "[\\w+-.@]+")
@@ -1386,25 +1316,19 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken?.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
-            try self.documentId.forEach {}
             try self.validate(self.documentId, name: "documentId", parent: name, max: 128)
             try self.validate(self.documentId, name: "documentId", parent: name, min: 1)
             try self.validate(self.documentId, name: "documentId", parent: name, pattern: "[\\w+-.@]+")
-            try self.fields?.forEach {}
             try self.validate(self.fields, name: "fields", parent: name, max: 256)
             try self.validate(self.fields, name: "fields", parent: name, min: 1)
             try self.validate(self.fields, name: "fields", parent: name, pattern: "[\\w,]+")
-            try self.include?.forEach {}
             try self.validate(self.include, name: "include", parent: name, max: 256)
             try self.validate(self.include, name: "include", parent: name, min: 1)
             try self.validate(self.include, name: "include", parent: name, pattern: "[\\w,]+")
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 999)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 2048)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
         }
@@ -1470,21 +1394,16 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken?.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
-            try self.folderId.forEach {}
             try self.validate(self.folderId, name: "folderId", parent: name, max: 128)
             try self.validate(self.folderId, name: "folderId", parent: name, min: 1)
             try self.validate(self.folderId, name: "folderId", parent: name, pattern: "[\\w+-.@]+")
-            try self.include?.forEach {}
             try self.validate(self.include, name: "include", parent: name, max: 256)
             try self.validate(self.include, name: "include", parent: name, min: 1)
             try self.validate(self.include, name: "include", parent: name, pattern: "[\\w,]+")
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 999)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 2048)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
         }
@@ -1542,20 +1461,15 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken?.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 2048)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
             try self.validate(self.marker, name: "marker", parent: name, pattern: "[\\u0000-\\u00FF]+")
-            try self.organizationId?.forEach {}
             try self.validate(self.organizationId, name: "organizationId", parent: name, max: 256)
             try self.validate(self.organizationId, name: "organizationId", parent: name, min: 1)
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "[&\\w+-.@]+")
-            try self.searchQuery.forEach {}
             try self.validate(self.searchQuery, name: "searchQuery", parent: name, max: 512)
             try self.validate(self.searchQuery, name: "searchQuery", parent: name, min: 1)
             try self.validate(self.searchQuery, name: "searchQuery", parent: name, pattern: "[\\u0020-\\uFFFF]+")
@@ -1602,13 +1516,10 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 999)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 2048)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
-            try self.organizationId.forEach {}
             try self.validate(self.organizationId, name: "organizationId", parent: name, max: 256)
             try self.validate(self.organizationId, name: "organizationId", parent: name, min: 1)
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "[&\\w+-.@]+")
@@ -1663,20 +1574,15 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken?.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 999)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 2048)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
-            try self.principalId?.forEach {}
             try self.validate(self.principalId, name: "principalId", parent: name, max: 256)
             try self.validate(self.principalId, name: "principalId", parent: name, min: 1)
             try self.validate(self.principalId, name: "principalId", parent: name, pattern: "[&\\w+-.@]+")
-            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 128)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "[\\w+-.@]+")
@@ -1723,13 +1629,10 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 999)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 2048)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
         }
@@ -1803,28 +1706,21 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken?.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
-            try self.fields?.forEach {}
             try self.validate(self.fields, name: "fields", parent: name, max: 256)
             try self.validate(self.fields, name: "fields", parent: name, min: 1)
             try self.validate(self.fields, name: "fields", parent: name, pattern: "[\\w,]+")
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 999)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 2048)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
-            try self.organizationId?.forEach {}
             try self.validate(self.organizationId, name: "organizationId", parent: name, max: 256)
             try self.validate(self.organizationId, name: "organizationId", parent: name, min: 1)
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "[&\\w+-.@]+")
-            try self.query?.forEach {}
             try self.validate(self.query, name: "query", parent: name, max: 512)
             try self.validate(self.query, name: "query", parent: name, min: 1)
             try self.validate(self.query, name: "query", parent: name, pattern: "[\\u0020-\\uFFFF]+")
-            try self.userIds?.forEach {}
             try self.validate(self.userIds, name: "userIds", parent: name, max: 2000)
             try self.validate(self.userIds, name: "userIds", parent: name, min: 1)
             try self.validate(self.userIds, name: "userIds", parent: name, pattern: "[&\\w+-.@, ]+")
@@ -2018,7 +1914,6 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
         }
@@ -2068,21 +1963,16 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken?.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
-            try self.documentId.forEach {}
             try self.validate(self.documentId, name: "documentId", parent: name, max: 256)
             try self.validate(self.documentId, name: "documentId", parent: name, min: 1)
             try self.validate(self.documentId, name: "documentId", parent: name, pattern: "[&\\w+-.@]+")
-            try self.fields?.forEach {}
             try self.validate(self.fields, name: "fields", parent: name, max: 256)
             try self.validate(self.fields, name: "fields", parent: name, min: 1)
             try self.validate(self.fields, name: "fields", parent: name, pattern: "[\\w,]+")
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 999)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 2048)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
         }
@@ -2124,10 +2014,8 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken?.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
-            try self.documentId.forEach {}
             try self.validate(self.documentId, name: "documentId", parent: name, max: 128)
             try self.validate(self.documentId, name: "documentId", parent: name, min: 1)
             try self.validate(self.documentId, name: "documentId", parent: name, pattern: "[\\w+-.@]+")
@@ -2182,18 +2070,14 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken?.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
-            try self.documentId.forEach {}
             try self.validate(self.documentId, name: "documentId", parent: name, max: 128)
             try self.validate(self.documentId, name: "documentId", parent: name, min: 1)
             try self.validate(self.documentId, name: "documentId", parent: name, pattern: "[\\w+-.@]+")
-            try self.fields?.forEach {}
             try self.validate(self.fields, name: "fields", parent: name, max: 256)
             try self.validate(self.fields, name: "fields", parent: name, min: 1)
             try self.validate(self.fields, name: "fields", parent: name, pattern: "[\\w,]+")
-            try self.versionId.forEach {}
             try self.validate(self.versionId, name: "versionId", parent: name, max: 128)
             try self.validate(self.versionId, name: "versionId", parent: name, min: 1)
             try self.validate(self.versionId, name: "versionId", parent: name, pattern: "[\\w+-.@]+")
@@ -2248,21 +2132,16 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken?.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
-            try self.fields?.forEach {}
             try self.validate(self.fields, name: "fields", parent: name, max: 256)
             try self.validate(self.fields, name: "fields", parent: name, min: 1)
             try self.validate(self.fields, name: "fields", parent: name, pattern: "[\\w,]+")
-            try self.folderId.forEach {}
             try self.validate(self.folderId, name: "folderId", parent: name, max: 256)
             try self.validate(self.folderId, name: "folderId", parent: name, min: 1)
             try self.validate(self.folderId, name: "folderId", parent: name, pattern: "[&\\w+-.@]+")
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 999)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 2048)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
         }
@@ -2304,10 +2183,8 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken?.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
-            try self.folderId.forEach {}
             try self.validate(self.folderId, name: "folderId", parent: name, max: 128)
             try self.validate(self.folderId, name: "folderId", parent: name, min: 1)
             try self.validate(self.folderId, name: "folderId", parent: name, pattern: "[\\w+-.@]+")
@@ -2362,16 +2239,12 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken?.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 999)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 2048)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
-            try self.userId?.forEach {}
             try self.validate(self.userId, name: "userId", parent: name, max: 256)
             try self.validate(self.userId, name: "userId", parent: name, min: 1)
             try self.validate(self.userId, name: "userId", parent: name, pattern: "[&\\w+-.@]+")
@@ -2452,21 +2325,16 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken?.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
-            try self.contentType?.forEach {}
             try self.validate(self.contentType, name: "contentType", parent: name, max: 128)
             try self.validate(self.contentType, name: "contentType", parent: name, min: 1)
-            try self.id?.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 128)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "[\\w+-.@]+")
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\u202D\\u202F-\\uFFFF]+")
-            try self.parentFolderId.forEach {}
             try self.validate(self.parentFolderId, name: "parentFolderId", parent: name, max: 128)
             try self.validate(self.parentFolderId, name: "parentFolderId", parent: name, min: 1)
             try self.validate(self.parentFolderId, name: "parentFolderId", parent: name, pattern: "[\\w+-.@]+")
@@ -2512,7 +2380,6 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.emailMessage?.forEach {}
             try self.validate(self.emailMessage, name: "emailMessage", parent: name, max: 2048)
             try self.validate(self.emailMessage, name: "emailMessage", parent: name, min: 0)
         }
@@ -2595,10 +2462,8 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken?.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
-            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 128)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "[\\w+-.@]+")
@@ -2632,14 +2497,11 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken?.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
-            try self.principalId.forEach {}
             try self.validate(self.principalId, name: "principalId", parent: name, max: 256)
             try self.validate(self.principalId, name: "principalId", parent: name, min: 1)
             try self.validate(self.principalId, name: "principalId", parent: name, pattern: "[&\\w+-.@]+")
-            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 128)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "[\\w+-.@]+")
@@ -2730,7 +2592,6 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 256)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "[&\\w+-.@]+")
@@ -2788,7 +2649,6 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.storageAllocatedInBytes?.forEach {}
             try self.validate(self.storageAllocatedInBytes, name: "storageAllocatedInBytes", parent: name, min: 0)
         }
 
@@ -2845,18 +2705,14 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken?.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
-            try self.documentId.forEach {}
             try self.validate(self.documentId, name: "documentId", parent: name, max: 128)
             try self.validate(self.documentId, name: "documentId", parent: name, min: 1)
             try self.validate(self.documentId, name: "documentId", parent: name, pattern: "[\\w+-.@]+")
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\u202D\\u202F-\\uFFFF]+")
-            try self.parentFolderId?.forEach {}
             try self.validate(self.parentFolderId, name: "parentFolderId", parent: name, max: 128)
             try self.validate(self.parentFolderId, name: "parentFolderId", parent: name, min: 1)
             try self.validate(self.parentFolderId, name: "parentFolderId", parent: name, pattern: "[\\w+-.@]+")
@@ -2893,14 +2749,11 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken?.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
-            try self.documentId.forEach {}
             try self.validate(self.documentId, name: "documentId", parent: name, max: 128)
             try self.validate(self.documentId, name: "documentId", parent: name, min: 1)
             try self.validate(self.documentId, name: "documentId", parent: name, pattern: "[\\w+-.@]+")
-            try self.versionId.forEach {}
             try self.validate(self.versionId, name: "versionId", parent: name, max: 128)
             try self.validate(self.versionId, name: "versionId", parent: name, min: 1)
             try self.validate(self.versionId, name: "versionId", parent: name, pattern: "[\\w+-.@]+")
@@ -2937,18 +2790,14 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken?.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
-            try self.folderId.forEach {}
             try self.validate(self.folderId, name: "folderId", parent: name, max: 128)
             try self.validate(self.folderId, name: "folderId", parent: name, min: 1)
             try self.validate(self.folderId, name: "folderId", parent: name, pattern: "[\\w+-.@]+")
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\u202D\\u202F-\\uFFFF]+")
-            try self.parentFolderId?.forEach {}
             try self.validate(self.parentFolderId, name: "parentFolderId", parent: name, max: 128)
             try self.validate(self.parentFolderId, name: "parentFolderId", parent: name, min: 1)
             try self.validate(self.parentFolderId, name: "parentFolderId", parent: name, pattern: "[\\w+-.@]+")
@@ -2999,21 +2848,15 @@ extension WorkDocs {
         }
 
         public func validate(name: String) throws {
-            try self.authenticationToken?.forEach {}
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, max: 8199)
             try self.validate(self.authenticationToken, name: "authenticationToken", parent: name, min: 1)
-            try self.givenName?.forEach {}
             try self.validate(self.givenName, name: "givenName", parent: name, max: 64)
             try self.validate(self.givenName, name: "givenName", parent: name, min: 1)
             try self.storageRule?.validate(name: "\(name).storageRule")
-            try self.storageRule?.forEach {}
-            try self.surname?.forEach {}
             try self.validate(self.surname, name: "surname", parent: name, max: 64)
             try self.validate(self.surname, name: "surname", parent: name, min: 1)
-            try self.timeZoneId?.forEach {}
             try self.validate(self.timeZoneId, name: "timeZoneId", parent: name, max: 256)
             try self.validate(self.timeZoneId, name: "timeZoneId", parent: name, min: 1)
-            try self.userId.forEach {}
             try self.validate(self.userId, name: "userId", parent: name, max: 256)
             try self.validate(self.userId, name: "userId", parent: name, min: 1)
             try self.validate(self.userId, name: "userId", parent: name, pattern: "[&\\w+-.@]+")

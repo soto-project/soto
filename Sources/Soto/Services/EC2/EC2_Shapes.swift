@@ -3154,10 +3154,8 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.certificateArn?.forEach {}
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 1283)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 1)
-            try self.roleArn?.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1283)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
         }
@@ -4789,7 +4787,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.classicLoadBalancers?.forEach {}
             try self.validate(self.classicLoadBalancers, name: "classicLoadBalancers", parent: name, max: 5)
             try self.validate(self.classicLoadBalancers, name: "classicLoadBalancers", parent: name, min: 1)
         }
@@ -6219,7 +6216,6 @@ extension EC2 {
             try self.launchTemplateConfigs.forEach {
                 try $0.validate(name: "\(name).launchTemplateConfigs[]")
             }
-            try self.launchTemplateConfigs.forEach {}
             try self.validate(self.launchTemplateConfigs, name: "launchTemplateConfigs", parent: name, max: 50)
             try self.validate(self.launchTemplateConfigs, name: "launchTemplateConfigs", parent: name, min: 0)
         }
@@ -6597,12 +6593,9 @@ extension EC2 {
 
         public func validate(name: String) throws {
             try self.launchTemplateData.validate(name: "\(name).launchTemplateData")
-            try self.launchTemplateData.forEach {}
-            try self.launchTemplateName.forEach {}
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, max: 128)
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, min: 3)
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, pattern: "[a-zA-Z0-9\\(\\)\\.\\-/_]+")
-            try self.versionDescription?.forEach {}
             try self.validate(self.versionDescription, name: "versionDescription", parent: name, max: 255)
             try self.validate(self.versionDescription, name: "versionDescription", parent: name, min: 0)
         }
@@ -6662,12 +6655,9 @@ extension EC2 {
 
         public func validate(name: String) throws {
             try self.launchTemplateData.validate(name: "\(name).launchTemplateData")
-            try self.launchTemplateData.forEach {}
-            try self.launchTemplateName?.forEach {}
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, max: 128)
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, min: 3)
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, pattern: "[a-zA-Z0-9\\(\\)\\.\\-/_]+")
-            try self.versionDescription?.forEach {}
             try self.validate(self.versionDescription, name: "versionDescription", parent: name, max: 255)
             try self.validate(self.versionDescription, name: "versionDescription", parent: name, min: 0)
         }
@@ -6810,7 +6800,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.entries?.forEach {}
             try self.validate(self.entries, name: "entries", parent: name, max: 100)
             try self.validate(self.entries, name: "entries", parent: name, min: 0)
         }
@@ -7010,14 +6999,11 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.destinationIp?.forEach {}
             try self.validate(self.destinationIp, name: "destinationIp", parent: name, max: 15)
             try self.validate(self.destinationIp, name: "destinationIp", parent: name, min: 0)
             try self.validate(self.destinationIp, name: "destinationIp", parent: name, pattern: "^([0-9]{1,3}.){3}[0-9]{1,3}$")
-            try self.destinationPort?.forEach {}
             try self.validate(self.destinationPort, name: "destinationPort", parent: name, max: 65535)
             try self.validate(self.destinationPort, name: "destinationPort", parent: name, min: 1)
-            try self.sourceIp?.forEach {}
             try self.validate(self.sourceIp, name: "sourceIp", parent: name, max: 15)
             try self.validate(self.sourceIp, name: "sourceIp", parent: name, min: 0)
             try self.validate(self.sourceIp, name: "sourceIp", parent: name, pattern: "^([0-9]{1,3}.){3}[0-9]{1,3}$")
@@ -9328,7 +9314,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.launchTemplateName?.forEach {}
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, max: 128)
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, min: 3)
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, pattern: "[a-zA-Z0-9\\(\\)\\.\\-/_]+")
@@ -9375,7 +9360,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.launchTemplateName?.forEach {}
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, max: 128)
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, min: 3)
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, pattern: "[a-zA-Z0-9\\(\\)\\.\\-/_]+")
@@ -9783,7 +9767,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.reservedInstancesIds.forEach {}
             try self.validate(self.reservedInstancesIds, name: "reservedInstancesIds", parent: name, max: 100)
             try self.validate(self.reservedInstancesIds, name: "reservedInstancesIds", parent: name, min: 1)
         }
@@ -10815,7 +10798,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -11039,7 +11021,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -11097,7 +11078,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -11156,7 +11136,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -11216,7 +11195,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -11274,7 +11252,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -11332,7 +11309,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -11392,7 +11368,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -11450,7 +11425,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -11513,7 +11487,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -11574,7 +11547,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -11712,7 +11684,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -11772,7 +11743,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 255)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -11832,7 +11802,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 10)
         }
@@ -11896,7 +11865,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -12042,7 +12010,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 200)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
         }
@@ -12425,7 +12392,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -12487,7 +12453,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -12645,7 +12610,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -12970,7 +12934,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -13112,7 +13075,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -13171,10 +13133,8 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.instanceTypes?.forEach {}
             try self.validate(self.instanceTypes, name: "instanceTypes", parent: name, max: 100)
             try self.validate(self.instanceTypes, name: "instanceTypes", parent: name, min: 0)
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -13288,7 +13248,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -13348,7 +13307,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -13468,7 +13426,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.launchTemplateName?.forEach {}
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, max: 128)
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, min: 3)
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, pattern: "[a-zA-Z0-9\\(\\)\\.\\-/_]+")
@@ -13543,8 +13500,6 @@ extension EC2 {
                 try validate($0, name: "launchTemplateNames[]", parent: name, min: 3)
                 try validate($0, name: "launchTemplateNames[]", parent: name, pattern: "[a-zA-Z0-9\\(\\)\\.\\-/_]+")
             }
-            try self.launchTemplateNames?.forEach {}
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 200)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -13605,7 +13560,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -13665,7 +13619,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -13725,7 +13678,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -13785,7 +13737,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -13845,7 +13796,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -13905,7 +13855,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -13965,7 +13914,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -14025,7 +13973,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -14085,7 +14032,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -14145,7 +14091,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -14214,7 +14159,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -14277,7 +14221,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -14386,7 +14329,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 255)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -14445,7 +14387,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -14601,7 +14542,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -14657,7 +14597,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -14762,7 +14701,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -15051,7 +14989,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -15118,7 +15055,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 300)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -15280,7 +15216,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -15471,7 +15406,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -15532,7 +15466,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -15769,10 +15702,8 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 255)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -15831,7 +15762,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -15939,7 +15869,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -15999,7 +15928,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -16059,7 +15987,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -16118,7 +16045,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -16178,7 +16104,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -16237,7 +16162,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -16297,7 +16221,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -16356,7 +16279,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -16416,7 +16338,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -16475,7 +16396,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -16535,7 +16455,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -16836,10 +16755,8 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 255)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -17259,7 +17176,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -17319,7 +17235,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -18031,10 +17946,8 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.certificateArn?.forEach {}
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 1283)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 1)
-            try self.roleArn?.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1283)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
         }
@@ -18683,7 +18596,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.count?.forEach {}
             try self.validate(self.count, name: "count", parent: name, min: 1)
         }
 
@@ -19878,8 +19790,6 @@ extension EC2 {
 
         public func validate(name: String) throws {
             try self.launchTemplateSpecification?.validate(name: "\(name).launchTemplateSpecification")
-            try self.launchTemplateSpecification?.forEach {}
-            try self.overrides?.forEach {}
             try self.validate(self.overrides, name: "overrides", parent: name, max: 50)
             try self.validate(self.overrides, name: "overrides", parent: name, min: 0)
         }
@@ -19979,7 +19889,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.launchTemplateName?.forEach {}
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, max: 128)
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, min: 3)
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, pattern: "[a-zA-Z0-9\\(\\)\\.\\-/_]+")
@@ -20007,7 +19916,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.launchTemplateName?.forEach {}
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, max: 128)
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, min: 3)
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, pattern: "[a-zA-Z0-9\\(\\)\\.\\-/_]+")
@@ -20335,7 +20243,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.certificateArn?.forEach {}
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 1283)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 1)
         }
@@ -20380,7 +20287,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -20431,7 +20337,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -20508,7 +20413,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -20727,7 +20631,6 @@ extension EC2 {
 
         public func validate(name: String) throws {
             try self.integrateServices.validate(name: "\(name).integrateServices")
-            try self.integrateServices.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -20769,7 +20672,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -20898,7 +20800,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 255)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -20952,7 +20853,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -21150,7 +21050,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -21208,7 +21107,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -21266,7 +21164,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -21324,7 +21221,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -21382,7 +21278,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -24021,7 +23916,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.athenaIntegrations?.forEach {}
             try self.validate(self.athenaIntegrations, name: "athenaIntegrations", parent: name, max: 10)
             try self.validate(self.athenaIntegrations, name: "athenaIntegrations", parent: name, min: 1)
         }
@@ -24566,7 +24460,6 @@ extension EC2 {
 
         public func validate(name: String) throws {
             try self.launchTemplateSpecification?.validate(name: "\(name).launchTemplateSpecification")
-            try self.launchTemplateSpecification?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -24703,7 +24596,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.count?.forEach {}
             try self.validate(self.count, name: "count", parent: name, min: 1)
         }
 
@@ -25414,9 +25306,7 @@ extension EC2 {
 
         public func validate(name: String) throws {
             try self.classicLoadBalancersConfig?.validate(name: "\(name).classicLoadBalancersConfig")
-            try self.classicLoadBalancersConfig?.forEach {}
             try self.targetGroupsConfig?.validate(name: "\(name).targetGroupsConfig")
-            try self.targetGroupsConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -26103,7 +25993,6 @@ extension EC2 {
             try self.launchTemplateConfigs?.forEach {
                 try $0.validate(name: "\(name).launchTemplateConfigs[]")
             }
-            try self.launchTemplateConfigs?.forEach {}
             try self.validate(self.launchTemplateConfigs, name: "launchTemplateConfigs", parent: name, max: 50)
             try self.validate(self.launchTemplateConfigs, name: "launchTemplateConfigs", parent: name, min: 0)
         }
@@ -26659,7 +26548,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.launchTemplateName?.forEach {}
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, max: 128)
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, min: 3)
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, pattern: "[a-zA-Z0-9\\(\\)\\.\\-/_]+")
@@ -26713,10 +26601,8 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.addEntries?.forEach {}
             try self.validate(self.addEntries, name: "addEntries", parent: name, max: 100)
             try self.validate(self.addEntries, name: "addEntries", parent: name, min: 0)
-            try self.removeEntries?.forEach {}
             try self.validate(self.removeEntries, name: "removeEntries", parent: name, max: 100)
             try self.validate(self.removeEntries, name: "removeEntries", parent: name, min: 0)
         }
@@ -26888,7 +26774,6 @@ extension EC2 {
             try self.launchTemplateConfigs?.forEach {
                 try $0.validate(name: "\(name).launchTemplateConfigs[]")
             }
-            try self.launchTemplateConfigs?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -29893,7 +29778,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.purchaseRequests.forEach {}
             try self.validate(self.purchaseRequests, name: "purchaseRequests", parent: name, min: 1)
         }
 
@@ -30890,7 +30774,6 @@ extension EC2 {
             try self.elasticInferenceAccelerators?.forEach {
                 try $0.validate(name: "\(name).elasticInferenceAccelerators[]")
             }
-            try self.elasticInferenceAccelerators?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -30937,7 +30820,6 @@ extension EC2 {
 
         public func validate(name: String) throws {
             try self.spotFleetRequestConfig.validate(name: "\(name).spotFleetRequestConfig")
-            try self.spotFleetRequestConfig.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -32435,7 +32317,6 @@ extension EC2 {
             try self.elasticInferenceAccelerators?.forEach {
                 try $0.validate(name: "\(name).elasticInferenceAccelerators[]")
             }
-            try self.elasticInferenceAccelerators?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -33094,7 +32975,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -33149,7 +33029,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
         }
@@ -34002,9 +33881,7 @@ extension EC2 {
             try self.launchTemplateConfigs?.forEach {
                 try $0.validate(name: "\(name).launchTemplateConfigs[]")
             }
-            try self.launchTemplateConfigs?.forEach {}
             try self.loadBalancersConfig?.validate(name: "\(name).loadBalancersConfig")
-            try self.loadBalancersConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -34503,7 +34380,6 @@ extension EC2 {
                 try validate($0, name: "filterInArns[]", parent: name, max: 1283)
                 try validate($0, name: "filterInArns[]", parent: name, min: 1)
             }
-            try self.filterInArns?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -34983,7 +34859,6 @@ extension EC2 {
         }
 
         public func validate(name: String) throws {
-            try self.targetGroups?.forEach {}
             try self.validate(self.targetGroups, name: "targetGroups", parent: name, max: 5)
             try self.validate(self.targetGroups, name: "targetGroups", parent: name, min: 1)
         }

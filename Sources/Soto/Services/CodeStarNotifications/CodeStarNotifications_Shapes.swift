@@ -94,7 +94,6 @@ extension CodeStarNotifications {
         }
 
         public func validate(name: String) throws {
-            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[\\w:/-]+$")
@@ -102,12 +101,9 @@ extension CodeStarNotifications {
                 try validate($0, name: "eventTypeIds[]", parent: name, max: 200)
                 try validate($0, name: "eventTypeIds[]", parent: name, min: 1)
             }
-            try self.eventTypeIds.forEach {}
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[A-Za-z0-9\\-_ ]+$")
-            try self.resource.forEach {}
             try self.validate(self.resource, name: "resource", parent: name, pattern: "^arn:aws[^:\\s]*:[^:\\s]*:[^:\\s]*:[0-9]{12}:[^\\s]+$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -119,7 +115,6 @@ extension CodeStarNotifications {
             try self.targets.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
-            try self.targets.forEach {}
             try self.validate(self.targets, name: "targets", parent: name, max: 10)
         }
 
@@ -157,7 +152,6 @@ extension CodeStarNotifications {
         }
 
         public func validate(name: String) throws {
-            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[^:\\s]*:codestar-notifications:[^:\\s]+:\\d{12}:notificationrule\\/(.*\\S)?$")
         }
 
@@ -191,7 +185,6 @@ extension CodeStarNotifications {
         }
 
         public func validate(name: String) throws {
-            try self.targetAddress.forEach {}
             try self.validate(self.targetAddress, name: "targetAddress", parent: name, max: 320)
             try self.validate(self.targetAddress, name: "targetAddress", parent: name, min: 1)
         }
@@ -215,7 +208,6 @@ extension CodeStarNotifications {
         }
 
         public func validate(name: String) throws {
-            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[^:\\s]*:codestar-notifications:[^:\\s]+:\\d{12}:notificationrule\\/(.*\\S)?$")
         }
 
@@ -334,10 +326,8 @@ extension CodeStarNotifications {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w/+=]+$")
         }
 
@@ -397,10 +387,8 @@ extension CodeStarNotifications {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w/+=]+$")
         }
 
@@ -437,7 +425,6 @@ extension CodeStarNotifications {
         }
 
         public func validate(name: String) throws {
-            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[^:\\s]*:codestar-notifications:[^:\\s]+:\\d{12}:notificationrule\\/(.*\\S)?$")
         }
 
@@ -491,10 +478,8 @@ extension CodeStarNotifications {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w/+=]+$")
         }
 
@@ -553,14 +538,11 @@ extension CodeStarNotifications {
         }
 
         public func validate(name: String) throws {
-            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[^:\\s]*:codestar-notifications:[^:\\s]+:\\d{12}:notificationrule\\/(.*\\S)?$")
-            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[\\w:/-]+$")
             try self.target.validate(name: "\(name).target")
-            try self.target.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -595,7 +577,6 @@ extension CodeStarNotifications {
         }
 
         public func validate(name: String) throws {
-            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[^:\\s]*:codestar-notifications:[^:\\s]+:\\d{12}:notificationrule\\/(.*\\S)?$")
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -637,10 +618,8 @@ extension CodeStarNotifications {
         }
 
         public func validate(name: String) throws {
-            try self.targetAddress?.forEach {}
             try self.validate(self.targetAddress, name: "targetAddress", parent: name, max: 320)
             try self.validate(self.targetAddress, name: "targetAddress", parent: name, min: 1)
-            try self.targetType?.forEach {}
             try self.validate(self.targetType, name: "targetType", parent: name, pattern: "^[A-Za-z]+$")
         }
 
@@ -683,9 +662,7 @@ extension CodeStarNotifications {
         }
 
         public func validate(name: String) throws {
-            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[^:\\s]*:codestar-notifications:[^:\\s]+:\\d{12}:notificationrule\\/(.*\\S)?$")
-            try self.targetAddress.forEach {}
             try self.validate(self.targetAddress, name: "targetAddress", parent: name, max: 320)
             try self.validate(self.targetAddress, name: "targetAddress", parent: name, min: 1)
         }
@@ -721,14 +698,12 @@ extension CodeStarNotifications {
         }
 
         public func validate(name: String) throws {
-            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[^:\\s]*:codestar-notifications:[^:\\s]+:\\d{12}:notificationrule\\/(.*\\S)?$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
-            try self.tagKeys.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -765,21 +740,17 @@ extension CodeStarNotifications {
         }
 
         public func validate(name: String) throws {
-            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[^:\\s]*:codestar-notifications:[^:\\s]+:\\d{12}:notificationrule\\/(.*\\S)?$")
             try self.eventTypeIds?.forEach {
                 try validate($0, name: "eventTypeIds[]", parent: name, max: 200)
                 try validate($0, name: "eventTypeIds[]", parent: name, min: 1)
             }
-            try self.eventTypeIds?.forEach {}
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[A-Za-z0-9\\-_ ]+$")
             try self.targets?.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
-            try self.targets?.forEach {}
             try self.validate(self.targets, name: "targets", parent: name, max: 10)
         }
 

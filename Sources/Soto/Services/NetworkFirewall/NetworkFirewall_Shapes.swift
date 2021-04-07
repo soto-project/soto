@@ -144,7 +144,6 @@ extension NetworkFirewall {
 
         public func validate(name: String) throws {
             try self.publishMetricAction?.validate(name: "\(name).publishMetricAction")
-            try self.publishMetricAction?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -161,7 +160,6 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.addressDefinition.forEach {}
             try self.validate(self.addressDefinition, name: "addressDefinition", parent: name, max: 255)
             try self.validate(self.addressDefinition, name: "addressDefinition", parent: name, min: 1)
             try self.validate(self.addressDefinition, name: "addressDefinition", parent: name, pattern: "^([a-fA-F\\d:\\.]+/\\d{1,3})$")
@@ -190,19 +188,15 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.firewallArn?.forEach {}
             try self.validate(self.firewallArn, name: "firewallArn", parent: name, max: 256)
             try self.validate(self.firewallArn, name: "firewallArn", parent: name, min: 1)
             try self.validate(self.firewallArn, name: "firewallArn", parent: name, pattern: "^arn:aws.*")
-            try self.firewallName?.forEach {}
             try self.validate(self.firewallName, name: "firewallName", parent: name, max: 128)
             try self.validate(self.firewallName, name: "firewallName", parent: name, min: 1)
             try self.validate(self.firewallName, name: "firewallName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.firewallPolicyArn.forEach {}
             try self.validate(self.firewallPolicyArn, name: "firewallPolicyArn", parent: name, max: 256)
             try self.validate(self.firewallPolicyArn, name: "firewallPolicyArn", parent: name, min: 1)
             try self.validate(self.firewallPolicyArn, name: "firewallPolicyArn", parent: name, pattern: "^arn:aws.*")
-            try self.updateToken?.forEach {}
             try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
             try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
             try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
@@ -259,15 +253,12 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.firewallArn?.forEach {}
             try self.validate(self.firewallArn, name: "firewallArn", parent: name, max: 256)
             try self.validate(self.firewallArn, name: "firewallArn", parent: name, min: 1)
             try self.validate(self.firewallArn, name: "firewallArn", parent: name, pattern: "^arn:aws.*")
-            try self.firewallName?.forEach {}
             try self.validate(self.firewallName, name: "firewallName", parent: name, max: 128)
             try self.validate(self.firewallName, name: "firewallName", parent: name, min: 1)
             try self.validate(self.firewallName, name: "firewallName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.updateToken?.forEach {}
             try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
             try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
             try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
@@ -348,19 +339,15 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
             try self.firewallPolicy.validate(name: "\(name).firewallPolicy")
-            try self.firewallPolicy.forEach {}
-            try self.firewallPolicyName.forEach {}
             try self.validate(self.firewallPolicyName, name: "firewallPolicyName", parent: name, max: 128)
             try self.validate(self.firewallPolicyName, name: "firewallPolicyName", parent: name, min: 1)
             try self.validate(self.firewallPolicyName, name: "firewallPolicyName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
@@ -424,24 +411,19 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
-            try self.firewallName.forEach {}
             try self.validate(self.firewallName, name: "firewallName", parent: name, max: 128)
             try self.validate(self.firewallName, name: "firewallName", parent: name, min: 1)
             try self.validate(self.firewallName, name: "firewallName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.firewallPolicyArn.forEach {}
             try self.validate(self.firewallPolicyArn, name: "firewallPolicyArn", parent: name, max: 256)
             try self.validate(self.firewallPolicyArn, name: "firewallPolicyArn", parent: name, min: 1)
             try self.validate(self.firewallPolicyArn, name: "firewallPolicyArn", parent: name, pattern: "^arn:aws.*")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
-            try self.vpcId.forEach {}
             try self.validate(self.vpcId, name: "vpcId", parent: name, max: 128)
             try self.validate(self.vpcId, name: "vpcId", parent: name, min: 1)
             try self.validate(self.vpcId, name: "vpcId", parent: name, pattern: "^vpc-[0-9a-f]+$")
@@ -507,22 +489,17 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
             try self.ruleGroup?.validate(name: "\(name).ruleGroup")
-            try self.ruleGroup?.forEach {}
-            try self.ruleGroupName.forEach {}
             try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, max: 128)
             try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, min: 1)
             try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.rules?.forEach {}
             try self.validate(self.rules, name: "rules", parent: name, max: 1_000_000)
             try self.validate(self.rules, name: "rules", parent: name, min: 0)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
@@ -569,8 +546,6 @@ extension NetworkFirewall {
 
         public func validate(name: String) throws {
             try self.actionDefinition.validate(name: "\(name).actionDefinition")
-            try self.actionDefinition.forEach {}
-            try self.actionName.forEach {}
             try self.validate(self.actionName, name: "actionName", parent: name, max: 128)
             try self.validate(self.actionName, name: "actionName", parent: name, min: 1)
             try self.validate(self.actionName, name: "actionName", parent: name, pattern: "^[a-zA-Z0-9]+$")
@@ -594,11 +569,9 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.firewallPolicyArn?.forEach {}
             try self.validate(self.firewallPolicyArn, name: "firewallPolicyArn", parent: name, max: 256)
             try self.validate(self.firewallPolicyArn, name: "firewallPolicyArn", parent: name, min: 1)
             try self.validate(self.firewallPolicyArn, name: "firewallPolicyArn", parent: name, pattern: "^arn:aws.*")
-            try self.firewallPolicyName?.forEach {}
             try self.validate(self.firewallPolicyName, name: "firewallPolicyName", parent: name, max: 128)
             try self.validate(self.firewallPolicyName, name: "firewallPolicyName", parent: name, min: 1)
             try self.validate(self.firewallPolicyName, name: "firewallPolicyName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
@@ -635,11 +608,9 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.firewallArn?.forEach {}
             try self.validate(self.firewallArn, name: "firewallArn", parent: name, max: 256)
             try self.validate(self.firewallArn, name: "firewallArn", parent: name, min: 1)
             try self.validate(self.firewallArn, name: "firewallArn", parent: name, pattern: "^arn:aws.*")
-            try self.firewallName?.forEach {}
             try self.validate(self.firewallName, name: "firewallName", parent: name, max: 128)
             try self.validate(self.firewallName, name: "firewallName", parent: name, min: 1)
             try self.validate(self.firewallName, name: "firewallName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
@@ -675,7 +646,6 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws.*")
@@ -705,11 +675,9 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.ruleGroupArn?.forEach {}
             try self.validate(self.ruleGroupArn, name: "ruleGroupArn", parent: name, max: 256)
             try self.validate(self.ruleGroupArn, name: "ruleGroupArn", parent: name, min: 1)
             try self.validate(self.ruleGroupArn, name: "ruleGroupArn", parent: name, pattern: "^arn:aws.*")
-            try self.ruleGroupName?.forEach {}
             try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, max: 128)
             try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, min: 1)
             try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
@@ -747,11 +715,9 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.firewallPolicyArn?.forEach {}
             try self.validate(self.firewallPolicyArn, name: "firewallPolicyArn", parent: name, max: 256)
             try self.validate(self.firewallPolicyArn, name: "firewallPolicyArn", parent: name, min: 1)
             try self.validate(self.firewallPolicyArn, name: "firewallPolicyArn", parent: name, pattern: "^arn:aws.*")
-            try self.firewallPolicyName?.forEach {}
             try self.validate(self.firewallPolicyName, name: "firewallPolicyName", parent: name, max: 128)
             try self.validate(self.firewallPolicyName, name: "firewallPolicyName", parent: name, min: 1)
             try self.validate(self.firewallPolicyName, name: "firewallPolicyName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
@@ -796,11 +762,9 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.firewallArn?.forEach {}
             try self.validate(self.firewallArn, name: "firewallArn", parent: name, max: 256)
             try self.validate(self.firewallArn, name: "firewallArn", parent: name, min: 1)
             try self.validate(self.firewallArn, name: "firewallArn", parent: name, pattern: "^arn:aws.*")
-            try self.firewallName?.forEach {}
             try self.validate(self.firewallName, name: "firewallName", parent: name, max: 128)
             try self.validate(self.firewallName, name: "firewallName", parent: name, min: 1)
             try self.validate(self.firewallName, name: "firewallName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
@@ -845,11 +809,9 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.firewallArn?.forEach {}
             try self.validate(self.firewallArn, name: "firewallArn", parent: name, max: 256)
             try self.validate(self.firewallArn, name: "firewallArn", parent: name, min: 1)
             try self.validate(self.firewallArn, name: "firewallArn", parent: name, pattern: "^arn:aws.*")
-            try self.firewallName?.forEach {}
             try self.validate(self.firewallName, name: "firewallName", parent: name, max: 128)
             try self.validate(self.firewallName, name: "firewallName", parent: name, min: 1)
             try self.validate(self.firewallName, name: "firewallName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
@@ -886,7 +848,6 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws.*")
@@ -925,11 +886,9 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.ruleGroupArn?.forEach {}
             try self.validate(self.ruleGroupArn, name: "ruleGroupArn", parent: name, max: 256)
             try self.validate(self.ruleGroupArn, name: "ruleGroupArn", parent: name, min: 1)
             try self.validate(self.ruleGroupArn, name: "ruleGroupArn", parent: name, pattern: "^arn:aws.*")
-            try self.ruleGroupName?.forEach {}
             try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, max: 128)
             try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, min: 1)
             try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
@@ -972,7 +931,6 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 128)
             try self.validate(self.value, name: "value", parent: name, min: 1)
             try self.validate(self.value, name: "value", parent: name, pattern: "^[a-zA-Z0-9-_ ]+$")
@@ -1001,11 +959,9 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.firewallArn?.forEach {}
             try self.validate(self.firewallArn, name: "firewallArn", parent: name, max: 256)
             try self.validate(self.firewallArn, name: "firewallArn", parent: name, min: 1)
             try self.validate(self.firewallArn, name: "firewallArn", parent: name, pattern: "^arn:aws.*")
-            try self.firewallName?.forEach {}
             try self.validate(self.firewallName, name: "firewallName", parent: name, max: 128)
             try self.validate(self.firewallName, name: "firewallName", parent: name, min: 1)
             try self.validate(self.firewallName, name: "firewallName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
@@ -1014,8 +970,6 @@ extension NetworkFirewall {
                 try validate($0, name: "subnetIds[]", parent: name, min: 1)
                 try validate($0, name: "subnetIds[]", parent: name, pattern: "^subnet-[0-9a-f]+$")
             }
-            try self.subnetIds.forEach {}
-            try self.updateToken?.forEach {}
             try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
             try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
             try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
@@ -1147,15 +1101,12 @@ extension NetworkFirewall {
             try self.statefulRuleGroupReferences?.forEach {
                 try $0.validate(name: "\(name).statefulRuleGroupReferences[]")
             }
-            try self.statefulRuleGroupReferences?.forEach {}
             try self.statelessCustomActions?.forEach {
                 try $0.validate(name: "\(name).statelessCustomActions[]")
             }
-            try self.statelessCustomActions?.forEach {}
             try self.statelessRuleGroupReferences?.forEach {
                 try $0.validate(name: "\(name).statelessRuleGroupReferences[]")
             }
-            try self.statelessRuleGroupReferences?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1262,19 +1213,15 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.destination.forEach {}
             try self.validate(self.destination, name: "destination", parent: name, max: 1024)
             try self.validate(self.destination, name: "destination", parent: name, min: 1)
             try self.validate(self.destination, name: "destination", parent: name, pattern: "^.*$")
-            try self.destinationPort.forEach {}
             try self.validate(self.destinationPort, name: "destinationPort", parent: name, max: 1024)
             try self.validate(self.destinationPort, name: "destinationPort", parent: name, min: 1)
             try self.validate(self.destinationPort, name: "destinationPort", parent: name, pattern: "^.*$")
-            try self.source.forEach {}
             try self.validate(self.source, name: "source", parent: name, max: 1024)
             try self.validate(self.source, name: "source", parent: name, min: 1)
             try self.validate(self.source, name: "source", parent: name, pattern: "^.*$")
-            try self.sourcePort.forEach {}
             try self.validate(self.sourcePort, name: "sourcePort", parent: name, max: 1024)
             try self.validate(self.sourcePort, name: "sourcePort", parent: name, min: 1)
             try self.validate(self.sourcePort, name: "sourcePort", parent: name, pattern: "^.*$")
@@ -1303,7 +1250,6 @@ extension NetworkFirewall {
                 try validate($0, name: "definition[]", parent: name, min: 1)
                 try validate($0, name: "definition[]", parent: name, pattern: "^.*$")
             }
-            try self.definition.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1323,10 +1269,8 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[0-9A-Za-z:\\/+=]+$")
@@ -1370,10 +1314,8 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[0-9A-Za-z:\\/+=]+$")
@@ -1382,7 +1324,6 @@ extension NetworkFirewall {
                 try validate($0, name: "vpcIds[]", parent: name, min: 1)
                 try validate($0, name: "vpcIds[]", parent: name, pattern: "^vpc-[0-9a-f]+$")
             }
-            try self.vpcIds?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1421,10 +1362,8 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[0-9A-Za-z:\\/+=]+$")
@@ -1468,14 +1407,11 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[0-9A-Za-z:\\/+=]+$")
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws.*")
@@ -1549,7 +1485,6 @@ extension NetworkFirewall {
             try self.logDestinationConfigs.forEach {
                 try $0.validate(name: "\(name).logDestinationConfigs[]")
             }
-            try self.logDestinationConfigs.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1584,24 +1519,19 @@ extension NetworkFirewall {
             try self.destinationPorts?.forEach {
                 try $0.validate(name: "\(name).destinationPorts[]")
             }
-            try self.destinationPorts?.forEach {}
             try self.destinations?.forEach {
                 try $0.validate(name: "\(name).destinations[]")
             }
-            try self.destinations?.forEach {}
             try self.protocols?.forEach {
                 try validate($0, name: "protocols[]", parent: name, max: 255)
                 try validate($0, name: "protocols[]", parent: name, min: 0)
             }
-            try self.protocols?.forEach {}
             try self.sourcePorts?.forEach {
                 try $0.validate(name: "\(name).sourcePorts[]")
             }
-            try self.sourcePorts?.forEach {}
             try self.sources?.forEach {
                 try $0.validate(name: "\(name).sources[]")
             }
-            try self.sources?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1643,10 +1573,8 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.fromPort.forEach {}
             try self.validate(self.fromPort, name: "fromPort", parent: name, max: 65535)
             try self.validate(self.fromPort, name: "fromPort", parent: name, min: 0)
-            try self.toPort.forEach {}
             try self.validate(self.toPort, name: "toPort", parent: name, max: 65535)
             try self.validate(self.toPort, name: "toPort", parent: name, min: 0)
         }
@@ -1670,7 +1598,6 @@ extension NetworkFirewall {
                 try validate($0, name: "definition[]", parent: name, min: 1)
                 try validate($0, name: "definition[]", parent: name, pattern: "^.*$")
             }
-            try self.definition?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1689,7 +1616,6 @@ extension NetworkFirewall {
             try self.dimensions.forEach {
                 try $0.validate(name: "\(name).dimensions[]")
             }
-            try self.dimensions.forEach {}
             try self.validate(self.dimensions, name: "dimensions", parent: name, max: 1)
             try self.validate(self.dimensions, name: "dimensions", parent: name, min: 1)
         }
@@ -1711,11 +1637,9 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.policy.forEach {}
             try self.validate(self.policy, name: "policy", parent: name, max: 395_000)
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
             try self.validate(self.policy, name: "policy", parent: name, pattern: ".*\\S.*")
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws.*")
@@ -1744,7 +1668,6 @@ extension NetworkFirewall {
 
         public func validate(name: String) throws {
             try self.matchAttributes.validate(name: "\(name).matchAttributes")
-            try self.matchAttributes.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1766,9 +1689,7 @@ extension NetworkFirewall {
 
         public func validate(name: String) throws {
             try self.rulesSource.validate(name: "\(name).rulesSource")
-            try self.rulesSource.forEach {}
             try self.ruleVariables?.validate(name: "\(name).ruleVariables")
-            try self.ruleVariables?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1845,7 +1766,6 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.keyword.forEach {}
             try self.validate(self.keyword, name: "keyword", parent: name, max: 128)
             try self.validate(self.keyword, name: "keyword", parent: name, min: 1)
             try self.validate(self.keyword, name: "keyword", parent: name, pattern: ".*")
@@ -1854,7 +1774,6 @@ extension NetworkFirewall {
                 try validate($0, name: "settings[]", parent: name, min: 1)
                 try validate($0, name: "settings[]", parent: name, pattern: ".*")
             }
-            try self.settings?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1913,15 +1832,12 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.rulesString?.forEach {}
             try self.validate(self.rulesString, name: "rulesString", parent: name, max: 1_000_000)
             try self.validate(self.rulesString, name: "rulesString", parent: name, min: 0)
             try self.statefulRules?.forEach {
                 try $0.validate(name: "\(name).statefulRules[]")
             }
-            try self.statefulRules?.forEach {}
             try self.statelessRulesAndCustomActions?.validate(name: "\(name).statelessRulesAndCustomActions")
-            try self.statelessRulesAndCustomActions?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1968,11 +1884,9 @@ extension NetworkFirewall {
 
         public func validate(name: String) throws {
             try self.header.validate(name: "\(name).header")
-            try self.header.forEach {}
             try self.ruleOptions.forEach {
                 try $0.validate(name: "\(name).ruleOptions[]")
             }
-            try self.ruleOptions.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1991,7 +1905,6 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws.*")
@@ -2014,11 +1927,9 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.priority.forEach {}
             try self.validate(self.priority, name: "priority", parent: name, max: 65535)
             try self.validate(self.priority, name: "priority", parent: name, min: 1)
             try self.ruleDefinition.validate(name: "\(name).ruleDefinition")
-            try self.ruleDefinition.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2039,10 +1950,8 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.priority.forEach {}
             try self.validate(self.priority, name: "priority", parent: name, max: 65535)
             try self.validate(self.priority, name: "priority", parent: name, min: 1)
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws.*")
@@ -2069,11 +1978,9 @@ extension NetworkFirewall {
             try self.customActions?.forEach {
                 try $0.validate(name: "\(name).customActions[]")
             }
-            try self.customActions?.forEach {}
             try self.statelessRules.forEach {
                 try $0.validate(name: "\(name).statelessRules[]")
             }
-            try self.statelessRules.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2141,11 +2048,9 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^.*$")
-            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
             try self.validate(self.value, name: "value", parent: name, pattern: "^.*$")
@@ -2168,14 +2073,12 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws.*")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
@@ -2201,7 +2104,6 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws.*")
@@ -2210,7 +2112,6 @@ extension NetworkFirewall {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^.*$")
             }
-            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
@@ -2243,15 +2144,12 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.firewallArn?.forEach {}
             try self.validate(self.firewallArn, name: "firewallArn", parent: name, max: 256)
             try self.validate(self.firewallArn, name: "firewallArn", parent: name, min: 1)
             try self.validate(self.firewallArn, name: "firewallArn", parent: name, pattern: "^arn:aws.*")
-            try self.firewallName?.forEach {}
             try self.validate(self.firewallName, name: "firewallName", parent: name, max: 128)
             try self.validate(self.firewallName, name: "firewallName", parent: name, min: 1)
             try self.validate(self.firewallName, name: "firewallName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.updateToken?.forEach {}
             try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
             try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
             try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
@@ -2307,18 +2205,14 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
-            try self.firewallArn?.forEach {}
             try self.validate(self.firewallArn, name: "firewallArn", parent: name, max: 256)
             try self.validate(self.firewallArn, name: "firewallArn", parent: name, min: 1)
             try self.validate(self.firewallArn, name: "firewallArn", parent: name, pattern: "^arn:aws.*")
-            try self.firewallName?.forEach {}
             try self.validate(self.firewallName, name: "firewallName", parent: name, max: 128)
             try self.validate(self.firewallName, name: "firewallName", parent: name, min: 1)
             try self.validate(self.firewallName, name: "firewallName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.updateToken?.forEach {}
             try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
             try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
             try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
@@ -2375,15 +2269,12 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.firewallArn?.forEach {}
             try self.validate(self.firewallArn, name: "firewallArn", parent: name, max: 256)
             try self.validate(self.firewallArn, name: "firewallArn", parent: name, min: 1)
             try self.validate(self.firewallArn, name: "firewallArn", parent: name, pattern: "^arn:aws.*")
-            try self.firewallName?.forEach {}
             try self.validate(self.firewallName, name: "firewallName", parent: name, max: 128)
             try self.validate(self.firewallName, name: "firewallName", parent: name, min: 1)
             try self.validate(self.firewallName, name: "firewallName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.updateToken?.forEach {}
             try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
             try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
             try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
@@ -2446,20 +2337,15 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
             try self.firewallPolicy.validate(name: "\(name).firewallPolicy")
-            try self.firewallPolicy.forEach {}
-            try self.firewallPolicyArn?.forEach {}
             try self.validate(self.firewallPolicyArn, name: "firewallPolicyArn", parent: name, max: 256)
             try self.validate(self.firewallPolicyArn, name: "firewallPolicyArn", parent: name, min: 1)
             try self.validate(self.firewallPolicyArn, name: "firewallPolicyArn", parent: name, pattern: "^arn:aws.*")
-            try self.firewallPolicyName?.forEach {}
             try self.validate(self.firewallPolicyName, name: "firewallPolicyName", parent: name, max: 128)
             try self.validate(self.firewallPolicyName, name: "firewallPolicyName", parent: name, min: 1)
             try self.validate(self.firewallPolicyName, name: "firewallPolicyName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.updateToken.forEach {}
             try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
             try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
             try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
@@ -2507,16 +2393,13 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.firewallArn?.forEach {}
             try self.validate(self.firewallArn, name: "firewallArn", parent: name, max: 256)
             try self.validate(self.firewallArn, name: "firewallArn", parent: name, min: 1)
             try self.validate(self.firewallArn, name: "firewallArn", parent: name, pattern: "^arn:aws.*")
-            try self.firewallName?.forEach {}
             try self.validate(self.firewallName, name: "firewallName", parent: name, max: 128)
             try self.validate(self.firewallName, name: "firewallName", parent: name, min: 1)
             try self.validate(self.firewallName, name: "firewallName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
             try self.loggingConfiguration?.validate(name: "\(name).loggingConfiguration")
-            try self.loggingConfiguration?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2576,23 +2459,17 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
             try self.ruleGroup?.validate(name: "\(name).ruleGroup")
-            try self.ruleGroup?.forEach {}
-            try self.ruleGroupArn?.forEach {}
             try self.validate(self.ruleGroupArn, name: "ruleGroupArn", parent: name, max: 256)
             try self.validate(self.ruleGroupArn, name: "ruleGroupArn", parent: name, min: 1)
             try self.validate(self.ruleGroupArn, name: "ruleGroupArn", parent: name, pattern: "^arn:aws.*")
-            try self.ruleGroupName?.forEach {}
             try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, max: 128)
             try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, min: 1)
             try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.rules?.forEach {}
             try self.validate(self.rules, name: "rules", parent: name, max: 1_000_000)
             try self.validate(self.rules, name: "rules", parent: name, min: 0)
-            try self.updateToken.forEach {}
             try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
             try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
             try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
@@ -2645,15 +2522,12 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.firewallArn?.forEach {}
             try self.validate(self.firewallArn, name: "firewallArn", parent: name, max: 256)
             try self.validate(self.firewallArn, name: "firewallArn", parent: name, min: 1)
             try self.validate(self.firewallArn, name: "firewallArn", parent: name, pattern: "^arn:aws.*")
-            try self.firewallName?.forEach {}
             try self.validate(self.firewallName, name: "firewallName", parent: name, max: 128)
             try self.validate(self.firewallName, name: "firewallName", parent: name, min: 1)
             try self.validate(self.firewallName, name: "firewallName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.updateToken?.forEach {}
             try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
             try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
             try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")

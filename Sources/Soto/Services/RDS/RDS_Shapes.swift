@@ -1587,11 +1587,9 @@ extension RDS {
         }
 
         public func validate(name: String) throws {
-            try self.dBProxyEndpointName.forEach {}
             try self.validate(self.dBProxyEndpointName, name: "dBProxyEndpointName", parent: name, max: 63)
             try self.validate(self.dBProxyEndpointName, name: "dBProxyEndpointName", parent: name, min: 1)
             try self.validate(self.dBProxyEndpointName, name: "dBProxyEndpointName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*")
-            try self.dBProxyName.forEach {}
             try self.validate(self.dBProxyName, name: "dBProxyName", parent: name, max: 63)
             try self.validate(self.dBProxyName, name: "dBProxyName", parent: name, min: 1)
             try self.validate(self.dBProxyName, name: "dBProxyName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*")
@@ -4162,7 +4160,6 @@ extension RDS {
         }
 
         public func validate(name: String) throws {
-            try self.dBProxyEndpointName.forEach {}
             try self.validate(self.dBProxyEndpointName, name: "dBProxyEndpointName", parent: name, max: 63)
             try self.validate(self.dBProxyEndpointName, name: "dBProxyEndpointName", parent: name, min: 1)
             try self.validate(self.dBProxyEndpointName, name: "dBProxyEndpointName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*")
@@ -4933,7 +4930,6 @@ extension RDS {
         }
 
         public func validate(name: String) throws {
-            try self.maxRecords?.forEach {}
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, max: 100)
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, min: 20)
         }
@@ -4988,15 +4984,12 @@ extension RDS {
         }
 
         public func validate(name: String) throws {
-            try self.dBProxyEndpointName?.forEach {}
             try self.validate(self.dBProxyEndpointName, name: "dBProxyEndpointName", parent: name, max: 63)
             try self.validate(self.dBProxyEndpointName, name: "dBProxyEndpointName", parent: name, min: 1)
             try self.validate(self.dBProxyEndpointName, name: "dBProxyEndpointName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*")
-            try self.dBProxyName?.forEach {}
             try self.validate(self.dBProxyName, name: "dBProxyName", parent: name, max: 63)
             try self.validate(self.dBProxyName, name: "dBProxyName", parent: name, min: 1)
             try self.validate(self.dBProxyName, name: "dBProxyName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*")
-            try self.maxRecords?.forEach {}
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, max: 100)
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, min: 20)
         }
@@ -5052,7 +5045,6 @@ extension RDS {
         }
 
         public func validate(name: String) throws {
-            try self.maxRecords?.forEach {}
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, max: 100)
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, min: 20)
         }
@@ -5108,7 +5100,6 @@ extension RDS {
         }
 
         public func validate(name: String) throws {
-            try self.maxRecords?.forEach {}
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, max: 100)
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, min: 20)
         }
@@ -5471,7 +5462,6 @@ extension RDS {
         }
 
         public func validate(name: String) throws {
-            try self.maxRecords?.forEach {}
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, max: 100)
             try self.validate(self.maxRecords, name: "maxRecords", parent: name, min: 20)
         }
@@ -6297,11 +6287,9 @@ extension RDS {
         }
 
         public func validate(name: String) throws {
-            try self.globalClusterIdentifier.forEach {}
             try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, max: 255)
             try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, min: 1)
             try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, pattern: "[A-Za-z][0-9A-Za-z-:._]*")
-            try self.targetDbClusterIdentifier.forEach {}
             try self.validate(self.targetDbClusterIdentifier, name: "targetDbClusterIdentifier", parent: name, max: 255)
             try self.validate(self.targetDbClusterIdentifier, name: "targetDbClusterIdentifier", parent: name, min: 1)
             try self.validate(self.targetDbClusterIdentifier, name: "targetDbClusterIdentifier", parent: name, pattern: "[A-Za-z][0-9A-Za-z-:._]*")
@@ -7036,7 +7024,6 @@ extension RDS {
         }
 
         public func validate(name: String) throws {
-            try self.awsBackupRecoveryPointArn?.forEach {}
             try self.validate(self.awsBackupRecoveryPointArn, name: "awsBackupRecoveryPointArn", parent: name, max: 350)
             try self.validate(self.awsBackupRecoveryPointArn, name: "awsBackupRecoveryPointArn", parent: name, min: 43)
             try self.validate(self.awsBackupRecoveryPointArn, name: "awsBackupRecoveryPointArn", parent: name, pattern: "^arn:aws[a-z-]*:backup:[-a-z0-9]+:[0-9]{12}:[-a-z]+:([a-z0-9\\-]+:)?[a-z][a-z0-9\\-]{0,255}$")
@@ -7139,11 +7126,9 @@ extension RDS {
         }
 
         public func validate(name: String) throws {
-            try self.dBProxyEndpointName.forEach {}
             try self.validate(self.dBProxyEndpointName, name: "dBProxyEndpointName", parent: name, max: 63)
             try self.validate(self.dBProxyEndpointName, name: "dBProxyEndpointName", parent: name, min: 1)
             try self.validate(self.dBProxyEndpointName, name: "dBProxyEndpointName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*")
-            try self.newDBProxyEndpointName?.forEach {}
             try self.validate(self.newDBProxyEndpointName, name: "newDBProxyEndpointName", parent: name, max: 63)
             try self.validate(self.newDBProxyEndpointName, name: "newDBProxyEndpointName", parent: name, min: 1)
             try self.validate(self.newDBProxyEndpointName, name: "newDBProxyEndpointName", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*")

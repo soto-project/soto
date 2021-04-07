@@ -127,7 +127,6 @@ extension CloudHSMV2 {
         }
 
         public func validate(name: String) throws {
-            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 3)
             try self.validate(self.value, name: "value", parent: name, min: 1)
             try self.validate(self.value, name: "value", parent: name, pattern: "[0-9]+")
@@ -252,14 +251,11 @@ extension CloudHSMV2 {
         }
 
         public func validate(name: String) throws {
-            try self.backupId.forEach {}
             try self.validate(self.backupId, name: "backupId", parent: name, pattern: "backup-[2-7a-zA-Z]{11,16}")
-            try self.destinationRegion.forEach {}
             try self.validate(self.destinationRegion, name: "destinationRegion", parent: name, pattern: "[a-z]{2}(-(gov))?-(east|west|north|south|central){1,2}-\\d")
             try self.tagList?.forEach {
                 try $0.validate(name: "\(name).tagList[]")
             }
-            try self.tagList?.forEach {}
             try self.validate(self.tagList, name: "tagList", parent: name, max: 50)
             try self.validate(self.tagList, name: "tagList", parent: name, min: 1)
         }
@@ -306,21 +302,16 @@ extension CloudHSMV2 {
 
         public func validate(name: String) throws {
             try self.backupRetentionPolicy?.validate(name: "\(name).backupRetentionPolicy")
-            try self.backupRetentionPolicy?.forEach {}
-            try self.hsmType.forEach {}
             try self.validate(self.hsmType, name: "hsmType", parent: name, pattern: "(hsm1\\.medium)")
-            try self.sourceBackupId?.forEach {}
             try self.validate(self.sourceBackupId, name: "sourceBackupId", parent: name, pattern: "backup-[2-7a-zA-Z]{11,16}")
             try self.subnetIds.forEach {
                 try validate($0, name: "subnetIds[]", parent: name, pattern: "subnet-[0-9a-fA-F]{8,17}")
             }
-            try self.subnetIds.forEach {}
             try self.validate(self.subnetIds, name: "subnetIds", parent: name, max: 10)
             try self.validate(self.subnetIds, name: "subnetIds", parent: name, min: 1)
             try self.tagList?.forEach {
                 try $0.validate(name: "\(name).tagList[]")
             }
-            try self.tagList?.forEach {}
             try self.validate(self.tagList, name: "tagList", parent: name, max: 50)
             try self.validate(self.tagList, name: "tagList", parent: name, min: 1)
         }
@@ -362,11 +353,8 @@ extension CloudHSMV2 {
         }
 
         public func validate(name: String) throws {
-            try self.availabilityZone.forEach {}
             try self.validate(self.availabilityZone, name: "availabilityZone", parent: name, pattern: "[a-z]{2}(-(gov))?-(east|west|north|south|central){1,2}-\\d[a-z]")
-            try self.clusterId.forEach {}
             try self.validate(self.clusterId, name: "clusterId", parent: name, pattern: "cluster-[2-7a-zA-Z]{11,16}")
-            try self.ipAddress?.forEach {}
             try self.validate(self.ipAddress, name: "ipAddress", parent: name, pattern: "\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}")
         }
 
@@ -399,7 +387,6 @@ extension CloudHSMV2 {
         }
 
         public func validate(name: String) throws {
-            try self.backupId.forEach {}
             try self.validate(self.backupId, name: "backupId", parent: name, pattern: "backup-[2-7a-zA-Z]{11,16}")
         }
 
@@ -430,7 +417,6 @@ extension CloudHSMV2 {
         }
 
         public func validate(name: String) throws {
-            try self.clusterId.forEach {}
             try self.validate(self.clusterId, name: "clusterId", parent: name, pattern: "cluster-[2-7a-zA-Z]{11,16}")
         }
 
@@ -470,13 +456,9 @@ extension CloudHSMV2 {
         }
 
         public func validate(name: String) throws {
-            try self.clusterId.forEach {}
             try self.validate(self.clusterId, name: "clusterId", parent: name, pattern: "cluster-[2-7a-zA-Z]{11,16}")
-            try self.eniId?.forEach {}
             try self.validate(self.eniId, name: "eniId", parent: name, pattern: "eni-[0-9a-fA-F]{8,17}")
-            try self.eniIp?.forEach {}
             try self.validate(self.eniIp, name: "eniIp", parent: name, pattern: "\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}")
-            try self.hsmId?.forEach {}
             try self.validate(self.hsmId, name: "hsmId", parent: name, pattern: "hsm-[2-7a-zA-Z]{11,16}")
         }
 
@@ -522,10 +504,8 @@ extension CloudHSMV2 {
             try self.filters?.forEach {
                 try validate($0.key, name: "filters.key", parent: name, pattern: "[a-zA-Z0-9_-]+")
             }
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 256)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
         }
@@ -573,10 +553,8 @@ extension CloudHSMV2 {
             try self.filters?.forEach {
                 try validate($0.key, name: "filters.key", parent: name, pattern: "[a-zA-Z0-9_-]+")
             }
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 256)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
         }
@@ -686,12 +664,9 @@ extension CloudHSMV2 {
         }
 
         public func validate(name: String) throws {
-            try self.clusterId.forEach {}
             try self.validate(self.clusterId, name: "clusterId", parent: name, pattern: "cluster-[2-7a-zA-Z]{11,16}")
-            try self.signedCert.forEach {}
             try self.validate(self.signedCert, name: "signedCert", parent: name, max: 5000)
             try self.validate(self.signedCert, name: "signedCert", parent: name, pattern: "[a-zA-Z0-9+-/=\\s]*")
-            try self.trustAnchor.forEach {}
             try self.validate(self.trustAnchor, name: "trustAnchor", parent: name, max: 5000)
             try self.validate(self.trustAnchor, name: "trustAnchor", parent: name, pattern: "[a-zA-Z0-9+-/=\\s]*")
         }
@@ -735,13 +710,10 @@ extension CloudHSMV2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 256)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
-            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "(?:cluster|backup)-[2-7a-zA-Z]{11,16}")
         }
 
@@ -781,7 +753,6 @@ extension CloudHSMV2 {
         }
 
         public func validate(name: String) throws {
-            try self.backupId.forEach {}
             try self.validate(self.backupId, name: "backupId", parent: name, pattern: "backup-[2-7a-zA-Z]{11,16}")
         }
 
@@ -816,8 +787,6 @@ extension CloudHSMV2 {
 
         public func validate(name: String) throws {
             try self.backupRetentionPolicy.validate(name: "\(name).backupRetentionPolicy")
-            try self.backupRetentionPolicy.forEach {}
-            try self.clusterId.forEach {}
             try self.validate(self.clusterId, name: "clusterId", parent: name, pattern: "cluster-[2-7a-zA-Z]{11,16}")
         }
 
@@ -848,7 +817,6 @@ extension CloudHSMV2 {
         }
 
         public func validate(name: String) throws {
-            try self.backupId.forEach {}
             try self.validate(self.backupId, name: "backupId", parent: name, pattern: "backup-[2-7a-zA-Z]{11,16}")
         }
 
@@ -882,11 +850,9 @@ extension CloudHSMV2 {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
             try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -910,12 +876,10 @@ extension CloudHSMV2 {
         }
 
         public func validate(name: String) throws {
-            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "(?:cluster|backup)-[2-7a-zA-Z]{11,16}")
             try self.tagList.forEach {
                 try $0.validate(name: "\(name).tagList[]")
             }
-            try self.tagList.forEach {}
             try self.validate(self.tagList, name: "tagList", parent: name, max: 50)
             try self.validate(self.tagList, name: "tagList", parent: name, min: 1)
         }
@@ -942,14 +906,12 @@ extension CloudHSMV2 {
         }
 
         public func validate(name: String) throws {
-            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "(?:cluster|backup)-[2-7a-zA-Z]{11,16}")
             try self.tagKeyList.forEach {
                 try validate($0, name: "tagKeyList[]", parent: name, max: 128)
                 try validate($0, name: "tagKeyList[]", parent: name, min: 1)
                 try validate($0, name: "tagKeyList[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
-            try self.tagKeyList.forEach {}
             try self.validate(self.tagKeyList, name: "tagKeyList", parent: name, max: 50)
             try self.validate(self.tagKeyList, name: "tagKeyList", parent: name, min: 1)
         }

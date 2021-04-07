@@ -366,7 +366,6 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
         }
 
@@ -427,7 +426,6 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
         }
 
@@ -461,9 +459,7 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
-            try self.idnLangCode?.forEach {}
             try self.validate(self.idnLangCode, name: "idnLangCode", parent: name, max: 3)
         }
 
@@ -498,9 +494,7 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try self.authCode?.forEach {}
             try self.validate(self.authCode, name: "authCode", parent: name, max: 1024)
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
         }
 
@@ -571,31 +565,19 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try self.addressLine1?.forEach {}
             try self.validate(self.addressLine1, name: "addressLine1", parent: name, max: 255)
-            try self.addressLine2?.forEach {}
             try self.validate(self.addressLine2, name: "addressLine2", parent: name, max: 255)
-            try self.city?.forEach {}
             try self.validate(self.city, name: "city", parent: name, max: 255)
-            try self.email?.forEach {}
             try self.validate(self.email, name: "email", parent: name, max: 254)
             try self.extraParams?.forEach {
                 try $0.validate(name: "\(name).extraParams[]")
             }
-            try self.extraParams?.forEach {}
-            try self.fax?.forEach {}
             try self.validate(self.fax, name: "fax", parent: name, max: 30)
-            try self.firstName?.forEach {}
             try self.validate(self.firstName, name: "firstName", parent: name, max: 255)
-            try self.lastName?.forEach {}
             try self.validate(self.lastName, name: "lastName", parent: name, max: 255)
-            try self.organizationName?.forEach {}
             try self.validate(self.organizationName, name: "organizationName", parent: name, max: 255)
-            try self.phoneNumber?.forEach {}
             try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, max: 30)
-            try self.state?.forEach {}
             try self.validate(self.state, name: "state", parent: name, max: 255)
-            try self.zipCode?.forEach {}
             try self.validate(self.zipCode, name: "zipCode", parent: name, max: 255)
         }
 
@@ -629,7 +611,6 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
         }
 
@@ -652,7 +633,6 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
         }
 
@@ -674,7 +654,6 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
         }
 
@@ -759,7 +738,6 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
         }
 
@@ -781,7 +759,6 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
         }
 
@@ -815,7 +792,6 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 2048)
         }
 
@@ -834,7 +810,6 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try self.domainName?.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
         }
 
@@ -869,7 +844,6 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
         }
 
@@ -986,7 +960,6 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
         }
 
@@ -1019,7 +992,6 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try self.operationId.forEach {}
             try self.validate(self.operationId, name: "operationId", parent: name, max: 255)
         }
 
@@ -1073,9 +1045,7 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 4096)
-            try self.maxItems?.forEach {}
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 100)
         }
 
@@ -1117,9 +1087,7 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 4096)
-            try self.maxItems?.forEach {}
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 100)
         }
 
@@ -1156,7 +1124,6 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
         }
 
@@ -1193,8 +1160,6 @@ extension Route53Domains {
             try self.glueIps?.forEach {
                 try validate($0, name: "glueIps[]", parent: name, max: 45)
             }
-            try self.glueIps?.forEach {}
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9_\\-.]*")
         }
@@ -1267,18 +1232,12 @@ extension Route53Domains {
 
         public func validate(name: String) throws {
             try self.adminContact.validate(name: "\(name).adminContact")
-            try self.adminContact.forEach {}
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
-            try self.durationInYears.forEach {}
             try self.validate(self.durationInYears, name: "durationInYears", parent: name, max: 10)
             try self.validate(self.durationInYears, name: "durationInYears", parent: name, min: 1)
-            try self.idnLangCode?.forEach {}
             try self.validate(self.idnLangCode, name: "idnLangCode", parent: name, max: 3)
             try self.registrantContact.validate(name: "\(name).registrantContact")
-            try self.registrantContact.forEach {}
             try self.techContact.validate(name: "\(name).techContact")
-            try self.techContact.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1317,7 +1276,6 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
         }
 
@@ -1354,9 +1312,7 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
-            try self.durationInYears?.forEach {}
             try self.validate(self.durationInYears, name: "durationInYears", parent: name, max: 10)
             try self.validate(self.durationInYears, name: "durationInYears", parent: name, min: 1)
         }
@@ -1390,7 +1346,6 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try self.domainName?.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
         }
 
@@ -1429,7 +1384,6 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
         }
 
@@ -1511,24 +1465,16 @@ extension Route53Domains {
 
         public func validate(name: String) throws {
             try self.adminContact.validate(name: "\(name).adminContact")
-            try self.adminContact.forEach {}
-            try self.authCode?.forEach {}
             try self.validate(self.authCode, name: "authCode", parent: name, max: 1024)
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
-            try self.durationInYears.forEach {}
             try self.validate(self.durationInYears, name: "durationInYears", parent: name, max: 10)
             try self.validate(self.durationInYears, name: "durationInYears", parent: name, min: 1)
-            try self.idnLangCode?.forEach {}
             try self.validate(self.idnLangCode, name: "idnLangCode", parent: name, max: 3)
             try self.nameservers?.forEach {
                 try $0.validate(name: "\(name).nameservers[]")
             }
-            try self.nameservers?.forEach {}
             try self.registrantContact.validate(name: "\(name).registrantContact")
-            try self.registrantContact.forEach {}
             try self.techContact.validate(name: "\(name).techContact")
-            try self.techContact.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1572,9 +1518,7 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^(\\d{12})$")
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
         }
 
@@ -1619,7 +1563,6 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
         }
 
@@ -1663,13 +1606,9 @@ extension Route53Domains {
 
         public func validate(name: String) throws {
             try self.adminContact?.validate(name: "\(name).adminContact")
-            try self.adminContact?.forEach {}
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
             try self.registrantContact?.validate(name: "\(name).registrantContact")
-            try self.registrantContact?.forEach {}
             try self.techContact?.validate(name: "\(name).techContact")
-            try self.techContact?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1705,12 +1644,10 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
             try self.nameservers.forEach {
                 try $0.validate(name: "\(name).nameservers[]")
             }
-            try self.nameservers.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1744,7 +1681,6 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
         }
 
@@ -1776,9 +1712,7 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
-            try self.marker?.forEach {}
             try self.validate(self.marker, name: "marker", parent: name, max: 4096)
-            try self.maxItems?.forEach {}
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 100)
         }
 

@@ -237,11 +237,9 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.aliasId.forEach {}
             try self.validate(self.aliasId, name: "aliasId", parent: name, max: 68)
             try self.validate(self.aliasId, name: "aliasId", parent: name, min: 13)
             try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^wsca-[0-9a-z]{8,63}$")
-            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
         }
 
@@ -276,14 +274,12 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, max: 65)
             try self.validate(self.directoryId, name: "directoryId", parent: name, min: 10)
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
             try self.groupIds.forEach {
                 try validate($0, name: "groupIds[]", parent: name, pattern: "wsipg-[0-9a-z]{8,63}$")
             }
-            try self.groupIds.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -308,7 +304,6 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.groupId.forEach {}
             try self.validate(self.groupId, name: "groupId", parent: name, pattern: "wsipg-[0-9a-z]{8,63}$")
         }
 
@@ -431,7 +426,6 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.sharedAccountId.forEach {}
             try self.validate(self.sharedAccountId, name: "sharedAccountId", parent: name, pattern: "^\\d{12}$")
         }
 
@@ -462,24 +456,19 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[a-zA-Z0-9_./() -]+$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_./()\\\\-]+$")
-            try self.sourceImageId.forEach {}
             try self.validate(self.sourceImageId, name: "sourceImageId", parent: name, pattern: "wsi-[0-9a-z]{9,63}$")
-            try self.sourceRegion.forEach {}
             try self.validate(self.sourceRegion, name: "sourceRegion", parent: name, max: 31)
             try self.validate(self.sourceRegion, name: "sourceRegion", parent: name, min: 1)
             try self.validate(self.sourceRegion, name: "sourceRegion", parent: name, pattern: "^[-0-9a-z]{1,31}$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -516,14 +505,12 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.connectionString.forEach {}
             try self.validate(self.connectionString, name: "connectionString", parent: name, max: 255)
             try self.validate(self.connectionString, name: "connectionString", parent: name, min: 1)
             try self.validate(self.connectionString, name: "connectionString", parent: name, pattern: "^[.0-9a-zA-Z\\-]{1,255}$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -566,7 +553,6 @@ extension WorkSpaces {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -602,12 +588,10 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -644,24 +628,18 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.bundleDescription.forEach {}
             try self.validate(self.bundleDescription, name: "bundleDescription", parent: name, max: 255)
             try self.validate(self.bundleDescription, name: "bundleDescription", parent: name, min: 1)
             try self.validate(self.bundleDescription, name: "bundleDescription", parent: name, pattern: "^[a-zA-Z0-9_./() -]+$")
-            try self.bundleName.forEach {}
             try self.validate(self.bundleName, name: "bundleName", parent: name, max: 64)
             try self.validate(self.bundleName, name: "bundleName", parent: name, min: 1)
             try self.validate(self.bundleName, name: "bundleName", parent: name, pattern: "^[a-zA-Z0-9_./()\\\\-]+$")
-            try self.imageId.forEach {}
             try self.validate(self.imageId, name: "imageId", parent: name, pattern: "wsi-[0-9a-z]{9,63}$")
             try self.rootStorage?.validate(name: "\(name).rootStorage")
-            try self.rootStorage?.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.userStorage.validate(name: "\(name).userStorage")
-            try self.userStorage.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -699,7 +677,6 @@ extension WorkSpaces {
             try self.workspaces.forEach {
                 try $0.validate(name: "\(name).workspaces[]")
             }
-            try self.workspaces.forEach {}
             try self.validate(self.workspaces, name: "workspaces", parent: name, max: 25)
             try self.validate(self.workspaces, name: "workspaces", parent: name, min: 1)
         }
@@ -768,7 +745,6 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.aliasId.forEach {}
             try self.validate(self.aliasId, name: "aliasId", parent: name, max: 68)
             try self.validate(self.aliasId, name: "aliasId", parent: name, min: 13)
             try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^wsca-[0-9a-z]{8,63}$")
@@ -792,7 +768,6 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.groupId.forEach {}
             try self.validate(self.groupId, name: "groupId", parent: name, pattern: "wsipg-[0-9a-z]{8,63}$")
         }
 
@@ -817,12 +792,10 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
-            try self.tagKeys.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -844,7 +817,6 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.bundleId?.forEach {}
             try self.validate(self.bundleId, name: "bundleId", parent: name, pattern: "^wsb-[0-9a-z]{8,63}$")
         }
 
@@ -866,7 +838,6 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.imageId.forEach {}
             try self.validate(self.imageId, name: "imageId", parent: name, pattern: "wsi-[0-9a-z]{9,63}$")
         }
 
@@ -888,7 +859,6 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, max: 65)
             try self.validate(self.directoryId, name: "directoryId", parent: name, min: 10)
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
@@ -912,7 +882,6 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -972,7 +941,6 @@ extension WorkSpaces {
             try self.resourceIds.forEach {
                 try validate($0, name: "resourceIds[]", parent: name, min: 1)
             }
-            try self.resourceIds.forEach {}
             try self.validate(self.resourceIds, name: "resourceIds", parent: name, max: 25)
             try self.validate(self.resourceIds, name: "resourceIds", parent: name, min: 1)
         }
@@ -1010,14 +978,11 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.aliasId.forEach {}
             try self.validate(self.aliasId, name: "aliasId", parent: name, max: 68)
             try self.validate(self.aliasId, name: "aliasId", parent: name, min: 13)
             try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^wsca-[0-9a-z]{8,63}$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1073,16 +1038,12 @@ extension WorkSpaces {
                 try validate($0, name: "aliasIds[]", parent: name, min: 13)
                 try validate($0, name: "aliasIds[]", parent: name, pattern: "^wsca-[0-9a-z]{8,63}$")
             }
-            try self.aliasIds?.forEach {}
             try self.validate(self.aliasIds, name: "aliasIds", parent: name, max: 25)
             try self.validate(self.aliasIds, name: "aliasIds", parent: name, min: 1)
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 25)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.resourceId?.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
         }
 
@@ -1129,11 +1090,8 @@ extension WorkSpaces {
             try self.groupIds?.forEach {
                 try validate($0, name: "groupIds[]", parent: name, pattern: "wsipg-[0-9a-z]{8,63}$")
             }
-            try self.groupIds?.forEach {}
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1171,7 +1129,6 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
         }
 
@@ -1211,10 +1168,8 @@ extension WorkSpaces {
             try self.bundleIds?.forEach {
                 try validate($0, name: "bundleIds[]", parent: name, pattern: "^wsb-[0-9a-z]{8,63}$")
             }
-            try self.bundleIds?.forEach {}
             try self.validate(self.bundleIds, name: "bundleIds", parent: name, max: 25)
             try self.validate(self.bundleIds, name: "bundleIds", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1263,13 +1218,10 @@ extension WorkSpaces {
                 try validate($0, name: "directoryIds[]", parent: name, min: 10)
                 try validate($0, name: "directoryIds[]", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
             }
-            try self.directoryIds?.forEach {}
             try self.validate(self.directoryIds, name: "directoryIds", parent: name, max: 25)
             try self.validate(self.directoryIds, name: "directoryIds", parent: name, min: 1)
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 25)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1313,12 +1265,9 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.imageId.forEach {}
             try self.validate(self.imageId, name: "imageId", parent: name, pattern: "wsi-[0-9a-z]{9,63}$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1372,13 +1321,10 @@ extension WorkSpaces {
             try self.imageIds?.forEach {
                 try validate($0, name: "imageIds[]", parent: name, pattern: "wsi-[0-9a-z]{9,63}$")
             }
-            try self.imageIds?.forEach {}
             try self.validate(self.imageIds, name: "imageIds", parent: name, max: 25)
             try self.validate(self.imageIds, name: "imageIds", parent: name, min: 1)
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1417,7 +1363,6 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.workspaceId.forEach {}
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^ws-[0-9a-z]{8,63}$")
         }
 
@@ -1455,13 +1400,11 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.workspaceIds?.forEach {
                 try validate($0, name: "workspaceIds[]", parent: name, pattern: "^ws-[0-9a-z]{8,63}$")
             }
-            try self.workspaceIds?.forEach {}
             try self.validate(self.workspaceIds, name: "workspaceIds", parent: name, max: 25)
             try self.validate(self.workspaceIds, name: "workspaceIds", parent: name, min: 1)
         }
@@ -1513,25 +1456,19 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.bundleId?.forEach {}
             try self.validate(self.bundleId, name: "bundleId", parent: name, pattern: "^wsb-[0-9a-z]{8,63}$")
-            try self.directoryId?.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, max: 65)
             try self.validate(self.directoryId, name: "directoryId", parent: name, min: 10)
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 25)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.userName?.forEach {}
             try self.validate(self.userName, name: "userName", parent: name, max: 63)
             try self.validate(self.userName, name: "userName", parent: name, min: 1)
             try self.workspaceIds?.forEach {
                 try validate($0, name: "workspaceIds[]", parent: name, pattern: "^ws-[0-9a-z]{8,63}$")
             }
-            try self.workspaceIds?.forEach {}
             try self.validate(self.workspaceIds, name: "workspaceIds", parent: name, max: 25)
             try self.validate(self.workspaceIds, name: "workspaceIds", parent: name, min: 1)
         }
@@ -1572,7 +1509,6 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.aliasId.forEach {}
             try self.validate(self.aliasId, name: "aliasId", parent: name, max: 68)
             try self.validate(self.aliasId, name: "aliasId", parent: name, min: 13)
             try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^wsca-[0-9a-z]{8,63}$")
@@ -1599,14 +1535,12 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, max: 65)
             try self.validate(self.directoryId, name: "directoryId", parent: name, min: 10)
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
             try self.groupIds.forEach {
                 try validate($0, name: "groupIds[]", parent: name, pattern: "wsipg-[0-9a-z]{8,63}$")
             }
-            try self.groupIds.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1698,23 +1632,18 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.applications?.forEach {}
             try self.validate(self.applications, name: "applications", parent: name, max: 5)
             try self.validate(self.applications, name: "applications", parent: name, min: 1)
-            try self.ec2ImageId.forEach {}
             try self.validate(self.ec2ImageId, name: "ec2ImageId", parent: name, pattern: "^ami\\-([a-f0-9]{8}|[a-f0-9]{17})$")
-            try self.imageDescription.forEach {}
             try self.validate(self.imageDescription, name: "imageDescription", parent: name, max: 256)
             try self.validate(self.imageDescription, name: "imageDescription", parent: name, min: 1)
             try self.validate(self.imageDescription, name: "imageDescription", parent: name, pattern: "^[a-zA-Z0-9_./() -]+$")
-            try self.imageName.forEach {}
             try self.validate(self.imageName, name: "imageName", parent: name, max: 64)
             try self.validate(self.imageName, name: "imageName", parent: name, min: 1)
             try self.validate(self.imageName, name: "imageName", parent: name, pattern: "^[a-zA-Z0-9_./()\\\\-]+$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1772,12 +1701,9 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.managementCidrRangeConstraint.forEach {}
             try self.validate(self.managementCidrRangeConstraint, name: "managementCidrRangeConstraint", parent: name, pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(3[0-2]|[1-2][0-9]|[0-9]))$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 5)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1818,9 +1744,7 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.bundleId.forEach {}
             try self.validate(self.bundleId, name: "bundleId", parent: name, pattern: "^wsb-[0-9a-z]{8,63}$")
-            try self.sourceWorkspaceId.forEach {}
             try self.validate(self.sourceWorkspaceId, name: "sourceWorkspaceId", parent: name, pattern: "^ws-[0-9a-z]{8,63}$")
         }
 
@@ -1876,7 +1800,6 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.dedicatedTenancyManagementCidrRange?.forEach {}
             try self.validate(self.dedicatedTenancyManagementCidrRange, name: "dedicatedTenancyManagementCidrRange", parent: name, pattern: "(^([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.0\\.0)(\\/(16$))$")
         }
 
@@ -1902,7 +1825,6 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
         }
 
@@ -1928,7 +1850,6 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 65)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 10)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
@@ -1956,7 +1877,6 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 65)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 10)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
@@ -1984,12 +1904,10 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.resourceId.forEach {}
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 65)
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 10)
             try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
             try self.workspaceCreationProperties.validate(name: "\(name).workspaceCreationProperties")
-            try self.workspaceCreationProperties.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2014,7 +1932,6 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.workspaceId.forEach {}
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^ws-[0-9a-z]{8,63}$")
         }
 
@@ -2040,7 +1957,6 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.workspaceId.forEach {}
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^ws-[0-9a-z]{8,63}$")
         }
 
@@ -2076,7 +1992,6 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.workspaceId.forEach {}
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^ws-[0-9a-z]{8,63}$")
         }
 
@@ -2097,7 +2012,6 @@ extension WorkSpaces {
             try self.rebootWorkspaceRequests.forEach {
                 try $0.validate(name: "\(name).rebootWorkspaceRequests[]")
             }
-            try self.rebootWorkspaceRequests.forEach {}
             try self.validate(self.rebootWorkspaceRequests, name: "rebootWorkspaceRequests", parent: name, max: 25)
             try self.validate(self.rebootWorkspaceRequests, name: "rebootWorkspaceRequests", parent: name, min: 1)
         }
@@ -2129,7 +2043,6 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.workspaceId.forEach {}
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^ws-[0-9a-z]{8,63}$")
         }
 
@@ -2150,7 +2063,6 @@ extension WorkSpaces {
             try self.rebuildWorkspaceRequests.forEach {
                 try $0.validate(name: "\(name).rebuildWorkspaceRequests[]")
             }
-            try self.rebuildWorkspaceRequests.forEach {}
             try self.validate(self.rebuildWorkspaceRequests, name: "rebuildWorkspaceRequests", parent: name, max: 1)
             try self.validate(self.rebuildWorkspaceRequests, name: "rebuildWorkspaceRequests", parent: name, min: 1)
         }
@@ -2197,7 +2109,6 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, max: 65)
             try self.validate(self.directoryId, name: "directoryId", parent: name, min: 10)
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
@@ -2206,12 +2117,10 @@ extension WorkSpaces {
                 try validate($0, name: "subnetIds[]", parent: name, min: 15)
                 try validate($0, name: "subnetIds[]", parent: name, pattern: "^(subnet-([0-9a-f]{8}|[0-9a-f]{17}))$")
             }
-            try self.subnetIds?.forEach {}
             try self.validate(self.subnetIds, name: "subnetIds", parent: name, max: 2)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2237,7 +2146,6 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.workspaceId.forEach {}
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^ws-[0-9a-z]{8,63}$")
         }
 
@@ -2262,7 +2170,6 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.groupId.forEach {}
             try self.validate(self.groupId, name: "groupId", parent: name, pattern: "wsipg-[0-9a-z]{8,63}$")
         }
 
@@ -2285,7 +2192,6 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.capacity?.forEach {}
             try self.validate(self.capacity, name: "capacity", parent: name, min: 1)
         }
 
@@ -2345,7 +2251,6 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.workspaceId?.forEach {}
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^ws-[0-9a-z]{8,63}$")
         }
 
@@ -2366,7 +2271,6 @@ extension WorkSpaces {
             try self.startWorkspaceRequests.forEach {
                 try $0.validate(name: "\(name).startWorkspaceRequests[]")
             }
-            try self.startWorkspaceRequests.forEach {}
             try self.validate(self.startWorkspaceRequests, name: "startWorkspaceRequests", parent: name, max: 25)
             try self.validate(self.startWorkspaceRequests, name: "startWorkspaceRequests", parent: name, min: 1)
         }
@@ -2398,7 +2302,6 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.workspaceId?.forEach {}
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^ws-[0-9a-z]{8,63}$")
         }
 
@@ -2419,7 +2322,6 @@ extension WorkSpaces {
             try self.stopWorkspaceRequests.forEach {
                 try $0.validate(name: "\(name).stopWorkspaceRequests[]")
             }
-            try self.stopWorkspaceRequests.forEach {}
             try self.validate(self.stopWorkspaceRequests, name: "stopWorkspaceRequests", parent: name, max: 25)
             try self.validate(self.stopWorkspaceRequests, name: "stopWorkspaceRequests", parent: name, min: 1)
         }
@@ -2454,10 +2356,8 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 127)
             try self.validate(self.key, name: "key", parent: name, min: 1)
-            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 255)
         }
 
@@ -2476,7 +2376,6 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.workspaceId.forEach {}
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^ws-[0-9a-z]{8,63}$")
         }
 
@@ -2497,7 +2396,6 @@ extension WorkSpaces {
             try self.terminateWorkspaceRequests.forEach {
                 try $0.validate(name: "\(name).terminateWorkspaceRequests[]")
             }
-            try self.terminateWorkspaceRequests.forEach {}
             try self.validate(self.terminateWorkspaceRequests, name: "terminateWorkspaceRequests", parent: name, max: 25)
             try self.validate(self.terminateWorkspaceRequests, name: "terminateWorkspaceRequests", parent: name, min: 1)
         }
@@ -2532,12 +2430,10 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.aliasId.forEach {}
             try self.validate(self.aliasId, name: "aliasId", parent: name, max: 68)
             try self.validate(self.aliasId, name: "aliasId", parent: name, min: 13)
             try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^wsca-[0-9a-z]{8,63}$")
             try self.connectionAliasPermission.validate(name: "\(name).connectionAliasPermission")
-            try self.connectionAliasPermission.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2562,7 +2458,6 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.groupId.forEach {}
             try self.validate(self.groupId, name: "groupId", parent: name, pattern: "wsipg-[0-9a-z]{8,63}$")
         }
 
@@ -2588,9 +2483,7 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.bundleId?.forEach {}
             try self.validate(self.bundleId, name: "bundleId", parent: name, pattern: "^wsb-[0-9a-z]{8,63}$")
-            try self.imageId?.forEach {}
             try self.validate(self.imageId, name: "imageId", parent: name, pattern: "wsi-[0-9a-z]{9,63}$")
         }
 
@@ -2619,9 +2512,7 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.imageId.forEach {}
             try self.validate(self.imageId, name: "imageId", parent: name, pattern: "wsi-[0-9a-z]{9,63}$")
-            try self.sharedAccountId.forEach {}
             try self.validate(self.sharedAccountId, name: "sharedAccountId", parent: name, pattern: "^\\d{12}$")
         }
 
@@ -2645,7 +2536,6 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.capacity?.forEach {}
             try self.validate(self.capacity, name: "capacity", parent: name, min: 1)
         }
 
@@ -2858,7 +2748,6 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.customSecurityGroupId?.forEach {}
             try self.validate(self.customSecurityGroupId, name: "customSecurityGroupId", parent: name, max: 20)
             try self.validate(self.customSecurityGroupId, name: "customSecurityGroupId", parent: name, min: 11)
             try self.validate(self.customSecurityGroupId, name: "customSecurityGroupId", parent: name, pattern: "^(sg-([0-9a-f]{8}|[0-9a-f]{17}))$")
@@ -3055,17 +2944,13 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
-            try self.bundleId.forEach {}
             try self.validate(self.bundleId, name: "bundleId", parent: name, pattern: "^wsb-[0-9a-z]{8,63}$")
-            try self.directoryId.forEach {}
             try self.validate(self.directoryId, name: "directoryId", parent: name, max: 65)
             try self.validate(self.directoryId, name: "directoryId", parent: name, min: 10)
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
-            try self.userName.forEach {}
             try self.validate(self.userName, name: "userName", parent: name, max: 63)
             try self.validate(self.userName, name: "userName", parent: name, min: 1)
         }

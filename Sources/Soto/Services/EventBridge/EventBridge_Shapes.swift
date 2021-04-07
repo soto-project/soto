@@ -118,7 +118,6 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "aws\\.partner(/[\\.\\-_A-Za-z0-9]+){2,}")
@@ -296,7 +295,6 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.replayName.forEach {}
             try self.validate(self.replayName, name: "replayName", parent: name, max: 64)
             try self.validate(self.replayName, name: "replayName", parent: name, min: 1)
             try self.validate(self.replayName, name: "replayName", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -477,10 +475,8 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 512)
             try self.validate(self.key, name: "key", parent: name, pattern: "^[!#$%&'*+-.^_`|~0-9a-zA-Z]+$")
-            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 512)
             try self.validate(self.value, name: "value", parent: name, pattern: "^[ \\t]*[\\x20-\\x7E]+([ \\t]+[\\x20-\\x7E]+)*[ \\t]*$")
         }
@@ -507,19 +503,16 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.bodyParameters?.forEach {}
             try self.validate(self.bodyParameters, name: "bodyParameters", parent: name, max: 100)
             try self.validate(self.bodyParameters, name: "bodyParameters", parent: name, min: 0)
             try self.headerParameters?.forEach {
                 try $0.validate(name: "\(name).headerParameters[]")
             }
-            try self.headerParameters?.forEach {}
             try self.validate(self.headerParameters, name: "headerParameters", parent: name, max: 100)
             try self.validate(self.headerParameters, name: "headerParameters", parent: name, min: 0)
             try self.queryStringParameters?.forEach {
                 try $0.validate(name: "\(name).queryStringParameters[]")
             }
-            try self.queryStringParameters?.forEach {}
             try self.validate(self.queryStringParameters, name: "queryStringParameters", parent: name, max: 100)
             try self.validate(self.queryStringParameters, name: "queryStringParameters", parent: name, min: 0)
         }
@@ -584,10 +577,8 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 512)
             try self.validate(self.key, name: "key", parent: name, pattern: "[^\\x00-\\x1F\\x7F]+")
-            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 512)
             try self.validate(self.value, name: "value", parent: name, pattern: "[^\\x00-\\x09\\x0B\\x0C\\x0E-\\x1F\\x7F]+")
         }
@@ -623,20 +614,15 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.connectionArn.forEach {}
             try self.validate(self.connectionArn, name: "connectionArn", parent: name, max: 1600)
             try self.validate(self.connectionArn, name: "connectionArn", parent: name, min: 1)
             try self.validate(self.connectionArn, name: "connectionArn", parent: name, pattern: "^arn:aws([a-z]|\\-)*:events:([a-z]|\\d|\\-)*:([0-9]{12})?:connection\\/[\\.\\-_A-Za-z0-9]+\\/[\\-A-Za-z0-9]+$")
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
-            try self.invocationEndpoint.forEach {}
             try self.validate(self.invocationEndpoint, name: "invocationEndpoint", parent: name, max: 2048)
             try self.validate(self.invocationEndpoint, name: "invocationEndpoint", parent: name, min: 1)
             try self.validate(self.invocationEndpoint, name: "invocationEndpoint", parent: name, pattern: "^((%[0-9A-Fa-f]{2}|[-()_.!~*';/?:@\\x26=+$,A-Za-z0-9])+)([).!';/?:,])?$")
-            try self.invocationRateLimitPerSecond?.forEach {}
             try self.validate(self.invocationRateLimitPerSecond, name: "invocationRateLimitPerSecond", parent: name, min: 1)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -698,17 +684,13 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.archiveName.forEach {}
             try self.validate(self.archiveName, name: "archiveName", parent: name, max: 48)
             try self.validate(self.archiveName, name: "archiveName", parent: name, min: 1)
             try self.validate(self.archiveName, name: "archiveName", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
-            try self.eventSourceArn.forEach {}
             try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, max: 1600)
             try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, min: 1)
-            try self.retentionDays?.forEach {}
             try self.validate(self.retentionDays, name: "retentionDays", parent: name, min: 0)
         }
 
@@ -758,11 +740,9 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.apiKeyName.forEach {}
             try self.validate(self.apiKeyName, name: "apiKeyName", parent: name, max: 512)
             try self.validate(self.apiKeyName, name: "apiKeyName", parent: name, min: 1)
             try self.validate(self.apiKeyName, name: "apiKeyName", parent: name, pattern: "^[ \\t]*[^\\x00-\\x1F:\\x7F]+([ \\t]+[^\\x00-\\x1F:\\x7F]+)*[ \\t]*$")
-            try self.apiKeyValue.forEach {}
             try self.validate(self.apiKeyValue, name: "apiKeyValue", parent: name, max: 512)
             try self.validate(self.apiKeyValue, name: "apiKeyValue", parent: name, min: 1)
             try self.validate(self.apiKeyValue, name: "apiKeyValue", parent: name, pattern: "^[ \\t]*[^\\x00-\\x1F:\\x7F]+([ \\t]+[^\\x00-\\x1F:\\x7F]+)*[ \\t]*$")
@@ -793,13 +773,9 @@ extension EventBridge {
 
         public func validate(name: String) throws {
             try self.apiKeyAuthParameters?.validate(name: "\(name).apiKeyAuthParameters")
-            try self.apiKeyAuthParameters?.forEach {}
             try self.basicAuthParameters?.validate(name: "\(name).basicAuthParameters")
-            try self.basicAuthParameters?.forEach {}
             try self.invocationHttpParameters?.validate(name: "\(name).invocationHttpParameters")
-            try self.invocationHttpParameters?.forEach {}
             try self.oAuthParameters?.validate(name: "\(name).oAuthParameters")
-            try self.oAuthParameters?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -822,11 +798,9 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.password.forEach {}
             try self.validate(self.password, name: "password", parent: name, max: 512)
             try self.validate(self.password, name: "password", parent: name, min: 1)
             try self.validate(self.password, name: "password", parent: name, pattern: "^[ \\t]*[^\\x00-\\x1F:\\x7F]+([ \\t]+[^\\x00-\\x1F:\\x7F]+)*[ \\t]*$")
-            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 512)
             try self.validate(self.username, name: "username", parent: name, min: 1)
             try self.validate(self.username, name: "username", parent: name, pattern: "^[ \\t]*[^\\x00-\\x1F:\\x7F]+([ \\t]+[^\\x00-\\x1F:\\x7F]+)*[ \\t]*$")
@@ -850,11 +824,9 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.clientID.forEach {}
             try self.validate(self.clientID, name: "clientID", parent: name, max: 512)
             try self.validate(self.clientID, name: "clientID", parent: name, min: 1)
             try self.validate(self.clientID, name: "clientID", parent: name, pattern: "^[ \\t]*[^\\x00-\\x1F:\\x7F]+([ \\t]+[^\\x00-\\x1F:\\x7F]+)*[ \\t]*$")
-            try self.clientSecret.forEach {}
             try self.validate(self.clientSecret, name: "clientSecret", parent: name, max: 512)
             try self.validate(self.clientSecret, name: "clientSecret", parent: name, min: 1)
             try self.validate(self.clientSecret, name: "clientSecret", parent: name, pattern: "^[ \\t]*[^\\x00-\\x1F:\\x7F]+([ \\t]+[^\\x00-\\x1F:\\x7F]+)*[ \\t]*$")
@@ -884,14 +856,11 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.authorizationEndpoint.forEach {}
             try self.validate(self.authorizationEndpoint, name: "authorizationEndpoint", parent: name, max: 2048)
             try self.validate(self.authorizationEndpoint, name: "authorizationEndpoint", parent: name, min: 1)
             try self.validate(self.authorizationEndpoint, name: "authorizationEndpoint", parent: name, pattern: "^((%[0-9A-Fa-f]{2}|[-()_.!~*';/?:@\\x26=+$,A-Za-z0-9])+)([).!';/?:,])?$")
             try self.clientParameters.validate(name: "\(name).clientParameters")
-            try self.clientParameters.forEach {}
             try self.oAuthHttpParameters?.validate(name: "\(name).oAuthHttpParameters")
-            try self.oAuthHttpParameters?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -921,11 +890,8 @@ extension EventBridge {
 
         public func validate(name: String) throws {
             try self.authParameters.validate(name: "\(name).authParameters")
-            try self.authParameters.forEach {}
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -979,18 +945,15 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.eventSourceName?.forEach {}
             try self.validate(self.eventSourceName, name: "eventSourceName", parent: name, max: 256)
             try self.validate(self.eventSourceName, name: "eventSourceName", parent: name, min: 1)
             try self.validate(self.eventSourceName, name: "eventSourceName", parent: name, pattern: "aws\\.partner(/[\\.\\-_A-Za-z0-9]+){2,}")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[/\\.\\-_A-Za-z0-9]+")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1025,11 +988,9 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.account.forEach {}
             try self.validate(self.account, name: "account", parent: name, max: 12)
             try self.validate(self.account, name: "account", parent: name, min: 12)
             try self.validate(self.account, name: "account", parent: name, pattern: "\\d{12}")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "aws\\.partner(/[\\.\\-_A-Za-z0-9]+){2,}")
@@ -1063,7 +1024,6 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "aws\\.partner(/[\\.\\-_A-Za-z0-9]+){2,}")
@@ -1083,7 +1043,6 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.arn?.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1600)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
         }
@@ -1102,7 +1061,6 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -1151,7 +1109,6 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -1175,7 +1132,6 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.archiveName.forEach {}
             try self.validate(self.archiveName, name: "archiveName", parent: name, max: 48)
             try self.validate(self.archiveName, name: "archiveName", parent: name, min: 1)
             try self.validate(self.archiveName, name: "archiveName", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -1199,7 +1155,6 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -1248,7 +1203,6 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[/\\.\\-_A-Za-z0-9]+")
@@ -1271,11 +1225,9 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.account.forEach {}
             try self.validate(self.account, name: "account", parent: name, max: 12)
             try self.validate(self.account, name: "account", parent: name, min: 12)
             try self.validate(self.account, name: "account", parent: name, pattern: "\\d{12}")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "aws\\.partner(/[\\.\\-_A-Za-z0-9]+){2,}")
@@ -1302,11 +1254,9 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.eventBusName?.forEach {}
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -1328,7 +1278,6 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -1397,7 +1346,6 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.archiveName.forEach {}
             try self.validate(self.archiveName, name: "archiveName", parent: name, max: 48)
             try self.validate(self.archiveName, name: "archiveName", parent: name, min: 1)
             try self.validate(self.archiveName, name: "archiveName", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -1470,7 +1418,6 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -1543,7 +1490,6 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1600)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+")
@@ -1584,7 +1530,6 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "aws\\.partner(/[\\.\\-_A-Za-z0-9]+){2,}")
@@ -1637,7 +1582,6 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "aws\\.partner(/[\\.\\-_A-Za-z0-9]+){2,}")
@@ -1674,7 +1618,6 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.replayName.forEach {}
             try self.validate(self.replayName, name: "replayName", parent: name, max: 64)
             try self.validate(self.replayName, name: "replayName", parent: name, min: 1)
             try self.validate(self.replayName, name: "replayName", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -1754,11 +1697,9 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.eventBusName?.forEach {}
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -1831,11 +1772,9 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.eventBusName?.forEach {}
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -1871,9 +1810,7 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.taskCount?.forEach {}
             try self.validate(self.taskCount, name: "taskCount", parent: name, min: 1)
-            try self.taskDefinitionArn.forEach {}
             try self.validate(self.taskDefinitionArn, name: "taskDefinitionArn", parent: name, max: 1600)
             try self.validate(self.taskDefinitionArn, name: "taskDefinitionArn", parent: name, min: 1)
         }
@@ -1900,11 +1837,9 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.eventBusName?.forEach {}
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -1994,7 +1929,6 @@ extension EventBridge {
             try self.pathParameterValues?.forEach {
                 try validate($0, name: "pathParameterValues[]", parent: name, pattern: "^(?!\\s*$).+")
             }
-            try self.pathParameterValues?.forEach {}
             try self.queryStringParameters?.forEach {
                 try validate($0.key, name: "queryStringParameters.key", parent: name, max: 512)
                 try validate($0.key, name: "queryStringParameters.key", parent: name, pattern: "[^\\x00-\\x1F\\x7F]+")
@@ -2028,7 +1962,6 @@ extension EventBridge {
                 try validate($0.key, name: "inputPathsMap.key", parent: name, pattern: "[A-Za-z0-9\\_\\-]+")
                 try validate($0.value, name: "inputPathsMap[\"\($0.key)\"]", parent: name, max: 256)
             }
-            try self.inputTemplate.forEach {}
             try self.validate(self.inputTemplate, name: "inputTemplate", parent: name, max: 8192)
             try self.validate(self.inputTemplate, name: "inputTemplate", parent: name, min: 1)
         }
@@ -2048,7 +1981,6 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.partitionKeyPath.forEach {}
             try self.validate(self.partitionKeyPath, name: "partitionKeyPath", parent: name, max: 256)
         }
 
@@ -2075,18 +2007,14 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.connectionArn?.forEach {}
             try self.validate(self.connectionArn, name: "connectionArn", parent: name, max: 1600)
             try self.validate(self.connectionArn, name: "connectionArn", parent: name, min: 1)
             try self.validate(self.connectionArn, name: "connectionArn", parent: name, pattern: "^arn:aws([a-z]|\\-)*:events:([a-z]|\\d|\\-)*:([0-9]{12})?:connection\\/[\\.\\-_A-Za-z0-9]+\\/[\\-A-Za-z0-9]+$")
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.namePrefix?.forEach {}
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, max: 64)
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, min: 1)
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2137,17 +2065,13 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.eventSourceArn?.forEach {}
             try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, max: 1600)
             try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, min: 1)
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.namePrefix?.forEach {}
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, max: 48)
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, min: 1)
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2196,14 +2120,11 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.namePrefix?.forEach {}
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, max: 64)
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, min: 1)
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2248,14 +2169,11 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.namePrefix?.forEach {}
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, max: 256)
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, min: 1)
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, pattern: "[/\\.\\-_A-Za-z0-9]+")
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2299,14 +2217,11 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.namePrefix?.forEach {}
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, max: 256)
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, min: 1)
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, pattern: "[/\\.\\-_A-Za-z0-9]+")
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2350,14 +2265,11 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.eventSourceName.forEach {}
             try self.validate(self.eventSourceName, name: "eventSourceName", parent: name, max: 256)
             try self.validate(self.eventSourceName, name: "eventSourceName", parent: name, min: 1)
             try self.validate(self.eventSourceName, name: "eventSourceName", parent: name, pattern: "aws\\.partner(/[\\.\\-_A-Za-z0-9]+){2,}")
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2401,14 +2313,11 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.namePrefix.forEach {}
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, max: 256)
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, min: 1)
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, pattern: "aws\\.partner/[\\.\\-_A-Za-z0-9]+/[/\\.\\-_A-Za-z0-9]*")
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2458,17 +2367,13 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.eventSourceArn?.forEach {}
             try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, max: 1600)
             try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, min: 1)
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.namePrefix?.forEach {}
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, max: 64)
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, min: 1)
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2517,17 +2422,13 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.eventBusName?.forEach {}
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+")
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.targetArn.forEach {}
             try self.validate(self.targetArn, name: "targetArn", parent: name, max: 1600)
             try self.validate(self.targetArn, name: "targetArn", parent: name, min: 1)
         }
@@ -2575,18 +2476,14 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.eventBusName?.forEach {}
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+")
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.namePrefix?.forEach {}
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, max: 64)
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, min: 1)
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2625,7 +2522,6 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1600)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
         }
@@ -2666,17 +2562,13 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.eventBusName?.forEach {}
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+")
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.rule.forEach {}
             try self.validate(self.rule, name: "rule", parent: name, max: 64)
             try self.validate(self.rule, name: "rule", parent: name, min: 1)
             try self.validate(self.rule, name: "rule", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -2774,7 +2666,6 @@ extension EventBridge {
             try self.entries.forEach {
                 try $0.validate(name: "\(name).entries[]")
             }
-            try self.entries.forEach {}
             try self.validate(self.entries, name: "entries", parent: name, max: 10)
             try self.validate(self.entries, name: "entries", parent: name, min: 1)
         }
@@ -2811,11 +2702,9 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.eventBusName?.forEach {}
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[\\.\\-_A-Za-z0-9]+")
-            try self.traceHeader?.forEach {}
             try self.validate(self.traceHeader, name: "traceHeader", parent: name, max: 500)
             try self.validate(self.traceHeader, name: "traceHeader", parent: name, min: 1)
         }
@@ -2881,7 +2770,6 @@ extension EventBridge {
             try self.entries.forEach {
                 try $0.validate(name: "\(name).entries[]")
             }
-            try self.entries.forEach {}
             try self.validate(self.entries, name: "entries", parent: name, max: 20)
             try self.validate(self.entries, name: "entries", parent: name, min: 1)
         }
@@ -2912,7 +2800,6 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.source?.forEach {}
             try self.validate(self.source, name: "source", parent: name, max: 256)
             try self.validate(self.source, name: "source", parent: name, min: 1)
             try self.validate(self.source, name: "source", parent: name, pattern: "aws\\.partner(/[\\.\\-_A-Za-z0-9]+){2,}")
@@ -2989,19 +2876,15 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.action?.forEach {}
             try self.validate(self.action, name: "action", parent: name, max: 64)
             try self.validate(self.action, name: "action", parent: name, min: 1)
             try self.validate(self.action, name: "action", parent: name, pattern: "events:[a-zA-Z]+")
-            try self.eventBusName?.forEach {}
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 256)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
-            try self.principal?.forEach {}
             try self.validate(self.principal, name: "principal", parent: name, max: 12)
             try self.validate(self.principal, name: "principal", parent: name, min: 1)
             try self.validate(self.principal, name: "principal", parent: name, pattern: "(\\d{12}|\\*)")
-            try self.statementId?.forEach {}
             try self.validate(self.statementId, name: "statementId", parent: name, max: 64)
             try self.validate(self.statementId, name: "statementId", parent: name, min: 1)
             try self.validate(self.statementId, name: "statementId", parent: name, pattern: "[a-zA-Z0-9-_]+")
@@ -3047,25 +2930,19 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 512)
-            try self.eventBusName?.forEach {}
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
-            try self.roleArn?.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1600)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
-            try self.scheduleExpression?.forEach {}
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, max: 256)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3108,18 +2985,15 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.eventBusName?.forEach {}
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+")
-            try self.rule.forEach {}
             try self.validate(self.rule, name: "rule", parent: name, max: 64)
             try self.validate(self.rule, name: "rule", parent: name, min: 1)
             try self.validate(self.rule, name: "rule", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
             try self.targets.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
-            try self.targets.forEach {}
             try self.validate(self.targets, name: "targets", parent: name, max: 100)
             try self.validate(self.targets, name: "targets", parent: name, min: 1)
         }
@@ -3193,20 +3067,15 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.database.forEach {}
             try self.validate(self.database, name: "database", parent: name, max: 64)
             try self.validate(self.database, name: "database", parent: name, min: 1)
-            try self.dbUser?.forEach {}
             try self.validate(self.dbUser, name: "dbUser", parent: name, max: 128)
             try self.validate(self.dbUser, name: "dbUser", parent: name, min: 1)
-            try self.secretManagerArn?.forEach {}
             try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, max: 1600)
             try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, min: 1)
             try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, pattern: "(^arn:aws([a-z]|\\-)*:secretsmanager:[a-z0-9-.]+:.*)|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)")
-            try self.sql.forEach {}
             try self.validate(self.sql, name: "sql", parent: name, max: 100_000)
             try self.validate(self.sql, name: "sql", parent: name, min: 1)
-            try self.statementName?.forEach {}
             try self.validate(self.statementName, name: "statementName", parent: name, max: 500)
             try self.validate(self.statementName, name: "statementName", parent: name, min: 1)
         }
@@ -3236,11 +3105,9 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.eventBusName?.forEach {}
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 256)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
-            try self.statementId?.forEach {}
             try self.validate(self.statementId, name: "statementId", parent: name, max: 64)
             try self.validate(self.statementId, name: "statementId", parent: name, min: 1)
             try self.validate(self.statementId, name: "statementId", parent: name, pattern: "[a-zA-Z0-9-_]+")
@@ -3271,7 +3138,6 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.eventBusName?.forEach {}
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+")
@@ -3280,10 +3146,8 @@ extension EventBridge {
                 try validate($0, name: "ids[]", parent: name, min: 1)
                 try validate($0, name: "ids[]", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
             }
-            try self.ids.forEach {}
             try self.validate(self.ids, name: "ids", parent: name, max: 100)
             try self.validate(self.ids, name: "ids", parent: name, min: 1)
-            try self.rule.forEach {}
             try self.validate(self.rule, name: "rule", parent: name, max: 64)
             try self.validate(self.rule, name: "rule", parent: name, min: 1)
             try self.validate(self.rule, name: "rule", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -3392,14 +3256,12 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1600)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
             try self.filterArns?.forEach {
                 try validate($0, name: "filterArns[]", parent: name, max: 1600)
                 try validate($0, name: "filterArns[]", parent: name, min: 1)
             }
-            try self.filterArns?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3420,10 +3282,8 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.maximumEventAgeInSeconds?.forEach {}
             try self.validate(self.maximumEventAgeInSeconds, name: "maximumEventAgeInSeconds", parent: name, max: 86400)
             try self.validate(self.maximumEventAgeInSeconds, name: "maximumEventAgeInSeconds", parent: name, min: 60)
-            try self.maximumRetryAttempts?.forEach {}
             try self.validate(self.maximumRetryAttempts, name: "maximumRetryAttempts", parent: name, max: 185)
             try self.validate(self.maximumRetryAttempts, name: "maximumRetryAttempts", parent: name, min: 0)
         }
@@ -3491,7 +3351,6 @@ extension EventBridge {
             try self.runCommandTargets.forEach {
                 try $0.validate(name: "\(name).runCommandTargets[]")
             }
-            try self.runCommandTargets.forEach {}
             try self.validate(self.runCommandTargets, name: "runCommandTargets", parent: name, max: 5)
             try self.validate(self.runCommandTargets, name: "runCommandTargets", parent: name, min: 1)
         }
@@ -3513,7 +3372,6 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
@@ -3521,7 +3379,6 @@ extension EventBridge {
                 try validate($0, name: "values[]", parent: name, max: 256)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
-            try self.values.forEach {}
             try self.validate(self.values, name: "values", parent: name, max: 50)
             try self.validate(self.values, name: "values", parent: name, min: 1)
         }
@@ -3544,11 +3401,9 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
-            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 1024)
         }
 
@@ -3570,7 +3425,6 @@ extension EventBridge {
             try self.pipelineParameterList?.forEach {
                 try $0.validate(name: "\(name).pipelineParameterList[]")
             }
-            try self.pipelineParameterList?.forEach {}
             try self.validate(self.pipelineParameterList, name: "pipelineParameterList", parent: name, max: 200)
             try self.validate(self.pipelineParameterList, name: "pipelineParameterList", parent: name, min: 0)
         }
@@ -3617,15 +3471,11 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
             try self.destination.validate(name: "\(name).destination")
-            try self.destination.forEach {}
-            try self.eventSourceArn.forEach {}
             try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, max: 1600)
             try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, min: 1)
-            try self.replayName.forEach {}
             try self.validate(self.replayName, name: "replayName", parent: name, max: 64)
             try self.validate(self.replayName, name: "replayName", parent: name, min: 1)
             try self.validate(self.replayName, name: "replayName", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -3678,10 +3528,8 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
-            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
         }
@@ -3704,13 +3552,11 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1600)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3777,38 +3623,24 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1600)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
             try self.deadLetterConfig?.validate(name: "\(name).deadLetterConfig")
-            try self.deadLetterConfig?.forEach {}
             try self.ecsParameters?.validate(name: "\(name).ecsParameters")
-            try self.ecsParameters?.forEach {}
             try self.httpParameters?.validate(name: "\(name).httpParameters")
-            try self.httpParameters?.forEach {}
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 64)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
-            try self.input?.forEach {}
             try self.validate(self.input, name: "input", parent: name, max: 8192)
-            try self.inputPath?.forEach {}
             try self.validate(self.inputPath, name: "inputPath", parent: name, max: 256)
             try self.inputTransformer?.validate(name: "\(name).inputTransformer")
-            try self.inputTransformer?.forEach {}
             try self.kinesisParameters?.validate(name: "\(name).kinesisParameters")
-            try self.kinesisParameters?.forEach {}
             try self.redshiftDataParameters?.validate(name: "\(name).redshiftDataParameters")
-            try self.redshiftDataParameters?.forEach {}
             try self.retryPolicy?.validate(name: "\(name).retryPolicy")
-            try self.retryPolicy?.forEach {}
-            try self.roleArn?.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1600)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
             try self.runCommandParameters?.validate(name: "\(name).runCommandParameters")
-            try self.runCommandParameters?.forEach {}
             try self.sageMakerPipelineParameters?.validate(name: "\(name).sageMakerPipelineParameters")
-            try self.sageMakerPipelineParameters?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3873,14 +3705,12 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1600)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
-            try self.tagKeys.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3917,20 +3747,15 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.connectionArn?.forEach {}
             try self.validate(self.connectionArn, name: "connectionArn", parent: name, max: 1600)
             try self.validate(self.connectionArn, name: "connectionArn", parent: name, min: 1)
             try self.validate(self.connectionArn, name: "connectionArn", parent: name, pattern: "^arn:aws([a-z]|\\-)*:events:([a-z]|\\d|\\-)*:([0-9]{12})?:connection\\/[\\.\\-_A-Za-z0-9]+\\/[\\-A-Za-z0-9]+$")
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
-            try self.invocationEndpoint?.forEach {}
             try self.validate(self.invocationEndpoint, name: "invocationEndpoint", parent: name, max: 2048)
             try self.validate(self.invocationEndpoint, name: "invocationEndpoint", parent: name, min: 1)
             try self.validate(self.invocationEndpoint, name: "invocationEndpoint", parent: name, pattern: "^((%[0-9A-Fa-f]{2}|[-()_.!~*';/?:@\\x26=+$,A-Za-z0-9])+)([).!';/?:,])?$")
-            try self.invocationRateLimitPerSecond?.forEach {}
             try self.validate(self.invocationRateLimitPerSecond, name: "invocationRateLimitPerSecond", parent: name, min: 1)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -3989,14 +3814,11 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.archiveName.forEach {}
             try self.validate(self.archiveName, name: "archiveName", parent: name, max: 48)
             try self.validate(self.archiveName, name: "archiveName", parent: name, min: 1)
             try self.validate(self.archiveName, name: "archiveName", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
-            try self.retentionDays?.forEach {}
             try self.validate(self.retentionDays, name: "retentionDays", parent: name, min: 0)
         }
 
@@ -4045,11 +3867,9 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.apiKeyName?.forEach {}
             try self.validate(self.apiKeyName, name: "apiKeyName", parent: name, max: 512)
             try self.validate(self.apiKeyName, name: "apiKeyName", parent: name, min: 1)
             try self.validate(self.apiKeyName, name: "apiKeyName", parent: name, pattern: "^[ \\t]*[^\\x00-\\x1F:\\x7F]+([ \\t]+[^\\x00-\\x1F:\\x7F]+)*[ \\t]*$")
-            try self.apiKeyValue?.forEach {}
             try self.validate(self.apiKeyValue, name: "apiKeyValue", parent: name, max: 512)
             try self.validate(self.apiKeyValue, name: "apiKeyValue", parent: name, min: 1)
             try self.validate(self.apiKeyValue, name: "apiKeyValue", parent: name, pattern: "^[ \\t]*[^\\x00-\\x1F:\\x7F]+([ \\t]+[^\\x00-\\x1F:\\x7F]+)*[ \\t]*$")
@@ -4080,13 +3900,9 @@ extension EventBridge {
 
         public func validate(name: String) throws {
             try self.apiKeyAuthParameters?.validate(name: "\(name).apiKeyAuthParameters")
-            try self.apiKeyAuthParameters?.forEach {}
             try self.basicAuthParameters?.validate(name: "\(name).basicAuthParameters")
-            try self.basicAuthParameters?.forEach {}
             try self.invocationHttpParameters?.validate(name: "\(name).invocationHttpParameters")
-            try self.invocationHttpParameters?.forEach {}
             try self.oAuthParameters?.validate(name: "\(name).oAuthParameters")
-            try self.oAuthParameters?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4109,11 +3925,9 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.password?.forEach {}
             try self.validate(self.password, name: "password", parent: name, max: 512)
             try self.validate(self.password, name: "password", parent: name, min: 1)
             try self.validate(self.password, name: "password", parent: name, pattern: "^[ \\t]*[^\\x00-\\x1F:\\x7F]+([ \\t]+[^\\x00-\\x1F:\\x7F]+)*[ \\t]*$")
-            try self.username?.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 512)
             try self.validate(self.username, name: "username", parent: name, min: 1)
             try self.validate(self.username, name: "username", parent: name, pattern: "^[ \\t]*[^\\x00-\\x1F:\\x7F]+([ \\t]+[^\\x00-\\x1F:\\x7F]+)*[ \\t]*$")
@@ -4137,11 +3951,9 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.clientID?.forEach {}
             try self.validate(self.clientID, name: "clientID", parent: name, max: 512)
             try self.validate(self.clientID, name: "clientID", parent: name, min: 1)
             try self.validate(self.clientID, name: "clientID", parent: name, pattern: "^[ \\t]*[^\\x00-\\x1F:\\x7F]+([ \\t]+[^\\x00-\\x1F:\\x7F]+)*[ \\t]*$")
-            try self.clientSecret?.forEach {}
             try self.validate(self.clientSecret, name: "clientSecret", parent: name, max: 512)
             try self.validate(self.clientSecret, name: "clientSecret", parent: name, min: 1)
             try self.validate(self.clientSecret, name: "clientSecret", parent: name, pattern: "^[ \\t]*[^\\x00-\\x1F:\\x7F]+([ \\t]+[^\\x00-\\x1F:\\x7F]+)*[ \\t]*$")
@@ -4171,14 +3983,11 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
-            try self.authorizationEndpoint?.forEach {}
             try self.validate(self.authorizationEndpoint, name: "authorizationEndpoint", parent: name, max: 2048)
             try self.validate(self.authorizationEndpoint, name: "authorizationEndpoint", parent: name, min: 1)
             try self.validate(self.authorizationEndpoint, name: "authorizationEndpoint", parent: name, pattern: "^((%[0-9A-Fa-f]{2}|[-()_.!~*';/?:@\\x26=+$,A-Za-z0-9])+)([).!';/?:,])?$")
             try self.clientParameters?.validate(name: "\(name).clientParameters")
-            try self.clientParameters?.forEach {}
             try self.oAuthHttpParameters?.validate(name: "\(name).oAuthHttpParameters")
-            try self.oAuthHttpParameters?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4208,11 +4017,8 @@ extension EventBridge {
 
         public func validate(name: String) throws {
             try self.authParameters?.validate(name: "\(name).authParameters")
-            try self.authParameters?.forEach {}
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")

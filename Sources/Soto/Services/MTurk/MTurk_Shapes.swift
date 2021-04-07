@@ -164,7 +164,6 @@ extension MTurk {
         }
 
         public func validate(name: String) throws {
-            try self.assignmentId.forEach {}
             try self.validate(self.assignmentId, name: "assignmentId", parent: name, max: 64)
             try self.validate(self.assignmentId, name: "assignmentId", parent: name, min: 1)
             try self.validate(self.assignmentId, name: "assignmentId", parent: name, pattern: "^[A-Z0-9]+$")
@@ -256,11 +255,9 @@ extension MTurk {
         }
 
         public func validate(name: String) throws {
-            try self.qualificationTypeId.forEach {}
             try self.validate(self.qualificationTypeId, name: "qualificationTypeId", parent: name, max: 64)
             try self.validate(self.qualificationTypeId, name: "qualificationTypeId", parent: name, min: 1)
             try self.validate(self.qualificationTypeId, name: "qualificationTypeId", parent: name, pattern: "^[A-Z0-9]+$")
-            try self.workerId.forEach {}
             try self.validate(self.workerId, name: "workerId", parent: name, max: 64)
             try self.validate(self.workerId, name: "workerId", parent: name, min: 1)
             try self.validate(self.workerId, name: "workerId", parent: name, pattern: "^A[A-Z0-9]+$")
@@ -321,11 +318,9 @@ extension MTurk {
         }
 
         public func validate(name: String) throws {
-            try self.hITId.forEach {}
             try self.validate(self.hITId, name: "hITId", parent: name, max: 64)
             try self.validate(self.hITId, name: "hITId", parent: name, min: 1)
             try self.validate(self.hITId, name: "hITId", parent: name, pattern: "^[A-Z0-9]+$")
-            try self.uniqueRequestToken?.forEach {}
             try self.validate(self.uniqueRequestToken, name: "uniqueRequestToken", parent: name, max: 64)
             try self.validate(self.uniqueRequestToken, name: "uniqueRequestToken", parent: name, min: 1)
         }
@@ -395,17 +390,13 @@ extension MTurk {
         }
 
         public func validate(name: String) throws {
-            try self.hITLayoutId?.forEach {}
             try self.validate(self.hITLayoutId, name: "hITLayoutId", parent: name, max: 64)
             try self.validate(self.hITLayoutId, name: "hITLayoutId", parent: name, min: 1)
             try self.validate(self.hITLayoutId, name: "hITLayoutId", parent: name, pattern: "^[A-Z0-9]+$")
             try self.qualificationRequirements?.forEach {
                 try $0.validate(name: "\(name).qualificationRequirements[]")
             }
-            try self.qualificationRequirements?.forEach {}
-            try self.reward.forEach {}
             try self.validate(self.reward, name: "reward", parent: name, pattern: "^[0-9]+(\\.)?[0-9]{0,2}$")
-            try self.uniqueRequestToken?.forEach {}
             try self.validate(self.uniqueRequestToken, name: "uniqueRequestToken", parent: name, max: 64)
             try self.validate(self.uniqueRequestToken, name: "uniqueRequestToken", parent: name, min: 1)
         }
@@ -473,8 +464,6 @@ extension MTurk {
             try self.qualificationRequirements?.forEach {
                 try $0.validate(name: "\(name).qualificationRequirements[]")
             }
-            try self.qualificationRequirements?.forEach {}
-            try self.reward.forEach {}
             try self.validate(self.reward, name: "reward", parent: name, pattern: "^[0-9]+(\\.)?[0-9]{0,2}$")
         }
 
@@ -538,15 +527,12 @@ extension MTurk {
         }
 
         public func validate(name: String) throws {
-            try self.hITLayoutId?.forEach {}
             try self.validate(self.hITLayoutId, name: "hITLayoutId", parent: name, max: 64)
             try self.validate(self.hITLayoutId, name: "hITLayoutId", parent: name, min: 1)
             try self.validate(self.hITLayoutId, name: "hITLayoutId", parent: name, pattern: "^[A-Z0-9]+$")
-            try self.hITTypeId.forEach {}
             try self.validate(self.hITTypeId, name: "hITTypeId", parent: name, max: 64)
             try self.validate(self.hITTypeId, name: "hITTypeId", parent: name, min: 1)
             try self.validate(self.hITTypeId, name: "hITTypeId", parent: name, pattern: "^[A-Z0-9]+$")
-            try self.uniqueRequestToken?.forEach {}
             try self.validate(self.uniqueRequestToken, name: "uniqueRequestToken", parent: name, max: 64)
             try self.validate(self.uniqueRequestToken, name: "uniqueRequestToken", parent: name, min: 1)
         }
@@ -652,7 +638,6 @@ extension MTurk {
         }
 
         public func validate(name: String) throws {
-            try self.workerId.forEach {}
             try self.validate(self.workerId, name: "workerId", parent: name, max: 64)
             try self.validate(self.workerId, name: "workerId", parent: name, min: 1)
             try self.validate(self.workerId, name: "workerId", parent: name, pattern: "^A[A-Z0-9]+$")
@@ -677,7 +662,6 @@ extension MTurk {
         }
 
         public func validate(name: String) throws {
-            try self.hITId.forEach {}
             try self.validate(self.hITId, name: "hITId", parent: name, max: 64)
             try self.validate(self.hITId, name: "hITId", parent: name, min: 1)
             try self.validate(self.hITId, name: "hITId", parent: name, pattern: "^[A-Z0-9]+$")
@@ -701,7 +685,6 @@ extension MTurk {
         }
 
         public func validate(name: String) throws {
-            try self.qualificationTypeId.forEach {}
             try self.validate(self.qualificationTypeId, name: "qualificationTypeId", parent: name, max: 64)
             try self.validate(self.qualificationTypeId, name: "qualificationTypeId", parent: name, min: 1)
             try self.validate(self.qualificationTypeId, name: "qualificationTypeId", parent: name, pattern: "^[A-Z0-9]+$")
@@ -728,7 +711,6 @@ extension MTurk {
         }
 
         public func validate(name: String) throws {
-            try self.workerId.forEach {}
             try self.validate(self.workerId, name: "workerId", parent: name, max: 64)
             try self.validate(self.workerId, name: "workerId", parent: name, min: 1)
             try self.validate(self.workerId, name: "workerId", parent: name, pattern: "^A[A-Z0-9]+$")
@@ -759,11 +741,9 @@ extension MTurk {
         }
 
         public func validate(name: String) throws {
-            try self.qualificationTypeId.forEach {}
             try self.validate(self.qualificationTypeId, name: "qualificationTypeId", parent: name, max: 64)
             try self.validate(self.qualificationTypeId, name: "qualificationTypeId", parent: name, min: 1)
             try self.validate(self.qualificationTypeId, name: "qualificationTypeId", parent: name, pattern: "^[A-Z0-9]+$")
-            try self.workerId.forEach {}
             try self.validate(self.workerId, name: "workerId", parent: name, max: 64)
             try self.validate(self.workerId, name: "workerId", parent: name, min: 1)
             try self.validate(self.workerId, name: "workerId", parent: name, pattern: "^A[A-Z0-9]+$")
@@ -808,7 +788,6 @@ extension MTurk {
         }
 
         public func validate(name: String) throws {
-            try self.assignmentId.forEach {}
             try self.validate(self.assignmentId, name: "assignmentId", parent: name, max: 64)
             try self.validate(self.assignmentId, name: "assignmentId", parent: name, min: 1)
             try self.validate(self.assignmentId, name: "assignmentId", parent: name, pattern: "^[A-Z0-9]+$")
@@ -848,7 +827,6 @@ extension MTurk {
         }
 
         public func validate(name: String) throws {
-            try self.assignmentId.forEach {}
             try self.validate(self.assignmentId, name: "assignmentId", parent: name, max: 64)
             try self.validate(self.assignmentId, name: "assignmentId", parent: name, min: 1)
             try self.validate(self.assignmentId, name: "assignmentId", parent: name, pattern: "^[A-Z0-9]+$")
@@ -882,7 +860,6 @@ extension MTurk {
         }
 
         public func validate(name: String) throws {
-            try self.hITId.forEach {}
             try self.validate(self.hITId, name: "hITId", parent: name, max: 64)
             try self.validate(self.hITId, name: "hITId", parent: name, min: 1)
             try self.validate(self.hITId, name: "hITId", parent: name, pattern: "^[A-Z0-9]+$")
@@ -918,11 +895,9 @@ extension MTurk {
         }
 
         public func validate(name: String) throws {
-            try self.qualificationTypeId.forEach {}
             try self.validate(self.qualificationTypeId, name: "qualificationTypeId", parent: name, max: 64)
             try self.validate(self.qualificationTypeId, name: "qualificationTypeId", parent: name, min: 1)
             try self.validate(self.qualificationTypeId, name: "qualificationTypeId", parent: name, pattern: "^[A-Z0-9]+$")
-            try self.workerId.forEach {}
             try self.validate(self.workerId, name: "workerId", parent: name, max: 64)
             try self.validate(self.workerId, name: "workerId", parent: name, min: 1)
             try self.validate(self.workerId, name: "workerId", parent: name, pattern: "^A[A-Z0-9]+$")
@@ -956,7 +931,6 @@ extension MTurk {
         }
 
         public func validate(name: String) throws {
-            try self.qualificationTypeId.forEach {}
             try self.validate(self.qualificationTypeId, name: "qualificationTypeId", parent: name, max: 64)
             try self.validate(self.qualificationTypeId, name: "qualificationTypeId", parent: name, min: 1)
             try self.validate(self.qualificationTypeId, name: "qualificationTypeId", parent: name, pattern: "^[A-Z0-9]+$")
@@ -1106,14 +1080,11 @@ extension MTurk {
         }
 
         public func validate(name: String) throws {
-            try self.hITId.forEach {}
             try self.validate(self.hITId, name: "hITId", parent: name, max: 64)
             try self.validate(self.hITId, name: "hITId", parent: name, min: 1)
             try self.validate(self.hITId, name: "hITId", parent: name, pattern: "^[A-Z0-9]+$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1163,18 +1134,14 @@ extension MTurk {
         }
 
         public func validate(name: String) throws {
-            try self.assignmentId?.forEach {}
             try self.validate(self.assignmentId, name: "assignmentId", parent: name, max: 64)
             try self.validate(self.assignmentId, name: "assignmentId", parent: name, min: 1)
             try self.validate(self.assignmentId, name: "assignmentId", parent: name, pattern: "^[A-Z0-9]+$")
-            try self.hITId?.forEach {}
             try self.validate(self.hITId, name: "hITId", parent: name, max: 64)
             try self.validate(self.hITId, name: "hITId", parent: name, min: 1)
             try self.validate(self.hITId, name: "hITId", parent: name, pattern: "^[A-Z0-9]+$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1222,13 +1189,10 @@ extension MTurk {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.qualificationTypeId.forEach {}
             try self.validate(self.qualificationTypeId, name: "qualificationTypeId", parent: name, max: 64)
             try self.validate(self.qualificationTypeId, name: "qualificationTypeId", parent: name, min: 1)
             try self.validate(self.qualificationTypeId, name: "qualificationTypeId", parent: name, pattern: "^[A-Z0-9]+$")
@@ -1272,10 +1236,8 @@ extension MTurk {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1320,13 +1282,10 @@ extension MTurk {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.qualificationTypeId?.forEach {}
             try self.validate(self.qualificationTypeId, name: "qualificationTypeId", parent: name, max: 64)
             try self.validate(self.qualificationTypeId, name: "qualificationTypeId", parent: name, min: 1)
             try self.validate(self.qualificationTypeId, name: "qualificationTypeId", parent: name, pattern: "^[A-Z0-9]+$")
@@ -1379,10 +1338,8 @@ extension MTurk {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1440,14 +1397,11 @@ extension MTurk {
         }
 
         public func validate(name: String) throws {
-            try self.hITId.forEach {}
             try self.validate(self.hITId, name: "hITId", parent: name, max: 64)
             try self.validate(self.hITId, name: "hITId", parent: name, min: 1)
             try self.validate(self.hITId, name: "hITId", parent: name, pattern: "^[A-Z0-9]+$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1512,14 +1466,11 @@ extension MTurk {
         }
 
         public func validate(name: String) throws {
-            try self.hITTypeId?.forEach {}
             try self.validate(self.hITTypeId, name: "hITTypeId", parent: name, max: 64)
             try self.validate(self.hITTypeId, name: "hITTypeId", parent: name, min: 1)
             try self.validate(self.hITTypeId, name: "hITTypeId", parent: name, pattern: "^[A-Z0-9]+$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1563,10 +1514,8 @@ extension MTurk {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1615,13 +1564,10 @@ extension MTurk {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.qualificationTypeId.forEach {}
             try self.validate(self.qualificationTypeId, name: "qualificationTypeId", parent: name, max: 64)
             try self.validate(self.qualificationTypeId, name: "qualificationTypeId", parent: name, min: 1)
             try self.validate(self.qualificationTypeId, name: "qualificationTypeId", parent: name, pattern: "^[A-Z0-9]+$")
@@ -1667,10 +1613,8 @@ extension MTurk {
         }
 
         public func validate(name: String) throws {
-            try self.country.forEach {}
             try self.validate(self.country, name: "country", parent: name, max: 2)
             try self.validate(self.country, name: "country", parent: name, min: 2)
-            try self.subdivision?.forEach {}
             try self.validate(self.subdivision, name: "subdivision", parent: name, max: 2)
             try self.validate(self.subdivision, name: "subdivision", parent: name, min: 2)
         }
@@ -1747,7 +1691,6 @@ extension MTurk {
                 try validate($0, name: "workerIds[]", parent: name, min: 1)
                 try validate($0, name: "workerIds[]", parent: name, pattern: "^A[A-Z0-9]+$")
             }
-            try self.workerIds.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1897,7 +1840,6 @@ extension MTurk {
             try self.localeValues?.forEach {
                 try $0.validate(name: "\(name).localeValues[]")
             }
-            try self.localeValues?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1982,7 +1924,6 @@ extension MTurk {
         }
 
         public func validate(name: String) throws {
-            try self.assignmentId.forEach {}
             try self.validate(self.assignmentId, name: "assignmentId", parent: name, max: 64)
             try self.validate(self.assignmentId, name: "assignmentId", parent: name, min: 1)
             try self.validate(self.assignmentId, name: "assignmentId", parent: name, pattern: "^[A-Z0-9]+$")
@@ -2148,16 +2089,12 @@ extension MTurk {
         }
 
         public func validate(name: String) throws {
-            try self.assignmentId.forEach {}
             try self.validate(self.assignmentId, name: "assignmentId", parent: name, max: 64)
             try self.validate(self.assignmentId, name: "assignmentId", parent: name, min: 1)
             try self.validate(self.assignmentId, name: "assignmentId", parent: name, pattern: "^[A-Z0-9]+$")
-            try self.bonusAmount.forEach {}
             try self.validate(self.bonusAmount, name: "bonusAmount", parent: name, pattern: "^[0-9]+(\\.)?[0-9]{0,2}$")
-            try self.uniqueRequestToken?.forEach {}
             try self.validate(self.uniqueRequestToken, name: "uniqueRequestToken", parent: name, max: 64)
             try self.validate(self.uniqueRequestToken, name: "uniqueRequestToken", parent: name, min: 1)
-            try self.workerId.forEach {}
             try self.validate(self.workerId, name: "workerId", parent: name, max: 64)
             try self.validate(self.workerId, name: "workerId", parent: name, min: 1)
             try self.validate(self.workerId, name: "workerId", parent: name, pattern: "^A[A-Z0-9]+$")
@@ -2209,7 +2146,6 @@ extension MTurk {
         }
 
         public func validate(name: String) throws {
-            try self.hITId.forEach {}
             try self.validate(self.hITId, name: "hITId", parent: name, max: 64)
             try self.validate(self.hITId, name: "hITId", parent: name, min: 1)
             try self.validate(self.hITId, name: "hITId", parent: name, pattern: "^[A-Z0-9]+$")
@@ -2237,7 +2173,6 @@ extension MTurk {
         }
 
         public func validate(name: String) throws {
-            try self.hITId.forEach {}
             try self.validate(self.hITId, name: "hITId", parent: name, max: 64)
             try self.validate(self.hITId, name: "hITId", parent: name, min: 1)
             try self.validate(self.hITId, name: "hITId", parent: name, pattern: "^[A-Z0-9]+$")
@@ -2265,11 +2200,9 @@ extension MTurk {
         }
 
         public func validate(name: String) throws {
-            try self.hITId.forEach {}
             try self.validate(self.hITId, name: "hITId", parent: name, max: 64)
             try self.validate(self.hITId, name: "hITId", parent: name, min: 1)
             try self.validate(self.hITId, name: "hITId", parent: name, pattern: "^[A-Z0-9]+$")
-            try self.hITTypeId.forEach {}
             try self.validate(self.hITTypeId, name: "hITTypeId", parent: name, max: 64)
             try self.validate(self.hITTypeId, name: "hITTypeId", parent: name, min: 1)
             try self.validate(self.hITTypeId, name: "hITTypeId", parent: name, pattern: "^[A-Z0-9]+$")
@@ -2300,7 +2233,6 @@ extension MTurk {
         }
 
         public func validate(name: String) throws {
-            try self.hITTypeId.forEach {}
             try self.validate(self.hITTypeId, name: "hITTypeId", parent: name, max: 64)
             try self.validate(self.hITTypeId, name: "hITTypeId", parent: name, min: 1)
             try self.validate(self.hITTypeId, name: "hITTypeId", parent: name, pattern: "^[A-Z0-9]+$")
@@ -2350,7 +2282,6 @@ extension MTurk {
         }
 
         public func validate(name: String) throws {
-            try self.qualificationTypeId.forEach {}
             try self.validate(self.qualificationTypeId, name: "qualificationTypeId", parent: name, max: 64)
             try self.validate(self.qualificationTypeId, name: "qualificationTypeId", parent: name, min: 1)
             try self.validate(self.qualificationTypeId, name: "qualificationTypeId", parent: name, pattern: "^[A-Z0-9]+$")

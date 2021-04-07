@@ -100,7 +100,6 @@ extension MWAA {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 80)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z][0-9a-zA-Z-_]*$")
@@ -201,50 +200,36 @@ extension MWAA {
                 try validate($0.value, name: "airflowConfigurationOptions[\"\($0.key)\"]", parent: name, min: 1)
                 try validate($0.value, name: "airflowConfigurationOptions[\"\($0.key)\"]", parent: name, pattern: ".*")
             }
-            try self.airflowVersion?.forEach {}
             try self.validate(self.airflowVersion, name: "airflowVersion", parent: name, max: 32)
             try self.validate(self.airflowVersion, name: "airflowVersion", parent: name, min: 1)
             try self.validate(self.airflowVersion, name: "airflowVersion", parent: name, pattern: "^[0-9a-z.]+$")
-            try self.dagS3Path.forEach {}
             try self.validate(self.dagS3Path, name: "dagS3Path", parent: name, max: 1024)
             try self.validate(self.dagS3Path, name: "dagS3Path", parent: name, min: 1)
             try self.validate(self.dagS3Path, name: "dagS3Path", parent: name, pattern: ".*")
-            try self.environmentClass?.forEach {}
             try self.validate(self.environmentClass, name: "environmentClass", parent: name, max: 1024)
             try self.validate(self.environmentClass, name: "environmentClass", parent: name, min: 1)
-            try self.executionRoleArn.forEach {}
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 1224)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 1)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:aws(-[a-z]+)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
-            try self.kmsKey?.forEach {}
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 1224)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 1)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^(((arn:aws(-[a-z]+)?:kms:[a-z]{2}-[a-z]+-\\d:\\d+:)?key\\/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}|(arn:aws(-[a-z]+)?:kms:[a-z]{2}-[a-z]+-\\d:\\d+:)?alias/.+)$")
-            try self.maxWorkers?.forEach {}
             try self.validate(self.maxWorkers, name: "maxWorkers", parent: name, min: 1)
-            try self.minWorkers?.forEach {}
             try self.validate(self.minWorkers, name: "minWorkers", parent: name, min: 1)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 80)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z][0-9a-zA-Z-_]*$")
             try self.networkConfiguration.validate(name: "\(name).networkConfiguration")
-            try self.networkConfiguration.forEach {}
-            try self.pluginsS3ObjectVersion?.forEach {}
             try self.validate(self.pluginsS3ObjectVersion, name: "pluginsS3ObjectVersion", parent: name, max: 1024)
             try self.validate(self.pluginsS3ObjectVersion, name: "pluginsS3ObjectVersion", parent: name, min: 1)
-            try self.pluginsS3Path?.forEach {}
             try self.validate(self.pluginsS3Path, name: "pluginsS3Path", parent: name, max: 1024)
             try self.validate(self.pluginsS3Path, name: "pluginsS3Path", parent: name, min: 1)
             try self.validate(self.pluginsS3Path, name: "pluginsS3Path", parent: name, pattern: ".*")
-            try self.requirementsS3ObjectVersion?.forEach {}
             try self.validate(self.requirementsS3ObjectVersion, name: "requirementsS3ObjectVersion", parent: name, max: 1024)
             try self.validate(self.requirementsS3ObjectVersion, name: "requirementsS3ObjectVersion", parent: name, min: 1)
-            try self.requirementsS3Path?.forEach {}
             try self.validate(self.requirementsS3Path, name: "requirementsS3Path", parent: name, max: 1024)
             try self.validate(self.requirementsS3Path, name: "requirementsS3Path", parent: name, min: 1)
             try self.validate(self.requirementsS3Path, name: "requirementsS3Path", parent: name, pattern: ".*")
-            try self.sourceBucketArn.forEach {}
             try self.validate(self.sourceBucketArn, name: "sourceBucketArn", parent: name, max: 1224)
             try self.validate(self.sourceBucketArn, name: "sourceBucketArn", parent: name, min: 1)
             try self.validate(self.sourceBucketArn, name: "sourceBucketArn", parent: name, pattern: "^arn:aws(-[a-z]+)?:s3:::[a-z0-9.\\-]+$")
@@ -256,7 +241,6 @@ extension MWAA {
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 1)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
-            try self.weeklyMaintenanceWindowStart?.forEach {}
             try self.validate(self.weeklyMaintenanceWindowStart, name: "weeklyMaintenanceWindowStart", parent: name, max: 9)
             try self.validate(self.weeklyMaintenanceWindowStart, name: "weeklyMaintenanceWindowStart", parent: name, min: 1)
             try self.validate(self.weeklyMaintenanceWindowStart, name: "weeklyMaintenanceWindowStart", parent: name, pattern: "(MON|TUE|WED|THU|FRI|SAT|SUN):([01]\\d|2[0-3]):(00|30)")
@@ -310,7 +294,6 @@ extension MWAA {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 80)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z][0-9a-zA-Z-_]*$")
@@ -349,7 +332,6 @@ extension MWAA {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 80)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z][0-9a-zA-Z-_]*$")
@@ -499,7 +481,6 @@ extension MWAA {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 80)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z][0-9a-zA-Z-_]*$")
@@ -559,10 +540,8 @@ extension MWAA {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
         }
@@ -600,7 +579,6 @@ extension MWAA {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1224)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-[a-z]+)?:airflow:[a-z0-9\\-]+:\\d{12}:environment/\\w+")
@@ -757,7 +735,6 @@ extension MWAA {
                 try validate($0, name: "securityGroupIds[]", parent: name, min: 1)
                 try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^sg-[a-zA-Z0-9\\-._]+$")
             }
-            try self.securityGroupIds?.forEach {}
             try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 5)
             try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, min: 1)
             try self.subnetIds?.forEach {
@@ -765,7 +742,6 @@ extension MWAA {
                 try validate($0, name: "subnetIds[]", parent: name, min: 1)
                 try validate($0, name: "subnetIds[]", parent: name, pattern: "^subnet-[a-zA-Z0-9\\-._]+$")
             }
-            try self.subnetIds?.forEach {}
             try self.validate(self.subnetIds, name: "subnetIds", parent: name, max: 2)
             try self.validate(self.subnetIds, name: "subnetIds", parent: name, min: 2)
         }
@@ -792,7 +768,6 @@ extension MWAA {
         }
 
         public func validate(name: String) throws {
-            try self.environmentName.forEach {}
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 80)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 1)
             try self.validate(self.environmentName, name: "environmentName", parent: name, pattern: "^[a-zA-Z][0-9a-zA-Z-_]*$")
@@ -848,7 +823,6 @@ extension MWAA {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1224)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-[a-z]+)?:airflow:[a-z0-9\\-]+:\\d{12}:environment/\\w+")
@@ -888,7 +862,6 @@ extension MWAA {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1224)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-[a-z]+)?:airflow:[a-z0-9\\-]+:\\d{12}:environment/\\w+")
@@ -897,7 +870,6 @@ extension MWAA {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
-            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
         }
@@ -978,50 +950,36 @@ extension MWAA {
                 try validate($0.value, name: "airflowConfigurationOptions[\"\($0.key)\"]", parent: name, min: 1)
                 try validate($0.value, name: "airflowConfigurationOptions[\"\($0.key)\"]", parent: name, pattern: ".*")
             }
-            try self.airflowVersion?.forEach {}
             try self.validate(self.airflowVersion, name: "airflowVersion", parent: name, max: 32)
             try self.validate(self.airflowVersion, name: "airflowVersion", parent: name, min: 1)
             try self.validate(self.airflowVersion, name: "airflowVersion", parent: name, pattern: "^[0-9a-z.]+$")
-            try self.dagS3Path?.forEach {}
             try self.validate(self.dagS3Path, name: "dagS3Path", parent: name, max: 1024)
             try self.validate(self.dagS3Path, name: "dagS3Path", parent: name, min: 1)
             try self.validate(self.dagS3Path, name: "dagS3Path", parent: name, pattern: ".*")
-            try self.environmentClass?.forEach {}
             try self.validate(self.environmentClass, name: "environmentClass", parent: name, max: 1024)
             try self.validate(self.environmentClass, name: "environmentClass", parent: name, min: 1)
-            try self.executionRoleArn?.forEach {}
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 1224)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 1)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:aws(-[a-z]+)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
-            try self.maxWorkers?.forEach {}
             try self.validate(self.maxWorkers, name: "maxWorkers", parent: name, min: 1)
-            try self.minWorkers?.forEach {}
             try self.validate(self.minWorkers, name: "minWorkers", parent: name, min: 1)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 80)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z][0-9a-zA-Z-_]*$")
             try self.networkConfiguration?.validate(name: "\(name).networkConfiguration")
-            try self.networkConfiguration?.forEach {}
-            try self.pluginsS3ObjectVersion?.forEach {}
             try self.validate(self.pluginsS3ObjectVersion, name: "pluginsS3ObjectVersion", parent: name, max: 1024)
             try self.validate(self.pluginsS3ObjectVersion, name: "pluginsS3ObjectVersion", parent: name, min: 1)
-            try self.pluginsS3Path?.forEach {}
             try self.validate(self.pluginsS3Path, name: "pluginsS3Path", parent: name, max: 1024)
             try self.validate(self.pluginsS3Path, name: "pluginsS3Path", parent: name, min: 1)
             try self.validate(self.pluginsS3Path, name: "pluginsS3Path", parent: name, pattern: ".*")
-            try self.requirementsS3ObjectVersion?.forEach {}
             try self.validate(self.requirementsS3ObjectVersion, name: "requirementsS3ObjectVersion", parent: name, max: 1024)
             try self.validate(self.requirementsS3ObjectVersion, name: "requirementsS3ObjectVersion", parent: name, min: 1)
-            try self.requirementsS3Path?.forEach {}
             try self.validate(self.requirementsS3Path, name: "requirementsS3Path", parent: name, max: 1024)
             try self.validate(self.requirementsS3Path, name: "requirementsS3Path", parent: name, min: 1)
             try self.validate(self.requirementsS3Path, name: "requirementsS3Path", parent: name, pattern: ".*")
-            try self.sourceBucketArn?.forEach {}
             try self.validate(self.sourceBucketArn, name: "sourceBucketArn", parent: name, max: 1224)
             try self.validate(self.sourceBucketArn, name: "sourceBucketArn", parent: name, min: 1)
             try self.validate(self.sourceBucketArn, name: "sourceBucketArn", parent: name, pattern: "^arn:aws(-[a-z]+)?:s3:::[a-z0-9.\\-]+$")
-            try self.weeklyMaintenanceWindowStart?.forEach {}
             try self.validate(self.weeklyMaintenanceWindowStart, name: "weeklyMaintenanceWindowStart", parent: name, max: 9)
             try self.validate(self.weeklyMaintenanceWindowStart, name: "weeklyMaintenanceWindowStart", parent: name, min: 1)
             try self.validate(self.weeklyMaintenanceWindowStart, name: "weeklyMaintenanceWindowStart", parent: name, pattern: "(MON|TUE|WED|THU|FRI|SAT|SUN):([01]\\d|2[0-3]):(00|30)")
@@ -1091,7 +1049,6 @@ extension MWAA {
                 try validate($0, name: "securityGroupIds[]", parent: name, min: 1)
                 try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^sg-[a-zA-Z0-9\\-._]+$")
             }
-            try self.securityGroupIds.forEach {}
             try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 5)
             try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, min: 1)
         }

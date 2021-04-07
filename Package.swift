@@ -115,6 +115,7 @@ let package = Package(
         .library(name: "SotoElasticTranscoder", targets: ["SotoElasticTranscoder"]),
         .library(name: "SotoElasticsearchService", targets: ["SotoElasticsearchService"]),
         .library(name: "SotoEventBridge", targets: ["SotoEventBridge"]),
+        .library(name: "SotoFIS", targets: ["SotoFIS"]),
         .library(name: "SotoFMS", targets: ["SotoFMS"]),
         .library(name: "SotoFSx", targets: ["SotoFSx"]),
         .library(name: "SotoFirehose", targets: ["SotoFirehose"]),
@@ -172,6 +173,7 @@ let package = Package(
         .library(name: "SotoLicenseManager", targets: ["SotoLicenseManager"]),
         .library(name: "SotoLightsail", targets: ["SotoLightsail"]),
         .library(name: "SotoLocationService", targets: ["SotoLocationService"]),
+        .library(name: "SotoLookoutMetrics", targets: ["SotoLookoutMetrics"]),
         .library(name: "SotoLookoutforVision", targets: ["SotoLookoutforVision"]),
         .library(name: "SotoMQ", targets: ["SotoMQ"]),
         .library(name: "SotoMTurk", targets: ["SotoMTurk"]),
@@ -281,7 +283,7 @@ let package = Package(
         .library(name: "SotoXRay", targets: ["SotoXRay"])
     ],
     dependencies: [
-        .package(url: "https://github.com/soto-project/soto-core.git", .branch("main"))
+        .package(url: "https://github.com/soto-project/soto-core.git", from: "5.2.0")
     ],
     targets: [
         .target(name: "SotoACM", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/ACM"),
@@ -380,6 +382,7 @@ let package = Package(
         .target(name: "SotoElasticTranscoder", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/ElasticTranscoder"),
         .target(name: "SotoElasticsearchService", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/ElasticsearchService"),
         .target(name: "SotoEventBridge", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/EventBridge"),
+        .target(name: "SotoFIS", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/FIS"),
         .target(name: "SotoFMS", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/FMS"),
         .target(name: "SotoFSx", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/FSx"),
         .target(name: "SotoFirehose", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/Firehose"),
@@ -437,6 +440,7 @@ let package = Package(
         .target(name: "SotoLicenseManager", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/LicenseManager"),
         .target(name: "SotoLightsail", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/Lightsail"),
         .target(name: "SotoLocationService", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/LocationService"),
+        .target(name: "SotoLookoutMetrics", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/LookoutMetrics"),
         .target(name: "SotoLookoutforVision", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/LookoutforVision"),
         .target(name: "SotoMQ", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/MQ"),
         .target(name: "SotoMTurk", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/MTurk"),

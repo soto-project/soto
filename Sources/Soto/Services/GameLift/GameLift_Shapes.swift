@@ -493,8 +493,6 @@ extension GameLift {
                 try validate($0, name: "playerIds[]", parent: name, max: 1024)
                 try validate($0, name: "playerIds[]", parent: name, min: 1)
             }
-            try self.playerIds.forEach {}
-            try self.ticketId.forEach {}
             try self.validate(self.ticketId, name: "ticketId", parent: name, max: 128)
             try self.validate(self.ticketId, name: "ticketId", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
         }
@@ -565,7 +563,6 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.s?.forEach {}
             try self.validate(self.s, name: "s", parent: name, max: 1024)
             try self.validate(self.s, name: "s", parent: name, min: 1)
             try self.sdm?.forEach {
@@ -576,7 +573,6 @@ extension GameLift {
                 try validate($0, name: "sl[]", parent: name, max: 1024)
                 try validate($0, name: "sl[]", parent: name, min: 1)
             }
-            try self.sl?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -677,15 +673,12 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.gameServerData?.forEach {}
             try self.validate(self.gameServerData, name: "gameServerData", parent: name, max: 1024)
             try self.validate(self.gameServerData, name: "gameServerData", parent: name, min: 1)
             try self.validate(self.gameServerData, name: "gameServerData", parent: name, pattern: ".*\\S.*")
-            try self.gameServerGroupName.forEach {}
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+")
-            try self.gameServerId?.forEach {}
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, max: 128)
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, min: 3)
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, pattern: "[a-zA-Z0-9-\\.]+")
@@ -729,19 +722,15 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
             try self.routingStrategy.validate(name: "\(name).routingStrategy")
-            try self.routingStrategy.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -788,18 +777,14 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.storageLocation?.validate(name: "\(name).storageLocation")
-            try self.storageLocation?.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
-            try self.version?.forEach {}
             try self.validate(self.version, name: "version", parent: name, max: 1024)
             try self.validate(self.version, name: "version", parent: name, min: 1)
         }
@@ -900,60 +885,44 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.buildId?.forEach {}
             try self.validate(self.buildId, name: "buildId", parent: name, pattern: "^build-\\S+|^arn:.*:build\\/build-\\S+")
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.eC2InboundPermissions?.forEach {
                 try $0.validate(name: "\(name).eC2InboundPermissions[]")
             }
-            try self.eC2InboundPermissions?.forEach {}
             try self.validate(self.eC2InboundPermissions, name: "eC2InboundPermissions", parent: name, max: 50)
-            try self.instanceRoleArn?.forEach {}
             try self.validate(self.instanceRoleArn, name: "instanceRoleArn", parent: name, min: 1)
             try self.locations?.forEach {
                 try $0.validate(name: "\(name).locations[]")
             }
-            try self.locations?.forEach {}
             try self.validate(self.locations, name: "locations", parent: name, max: 100)
             try self.validate(self.locations, name: "locations", parent: name, min: 1)
             try self.logPaths?.forEach {
                 try validate($0, name: "logPaths[]", parent: name, max: 1024)
                 try validate($0, name: "logPaths[]", parent: name, min: 1)
             }
-            try self.logPaths?.forEach {}
             try self.metricGroups?.forEach {
                 try validate($0, name: "metricGroups[]", parent: name, max: 255)
                 try validate($0, name: "metricGroups[]", parent: name, min: 1)
             }
-            try self.metricGroups?.forEach {}
             try self.validate(self.metricGroups, name: "metricGroups", parent: name, max: 1)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.peerVpcAwsAccountId?.forEach {}
             try self.validate(self.peerVpcAwsAccountId, name: "peerVpcAwsAccountId", parent: name, max: 1024)
             try self.validate(self.peerVpcAwsAccountId, name: "peerVpcAwsAccountId", parent: name, min: 1)
-            try self.peerVpcId?.forEach {}
             try self.validate(self.peerVpcId, name: "peerVpcId", parent: name, max: 1024)
             try self.validate(self.peerVpcId, name: "peerVpcId", parent: name, min: 1)
             try self.resourceCreationLimitPolicy?.validate(name: "\(name).resourceCreationLimitPolicy")
-            try self.resourceCreationLimitPolicy?.forEach {}
             try self.runtimeConfiguration?.validate(name: "\(name).runtimeConfiguration")
-            try self.runtimeConfiguration?.forEach {}
-            try self.scriptId?.forEach {}
             try self.validate(self.scriptId, name: "scriptId", parent: name, pattern: "^script-\\S+|^arn:.*:script\\/script-\\S+")
-            try self.serverLaunchParameters?.forEach {}
             try self.validate(self.serverLaunchParameters, name: "serverLaunchParameters", parent: name, max: 1024)
             try self.validate(self.serverLaunchParameters, name: "serverLaunchParameters", parent: name, min: 1)
-            try self.serverLaunchPath?.forEach {}
             try self.validate(self.serverLaunchPath, name: "serverLaunchPath", parent: name, max: 1024)
             try self.validate(self.serverLaunchPath, name: "serverLaunchPath", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -994,12 +963,10 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
             try self.locations.forEach {
                 try $0.validate(name: "\(name).locations[]")
             }
-            try self.locations.forEach {}
             try self.validate(self.locations, name: "locations", parent: name, max: 100)
             try self.validate(self.locations, name: "locations", parent: name, min: 1)
         }
@@ -1088,31 +1055,23 @@ extension GameLift {
 
         public func validate(name: String) throws {
             try self.autoScalingPolicy?.validate(name: "\(name).autoScalingPolicy")
-            try self.autoScalingPolicy?.forEach {}
-            try self.gameServerGroupName.forEach {}
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 128)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "[a-zA-Z0-9-\\.]+")
             try self.instanceDefinitions.forEach {
                 try $0.validate(name: "\(name).instanceDefinitions[]")
             }
-            try self.instanceDefinitions.forEach {}
             try self.validate(self.instanceDefinitions, name: "instanceDefinitions", parent: name, max: 20)
             try self.validate(self.instanceDefinitions, name: "instanceDefinitions", parent: name, min: 2)
             try self.launchTemplate.validate(name: "\(name).launchTemplate")
-            try self.launchTemplate.forEach {}
-            try self.maxSize.forEach {}
             try self.validate(self.maxSize, name: "maxSize", parent: name, min: 1)
-            try self.minSize.forEach {}
             try self.validate(self.minSize, name: "minSize", parent: name, min: 0)
-            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:.*:role\\/[\\w+=,.@-]+")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
             try self.vpcSubnets?.forEach {
@@ -1120,7 +1079,6 @@ extension GameLift {
                 try validate($0, name: "vpcSubnets[]", parent: name, min: 15)
                 try validate($0, name: "vpcSubnets[]", parent: name, pattern: "^subnet-[0-9a-z]+$")
             }
-            try self.vpcSubnets?.forEach {}
             try self.validate(self.vpcSubnets, name: "vpcSubnets", parent: name, max: 20)
             try self.validate(self.vpcSubnets, name: "vpcSubnets", parent: name, min: 1)
         }
@@ -1189,36 +1147,26 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.aliasId?.forEach {}
             try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^alias-\\S+|^arn:.*:alias\\/alias-\\S+")
-            try self.creatorId?.forEach {}
             try self.validate(self.creatorId, name: "creatorId", parent: name, max: 1024)
             try self.validate(self.creatorId, name: "creatorId", parent: name, min: 1)
-            try self.fleetId?.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
             try self.gameProperties?.forEach {
                 try $0.validate(name: "\(name).gameProperties[]")
             }
-            try self.gameProperties?.forEach {}
             try self.validate(self.gameProperties, name: "gameProperties", parent: name, max: 16)
-            try self.gameSessionData?.forEach {}
             try self.validate(self.gameSessionData, name: "gameSessionData", parent: name, max: 262_144)
             try self.validate(self.gameSessionData, name: "gameSessionData", parent: name, min: 1)
-            try self.gameSessionId?.forEach {}
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, max: 48)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, min: 1)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, pattern: "[a-zA-Z0-9-]+")
-            try self.idempotencyToken?.forEach {}
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 48)
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, min: 1)
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, pattern: "[a-zA-Z0-9-]+")
-            try self.location?.forEach {}
             try self.validate(self.location, name: "location", parent: name, max: 64)
             try self.validate(self.location, name: "location", parent: name, min: 1)
             try self.validate(self.location, name: "location", parent: name, pattern: "^[a-z]+(-([a-z]+|\\d))*")
-            try self.maximumPlayerSessionCount.forEach {}
             try self.validate(self.maximumPlayerSessionCount, name: "maximumPlayerSessionCount", parent: name, min: 0)
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -1283,37 +1231,28 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.customEventData?.forEach {}
             try self.validate(self.customEventData, name: "customEventData", parent: name, max: 256)
             try self.validate(self.customEventData, name: "customEventData", parent: name, min: 0)
             try self.validate(self.customEventData, name: "customEventData", parent: name, pattern: "[\\s\\S]*")
             try self.destinations?.forEach {
                 try $0.validate(name: "\(name).destinations[]")
             }
-            try self.destinations?.forEach {}
             try self.filterConfiguration?.validate(name: "\(name).filterConfiguration")
-            try self.filterConfiguration?.forEach {}
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9-]+")
-            try self.notificationTarget?.forEach {}
             try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, max: 300)
             try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, min: 0)
             try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, pattern: "[a-zA-Z0-9:_-]*(\\.fifo)?")
             try self.playerLatencyPolicies?.forEach {
                 try $0.validate(name: "\(name).playerLatencyPolicies[]")
             }
-            try self.playerLatencyPolicies?.forEach {}
             try self.priorityConfiguration?.validate(name: "\(name).priorityConfiguration")
-            try self.priorityConfiguration?.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
-            try self.timeoutInSeconds?.forEach {}
             try self.validate(self.timeoutInSeconds, name: "timeoutInSeconds", parent: name, min: 0)
         }
 
@@ -1394,23 +1333,17 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.acceptanceTimeoutSeconds?.forEach {}
             try self.validate(self.acceptanceTimeoutSeconds, name: "acceptanceTimeoutSeconds", parent: name, max: 600)
             try self.validate(self.acceptanceTimeoutSeconds, name: "acceptanceTimeoutSeconds", parent: name, min: 1)
-            try self.additionalPlayerCount?.forEach {}
             try self.validate(self.additionalPlayerCount, name: "additionalPlayerCount", parent: name, min: 0)
-            try self.customEventData?.forEach {}
             try self.validate(self.customEventData, name: "customEventData", parent: name, max: 256)
             try self.validate(self.customEventData, name: "customEventData", parent: name, min: 0)
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.gameProperties?.forEach {
                 try $0.validate(name: "\(name).gameProperties[]")
             }
-            try self.gameProperties?.forEach {}
             try self.validate(self.gameProperties, name: "gameProperties", parent: name, max: 16)
-            try self.gameSessionData?.forEach {}
             try self.validate(self.gameSessionData, name: "gameSessionData", parent: name, max: 4096)
             try self.validate(self.gameSessionData, name: "gameSessionData", parent: name, min: 1)
             try self.gameSessionQueueArns?.forEach {
@@ -1418,25 +1351,19 @@ extension GameLift {
                 try validate($0, name: "gameSessionQueueArns[]", parent: name, min: 1)
                 try validate($0, name: "gameSessionQueueArns[]", parent: name, pattern: "[a-zA-Z0-9:/-]+")
             }
-            try self.gameSessionQueueArns?.forEach {}
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
-            try self.notificationTarget?.forEach {}
             try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, max: 300)
             try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, min: 0)
             try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, pattern: "[a-zA-Z0-9:_/-]*(.fifo)?")
-            try self.requestTimeoutSeconds.forEach {}
             try self.validate(self.requestTimeoutSeconds, name: "requestTimeoutSeconds", parent: name, max: 43200)
             try self.validate(self.requestTimeoutSeconds, name: "requestTimeoutSeconds", parent: name, min: 1)
-            try self.ruleSetName.forEach {}
             try self.validate(self.ruleSetName, name: "ruleSetName", parent: name, max: 256)
             try self.validate(self.ruleSetName, name: "ruleSetName", parent: name, min: 1)
             try self.validate(self.ruleSetName, name: "ruleSetName", parent: name, pattern: "[a-zA-Z0-9-\\.]*|^arn:.*:matchmakingruleset\\/[a-zA-Z0-9-\\.]*")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -1488,16 +1415,13 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
-            try self.ruleSetBody.forEach {}
             try self.validate(self.ruleSetBody, name: "ruleSetBody", parent: name, max: 65535)
             try self.validate(self.ruleSetBody, name: "ruleSetBody", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -1537,14 +1461,11 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.gameSessionId.forEach {}
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, max: 256)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, min: 1)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, pattern: "[a-zA-Z0-9:/-]+")
-            try self.playerData?.forEach {}
             try self.validate(self.playerData, name: "playerData", parent: name, max: 2048)
             try self.validate(self.playerData, name: "playerData", parent: name, min: 1)
-            try self.playerId.forEach {}
             try self.validate(self.playerId, name: "playerId", parent: name, max: 1024)
             try self.validate(self.playerId, name: "playerId", parent: name, min: 1)
         }
@@ -1584,7 +1505,6 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.gameSessionId.forEach {}
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, max: 256)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, min: 1)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, pattern: "[a-zA-Z0-9:/-]+")
@@ -1598,7 +1518,6 @@ extension GameLift {
                 try validate($0, name: "playerIds[]", parent: name, max: 1024)
                 try validate($0, name: "playerIds[]", parent: name, min: 1)
             }
-            try self.playerIds.forEach {}
             try self.validate(self.playerIds, name: "playerIds", parent: name, max: 25)
             try self.validate(self.playerIds, name: "playerIds", parent: name, min: 1)
         }
@@ -1644,21 +1563,16 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.storageLocation?.validate(name: "\(name).storageLocation")
-            try self.storageLocation?.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
-            try self.version?.forEach {}
             try self.validate(self.version, name: "version", parent: name, max: 1024)
             try self.validate(self.version, name: "version", parent: name, min: 1)
-            try self.zipFile?.forEach {}
             try self.validate(self.zipFile, name: "zipFile", parent: name, max: 5_000_000)
         }
 
@@ -1696,10 +1610,8 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.gameLiftAwsAccountId.forEach {}
             try self.validate(self.gameLiftAwsAccountId, name: "gameLiftAwsAccountId", parent: name, max: 1024)
             try self.validate(self.gameLiftAwsAccountId, name: "gameLiftAwsAccountId", parent: name, min: 1)
-            try self.peerVpcId.forEach {}
             try self.validate(self.peerVpcId, name: "peerVpcId", parent: name, max: 1024)
             try self.validate(self.peerVpcId, name: "peerVpcId", parent: name, min: 1)
         }
@@ -1738,12 +1650,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+")
-            try self.peerVpcAwsAccountId.forEach {}
             try self.validate(self.peerVpcAwsAccountId, name: "peerVpcAwsAccountId", parent: name, max: 1024)
             try self.validate(self.peerVpcAwsAccountId, name: "peerVpcAwsAccountId", parent: name, min: 1)
-            try self.peerVpcId.forEach {}
             try self.validate(self.peerVpcId, name: "peerVpcId", parent: name, max: 1024)
             try self.validate(self.peerVpcId, name: "peerVpcId", parent: name, min: 1)
         }
@@ -1768,7 +1677,6 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.aliasId.forEach {}
             try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^alias-\\S+|^arn:.*:alias\\/alias-\\S+")
         }
 
@@ -1786,7 +1694,6 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.buildId.forEach {}
             try self.validate(self.buildId, name: "buildId", parent: name, pattern: "^build-\\S+|^arn:.*:build\\/build-\\S+")
         }
 
@@ -1804,7 +1711,6 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
         }
 
@@ -1825,14 +1731,12 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
             try self.locations.forEach {
                 try validate($0, name: "locations[]", parent: name, max: 64)
                 try validate($0, name: "locations[]", parent: name, min: 1)
                 try validate($0, name: "locations[]", parent: name, pattern: "^[a-z]+(-([a-z]+|\\d))*")
             }
-            try self.locations.forEach {}
             try self.validate(self.locations, name: "locations", parent: name, max: 100)
             try self.validate(self.locations, name: "locations", parent: name, min: 1)
         }
@@ -1876,7 +1780,6 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.gameServerGroupName.forEach {}
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+")
@@ -1910,7 +1813,6 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9-]+|^arn:.*:gamesessionqueue\\/[a-zA-Z0-9-]+")
@@ -1934,7 +1836,6 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9-\\.]*|^arn:.*:matchmakingconfiguration\\/[a-zA-Z0-9-\\.]*")
@@ -1958,7 +1859,6 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9-\\.]*|^arn:.*:matchmakingruleset\\/[a-zA-Z0-9-\\.]*")
@@ -1985,9 +1885,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -2007,7 +1905,6 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.scriptId.forEach {}
             try self.validate(self.scriptId, name: "scriptId", parent: name, pattern: "^script-\\S+|^arn:.*:script\\/script-\\S+")
         }
 
@@ -2028,10 +1925,8 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.gameLiftAwsAccountId.forEach {}
             try self.validate(self.gameLiftAwsAccountId, name: "gameLiftAwsAccountId", parent: name, max: 1024)
             try self.validate(self.gameLiftAwsAccountId, name: "gameLiftAwsAccountId", parent: name, min: 1)
-            try self.peerVpcId.forEach {}
             try self.validate(self.peerVpcId, name: "peerVpcId", parent: name, max: 1024)
             try self.validate(self.peerVpcId, name: "peerVpcId", parent: name, min: 1)
         }
@@ -2058,9 +1953,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+")
-            try self.vpcPeeringConnectionId.forEach {}
             try self.validate(self.vpcPeeringConnectionId, name: "vpcPeeringConnectionId", parent: name, max: 1024)
             try self.validate(self.vpcPeeringConnectionId, name: "vpcPeeringConnectionId", parent: name, min: 1)
         }
@@ -2087,11 +1980,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.gameServerGroupName.forEach {}
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+")
-            try self.gameServerId.forEach {}
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, max: 128)
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, min: 3)
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, pattern: "[a-zA-Z0-9-\\.]+")
@@ -2112,7 +2003,6 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.aliasId.forEach {}
             try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^alias-\\S+|^arn:.*:alias\\/alias-\\S+")
         }
 
@@ -2143,7 +2033,6 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.buildId.forEach {}
             try self.validate(self.buildId, name: "buildId", parent: name, pattern: "^build-\\S+|^arn:.*:build\\/build-\\S+")
         }
 
@@ -2177,7 +2066,6 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.location?.forEach {}
             try self.validate(self.location, name: "location", parent: name, max: 64)
             try self.validate(self.location, name: "location", parent: name, min: 1)
             try self.validate(self.location, name: "location", parent: name, pattern: "^[a-z]+(-([a-z]+|\\d))*")
@@ -2220,11 +2108,8 @@ extension GameLift {
             try self.fleetIds?.forEach {
                 try validate($0, name: "fleetIds[]", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
             }
-            try self.fleetIds?.forEach {}
             try self.validate(self.fleetIds, name: "fleetIds", parent: name, min: 1)
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2271,11 +2156,8 @@ extension GameLift {
             try self.fleetIds?.forEach {
                 try validate($0, name: "fleetIds[]", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
             }
-            try self.fleetIds?.forEach {}
             try self.validate(self.fleetIds, name: "fleetIds", parent: name, min: 1)
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2325,11 +2207,8 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2378,19 +2257,15 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.locations?.forEach {
                 try validate($0, name: "locations[]", parent: name, max: 64)
                 try validate($0, name: "locations[]", parent: name, min: 1)
                 try validate($0, name: "locations[]", parent: name, pattern: "^[a-z]+(-([a-z]+|\\d))*")
             }
-            try self.locations?.forEach {}
             try self.validate(self.locations, name: "locations", parent: name, max: 100)
             try self.validate(self.locations, name: "locations", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2440,9 +2315,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
-            try self.location.forEach {}
             try self.validate(self.location, name: "location", parent: name, max: 64)
             try self.validate(self.location, name: "location", parent: name, min: 1)
             try self.validate(self.location, name: "location", parent: name, pattern: "^[a-z]+(-([a-z]+|\\d))*")
@@ -2479,9 +2352,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
-            try self.location.forEach {}
             try self.validate(self.location, name: "location", parent: name, max: 64)
             try self.validate(self.location, name: "location", parent: name, min: 1)
             try self.validate(self.location, name: "location", parent: name, pattern: "^[a-z]+(-([a-z]+|\\d))*")
@@ -2518,9 +2389,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
-            try self.location?.forEach {}
             try self.validate(self.location, name: "location", parent: name, max: 64)
             try self.validate(self.location, name: "location", parent: name, min: 1)
             try self.validate(self.location, name: "location", parent: name, pattern: "^[a-z]+(-([a-z]+|\\d))*")
@@ -2579,11 +2448,8 @@ extension GameLift {
             try self.fleetIds?.forEach {
                 try validate($0, name: "fleetIds[]", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
             }
-            try self.fleetIds?.forEach {}
             try self.validate(self.fleetIds, name: "fleetIds", parent: name, min: 1)
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2621,7 +2487,6 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.gameServerGroupName.forEach {}
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+")
@@ -2657,11 +2522,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.gameServerGroupName.forEach {}
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+")
-            try self.gameServerId.forEach {}
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, max: 128)
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, min: 3)
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, pattern: "[a-zA-Z0-9-\\.]+")
@@ -2691,7 +2554,6 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.gameServerGroupName.forEach {}
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+")
@@ -2700,12 +2562,9 @@ extension GameLift {
                 try validate($0, name: "instanceIds[]", parent: name, min: 19)
                 try validate($0, name: "instanceIds[]", parent: name, pattern: "^i-[0-9a-zA-Z]{17}$")
             }
-            try self.instanceIds?.forEach {}
             try self.validate(self.instanceIds, name: "instanceIds", parent: name, max: 20)
             try self.validate(self.instanceIds, name: "instanceIds", parent: name, min: 1)
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2775,24 +2634,17 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.aliasId?.forEach {}
             try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^alias-\\S+|^arn:.*:alias\\/alias-\\S+")
-            try self.fleetId?.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
-            try self.gameSessionId?.forEach {}
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, max: 256)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, min: 1)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, pattern: "[a-zA-Z0-9:/-]+")
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.location?.forEach {}
             try self.validate(self.location, name: "location", parent: name, max: 64)
             try self.validate(self.location, name: "location", parent: name, min: 1)
             try self.validate(self.location, name: "location", parent: name, pattern: "^[a-z]+(-([a-z]+|\\d))*")
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.statusFilter?.forEach {}
             try self.validate(self.statusFilter, name: "statusFilter", parent: name, max: 1024)
             try self.validate(self.statusFilter, name: "statusFilter", parent: name, min: 1)
         }
@@ -2834,7 +2686,6 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.placementId.forEach {}
             try self.validate(self.placementId, name: "placementId", parent: name, max: 48)
             try self.validate(self.placementId, name: "placementId", parent: name, min: 1)
             try self.validate(self.placementId, name: "placementId", parent: name, pattern: "[a-zA-Z0-9-]+")
@@ -2873,15 +2724,12 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.names?.forEach {
                 try validate($0, name: "names[]", parent: name, max: 256)
                 try validate($0, name: "names[]", parent: name, min: 1)
                 try validate($0, name: "names[]", parent: name, pattern: "[a-zA-Z0-9-]+|^arn:.*:gamesessionqueue\\/[a-zA-Z0-9-]+")
             }
-            try self.names?.forEach {}
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2937,24 +2785,17 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.aliasId?.forEach {}
             try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^alias-\\S+|^arn:.*:alias\\/alias-\\S+")
-            try self.fleetId?.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
-            try self.gameSessionId?.forEach {}
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, max: 256)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, min: 1)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, pattern: "[a-zA-Z0-9:/-]+")
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.location?.forEach {}
             try self.validate(self.location, name: "location", parent: name, max: 64)
             try self.validate(self.location, name: "location", parent: name, min: 1)
             try self.validate(self.location, name: "location", parent: name, pattern: "^[a-z]+(-([a-z]+|\\d))*")
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.statusFilter?.forEach {}
             try self.validate(self.statusFilter, name: "statusFilter", parent: name, max: 1024)
             try self.validate(self.statusFilter, name: "statusFilter", parent: name, min: 1)
         }
@@ -3008,17 +2849,12 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
-            try self.instanceId?.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "[a-zA-Z0-9\\.-]+")
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.location?.forEach {}
             try self.validate(self.location, name: "location", parent: name, max: 64)
             try self.validate(self.location, name: "location", parent: name, min: 1)
             try self.validate(self.location, name: "location", parent: name, pattern: "^[a-z]+(-([a-z]+|\\d))*")
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -3067,18 +2903,14 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.names?.forEach {
                 try validate($0, name: "names[]", parent: name, max: 256)
                 try validate($0, name: "names[]", parent: name, min: 1)
                 try validate($0, name: "names[]", parent: name, pattern: "[a-zA-Z0-9-\\.]*|^arn:.*:matchmakingconfiguration\\/[a-zA-Z0-9-\\.]*")
             }
-            try self.names?.forEach {}
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.ruleSetName?.forEach {}
             try self.validate(self.ruleSetName, name: "ruleSetName", parent: name, max: 256)
             try self.validate(self.ruleSetName, name: "ruleSetName", parent: name, min: 1)
             try self.validate(self.ruleSetName, name: "ruleSetName", parent: name, pattern: "[a-zA-Z0-9-\\.]*|^arn:.*:matchmakingruleset\\/[a-zA-Z0-9-\\.]*")
@@ -3122,7 +2954,6 @@ extension GameLift {
                 try validate($0, name: "ticketIds[]", parent: name, max: 128)
                 try validate($0, name: "ticketIds[]", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
             }
-            try self.ticketIds.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3158,7 +2989,6 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 10)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.names?.forEach {
@@ -3166,10 +2996,8 @@ extension GameLift {
                 try validate($0, name: "names[]", parent: name, min: 1)
                 try validate($0, name: "names[]", parent: name, pattern: "[a-zA-Z0-9-\\.]*|^arn:.*:matchmakingruleset\\/[a-zA-Z0-9-\\.]*")
             }
-            try self.names?.forEach {}
             try self.validate(self.names, name: "names", parent: name, max: 10)
             try self.validate(self.names, name: "names", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -3222,21 +3050,15 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.gameSessionId?.forEach {}
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, max: 256)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, min: 1)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, pattern: "[a-zA-Z0-9:/-]+")
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.playerId?.forEach {}
             try self.validate(self.playerId, name: "playerId", parent: name, max: 1024)
             try self.validate(self.playerId, name: "playerId", parent: name, min: 1)
-            try self.playerSessionId?.forEach {}
             try self.validate(self.playerSessionId, name: "playerSessionId", parent: name, pattern: "^psess-\\S+")
-            try self.playerSessionStatusFilter?.forEach {}
             try self.validate(self.playerSessionStatusFilter, name: "playerSessionStatusFilter", parent: name, max: 1024)
             try self.validate(self.playerSessionStatusFilter, name: "playerSessionStatusFilter", parent: name, min: 1)
         }
@@ -3277,7 +3099,6 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
         }
 
@@ -3320,15 +3141,11 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.location?.forEach {}
             try self.validate(self.location, name: "location", parent: name, max: 64)
             try self.validate(self.location, name: "location", parent: name, min: 1)
             try self.validate(self.location, name: "location", parent: name, pattern: "^[a-z]+(-([a-z]+|\\d))*")
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -3368,7 +3185,6 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.scriptId.forEach {}
             try self.validate(self.scriptId, name: "scriptId", parent: name, pattern: "^script-\\S+|^arn:.*:script\\/script-\\S+")
         }
 
@@ -3416,7 +3232,6 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.fleetId?.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+")
         }
 
@@ -3450,10 +3265,8 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.playerData?.forEach {}
             try self.validate(self.playerData, name: "playerData", parent: name, max: 2048)
             try self.validate(self.playerData, name: "playerData", parent: name, min: 1)
-            try self.playerId?.forEach {}
             try self.validate(self.playerId, name: "playerId", parent: name, max: 1024)
             try self.validate(self.playerId, name: "playerId", parent: name, min: 1)
         }
@@ -3573,7 +3386,6 @@ extension GameLift {
                 try validate($0, name: "allowedLocations[]", parent: name, min: 1)
                 try validate($0, name: "allowedLocations[]", parent: name, pattern: "^[a-z]+(-([a-z]+|\\d))*")
             }
-            try self.allowedLocations?.forEach {}
             try self.validate(self.allowedLocations, name: "allowedLocations", parent: name, max: 100)
             try self.validate(self.allowedLocations, name: "allowedLocations", parent: name, min: 1)
         }
@@ -3762,9 +3574,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 32)
-            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 96)
         }
 
@@ -3896,10 +3706,8 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.estimatedInstanceWarmup?.forEach {}
             try self.validate(self.estimatedInstanceWarmup, name: "estimatedInstanceWarmup", parent: name, min: 1)
             try self.targetTrackingConfiguration.validate(name: "\(name).targetTrackingConfiguration")
-            try self.targetTrackingConfiguration.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4199,7 +4007,6 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.destinationArn?.forEach {}
             try self.validate(self.destinationArn, name: "destinationArn", parent: name, max: 256)
             try self.validate(self.destinationArn, name: "destinationArn", parent: name, min: 1)
             try self.validate(self.destinationArn, name: "destinationArn", parent: name, pattern: "[a-zA-Z0-9:/-]+")
@@ -4219,7 +4026,6 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.gameSessionId.forEach {}
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, max: 256)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, min: 1)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, pattern: "[a-zA-Z0-9:/-]+")
@@ -4255,9 +4061,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
-            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "[a-zA-Z0-9\\.-]+")
         }
 
@@ -4387,7 +4191,6 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.weightedCapacity?.forEach {}
             try self.validate(self.weightedCapacity, name: "weightedCapacity", parent: name, max: 3)
             try self.validate(self.weightedCapacity, name: "weightedCapacity", parent: name, min: 1)
             try self.validate(self.weightedCapacity, name: "weightedCapacity", parent: name, pattern: "^[\\u0031-\\u0039][\\u0030-\\u0039]{0,2}$")
@@ -4417,12 +4220,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.fromPort.forEach {}
             try self.validate(self.fromPort, name: "fromPort", parent: name, max: 60000)
             try self.validate(self.fromPort, name: "fromPort", parent: name, min: 1)
-            try self.ipRange.forEach {}
             try self.validate(self.ipRange, name: "ipRange", parent: name, pattern: "[^\\s]+")
-            try self.toPort.forEach {}
             try self.validate(self.toPort, name: "toPort", parent: name, max: 60000)
             try self.validate(self.toPort, name: "toPort", parent: name, min: 1)
         }
@@ -4450,15 +4250,12 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.launchTemplateId?.forEach {}
             try self.validate(self.launchTemplateId, name: "launchTemplateId", parent: name, max: 255)
             try self.validate(self.launchTemplateId, name: "launchTemplateId", parent: name, min: 1)
             try self.validate(self.launchTemplateId, name: "launchTemplateId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]+")
-            try self.launchTemplateName?.forEach {}
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, max: 128)
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, min: 3)
             try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, pattern: "[a-zA-Z0-9\\(\\)\\.\\-/_]+")
-            try self.version?.forEach {}
             try self.validate(self.version, name: "version", parent: name, max: 128)
             try self.validate(self.version, name: "version", parent: name, min: 1)
             try self.validate(self.version, name: "version", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]+")
@@ -4489,11 +4286,8 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -4537,9 +4331,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -4585,14 +4377,10 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.buildId?.forEach {}
             try self.validate(self.buildId, name: "buildId", parent: name, pattern: "^build-\\S+|^arn:.*:build\\/build-\\S+")
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.scriptId?.forEach {}
             try self.validate(self.scriptId, name: "scriptId", parent: name, pattern: "^script-\\S+|^arn:.*:script\\/script-\\S+")
         }
 
@@ -4633,9 +4421,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -4681,13 +4467,10 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.gameServerGroupName.forEach {}
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+")
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -4729,9 +4512,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -4767,7 +4548,6 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
         }
@@ -4820,7 +4600,6 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.location?.forEach {}
             try self.validate(self.location, name: "location", parent: name, max: 64)
             try self.validate(self.location, name: "location", parent: name, min: 1)
             try self.validate(self.location, name: "location", parent: name, pattern: "^[a-z]+(-([a-z]+|\\d))*")
@@ -5064,10 +4843,8 @@ extension GameLift {
                 try validate($0.key, name: "playerAttributes.key", parent: name, min: 1)
                 try $0.value.validate(name: "\(name).playerAttributes[\"\($0.key)\"]")
             }
-            try self.playerId?.forEach {}
             try self.validate(self.playerId, name: "playerId", parent: name, max: 1024)
             try self.validate(self.playerId, name: "playerId", parent: name, min: 1)
-            try self.team?.forEach {}
             try self.validate(self.team, name: "team", parent: name, max: 1024)
             try self.validate(self.team, name: "team", parent: name, min: 1)
         }
@@ -5095,10 +4872,8 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.playerId?.forEach {}
             try self.validate(self.playerId, name: "playerId", parent: name, max: 1024)
             try self.validate(self.playerId, name: "playerId", parent: name, min: 1)
-            try self.regionIdentifier?.forEach {}
             try self.validate(self.regionIdentifier, name: "regionIdentifier", parent: name, max: 1024)
             try self.validate(self.regionIdentifier, name: "regionIdentifier", parent: name, min: 1)
         }
@@ -5122,9 +4897,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.maximumIndividualPlayerLatencyMilliseconds?.forEach {}
             try self.validate(self.maximumIndividualPlayerLatencyMilliseconds, name: "maximumIndividualPlayerLatencyMilliseconds", parent: name, min: 0)
-            try self.policyDurationSeconds?.forEach {}
             try self.validate(self.policyDurationSeconds, name: "policyDurationSeconds", parent: name, min: 0)
         }
 
@@ -5208,10 +4981,8 @@ extension GameLift {
                 try validate($0, name: "locationOrder[]", parent: name, min: 1)
                 try validate($0, name: "locationOrder[]", parent: name, pattern: "^[a-z]+(-([a-z]+|\\d))*")
             }
-            try self.locationOrder?.forEach {}
             try self.validate(self.locationOrder, name: "locationOrder", parent: name, max: 100)
             try self.validate(self.locationOrder, name: "locationOrder", parent: name, min: 1)
-            try self.priorityOrder?.forEach {}
             try self.validate(self.priorityOrder, name: "priorityOrder", parent: name, max: 4)
             try self.validate(self.priorityOrder, name: "priorityOrder", parent: name, min: 1)
         }
@@ -5258,11 +5029,8 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.evaluationPeriods?.forEach {}
             try self.validate(self.evaluationPeriods, name: "evaluationPeriods", parent: name, min: 1)
-            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -5315,23 +5083,18 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.connectionInfo?.forEach {}
             try self.validate(self.connectionInfo, name: "connectionInfo", parent: name, max: 512)
             try self.validate(self.connectionInfo, name: "connectionInfo", parent: name, min: 1)
             try self.validate(self.connectionInfo, name: "connectionInfo", parent: name, pattern: ".*\\S.*")
-            try self.gameServerData?.forEach {}
             try self.validate(self.gameServerData, name: "gameServerData", parent: name, max: 1024)
             try self.validate(self.gameServerData, name: "gameServerData", parent: name, min: 1)
             try self.validate(self.gameServerData, name: "gameServerData", parent: name, pattern: ".*\\S.*")
-            try self.gameServerGroupName.forEach {}
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+")
-            try self.gameServerId.forEach {}
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, max: 128)
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, min: 3)
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, pattern: "[a-zA-Z0-9-\\.]+")
-            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 19)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 19)
             try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^i-[0-9a-zA-Z]{17}$")
@@ -5368,7 +5131,6 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.buildId.forEach {}
             try self.validate(self.buildId, name: "buildId", parent: name, pattern: "^build-\\S+|^arn:.*:build\\/build-\\S+")
         }
 
@@ -5403,7 +5165,6 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.aliasId.forEach {}
             try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^alias-\\S+|^arn:.*:alias\\/alias-\\S+")
         }
 
@@ -5441,9 +5202,7 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.newGameSessionsPerCreator?.forEach {}
             try self.validate(self.newGameSessionsPerCreator, name: "newGameSessionsPerCreator", parent: name, min: 0)
-            try self.policyPeriodInMinutes?.forEach {}
             try self.validate(self.policyPeriodInMinutes, name: "policyPeriodInMinutes", parent: name, min: 0)
         }
 
@@ -5465,11 +5224,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.gameServerGroupName.forEach {}
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+")
-            try self.resumeActions.forEach {}
             try self.validate(self.resumeActions, name: "resumeActions", parent: name, max: 1)
             try self.validate(self.resumeActions, name: "resumeActions", parent: name, min: 1)
         }
@@ -5508,7 +5265,6 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.fleetId?.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+")
         }
 
@@ -5534,16 +5290,13 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.gameSessionActivationTimeoutSeconds?.forEach {}
             try self.validate(self.gameSessionActivationTimeoutSeconds, name: "gameSessionActivationTimeoutSeconds", parent: name, max: 600)
             try self.validate(self.gameSessionActivationTimeoutSeconds, name: "gameSessionActivationTimeoutSeconds", parent: name, min: 1)
-            try self.maxConcurrentGameSessionActivations?.forEach {}
             try self.validate(self.maxConcurrentGameSessionActivations, name: "maxConcurrentGameSessionActivations", parent: name, max: 2_147_483_647)
             try self.validate(self.maxConcurrentGameSessionActivations, name: "maxConcurrentGameSessionActivations", parent: name, min: 1)
             try self.serverProcesses?.forEach {
                 try $0.validate(name: "\(name).serverProcesses[]")
             }
-            try self.serverProcesses?.forEach {}
             try self.validate(self.serverProcesses, name: "serverProcesses", parent: name, max: 50)
             try self.validate(self.serverProcesses, name: "serverProcesses", parent: name, min: 1)
         }
@@ -5573,13 +5326,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.bucket?.forEach {}
             try self.validate(self.bucket, name: "bucket", parent: name, min: 1)
-            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, min: 1)
-            try self.objectVersion?.forEach {}
             try self.validate(self.objectVersion, name: "objectVersion", parent: name, min: 1)
-            try self.roleArn?.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
         }
 
@@ -5718,23 +5467,16 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.aliasId?.forEach {}
             try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^alias-\\S+|^arn:.*:alias\\/alias-\\S+")
-            try self.filterExpression?.forEach {}
             try self.validate(self.filterExpression, name: "filterExpression", parent: name, max: 1024)
             try self.validate(self.filterExpression, name: "filterExpression", parent: name, min: 1)
-            try self.fleetId?.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.location?.forEach {}
             try self.validate(self.location, name: "location", parent: name, max: 64)
             try self.validate(self.location, name: "location", parent: name, min: 1)
             try self.validate(self.location, name: "location", parent: name, pattern: "^[a-z]+(-([a-z]+|\\d))*")
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.sortExpression?.forEach {}
             try self.validate(self.sortExpression, name: "sortExpression", parent: name, max: 1024)
             try self.validate(self.sortExpression, name: "sortExpression", parent: name, min: 1)
         }
@@ -5782,12 +5524,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.concurrentExecutions.forEach {}
             try self.validate(self.concurrentExecutions, name: "concurrentExecutions", parent: name, min: 1)
-            try self.launchPath.forEach {}
             try self.validate(self.launchPath, name: "launchPath", parent: name, max: 1024)
             try self.validate(self.launchPath, name: "launchPath", parent: name, min: 1)
-            try self.parameters?.forEach {}
             try self.validate(self.parameters, name: "parameters", parent: name, max: 1024)
             try self.validate(self.parameters, name: "parameters", parent: name, min: 1)
         }
@@ -5814,12 +5553,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.actions.forEach {}
             try self.validate(self.actions, name: "actions", parent: name, max: 1)
             try self.validate(self.actions, name: "actions", parent: name, min: 1)
-            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
-            try self.location?.forEach {}
             try self.validate(self.location, name: "location", parent: name, max: 64)
             try self.validate(self.location, name: "location", parent: name, min: 1)
             try self.validate(self.location, name: "location", parent: name, pattern: "^[a-z]+(-([a-z]+|\\d))*")
@@ -5882,32 +5618,24 @@ extension GameLift {
             try self.desiredPlayerSessions?.forEach {
                 try $0.validate(name: "\(name).desiredPlayerSessions[]")
             }
-            try self.desiredPlayerSessions?.forEach {}
             try self.gameProperties?.forEach {
                 try $0.validate(name: "\(name).gameProperties[]")
             }
-            try self.gameProperties?.forEach {}
             try self.validate(self.gameProperties, name: "gameProperties", parent: name, max: 16)
-            try self.gameSessionData?.forEach {}
             try self.validate(self.gameSessionData, name: "gameSessionData", parent: name, max: 262_144)
             try self.validate(self.gameSessionData, name: "gameSessionData", parent: name, min: 1)
-            try self.gameSessionName?.forEach {}
             try self.validate(self.gameSessionName, name: "gameSessionName", parent: name, max: 1024)
             try self.validate(self.gameSessionName, name: "gameSessionName", parent: name, min: 1)
-            try self.gameSessionQueueName.forEach {}
             try self.validate(self.gameSessionQueueName, name: "gameSessionQueueName", parent: name, max: 256)
             try self.validate(self.gameSessionQueueName, name: "gameSessionQueueName", parent: name, min: 1)
             try self.validate(self.gameSessionQueueName, name: "gameSessionQueueName", parent: name, pattern: "[a-zA-Z0-9-]+|^arn:.*:gamesessionqueue\\/[a-zA-Z0-9-]+")
-            try self.maximumPlayerSessionCount.forEach {}
             try self.validate(self.maximumPlayerSessionCount, name: "maximumPlayerSessionCount", parent: name, min: 0)
-            try self.placementId.forEach {}
             try self.validate(self.placementId, name: "placementId", parent: name, max: 48)
             try self.validate(self.placementId, name: "placementId", parent: name, min: 1)
             try self.validate(self.placementId, name: "placementId", parent: name, pattern: "[a-zA-Z0-9-]+")
             try self.playerLatencies?.forEach {
                 try $0.validate(name: "\(name).playerLatencies[]")
             }
-            try self.playerLatencies?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5953,19 +5681,15 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.configurationName.forEach {}
             try self.validate(self.configurationName, name: "configurationName", parent: name, max: 256)
             try self.validate(self.configurationName, name: "configurationName", parent: name, min: 1)
             try self.validate(self.configurationName, name: "configurationName", parent: name, pattern: "[a-zA-Z0-9-\\.]*|^arn:.*:matchmakingconfiguration\\/[a-zA-Z0-9-\\.]*")
-            try self.gameSessionArn?.forEach {}
             try self.validate(self.gameSessionArn, name: "gameSessionArn", parent: name, max: 256)
             try self.validate(self.gameSessionArn, name: "gameSessionArn", parent: name, min: 1)
             try self.validate(self.gameSessionArn, name: "gameSessionArn", parent: name, pattern: "[a-zA-Z0-9:/-]+")
             try self.players.forEach {
                 try $0.validate(name: "\(name).players[]")
             }
-            try self.players.forEach {}
-            try self.ticketId?.forEach {}
             try self.validate(self.ticketId, name: "ticketId", parent: name, max: 128)
             try self.validate(self.ticketId, name: "ticketId", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
         }
@@ -6006,15 +5730,12 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.configurationName.forEach {}
             try self.validate(self.configurationName, name: "configurationName", parent: name, max: 256)
             try self.validate(self.configurationName, name: "configurationName", parent: name, min: 1)
             try self.validate(self.configurationName, name: "configurationName", parent: name, pattern: "[a-zA-Z0-9-\\.]*|^arn:.*:matchmakingconfiguration\\/[a-zA-Z0-9-\\.]*")
             try self.players.forEach {
                 try $0.validate(name: "\(name).players[]")
             }
-            try self.players.forEach {}
-            try self.ticketId?.forEach {}
             try self.validate(self.ticketId, name: "ticketId", parent: name, max: 128)
             try self.validate(self.ticketId, name: "ticketId", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
         }
@@ -6054,12 +5775,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.actions.forEach {}
             try self.validate(self.actions, name: "actions", parent: name, max: 1)
             try self.validate(self.actions, name: "actions", parent: name, min: 1)
-            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
-            try self.location?.forEach {}
             try self.validate(self.location, name: "location", parent: name, max: 64)
             try self.validate(self.location, name: "location", parent: name, min: 1)
             try self.validate(self.location, name: "location", parent: name, pattern: "^[a-z]+(-([a-z]+|\\d))*")
@@ -6098,7 +5816,6 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.placementId.forEach {}
             try self.validate(self.placementId, name: "placementId", parent: name, max: 48)
             try self.validate(self.placementId, name: "placementId", parent: name, min: 1)
             try self.validate(self.placementId, name: "placementId", parent: name, pattern: "[a-zA-Z0-9-]+")
@@ -6131,7 +5848,6 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.ticketId.forEach {}
             try self.validate(self.ticketId, name: "ticketId", parent: name, max: 128)
             try self.validate(self.ticketId, name: "ticketId", parent: name, pattern: "[a-zA-Z0-9-\\.]*")
         }
@@ -6157,11 +5873,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.gameServerGroupName.forEach {}
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+")
-            try self.suspendActions.forEach {}
             try self.validate(self.suspendActions, name: "suspendActions", parent: name, max: 1)
             try self.validate(self.suspendActions, name: "suspendActions", parent: name, min: 1)
         }
@@ -6197,10 +5911,8 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
-            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
         }
@@ -6223,13 +5935,11 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -6266,7 +5976,6 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.targetValue.forEach {}
             try self.validate(self.targetValue, name: "targetValue", parent: name, min: 0)
         }
 
@@ -6287,14 +5996,12 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
-            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
         }
@@ -6327,17 +6034,13 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.aliasId.forEach {}
             try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^alias-\\S+|^arn:.*:alias\\/alias-\\S+")
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
             try self.routingStrategy?.validate(name: "\(name).routingStrategy")
-            try self.routingStrategy?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6376,12 +6079,9 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.buildId.forEach {}
             try self.validate(self.buildId, name: "buildId", parent: name, pattern: "^build-\\S+|^arn:.*:build\\/build-\\S+")
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.version?.forEach {}
             try self.validate(self.version, name: "version", parent: name, max: 1024)
             try self.validate(self.version, name: "version", parent: name, min: 1)
         }
@@ -6430,22 +6130,17 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
             try self.metricGroups?.forEach {
                 try validate($0, name: "metricGroups[]", parent: name, max: 255)
                 try validate($0, name: "metricGroups[]", parent: name, min: 1)
             }
-            try self.metricGroups?.forEach {}
             try self.validate(self.metricGroups, name: "metricGroups", parent: name, max: 1)
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.resourceCreationLimitPolicy?.validate(name: "\(name).resourceCreationLimitPolicy")
-            try self.resourceCreationLimitPolicy?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6492,17 +6187,12 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.desiredInstances?.forEach {}
             try self.validate(self.desiredInstances, name: "desiredInstances", parent: name, min: 0)
-            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
-            try self.location?.forEach {}
             try self.validate(self.location, name: "location", parent: name, max: 64)
             try self.validate(self.location, name: "location", parent: name, min: 1)
             try self.validate(self.location, name: "location", parent: name, pattern: "^[a-z]+(-([a-z]+|\\d))*")
-            try self.maxSize?.forEach {}
             try self.validate(self.maxSize, name: "maxSize", parent: name, min: 0)
-            try self.minSize?.forEach {}
             try self.validate(self.minSize, name: "minSize", parent: name, min: 0)
         }
 
@@ -6551,17 +6241,14 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
             try self.inboundPermissionAuthorizations?.forEach {
                 try $0.validate(name: "\(name).inboundPermissionAuthorizations[]")
             }
-            try self.inboundPermissionAuthorizations?.forEach {}
             try self.validate(self.inboundPermissionAuthorizations, name: "inboundPermissionAuthorizations", parent: name, max: 50)
             try self.inboundPermissionRevocations?.forEach {
                 try $0.validate(name: "\(name).inboundPermissionRevocations[]")
             }
-            try self.inboundPermissionRevocations?.forEach {}
             try self.validate(self.inboundPermissionRevocations, name: "inboundPermissionRevocations", parent: name, max: 50)
         }
 
@@ -6606,17 +6293,14 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.gameServerGroupName.forEach {}
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+")
             try self.instanceDefinitions?.forEach {
                 try $0.validate(name: "\(name).instanceDefinitions[]")
             }
-            try self.instanceDefinitions?.forEach {}
             try self.validate(self.instanceDefinitions, name: "instanceDefinitions", parent: name, max: 20)
             try self.validate(self.instanceDefinitions, name: "instanceDefinitions", parent: name, min: 2)
-            try self.roleArn?.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:.*:role\\/[\\w+=,.@-]+")
@@ -6665,15 +6349,12 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.gameServerData?.forEach {}
             try self.validate(self.gameServerData, name: "gameServerData", parent: name, max: 1024)
             try self.validate(self.gameServerData, name: "gameServerData", parent: name, min: 1)
             try self.validate(self.gameServerData, name: "gameServerData", parent: name, pattern: ".*\\S.*")
-            try self.gameServerGroupName.forEach {}
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+")
-            try self.gameServerId.forEach {}
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, max: 128)
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, min: 3)
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, pattern: "[a-zA-Z0-9-\\.]+")
@@ -6722,13 +6403,10 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.gameSessionId.forEach {}
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, max: 256)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, min: 1)
             try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, pattern: "[a-zA-Z0-9:/-]+")
-            try self.maximumPlayerSessionCount?.forEach {}
             try self.validate(self.maximumPlayerSessionCount, name: "maximumPlayerSessionCount", parent: name, min: 0)
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -6785,31 +6463,23 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.customEventData?.forEach {}
             try self.validate(self.customEventData, name: "customEventData", parent: name, max: 256)
             try self.validate(self.customEventData, name: "customEventData", parent: name, min: 0)
             try self.validate(self.customEventData, name: "customEventData", parent: name, pattern: "[\\s\\S]*")
             try self.destinations?.forEach {
                 try $0.validate(name: "\(name).destinations[]")
             }
-            try self.destinations?.forEach {}
             try self.filterConfiguration?.validate(name: "\(name).filterConfiguration")
-            try self.filterConfiguration?.forEach {}
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9-]+|^arn:.*:gamesessionqueue\\/[a-zA-Z0-9-]+")
-            try self.notificationTarget?.forEach {}
             try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, max: 300)
             try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, min: 0)
             try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, pattern: "[a-zA-Z0-9:_-]*(\\.fifo)?")
             try self.playerLatencyPolicies?.forEach {
                 try $0.validate(name: "\(name).playerLatencyPolicies[]")
             }
-            try self.playerLatencyPolicies?.forEach {}
             try self.priorityConfiguration?.validate(name: "\(name).priorityConfiguration")
-            try self.priorityConfiguration?.forEach {}
-            try self.timeoutInSeconds?.forEach {}
             try self.validate(self.timeoutInSeconds, name: "timeoutInSeconds", parent: name, min: 0)
         }
 
@@ -6886,23 +6556,17 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.acceptanceTimeoutSeconds?.forEach {}
             try self.validate(self.acceptanceTimeoutSeconds, name: "acceptanceTimeoutSeconds", parent: name, max: 600)
             try self.validate(self.acceptanceTimeoutSeconds, name: "acceptanceTimeoutSeconds", parent: name, min: 1)
-            try self.additionalPlayerCount?.forEach {}
             try self.validate(self.additionalPlayerCount, name: "additionalPlayerCount", parent: name, min: 0)
-            try self.customEventData?.forEach {}
             try self.validate(self.customEventData, name: "customEventData", parent: name, max: 256)
             try self.validate(self.customEventData, name: "customEventData", parent: name, min: 0)
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.gameProperties?.forEach {
                 try $0.validate(name: "\(name).gameProperties[]")
             }
-            try self.gameProperties?.forEach {}
             try self.validate(self.gameProperties, name: "gameProperties", parent: name, max: 16)
-            try self.gameSessionData?.forEach {}
             try self.validate(self.gameSessionData, name: "gameSessionData", parent: name, max: 4096)
             try self.validate(self.gameSessionData, name: "gameSessionData", parent: name, min: 1)
             try self.gameSessionQueueArns?.forEach {
@@ -6910,19 +6574,14 @@ extension GameLift {
                 try validate($0, name: "gameSessionQueueArns[]", parent: name, min: 1)
                 try validate($0, name: "gameSessionQueueArns[]", parent: name, pattern: "[a-zA-Z0-9:/-]+")
             }
-            try self.gameSessionQueueArns?.forEach {}
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9-\\.]*|^arn:.*:matchmakingconfiguration\\/[a-zA-Z0-9-\\.]*")
-            try self.notificationTarget?.forEach {}
             try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, max: 300)
             try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, min: 0)
             try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, pattern: "[a-zA-Z0-9:_/-]*(.fifo)?")
-            try self.requestTimeoutSeconds?.forEach {}
             try self.validate(self.requestTimeoutSeconds, name: "requestTimeoutSeconds", parent: name, max: 43200)
             try self.validate(self.requestTimeoutSeconds, name: "requestTimeoutSeconds", parent: name, min: 1)
-            try self.ruleSetName?.forEach {}
             try self.validate(self.ruleSetName, name: "ruleSetName", parent: name, max: 256)
             try self.validate(self.ruleSetName, name: "ruleSetName", parent: name, min: 1)
             try self.validate(self.ruleSetName, name: "ruleSetName", parent: name, pattern: "[a-zA-Z0-9-\\.]*|^arn:.*:matchmakingruleset\\/[a-zA-Z0-9-\\.]*")
@@ -6971,10 +6630,8 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.fleetId.forEach {}
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-\\S+|^arn:.*:fleet\\/fleet-\\S+")
             try self.runtimeConfiguration.validate(name: "\(name).runtimeConfiguration")
-            try self.runtimeConfiguration.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7017,17 +6674,12 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.scriptId.forEach {}
             try self.validate(self.scriptId, name: "scriptId", parent: name, pattern: "^script-\\S+|^arn:.*:script\\/script-\\S+")
             try self.storageLocation?.validate(name: "\(name).storageLocation")
-            try self.storageLocation?.forEach {}
-            try self.version?.forEach {}
             try self.validate(self.version, name: "version", parent: name, max: 1024)
             try self.validate(self.version, name: "version", parent: name, min: 1)
-            try self.zipFile?.forEach {}
             try self.validate(self.zipFile, name: "zipFile", parent: name, max: 5_000_000)
         }
 
@@ -7062,7 +6714,6 @@ extension GameLift {
         }
 
         public func validate(name: String) throws {
-            try self.ruleSetBody.forEach {}
             try self.validate(self.ruleSetBody, name: "ruleSetBody", parent: name, max: 65535)
             try self.validate(self.ruleSetBody, name: "ruleSetBody", parent: name, min: 1)
         }

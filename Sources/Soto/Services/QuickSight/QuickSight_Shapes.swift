@@ -418,7 +418,6 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 64)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
         }
@@ -525,7 +524,6 @@ extension QuickSight {
 
         public func validate(name: String) throws {
             try self.sourceTemplate?.validate(name: "\(name).sourceTemplate")
-            try self.sourceTemplate?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -548,7 +546,6 @@ extension QuickSight {
             try self.dataSetReferences.forEach {
                 try $0.validate(name: "\(name).dataSetReferences[]")
             }
-            try self.dataSetReferences.forEach {}
             try self.validate(self.dataSetReferences, name: "dataSetReferences", parent: name, min: 1)
         }
 
@@ -600,7 +597,6 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.workGroup?.forEach {}
             try self.validate(self.workGroup, name: "workGroup", parent: name, max: 128)
             try self.validate(self.workGroup, name: "workGroup", parent: name, min: 1)
         }
@@ -625,13 +621,10 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.database.forEach {}
             try self.validate(self.database, name: "database", parent: name, max: 128)
             try self.validate(self.database, name: "database", parent: name, min: 1)
-            try self.host.forEach {}
             try self.validate(self.host, name: "host", parent: name, max: 256)
             try self.validate(self.host, name: "host", parent: name, min: 1)
-            try self.port.forEach {}
             try self.validate(self.port, name: "port", parent: name, max: 65535)
             try self.validate(self.port, name: "port", parent: name, min: 1)
         }
@@ -658,13 +651,10 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.database.forEach {}
             try self.validate(self.database, name: "database", parent: name, max: 128)
             try self.validate(self.database, name: "database", parent: name, min: 1)
-            try self.host.forEach {}
             try self.validate(self.host, name: "host", parent: name, max: 256)
             try self.validate(self.host, name: "host", parent: name, min: 1)
-            try self.port.forEach {}
             try self.validate(self.port, name: "port", parent: name, max: 65535)
             try self.validate(self.port, name: "port", parent: name, min: 1)
         }
@@ -685,7 +675,6 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.dataSetName.forEach {}
             try self.validate(self.dataSetName, name: "dataSetName", parent: name, max: 128)
             try self.validate(self.dataSetName, name: "dataSetName", parent: name, min: 1)
         }
@@ -723,13 +712,10 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.columnId.forEach {}
             try self.validate(self.columnId, name: "columnId", parent: name, max: 64)
             try self.validate(self.columnId, name: "columnId", parent: name, min: 1)
-            try self.columnName.forEach {}
             try self.validate(self.columnName, name: "columnName", parent: name, max: 128)
             try self.validate(self.columnName, name: "columnName", parent: name, min: 1)
-            try self.expression.forEach {}
             try self.validate(self.expression, name: "expression", parent: name, max: 4096)
             try self.validate(self.expression, name: "expression", parent: name, min: 1)
         }
@@ -762,11 +748,9 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.ingestionId.forEach {}
             try self.validate(self.ingestionId, name: "ingestionId", parent: name, max: 128)
             try self.validate(self.ingestionId, name: "ingestionId", parent: name, min: 1)
             try self.validate(self.ingestionId, name: "ingestionId", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
@@ -819,10 +803,8 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.columnName.forEach {}
             try self.validate(self.columnName, name: "columnName", parent: name, max: 128)
             try self.validate(self.columnName, name: "columnName", parent: name, min: 1)
-            try self.format?.forEach {}
             try self.validate(self.format, name: "format", parent: name, max: 32)
         }
 
@@ -842,7 +824,6 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.text?.forEach {}
             try self.validate(self.text, name: "text", parent: name, max: 500)
             try self.validate(self.text, name: "text", parent: name, min: 0)
         }
@@ -862,7 +843,6 @@ extension QuickSight {
 
         public func validate(name: String) throws {
             try self.geoSpatialColumnGroup?.validate(name: "\(name).geoSpatialColumnGroup")
-            try self.geoSpatialColumnGroup?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -912,9 +892,7 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.columnNames?.forEach {}
             try self.validate(self.columnNames, name: "columnNames", parent: name, min: 1)
-            try self.principals?.forEach {}
             try self.validate(self.principals, name: "principals", parent: name, max: 100)
             try self.validate(self.principals, name: "principals", parent: name, min: 1)
         }
@@ -959,7 +937,6 @@ extension QuickSight {
 
         public func validate(name: String) throws {
             try self.columnDescription?.validate(name: "\(name).columnDescription")
-            try self.columnDescription?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -991,17 +968,14 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.namespace?.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
@@ -1084,31 +1058,24 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.analysisId.forEach {}
             try self.validate(self.analysisId, name: "analysisId", parent: name, max: 2048)
             try self.validate(self.analysisId, name: "analysisId", parent: name, min: 1)
             try self.validate(self.analysisId, name: "analysisId", parent: name, pattern: "[\\w\\-]+")
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 2048)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.parameters?.validate(name: "\(name).parameters")
-            try self.parameters?.forEach {}
             try self.permissions?.forEach {
                 try $0.validate(name: "\(name).permissions[]")
             }
-            try self.permissions?.forEach {}
             try self.validate(self.permissions, name: "permissions", parent: name, max: 64)
             try self.validate(self.permissions, name: "permissions", parent: name, min: 1)
             try self.sourceEntity.validate(name: "\(name).sourceEntity")
-            try self.sourceEntity.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
@@ -1168,7 +1135,6 @@ extension QuickSight {
             try self.columns.forEach {
                 try $0.validate(name: "\(name).columns[]")
             }
-            try self.columns.forEach {}
             try self.validate(self.columns, name: "columns", parent: name, max: 128)
             try self.validate(self.columns, name: "columns", parent: name, min: 1)
         }
@@ -1219,34 +1185,26 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.dashboardId.forEach {}
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 2048)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, min: 1)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "[\\w\\-]+")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 2048)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.parameters?.validate(name: "\(name).parameters")
-            try self.parameters?.forEach {}
             try self.permissions?.forEach {
                 try $0.validate(name: "\(name).permissions[]")
             }
-            try self.permissions?.forEach {}
             try self.validate(self.permissions, name: "permissions", parent: name, max: 64)
             try self.validate(self.permissions, name: "permissions", parent: name, min: 1)
             try self.sourceEntity.validate(name: "\(name).sourceEntity")
-            try self.sourceEntity.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
-            try self.versionDescription?.forEach {}
             try self.validate(self.versionDescription, name: "versionDescription", parent: name, max: 512)
             try self.validate(self.versionDescription, name: "versionDescription", parent: name, min: 1)
         }
@@ -1346,20 +1304,17 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
             try self.columnGroups?.forEach {
                 try $0.validate(name: "\(name).columnGroups[]")
             }
-            try self.columnGroups?.forEach {}
             try self.validate(self.columnGroups, name: "columnGroups", parent: name, max: 8)
             try self.validate(self.columnGroups, name: "columnGroups", parent: name, min: 1)
             try self.columnLevelPermissionRules?.forEach {
                 try $0.validate(name: "\(name).columnLevelPermissionRules[]")
             }
-            try self.columnLevelPermissionRules?.forEach {}
             try self.validate(self.columnLevelPermissionRules, name: "columnLevelPermissionRules", parent: name, min: 1)
             try self.fieldFolders?.forEach {
                 try validate($0.key, name: "fieldFolders.key", parent: name, max: 1000)
@@ -1372,13 +1327,11 @@ extension QuickSight {
                 try validate($0.key, name: "logicalTableMap.key", parent: name, pattern: "[0-9a-zA-Z-]*")
                 try $0.value.validate(name: "\(name).logicalTableMap[\"\($0.key)\"]")
             }
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.permissions?.forEach {
                 try $0.validate(name: "\(name).permissions[]")
             }
-            try self.permissions?.forEach {}
             try self.validate(self.permissions, name: "permissions", parent: name, max: 64)
             try self.validate(self.permissions, name: "permissions", parent: name, min: 1)
             try self.physicalTableMap.forEach {
@@ -1388,11 +1341,9 @@ extension QuickSight {
                 try $0.value.validate(name: "\(name).physicalTableMap[\"\($0.key)\"]")
             }
             try self.rowLevelPermissionDataSet?.validate(name: "\(name).rowLevelPermissionDataSet")
-            try self.rowLevelPermissionDataSet?.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
@@ -1489,27 +1440,21 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
             try self.credentials?.validate(name: "\(name).credentials")
-            try self.credentials?.forEach {}
             try self.dataSourceParameters?.validate(name: "\(name).dataSourceParameters")
-            try self.dataSourceParameters?.forEach {}
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.permissions?.forEach {
                 try $0.validate(name: "\(name).permissions[]")
             }
-            try self.permissions?.forEach {}
             try self.validate(self.permissions, name: "permissions", parent: name, max: 64)
             try self.validate(self.permissions, name: "permissions", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
@@ -1585,18 +1530,14 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.groupName.forEach {}
             try self.validate(self.groupName, name: "groupName", parent: name, min: 1)
             try self.validate(self.groupName, name: "groupName", parent: name, pattern: "[\\u0020-\\u00FF]+")
-            try self.memberName.forEach {}
             try self.validate(self.memberName, name: "memberName", parent: name, max: 256)
             try self.validate(self.memberName, name: "memberName", parent: name, min: 1)
             try self.validate(self.memberName, name: "memberName", parent: name, pattern: "[\\u0020-\\u00FF]+")
-            try self.namespace.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
@@ -1652,17 +1593,13 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.groupName.forEach {}
             try self.validate(self.groupName, name: "groupName", parent: name, min: 1)
             try self.validate(self.groupName, name: "groupName", parent: name, pattern: "[\\u0020-\\u00FF]+")
-            try self.namespace.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
@@ -1727,14 +1664,11 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.assignmentName.forEach {}
             try self.validate(self.assignmentName, name: "assignmentName", parent: name, min: 1)
             try self.validate(self.assignmentName, name: "assignmentName", parent: name, pattern: "(?=^.{2,256}$)(?!.*\\s)[0-9a-zA-Z-_.:=+@]*$")
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.namespace.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
@@ -1809,11 +1743,9 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.ingestionId.forEach {}
             try self.validate(self.ingestionId, name: "ingestionId", parent: name, max: 128)
             try self.validate(self.ingestionId, name: "ingestionId", parent: name, min: 1)
             try self.validate(self.ingestionId, name: "ingestionId", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
@@ -1877,17 +1809,14 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.namespace.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
@@ -1964,19 +1893,15 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.aliasName.forEach {}
             try self.validate(self.aliasName, name: "aliasName", parent: name, max: 2048)
             try self.validate(self.aliasName, name: "aliasName", parent: name, min: 1)
             try self.validate(self.aliasName, name: "aliasName", parent: name, pattern: "[\\w\\-]+|(\\$LATEST)|(\\$PUBLISHED)")
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.templateId.forEach {}
             try self.validate(self.templateId, name: "templateId", parent: name, max: 2048)
             try self.validate(self.templateId, name: "templateId", parent: name, min: 1)
             try self.validate(self.templateId, name: "templateId", parent: name, pattern: "[\\w\\-]+")
-            try self.templateVersionNumber.forEach {}
             try self.validate(self.templateVersionNumber, name: "templateVersionNumber", parent: name, min: 1)
         }
 
@@ -2042,32 +1967,25 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 2048)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.permissions?.forEach {
                 try $0.validate(name: "\(name).permissions[]")
             }
-            try self.permissions?.forEach {}
             try self.validate(self.permissions, name: "permissions", parent: name, max: 64)
             try self.validate(self.permissions, name: "permissions", parent: name, min: 1)
             try self.sourceEntity.validate(name: "\(name).sourceEntity")
-            try self.sourceEntity.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
-            try self.templateId.forEach {}
             try self.validate(self.templateId, name: "templateId", parent: name, max: 2048)
             try self.validate(self.templateId, name: "templateId", parent: name, min: 1)
             try self.validate(self.templateId, name: "templateId", parent: name, pattern: "[\\w\\-]+")
-            try self.versionDescription?.forEach {}
             try self.validate(self.versionDescription, name: "versionDescription", parent: name, max: 512)
             try self.validate(self.versionDescription, name: "versionDescription", parent: name, min: 1)
         }
@@ -2142,19 +2060,15 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.aliasName.forEach {}
             try self.validate(self.aliasName, name: "aliasName", parent: name, max: 2048)
             try self.validate(self.aliasName, name: "aliasName", parent: name, min: 1)
             try self.validate(self.aliasName, name: "aliasName", parent: name, pattern: "[\\w\\-]+|(\\$LATEST)|(\\$PUBLISHED)")
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.themeId.forEach {}
             try self.validate(self.themeId, name: "themeId", parent: name, max: 2048)
             try self.validate(self.themeId, name: "themeId", parent: name, min: 1)
             try self.validate(self.themeId, name: "themeId", parent: name, pattern: "[\\w\\-]+")
-            try self.themeVersionNumber.forEach {}
             try self.validate(self.themeVersionNumber, name: "themeVersionNumber", parent: name, min: 1)
         }
 
@@ -2223,36 +2137,28 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.baseThemeId.forEach {}
             try self.validate(self.baseThemeId, name: "baseThemeId", parent: name, max: 2048)
             try self.validate(self.baseThemeId, name: "baseThemeId", parent: name, min: 1)
             try self.validate(self.baseThemeId, name: "baseThemeId", parent: name, pattern: "[\\w\\-]+")
             try self.configuration.validate(name: "\(name).configuration")
-            try self.configuration.forEach {}
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 2048)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.permissions?.forEach {
                 try $0.validate(name: "\(name).permissions[]")
             }
-            try self.permissions?.forEach {}
             try self.validate(self.permissions, name: "permissions", parent: name, max: 64)
             try self.validate(self.permissions, name: "permissions", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
-            try self.themeId.forEach {}
             try self.validate(self.themeId, name: "themeId", parent: name, max: 2048)
             try self.validate(self.themeId, name: "themeId", parent: name, min: 1)
             try self.validate(self.themeId, name: "themeId", parent: name, pattern: "[\\w\\-]+")
-            try self.versionDescription?.forEach {}
             try self.validate(self.versionDescription, name: "versionDescription", parent: name, max: 512)
             try self.validate(self.versionDescription, name: "versionDescription", parent: name, min: 1)
         }
@@ -2322,13 +2228,10 @@ extension QuickSight {
             try self.alternateDataSourceParameters?.forEach {
                 try $0.validate(name: "\(name).alternateDataSourceParameters[]")
             }
-            try self.alternateDataSourceParameters?.forEach {}
             try self.validate(self.alternateDataSourceParameters, name: "alternateDataSourceParameters", parent: name, max: 50)
             try self.validate(self.alternateDataSourceParameters, name: "alternateDataSourceParameters", parent: name, min: 1)
-            try self.password.forEach {}
             try self.validate(self.password, name: "password", parent: name, max: 1024)
             try self.validate(self.password, name: "password", parent: name, min: 1)
-            try self.username.forEach {}
             try self.validate(self.username, name: "username", parent: name, max: 64)
             try self.validate(self.username, name: "username", parent: name, min: 1)
         }
@@ -2361,13 +2264,10 @@ extension QuickSight {
             try self.columns?.forEach {
                 try $0.validate(name: "\(name).columns[]")
             }
-            try self.columns?.forEach {}
             try self.validate(self.columns, name: "columns", parent: name, max: 2048)
             try self.validate(self.columns, name: "columns", parent: name, min: 1)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.sqlQuery.forEach {}
             try self.validate(self.sqlQuery, name: "sqlQuery", parent: name, max: 65536)
             try self.validate(self.sqlQuery, name: "sqlQuery", parent: name, min: 1)
         }
@@ -2486,7 +2386,6 @@ extension QuickSight {
 
         public func validate(name: String) throws {
             try self.sourceTemplate?.validate(name: "\(name).sourceTemplate")
-            try self.sourceTemplate?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2509,7 +2408,6 @@ extension QuickSight {
             try self.dataSetReferences.forEach {
                 try $0.validate(name: "\(name).dataSetReferences[]")
             }
-            try self.dataSetReferences.forEach {}
             try self.validate(self.dataSetReferences, name: "dataSetReferences", parent: name, min: 1)
         }
 
@@ -2656,14 +2554,11 @@ extension QuickSight {
             try self.colors?.forEach {
                 try validate($0, name: "colors[]", parent: name, pattern: "^#[A-F0-9]{6}$")
             }
-            try self.colors?.forEach {}
             try self.validate(self.colors, name: "colors", parent: name, max: 100)
-            try self.emptyFillColor?.forEach {}
             try self.validate(self.emptyFillColor, name: "emptyFillColor", parent: name, pattern: "^#[A-F0-9]{6}$")
             try self.minMaxGradient?.forEach {
                 try validate($0, name: "minMaxGradient[]", parent: name, pattern: "^#[A-F0-9]{6}$")
             }
-            try self.minMaxGradient?.forEach {}
             try self.validate(self.minMaxGradient, name: "minMaxGradient", parent: name, max: 100)
         }
 
@@ -2772,7 +2667,6 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.dataSetPlaceholder.forEach {}
             try self.validate(self.dataSetPlaceholder, name: "dataSetPlaceholder", parent: name, pattern: ".*\\S.*")
         }
 
@@ -2905,10 +2799,8 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.copySourceArn?.forEach {}
             try self.validate(self.copySourceArn, name: "copySourceArn", parent: name, pattern: "^arn:[-a-z0-9]*:quicksight:[-a-z0-9]*:[0-9]{12}:datasource/.+")
             try self.credentialPair?.validate(name: "\(name).credentialPair")
-            try self.credentialPair?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3001,45 +2893,25 @@ extension QuickSight {
 
         public func validate(name: String) throws {
             try self.amazonElasticsearchParameters?.validate(name: "\(name).amazonElasticsearchParameters")
-            try self.amazonElasticsearchParameters?.forEach {}
             try self.athenaParameters?.validate(name: "\(name).athenaParameters")
-            try self.athenaParameters?.forEach {}
             try self.auroraParameters?.validate(name: "\(name).auroraParameters")
-            try self.auroraParameters?.forEach {}
             try self.auroraPostgreSqlParameters?.validate(name: "\(name).auroraPostgreSqlParameters")
-            try self.auroraPostgreSqlParameters?.forEach {}
             try self.awsIotAnalyticsParameters?.validate(name: "\(name).awsIotAnalyticsParameters")
-            try self.awsIotAnalyticsParameters?.forEach {}
             try self.jiraParameters?.validate(name: "\(name).jiraParameters")
-            try self.jiraParameters?.forEach {}
             try self.mariaDbParameters?.validate(name: "\(name).mariaDbParameters")
-            try self.mariaDbParameters?.forEach {}
             try self.mySqlParameters?.validate(name: "\(name).mySqlParameters")
-            try self.mySqlParameters?.forEach {}
             try self.oracleParameters?.validate(name: "\(name).oracleParameters")
-            try self.oracleParameters?.forEach {}
             try self.postgreSqlParameters?.validate(name: "\(name).postgreSqlParameters")
-            try self.postgreSqlParameters?.forEach {}
             try self.prestoParameters?.validate(name: "\(name).prestoParameters")
-            try self.prestoParameters?.forEach {}
             try self.rdsParameters?.validate(name: "\(name).rdsParameters")
-            try self.rdsParameters?.forEach {}
             try self.redshiftParameters?.validate(name: "\(name).redshiftParameters")
-            try self.redshiftParameters?.forEach {}
             try self.s3Parameters?.validate(name: "\(name).s3Parameters")
-            try self.s3Parameters?.forEach {}
             try self.serviceNowParameters?.validate(name: "\(name).serviceNowParameters")
-            try self.serviceNowParameters?.forEach {}
             try self.snowflakeParameters?.validate(name: "\(name).snowflakeParameters")
-            try self.snowflakeParameters?.forEach {}
             try self.sparkParameters?.validate(name: "\(name).sparkParameters")
-            try self.sparkParameters?.forEach {}
             try self.sqlServerParameters?.validate(name: "\(name).sqlServerParameters")
-            try self.sqlServerParameters?.forEach {}
             try self.teradataParameters?.validate(name: "\(name).teradataParameters")
-            try self.teradataParameters?.forEach {}
             try self.twitterParameters?.validate(name: "\(name).twitterParameters")
-            try self.twitterParameters?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3078,7 +2950,6 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
         }
 
@@ -3100,7 +2971,6 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
         }
 
@@ -3127,11 +2997,9 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.namespace?.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
@@ -3185,15 +3053,12 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.analysisId.forEach {}
             try self.validate(self.analysisId, name: "analysisId", parent: name, max: 2048)
             try self.validate(self.analysisId, name: "analysisId", parent: name, min: 1)
             try self.validate(self.analysisId, name: "analysisId", parent: name, pattern: "[\\w\\-]+")
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.recoveryWindowInDays?.forEach {}
             try self.validate(self.recoveryWindowInDays, name: "recoveryWindowInDays", parent: name, max: 30)
             try self.validate(self.recoveryWindowInDays, name: "recoveryWindowInDays", parent: name, min: 7)
         }
@@ -3255,15 +3120,12 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.dashboardId.forEach {}
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 2048)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, min: 1)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "[\\w\\-]+")
-            try self.versionNumber?.forEach {}
             try self.validate(self.versionNumber, name: "versionNumber", parent: name, min: 1)
         }
 
@@ -3316,7 +3178,6 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
@@ -3371,7 +3232,6 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
@@ -3434,18 +3294,14 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.groupName.forEach {}
             try self.validate(self.groupName, name: "groupName", parent: name, min: 1)
             try self.validate(self.groupName, name: "groupName", parent: name, pattern: "[\\u0020-\\u00FF]+")
-            try self.memberName.forEach {}
             try self.validate(self.memberName, name: "memberName", parent: name, max: 256)
             try self.validate(self.memberName, name: "memberName", parent: name, min: 1)
             try self.validate(self.memberName, name: "memberName", parent: name, pattern: "[\\u0020-\\u00FF]+")
-            try self.namespace.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
@@ -3495,14 +3351,11 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.groupName.forEach {}
             try self.validate(self.groupName, name: "groupName", parent: name, min: 1)
             try self.validate(self.groupName, name: "groupName", parent: name, pattern: "[\\u0020-\\u00FF]+")
-            try self.namespace.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
@@ -3552,14 +3405,11 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.assignmentName.forEach {}
             try self.validate(self.assignmentName, name: "assignmentName", parent: name, min: 1)
             try self.validate(self.assignmentName, name: "assignmentName", parent: name, pattern: "(?=^.{2,256}$)(?!.*\\s)[0-9a-zA-Z-_.:=+@]*$")
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.namespace.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
@@ -3609,11 +3459,9 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.namespace.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
@@ -3663,15 +3511,12 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.aliasName.forEach {}
             try self.validate(self.aliasName, name: "aliasName", parent: name, max: 2048)
             try self.validate(self.aliasName, name: "aliasName", parent: name, min: 1)
             try self.validate(self.aliasName, name: "aliasName", parent: name, pattern: "[\\w\\-]+|(\\$LATEST)|(\\$PUBLISHED)")
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.templateId.forEach {}
             try self.validate(self.templateId, name: "templateId", parent: name, max: 2048)
             try self.validate(self.templateId, name: "templateId", parent: name, min: 1)
             try self.validate(self.templateId, name: "templateId", parent: name, pattern: "[\\w\\-]+")
@@ -3734,15 +3579,12 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.templateId.forEach {}
             try self.validate(self.templateId, name: "templateId", parent: name, max: 2048)
             try self.validate(self.templateId, name: "templateId", parent: name, min: 1)
             try self.validate(self.templateId, name: "templateId", parent: name, pattern: "[\\w\\-]+")
-            try self.versionNumber?.forEach {}
             try self.validate(self.versionNumber, name: "versionNumber", parent: name, min: 1)
         }
 
@@ -3799,15 +3641,12 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.aliasName.forEach {}
             try self.validate(self.aliasName, name: "aliasName", parent: name, max: 2048)
             try self.validate(self.aliasName, name: "aliasName", parent: name, min: 1)
             try self.validate(self.aliasName, name: "aliasName", parent: name, pattern: "[\\w\\-]+|(\\$LATEST)|(\\$PUBLISHED)")
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.themeId.forEach {}
             try self.validate(self.themeId, name: "themeId", parent: name, max: 2048)
             try self.validate(self.themeId, name: "themeId", parent: name, min: 1)
             try self.validate(self.themeId, name: "themeId", parent: name, pattern: "[\\w\\-]+")
@@ -3870,15 +3709,12 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.themeId.forEach {}
             try self.validate(self.themeId, name: "themeId", parent: name, max: 2048)
             try self.validate(self.themeId, name: "themeId", parent: name, min: 1)
             try self.validate(self.themeId, name: "themeId", parent: name, pattern: "[\\w\\-]+")
-            try self.versionNumber?.forEach {}
             try self.validate(self.versionNumber, name: "versionNumber", parent: name, min: 1)
         }
 
@@ -3935,11 +3771,9 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.namespace.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
@@ -3989,14 +3823,11 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.namespace.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
-            try self.userName.forEach {}
             try self.validate(self.userName, name: "userName", parent: name, min: 1)
             try self.validate(self.userName, name: "userName", parent: name, pattern: "[\\u0020-\\u00FF]+")
         }
@@ -4046,11 +3877,9 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.namespace?.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
@@ -4108,7 +3937,6 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
@@ -4159,11 +3987,9 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.analysisId.forEach {}
             try self.validate(self.analysisId, name: "analysisId", parent: name, max: 2048)
             try self.validate(self.analysisId, name: "analysisId", parent: name, min: 1)
             try self.validate(self.analysisId, name: "analysisId", parent: name, pattern: "[\\w\\-]+")
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
@@ -4222,11 +4048,9 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.analysisId.forEach {}
             try self.validate(self.analysisId, name: "analysisId", parent: name, max: 2048)
             try self.validate(self.analysisId, name: "analysisId", parent: name, min: 1)
             try self.validate(self.analysisId, name: "analysisId", parent: name, pattern: "[\\w\\-]+")
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
@@ -4277,11 +4101,9 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.dashboardId.forEach {}
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 2048)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, min: 1)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "[\\w\\-]+")
@@ -4348,19 +4170,15 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.aliasName?.forEach {}
             try self.validate(self.aliasName, name: "aliasName", parent: name, max: 2048)
             try self.validate(self.aliasName, name: "aliasName", parent: name, min: 1)
             try self.validate(self.aliasName, name: "aliasName", parent: name, pattern: "[\\w\\-]+|(\\$LATEST)|(\\$PUBLISHED)")
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.dashboardId.forEach {}
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 2048)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, min: 1)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "[\\w\\-]+")
-            try self.versionNumber?.forEach {}
             try self.validate(self.versionNumber, name: "versionNumber", parent: name, min: 1)
         }
 
@@ -4409,7 +4227,6 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
@@ -4468,7 +4285,6 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
@@ -4519,7 +4335,6 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
@@ -4578,7 +4393,6 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
@@ -4633,14 +4447,11 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.groupName.forEach {}
             try self.validate(self.groupName, name: "groupName", parent: name, min: 1)
             try self.validate(self.groupName, name: "groupName", parent: name, pattern: "[\\u0020-\\u00FF]+")
-            try self.namespace.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
@@ -4694,14 +4505,11 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.assignmentName.forEach {}
             try self.validate(self.assignmentName, name: "assignmentName", parent: name, min: 1)
             try self.validate(self.assignmentName, name: "assignmentName", parent: name, pattern: "(?=^.{2,256}$)(?!.*\\s)[0-9a-zA-Z-_.:=+@]*$")
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.namespace.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
@@ -4755,11 +4563,9 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.ingestionId.forEach {}
             try self.validate(self.ingestionId, name: "ingestionId", parent: name, max: 128)
             try self.validate(self.ingestionId, name: "ingestionId", parent: name, min: 1)
             try self.validate(self.ingestionId, name: "ingestionId", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
@@ -4810,11 +4616,9 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.namespace.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
@@ -4868,15 +4672,12 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.aliasName.forEach {}
             try self.validate(self.aliasName, name: "aliasName", parent: name, max: 2048)
             try self.validate(self.aliasName, name: "aliasName", parent: name, min: 1)
             try self.validate(self.aliasName, name: "aliasName", parent: name, pattern: "[\\w\\-]+|(\\$LATEST)|(\\$PUBLISHED)")
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.templateId.forEach {}
             try self.validate(self.templateId, name: "templateId", parent: name, max: 2048)
             try self.validate(self.templateId, name: "templateId", parent: name, min: 1)
             try self.validate(self.templateId, name: "templateId", parent: name, pattern: "[\\w\\-]+")
@@ -4927,11 +4728,9 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.templateId.forEach {}
             try self.validate(self.templateId, name: "templateId", parent: name, max: 2048)
             try self.validate(self.templateId, name: "templateId", parent: name, min: 1)
             try self.validate(self.templateId, name: "templateId", parent: name, pattern: "[\\w\\-]+")
@@ -4998,19 +4797,15 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.aliasName?.forEach {}
             try self.validate(self.aliasName, name: "aliasName", parent: name, max: 2048)
             try self.validate(self.aliasName, name: "aliasName", parent: name, min: 1)
             try self.validate(self.aliasName, name: "aliasName", parent: name, pattern: "[\\w\\-]+|(\\$LATEST)|(\\$PUBLISHED)")
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.templateId.forEach {}
             try self.validate(self.templateId, name: "templateId", parent: name, max: 2048)
             try self.validate(self.templateId, name: "templateId", parent: name, min: 1)
             try self.validate(self.templateId, name: "templateId", parent: name, pattern: "[\\w\\-]+")
-            try self.versionNumber?.forEach {}
             try self.validate(self.versionNumber, name: "versionNumber", parent: name, min: 1)
         }
 
@@ -5063,15 +4858,12 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.aliasName.forEach {}
             try self.validate(self.aliasName, name: "aliasName", parent: name, max: 2048)
             try self.validate(self.aliasName, name: "aliasName", parent: name, min: 1)
             try self.validate(self.aliasName, name: "aliasName", parent: name, pattern: "[\\w\\-]+|(\\$LATEST)|(\\$PUBLISHED)")
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.themeId.forEach {}
             try self.validate(self.themeId, name: "themeId", parent: name, max: 2048)
             try self.validate(self.themeId, name: "themeId", parent: name, min: 1)
             try self.validate(self.themeId, name: "themeId", parent: name, pattern: "[\\w\\-]+")
@@ -5122,11 +4914,9 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.themeId.forEach {}
             try self.validate(self.themeId, name: "themeId", parent: name, max: 2048)
             try self.validate(self.themeId, name: "themeId", parent: name, min: 1)
             try self.validate(self.themeId, name: "themeId", parent: name, pattern: "[\\w\\-]+")
@@ -5193,17 +4983,13 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.aliasName?.forEach {}
             try self.validate(self.aliasName, name: "aliasName", parent: name, max: 2048)
             try self.validate(self.aliasName, name: "aliasName", parent: name, min: 1)
             try self.validate(self.aliasName, name: "aliasName", parent: name, pattern: "[\\w\\-]+|(\\$LATEST)|(\\$PUBLISHED)")
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^(aws|[0-9]{12})$")
-            try self.themeId.forEach {}
             try self.validate(self.themeId, name: "themeId", parent: name, max: 2048)
             try self.validate(self.themeId, name: "themeId", parent: name, min: 1)
             try self.validate(self.themeId, name: "themeId", parent: name, pattern: "[\\w\\-]+")
-            try self.versionNumber?.forEach {}
             try self.validate(self.versionNumber, name: "versionNumber", parent: name, min: 1)
         }
 
@@ -5256,14 +5042,11 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.namespace.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
-            try self.userName.forEach {}
             try self.validate(self.userName, name: "userName", parent: name, min: 1)
             try self.validate(self.userName, name: "userName", parent: name, pattern: "[\\u0020-\\u00FF]+")
         }
@@ -5338,9 +5121,7 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.columns?.forEach {}
             try self.validate(self.columns, name: "columns", parent: name, max: 5000)
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 500)
         }
 
@@ -5359,7 +5140,6 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.conditionExpression.forEach {}
             try self.validate(self.conditionExpression, name: "conditionExpression", parent: name, max: 4096)
             try self.validate(self.conditionExpression, name: "conditionExpression", parent: name, min: 1)
         }
@@ -5388,10 +5168,8 @@ extension QuickSight {
                 try validate($0, name: "columns[]", parent: name, max: 128)
                 try validate($0, name: "columns[]", parent: name, min: 1)
             }
-            try self.columns.forEach {}
             try self.validate(self.columns, name: "columns", parent: name, max: 16)
             try self.validate(self.columns, name: "columns", parent: name, min: 1)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -5457,21 +5235,16 @@ extension QuickSight {
                 try validate($0, name: "additionalDashboardIds[]", parent: name, min: 1)
                 try validate($0, name: "additionalDashboardIds[]", parent: name, pattern: "[\\w\\-]+")
             }
-            try self.additionalDashboardIds?.forEach {}
             try self.validate(self.additionalDashboardIds, name: "additionalDashboardIds", parent: name, max: 20)
             try self.validate(self.additionalDashboardIds, name: "additionalDashboardIds", parent: name, min: 1)
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.dashboardId.forEach {}
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 2048)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, min: 1)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "[\\w\\-]+")
-            try self.namespace?.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
-            try self.sessionLifetimeInMinutes?.forEach {}
             try self.validate(self.sessionLifetimeInMinutes, name: "sessionLifetimeInMinutes", parent: name, max: 600)
             try self.validate(self.sessionLifetimeInMinutes, name: "sessionLifetimeInMinutes", parent: name, min: 15)
         }
@@ -5529,14 +5302,11 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.entryPoint?.forEach {}
             try self.validate(self.entryPoint, name: "entryPoint", parent: name, max: 1000)
             try self.validate(self.entryPoint, name: "entryPoint", parent: name, min: 1)
-            try self.sessionLifetimeInMinutes?.forEach {}
             try self.validate(self.sessionLifetimeInMinutes, name: "sessionLifetimeInMinutes", parent: name, max: 600)
             try self.validate(self.sessionLifetimeInMinutes, name: "sessionLifetimeInMinutes", parent: name, min: 15)
         }
@@ -5737,7 +5507,6 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -5760,7 +5529,6 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
         }
 
@@ -5779,7 +5547,6 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.siteBaseUrl.forEach {}
             try self.validate(self.siteBaseUrl, name: "siteBaseUrl", parent: name, max: 1024)
             try self.validate(self.siteBaseUrl, name: "siteBaseUrl", parent: name, min: 1)
         }
@@ -5813,14 +5580,11 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.leftOperand.forEach {}
             try self.validate(self.leftOperand, name: "leftOperand", parent: name, max: 64)
             try self.validate(self.leftOperand, name: "leftOperand", parent: name, min: 1)
             try self.validate(self.leftOperand, name: "leftOperand", parent: name, pattern: "[0-9a-zA-Z-]*")
-            try self.onClause.forEach {}
             try self.validate(self.onClause, name: "onClause", parent: name, max: 512)
             try self.validate(self.onClause, name: "onClause", parent: name, min: 1)
-            try self.rightOperand.forEach {}
             try self.validate(self.rightOperand, name: "rightOperand", parent: name, max: 64)
             try self.validate(self.rightOperand, name: "rightOperand", parent: name, min: 1)
             try self.validate(self.rightOperand, name: "rightOperand", parent: name, pattern: "[0-9a-zA-Z-]*")
@@ -5870,11 +5634,9 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -5936,15 +5698,12 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.dashboardId.forEach {}
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 2048)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, min: 1)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "[\\w\\-]+")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -6002,11 +5761,9 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -6064,11 +5821,9 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -6126,11 +5881,9 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -6196,17 +5949,13 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.groupName.forEach {}
             try self.validate(self.groupName, name: "groupName", parent: name, min: 1)
             try self.validate(self.groupName, name: "groupName", parent: name, pattern: "[\\u0020-\\u00FF]+")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.namespace.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
@@ -6268,14 +6017,11 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.namespace.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
@@ -6341,17 +6087,13 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.namespace.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
-            try self.userName.forEach {}
             try self.validate(self.userName, name: "userName", parent: name, min: 1)
             try self.validate(self.userName, name: "userName", parent: name, pattern: "[\\u0020-\\u00FF]+")
         }
@@ -6416,14 +6158,11 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.namespace.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
@@ -6487,11 +6226,9 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -6549,11 +6286,9 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -6655,14 +6390,11 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.templateId.forEach {}
             try self.validate(self.templateId, name: "templateId", parent: name, max: 2048)
             try self.validate(self.templateId, name: "templateId", parent: name, min: 1)
             try self.validate(self.templateId, name: "templateId", parent: name, pattern: "[\\w\\-]+")
@@ -6725,14 +6457,11 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.templateId.forEach {}
             try self.validate(self.templateId, name: "templateId", parent: name, max: 2048)
             try self.validate(self.templateId, name: "templateId", parent: name, min: 1)
             try self.validate(self.templateId, name: "templateId", parent: name, pattern: "[\\w\\-]+")
@@ -6791,11 +6520,9 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -6857,14 +6584,11 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.themeId.forEach {}
             try self.validate(self.themeId, name: "themeId", parent: name, max: 2048)
             try self.validate(self.themeId, name: "themeId", parent: name, min: 1)
             try self.validate(self.themeId, name: "themeId", parent: name, pattern: "[\\w\\-]+")
@@ -6927,14 +6651,11 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.themeId.forEach {}
             try self.validate(self.themeId, name: "themeId", parent: name, max: 2048)
             try self.validate(self.themeId, name: "themeId", parent: name, min: 1)
             try self.validate(self.themeId, name: "themeId", parent: name, pattern: "[\\w\\-]+")
@@ -6997,11 +6718,9 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -7067,17 +6786,13 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.namespace.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
-            try self.userName.forEach {}
             try self.validate(self.userName, name: "userName", parent: name, min: 1)
             try self.validate(self.userName, name: "userName", parent: name, pattern: "[\\u0020-\\u00FF]+")
         }
@@ -7139,14 +6854,11 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.namespace.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
@@ -7198,17 +6910,14 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.alias.forEach {}
             try self.validate(self.alias, name: "alias", parent: name, max: 64)
             try self.validate(self.alias, name: "alias", parent: name, min: 1)
             try self.dataTransforms?.forEach {
                 try $0.validate(name: "\(name).dataTransforms[]")
             }
-            try self.dataTransforms?.forEach {}
             try self.validate(self.dataTransforms, name: "dataTransforms", parent: name, max: 2048)
             try self.validate(self.dataTransforms, name: "dataTransforms", parent: name, min: 1)
             try self.source.validate(name: "\(name).source")
-            try self.source.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7231,8 +6940,6 @@ extension QuickSight {
 
         public func validate(name: String) throws {
             try self.joinInstruction?.validate(name: "\(name).joinInstruction")
-            try self.joinInstruction?.forEach {}
-            try self.physicalTableId?.forEach {}
             try self.validate(self.physicalTableId, name: "physicalTableId", parent: name, max: 64)
             try self.validate(self.physicalTableId, name: "physicalTableId", parent: name, min: 1)
             try self.validate(self.physicalTableId, name: "physicalTableId", parent: name, pattern: "[0-9a-zA-Z-]*")
@@ -7256,10 +6963,8 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.bucket.forEach {}
             try self.validate(self.bucket, name: "bucket", parent: name, max: 1024)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 1)
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 1024)
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
@@ -7298,13 +7003,10 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.database.forEach {}
             try self.validate(self.database, name: "database", parent: name, max: 128)
             try self.validate(self.database, name: "database", parent: name, min: 1)
-            try self.host.forEach {}
             try self.validate(self.host, name: "host", parent: name, max: 256)
             try self.validate(self.host, name: "host", parent: name, min: 1)
-            try self.port.forEach {}
             try self.validate(self.port, name: "port", parent: name, max: 65535)
             try self.validate(self.port, name: "port", parent: name, min: 1)
         }
@@ -7331,13 +7033,10 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.database.forEach {}
             try self.validate(self.database, name: "database", parent: name, max: 128)
             try self.validate(self.database, name: "database", parent: name, min: 1)
-            try self.host.forEach {}
             try self.validate(self.host, name: "host", parent: name, max: 256)
             try self.validate(self.host, name: "host", parent: name, min: 1)
-            try self.port.forEach {}
             try self.validate(self.port, name: "port", parent: name, max: 65535)
             try self.validate(self.port, name: "port", parent: name, min: 1)
         }
@@ -7414,13 +7113,10 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.database.forEach {}
             try self.validate(self.database, name: "database", parent: name, max: 128)
             try self.validate(self.database, name: "database", parent: name, min: 1)
-            try self.host.forEach {}
             try self.validate(self.host, name: "host", parent: name, max: 256)
             try self.validate(self.host, name: "host", parent: name, min: 1)
-            try self.port.forEach {}
             try self.validate(self.port, name: "port", parent: name, max: 65535)
             try self.validate(self.port, name: "port", parent: name, min: 1)
         }
@@ -7474,22 +7170,18 @@ extension QuickSight {
             try self.dateTimeParameters?.forEach {
                 try $0.validate(name: "\(name).dateTimeParameters[]")
             }
-            try self.dateTimeParameters?.forEach {}
             try self.validate(self.dateTimeParameters, name: "dateTimeParameters", parent: name, max: 100)
             try self.decimalParameters?.forEach {
                 try $0.validate(name: "\(name).decimalParameters[]")
             }
-            try self.decimalParameters?.forEach {}
             try self.validate(self.decimalParameters, name: "decimalParameters", parent: name, max: 100)
             try self.integerParameters?.forEach {
                 try $0.validate(name: "\(name).integerParameters[]")
             }
-            try self.integerParameters?.forEach {}
             try self.validate(self.integerParameters, name: "integerParameters", parent: name, max: 100)
             try self.stringParameters?.forEach {
                 try $0.validate(name: "\(name).stringParameters[]")
             }
-            try self.stringParameters?.forEach {}
             try self.validate(self.stringParameters, name: "stringParameters", parent: name, max: 100)
         }
 
@@ -7517,11 +7209,8 @@ extension QuickSight {
 
         public func validate(name: String) throws {
             try self.customSql?.validate(name: "\(name).customSql")
-            try self.customSql?.forEach {}
             try self.relationalTable?.validate(name: "\(name).relationalTable")
-            try self.relationalTable?.forEach {}
             try self.s3Source?.validate(name: "\(name).s3Source")
-            try self.s3Source?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7546,13 +7235,10 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.database.forEach {}
             try self.validate(self.database, name: "database", parent: name, max: 128)
             try self.validate(self.database, name: "database", parent: name, min: 1)
-            try self.host.forEach {}
             try self.validate(self.host, name: "host", parent: name, max: 256)
             try self.validate(self.host, name: "host", parent: name, min: 1)
-            try self.port.forEach {}
             try self.validate(self.port, name: "port", parent: name, max: 65535)
             try self.validate(self.port, name: "port", parent: name, min: 1)
         }
@@ -7579,12 +7265,9 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.catalog.forEach {}
             try self.validate(self.catalog, name: "catalog", parent: name, max: 128)
-            try self.host.forEach {}
             try self.validate(self.host, name: "host", parent: name, max: 256)
             try self.validate(self.host, name: "host", parent: name, min: 1)
-            try self.port.forEach {}
             try self.validate(self.port, name: "port", parent: name, max: 65535)
             try self.validate(self.port, name: "port", parent: name, min: 1)
         }
@@ -7605,7 +7288,6 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.projectedColumns.forEach {}
             try self.validate(self.projectedColumns, name: "projectedColumns", parent: name, max: 2000)
             try self.validate(self.projectedColumns, name: "projectedColumns", parent: name, min: 1)
         }
@@ -7644,10 +7326,8 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.database.forEach {}
             try self.validate(self.database, name: "database", parent: name, max: 128)
             try self.validate(self.database, name: "database", parent: name, min: 1)
-            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 64)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -7676,16 +7356,12 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.clusterId?.forEach {}
             try self.validate(self.clusterId, name: "clusterId", parent: name, max: 64)
             try self.validate(self.clusterId, name: "clusterId", parent: name, min: 1)
-            try self.database.forEach {}
             try self.validate(self.database, name: "database", parent: name, max: 128)
             try self.validate(self.database, name: "database", parent: name, min: 1)
-            try self.host?.forEach {}
             try self.validate(self.host, name: "host", parent: name, max: 256)
             try self.validate(self.host, name: "host", parent: name, min: 1)
-            try self.port?.forEach {}
             try self.validate(self.port, name: "port", parent: name, max: 65535)
             try self.validate(self.port, name: "port", parent: name, min: 0)
         }
@@ -7736,22 +7412,17 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.customPermissionsName?.forEach {}
             try self.validate(self.customPermissionsName, name: "customPermissionsName", parent: name, max: 64)
             try self.validate(self.customPermissionsName, name: "customPermissionsName", parent: name, min: 1)
             try self.validate(self.customPermissionsName, name: "customPermissionsName", parent: name, pattern: "^[a-zA-Z0-9+=,.@_-]+$")
-            try self.namespace.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
-            try self.sessionName?.forEach {}
             try self.validate(self.sessionName, name: "sessionName", parent: name, max: 64)
             try self.validate(self.sessionName, name: "sessionName", parent: name, min: 2)
             try self.validate(self.sessionName, name: "sessionName", parent: name, pattern: "[\\w+=.@-]*")
-            try self.userName?.forEach {}
             try self.validate(self.userName, name: "userName", parent: name, min: 1)
             try self.validate(self.userName, name: "userName", parent: name, pattern: "[\\u0020-\\u00FF]+")
         }
@@ -7817,18 +7488,14 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.catalog?.forEach {}
             try self.validate(self.catalog, name: "catalog", parent: name, max: 256)
             try self.inputColumns.forEach {
                 try $0.validate(name: "\(name).inputColumns[]")
             }
-            try self.inputColumns.forEach {}
             try self.validate(self.inputColumns, name: "inputColumns", parent: name, max: 2048)
             try self.validate(self.inputColumns, name: "inputColumns", parent: name, min: 1)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.schema?.forEach {}
             try self.validate(self.schema, name: "schema", parent: name, max: 64)
         }
 
@@ -7853,10 +7520,8 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.columnName.forEach {}
             try self.validate(self.columnName, name: "columnName", parent: name, max: 128)
             try self.validate(self.columnName, name: "columnName", parent: name, min: 1)
-            try self.newColumnName.forEach {}
             try self.validate(self.newColumnName, name: "newColumnName", parent: name, max: 128)
             try self.validate(self.newColumnName, name: "newColumnName", parent: name, min: 1)
         }
@@ -7879,10 +7544,8 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.actions.forEach {}
             try self.validate(self.actions, name: "actions", parent: name, max: 16)
             try self.validate(self.actions, name: "actions", parent: name, min: 1)
-            try self.principal.forEach {}
             try self.validate(self.principal, name: "principal", parent: name, max: 256)
             try self.validate(self.principal, name: "principal", parent: name, min: 1)
         }
@@ -7910,11 +7573,9 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.analysisId.forEach {}
             try self.validate(self.analysisId, name: "analysisId", parent: name, max: 2048)
             try self.validate(self.analysisId, name: "analysisId", parent: name, min: 1)
             try self.validate(self.analysisId, name: "analysisId", parent: name, pattern: "[\\w\\-]+")
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
@@ -7984,7 +7645,6 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.namespace?.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
@@ -8006,7 +7666,6 @@ extension QuickSight {
 
         public func validate(name: String) throws {
             try self.manifestFileLocation.validate(name: "\(name).manifestFileLocation")
-            try self.manifestFileLocation.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8032,11 +7691,9 @@ extension QuickSight {
             try self.inputColumns.forEach {
                 try $0.validate(name: "\(name).inputColumns[]")
             }
-            try self.inputColumns.forEach {}
             try self.validate(self.inputColumns, name: "inputColumns", parent: name, max: 2048)
             try self.validate(self.inputColumns, name: "inputColumns", parent: name, min: 1)
             try self.uploadSettings?.validate(name: "\(name).uploadSettings")
-            try self.uploadSettings?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8068,14 +7725,11 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.filters.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 1)
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -8138,14 +7792,11 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.filters.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 1)
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -8195,7 +7846,6 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.siteBaseUrl.forEach {}
             try self.validate(self.siteBaseUrl, name: "siteBaseUrl", parent: name, max: 1024)
             try self.validate(self.siteBaseUrl, name: "siteBaseUrl", parent: name, min: 1)
         }
@@ -8267,13 +7917,10 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.database.forEach {}
             try self.validate(self.database, name: "database", parent: name, max: 128)
             try self.validate(self.database, name: "database", parent: name, min: 1)
-            try self.host.forEach {}
             try self.validate(self.host, name: "host", parent: name, max: 256)
             try self.validate(self.host, name: "host", parent: name, min: 1)
-            try self.warehouse.forEach {}
             try self.validate(self.warehouse, name: "warehouse", parent: name, max: 128)
         }
 
@@ -8296,10 +7943,8 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.host.forEach {}
             try self.validate(self.host, name: "host", parent: name, max: 256)
             try self.validate(self.host, name: "host", parent: name, min: 1)
-            try self.port.forEach {}
             try self.validate(self.port, name: "port", parent: name, max: 65535)
             try self.validate(self.port, name: "port", parent: name, min: 1)
         }
@@ -8325,13 +7970,10 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.database.forEach {}
             try self.validate(self.database, name: "database", parent: name, max: 128)
             try self.validate(self.database, name: "database", parent: name, min: 1)
-            try self.host.forEach {}
             try self.validate(self.host, name: "host", parent: name, max: 256)
             try self.validate(self.host, name: "host", parent: name, min: 1)
-            try self.port.forEach {}
             try self.validate(self.port, name: "port", parent: name, max: 65535)
             try self.validate(self.port, name: "port", parent: name, min: 1)
         }
@@ -8368,7 +8010,6 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
         }
 
@@ -8390,10 +8031,8 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
-            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 1)
         }
@@ -8416,13 +8055,11 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.columnName.forEach {}
             try self.validate(self.columnName, name: "columnName", parent: name, max: 128)
             try self.validate(self.columnName, name: "columnName", parent: name, min: 1)
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 16)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
@@ -8452,7 +8089,6 @@ extension QuickSight {
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
@@ -8569,7 +8205,6 @@ extension QuickSight {
             try self.dataSetReferences.forEach {
                 try $0.validate(name: "\(name).dataSetReferences[]")
             }
-            try self.dataSetReferences.forEach {}
             try self.validate(self.dataSetReferences, name: "dataSetReferences", parent: name, min: 1)
         }
 
@@ -8592,7 +8227,6 @@ extension QuickSight {
 
         public func validate(name: String) throws {
             try self.sourceAnalysis?.validate(name: "\(name).sourceAnalysis")
-            try self.sourceAnalysis?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8736,13 +8370,10 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.database.forEach {}
             try self.validate(self.database, name: "database", parent: name, max: 128)
             try self.validate(self.database, name: "database", parent: name, min: 1)
-            try self.host.forEach {}
             try self.validate(self.host, name: "host", parent: name, max: 256)
             try self.validate(self.host, name: "host", parent: name, min: 1)
-            try self.port.forEach {}
             try self.validate(self.port, name: "port", parent: name, max: 65535)
             try self.validate(self.port, name: "port", parent: name, min: 1)
         }
@@ -8827,9 +8458,7 @@ extension QuickSight {
 
         public func validate(name: String) throws {
             try self.dataColorPalette?.validate(name: "\(name).dataColorPalette")
-            try self.dataColorPalette?.forEach {}
             try self.uIColorPalette?.validate(name: "\(name).uIColorPalette")
-            try self.uIColorPalette?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9014,17 +8643,11 @@ extension QuickSight {
 
         public func validate(name: String) throws {
             try self.castColumnTypeOperation?.validate(name: "\(name).castColumnTypeOperation")
-            try self.castColumnTypeOperation?.forEach {}
             try self.createColumnsOperation?.validate(name: "\(name).createColumnsOperation")
-            try self.createColumnsOperation?.forEach {}
             try self.filterOperation?.validate(name: "\(name).filterOperation")
-            try self.filterOperation?.forEach {}
             try self.projectOperation?.validate(name: "\(name).projectOperation")
-            try self.projectOperation?.forEach {}
             try self.renameColumnOperation?.validate(name: "\(name).renameColumnOperation")
-            try self.renameColumnOperation?.forEach {}
             try self.tagColumnOperation?.validate(name: "\(name).tagColumnOperation")
-            try self.tagColumnOperation?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9049,9 +8672,7 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.maxRows.forEach {}
             try self.validate(self.maxRows, name: "maxRows", parent: name, min: 1)
-            try self.query.forEach {}
             try self.validate(self.query, name: "query", parent: name, max: 256)
             try self.validate(self.query, name: "query", parent: name, min: 1)
         }
@@ -9116,37 +8737,21 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.accent?.forEach {}
             try self.validate(self.accent, name: "accent", parent: name, pattern: "^#[A-F0-9]{6}$")
-            try self.accentForeground?.forEach {}
             try self.validate(self.accentForeground, name: "accentForeground", parent: name, pattern: "^#[A-F0-9]{6}$")
-            try self.danger?.forEach {}
             try self.validate(self.danger, name: "danger", parent: name, pattern: "^#[A-F0-9]{6}$")
-            try self.dangerForeground?.forEach {}
             try self.validate(self.dangerForeground, name: "dangerForeground", parent: name, pattern: "^#[A-F0-9]{6}$")
-            try self.dimension?.forEach {}
             try self.validate(self.dimension, name: "dimension", parent: name, pattern: "^#[A-F0-9]{6}$")
-            try self.dimensionForeground?.forEach {}
             try self.validate(self.dimensionForeground, name: "dimensionForeground", parent: name, pattern: "^#[A-F0-9]{6}$")
-            try self.measure?.forEach {}
             try self.validate(self.measure, name: "measure", parent: name, pattern: "^#[A-F0-9]{6}$")
-            try self.measureForeground?.forEach {}
             try self.validate(self.measureForeground, name: "measureForeground", parent: name, pattern: "^#[A-F0-9]{6}$")
-            try self.primaryBackground?.forEach {}
             try self.validate(self.primaryBackground, name: "primaryBackground", parent: name, pattern: "^#[A-F0-9]{6}$")
-            try self.primaryForeground?.forEach {}
             try self.validate(self.primaryForeground, name: "primaryForeground", parent: name, pattern: "^#[A-F0-9]{6}$")
-            try self.secondaryBackground?.forEach {}
             try self.validate(self.secondaryBackground, name: "secondaryBackground", parent: name, pattern: "^#[A-F0-9]{6}$")
-            try self.secondaryForeground?.forEach {}
             try self.validate(self.secondaryForeground, name: "secondaryForeground", parent: name, pattern: "^#[A-F0-9]{6}$")
-            try self.success?.forEach {}
             try self.validate(self.success, name: "success", parent: name, pattern: "^#[A-F0-9]{6}$")
-            try self.successForeground?.forEach {}
             try self.validate(self.successForeground, name: "successForeground", parent: name, pattern: "^#[A-F0-9]{6}$")
-            try self.warning?.forEach {}
             try self.validate(self.warning, name: "warning", parent: name, pattern: "^#[A-F0-9]{6}$")
-            try self.warningForeground?.forEach {}
             try self.validate(self.warningForeground, name: "warningForeground", parent: name, pattern: "^#[A-F0-9]{6}$")
         }
 
@@ -9191,7 +8796,6 @@ extension QuickSight {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
-            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
@@ -9240,11 +8844,9 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.namespace?.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
@@ -9310,11 +8912,9 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.defaultNamespace.forEach {}
             try self.validate(self.defaultNamespace, name: "defaultNamespace", parent: name, max: 64)
             try self.validate(self.defaultNamespace, name: "defaultNamespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
@@ -9369,23 +8969,19 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.analysisId.forEach {}
             try self.validate(self.analysisId, name: "analysisId", parent: name, max: 2048)
             try self.validate(self.analysisId, name: "analysisId", parent: name, min: 1)
             try self.validate(self.analysisId, name: "analysisId", parent: name, pattern: "[\\w\\-]+")
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
             try self.grantPermissions?.forEach {
                 try $0.validate(name: "\(name).grantPermissions[]")
             }
-            try self.grantPermissions?.forEach {}
             try self.validate(self.grantPermissions, name: "grantPermissions", parent: name, max: 100)
             try self.revokePermissions?.forEach {
                 try $0.validate(name: "\(name).revokePermissions[]")
             }
-            try self.revokePermissions?.forEach {}
             try self.validate(self.revokePermissions, name: "revokePermissions", parent: name, max: 100)
         }
 
@@ -9457,21 +9053,16 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.analysisId.forEach {}
             try self.validate(self.analysisId, name: "analysisId", parent: name, max: 2048)
             try self.validate(self.analysisId, name: "analysisId", parent: name, min: 1)
             try self.validate(self.analysisId, name: "analysisId", parent: name, pattern: "[\\w\\-]+")
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 2048)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.parameters?.validate(name: "\(name).parameters")
-            try self.parameters?.forEach {}
             try self.sourceEntity.validate(name: "\(name).sourceEntity")
-            try self.sourceEntity.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9538,23 +9129,19 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.dashboardId.forEach {}
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 2048)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, min: 1)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "[\\w\\-]+")
             try self.grantPermissions?.forEach {
                 try $0.validate(name: "\(name).grantPermissions[]")
             }
-            try self.grantPermissions?.forEach {}
             try self.validate(self.grantPermissions, name: "grantPermissions", parent: name, max: 100)
             try self.revokePermissions?.forEach {
                 try $0.validate(name: "\(name).revokePermissions[]")
             }
-            try self.revokePermissions?.forEach {}
             try self.validate(self.revokePermissions, name: "revokePermissions", parent: name, max: 100)
         }
 
@@ -9618,15 +9205,12 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.dashboardId.forEach {}
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 2048)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, min: 1)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "[\\w\\-]+")
-            try self.versionNumber.forEach {}
             try self.validate(self.versionNumber, name: "versionNumber", parent: name, min: 1)
         }
 
@@ -9697,22 +9281,16 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.dashboardId.forEach {}
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 2048)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, min: 1)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "[\\w\\-]+")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 2048)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.parameters?.validate(name: "\(name).parameters")
-            try self.parameters?.forEach {}
             try self.sourceEntity.validate(name: "\(name).sourceEntity")
-            try self.sourceEntity.forEach {}
-            try self.versionDescription?.forEach {}
             try self.validate(self.versionDescription, name: "versionDescription", parent: name, max: 512)
             try self.validate(self.versionDescription, name: "versionDescription", parent: name, min: 1)
         }
@@ -9783,20 +9361,17 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
             try self.grantPermissions?.forEach {
                 try $0.validate(name: "\(name).grantPermissions[]")
             }
-            try self.grantPermissions?.forEach {}
             try self.validate(self.grantPermissions, name: "grantPermissions", parent: name, max: 64)
             try self.validate(self.grantPermissions, name: "grantPermissions", parent: name, min: 1)
             try self.revokePermissions?.forEach {
                 try $0.validate(name: "\(name).revokePermissions[]")
             }
-            try self.revokePermissions?.forEach {}
             try self.validate(self.revokePermissions, name: "revokePermissions", parent: name, max: 64)
             try self.validate(self.revokePermissions, name: "revokePermissions", parent: name, min: 1)
         }
@@ -9877,20 +9452,17 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
             try self.columnGroups?.forEach {
                 try $0.validate(name: "\(name).columnGroups[]")
             }
-            try self.columnGroups?.forEach {}
             try self.validate(self.columnGroups, name: "columnGroups", parent: name, max: 8)
             try self.validate(self.columnGroups, name: "columnGroups", parent: name, min: 1)
             try self.columnLevelPermissionRules?.forEach {
                 try $0.validate(name: "\(name).columnLevelPermissionRules[]")
             }
-            try self.columnLevelPermissionRules?.forEach {}
             try self.validate(self.columnLevelPermissionRules, name: "columnLevelPermissionRules", parent: name, min: 1)
             try self.fieldFolders?.forEach {
                 try validate($0.key, name: "fieldFolders.key", parent: name, max: 1000)
@@ -9903,7 +9475,6 @@ extension QuickSight {
                 try validate($0.key, name: "logicalTableMap.key", parent: name, pattern: "[0-9a-zA-Z-]*")
                 try $0.value.validate(name: "\(name).logicalTableMap[\"\($0.key)\"]")
             }
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.physicalTableMap.forEach {
@@ -9913,7 +9484,6 @@ extension QuickSight {
                 try $0.value.validate(name: "\(name).physicalTableMap[\"\($0.key)\"]")
             }
             try self.rowLevelPermissionDataSet?.validate(name: "\(name).rowLevelPermissionDataSet")
-            try self.rowLevelPermissionDataSet?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9988,20 +9558,17 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
             try self.grantPermissions?.forEach {
                 try $0.validate(name: "\(name).grantPermissions[]")
             }
-            try self.grantPermissions?.forEach {}
             try self.validate(self.grantPermissions, name: "grantPermissions", parent: name, max: 64)
             try self.validate(self.grantPermissions, name: "grantPermissions", parent: name, min: 1)
             try self.revokePermissions?.forEach {
                 try $0.validate(name: "\(name).revokePermissions[]")
             }
-            try self.revokePermissions?.forEach {}
             try self.validate(self.revokePermissions, name: "revokePermissions", parent: name, max: 64)
             try self.validate(self.revokePermissions, name: "revokePermissions", parent: name, min: 1)
         }
@@ -10073,15 +9640,11 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
             try self.credentials?.validate(name: "\(name).credentials")
-            try self.credentials?.forEach {}
             try self.dataSourceParameters?.validate(name: "\(name).dataSourceParameters")
-            try self.dataSourceParameters?.forEach {}
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -10152,17 +9715,13 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.groupName.forEach {}
             try self.validate(self.groupName, name: "groupName", parent: name, min: 1)
             try self.validate(self.groupName, name: "groupName", parent: name, pattern: "[\\u0020-\\u00FF]+")
-            try self.namespace.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
@@ -10227,14 +9786,11 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.assignmentName.forEach {}
             try self.validate(self.assignmentName, name: "assignmentName", parent: name, min: 1)
             try self.validate(self.assignmentName, name: "assignmentName", parent: name, pattern: "(?=^.{2,256}$)(?!.*\\s)[0-9a-zA-Z-_.:=+@]*$")
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.namespace.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
@@ -10311,19 +9867,15 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.aliasName.forEach {}
             try self.validate(self.aliasName, name: "aliasName", parent: name, max: 2048)
             try self.validate(self.aliasName, name: "aliasName", parent: name, min: 1)
             try self.validate(self.aliasName, name: "aliasName", parent: name, pattern: "[\\w\\-]+|(\\$LATEST)|(\\$PUBLISHED)")
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.templateId.forEach {}
             try self.validate(self.templateId, name: "templateId", parent: name, max: 2048)
             try self.validate(self.templateId, name: "templateId", parent: name, min: 1)
             try self.validate(self.templateId, name: "templateId", parent: name, pattern: "[\\w\\-]+")
-            try self.templateVersionNumber.forEach {}
             try self.validate(self.templateVersionNumber, name: "templateVersionNumber", parent: name, min: 1)
         }
 
@@ -10380,21 +9932,17 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
             try self.grantPermissions?.forEach {
                 try $0.validate(name: "\(name).grantPermissions[]")
             }
-            try self.grantPermissions?.forEach {}
             try self.validate(self.grantPermissions, name: "grantPermissions", parent: name, max: 100)
             try self.revokePermissions?.forEach {
                 try $0.validate(name: "\(name).revokePermissions[]")
             }
-            try self.revokePermissions?.forEach {}
             try self.validate(self.revokePermissions, name: "revokePermissions", parent: name, max: 100)
-            try self.templateId.forEach {}
             try self.validate(self.templateId, name: "templateId", parent: name, max: 2048)
             try self.validate(self.templateId, name: "templateId", parent: name, min: 1)
             try self.validate(self.templateId, name: "templateId", parent: name, pattern: "[\\w\\-]+")
@@ -10465,20 +10013,15 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 2048)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.sourceEntity.validate(name: "\(name).sourceEntity")
-            try self.sourceEntity.forEach {}
-            try self.templateId.forEach {}
             try self.validate(self.templateId, name: "templateId", parent: name, max: 2048)
             try self.validate(self.templateId, name: "templateId", parent: name, min: 1)
             try self.validate(self.templateId, name: "templateId", parent: name, pattern: "[\\w\\-]+")
-            try self.versionDescription?.forEach {}
             try self.validate(self.versionDescription, name: "versionDescription", parent: name, max: 512)
             try self.validate(self.versionDescription, name: "versionDescription", parent: name, min: 1)
         }
@@ -10551,19 +10094,15 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.aliasName.forEach {}
             try self.validate(self.aliasName, name: "aliasName", parent: name, max: 2048)
             try self.validate(self.aliasName, name: "aliasName", parent: name, min: 1)
             try self.validate(self.aliasName, name: "aliasName", parent: name, pattern: "[\\w\\-]+|(\\$LATEST)|(\\$PUBLISHED)")
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.themeId.forEach {}
             try self.validate(self.themeId, name: "themeId", parent: name, max: 2048)
             try self.validate(self.themeId, name: "themeId", parent: name, min: 1)
             try self.validate(self.themeId, name: "themeId", parent: name, pattern: "[\\w\\-]+")
-            try self.themeVersionNumber.forEach {}
             try self.validate(self.themeVersionNumber, name: "themeVersionNumber", parent: name, min: 1)
         }
 
@@ -10620,21 +10159,17 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
             try self.grantPermissions?.forEach {
                 try $0.validate(name: "\(name).grantPermissions[]")
             }
-            try self.grantPermissions?.forEach {}
             try self.validate(self.grantPermissions, name: "grantPermissions", parent: name, max: 100)
             try self.revokePermissions?.forEach {
                 try $0.validate(name: "\(name).revokePermissions[]")
             }
-            try self.revokePermissions?.forEach {}
             try self.validate(self.revokePermissions, name: "revokePermissions", parent: name, max: 100)
-            try self.themeId.forEach {}
             try self.validate(self.themeId, name: "themeId", parent: name, max: 2048)
             try self.validate(self.themeId, name: "themeId", parent: name, min: 1)
             try self.validate(self.themeId, name: "themeId", parent: name, pattern: "[\\w\\-]+")
@@ -10708,24 +10243,18 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.baseThemeId.forEach {}
             try self.validate(self.baseThemeId, name: "baseThemeId", parent: name, max: 2048)
             try self.validate(self.baseThemeId, name: "baseThemeId", parent: name, min: 1)
             try self.validate(self.baseThemeId, name: "baseThemeId", parent: name, pattern: "[\\w\\-]+")
             try self.configuration?.validate(name: "\(name).configuration")
-            try self.configuration?.forEach {}
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 2048)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.themeId.forEach {}
             try self.validate(self.themeId, name: "themeId", parent: name, max: 2048)
             try self.validate(self.themeId, name: "themeId", parent: name, min: 1)
             try self.validate(self.themeId, name: "themeId", parent: name, pattern: "[\\w\\-]+")
-            try self.versionDescription?.forEach {}
             try self.validate(self.versionDescription, name: "versionDescription", parent: name, max: 512)
             try self.validate(self.versionDescription, name: "versionDescription", parent: name, min: 1)
         }
@@ -10808,18 +10337,14 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.awsAccountId.forEach {}
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.customPermissionsName?.forEach {}
             try self.validate(self.customPermissionsName, name: "customPermissionsName", parent: name, max: 64)
             try self.validate(self.customPermissionsName, name: "customPermissionsName", parent: name, min: 1)
             try self.validate(self.customPermissionsName, name: "customPermissionsName", parent: name, pattern: "^[a-zA-Z0-9+=,.@_-]+$")
-            try self.namespace.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
-            try self.userName.forEach {}
             try self.validate(self.userName, name: "userName", parent: name, min: 1)
             try self.validate(self.userName, name: "userName", parent: name, pattern: "[\\u0020-\\u00FF]+")
         }
@@ -10878,10 +10403,8 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
-            try self.delimiter?.forEach {}
             try self.validate(self.delimiter, name: "delimiter", parent: name, max: 1)
             try self.validate(self.delimiter, name: "delimiter", parent: name, min: 1)
-            try self.startFromRow?.forEach {}
             try self.validate(self.startFromRow, name: "startFromRow", parent: name, min: 1)
         }
 

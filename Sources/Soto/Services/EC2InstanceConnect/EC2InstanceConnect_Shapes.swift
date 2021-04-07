@@ -40,19 +40,15 @@ extension EC2InstanceConnect {
         }
 
         public func validate(name: String) throws {
-            try self.availabilityZone.forEach {}
             try self.validate(self.availabilityZone, name: "availabilityZone", parent: name, max: 32)
             try self.validate(self.availabilityZone, name: "availabilityZone", parent: name, min: 6)
             try self.validate(self.availabilityZone, name: "availabilityZone", parent: name, pattern: "^(\\w+-){2,3}\\d+\\w+$")
-            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 32)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 10)
             try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^i-[a-f0-9]+$")
-            try self.instanceOSUser.forEach {}
             try self.validate(self.instanceOSUser, name: "instanceOSUser", parent: name, max: 32)
             try self.validate(self.instanceOSUser, name: "instanceOSUser", parent: name, min: 1)
             try self.validate(self.instanceOSUser, name: "instanceOSUser", parent: name, pattern: "^[A-Za-z_][A-Za-z0-9\\@\\._-]{0,30}[A-Za-z0-9\\$_-]?$")
-            try self.sSHPublicKey.forEach {}
             try self.validate(self.sSHPublicKey, name: "sSHPublicKey", parent: name, max: 4096)
             try self.validate(self.sSHPublicKey, name: "sSHPublicKey", parent: name, min: 256)
         }
@@ -97,14 +93,11 @@ extension EC2InstanceConnect {
         }
 
         public func validate(name: String) throws {
-            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 32)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 10)
             try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^i-[a-f0-9]+$")
-            try self.serialPort?.forEach {}
             try self.validate(self.serialPort, name: "serialPort", parent: name, max: 0)
             try self.validate(self.serialPort, name: "serialPort", parent: name, min: 0)
-            try self.sSHPublicKey.forEach {}
             try self.validate(self.sSHPublicKey, name: "sSHPublicKey", parent: name, max: 4096)
             try self.validate(self.sSHPublicKey, name: "sSHPublicKey", parent: name, min: 256)
         }

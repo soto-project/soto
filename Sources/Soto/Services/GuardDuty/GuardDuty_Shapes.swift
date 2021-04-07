@@ -160,7 +160,6 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
         }
@@ -229,10 +228,8 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.accountId.forEach {}
             try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
-            try self.email.forEach {}
             try self.validate(self.email, name: "email", parent: name, max: 64)
             try self.validate(self.email, name: "email", parent: name, min: 1)
         }
@@ -318,14 +315,12 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
             try self.findingIds.forEach {
                 try validate($0, name: "findingIds[]", parent: name, max: 300)
                 try validate($0, name: "findingIds[]", parent: name, min: 1)
             }
-            try self.findingIds.forEach {}
             try self.validate(self.findingIds, name: "findingIds", parent: name, max: 50)
             try self.validate(self.findingIds, name: "findingIds", parent: name, min: 0)
         }
@@ -532,7 +527,6 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 0)
             try self.tags?.forEach {
@@ -599,19 +593,14 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 0)
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, min: 0)
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 3)
-            try self.rank?.forEach {}
             try self.validate(self.rank, name: "rank", parent: name, max: 100)
             try self.validate(self.rank, name: "rank", parent: name, min: 1)
             try self.tags?.forEach {
@@ -677,16 +666,12 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 0)
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
-            try self.location.forEach {}
             try self.validate(self.location, name: "location", parent: name, max: 300)
             try self.validate(self.location, name: "location", parent: name, min: 1)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 300)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.tags?.forEach {
@@ -739,10 +724,8 @@ extension GuardDuty {
             try self.accountDetails.forEach {
                 try $0.validate(name: "\(name).accountDetails[]")
             }
-            try self.accountDetails.forEach {}
             try self.validate(self.accountDetails, name: "accountDetails", parent: name, max: 50)
             try self.validate(self.accountDetails, name: "accountDetails", parent: name, min: 1)
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
         }
@@ -787,10 +770,8 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 0)
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
         }
@@ -831,14 +812,12 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
             try self.findingTypes?.forEach {
                 try validate($0, name: "findingTypes[]", parent: name, max: 50)
                 try validate($0, name: "findingTypes[]", parent: name, min: 1)
             }
-            try self.findingTypes?.forEach {}
             try self.validate(self.findingTypes, name: "findingTypes", parent: name, max: 50)
             try self.validate(self.findingTypes, name: "findingTypes", parent: name, min: 0)
         }
@@ -883,16 +862,12 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 0)
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
-            try self.location.forEach {}
             try self.validate(self.location, name: "location", parent: name, max: 300)
             try self.validate(self.location, name: "location", parent: name, min: 1)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 300)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.tags?.forEach {
@@ -990,7 +965,6 @@ extension GuardDuty {
                 try validate($0, name: "accountIds[]", parent: name, max: 12)
                 try validate($0, name: "accountIds[]", parent: name, min: 12)
             }
-            try self.accountIds.forEach {}
             try self.validate(self.accountIds, name: "accountIds", parent: name, max: 50)
             try self.validate(self.accountIds, name: "accountIds", parent: name, min: 1)
         }
@@ -1043,7 +1017,6 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
         }
@@ -1072,7 +1045,6 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
         }
@@ -1101,7 +1073,6 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
         }
@@ -1126,7 +1097,6 @@ extension GuardDuty {
                 try validate($0, name: "accountIds[]", parent: name, max: 12)
                 try validate($0, name: "accountIds[]", parent: name, min: 12)
             }
-            try self.accountIds.forEach {}
             try self.validate(self.accountIds, name: "accountIds", parent: name, max: 50)
             try self.validate(self.accountIds, name: "accountIds", parent: name, min: 1)
         }
@@ -1169,10 +1139,8 @@ extension GuardDuty {
                 try validate($0, name: "accountIds[]", parent: name, max: 12)
                 try validate($0, name: "accountIds[]", parent: name, min: 12)
             }
-            try self.accountIds.forEach {}
             try self.validate(self.accountIds, name: "accountIds", parent: name, max: 50)
             try self.validate(self.accountIds, name: "accountIds", parent: name, min: 1)
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
         }
@@ -1212,7 +1180,6 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
         }
@@ -1241,7 +1208,6 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
         }
@@ -1266,7 +1232,6 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
         }
@@ -1312,7 +1277,6 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
         }
@@ -1417,7 +1381,6 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
         }
@@ -1449,10 +1412,8 @@ extension GuardDuty {
                 try validate($0, name: "accountIds[]", parent: name, max: 12)
                 try validate($0, name: "accountIds[]", parent: name, min: 12)
             }
-            try self.accountIds.forEach {}
             try self.validate(self.accountIds, name: "accountIds", parent: name, max: 50)
             try self.validate(self.accountIds, name: "accountIds", parent: name, min: 1)
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
         }
@@ -1667,7 +1628,6 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
         }
@@ -1729,7 +1689,6 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
         }
@@ -1789,14 +1748,12 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
             try self.findingIds.forEach {
                 try validate($0, name: "findingIds[]", parent: name, max: 300)
                 try validate($0, name: "findingIds[]", parent: name, min: 1)
             }
-            try self.findingIds.forEach {}
             try self.validate(self.findingIds, name: "findingIds", parent: name, max: 50)
             try self.validate(self.findingIds, name: "findingIds", parent: name, min: 0)
         }
@@ -1839,10 +1796,8 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
-            try self.findingStatisticTypes.forEach {}
             try self.validate(self.findingStatisticTypes, name: "findingStatisticTypes", parent: name, max: 10)
             try self.validate(self.findingStatisticTypes, name: "findingStatisticTypes", parent: name, min: 0)
         }
@@ -1883,7 +1838,6 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
         }
@@ -1950,7 +1904,6 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
         }
@@ -1991,10 +1944,8 @@ extension GuardDuty {
                 try validate($0, name: "accountIds[]", parent: name, max: 12)
                 try validate($0, name: "accountIds[]", parent: name, min: 12)
             }
-            try self.accountIds.forEach {}
             try self.validate(self.accountIds, name: "accountIds", parent: name, max: 50)
             try self.validate(self.accountIds, name: "accountIds", parent: name, min: 1)
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
         }
@@ -2041,10 +1992,8 @@ extension GuardDuty {
                 try validate($0, name: "accountIds[]", parent: name, max: 12)
                 try validate($0, name: "accountIds[]", parent: name, min: 12)
             }
-            try self.accountIds.forEach {}
             try self.validate(self.accountIds, name: "accountIds", parent: name, max: 50)
             try self.validate(self.accountIds, name: "accountIds", parent: name, min: 1)
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
         }
@@ -2088,7 +2037,6 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
         }
@@ -2153,14 +2101,11 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.usageCriteria.validate(name: "\(name).usageCriteria")
-            try self.usageCriteria.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2318,10 +2263,8 @@ extension GuardDuty {
                 try validate($0, name: "accountIds[]", parent: name, max: 12)
                 try validate($0, name: "accountIds[]", parent: name, min: 12)
             }
-            try self.accountIds.forEach {}
             try self.validate(self.accountIds, name: "accountIds", parent: name, max: 50)
             try self.validate(self.accountIds, name: "accountIds", parent: name, min: 1)
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
         }
@@ -2363,7 +2306,6 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2409,10 +2351,8 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2462,10 +2402,8 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2516,10 +2454,8 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2561,7 +2497,6 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2611,10 +2546,8 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2656,7 +2589,6 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2702,10 +2634,8 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2743,7 +2673,6 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[A-Za-z_.-]{1,20}:guardduty:[A-Za-z0-9_/.-]{0,63}:\\d+:detector/[A-Za-z0-9_/.-]{32,264}$")
         }
 
@@ -2784,10 +2713,8 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -3444,10 +3371,8 @@ extension GuardDuty {
                 try validate($0, name: "accountIds[]", parent: name, max: 12)
                 try validate($0, name: "accountIds[]", parent: name, min: 12)
             }
-            try self.accountIds.forEach {}
             try self.validate(self.accountIds, name: "accountIds", parent: name, max: 50)
             try self.validate(self.accountIds, name: "accountIds", parent: name, min: 1)
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
         }
@@ -3490,10 +3415,8 @@ extension GuardDuty {
                 try validate($0, name: "accountIds[]", parent: name, max: 12)
                 try validate($0, name: "accountIds[]", parent: name, min: 12)
             }
-            try self.accountIds.forEach {}
             try self.validate(self.accountIds, name: "accountIds", parent: name, max: 50)
             try self.validate(self.accountIds, name: "accountIds", parent: name, min: 1)
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
         }
@@ -3549,7 +3472,6 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[A-Za-z_.-]{1,20}:guardduty:[A-Za-z0-9_/.-]{0,63}:\\d+:detector/[A-Za-z0-9_/.-]{32,264}$")
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -3618,14 +3540,12 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
             try self.findingIds.forEach {
                 try validate($0, name: "findingIds[]", parent: name, max: 300)
                 try validate($0, name: "findingIds[]", parent: name, min: 1)
             }
-            try self.findingIds.forEach {}
             try self.validate(self.findingIds, name: "findingIds", parent: name, max: 50)
             try self.validate(self.findingIds, name: "findingIds", parent: name, min: 0)
         }
@@ -3673,14 +3593,12 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[A-Za-z_.-]{1,20}:guardduty:[A-Za-z0-9_/.-]{0,63}:\\d+:detector/[A-Za-z0-9_/.-]{32,264}$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
             }
-            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
@@ -3714,7 +3632,6 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
         }
@@ -3759,13 +3676,10 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, min: 0)
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
-            try self.rank?.forEach {}
             try self.validate(self.rank, name: "rank", parent: name, max: 100)
             try self.validate(self.rank, name: "rank", parent: name, min: 1)
         }
@@ -3813,14 +3727,12 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
             try self.findingIds.forEach {
                 try validate($0, name: "findingIds[]", parent: name, max: 300)
                 try validate($0, name: "findingIds[]", parent: name, min: 1)
             }
-            try self.findingIds.forEach {}
             try self.validate(self.findingIds, name: "findingIds", parent: name, max: 50)
             try self.validate(self.findingIds, name: "findingIds", parent: name, min: 0)
         }
@@ -3862,13 +3774,10 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
-            try self.location?.forEach {}
             try self.validate(self.location, name: "location", parent: name, max: 300)
             try self.validate(self.location, name: "location", parent: name, min: 1)
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 300)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -3907,10 +3816,8 @@ extension GuardDuty {
                 try validate($0, name: "accountIds[]", parent: name, max: 12)
                 try validate($0, name: "accountIds[]", parent: name, min: 12)
             }
-            try self.accountIds.forEach {}
             try self.validate(self.accountIds, name: "accountIds", parent: name, max: 50)
             try self.validate(self.accountIds, name: "accountIds", parent: name, min: 1)
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
         }
@@ -3953,7 +3860,6 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
         }
@@ -3988,7 +3894,6 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
         }
@@ -4028,13 +3933,10 @@ extension GuardDuty {
         }
 
         public func validate(name: String) throws {
-            try self.detectorId.forEach {}
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
-            try self.location?.forEach {}
             try self.validate(self.location, name: "location", parent: name, max: 300)
             try self.validate(self.location, name: "location", parent: name, min: 1)
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 300)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -4086,7 +3988,6 @@ extension GuardDuty {
                 try validate($0, name: "accountIds[]", parent: name, max: 12)
                 try validate($0, name: "accountIds[]", parent: name, min: 12)
             }
-            try self.accountIds?.forEach {}
             try self.validate(self.accountIds, name: "accountIds", parent: name, max: 50)
             try self.validate(self.accountIds, name: "accountIds", parent: name, min: 1)
         }

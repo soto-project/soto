@@ -43,17 +43,13 @@ extension CodeStar {
         }
 
         public func validate(name: String) throws {
-            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[\\w:/-]+$")
-            try self.projectId.forEach {}
             try self.validate(self.projectId, name: "projectId", parent: name, max: 15)
             try self.validate(self.projectId, name: "projectId", parent: name, min: 2)
             try self.validate(self.projectId, name: "projectId", parent: name, pattern: "^[a-z][a-z0-9-]+$")
-            try self.projectRole.forEach {}
             try self.validate(self.projectRole, name: "projectRole", parent: name, pattern: "^(Owner|Viewer|Contributor)$")
-            try self.userArn.forEach {}
             try self.validate(self.userArn, name: "userArn", parent: name, max: 95)
             try self.validate(self.userArn, name: "userArn", parent: name, min: 32)
             try self.validate(self.userArn, name: "userArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:user(?:(\\u002F)|(\\u002F[\\u0021-\\u007E]+\\u002F))[\\w+=,.@-]+$")
@@ -94,9 +90,7 @@ extension CodeStar {
 
         public func validate(name: String) throws {
             try self.destination.validate(name: "\(name).destination")
-            try self.destination.forEach {}
             try self.source.validate(name: "\(name).source")
-            try self.source.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -114,7 +108,6 @@ extension CodeStar {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^\\S[\\w.-]*$")
@@ -138,9 +131,7 @@ extension CodeStar {
 
         public func validate(name: String) throws {
             try self.codeCommit?.validate(name: "\(name).codeCommit")
-            try self.codeCommit?.forEach {}
             try self.gitHub?.validate(name: "\(name).gitHub")
-            try self.gitHub?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -159,7 +150,6 @@ extension CodeStar {
 
         public func validate(name: String) throws {
             try self.s3.validate(name: "\(name).s3")
-            try self.s3.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -194,25 +184,20 @@ extension CodeStar {
         }
 
         public func validate(name: String) throws {
-            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[\\w:/-]+$")
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, pattern: "^$|^\\S(.*\\S)?$")
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 15)
             try self.validate(self.id, name: "id", parent: name, min: 2)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-z][a-z0-9-]+$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^\\S(.*\\S)?$")
             try self.sourceCode?.forEach {
                 try $0.validate(name: "\(name).sourceCode[]")
             }
-            try self.sourceCode?.forEach {}
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -221,7 +206,6 @@ extension CodeStar {
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
             try self.toolchain?.validate(name: "\(name).toolchain")
-            try self.toolchain?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -278,18 +262,14 @@ extension CodeStar {
         }
 
         public func validate(name: String) throws {
-            try self.displayName.forEach {}
             try self.validate(self.displayName, name: "displayName", parent: name, max: 64)
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
             try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^\\S(.*\\S)?$")
-            try self.emailAddress.forEach {}
             try self.validate(self.emailAddress, name: "emailAddress", parent: name, max: 128)
             try self.validate(self.emailAddress, name: "emailAddress", parent: name, min: 3)
             try self.validate(self.emailAddress, name: "emailAddress", parent: name, pattern: "^[\\w-.+]+@[\\w-.+]+$")
-            try self.sshPublicKey?.forEach {}
             try self.validate(self.sshPublicKey, name: "sshPublicKey", parent: name, max: 16384)
             try self.validate(self.sshPublicKey, name: "sshPublicKey", parent: name, pattern: "^[\\t\\r\\n\\u0020-\\u00FF]*$")
-            try self.userArn.forEach {}
             try self.validate(self.userArn, name: "userArn", parent: name, max: 95)
             try self.validate(self.userArn, name: "userArn", parent: name, min: 32)
             try self.validate(self.userArn, name: "userArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:user(?:(\\u002F)|(\\u002F[\\u0021-\\u007E]+\\u002F))[\\w+=,.@-]+$")
@@ -351,11 +331,9 @@ extension CodeStar {
         }
 
         public func validate(name: String) throws {
-            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[\\w:/-]+$")
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 15)
             try self.validate(self.id, name: "id", parent: name, min: 2)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-z][a-z0-9-]+$")
@@ -394,7 +372,6 @@ extension CodeStar {
         }
 
         public func validate(name: String) throws {
-            try self.userArn.forEach {}
             try self.validate(self.userArn, name: "userArn", parent: name, max: 95)
             try self.validate(self.userArn, name: "userArn", parent: name, min: 32)
             try self.validate(self.userArn, name: "userArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:user(?:(\\u002F)|(\\u002F[\\u0021-\\u007E]+\\u002F))[\\w+=,.@-]+$")
@@ -427,7 +404,6 @@ extension CodeStar {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 15)
             try self.validate(self.id, name: "id", parent: name, min: 2)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-z][a-z0-9-]+$")
@@ -492,7 +468,6 @@ extension CodeStar {
         }
 
         public func validate(name: String) throws {
-            try self.userArn.forEach {}
             try self.validate(self.userArn, name: "userArn", parent: name, max: 95)
             try self.validate(self.userArn, name: "userArn", parent: name, min: 32)
             try self.validate(self.userArn, name: "userArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:user(?:(\\u002F)|(\\u002F[\\u0021-\\u007E]+\\u002F))[\\w+=,.@-]+$")
@@ -548,11 +523,9 @@ extension CodeStar {
         }
 
         public func validate(name: String) throws {
-            try self.projectId.forEach {}
             try self.validate(self.projectId, name: "projectId", parent: name, max: 15)
             try self.validate(self.projectId, name: "projectId", parent: name, min: 2)
             try self.validate(self.projectId, name: "projectId", parent: name, pattern: "^[a-z][a-z0-9-]+$")
-            try self.userArn.forEach {}
             try self.validate(self.userArn, name: "userArn", parent: name, max: 95)
             try self.validate(self.userArn, name: "userArn", parent: name, min: 32)
             try self.validate(self.userArn, name: "userArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:user(?:(\\u002F)|(\\u002F[\\u0021-\\u007E]+\\u002F))[\\w+=,.@-]+$")
@@ -595,21 +568,16 @@ extension CodeStar {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^\\S(.*\\S)?$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^\\S[\\w.-]*$")
-            try self.owner.forEach {}
             try self.validate(self.owner, name: "owner", parent: name, max: 100)
             try self.validate(self.owner, name: "owner", parent: name, min: 1)
             try self.validate(self.owner, name: "owner", parent: name, pattern: "^\\S(.*\\S)?$")
-            try self.token.forEach {}
             try self.validate(self.token, name: "token", parent: name, min: 1)
-            try self.type.forEach {}
             try self.validate(self.type, name: "type", parent: name, pattern: "^(user|organization|User|Organization)$")
         }
 
@@ -636,10 +604,8 @@ extension CodeStar {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 512)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w/+=]+$")
@@ -683,14 +649,11 @@ extension CodeStar {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 512)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w/+=]+$")
-            try self.projectId.forEach {}
             try self.validate(self.projectId, name: "projectId", parent: name, max: 15)
             try self.validate(self.projectId, name: "projectId", parent: name, min: 2)
             try self.validate(self.projectId, name: "projectId", parent: name, pattern: "^[a-z][a-z0-9-]+$")
@@ -735,14 +698,11 @@ extension CodeStar {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 15)
             try self.validate(self.id, name: "id", parent: name, min: 2)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-z][a-z0-9-]+$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 512)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w/+=]+$")
@@ -787,14 +747,11 @@ extension CodeStar {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 512)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w/+=]+$")
-            try self.projectId.forEach {}
             try self.validate(self.projectId, name: "projectId", parent: name, max: 15)
             try self.validate(self.projectId, name: "projectId", parent: name, min: 2)
             try self.validate(self.projectId, name: "projectId", parent: name, pattern: "^[a-z][a-z0-9-]+$")
@@ -836,10 +793,8 @@ extension CodeStar {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 512)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w/+=]+$")
@@ -927,7 +882,6 @@ extension CodeStar {
         }
 
         public func validate(name: String) throws {
-            try self.bucketName?.forEach {}
             try self.validate(self.bucketName, name: "bucketName", parent: name, max: 63)
             try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
         }
@@ -950,7 +904,6 @@ extension CodeStar {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 15)
             try self.validate(self.id, name: "id", parent: name, min: 2)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-z][a-z0-9-]+$")
@@ -1018,11 +971,9 @@ extension CodeStar {
         }
 
         public func validate(name: String) throws {
-            try self.roleArn?.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1224)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
             try self.source.validate(name: "\(name).source")
-            try self.source.forEach {}
             try self.stackParameters?.forEach {
                 try validate($0.key, name: "stackParameters.key", parent: name, max: 30)
                 try validate($0.key, name: "stackParameters.key", parent: name, min: 1)
@@ -1050,7 +1001,6 @@ extension CodeStar {
 
         public func validate(name: String) throws {
             try self.s3.validate(name: "\(name).s3")
-            try self.s3.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1070,7 +1020,6 @@ extension CodeStar {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 15)
             try self.validate(self.id, name: "id", parent: name, min: 2)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-z][a-z0-9-]+$")
@@ -1079,7 +1028,6 @@ extension CodeStar {
                 try validate($0, name: "tags[]", parent: name, min: 1)
                 try validate($0, name: "tags[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
-            try self.tags.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1107,14 +1055,11 @@ extension CodeStar {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, pattern: "^$|^\\S(.*\\S)?$")
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 15)
             try self.validate(self.id, name: "id", parent: name, min: 2)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-z][a-z0-9-]+$")
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^\\S(.*\\S)?$")
@@ -1149,13 +1094,10 @@ extension CodeStar {
         }
 
         public func validate(name: String) throws {
-            try self.projectId.forEach {}
             try self.validate(self.projectId, name: "projectId", parent: name, max: 15)
             try self.validate(self.projectId, name: "projectId", parent: name, min: 2)
             try self.validate(self.projectId, name: "projectId", parent: name, pattern: "^[a-z][a-z0-9-]+$")
-            try self.projectRole?.forEach {}
             try self.validate(self.projectRole, name: "projectRole", parent: name, pattern: "^(Owner|Viewer|Contributor)$")
-            try self.userArn.forEach {}
             try self.validate(self.userArn, name: "userArn", parent: name, max: 95)
             try self.validate(self.userArn, name: "userArn", parent: name, min: 32)
             try self.validate(self.userArn, name: "userArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:user(?:(\\u002F)|(\\u002F[\\u0021-\\u007E]+\\u002F))[\\w+=,.@-]+$")
@@ -1208,18 +1150,14 @@ extension CodeStar {
         }
 
         public func validate(name: String) throws {
-            try self.displayName?.forEach {}
             try self.validate(self.displayName, name: "displayName", parent: name, max: 64)
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
             try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^\\S(.*\\S)?$")
-            try self.emailAddress?.forEach {}
             try self.validate(self.emailAddress, name: "emailAddress", parent: name, max: 128)
             try self.validate(self.emailAddress, name: "emailAddress", parent: name, min: 3)
             try self.validate(self.emailAddress, name: "emailAddress", parent: name, pattern: "^[\\w-.+]+@[\\w-.+]+$")
-            try self.sshPublicKey?.forEach {}
             try self.validate(self.sshPublicKey, name: "sshPublicKey", parent: name, max: 16384)
             try self.validate(self.sshPublicKey, name: "sshPublicKey", parent: name, pattern: "^[\\t\\r\\n\\u0020-\\u00FF]*$")
-            try self.userArn.forEach {}
             try self.validate(self.userArn, name: "userArn", parent: name, max: 95)
             try self.validate(self.userArn, name: "userArn", parent: name, min: 32)
             try self.validate(self.userArn, name: "userArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:user(?:(\\u002F)|(\\u002F[\\u0021-\\u007E]+\\u002F))[\\w+=,.@-]+$")

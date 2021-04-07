@@ -243,7 +243,6 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.vpceId?.forEach {}
             try self.validate(self.vpceId, name: "vpceId", parent: name, min: 1)
         }
 
@@ -302,7 +301,6 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.settingsGroup?.forEach {}
             try self.validate(self.settingsGroup, name: "settingsGroup", parent: name, max: 100)
         }
 
@@ -345,9 +343,7 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.fleetName.forEach {}
             try self.validate(self.fleetName, name: "fleetName", parent: name, min: 1)
-            try self.stackName.forEach {}
             try self.validate(self.stackName, name: "stackName", parent: name, min: 1)
         }
 
@@ -373,7 +369,6 @@ extension AppStream {
             try self.userStackAssociations.forEach {
                 try $0.validate(name: "\(name).userStackAssociations[]")
             }
-            try self.userStackAssociations.forEach {}
             try self.validate(self.userStackAssociations, name: "userStackAssociations", parent: name, max: 25)
             try self.validate(self.userStackAssociations, name: "userStackAssociations", parent: name, min: 1)
         }
@@ -408,7 +403,6 @@ extension AppStream {
             try self.userStackAssociations.forEach {
                 try $0.validate(name: "\(name).userStackAssociations[]")
             }
-            try self.userStackAssociations.forEach {}
             try self.validate(self.userStackAssociations, name: "userStackAssociations", parent: name, max: 25)
             try self.validate(self.userStackAssociations, name: "userStackAssociations", parent: name, min: 1)
         }
@@ -487,14 +481,10 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.destinationImageDescription?.forEach {}
             try self.validate(self.destinationImageDescription, name: "destinationImageDescription", parent: name, max: 256)
-            try self.destinationImageName.forEach {}
             try self.validate(self.destinationImageName, name: "destinationImageName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
-            try self.destinationRegion.forEach {}
             try self.validate(self.destinationRegion, name: "destinationRegion", parent: name, max: 32)
             try self.validate(self.destinationRegion, name: "destinationRegion", parent: name, min: 1)
-            try self.sourceImageName.forEach {}
             try self.validate(self.sourceImageName, name: "sourceImageName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
         }
 
@@ -537,9 +527,7 @@ extension AppStream {
             try self.organizationalUnitDistinguishedNames.forEach {
                 try validate($0, name: "organizationalUnitDistinguishedNames[]", parent: name, max: 2000)
             }
-            try self.organizationalUnitDistinguishedNames.forEach {}
             try self.serviceAccountCredentials?.validate(name: "\(name).serviceAccountCredentials")
-            try self.serviceAccountCredentials?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -619,21 +607,13 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
-            try self.displayName?.forEach {}
             try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
             try self.domainJoinInfo?.validate(name: "\(name).domainJoinInfo")
-            try self.domainJoinInfo?.forEach {}
-            try self.iamRoleArn?.forEach {}
             try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
-            try self.imageArn?.forEach {}
             try self.validate(self.imageArn, name: "imageArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
-            try self.imageName?.forEach {}
             try self.validate(self.imageName, name: "imageName", parent: name, min: 1)
-            try self.instanceType.forEach {}
             try self.validate(self.instanceType, name: "instanceType", parent: name, min: 1)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -644,7 +624,6 @@ extension AppStream {
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
-            try self.vpcConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -729,27 +708,17 @@ extension AppStream {
             try self.accessEndpoints?.forEach {
                 try $0.validate(name: "\(name).accessEndpoints[]")
             }
-            try self.accessEndpoints?.forEach {}
             try self.validate(self.accessEndpoints, name: "accessEndpoints", parent: name, max: 4)
             try self.validate(self.accessEndpoints, name: "accessEndpoints", parent: name, min: 1)
-            try self.appstreamAgentVersion?.forEach {}
             try self.validate(self.appstreamAgentVersion, name: "appstreamAgentVersion", parent: name, max: 100)
             try self.validate(self.appstreamAgentVersion, name: "appstreamAgentVersion", parent: name, min: 1)
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
-            try self.displayName?.forEach {}
             try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
             try self.domainJoinInfo?.validate(name: "\(name).domainJoinInfo")
-            try self.domainJoinInfo?.forEach {}
-            try self.iamRoleArn?.forEach {}
             try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
-            try self.imageArn?.forEach {}
             try self.validate(self.imageArn, name: "imageArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
-            try self.imageName?.forEach {}
             try self.validate(self.imageName, name: "imageName", parent: name, min: 1)
-            try self.instanceType.forEach {}
             try self.validate(self.instanceType, name: "instanceType", parent: name, min: 1)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -760,7 +729,6 @@ extension AppStream {
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
-            try self.vpcConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -805,7 +773,6 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
 
@@ -874,32 +841,23 @@ extension AppStream {
             try self.accessEndpoints?.forEach {
                 try $0.validate(name: "\(name).accessEndpoints[]")
             }
-            try self.accessEndpoints?.forEach {}
             try self.validate(self.accessEndpoints, name: "accessEndpoints", parent: name, max: 4)
             try self.validate(self.accessEndpoints, name: "accessEndpoints", parent: name, min: 1)
             try self.applicationSettings?.validate(name: "\(name).applicationSettings")
-            try self.applicationSettings?.forEach {}
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
-            try self.displayName?.forEach {}
             try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
             try self.embedHostDomains?.forEach {
                 try validate($0, name: "embedHostDomains[]", parent: name, max: 128)
                 try validate($0, name: "embedHostDomains[]", parent: name, pattern: "(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]")
             }
-            try self.embedHostDomains?.forEach {}
             try self.validate(self.embedHostDomains, name: "embedHostDomains", parent: name, max: 20)
             try self.validate(self.embedHostDomains, name: "embedHostDomains", parent: name, min: 1)
-            try self.feedbackURL?.forEach {}
             try self.validate(self.feedbackURL, name: "feedbackURL", parent: name, max: 1000)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
-            try self.redirectURL?.forEach {}
             try self.validate(self.redirectURL, name: "redirectURL", parent: name, max: 1000)
             try self.storageConnectors?.forEach {
                 try $0.validate(name: "\(name).storageConnectors[]")
             }
-            try self.storageConnectors?.forEach {}
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -908,7 +866,6 @@ extension AppStream {
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
-            try self.userSettings?.forEach {}
             try self.validate(self.userSettings, name: "userSettings", parent: name, min: 1)
         }
 
@@ -964,15 +921,10 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.applicationId?.forEach {}
             try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
-            try self.fleetName.forEach {}
             try self.validate(self.fleetName, name: "fleetName", parent: name, min: 1)
-            try self.sessionContext?.forEach {}
             try self.validate(self.sessionContext, name: "sessionContext", parent: name, min: 1)
-            try self.stackName.forEach {}
             try self.validate(self.stackName, name: "stackName", parent: name, min: 1)
-            try self.userId.forEach {}
             try self.validate(self.userId, name: "userId", parent: name, max: 32)
             try self.validate(self.userId, name: "userId", parent: name, min: 2)
             try self.validate(self.userId, name: "userId", parent: name, pattern: "[\\w+=,.@-]*")
@@ -1047,13 +999,10 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.firstName?.forEach {}
             try self.validate(self.firstName, name: "firstName", parent: name, max: 2048)
             try self.validate(self.firstName, name: "firstName", parent: name, pattern: "^[A-Za-z0-9_\\-\\s]+$")
-            try self.lastName?.forEach {}
             try self.validate(self.lastName, name: "lastName", parent: name, max: 2048)
             try self.validate(self.lastName, name: "lastName", parent: name, pattern: "^[A-Za-z0-9_\\-\\s]+$")
-            try self.userName.forEach {}
             try self.validate(self.userName, name: "userName", parent: name, max: 128)
             try self.validate(self.userName, name: "userName", parent: name, min: 1)
             try self.validate(self.userName, name: "userName", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
@@ -1098,7 +1047,6 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
 
@@ -1120,7 +1068,6 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
         }
 
@@ -1154,9 +1101,7 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
-            try self.sharedAccountId.forEach {}
             try self.validate(self.sharedAccountId, name: "sharedAccountId", parent: name, pattern: "^\\d+$")
         }
 
@@ -1179,7 +1124,6 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
         }
 
@@ -1210,7 +1154,6 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
 
@@ -1243,7 +1186,6 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.userName.forEach {}
             try self.validate(self.userName, name: "userName", parent: name, max: 128)
             try self.validate(self.userName, name: "userName", parent: name, min: 1)
             try self.validate(self.userName, name: "userName", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
@@ -1274,7 +1216,6 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -1317,8 +1258,6 @@ extension AppStream {
             try self.names?.forEach {
                 try validate($0, name: "names[]", parent: name, min: 1)
             }
-            try self.names?.forEach {}
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -1363,8 +1302,6 @@ extension AppStream {
             try self.names?.forEach {
                 try validate($0, name: "names[]", parent: name, min: 1)
             }
-            try self.names?.forEach {}
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -1410,17 +1347,13 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.sharedAwsAccountIds?.forEach {
                 try validate($0, name: "sharedAwsAccountIds[]", parent: name, pattern: "^\\d+$")
             }
-            try self.sharedAwsAccountIds?.forEach {}
             try self.validate(self.sharedAwsAccountIds, name: "sharedAwsAccountIds", parent: name, max: 5)
             try self.validate(self.sharedAwsAccountIds, name: "sharedAwsAccountIds", parent: name, min: 1)
         }
@@ -1478,15 +1411,11 @@ extension AppStream {
             try self.arns?.forEach {
                 try validate($0, name: "arns[]", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
             }
-            try self.arns?.forEach {}
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.names?.forEach {
                 try validate($0, name: "names[]", parent: name, min: 1)
             }
-            try self.names?.forEach {}
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -1540,13 +1469,9 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.fleetName.forEach {}
             try self.validate(self.fleetName, name: "fleetName", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.stackName.forEach {}
             try self.validate(self.stackName, name: "stackName", parent: name, min: 1)
-            try self.userId?.forEach {}
             try self.validate(self.userId, name: "userId", parent: name, max: 128)
             try self.validate(self.userId, name: "userId", parent: name, min: 2)
         }
@@ -1593,8 +1518,6 @@ extension AppStream {
             try self.names?.forEach {
                 try validate($0, name: "names[]", parent: name, min: 1)
             }
-            try self.names?.forEach {}
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -1633,7 +1556,6 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -1681,14 +1603,10 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.stackName?.forEach {}
             try self.validate(self.stackName, name: "stackName", parent: name, min: 1)
-            try self.userName?.forEach {}
             try self.validate(self.userName, name: "userName", parent: name, max: 128)
             try self.validate(self.userName, name: "userName", parent: name, min: 1)
             try self.validate(self.userName, name: "userName", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
@@ -1735,7 +1653,6 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -1800,7 +1717,6 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.userName.forEach {}
             try self.validate(self.userName, name: "userName", parent: name, max: 128)
             try self.validate(self.userName, name: "userName", parent: name, min: 1)
             try self.validate(self.userName, name: "userName", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
@@ -1828,9 +1744,7 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.fleetName.forEach {}
             try self.validate(self.fleetName, name: "fleetName", parent: name, min: 1)
-            try self.stackName.forEach {}
             try self.validate(self.stackName, name: "stackName", parent: name, min: 1)
         }
 
@@ -1856,7 +1770,6 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.organizationalUnitDistinguishedName?.forEach {}
             try self.validate(self.organizationalUnitDistinguishedName, name: "organizationalUnitDistinguishedName", parent: name, max: 2000)
         }
 
@@ -1878,7 +1791,6 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.userName.forEach {}
             try self.validate(self.userName, name: "userName", parent: name, max: 128)
             try self.validate(self.userName, name: "userName", parent: name, min: 1)
             try self.validate(self.userName, name: "userName", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
@@ -1903,7 +1815,6 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.sessionId.forEach {}
             try self.validate(self.sessionId, name: "sessionId", parent: name, min: 1)
         }
 
@@ -2255,9 +2166,7 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.stackName.forEach {}
             try self.validate(self.stackName, name: "stackName", parent: name, min: 1)
         }
 
@@ -2296,9 +2205,7 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.fleetName.forEach {}
             try self.validate(self.fleetName, name: "fleetName", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -2334,7 +2241,6 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
         }
 
@@ -2406,9 +2312,7 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.accountName.forEach {}
             try self.validate(self.accountName, name: "accountName", parent: name, min: 1)
-            try self.accountPassword.forEach {}
             try self.validate(self.accountPassword, name: "accountPassword", parent: name, max: 127)
             try self.validate(self.accountPassword, name: "accountPassword", parent: name, min: 1)
         }
@@ -2572,7 +2476,6 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
 
@@ -2597,10 +2500,8 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.appstreamAgentVersion?.forEach {}
             try self.validate(self.appstreamAgentVersion, name: "appstreamAgentVersion", parent: name, max: 100)
             try self.validate(self.appstreamAgentVersion, name: "appstreamAgentVersion", parent: name, min: 1)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
 
@@ -2632,7 +2533,6 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
 
@@ -2654,7 +2554,6 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
 
@@ -2695,9 +2594,7 @@ extension AppStream {
                 try validate($0, name: "domains[]", parent: name, max: 64)
                 try validate($0, name: "domains[]", parent: name, min: 1)
             }
-            try self.domains?.forEach {}
             try self.validate(self.domains, name: "domains", parent: name, max: 50)
-            try self.resourceIdentifier?.forEach {}
             try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, max: 2048)
             try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, min: 1)
         }
@@ -2721,7 +2618,6 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -2755,14 +2651,12 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^(^(?!aws:).[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
-            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
@@ -2795,9 +2689,7 @@ extension AppStream {
             try self.organizationalUnitDistinguishedNames?.forEach {
                 try validate($0, name: "organizationalUnitDistinguishedNames[]", parent: name, max: 2000)
             }
-            try self.organizationalUnitDistinguishedNames?.forEach {}
             try self.serviceAccountCredentials?.validate(name: "\(name).serviceAccountCredentials")
-            try self.serviceAccountCredentials?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2874,24 +2766,15 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
-            try self.displayName?.forEach {}
             try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
             try self.domainJoinInfo?.validate(name: "\(name).domainJoinInfo")
-            try self.domainJoinInfo?.forEach {}
-            try self.iamRoleArn?.forEach {}
             try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
-            try self.imageArn?.forEach {}
             try self.validate(self.imageArn, name: "imageArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
-            try self.imageName?.forEach {}
             try self.validate(self.imageName, name: "imageName", parent: name, min: 1)
-            try self.instanceType?.forEach {}
             try self.validate(self.instanceType, name: "instanceType", parent: name, min: 1)
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
-            try self.vpcConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2942,9 +2825,7 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
-            try self.sharedAccountId.forEach {}
             try self.validate(self.sharedAccountId, name: "sharedAccountId", parent: name, pattern: "^\\d+$")
         }
 
@@ -3001,33 +2882,23 @@ extension AppStream {
             try self.accessEndpoints?.forEach {
                 try $0.validate(name: "\(name).accessEndpoints[]")
             }
-            try self.accessEndpoints?.forEach {}
             try self.validate(self.accessEndpoints, name: "accessEndpoints", parent: name, max: 4)
             try self.validate(self.accessEndpoints, name: "accessEndpoints", parent: name, min: 1)
             try self.applicationSettings?.validate(name: "\(name).applicationSettings")
-            try self.applicationSettings?.forEach {}
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
-            try self.displayName?.forEach {}
             try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
             try self.embedHostDomains?.forEach {
                 try validate($0, name: "embedHostDomains[]", parent: name, max: 128)
                 try validate($0, name: "embedHostDomains[]", parent: name, pattern: "(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]")
             }
-            try self.embedHostDomains?.forEach {}
             try self.validate(self.embedHostDomains, name: "embedHostDomains", parent: name, max: 20)
             try self.validate(self.embedHostDomains, name: "embedHostDomains", parent: name, min: 1)
-            try self.feedbackURL?.forEach {}
             try self.validate(self.feedbackURL, name: "feedbackURL", parent: name, max: 1000)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.redirectURL?.forEach {}
             try self.validate(self.redirectURL, name: "redirectURL", parent: name, max: 1000)
             try self.storageConnectors?.forEach {
                 try $0.validate(name: "\(name).storageConnectors[]")
             }
-            try self.storageConnectors?.forEach {}
-            try self.userSettings?.forEach {}
             try self.validate(self.userSettings, name: "userSettings", parent: name, min: 1)
         }
 
@@ -3160,9 +3031,7 @@ extension AppStream {
         }
 
         public func validate(name: String) throws {
-            try self.stackName.forEach {}
             try self.validate(self.stackName, name: "stackName", parent: name, min: 1)
-            try self.userName.forEach {}
             try self.validate(self.userName, name: "userName", parent: name, max: 128)
             try self.validate(self.userName, name: "userName", parent: name, min: 1)
             try self.validate(self.userName, name: "userName", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
@@ -3212,12 +3081,10 @@ extension AppStream {
             try self.securityGroupIds?.forEach {
                 try validate($0, name: "securityGroupIds[]", parent: name, min: 1)
             }
-            try self.securityGroupIds?.forEach {}
             try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 5)
             try self.subnetIds?.forEach {
                 try validate($0, name: "subnetIds[]", parent: name, min: 1)
             }
-            try self.subnetIds?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {

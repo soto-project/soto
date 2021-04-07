@@ -155,7 +155,6 @@ extension GreengrassV2 {
         }
 
         public func validate(name: String) throws {
-            try self.deploymentId.forEach {}
             try self.validate(self.deploymentId, name: "deploymentId", parent: name, min: 1)
         }
 
@@ -232,11 +231,9 @@ extension GreengrassV2 {
         }
 
         public func validate(name: String) throws {
-            try self.componentName?.forEach {}
             try self.validate(self.componentName, name: "componentName", parent: name, max: 128)
             try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
             try self.validate(self.componentName, name: "componentName", parent: name, pattern: "[a-zA-Z0-9-_.]+")
-            try self.componentVersion?.forEach {}
             try self.validate(self.componentVersion, name: "componentVersion", parent: name, max: 64)
             try self.validate(self.componentVersion, name: "componentVersion", parent: name, min: 1)
             try self.validate(self.componentVersion, name: "componentVersion", parent: name, pattern: "[0-9a-zA-Z-.+]+")
@@ -265,14 +262,12 @@ extension GreengrassV2 {
         }
 
         public func validate(name: String) throws {
-            try self.merge?.forEach {}
             try self.validate(self.merge, name: "merge", parent: name, max: 65536)
             try self.validate(self.merge, name: "merge", parent: name, min: 1)
             try self.reset?.forEach {
                 try validate($0, name: "reset[]", parent: name, max: 256)
                 try validate($0, name: "reset[]", parent: name, min: 0)
             }
-            try self.reset?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -293,7 +288,6 @@ extension GreengrassV2 {
         }
 
         public func validate(name: String) throws {
-            try self.versionRequirement?.forEach {}
             try self.validate(self.versionRequirement, name: "versionRequirement", parent: name, min: 1)
         }
 
@@ -318,14 +312,11 @@ extension GreengrassV2 {
         }
 
         public func validate(name: String) throws {
-            try self.componentVersion?.forEach {}
             try self.validate(self.componentVersion, name: "componentVersion", parent: name, max: 64)
             try self.validate(self.componentVersion, name: "componentVersion", parent: name, min: 1)
             try self.validate(self.componentVersion, name: "componentVersion", parent: name, pattern: "[0-9a-zA-Z-.+]+")
             try self.configurationUpdate?.validate(name: "\(name).configurationUpdate")
-            try self.configurationUpdate?.forEach {}
             try self.runWith?.validate(name: "\(name).runWith")
-            try self.runWith?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -384,7 +375,6 @@ extension GreengrassV2 {
                 try validate($0.key, name: "attributes.key", parent: name, min: 1)
                 try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, min: 1)
             }
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
 
@@ -403,7 +393,6 @@ extension GreengrassV2 {
         }
 
         public func validate(name: String) throws {
-            try self.posixUser?.forEach {}
             try self.validate(self.posixUser, name: "posixUser", parent: name, min: 1)
         }
 
@@ -470,7 +459,6 @@ extension GreengrassV2 {
 
         public func validate(name: String) throws {
             try self.lambdaFunction?.validate(name: "\(name).lambdaFunction")
-            try self.lambdaFunction?.forEach {}
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -543,17 +531,14 @@ extension GreengrassV2 {
                 try validate($0.key, name: "components.key", parent: name, min: 1)
                 try $0.value.validate(name: "\(name).components[\"\($0.key)\"]")
             }
-            try self.deploymentName?.forEach {}
             try self.validate(self.deploymentName, name: "deploymentName", parent: name, min: 1)
             try self.iotJobConfiguration?.validate(name: "\(name).iotJobConfiguration")
-            try self.iotJobConfiguration?.forEach {}
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
                 try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
-            try self.targetArn.forEach {}
             try self.validate(self.targetArn, name: "targetArn", parent: name, pattern: "arn:aws(-cn|-us-gov)?:iot:[^:]+:[0-9]+:(thing|thinggroup)/.+")
         }
 
@@ -601,7 +586,6 @@ extension GreengrassV2 {
         }
 
         public func validate(name: String) throws {
-            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, pattern: "arn:aws(-cn|-us-gov)?:greengrass:[^:]+:(aws|[0-9]+):components:[^:]+:versions:[^:]+")
         }
 
@@ -621,7 +605,6 @@ extension GreengrassV2 {
         }
 
         public func validate(name: String) throws {
-            try self.coreDeviceThingName.forEach {}
             try self.validate(self.coreDeviceThingName, name: "coreDeviceThingName", parent: name, max: 128)
             try self.validate(self.coreDeviceThingName, name: "coreDeviceThingName", parent: name, min: 1)
         }
@@ -712,9 +695,7 @@ extension GreengrassV2 {
 
         public func validate(name: String) throws {
             try self.abortConfig?.validate(name: "\(name).abortConfig")
-            try self.abortConfig?.forEach {}
             try self.jobExecutionsRolloutConfig?.validate(name: "\(name).jobExecutionsRolloutConfig")
-            try self.jobExecutionsRolloutConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -758,7 +739,6 @@ extension GreengrassV2 {
         }
 
         public func validate(name: String) throws {
-            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, pattern: "arn:aws(-cn|-us-gov)?:greengrass:[^:]+:(aws|[0-9]+):components:[^:]+:versions:[^:]+")
         }
 
@@ -876,7 +856,6 @@ extension GreengrassV2 {
         }
 
         public func validate(name: String) throws {
-            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, pattern: "arn:aws(-cn|-us-gov)?:greengrass:[^:]+:(aws|[0-9]+):components:[^:]+:versions:[^:]+")
         }
 
@@ -921,9 +900,7 @@ extension GreengrassV2 {
         }
 
         public func validate(name: String) throws {
-            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, pattern: "arn:aws(-cn|-us-gov)?:greengrass:[^:]+:(aws|[0-9]+):components:[^:]+:versions:[^:]+")
-            try self.artifactName.forEach {}
             try self.validate(self.artifactName, name: "artifactName", parent: name, min: 1)
         }
 
@@ -956,7 +933,6 @@ extension GreengrassV2 {
         }
 
         public func validate(name: String) throws {
-            try self.coreDeviceThingName.forEach {}
             try self.validate(self.coreDeviceThingName, name: "coreDeviceThingName", parent: name, max: 128)
             try self.validate(self.coreDeviceThingName, name: "coreDeviceThingName", parent: name, min: 1)
         }
@@ -1014,7 +990,6 @@ extension GreengrassV2 {
         }
 
         public func validate(name: String) throws {
-            try self.deploymentId.forEach {}
             try self.validate(self.deploymentId, name: "deploymentId", parent: name, min: 1)
         }
 
@@ -1123,7 +1098,6 @@ extension GreengrassV2 {
             try self.criteriaList.forEach {
                 try $0.validate(name: "\(name).criteriaList[]")
             }
-            try self.criteriaList.forEach {}
             try self.validate(self.criteriaList, name: "criteriaList", parent: name, min: 1)
         }
 
@@ -1150,9 +1124,7 @@ extension GreengrassV2 {
         }
 
         public func validate(name: String) throws {
-            try self.minNumberOfExecutedThings.forEach {}
             try self.validate(self.minNumberOfExecutedThings, name: "minNumberOfExecutedThings", parent: name, min: 1)
-            try self.thresholdPercentage.forEach {}
             try self.validate(self.thresholdPercentage, name: "thresholdPercentage", parent: name, max: 100)
         }
 
@@ -1177,8 +1149,6 @@ extension GreengrassV2 {
 
         public func validate(name: String) throws {
             try self.exponentialRate?.validate(name: "\(name).exponentialRate")
-            try self.exponentialRate?.forEach {}
-            try self.maximumPerMinute?.forEach {}
             try self.validate(self.maximumPerMinute, name: "maximumPerMinute", parent: name, max: 1000)
             try self.validate(self.maximumPerMinute, name: "maximumPerMinute", parent: name, min: 1)
         }
@@ -1204,14 +1174,11 @@ extension GreengrassV2 {
         }
 
         public func validate(name: String) throws {
-            try self.baseRatePerMinute.forEach {}
             try self.validate(self.baseRatePerMinute, name: "baseRatePerMinute", parent: name, max: 1000)
             try self.validate(self.baseRatePerMinute, name: "baseRatePerMinute", parent: name, min: 1)
-            try self.incrementFactor.forEach {}
             try self.validate(self.incrementFactor, name: "incrementFactor", parent: name, max: 5)
             try self.validate(self.incrementFactor, name: "incrementFactor", parent: name, min: 1)
             try self.rateIncreaseCriteria.validate(name: "\(name).rateIncreaseCriteria")
-            try self.rateIncreaseCriteria.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1233,9 +1200,7 @@ extension GreengrassV2 {
         }
 
         public func validate(name: String) throws {
-            try self.numberOfNotifiedThings?.forEach {}
             try self.validate(self.numberOfNotifiedThings, name: "numberOfNotifiedThings", parent: name, min: 1)
-            try self.numberOfSucceededThings?.forEach {}
             try self.validate(self.numberOfSucceededThings, name: "numberOfSucceededThings", parent: name, min: 1)
         }
 
@@ -1409,20 +1374,15 @@ extension GreengrassV2 {
                 try $0.value.validate(name: "\(name).componentDependencies[\"\($0.key)\"]")
             }
             try self.componentLambdaParameters?.validate(name: "\(name).componentLambdaParameters")
-            try self.componentLambdaParameters?.forEach {}
-            try self.componentName?.forEach {}
             try self.validate(self.componentName, name: "componentName", parent: name, max: 128)
             try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
             try self.validate(self.componentName, name: "componentName", parent: name, pattern: "[a-zA-Z0-9-_.]+")
             try self.componentPlatforms?.forEach {
                 try $0.validate(name: "\(name).componentPlatforms[]")
             }
-            try self.componentPlatforms?.forEach {}
-            try self.componentVersion?.forEach {}
             try self.validate(self.componentVersion, name: "componentVersion", parent: name, max: 64)
             try self.validate(self.componentVersion, name: "componentVersion", parent: name, min: 1)
             try self.validate(self.componentVersion, name: "componentVersion", parent: name, pattern: "[0-9a-zA-Z-.+]+")
-            try self.lambdaArn.forEach {}
             try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, pattern: "arn:aws(-cn|-us-gov)?:lambda:[^:]+:[0-9]+:function:[a-zA-Z0-9-_]+:[0-9]+")
         }
 
@@ -1499,9 +1459,7 @@ extension GreengrassV2 {
         }
 
         public func validate(name: String) throws {
-            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, pattern: "arn:aws(-cn|-us-gov)?:greengrass:[^:]+:(aws|[0-9]+):components:[^:]+")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1547,7 +1505,6 @@ extension GreengrassV2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1597,10 +1554,8 @@ extension GreengrassV2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.thingGroupArn?.forEach {}
             try self.validate(self.thingGroupArn, name: "thingGroupArn", parent: name, pattern: "arn:aws(-cn|-us-gov)?:iot:[^:]+:[0-9]+:thinggroup/.+")
         }
 
@@ -1649,10 +1604,8 @@ extension GreengrassV2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.targetArn?.forEach {}
             try self.validate(self.targetArn, name: "targetArn", parent: name, pattern: "arn:aws(-cn|-us-gov)?:iot:[^:]+:[0-9]+:(thing|thinggroup)/.+")
         }
 
@@ -1697,10 +1650,8 @@ extension GreengrassV2 {
         }
 
         public func validate(name: String) throws {
-            try self.coreDeviceThingName.forEach {}
             try self.validate(self.coreDeviceThingName, name: "coreDeviceThingName", parent: name, max: 128)
             try self.validate(self.coreDeviceThingName, name: "coreDeviceThingName", parent: name, min: 1)
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1746,10 +1697,8 @@ extension GreengrassV2 {
         }
 
         public func validate(name: String) throws {
-            try self.coreDeviceThingName.forEach {}
             try self.validate(self.coreDeviceThingName, name: "coreDeviceThingName", parent: name, max: 128)
             try self.validate(self.coreDeviceThingName, name: "coreDeviceThingName", parent: name, min: 1)
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1787,7 +1736,6 @@ extension GreengrassV2 {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws(-cn|-us-gov)?:greengrass:[^:]+:(aws|[0-9]+):(components|deployments|coreDevices):.+")
         }
 
@@ -1822,9 +1770,7 @@ extension GreengrassV2 {
             try self.componentCandidates.forEach {
                 try $0.validate(name: "\(name).componentCandidates[]")
             }
-            try self.componentCandidates.forEach {}
             try self.platform.validate(name: "\(name).platform")
-            try self.platform.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1887,7 +1833,6 @@ extension GreengrassV2 {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws(-cn|-us-gov)?:greengrass:[^:]+:(aws|[0-9]+):(components|deployments|coreDevices):.+")
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -1923,14 +1868,12 @@ extension GreengrassV2 {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:aws(-cn|-us-gov)?:greengrass:[^:]+:(aws|[0-9]+):(components|deployments|coreDevices):.+")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
             }
-            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }

@@ -122,10 +122,8 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.devAddr?.forEach {}
             try self.validate(self.devAddr, name: "devAddr", parent: name, pattern: "[a-fA-F0-9]{8}")
             try self.sessionKeys?.validate(name: "\(name).sessionKeys")
-            try self.sessionKeys?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -146,10 +144,8 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.devAddr?.forEach {}
             try self.validate(self.devAddr, name: "devAddr", parent: name, pattern: "[a-fA-F0-9]{8}")
             try self.sessionKeys?.validate(name: "\(name).sessionKeys")
-            try self.sessionKeys?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -173,16 +169,13 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
             try self.sidewalk.validate(name: "\(name).sidewalk")
-            try self.sidewalk.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -227,7 +220,6 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 256)
         }
 
@@ -256,9 +248,7 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 256)
-            try self.iotCertificateId.forEach {}
             try self.validate(self.iotCertificateId, name: "iotCertificateId", parent: name, max: 4096)
             try self.validate(self.iotCertificateId, name: "iotCertificateId", parent: name, min: 1)
         }
@@ -297,7 +287,6 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 256)
         }
 
@@ -354,24 +343,18 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2048)
-            try self.expression.forEach {}
             try self.validate(self.expression, name: "expression", parent: name, max: 2048)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9-_]+")
-            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -422,18 +405,14 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
             try self.loRaWAN?.validate(name: "\(name).loRaWAN")
-            try self.loRaWAN?.forEach {}
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -481,16 +460,13 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -547,23 +523,17 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2048)
-            try self.destinationName.forEach {}
             try self.validate(self.destinationName, name: "destinationName", parent: name, max: 128)
             try self.validate(self.destinationName, name: "destinationName", parent: name, pattern: "[a-zA-Z0-9-_]+")
             try self.loRaWAN?.validate(name: "\(name).loRaWAN")
-            try self.loRaWAN?.forEach {}
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -617,20 +587,15 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.loRaWAN.validate(name: "\(name).loRaWAN")
-            try self.loRaWAN.forEach {}
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -682,21 +647,17 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 2048)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
             try self.update?.validate(name: "\(name).update")
-            try self.update?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -741,9 +702,7 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 256)
-            try self.wirelessGatewayTaskDefinitionId.forEach {}
             try self.validate(self.wirelessGatewayTaskDefinitionId, name: "wirelessGatewayTaskDefinitionId", parent: name, max: 36)
             try self.validate(self.wirelessGatewayTaskDefinitionId, name: "wirelessGatewayTaskDefinitionId", parent: name, pattern: "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}")
         }
@@ -783,7 +742,6 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9-_]+")
         }
@@ -808,7 +766,6 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 256)
         }
 
@@ -832,7 +789,6 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 256)
         }
 
@@ -856,7 +812,6 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 256)
         }
 
@@ -880,7 +835,6 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 256)
         }
 
@@ -904,7 +858,6 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, pattern: "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}")
         }
@@ -929,7 +882,6 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 256)
         }
 
@@ -1011,7 +963,6 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.partnerAccountId.forEach {}
             try self.validate(self.partnerAccountId, name: "partnerAccountId", parent: name, max: 256)
         }
 
@@ -1035,7 +986,6 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 256)
         }
 
@@ -1059,7 +1009,6 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 256)
         }
 
@@ -1083,7 +1032,6 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 256)
         }
 
@@ -1107,7 +1055,6 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9-_]+")
         }
@@ -1161,7 +1108,6 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 256)
         }
 
@@ -1210,7 +1156,6 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.partnerAccountId.forEach {}
             try self.validate(self.partnerAccountId, name: "partnerAccountId", parent: name, max: 256)
         }
 
@@ -1283,7 +1228,6 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 256)
         }
 
@@ -1332,7 +1276,6 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.identifier.forEach {}
             try self.validate(self.identifier, name: "identifier", parent: name, max: 256)
         }
 
@@ -1401,7 +1344,6 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.wirelessDeviceId.forEach {}
             try self.validate(self.wirelessDeviceId, name: "wirelessDeviceId", parent: name, max: 256)
         }
 
@@ -1446,7 +1388,6 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 256)
         }
 
@@ -1483,7 +1424,6 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 256)
         }
 
@@ -1520,7 +1460,6 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.identifier.forEach {}
             try self.validate(self.identifier, name: "identifier", parent: name, max: 256)
         }
 
@@ -1577,7 +1516,6 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.wirelessGatewayId.forEach {}
             try self.validate(self.wirelessGatewayId, name: "wirelessGatewayId", parent: name, max: 256)
         }
 
@@ -1618,7 +1556,6 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, pattern: "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}")
         }
@@ -1664,7 +1601,6 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 256)
         }
 
@@ -1717,10 +1653,8 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
         }
 
@@ -1761,10 +1695,8 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
         }
 
@@ -1805,10 +1737,8 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
         }
 
@@ -1849,10 +1779,8 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
         }
 
@@ -1889,7 +1817,6 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
         }
@@ -1943,17 +1870,12 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.destinationName?.forEach {}
             try self.validate(self.destinationName, name: "destinationName", parent: name, max: 128)
             try self.validate(self.destinationName, name: "destinationName", parent: name, pattern: "[a-zA-Z0-9-_]+")
-            try self.deviceProfileId?.forEach {}
             try self.validate(self.deviceProfileId, name: "deviceProfileId", parent: name, max: 256)
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
-            try self.serviceProfileId?.forEach {}
             try self.validate(self.serviceProfileId, name: "serviceProfileId", parent: name, max: 256)
         }
 
@@ -1998,10 +1920,8 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
         }
 
@@ -2042,10 +1962,8 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
         }
 
@@ -2097,18 +2015,11 @@ extension IoTWireless {
 
         public func validate(name: String) throws {
             try self.abpV10X?.validate(name: "\(name).abpV10X")
-            try self.abpV10X?.forEach {}
             try self.abpV11?.validate(name: "\(name).abpV11")
-            try self.abpV11?.forEach {}
-            try self.devEui?.forEach {}
             try self.validate(self.devEui, name: "devEui", parent: name, pattern: "[a-fA-F0-9]{16}")
-            try self.deviceProfileId?.forEach {}
             try self.validate(self.deviceProfileId, name: "deviceProfileId", parent: name, max: 256)
             try self.otaaV10X?.validate(name: "\(name).otaaV10X")
-            try self.otaaV10X?.forEach {}
             try self.otaaV11?.validate(name: "\(name).otaaV11")
-            try self.otaaV11?.forEach {}
-            try self.serviceProfileId?.forEach {}
             try self.validate(self.serviceProfileId, name: "serviceProfileId", parent: name, max: 256)
         }
 
@@ -2219,50 +2130,35 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.classBTimeout?.forEach {}
             try self.validate(self.classBTimeout, name: "classBTimeout", parent: name, max: 1000)
             try self.validate(self.classBTimeout, name: "classBTimeout", parent: name, min: 0)
-            try self.classCTimeout?.forEach {}
             try self.validate(self.classCTimeout, name: "classCTimeout", parent: name, max: 1000)
             try self.validate(self.classCTimeout, name: "classCTimeout", parent: name, min: 0)
             try self.factoryPresetFreqsList?.forEach {
                 try validate($0, name: "factoryPresetFreqsList[]", parent: name, max: 16_700_000)
                 try validate($0, name: "factoryPresetFreqsList[]", parent: name, min: 1_000_000)
             }
-            try self.factoryPresetFreqsList?.forEach {}
             try self.validate(self.factoryPresetFreqsList, name: "factoryPresetFreqsList", parent: name, max: 20)
             try self.validate(self.factoryPresetFreqsList, name: "factoryPresetFreqsList", parent: name, min: 0)
-            try self.macVersion?.forEach {}
             try self.validate(self.macVersion, name: "macVersion", parent: name, max: 64)
-            try self.maxDutyCycle?.forEach {}
             try self.validate(self.maxDutyCycle, name: "maxDutyCycle", parent: name, max: 100)
             try self.validate(self.maxDutyCycle, name: "maxDutyCycle", parent: name, min: 0)
-            try self.maxEirp?.forEach {}
             try self.validate(self.maxEirp, name: "maxEirp", parent: name, max: 15)
             try self.validate(self.maxEirp, name: "maxEirp", parent: name, min: 0)
-            try self.pingSlotDr?.forEach {}
             try self.validate(self.pingSlotDr, name: "pingSlotDr", parent: name, max: 15)
             try self.validate(self.pingSlotDr, name: "pingSlotDr", parent: name, min: 0)
-            try self.pingSlotFreq?.forEach {}
             try self.validate(self.pingSlotFreq, name: "pingSlotFreq", parent: name, max: 16_700_000)
             try self.validate(self.pingSlotFreq, name: "pingSlotFreq", parent: name, min: 1_000_000)
-            try self.pingSlotPeriod?.forEach {}
             try self.validate(self.pingSlotPeriod, name: "pingSlotPeriod", parent: name, max: 4096)
             try self.validate(self.pingSlotPeriod, name: "pingSlotPeriod", parent: name, min: 128)
-            try self.regParamsRevision?.forEach {}
             try self.validate(self.regParamsRevision, name: "regParamsRevision", parent: name, max: 64)
-            try self.rfRegion?.forEach {}
             try self.validate(self.rfRegion, name: "rfRegion", parent: name, max: 64)
-            try self.rxDataRate2?.forEach {}
             try self.validate(self.rxDataRate2, name: "rxDataRate2", parent: name, max: 15)
             try self.validate(self.rxDataRate2, name: "rxDataRate2", parent: name, min: 0)
-            try self.rxDelay1?.forEach {}
             try self.validate(self.rxDelay1, name: "rxDelay1", parent: name, max: 15)
             try self.validate(self.rxDelay1, name: "rxDelay1", parent: name, min: 0)
-            try self.rxDrOffset1?.forEach {}
             try self.validate(self.rxDrOffset1, name: "rxDrOffset1", parent: name, max: 7)
             try self.validate(self.rxDrOffset1, name: "rxDrOffset1", parent: name, min: 0)
-            try self.rxFreq2?.forEach {}
             try self.validate(self.rxFreq2, name: "rxFreq2", parent: name, max: 16_700_000)
             try self.validate(self.rxFreq2, name: "rxFreq2", parent: name, min: 1_000_000)
         }
@@ -2302,9 +2198,7 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.gatewayEui?.forEach {}
             try self.validate(self.gatewayEui, name: "gatewayEui", parent: name, pattern: "^(([0-9A-Fa-f]{2}-){7}|([0-9A-Fa-f]{2}:){7}|([0-9A-Fa-f]{2}\\s){7}|([0-9A-Fa-f]{2}){7})([0-9A-Fa-f]{2})$")
-            try self.rfRegion?.forEach {}
             try self.validate(self.rfRegion, name: "rfRegion", parent: name, max: 64)
         }
 
@@ -2363,13 +2257,10 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.model?.forEach {}
             try self.validate(self.model, name: "model", parent: name, max: 4096)
             try self.validate(self.model, name: "model", parent: name, min: 1)
-            try self.packageVersion?.forEach {}
             try self.validate(self.packageVersion, name: "packageVersion", parent: name, max: 32)
             try self.validate(self.packageVersion, name: "packageVersion", parent: name, min: 1)
-            try self.station?.forEach {}
             try self.validate(self.station, name: "station", parent: name, max: 4096)
             try self.validate(self.station, name: "station", parent: name, min: 1)
         }
@@ -2488,7 +2379,6 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.fPort?.forEach {}
             try self.validate(self.fPort, name: "fPort", parent: name, max: 223)
             try self.validate(self.fPort, name: "fPort", parent: name, min: 1)
         }
@@ -2523,9 +2413,7 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.deviceProfileId?.forEach {}
             try self.validate(self.deviceProfileId, name: "deviceProfileId", parent: name, max: 256)
-            try self.serviceProfileId?.forEach {}
             try self.validate(self.serviceProfileId, name: "serviceProfileId", parent: name, max: 256)
         }
 
@@ -2554,15 +2442,11 @@ extension IoTWireless {
 
         public func validate(name: String) throws {
             try self.currentVersion?.validate(name: "\(name).currentVersion")
-            try self.currentVersion?.forEach {}
-            try self.sigKeyCrc?.forEach {}
             try self.validate(self.sigKeyCrc, name: "sigKeyCrc", parent: name, max: 4_294_967_295)
             try self.validate(self.sigKeyCrc, name: "sigKeyCrc", parent: name, min: 1)
-            try self.updateSignature?.forEach {}
             try self.validate(self.updateSignature, name: "updateSignature", parent: name, max: 4096)
             try self.validate(self.updateSignature, name: "updateSignature", parent: name, min: 1)
             try self.updateVersion?.validate(name: "\(name).updateVersion")
-            try self.updateVersion?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2602,9 +2486,7 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.appEui?.forEach {}
             try self.validate(self.appEui, name: "appEui", parent: name, pattern: "[a-fA-F0-9]{16}")
-            try self.appKey?.forEach {}
             try self.validate(self.appKey, name: "appKey", parent: name, pattern: "[a-fA-F0-9]{32}")
         }
 
@@ -2629,11 +2511,8 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.appKey?.forEach {}
             try self.validate(self.appKey, name: "appKey", parent: name, pattern: "[a-fA-F0-9]{32}")
-            try self.joinEui?.forEach {}
             try self.validate(self.joinEui, name: "joinEui", parent: name, pattern: "[a-fA-F0-9]{16}")
-            try self.nwkKey?.forEach {}
             try self.validate(self.nwkKey, name: "nwkKey", parent: name, pattern: "[a-fA-F0-9]{32}")
         }
 
@@ -2666,16 +2545,12 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 256)
-            try self.payloadData.forEach {}
             try self.validate(self.payloadData, name: "payloadData", parent: name, max: 2048)
             try self.validate(self.payloadData, name: "payloadData", parent: name, pattern: "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")
-            try self.transmitMode.forEach {}
             try self.validate(self.transmitMode, name: "transmitMode", parent: name, max: 1)
             try self.validate(self.transmitMode, name: "transmitMode", parent: name, min: 0)
             try self.wirelessMetadata?.validate(name: "\(name).wirelessMetadata")
-            try self.wirelessMetadata?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2731,9 +2606,7 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.appSKey?.forEach {}
             try self.validate(self.appSKey, name: "appSKey", parent: name, pattern: "[a-fA-F0-9]{32}")
-            try self.nwkSKey?.forEach {}
             try self.validate(self.nwkSKey, name: "nwkSKey", parent: name, pattern: "[a-fA-F0-9]{32}")
         }
 
@@ -2761,13 +2634,9 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.appSKey?.forEach {}
             try self.validate(self.appSKey, name: "appSKey", parent: name, pattern: "[a-fA-F0-9]{32}")
-            try self.fNwkSIntKey?.forEach {}
             try self.validate(self.fNwkSIntKey, name: "fNwkSIntKey", parent: name, pattern: "[a-fA-F0-9]{32}")
-            try self.nwkSEncKey?.forEach {}
             try self.validate(self.nwkSEncKey, name: "nwkSEncKey", parent: name, pattern: "[a-fA-F0-9]{32}")
-            try self.sNwkSIntKey?.forEach {}
             try self.validate(self.sNwkSIntKey, name: "sNwkSIntKey", parent: name, pattern: "[a-fA-F0-9]{32}")
         }
 
@@ -2791,9 +2660,7 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.amazonId?.forEach {}
             try self.validate(self.amazonId, name: "amazonId", parent: name, max: 2048)
-            try self.appServerPrivateKey?.forEach {}
             try self.validate(self.appServerPrivateKey, name: "appServerPrivateKey", parent: name, max: 4096)
             try self.validate(self.appServerPrivateKey, name: "appServerPrivateKey", parent: name, min: 1)
             try self.validate(self.appServerPrivateKey, name: "appServerPrivateKey", parent: name, pattern: "[a-fA-F0-9]{64}")
@@ -2906,7 +2773,6 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.seq?.forEach {}
             try self.validate(self.seq, name: "seq", parent: name, max: 16383)
             try self.validate(self.seq, name: "seq", parent: name, min: 0)
         }
@@ -2925,7 +2791,6 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.appServerPrivateKey?.forEach {}
             try self.validate(self.appServerPrivateKey, name: "appServerPrivateKey", parent: name, max: 4096)
             try self.validate(self.appServerPrivateKey, name: "appServerPrivateKey", parent: name, min: 1)
             try self.validate(self.appServerPrivateKey, name: "appServerPrivateKey", parent: name, pattern: "[a-fA-F0-9]{64}")
@@ -2948,10 +2813,8 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
-            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
         }
@@ -2978,13 +2841,11 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -3011,7 +2872,6 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 256)
         }
 
@@ -3048,14 +2908,12 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
-            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
         }
@@ -3092,14 +2950,10 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2048)
-            try self.expression?.forEach {}
             try self.validate(self.expression, name: "expression", parent: name, max: 2048)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9-_]+")
-            try self.roleArn?.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
         }
@@ -3136,10 +2990,8 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.partnerAccountId.forEach {}
             try self.validate(self.partnerAccountId, name: "partnerAccountId", parent: name, max: 256)
             try self.sidewalk.validate(name: "\(name).sidewalk")
-            try self.sidewalk.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3176,16 +3028,11 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2048)
-            try self.destinationName?.forEach {}
             try self.validate(self.destinationName, name: "destinationName", parent: name, max: 128)
             try self.validate(self.destinationName, name: "destinationName", parent: name, pattern: "[a-zA-Z0-9-_]+")
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 256)
             try self.loRaWAN?.validate(name: "\(name).loRaWAN")
-            try self.loRaWAN?.forEach {}
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
         }
 
@@ -3220,11 +3067,8 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 2048)
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 256)
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
         }
 
@@ -3254,11 +3098,8 @@ extension IoTWireless {
 
         public func validate(name: String) throws {
             try self.loRaWAN?.validate(name: "\(name).loRaWAN")
-            try self.loRaWAN?.forEach {}
-            try self.updateDataRole?.forEach {}
             try self.validate(self.updateDataRole, name: "updateDataRole", parent: name, max: 4096)
             try self.validate(self.updateDataRole, name: "updateDataRole", parent: name, min: 1)
-            try self.updateDataSource?.forEach {}
             try self.validate(self.updateDataSource, name: "updateDataSource", parent: name, max: 4096)
             try self.validate(self.updateDataSource, name: "updateDataSource", parent: name, min: 1)
         }
@@ -3378,9 +3219,7 @@ extension IoTWireless {
 
         public func validate(name: String) throws {
             try self.loRaWAN?.validate(name: "\(name).loRaWAN")
-            try self.loRaWAN?.forEach {}
             try self.sidewalk?.validate(name: "\(name).sidewalk")
-            try self.sidewalk?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {

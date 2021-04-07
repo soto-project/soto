@@ -56,7 +56,6 @@ extension AugmentedAIRuntime {
         }
 
         public func validate(name: String) throws {
-            try self.humanLoopName.forEach {}
             try self.validate(self.humanLoopName, name: "humanLoopName", parent: name, max: 63)
             try self.validate(self.humanLoopName, name: "humanLoopName", parent: name, min: 1)
             try self.validate(self.humanLoopName, name: "humanLoopName", parent: name, pattern: "^[a-z0-9](-*[a-z0-9])*$")
@@ -82,7 +81,6 @@ extension AugmentedAIRuntime {
         }
 
         public func validate(name: String) throws {
-            try self.humanLoopName.forEach {}
             try self.validate(self.humanLoopName, name: "humanLoopName", parent: name, max: 63)
             try self.validate(self.humanLoopName, name: "humanLoopName", parent: name, min: 1)
             try self.validate(self.humanLoopName, name: "humanLoopName", parent: name, pattern: "^[a-z0-9](-*[a-z0-9])*$")
@@ -141,7 +139,6 @@ extension AugmentedAIRuntime {
         }
 
         public func validate(name: String) throws {
-            try self.contentClassifiers.forEach {}
             try self.validate(self.contentClassifiers, name: "contentClassifiers", parent: name, max: 256)
         }
 
@@ -159,7 +156,6 @@ extension AugmentedAIRuntime {
         }
 
         public func validate(name: String) throws {
-            try self.inputContent.forEach {}
             try self.validate(self.inputContent, name: "inputContent", parent: name, max: 3_145_728)
         }
 
@@ -243,13 +239,10 @@ extension AugmentedAIRuntime {
         }
 
         public func validate(name: String) throws {
-            try self.flowDefinitionArn.forEach {}
             try self.validate(self.flowDefinitionArn, name: "flowDefinitionArn", parent: name, max: 1024)
             try self.validate(self.flowDefinitionArn, name: "flowDefinitionArn", parent: name, pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:flow-definition/.*")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
         }
@@ -293,13 +286,9 @@ extension AugmentedAIRuntime {
 
         public func validate(name: String) throws {
             try self.dataAttributes?.validate(name: "\(name).dataAttributes")
-            try self.dataAttributes?.forEach {}
-            try self.flowDefinitionArn.forEach {}
             try self.validate(self.flowDefinitionArn, name: "flowDefinitionArn", parent: name, max: 1024)
             try self.validate(self.flowDefinitionArn, name: "flowDefinitionArn", parent: name, pattern: "arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:flow-definition/.*")
             try self.humanLoopInput.validate(name: "\(name).humanLoopInput")
-            try self.humanLoopInput.forEach {}
-            try self.humanLoopName.forEach {}
             try self.validate(self.humanLoopName, name: "humanLoopName", parent: name, max: 63)
             try self.validate(self.humanLoopName, name: "humanLoopName", parent: name, min: 1)
             try self.validate(self.humanLoopName, name: "humanLoopName", parent: name, pattern: "^[a-z0-9](-*[a-z0-9])*$")
@@ -335,7 +324,6 @@ extension AugmentedAIRuntime {
         }
 
         public func validate(name: String) throws {
-            try self.humanLoopName.forEach {}
             try self.validate(self.humanLoopName, name: "humanLoopName", parent: name, max: 63)
             try self.validate(self.humanLoopName, name: "humanLoopName", parent: name, min: 1)
             try self.validate(self.humanLoopName, name: "humanLoopName", parent: name, pattern: "^[a-z0-9](-*[a-z0-9])*$")

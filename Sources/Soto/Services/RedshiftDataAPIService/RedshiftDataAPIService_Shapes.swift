@@ -239,7 +239,6 @@ extension RedshiftDataAPIService {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
         }
@@ -305,7 +304,6 @@ extension RedshiftDataAPIService {
         }
 
         public func validate(name: String) throws {
-            try self.statementName?.forEach {}
             try self.validate(self.statementName, name: "statementName", parent: name, max: 500)
             try self.validate(self.statementName, name: "statementName", parent: name, min: 0)
         }
@@ -453,7 +451,6 @@ extension RedshiftDataAPIService {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
         }
@@ -515,7 +512,6 @@ extension RedshiftDataAPIService {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
         }
@@ -570,10 +566,8 @@ extension RedshiftDataAPIService {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.statementName?.forEach {}
             try self.validate(self.statementName, name: "statementName", parent: name, max: 500)
             try self.validate(self.statementName, name: "statementName", parent: name, min: 0)
         }
@@ -637,7 +631,6 @@ extension RedshiftDataAPIService {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
         }

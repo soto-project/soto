@@ -423,7 +423,6 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 128)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "[a-zA-Z0-9][-a-zA-Z0-9]*")
@@ -528,18 +527,14 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 128)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "[a-zA-Z0-9][-a-zA-Z0-9]*")
             try self.resourcesToSkip?.forEach {
                 try validate($0, name: "resourcesToSkip[]", parent: name, pattern: "[a-zA-Z0-9]+|[a-zA-Z][-a-zA-Z0-9]*\\.[a-zA-Z0-9]+")
             }
-            try self.resourcesToSkip?.forEach {}
-            try self.roleARN?.forEach {}
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 2048)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 20)
-            try self.stackName.forEach {}
             try self.validate(self.stackName, name: "stackName", parent: name, min: 1)
             try self.validate(self.stackName, name: "stackName", parent: name, pattern: "([a-zA-Z][-a-zA-Z0-9]*)|(arn:\\b(aws|aws-us-gov|aws-cn)\\b:[-a-zA-Z0-9:/._+]*)")
         }
@@ -619,44 +614,32 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.changeSetName.forEach {}
             try self.validate(self.changeSetName, name: "changeSetName", parent: name, max: 128)
             try self.validate(self.changeSetName, name: "changeSetName", parent: name, min: 1)
             try self.validate(self.changeSetName, name: "changeSetName", parent: name, pattern: "[a-zA-Z][-a-zA-Z0-9]*")
-            try self.clientToken?.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.notificationARNs?.forEach {}
             try self.validate(self.notificationARNs, name: "notificationARNs", parent: name, max: 5)
             try self.resourcesToImport?.forEach {
                 try $0.validate(name: "\(name).resourcesToImport[]")
             }
-            try self.resourcesToImport?.forEach {}
             try self.validate(self.resourcesToImport, name: "resourcesToImport", parent: name, max: 200)
             try self.resourceTypes?.forEach {
                 try validate($0, name: "resourceTypes[]", parent: name, max: 256)
                 try validate($0, name: "resourceTypes[]", parent: name, min: 1)
             }
-            try self.resourceTypes?.forEach {}
-            try self.roleARN?.forEach {}
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 2048)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 20)
             try self.rollbackConfiguration?.validate(name: "\(name).rollbackConfiguration")
-            try self.rollbackConfiguration?.forEach {}
-            try self.stackName.forEach {}
             try self.validate(self.stackName, name: "stackName", parent: name, min: 1)
             try self.validate(self.stackName, name: "stackName", parent: name, pattern: "([a-zA-Z][-a-zA-Z0-9]*)|(arn:\\b(aws|aws-us-gov|aws-cn)\\b:[-a-zA-Z0-9:/._+]*)")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
-            try self.templateBody?.forEach {}
             try self.validate(self.templateBody, name: "templateBody", parent: name, min: 1)
-            try self.templateURL?.forEach {}
             try self.validate(self.templateURL, name: "templateURL", parent: name, max: 1024)
             try self.validate(self.templateURL, name: "templateURL", parent: name, min: 1)
         }
@@ -761,39 +744,28 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 128)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "[a-zA-Z0-9][-a-zA-Z0-9]*")
-            try self.notificationARNs?.forEach {}
             try self.validate(self.notificationARNs, name: "notificationARNs", parent: name, max: 5)
             try self.resourceTypes?.forEach {
                 try validate($0, name: "resourceTypes[]", parent: name, max: 256)
                 try validate($0, name: "resourceTypes[]", parent: name, min: 1)
             }
-            try self.resourceTypes?.forEach {}
-            try self.roleARN?.forEach {}
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 2048)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 20)
             try self.rollbackConfiguration?.validate(name: "\(name).rollbackConfiguration")
-            try self.rollbackConfiguration?.forEach {}
-            try self.stackPolicyBody?.forEach {}
             try self.validate(self.stackPolicyBody, name: "stackPolicyBody", parent: name, max: 16384)
             try self.validate(self.stackPolicyBody, name: "stackPolicyBody", parent: name, min: 1)
-            try self.stackPolicyURL?.forEach {}
             try self.validate(self.stackPolicyURL, name: "stackPolicyURL", parent: name, max: 1350)
             try self.validate(self.stackPolicyURL, name: "stackPolicyURL", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
-            try self.templateBody?.forEach {}
             try self.validate(self.templateBody, name: "templateBody", parent: name, min: 1)
-            try self.templateURL?.forEach {}
             try self.validate(self.templateURL, name: "templateURL", parent: name, max: 1024)
             try self.validate(self.templateURL, name: "templateURL", parent: name, min: 1)
-            try self.timeoutInMinutes?.forEach {}
             try self.validate(self.timeoutInMinutes, name: "timeoutInMinutes", parent: name, min: 1)
         }
 
@@ -854,19 +826,14 @@ extension CloudFormation {
             try self.accounts?.forEach {
                 try validate($0, name: "accounts[]", parent: name, pattern: "^[0-9]{12}$")
             }
-            try self.accounts?.forEach {}
             try self.deploymentTargets?.validate(name: "\(name).deploymentTargets")
-            try self.deploymentTargets?.forEach {}
-            try self.operationId?.forEach {}
             try self.validate(self.operationId, name: "operationId", parent: name, max: 128)
             try self.validate(self.operationId, name: "operationId", parent: name, min: 1)
             try self.validate(self.operationId, name: "operationId", parent: name, pattern: "[a-zA-Z0-9][-a-zA-Z0-9]*")
             try self.operationPreferences?.validate(name: "\(name).operationPreferences")
-            try self.operationPreferences?.forEach {}
             try self.regions.forEach {
                 try validate($0, name: "regions[]", parent: name, pattern: "^[a-zA-Z0-9-]{1,128}$")
             }
-            try self.regions.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -955,28 +922,21 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.administrationRoleARN?.forEach {}
             try self.validate(self.administrationRoleARN, name: "administrationRoleARN", parent: name, max: 2048)
             try self.validate(self.administrationRoleARN, name: "administrationRoleARN", parent: name, min: 20)
-            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 128)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "[a-zA-Z0-9][-a-zA-Z0-9]*")
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.executionRoleName?.forEach {}
             try self.validate(self.executionRoleName, name: "executionRoleName", parent: name, max: 64)
             try self.validate(self.executionRoleName, name: "executionRoleName", parent: name, min: 1)
             try self.validate(self.executionRoleName, name: "executionRoleName", parent: name, pattern: "[a-zA-Z_0-9+=,.@-]+")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
-            try self.templateBody?.forEach {}
             try self.validate(self.templateBody, name: "templateBody", parent: name, min: 1)
-            try self.templateURL?.forEach {}
             try self.validate(self.templateURL, name: "templateURL", parent: name, max: 1024)
             try self.validate(self.templateURL, name: "templateURL", parent: name, min: 1)
         }
@@ -1023,11 +983,9 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.changeSetName.forEach {}
             try self.validate(self.changeSetName, name: "changeSetName", parent: name, max: 1600)
             try self.validate(self.changeSetName, name: "changeSetName", parent: name, min: 1)
             try self.validate(self.changeSetName, name: "changeSetName", parent: name, pattern: "[a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*")
-            try self.stackName?.forEach {}
             try self.validate(self.stackName, name: "stackName", parent: name, min: 1)
             try self.validate(self.stackName, name: "stackName", parent: name, pattern: "([a-zA-Z][-a-zA-Z0-9]*)|(arn:\\b(aws|aws-us-gov|aws-cn)\\b:[-a-zA-Z0-9:/._+]*)")
         }
@@ -1061,11 +1019,9 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 128)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "[a-zA-Z0-9][-a-zA-Z0-9]*")
-            try self.roleARN?.forEach {}
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 2048)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 20)
         }
@@ -1113,19 +1069,14 @@ extension CloudFormation {
             try self.accounts?.forEach {
                 try validate($0, name: "accounts[]", parent: name, pattern: "^[0-9]{12}$")
             }
-            try self.accounts?.forEach {}
             try self.deploymentTargets?.validate(name: "\(name).deploymentTargets")
-            try self.deploymentTargets?.forEach {}
-            try self.operationId?.forEach {}
             try self.validate(self.operationId, name: "operationId", parent: name, max: 128)
             try self.validate(self.operationId, name: "operationId", parent: name, min: 1)
             try self.validate(self.operationId, name: "operationId", parent: name, pattern: "[a-zA-Z0-9][-a-zA-Z0-9]*")
             try self.operationPreferences?.validate(name: "\(name).operationPreferences")
-            try self.operationPreferences?.forEach {}
             try self.regions.forEach {
                 try validate($0, name: "regions[]", parent: name, pattern: "^[a-zA-Z0-9-]{1,128}$")
             }
-            try self.regions.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1193,15 +1144,12 @@ extension CloudFormation {
             try self.accounts?.forEach {
                 try validate($0, name: "accounts[]", parent: name, pattern: "^[0-9]{12}$")
             }
-            try self.accounts?.forEach {}
-            try self.accountsUrl?.forEach {}
             try self.validate(self.accountsUrl, name: "accountsUrl", parent: name, max: 5120)
             try self.validate(self.accountsUrl, name: "accountsUrl", parent: name, min: 1)
             try self.validate(self.accountsUrl, name: "accountsUrl", parent: name, pattern: "(s3://|http(s?)://).+")
             try self.organizationalUnitIds?.forEach {
                 try validate($0, name: "organizationalUnitIds[]", parent: name, pattern: "^(ou-[a-z0-9]{4,32}-[a-z0-9]{8,32}|r-[a-z0-9]{4,32})$")
             }
-            try self.organizationalUnitIds?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1229,14 +1177,11 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.arn?.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1024)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:[0-9]{12}:type/.+")
-            try self.typeName?.forEach {}
             try self.validate(self.typeName, name: "typeName", parent: name, max: 204)
             try self.validate(self.typeName, name: "typeName", parent: name, min: 10)
             try self.validate(self.typeName, name: "typeName", parent: name, pattern: "[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}")
-            try self.versionId?.forEach {}
             try self.validate(self.versionId, name: "versionId", parent: name, max: 128)
             try self.validate(self.versionId, name: "versionId", parent: name, min: 1)
             try self.validate(self.versionId, name: "versionId", parent: name, pattern: "[A-Za-z0-9-]+")
@@ -1263,7 +1208,6 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1306,14 +1250,11 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.changeSetName.forEach {}
             try self.validate(self.changeSetName, name: "changeSetName", parent: name, max: 1600)
             try self.validate(self.changeSetName, name: "changeSetName", parent: name, min: 1)
             try self.validate(self.changeSetName, name: "changeSetName", parent: name, pattern: "[a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*")
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.stackName?.forEach {}
             try self.validate(self.stackName, name: "stackName", parent: name, min: 1)
             try self.validate(self.stackName, name: "stackName", parent: name, pattern: "([a-zA-Z][-a-zA-Z0-9]*)|(arn:\\b(aws|aws-us-gov|aws-cn)\\b:[-a-zA-Z0-9:/._+]*)")
         }
@@ -1424,7 +1365,6 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.stackDriftDetectionId.forEach {}
             try self.validate(self.stackDriftDetectionId, name: "stackDriftDetectionId", parent: name, max: 36)
             try self.validate(self.stackDriftDetectionId, name: "stackDriftDetectionId", parent: name, min: 1)
         }
@@ -1483,7 +1423,6 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1530,9 +1469,7 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.stackInstanceAccount.forEach {}
             try self.validate(self.stackInstanceAccount, name: "stackInstanceAccount", parent: name, pattern: "^[0-9]{12}$")
-            try self.stackInstanceRegion.forEach {}
             try self.validate(self.stackInstanceRegion, name: "stackInstanceRegion", parent: name, pattern: "^[a-zA-Z0-9-]{1,128}$")
         }
 
@@ -1576,16 +1513,12 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.stackName.forEach {}
             try self.validate(self.stackName, name: "stackName", parent: name, min: 1)
             try self.validate(self.stackName, name: "stackName", parent: name, pattern: "([a-zA-Z][-a-zA-Z0-9]*)|(arn:\\b(aws|aws-us-gov|aws-cn)\\b:[-a-zA-Z0-9:/._+]*)")
-            try self.stackResourceDriftStatusFilters?.forEach {}
             try self.validate(self.stackResourceDriftStatusFilters, name: "stackResourceDriftStatusFilters", parent: name, max: 4)
             try self.validate(self.stackResourceDriftStatusFilters, name: "stackResourceDriftStatusFilters", parent: name, min: 1)
         }
@@ -1713,7 +1646,6 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.operationId.forEach {}
             try self.validate(self.operationId, name: "operationId", parent: name, max: 128)
             try self.validate(self.operationId, name: "operationId", parent: name, min: 1)
             try self.validate(self.operationId, name: "operationId", parent: name, pattern: "[a-zA-Z0-9][-a-zA-Z0-9]*")
@@ -1764,7 +1696,6 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1811,14 +1742,11 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.arn?.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1024)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type/.+")
-            try self.typeName?.forEach {}
             try self.validate(self.typeName, name: "typeName", parent: name, max: 204)
             try self.validate(self.typeName, name: "typeName", parent: name, min: 10)
             try self.validate(self.typeName, name: "typeName", parent: name, pattern: "[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}")
-            try self.versionId?.forEach {}
             try self.validate(self.versionId, name: "versionId", parent: name, max: 128)
             try self.validate(self.versionId, name: "versionId", parent: name, min: 1)
             try self.validate(self.versionId, name: "versionId", parent: name, pattern: "[A-Za-z0-9-]+")
@@ -1914,7 +1842,6 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.registrationToken.forEach {}
             try self.validate(self.registrationToken, name: "registrationToken", parent: name, max: 128)
             try self.validate(self.registrationToken, name: "registrationToken", parent: name, min: 1)
             try self.validate(self.registrationToken, name: "registrationToken", parent: name, pattern: "[a-zA-Z0-9][-a-zA-Z0-9]*")
@@ -1963,10 +1890,8 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.logicalResourceIds?.forEach {}
             try self.validate(self.logicalResourceIds, name: "logicalResourceIds", parent: name, max: 200)
             try self.validate(self.logicalResourceIds, name: "logicalResourceIds", parent: name, min: 1)
-            try self.stackName.forEach {}
             try self.validate(self.stackName, name: "stackName", parent: name, min: 1)
             try self.validate(self.stackName, name: "stackName", parent: name, pattern: "([a-zA-Z][-a-zA-Z0-9]*)|(arn:\\b(aws|aws-us-gov|aws-cn)\\b:[-a-zA-Z0-9:/._+]*)")
         }
@@ -2002,7 +1927,6 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.stackName.forEach {}
             try self.validate(self.stackName, name: "stackName", parent: name, min: 1)
             try self.validate(self.stackName, name: "stackName", parent: name, pattern: "([a-zA-Z][-a-zA-Z0-9]*)|(arn:\\b(aws|aws-us-gov|aws-cn)\\b:[-a-zA-Z0-9:/._+]*)")
         }
@@ -2043,13 +1967,10 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.operationId?.forEach {}
             try self.validate(self.operationId, name: "operationId", parent: name, max: 128)
             try self.validate(self.operationId, name: "operationId", parent: name, min: 1)
             try self.validate(self.operationId, name: "operationId", parent: name, pattern: "[a-zA-Z0-9][-a-zA-Z0-9]*")
             try self.operationPreferences?.validate(name: "\(name).operationPreferences")
-            try self.operationPreferences?.forEach {}
-            try self.stackSetName.forEach {}
             try self.validate(self.stackSetName, name: "stackSetName", parent: name, pattern: "[a-zA-Z][-a-zA-Z0-9]*(?::[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12})?")
         }
 
@@ -2090,9 +2011,7 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.templateBody?.forEach {}
             try self.validate(self.templateBody, name: "templateBody", parent: name, min: 1)
-            try self.templateURL?.forEach {}
             try self.validate(self.templateURL, name: "templateURL", parent: name, max: 1024)
             try self.validate(self.templateURL, name: "templateURL", parent: name, min: 1)
         }
@@ -2132,15 +2051,12 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.changeSetName.forEach {}
             try self.validate(self.changeSetName, name: "changeSetName", parent: name, max: 1600)
             try self.validate(self.changeSetName, name: "changeSetName", parent: name, min: 1)
             try self.validate(self.changeSetName, name: "changeSetName", parent: name, pattern: "[a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*")
-            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 128)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "[a-zA-Z0-9][-a-zA-Z0-9]*")
-            try self.stackName?.forEach {}
             try self.validate(self.stackName, name: "stackName", parent: name, min: 1)
             try self.validate(self.stackName, name: "stackName", parent: name, pattern: "([a-zA-Z][-a-zA-Z0-9]*)|(arn:\\b(aws|aws-us-gov|aws-cn)\\b:[-a-zA-Z0-9:/._+]*)")
         }
@@ -2218,7 +2134,6 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.changeSetName?.forEach {}
             try self.validate(self.changeSetName, name: "changeSetName", parent: name, max: 1600)
             try self.validate(self.changeSetName, name: "changeSetName", parent: name, min: 1)
             try self.validate(self.changeSetName, name: "changeSetName", parent: name, pattern: "[a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*")
@@ -2267,14 +2182,10 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.stackName?.forEach {}
             try self.validate(self.stackName, name: "stackName", parent: name, min: 1)
             try self.validate(self.stackName, name: "stackName", parent: name, pattern: "([a-zA-Z][-a-zA-Z0-9]*)|(arn:\\b(aws|aws-us-gov|aws-cn)\\b:[-a-zA-Z0-9:/._+]*)")
-            try self.stackSetName?.forEach {}
             try self.validate(self.stackSetName, name: "stackSetName", parent: name, pattern: "[a-zA-Z][-a-zA-Z0-9]*(?::[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12})?")
-            try self.templateBody?.forEach {}
             try self.validate(self.templateBody, name: "templateBody", parent: name, min: 1)
-            try self.templateURL?.forEach {}
             try self.validate(self.templateURL, name: "templateURL", parent: name, max: 1024)
             try self.validate(self.templateURL, name: "templateURL", parent: name, min: 1)
         }
@@ -2349,10 +2260,8 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.stackName.forEach {}
             try self.validate(self.stackName, name: "stackName", parent: name, min: 1)
             try self.validate(self.stackName, name: "stackName", parent: name, pattern: "([a-zA-Z][-a-zA-Z0-9]*)|(arn:\\b(aws|aws-us-gov|aws-cn)\\b:[-a-zA-Z0-9:/._+]*)")
         }
@@ -2390,7 +2299,6 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2430,7 +2338,6 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2490,17 +2397,12 @@ extension CloudFormation {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try self.filters?.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, max: 1)
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.stackInstanceAccount?.forEach {}
             try self.validate(self.stackInstanceAccount, name: "stackInstanceAccount", parent: name, pattern: "^[0-9]{12}$")
-            try self.stackInstanceRegion?.forEach {}
             try self.validate(self.stackInstanceRegion, name: "stackInstanceRegion", parent: name, pattern: "^[a-zA-Z0-9-]{1,128}$")
         }
 
@@ -2545,7 +2447,6 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2595,13 +2496,10 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.operationId.forEach {}
             try self.validate(self.operationId, name: "operationId", parent: name, max: 128)
             try self.validate(self.operationId, name: "operationId", parent: name, min: 1)
             try self.validate(self.operationId, name: "operationId", parent: name, pattern: "[a-zA-Z0-9][-a-zA-Z0-9]*")
@@ -2652,10 +2550,8 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2704,10 +2600,8 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2751,7 +2645,6 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2804,16 +2697,12 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.typeArn?.forEach {}
             try self.validate(self.typeArn, name: "typeArn", parent: name, max: 1024)
             try self.validate(self.typeArn, name: "typeArn", parent: name, pattern: "arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type/.+")
-            try self.typeName?.forEach {}
             try self.validate(self.typeName, name: "typeName", parent: name, max: 204)
             try self.validate(self.typeName, name: "typeName", parent: name, min: 10)
             try self.validate(self.typeName, name: "typeName", parent: name, pattern: "[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}")
@@ -2871,16 +2760,12 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.arn?.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1024)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:[0-9]{12}:type/.+")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.typeName?.forEach {}
             try self.validate(self.typeName, name: "typeName", parent: name, max: 204)
             try self.validate(self.typeName, name: "typeName", parent: name, min: 10)
             try self.validate(self.typeName, name: "typeName", parent: name, pattern: "[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}")
@@ -2938,10 +2823,8 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2986,11 +2869,9 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.logGroupName.forEach {}
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
-            try self.logRoleArn.forEach {}
             try self.validate(self.logRoleArn, name: "logRoleArn", parent: name, max: 256)
             try self.validate(self.logRoleArn, name: "logRoleArn", parent: name, min: 1)
             try self.validate(self.logRoleArn, name: "logRoleArn", parent: name, pattern: "arn:.+:iam::[0-9]{12}:role/.+")
@@ -3185,17 +3066,13 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.bearerToken.forEach {}
             try self.validate(self.bearerToken, name: "bearerToken", parent: name, max: 128)
             try self.validate(self.bearerToken, name: "bearerToken", parent: name, min: 1)
-            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 128)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "[a-zA-Z0-9][-a-zA-Z0-9]*")
-            try self.resourceModel?.forEach {}
             try self.validate(self.resourceModel, name: "resourceModel", parent: name, max: 16384)
             try self.validate(self.resourceModel, name: "resourceModel", parent: name, min: 1)
-            try self.statusMessage?.forEach {}
             try self.validate(self.statusMessage, name: "statusMessage", parent: name, max: 1024)
         }
 
@@ -3238,20 +3115,15 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 128)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "[a-zA-Z0-9][-a-zA-Z0-9]*")
-            try self.executionRoleArn?.forEach {}
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 256)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 1)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "arn:.+:iam::[0-9]{12}:role/.+")
             try self.loggingConfig?.validate(name: "\(name).loggingConfig")
-            try self.loggingConfig?.forEach {}
-            try self.schemaHandlerPackage.forEach {}
             try self.validate(self.schemaHandlerPackage, name: "schemaHandlerPackage", parent: name, max: 4096)
             try self.validate(self.schemaHandlerPackage, name: "schemaHandlerPackage", parent: name, min: 1)
-            try self.typeName.forEach {}
             try self.validate(self.typeName, name: "typeName", parent: name, max: 204)
             try self.validate(self.typeName, name: "typeName", parent: name, min: 10)
             try self.validate(self.typeName, name: "typeName", parent: name, pattern: "[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}")
@@ -3418,7 +3290,6 @@ extension CloudFormation {
                 try validate($0.value, name: "resourceIdentifier[\"\($0.key)\"]", parent: name, max: 2048)
                 try validate($0.value, name: "resourceIdentifier[\"\($0.key)\"]", parent: name, min: 1)
             }
-            try self.resourceType.forEach {}
             try self.validate(self.resourceType, name: "resourceType", parent: name, max: 256)
             try self.validate(self.resourceType, name: "resourceType", parent: name, min: 1)
         }
@@ -3443,10 +3314,8 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.monitoringTimeInMinutes?.forEach {}
             try self.validate(self.monitoringTimeInMinutes, name: "monitoringTimeInMinutes", parent: name, max: 180)
             try self.validate(self.monitoringTimeInMinutes, name: "monitoringTimeInMinutes", parent: name, min: 0)
-            try self.rollbackTriggers?.forEach {}
             try self.validate(self.rollbackTriggers, name: "rollbackTriggers", parent: name, max: 5)
         }
 
@@ -3488,10 +3357,8 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.stackPolicyBody?.forEach {}
             try self.validate(self.stackPolicyBody, name: "stackPolicyBody", parent: name, max: 16384)
             try self.validate(self.stackPolicyBody, name: "stackPolicyBody", parent: name, min: 1)
-            try self.stackPolicyURL?.forEach {}
             try self.validate(self.stackPolicyURL, name: "stackPolicyURL", parent: name, max: 1350)
             try self.validate(self.stackPolicyURL, name: "stackPolicyURL", parent: name, min: 1)
         }
@@ -3521,14 +3388,11 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.arn?.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 1024)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:[0-9]{12}:type/.+")
-            try self.typeName?.forEach {}
             try self.validate(self.typeName, name: "typeName", parent: name, max: 204)
             try self.validate(self.typeName, name: "typeName", parent: name, min: 10)
             try self.validate(self.typeName, name: "typeName", parent: name, pattern: "[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}")
-            try self.versionId?.forEach {}
             try self.validate(self.versionId, name: "versionId", parent: name, max: 128)
             try self.validate(self.versionId, name: "versionId", parent: name, min: 1)
             try self.validate(self.versionId, name: "versionId", parent: name, pattern: "[A-Za-z0-9-]+")
@@ -3564,10 +3428,8 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.stackName.forEach {}
             try self.validate(self.stackName, name: "stackName", parent: name, min: 1)
             try self.validate(self.stackName, name: "stackName", parent: name, pattern: "([a-zA-Z][-a-zA-Z0-9]*)|(arn:\\b(aws|aws-us-gov|aws-cn)\\b:[-a-zA-Z0-9:/._+]*)")
-            try self.uniqueId.forEach {}
             try self.validate(self.uniqueId, name: "uniqueId", parent: name, max: 64)
             try self.validate(self.uniqueId, name: "uniqueId", parent: name, min: 1)
         }
@@ -3848,7 +3710,6 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.values?.forEach {}
             try self.validate(self.values, name: "values", parent: name, max: 10)
             try self.validate(self.values, name: "values", parent: name, min: 6)
         }
@@ -4343,20 +4204,15 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.failureToleranceCount?.forEach {}
             try self.validate(self.failureToleranceCount, name: "failureToleranceCount", parent: name, min: 0)
-            try self.failureTolerancePercentage?.forEach {}
             try self.validate(self.failureTolerancePercentage, name: "failureTolerancePercentage", parent: name, max: 100)
             try self.validate(self.failureTolerancePercentage, name: "failureTolerancePercentage", parent: name, min: 0)
-            try self.maxConcurrentCount?.forEach {}
             try self.validate(self.maxConcurrentCount, name: "maxConcurrentCount", parent: name, min: 1)
-            try self.maxConcurrentPercentage?.forEach {}
             try self.validate(self.maxConcurrentPercentage, name: "maxConcurrentPercentage", parent: name, max: 100)
             try self.validate(self.maxConcurrentPercentage, name: "maxConcurrentPercentage", parent: name, min: 1)
             try self.regionOrder?.forEach {
                 try validate($0, name: "regionOrder[]", parent: name, pattern: "^[a-zA-Z0-9-]{1,128}$")
             }
-            try self.regionOrder?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4540,7 +4396,6 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.operationId.forEach {}
             try self.validate(self.operationId, name: "operationId", parent: name, max: 128)
             try self.validate(self.operationId, name: "operationId", parent: name, min: 1)
             try self.validate(self.operationId, name: "operationId", parent: name, pattern: "[a-zA-Z0-9][-a-zA-Z0-9]*")
@@ -4569,10 +4424,8 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
-            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 1)
         }
@@ -4737,42 +4590,30 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 128)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "[a-zA-Z0-9][-a-zA-Z0-9]*")
-            try self.notificationARNs?.forEach {}
             try self.validate(self.notificationARNs, name: "notificationARNs", parent: name, max: 5)
             try self.resourceTypes?.forEach {
                 try validate($0, name: "resourceTypes[]", parent: name, max: 256)
                 try validate($0, name: "resourceTypes[]", parent: name, min: 1)
             }
-            try self.resourceTypes?.forEach {}
-            try self.roleARN?.forEach {}
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 2048)
             try self.validate(self.roleARN, name: "roleARN", parent: name, min: 20)
             try self.rollbackConfiguration?.validate(name: "\(name).rollbackConfiguration")
-            try self.rollbackConfiguration?.forEach {}
-            try self.stackPolicyBody?.forEach {}
             try self.validate(self.stackPolicyBody, name: "stackPolicyBody", parent: name, max: 16384)
             try self.validate(self.stackPolicyBody, name: "stackPolicyBody", parent: name, min: 1)
-            try self.stackPolicyDuringUpdateBody?.forEach {}
             try self.validate(self.stackPolicyDuringUpdateBody, name: "stackPolicyDuringUpdateBody", parent: name, max: 16384)
             try self.validate(self.stackPolicyDuringUpdateBody, name: "stackPolicyDuringUpdateBody", parent: name, min: 1)
-            try self.stackPolicyDuringUpdateURL?.forEach {}
             try self.validate(self.stackPolicyDuringUpdateURL, name: "stackPolicyDuringUpdateURL", parent: name, max: 1350)
             try self.validate(self.stackPolicyDuringUpdateURL, name: "stackPolicyDuringUpdateURL", parent: name, min: 1)
-            try self.stackPolicyURL?.forEach {}
             try self.validate(self.stackPolicyURL, name: "stackPolicyURL", parent: name, max: 1350)
             try self.validate(self.stackPolicyURL, name: "stackPolicyURL", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
-            try self.templateBody?.forEach {}
             try self.validate(self.templateBody, name: "templateBody", parent: name, min: 1)
-            try self.templateURL?.forEach {}
             try self.validate(self.templateURL, name: "templateURL", parent: name, max: 1024)
             try self.validate(self.templateURL, name: "templateURL", parent: name, min: 1)
         }
@@ -4833,20 +4674,14 @@ extension CloudFormation {
             try self.accounts?.forEach {
                 try validate($0, name: "accounts[]", parent: name, pattern: "^[0-9]{12}$")
             }
-            try self.accounts?.forEach {}
             try self.deploymentTargets?.validate(name: "\(name).deploymentTargets")
-            try self.deploymentTargets?.forEach {}
-            try self.operationId?.forEach {}
             try self.validate(self.operationId, name: "operationId", parent: name, max: 128)
             try self.validate(self.operationId, name: "operationId", parent: name, min: 1)
             try self.validate(self.operationId, name: "operationId", parent: name, pattern: "[a-zA-Z0-9][-a-zA-Z0-9]*")
             try self.operationPreferences?.validate(name: "\(name).operationPreferences")
-            try self.operationPreferences?.forEach {}
             try self.regions.forEach {
                 try validate($0, name: "regions[]", parent: name, pattern: "^[a-zA-Z0-9-]{1,128}$")
             }
-            try self.regions.forEach {}
-            try self.stackSetName.forEach {}
             try self.validate(self.stackSetName, name: "stackSetName", parent: name, pattern: "[a-zA-Z][-a-zA-Z0-9]*(?::[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12})?")
         }
 
@@ -4956,37 +4791,26 @@ extension CloudFormation {
             try self.accounts?.forEach {
                 try validate($0, name: "accounts[]", parent: name, pattern: "^[0-9]{12}$")
             }
-            try self.accounts?.forEach {}
-            try self.administrationRoleARN?.forEach {}
             try self.validate(self.administrationRoleARN, name: "administrationRoleARN", parent: name, max: 2048)
             try self.validate(self.administrationRoleARN, name: "administrationRoleARN", parent: name, min: 20)
             try self.deploymentTargets?.validate(name: "\(name).deploymentTargets")
-            try self.deploymentTargets?.forEach {}
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.executionRoleName?.forEach {}
             try self.validate(self.executionRoleName, name: "executionRoleName", parent: name, max: 64)
             try self.validate(self.executionRoleName, name: "executionRoleName", parent: name, min: 1)
             try self.validate(self.executionRoleName, name: "executionRoleName", parent: name, pattern: "[a-zA-Z_0-9+=,.@-]+")
-            try self.operationId?.forEach {}
             try self.validate(self.operationId, name: "operationId", parent: name, max: 128)
             try self.validate(self.operationId, name: "operationId", parent: name, min: 1)
             try self.validate(self.operationId, name: "operationId", parent: name, pattern: "[a-zA-Z0-9][-a-zA-Z0-9]*")
             try self.operationPreferences?.validate(name: "\(name).operationPreferences")
-            try self.operationPreferences?.forEach {}
             try self.regions?.forEach {
                 try validate($0, name: "regions[]", parent: name, pattern: "^[a-zA-Z0-9-]{1,128}$")
             }
-            try self.regions?.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
-            try self.templateBody?.forEach {}
             try self.validate(self.templateBody, name: "templateBody", parent: name, min: 1)
-            try self.templateURL?.forEach {}
             try self.validate(self.templateURL, name: "templateURL", parent: name, max: 1024)
             try self.validate(self.templateURL, name: "templateURL", parent: name, min: 1)
         }
@@ -5038,7 +4862,6 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.stackName.forEach {}
             try self.validate(self.stackName, name: "stackName", parent: name, min: 1)
             try self.validate(self.stackName, name: "stackName", parent: name, pattern: "([a-zA-Z][-a-zA-Z0-9]*)|(arn:\\b(aws|aws-us-gov|aws-cn)\\b:[-a-zA-Z0-9:/._+]*)")
         }
@@ -5074,9 +4897,7 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
-            try self.templateBody?.forEach {}
             try self.validate(self.templateBody, name: "templateBody", parent: name, min: 1)
-            try self.templateURL?.forEach {}
             try self.validate(self.templateURL, name: "templateURL", parent: name, max: 1024)
             try self.validate(self.templateURL, name: "templateURL", parent: name, min: 1)
         }

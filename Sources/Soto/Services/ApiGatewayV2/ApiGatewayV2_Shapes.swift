@@ -310,7 +310,6 @@ extension ApiGatewayV2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxAge?.forEach {}
             try self.validate(self.maxAge, name: "maxAge", parent: name, max: 86400)
             try self.validate(self.maxAge, name: "maxAge", parent: name, min: -1)
         }
@@ -403,7 +402,6 @@ extension ApiGatewayV2 {
 
         public func validate(name: String) throws {
             try self.corsConfiguration?.validate(name: "\(name).corsConfiguration")
-            try self.corsConfiguration?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -513,7 +511,6 @@ extension ApiGatewayV2 {
         }
 
         public func validate(name: String) throws {
-            try self.authorizerResultTtlInSeconds?.forEach {}
             try self.validate(self.authorizerResultTtlInSeconds, name: "authorizerResultTtlInSeconds", parent: name, max: 3600)
             try self.validate(self.authorizerResultTtlInSeconds, name: "authorizerResultTtlInSeconds", parent: name, min: 0)
         }
@@ -714,7 +711,6 @@ extension ApiGatewayV2 {
         }
 
         public func validate(name: String) throws {
-            try self.timeoutInMillis?.forEach {}
             try self.validate(self.timeoutInMillis, name: "timeoutInMillis", parent: name, max: 30000)
             try self.validate(self.timeoutInMillis, name: "timeoutInMillis", parent: name, min: 50)
         }
@@ -3523,7 +3519,6 @@ extension ApiGatewayV2 {
 
         public func validate(name: String) throws {
             try self.corsConfiguration?.validate(name: "\(name).corsConfiguration")
-            try self.corsConfiguration?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3634,7 +3629,6 @@ extension ApiGatewayV2 {
         }
 
         public func validate(name: String) throws {
-            try self.authorizerResultTtlInSeconds?.forEach {}
             try self.validate(self.authorizerResultTtlInSeconds, name: "authorizerResultTtlInSeconds", parent: name, max: 3600)
             try self.validate(self.authorizerResultTtlInSeconds, name: "authorizerResultTtlInSeconds", parent: name, min: 0)
         }
@@ -3838,7 +3832,6 @@ extension ApiGatewayV2 {
         }
 
         public func validate(name: String) throws {
-            try self.timeoutInMillis?.forEach {}
             try self.validate(self.timeoutInMillis, name: "timeoutInMillis", parent: name, max: 30000)
             try self.validate(self.timeoutInMillis, name: "timeoutInMillis", parent: name, min: 50)
         }

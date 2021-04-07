@@ -176,7 +176,6 @@ extension Polly {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "[0-9A-Za-z]{1,20}")
         }
 
@@ -212,7 +211,6 @@ extension Polly {
         }
 
         public func validate(name: String) throws {
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
         }
@@ -250,7 +248,6 @@ extension Polly {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "[0-9A-Za-z]{1,20}")
         }
 
@@ -287,7 +284,6 @@ extension Polly {
         }
 
         public func validate(name: String) throws {
-            try self.taskId.forEach {}
             try self.validate(self.taskId, name: "taskId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,100}$")
         }
 
@@ -387,7 +383,6 @@ extension Polly {
         }
 
         public func validate(name: String) throws {
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
         }
@@ -433,10 +428,8 @@ extension Polly {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
         }
@@ -477,7 +470,6 @@ extension Polly {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "[0-9A-Za-z]{1,20}")
         }
 
@@ -535,15 +527,10 @@ extension Polly {
             try self.lexiconNames?.forEach {
                 try validate($0, name: "lexiconNames[]", parent: name, pattern: "[0-9A-Za-z]{1,20}")
             }
-            try self.lexiconNames?.forEach {}
             try self.validate(self.lexiconNames, name: "lexiconNames", parent: name, max: 5)
-            try self.outputS3BucketName.forEach {}
             try self.validate(self.outputS3BucketName, name: "outputS3BucketName", parent: name, pattern: "^[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]$")
-            try self.outputS3KeyPrefix?.forEach {}
             try self.validate(self.outputS3KeyPrefix, name: "outputS3KeyPrefix", parent: name, pattern: "^[0-9a-zA-Z\\/\\!\\-_\\.\\*\\'\\(\\):;\\$@=+\\,\\?&]{0,800}$")
-            try self.snsTopicArn?.forEach {}
             try self.validate(self.snsTopicArn, name: "snsTopicArn", parent: name, pattern: "^arn:aws(-(cn|iso(-b)?|us-gov))?:sns:[a-z0-9_-]{1,50}:\\d{12}:[a-zA-Z0-9_-]{1,256}$")
-            try self.speechMarkTypes?.forEach {}
             try self.validate(self.speechMarkTypes, name: "speechMarkTypes", parent: name, max: 4)
         }
 
@@ -681,9 +668,7 @@ extension Polly {
             try self.lexiconNames?.forEach {
                 try validate($0, name: "lexiconNames[]", parent: name, pattern: "[0-9A-Za-z]{1,20}")
             }
-            try self.lexiconNames?.forEach {}
             try self.validate(self.lexiconNames, name: "lexiconNames", parent: name, max: 5)
-            try self.speechMarkTypes?.forEach {}
             try self.validate(self.speechMarkTypes, name: "speechMarkTypes", parent: name, max: 4)
         }
 

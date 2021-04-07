@@ -103,10 +103,8 @@ extension CodeGuruProfiler {
             try self.channels.forEach {
                 try $0.validate(name: "\(name).channels[]")
             }
-            try self.channels.forEach {}
             try self.validate(self.channels, name: "channels", parent: name, max: 2)
             try self.validate(self.channels, name: "channels", parent: name, min: 1)
-            try self.profilingGroupName.forEach {}
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, max: 255)
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, min: 1)
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, pattern: "^[\\w-]+$")
@@ -264,10 +262,8 @@ extension CodeGuruProfiler {
         }
 
         public func validate(name: String) throws {
-            try self.period?.forEach {}
             try self.validate(self.period, name: "period", parent: name, max: 64)
             try self.validate(self.period, name: "period", parent: name, min: 1)
-            try self.profilingGroupName.forEach {}
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, max: 255)
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, min: 1)
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, pattern: "^[\\w-]+$")
@@ -328,10 +324,8 @@ extension CodeGuruProfiler {
         }
 
         public func validate(name: String) throws {
-            try self.eventPublishers.forEach {}
             try self.validate(self.eventPublishers, name: "eventPublishers", parent: name, max: 1)
             try self.validate(self.eventPublishers, name: "eventPublishers", parent: name, min: 1)
-            try self.id?.forEach {}
             try self.validate(self.id, name: "id", parent: name, pattern: "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
         }
 
@@ -361,10 +355,8 @@ extension CodeGuruProfiler {
         }
 
         public func validate(name: String) throws {
-            try self.fleetInstanceId?.forEach {}
             try self.validate(self.fleetInstanceId, name: "fleetInstanceId", parent: name, max: 255)
             try self.validate(self.fleetInstanceId, name: "fleetInstanceId", parent: name, min: 1)
-            try self.profilingGroupName.forEach {}
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, max: 255)
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, min: 1)
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, pattern: "^[\\w-]+$")
@@ -417,11 +409,9 @@ extension CodeGuruProfiler {
         }
 
         public func validate(name: String) throws {
-            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\w-]+$")
-            try self.profilingGroupName.forEach {}
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, max: 255)
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, min: 1)
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, pattern: "^[\\w-]+$")
@@ -464,7 +454,6 @@ extension CodeGuruProfiler {
         }
 
         public func validate(name: String) throws {
-            try self.profilingGroupName.forEach {}
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, max: 255)
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, min: 1)
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, pattern: "^[\\w-]+$")
@@ -490,7 +479,6 @@ extension CodeGuruProfiler {
         }
 
         public func validate(name: String) throws {
-            try self.profilingGroupName.forEach {}
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, max: 255)
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, min: 1)
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, pattern: "^[\\w-]+$")
@@ -604,10 +592,8 @@ extension CodeGuruProfiler {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 64)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w-]+$")
@@ -646,7 +632,6 @@ extension CodeGuruProfiler {
         }
 
         public func validate(name: String) throws {
-            try self.profilingGroupName.forEach {}
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, max: 255)
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, min: 1)
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, pattern: "^[\\w-]+$")
@@ -681,7 +666,6 @@ extension CodeGuruProfiler {
         }
 
         public func validate(name: String) throws {
-            try self.profilingGroupName.forEach {}
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, max: 255)
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, min: 1)
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, pattern: "^[\\w-]+$")
@@ -742,13 +726,10 @@ extension CodeGuruProfiler {
         }
 
         public func validate(name: String) throws {
-            try self.maxDepth?.forEach {}
             try self.validate(self.maxDepth, name: "maxDepth", parent: name, max: 10000)
             try self.validate(self.maxDepth, name: "maxDepth", parent: name, min: 1)
-            try self.period?.forEach {}
             try self.validate(self.period, name: "period", parent: name, max: 64)
             try self.validate(self.period, name: "period", parent: name, min: 1)
-            try self.profilingGroupName.forEach {}
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, max: 255)
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, min: 1)
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, pattern: "^[\\w-]+$")
@@ -813,7 +794,6 @@ extension CodeGuruProfiler {
         }
 
         public func validate(name: String) throws {
-            try self.profilingGroupName.forEach {}
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, max: 255)
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, min: 1)
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, pattern: "^[\\w-]+$")
@@ -888,14 +868,11 @@ extension CodeGuruProfiler {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 64)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w-]+$")
-            try self.profilingGroupName.forEach {}
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, max: 255)
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, min: 1)
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, pattern: "^[\\w-]+$")
@@ -960,14 +937,11 @@ extension CodeGuruProfiler {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 64)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w-]+$")
-            try self.profilingGroupName.forEach {}
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, max: 255)
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, min: 1)
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, pattern: "^[\\w-]+$")
@@ -1014,10 +988,8 @@ extension CodeGuruProfiler {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 64)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w-]+$")
@@ -1194,11 +1166,9 @@ extension CodeGuruProfiler {
         }
 
         public func validate(name: String) throws {
-            try self.profileToken?.forEach {}
             try self.validate(self.profileToken, name: "profileToken", parent: name, max: 64)
             try self.validate(self.profileToken, name: "profileToken", parent: name, min: 1)
             try self.validate(self.profileToken, name: "profileToken", parent: name, pattern: "^[\\w-]+$")
-            try self.profilingGroupName.forEach {}
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, max: 255)
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, min: 1)
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, pattern: "^[\\w-]+$")
@@ -1314,14 +1284,11 @@ extension CodeGuruProfiler {
         }
 
         public func validate(name: String) throws {
-            try self.principals.forEach {}
             try self.validate(self.principals, name: "principals", parent: name, max: 50)
             try self.validate(self.principals, name: "principals", parent: name, min: 1)
-            try self.profilingGroupName.forEach {}
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, max: 255)
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, min: 1)
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, pattern: "^[\\w-]+$")
-            try self.revisionId?.forEach {}
             try self.validate(self.revisionId, name: "revisionId", parent: name, pattern: "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
         }
 
@@ -1400,9 +1367,7 @@ extension CodeGuruProfiler {
         }
 
         public func validate(name: String) throws {
-            try self.channelId.forEach {}
             try self.validate(self.channelId, name: "channelId", parent: name, pattern: "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
-            try self.profilingGroupName.forEach {}
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, max: 255)
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, min: 1)
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, pattern: "^[\\w-]+$")
@@ -1445,11 +1410,9 @@ extension CodeGuruProfiler {
         }
 
         public func validate(name: String) throws {
-            try self.profilingGroupName.forEach {}
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, max: 255)
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, min: 1)
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, pattern: "^[\\w-]+$")
-            try self.revisionId.forEach {}
             try self.validate(self.revisionId, name: "revisionId", parent: name, pattern: "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
         }
 
@@ -1496,9 +1459,7 @@ extension CodeGuruProfiler {
         }
 
         public func validate(name: String) throws {
-            try self.anomalyInstanceId.forEach {}
             try self.validate(self.anomalyInstanceId, name: "anomalyInstanceId", parent: name, pattern: "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
-            try self.profilingGroupName.forEach {}
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, max: 255)
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, min: 1)
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, pattern: "^[\\w-]+$")
@@ -1591,7 +1552,6 @@ extension CodeGuruProfiler {
         }
 
         public func validate(name: String) throws {
-            try self.profilingGroupName.forEach {}
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, max: 255)
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, min: 1)
             try self.validate(self.profilingGroupName, name: "profilingGroupName", parent: name, pattern: "^[\\w-]+$")

@@ -419,7 +419,6 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.customRequestHandling?.validate(name: "\(name).customRequestHandling")
-            try self.customRequestHandling?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -439,7 +438,6 @@ extension WAFV2 {
             try self.statements.forEach {
                 try $0.validate(name: "\(name).statements[]")
             }
-            try self.statements.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -459,11 +457,9 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: ".*\\S.*")
-            try self.webACLArn.forEach {}
             try self.validate(self.webACLArn, name: "webACLArn", parent: name, max: 2048)
             try self.validate(self.webACLArn, name: "webACLArn", parent: name, min: 20)
             try self.validate(self.webACLArn, name: "webACLArn", parent: name, pattern: ".*\\S.*")
@@ -489,7 +485,6 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.customResponse?.validate(name: "\(name).customResponse")
-            try self.customResponse?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -520,11 +515,9 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.fieldToMatch.validate(name: "\(name).fieldToMatch")
-            try self.fieldToMatch.forEach {}
             try self.textTransformations.forEach {
                 try $0.validate(name: "\(name).textTransformations[]")
             }
-            try self.textTransformations.forEach {}
             try self.validate(self.textTransformations, name: "textTransformations", parent: name, min: 1)
         }
 
@@ -551,7 +544,6 @@ extension WAFV2 {
             try self.rules.forEach {
                 try $0.validate(name: "\(name).rules[]")
             }
-            try self.rules.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -586,7 +578,6 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.labelNameCondition?.validate(name: "\(name).labelNameCondition")
-            try self.labelNameCondition?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -605,7 +596,6 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.customRequestHandling?.validate(name: "\(name).customRequestHandling")
-            try self.customRequestHandling?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -642,19 +632,15 @@ extension WAFV2 {
                 try validate($0, name: "addresses[]", parent: name, min: 1)
                 try validate($0, name: "addresses[]", parent: name, pattern: ".*\\S.*")
             }
-            try self.addresses.forEach {}
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\w+=:#@/\\-,\\.][\\w+=:#@/\\-,\\.\\s]+[\\w+=:#@/\\-,\\.]$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
@@ -702,22 +688,18 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\w+=:#@/\\-,\\.][\\w+=:#@/\\-,\\.\\s]+[\\w+=:#@/\\-,\\.]$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
             try self.regularExpressionList.forEach {
                 try $0.validate(name: "\(name).regularExpressionList[]")
             }
-            try self.regularExpressionList.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
@@ -773,7 +755,6 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.capacity.forEach {}
             try self.validate(self.capacity, name: "capacity", parent: name, min: 1)
             try self.customResponseBodies?.forEach {
                 try validate($0.key, name: "customResponseBodies.key", parent: name, max: 128)
@@ -781,25 +762,20 @@ extension WAFV2 {
                 try validate($0.key, name: "customResponseBodies.key", parent: name, pattern: "^[\\w\\-]+$")
                 try $0.value.validate(name: "\(name).customResponseBodies[\"\($0.key)\"]")
             }
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\w+=:#@/\\-,\\.][\\w+=:#@/\\-,\\.\\s]+[\\w+=:#@/\\-,\\.]$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
             try self.rules?.forEach {
                 try $0.validate(name: "\(name).rules[]")
             }
-            try self.rules?.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
             try self.visibilityConfig.validate(name: "\(name).visibilityConfig")
-            try self.visibilityConfig.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -864,26 +840,20 @@ extension WAFV2 {
                 try $0.value.validate(name: "\(name).customResponseBodies[\"\($0.key)\"]")
             }
             try self.defaultAction.validate(name: "\(name).defaultAction")
-            try self.defaultAction.forEach {}
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\w+=:#@/\\-,\\.][\\w+=:#@/\\-,\\.\\s]+[\\w+=:#@/\\-,\\.]$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
             try self.rules?.forEach {
                 try $0.validate(name: "\(name).rules[]")
             }
-            try self.rules?.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
             try self.visibilityConfig.validate(name: "\(name).visibilityConfig")
-            try self.visibilityConfig.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -923,11 +893,9 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9._$-]+$")
-            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 255)
             try self.validate(self.value, name: "value", parent: name, min: 1)
             try self.validate(self.value, name: "value", parent: name, pattern: ".*")
@@ -951,7 +919,6 @@ extension WAFV2 {
             try self.insertHeaders.forEach {
                 try $0.validate(name: "\(name).insertHeaders[]")
             }
-            try self.insertHeaders.forEach {}
             try self.validate(self.insertHeaders, name: "insertHeaders", parent: name, min: 1)
         }
 
@@ -975,17 +942,14 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.customResponseBodyKey?.forEach {}
             try self.validate(self.customResponseBodyKey, name: "customResponseBodyKey", parent: name, max: 128)
             try self.validate(self.customResponseBodyKey, name: "customResponseBodyKey", parent: name, min: 1)
             try self.validate(self.customResponseBodyKey, name: "customResponseBodyKey", parent: name, pattern: "^[\\w\\-]+$")
-            try self.responseCode.forEach {}
             try self.validate(self.responseCode, name: "responseCode", parent: name, max: 600)
             try self.validate(self.responseCode, name: "responseCode", parent: name, min: 200)
             try self.responseHeaders?.forEach {
                 try $0.validate(name: "\(name).responseHeaders[]")
             }
-            try self.responseHeaders?.forEach {}
             try self.validate(self.responseHeaders, name: "responseHeaders", parent: name, min: 1)
         }
 
@@ -1008,7 +972,6 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.content.forEach {}
             try self.validate(self.content, name: "content", parent: name, max: 10240)
             try self.validate(self.content, name: "content", parent: name, min: 1)
             try self.validate(self.content, name: "content", parent: name, pattern: "[\\s\\S]*")
@@ -1033,9 +996,7 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.allow?.validate(name: "\(name).allow")
-            try self.allow?.forEach {}
             try self.block?.validate(name: "\(name).block")
-            try self.block?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1056,11 +1017,9 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.webACLArn.forEach {}
             try self.validate(self.webACLArn, name: "webACLArn", parent: name, max: 2048)
             try self.validate(self.webACLArn, name: "webACLArn", parent: name, min: 20)
             try self.validate(self.webACLArn, name: "webACLArn", parent: name, pattern: ".*\\S.*")
-            try self.webACLLockToken.forEach {}
             try self.validate(self.webACLLockToken, name: "webACLLockToken", parent: name, max: 36)
             try self.validate(self.webACLLockToken, name: "webACLLockToken", parent: name, min: 1)
             try self.validate(self.webACLLockToken, name: "webACLLockToken", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
@@ -1103,15 +1062,12 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
-            try self.lockToken.forEach {}
             try self.validate(self.lockToken, name: "lockToken", parent: name, max: 36)
             try self.validate(self.lockToken, name: "lockToken", parent: name, min: 1)
             try self.validate(self.lockToken, name: "lockToken", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
@@ -1138,7 +1094,6 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: ".*\\S.*")
@@ -1162,7 +1117,6 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: ".*\\S.*")
@@ -1195,15 +1149,12 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
-            try self.lockToken.forEach {}
             try self.validate(self.lockToken, name: "lockToken", parent: name, max: 36)
             try self.validate(self.lockToken, name: "lockToken", parent: name, min: 1)
             try self.validate(self.lockToken, name: "lockToken", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
@@ -1239,15 +1190,12 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
-            try self.lockToken.forEach {}
             try self.validate(self.lockToken, name: "lockToken", parent: name, max: 36)
             try self.validate(self.lockToken, name: "lockToken", parent: name, min: 1)
             try self.validate(self.lockToken, name: "lockToken", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
@@ -1283,15 +1231,12 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
-            try self.lockToken.forEach {}
             try self.validate(self.lockToken, name: "lockToken", parent: name, max: 36)
             try self.validate(self.lockToken, name: "lockToken", parent: name, min: 1)
             try self.validate(self.lockToken, name: "lockToken", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
@@ -1324,11 +1269,9 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
-            try self.vendorName.forEach {}
             try self.validate(self.vendorName, name: "vendorName", parent: name, max: 128)
             try self.validate(self.vendorName, name: "vendorName", parent: name, min: 1)
             try self.validate(self.vendorName, name: "vendorName", parent: name, pattern: ".*\\S.*")
@@ -1378,7 +1321,6 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: ".*\\S.*")
@@ -1402,7 +1344,6 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
@@ -1444,11 +1385,8 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.jsonBody?.validate(name: "\(name).jsonBody")
-            try self.jsonBody?.forEach {}
             try self.singleHeader?.validate(name: "\(name).singleHeader")
-            try self.singleHeader?.forEach {}
             try self.singleQueryArgument?.validate(name: "\(name).singleQueryArgument")
-            try self.singleQueryArgument?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1481,7 +1419,6 @@ extension WAFV2 {
             try self.conditions.forEach {
                 try $0.validate(name: "\(name).conditions[]")
             }
-            try self.conditions.forEach {}
             try self.validate(self.conditions, name: "conditions", parent: name, min: 1)
         }
 
@@ -1546,7 +1483,6 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.headerName.forEach {}
             try self.validate(self.headerName, name: "headerName", parent: name, max: 255)
             try self.validate(self.headerName, name: "headerName", parent: name, min: 1)
             try self.validate(self.headerName, name: "headerName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
@@ -1570,10 +1506,8 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.countryCodes?.forEach {}
             try self.validate(self.countryCodes, name: "countryCodes", parent: name, min: 1)
             try self.forwardedIPConfig?.validate(name: "\(name).forwardedIPConfig")
-            try self.forwardedIPConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1597,11 +1531,9 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
@@ -1639,7 +1571,6 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: ".*\\S.*")
@@ -1672,7 +1603,6 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: ".*\\S.*")
@@ -1714,15 +1644,12 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.ruleName.forEach {}
             try self.validate(self.ruleName, name: "ruleName", parent: name, max: 128)
             try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
             try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "^[\\w\\-]+$")
-            try self.webACLId.forEach {}
             try self.validate(self.webACLId, name: "webACLId", parent: name, max: 36)
             try self.validate(self.webACLId, name: "webACLId", parent: name, min: 1)
             try self.validate(self.webACLId, name: "webACLId", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
-            try self.webACLName.forEach {}
             try self.validate(self.webACLName, name: "webACLName", parent: name, max: 128)
             try self.validate(self.webACLName, name: "webACLName", parent: name, min: 1)
             try self.validate(self.webACLName, name: "webACLName", parent: name, pattern: "^[\\w\\-]+$")
@@ -1768,11 +1695,9 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
@@ -1816,11 +1741,9 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
@@ -1870,14 +1793,11 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.maxItems.forEach {}
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 500)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
-            try self.ruleMetricName.forEach {}
             try self.validate(self.ruleMetricName, name: "ruleMetricName", parent: name, max: 255)
             try self.validate(self.ruleMetricName, name: "ruleMetricName", parent: name, min: 1)
             try self.validate(self.ruleMetricName, name: "ruleMetricName", parent: name, pattern: "^[\\w#:\\.\\-/]+$")
-            try self.webAclArn.forEach {}
             try self.validate(self.webAclArn, name: "webAclArn", parent: name, max: 2048)
             try self.validate(self.webAclArn, name: "webAclArn", parent: name, min: 20)
             try self.validate(self.webAclArn, name: "webAclArn", parent: name, pattern: ".*\\S.*")
@@ -1922,7 +1842,6 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: ".*\\S.*")
@@ -1961,11 +1880,9 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
@@ -2093,7 +2010,6 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.headerName.forEach {}
             try self.validate(self.headerName, name: "headerName", parent: name, max: 255)
             try self.validate(self.headerName, name: "headerName", parent: name, min: 1)
             try self.validate(self.headerName, name: "headerName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
@@ -2118,12 +2034,10 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 2048)
             try self.validate(self.arn, name: "arn", parent: name, min: 20)
             try self.validate(self.arn, name: "arn", parent: name, pattern: ".*\\S.*")
             try self.iPSetForwardedIPConfig?.validate(name: "\(name).iPSetForwardedIPConfig")
-            try self.iPSetForwardedIPConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2177,7 +2091,6 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.matchPattern.validate(name: "\(name).matchPattern")
-            try self.matchPattern.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2204,7 +2117,6 @@ extension WAFV2 {
                 try validate($0, name: "includedPaths[]", parent: name, min: 1)
                 try validate($0, name: "includedPaths[]", parent: name, pattern: "([/])|([/](([^~])|(~[01]))+)")
             }
-            try self.includedPaths?.forEach {}
             try self.validate(self.includedPaths, name: "includedPaths", parent: name, min: 1)
         }
 
@@ -2223,7 +2135,6 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9A-Za-z_\\-:]+$")
@@ -2246,7 +2157,6 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 1024)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^[0-9A-Za-z_\\-:]+$")
@@ -2267,7 +2177,6 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.labelName.forEach {}
             try self.validate(self.labelName, name: "labelName", parent: name, max: 1024)
             try self.validate(self.labelName, name: "labelName", parent: name, min: 1)
             try self.validate(self.labelName, name: "labelName", parent: name, pattern: "^[0-9A-Za-z_\\-:]+$")
@@ -2306,10 +2215,8 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.nextMarker?.forEach {}
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 256)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
@@ -2353,10 +2260,8 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.nextMarker?.forEach {}
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 256)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
@@ -2401,10 +2306,8 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.nextMarker?.forEach {}
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 256)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
@@ -2448,10 +2351,8 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.nextMarker?.forEach {}
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 256)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
@@ -2492,7 +2393,6 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.webACLArn.forEach {}
             try self.validate(self.webACLArn, name: "webACLArn", parent: name, max: 2048)
             try self.validate(self.webACLArn, name: "webACLArn", parent: name, min: 20)
             try self.validate(self.webACLArn, name: "webACLArn", parent: name, pattern: ".*\\S.*")
@@ -2532,10 +2432,8 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.nextMarker?.forEach {}
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 256)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
@@ -2579,14 +2477,11 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.nextMarker?.forEach {}
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 256)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
-            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 2048)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 20)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: ".*\\S.*")
@@ -2631,10 +2526,8 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.nextMarker?.forEach {}
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 256)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
             try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: ".*\\S.*")
@@ -2689,17 +2582,13 @@ extension WAFV2 {
                 try validate($0, name: "logDestinationConfigs[]", parent: name, min: 20)
                 try validate($0, name: "logDestinationConfigs[]", parent: name, pattern: ".*\\S.*")
             }
-            try self.logDestinationConfigs.forEach {}
             try self.validate(self.logDestinationConfigs, name: "logDestinationConfigs", parent: name, max: 100)
             try self.validate(self.logDestinationConfigs, name: "logDestinationConfigs", parent: name, min: 1)
             try self.loggingFilter?.validate(name: "\(name).loggingFilter")
-            try self.loggingFilter?.forEach {}
             try self.redactedFields?.forEach {
                 try $0.validate(name: "\(name).redactedFields[]")
             }
-            try self.redactedFields?.forEach {}
             try self.validate(self.redactedFields, name: "redactedFields", parent: name, max: 100)
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: ".*\\S.*")
@@ -2729,7 +2618,6 @@ extension WAFV2 {
             try self.filters.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try self.filters.forEach {}
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
         }
 
@@ -2759,14 +2647,10 @@ extension WAFV2 {
             try self.excludedRules?.forEach {
                 try $0.validate(name: "\(name).excludedRules[]")
             }
-            try self.excludedRules?.forEach {}
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
             try self.scopeDownStatement?.validate(name: "\(name).scopeDownStatement")
-            try self.scopeDownStatement?.forEach {}
-            try self.vendorName.forEach {}
             try self.validate(self.vendorName, name: "vendorName", parent: name, max: 128)
             try self.validate(self.vendorName, name: "vendorName", parent: name, min: 1)
             try self.validate(self.vendorName, name: "vendorName", parent: name, pattern: ".*\\S.*")
@@ -2819,7 +2703,6 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.statement.validate(name: "\(name).statement")
-            try self.statement.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2839,7 +2722,6 @@ extension WAFV2 {
             try self.statements.forEach {
                 try $0.validate(name: "\(name).statements[]")
             }
-            try self.statements.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2860,7 +2742,6 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.count?.validate(name: "\(name).count")
-            try self.count?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2878,7 +2759,6 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.loggingConfiguration.validate(name: "\(name).loggingConfiguration")
-            try self.loggingConfiguration.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2910,11 +2790,9 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.policy.forEach {}
             try self.validate(self.policy, name: "policy", parent: name, max: 395_000)
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
             try self.validate(self.policy, name: "policy", parent: name, pattern: ".*\\S.*")
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: ".*\\S.*")
@@ -2953,12 +2831,9 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.forwardedIPConfig?.validate(name: "\(name).forwardedIPConfig")
-            try self.forwardedIPConfig?.forEach {}
-            try self.limit.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 2_000_000_000)
             try self.validate(self.limit, name: "limit", parent: name, min: 100)
             try self.scopeDownStatement?.validate(name: "\(name).scopeDownStatement")
-            try self.scopeDownStatement?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2994,7 +2869,6 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.regexString?.forEach {}
             try self.validate(self.regexString, name: "regexString", parent: name, max: 512)
             try self.validate(self.regexString, name: "regexString", parent: name, min: 1)
             try self.validate(self.regexString, name: "regexString", parent: name, pattern: ".*")
@@ -3049,16 +2923,13 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 2048)
             try self.validate(self.arn, name: "arn", parent: name, min: 20)
             try self.validate(self.arn, name: "arn", parent: name, pattern: ".*\\S.*")
             try self.fieldToMatch.validate(name: "\(name).fieldToMatch")
-            try self.fieldToMatch.forEach {}
             try self.textTransformations.forEach {
                 try $0.validate(name: "\(name).textTransformations[]")
             }
-            try self.textTransformations.forEach {}
             try self.validate(self.textTransformations, name: "textTransformations", parent: name, min: 1)
         }
 
@@ -3126,23 +2997,16 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.action?.validate(name: "\(name).action")
-            try self.action?.forEach {}
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
             try self.overrideAction?.validate(name: "\(name).overrideAction")
-            try self.overrideAction?.forEach {}
-            try self.priority.forEach {}
             try self.validate(self.priority, name: "priority", parent: name, min: 0)
             try self.ruleLabels?.forEach {
                 try $0.validate(name: "\(name).ruleLabels[]")
             }
-            try self.ruleLabels?.forEach {}
             try self.statement.validate(name: "\(name).statement")
-            try self.statement.forEach {}
             try self.visibilityConfig.validate(name: "\(name).visibilityConfig")
-            try self.visibilityConfig.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3172,11 +3036,8 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.allow?.validate(name: "\(name).allow")
-            try self.allow?.forEach {}
             try self.block?.validate(name: "\(name).block")
-            try self.block?.forEach {}
             try self.count?.validate(name: "\(name).count")
-            try self.count?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3251,14 +3112,12 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, max: 2048)
             try self.validate(self.arn, name: "arn", parent: name, min: 20)
             try self.validate(self.arn, name: "arn", parent: name, pattern: ".*\\S.*")
             try self.excludedRules?.forEach {
                 try $0.validate(name: "\(name).excludedRules[]")
             }
-            try self.excludedRules?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3362,7 +3221,6 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
@@ -3382,7 +3240,6 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
@@ -3412,14 +3269,11 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.fieldToMatch.validate(name: "\(name).fieldToMatch")
-            try self.fieldToMatch.forEach {}
-            try self.size.forEach {}
             try self.validate(self.size, name: "size", parent: name, max: 21_474_836_480)
             try self.validate(self.size, name: "size", parent: name, min: 0)
             try self.textTransformations.forEach {
                 try $0.validate(name: "\(name).textTransformations[]")
             }
-            try self.textTransformations.forEach {}
             try self.validate(self.textTransformations, name: "textTransformations", parent: name, min: 1)
         }
 
@@ -3444,11 +3298,9 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.fieldToMatch.validate(name: "\(name).fieldToMatch")
-            try self.fieldToMatch.forEach {}
             try self.textTransformations.forEach {
                 try $0.validate(name: "\(name).textTransformations[]")
             }
-            try self.textTransformations.forEach {}
             try self.validate(self.textTransformations, name: "textTransformations", parent: name, min: 1)
         }
 
@@ -3507,33 +3359,19 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.andStatement?.validate(name: "\(name).andStatement")
-            try self.andStatement?.forEach {}
             try self.byteMatchStatement?.validate(name: "\(name).byteMatchStatement")
-            try self.byteMatchStatement?.forEach {}
             try self.geoMatchStatement?.validate(name: "\(name).geoMatchStatement")
-            try self.geoMatchStatement?.forEach {}
             try self.iPSetReferenceStatement?.validate(name: "\(name).iPSetReferenceStatement")
-            try self.iPSetReferenceStatement?.forEach {}
             try self.labelMatchStatement?.validate(name: "\(name).labelMatchStatement")
-            try self.labelMatchStatement?.forEach {}
             try self.managedRuleGroupStatement?.validate(name: "\(name).managedRuleGroupStatement")
-            try self.managedRuleGroupStatement?.forEach {}
             try self.notStatement?.validate(name: "\(name).notStatement")
-            try self.notStatement?.forEach {}
             try self.orStatement?.validate(name: "\(name).orStatement")
-            try self.orStatement?.forEach {}
             try self.rateBasedStatement?.validate(name: "\(name).rateBasedStatement")
-            try self.rateBasedStatement?.forEach {}
             try self.regexPatternSetReferenceStatement?.validate(name: "\(name).regexPatternSetReferenceStatement")
-            try self.regexPatternSetReferenceStatement?.forEach {}
             try self.ruleGroupReferenceStatement?.validate(name: "\(name).ruleGroupReferenceStatement")
-            try self.ruleGroupReferenceStatement?.forEach {}
             try self.sizeConstraintStatement?.validate(name: "\(name).sizeConstraintStatement")
-            try self.sizeConstraintStatement?.forEach {}
             try self.sqliMatchStatement?.validate(name: "\(name).sqliMatchStatement")
-            try self.sqliMatchStatement?.forEach {}
             try self.xssMatchStatement?.validate(name: "\(name).xssMatchStatement")
-            try self.xssMatchStatement?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3566,11 +3404,9 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
             try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -3611,14 +3447,12 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 2048)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 20)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: ".*\\S.*")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
@@ -3644,7 +3478,6 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.priority.forEach {}
             try self.validate(self.priority, name: "priority", parent: name, min: 0)
         }
 
@@ -3683,7 +3516,6 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 2048)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 20)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: ".*\\S.*")
@@ -3692,7 +3524,6 @@ extension WAFV2 {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
-            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
 
@@ -3735,20 +3566,15 @@ extension WAFV2 {
                 try validate($0, name: "addresses[]", parent: name, min: 1)
                 try validate($0, name: "addresses[]", parent: name, pattern: ".*\\S.*")
             }
-            try self.addresses.forEach {}
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\w+=:#@/\\-,\\.][\\w+=:#@/\\-,\\.\\s]+[\\w+=:#@/\\-,\\.]$")
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
-            try self.lockToken.forEach {}
             try self.validate(self.lockToken, name: "lockToken", parent: name, max: 36)
             try self.validate(self.lockToken, name: "lockToken", parent: name, min: 1)
             try self.validate(self.lockToken, name: "lockToken", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
@@ -3800,26 +3626,21 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\w+=:#@/\\-,\\.][\\w+=:#@/\\-,\\.\\s]+[\\w+=:#@/\\-,\\.]$")
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
-            try self.lockToken.forEach {}
             try self.validate(self.lockToken, name: "lockToken", parent: name, max: 36)
             try self.validate(self.lockToken, name: "lockToken", parent: name, min: 1)
             try self.validate(self.lockToken, name: "lockToken", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
             try self.regularExpressionList.forEach {
                 try $0.validate(name: "\(name).regularExpressionList[]")
             }
-            try self.regularExpressionList.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3881,28 +3702,22 @@ extension WAFV2 {
                 try validate($0.key, name: "customResponseBodies.key", parent: name, pattern: "^[\\w\\-]+$")
                 try $0.value.validate(name: "\(name).customResponseBodies[\"\($0.key)\"]")
             }
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\w+=:#@/\\-,\\.][\\w+=:#@/\\-,\\.\\s]+[\\w+=:#@/\\-,\\.]$")
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
-            try self.lockToken.forEach {}
             try self.validate(self.lockToken, name: "lockToken", parent: name, max: 36)
             try self.validate(self.lockToken, name: "lockToken", parent: name, min: 1)
             try self.validate(self.lockToken, name: "lockToken", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
             try self.rules?.forEach {
                 try $0.validate(name: "\(name).rules[]")
             }
-            try self.rules?.forEach {}
             try self.visibilityConfig.validate(name: "\(name).visibilityConfig")
-            try self.visibilityConfig.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3970,29 +3785,22 @@ extension WAFV2 {
                 try $0.value.validate(name: "\(name).customResponseBodies[\"\($0.key)\"]")
             }
             try self.defaultAction.validate(name: "\(name).defaultAction")
-            try self.defaultAction.forEach {}
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\w+=:#@/\\-,\\.][\\w+=:#@/\\-,\\.\\s]+[\\w+=:#@/\\-,\\.]$")
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
-            try self.lockToken.forEach {}
             try self.validate(self.lockToken, name: "lockToken", parent: name, max: 36)
             try self.validate(self.lockToken, name: "lockToken", parent: name, min: 1)
             try self.validate(self.lockToken, name: "lockToken", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
             try self.rules?.forEach {
                 try $0.validate(name: "\(name).rules[]")
             }
-            try self.rules?.forEach {}
             try self.visibilityConfig.validate(name: "\(name).visibilityConfig")
-            try self.visibilityConfig.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4040,7 +3848,6 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
-            try self.metricName.forEach {}
             try self.validate(self.metricName, name: "metricName", parent: name, max: 255)
             try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
             try self.validate(self.metricName, name: "metricName", parent: name, pattern: "^[\\w#:\\.\\-/]+$")
@@ -4156,11 +3963,9 @@ extension WAFV2 {
 
         public func validate(name: String) throws {
             try self.fieldToMatch.validate(name: "\(name).fieldToMatch")
-            try self.fieldToMatch.forEach {}
             try self.textTransformations.forEach {
                 try $0.validate(name: "\(name).textTransformations[]")
             }
-            try self.textTransformations.forEach {}
             try self.validate(self.textTransformations, name: "textTransformations", parent: name, min: 1)
         }
 

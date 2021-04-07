@@ -106,7 +106,6 @@ extension Backup {
                 try validate($0.key, name: "backupOptions.key", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
                 try validate($0.value, name: "backupOptions[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
             }
-            try self.resourceType?.forEach {}
             try self.validate(self.resourceType, name: "resourceType", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
         }
 
@@ -244,11 +243,9 @@ extension Backup {
             try self.advancedBackupSettings?.forEach {
                 try $0.validate(name: "\(name).advancedBackupSettings[]")
             }
-            try self.advancedBackupSettings?.forEach {}
             try self.rules.forEach {
                 try $0.validate(name: "\(name).rules[]")
             }
-            try self.rules.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -402,9 +399,7 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
-            try self.ruleName.forEach {}
             try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
-            try self.targetBackupVaultName.forEach {}
             try self.validate(self.targetBackupVaultName, name: "targetBackupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
@@ -439,7 +434,6 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
-            try self.selectionName.forEach {}
             try self.validate(self.selectionName, name: "selectionName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
         }
 
@@ -655,7 +649,6 @@ extension Backup {
 
         public func validate(name: String) throws {
             try self.backupPlan.validate(name: "\(name).backupPlan")
-            try self.backupPlan.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -714,7 +707,6 @@ extension Backup {
 
         public func validate(name: String) throws {
             try self.backupSelection.validate(name: "\(name).backupSelection")
-            try self.backupSelection.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -766,7 +758,6 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
-            try self.backupVaultName.forEach {}
             try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
@@ -870,7 +861,6 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
-            try self.backupVaultName.forEach {}
             try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
@@ -905,7 +895,6 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
-            try self.backupVaultName.forEach {}
             try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
@@ -929,7 +918,6 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
-            try self.backupVaultName.forEach {}
             try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
@@ -1190,7 +1178,6 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
-            try self.backupVaultName.forEach {}
             try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
@@ -1388,7 +1375,6 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
-            try self.backupVaultName.forEach {}
             try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
@@ -1602,7 +1588,6 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
-            try self.backupVaultName.forEach {}
             try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
@@ -1643,7 +1628,6 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
-            try self.backupVaultName.forEach {}
             try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
@@ -1692,7 +1676,6 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
-            try self.backupVaultName.forEach {}
             try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
@@ -1795,13 +1778,9 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
-            try self.byAccountId?.forEach {}
             try self.validate(self.byAccountId, name: "byAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.byBackupVaultName?.forEach {}
             try self.validate(self.byBackupVaultName, name: "byBackupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
-            try self.byResourceType?.forEach {}
             try self.validate(self.byResourceType, name: "byResourceType", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1843,7 +1822,6 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1889,7 +1867,6 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1935,7 +1912,6 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1981,7 +1957,6 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2023,7 +1998,6 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2093,11 +2067,8 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
-            try self.byAccountId?.forEach {}
             try self.validate(self.byAccountId, name: "byAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.byResourceType?.forEach {}
             try self.validate(self.byResourceType, name: "byResourceType", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2139,7 +2110,6 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2205,11 +2175,8 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
-            try self.backupVaultName.forEach {}
             try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
-            try self.byResourceType?.forEach {}
             try self.validate(self.byResourceType, name: "byResourceType", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2255,7 +2222,6 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2313,9 +2279,7 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
-            try self.byAccountId?.forEach {}
             try self.validate(self.byAccountId, name: "byAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2361,7 +2325,6 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2423,7 +2386,6 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
-            try self.backupVaultName.forEach {}
             try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
@@ -2451,7 +2413,6 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
-            try self.backupVaultName.forEach {}
             try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
@@ -2694,7 +2655,6 @@ extension Backup {
                 try validate($0.key, name: "backupOptions.key", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
                 try validate($0.value, name: "backupOptions[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
             }
-            try self.backupVaultName.forEach {}
             try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
@@ -2755,7 +2715,6 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
-            try self.sourceBackupVaultName.forEach {}
             try self.validate(self.sourceBackupVaultName, name: "sourceBackupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
@@ -2807,7 +2766,6 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
-            try self.resourceType?.forEach {}
             try self.validate(self.resourceType, name: "resourceType", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
         }
 
@@ -2905,7 +2863,6 @@ extension Backup {
 
         public func validate(name: String) throws {
             try self.backupPlan.validate(name: "\(name).backupPlan")
-            try self.backupPlan.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2975,7 +2932,6 @@ extension Backup {
         }
 
         public func validate(name: String) throws {
-            try self.backupVaultName.forEach {}
             try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 

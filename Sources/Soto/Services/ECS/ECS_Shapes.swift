@@ -460,7 +460,6 @@ extension ECS {
 
         public func validate(name: String) throws {
             try self.managedScaling?.validate(name: "\(name).managedScaling")
-            try self.managedScaling?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -482,7 +481,6 @@ extension ECS {
 
         public func validate(name: String) throws {
             try self.managedScaling?.validate(name: "\(name).managedScaling")
-            try self.managedScaling?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -564,10 +562,8 @@ extension ECS {
         }
 
         public func validate(name: String) throws {
-            try self.base?.forEach {}
             try self.validate(self.base, name: "base", parent: name, max: 100_000)
             try self.validate(self.base, name: "base", parent: name, min: 0)
-            try self.weight?.forEach {}
             try self.validate(self.weight, name: "weight", parent: name, max: 1000)
             try self.validate(self.weight, name: "weight", parent: name, min: 0)
         }
@@ -1108,11 +1104,9 @@ extension ECS {
 
         public func validate(name: String) throws {
             try self.autoScalingGroupProvider.validate(name: "\(name).autoScalingGroupProvider")
-            try self.autoScalingGroupProvider.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -1164,11 +1158,9 @@ extension ECS {
             try self.defaultCapacityProviderStrategy?.forEach {
                 try $0.validate(name: "\(name).defaultCapacityProviderStrategy[]")
             }
-            try self.defaultCapacityProviderStrategy?.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -1271,11 +1263,9 @@ extension ECS {
             try self.capacityProviderStrategy?.forEach {
                 try $0.validate(name: "\(name).capacityProviderStrategy[]")
             }
-            try self.capacityProviderStrategy?.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -1365,11 +1355,9 @@ extension ECS {
             try self.capacityProviderStrategy?.forEach {
                 try $0.validate(name: "\(name).capacityProviderStrategy[]")
             }
-            try self.capacityProviderStrategy?.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -3053,16 +3041,12 @@ extension ECS {
         }
 
         public func validate(name: String) throws {
-            try self.instanceWarmupPeriod?.forEach {}
             try self.validate(self.instanceWarmupPeriod, name: "instanceWarmupPeriod", parent: name, max: 10000)
             try self.validate(self.instanceWarmupPeriod, name: "instanceWarmupPeriod", parent: name, min: 0)
-            try self.maximumScalingStepSize?.forEach {}
             try self.validate(self.maximumScalingStepSize, name: "maximumScalingStepSize", parent: name, max: 10000)
             try self.validate(self.maximumScalingStepSize, name: "maximumScalingStepSize", parent: name, min: 1)
-            try self.minimumScalingStepSize?.forEach {}
             try self.validate(self.minimumScalingStepSize, name: "minimumScalingStepSize", parent: name, max: 10000)
             try self.validate(self.minimumScalingStepSize, name: "minimumScalingStepSize", parent: name, min: 1)
-            try self.targetCapacity?.forEach {}
             try self.validate(self.targetCapacity, name: "targetCapacity", parent: name, max: 100)
             try self.validate(self.targetCapacity, name: "targetCapacity", parent: name, min: 1)
         }
@@ -3360,7 +3344,6 @@ extension ECS {
             try self.defaultCapacityProviderStrategy.forEach {
                 try $0.validate(name: "\(name).defaultCapacityProviderStrategy[]")
             }
-            try self.defaultCapacityProviderStrategy.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3418,7 +3401,6 @@ extension ECS {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -3502,7 +3484,6 @@ extension ECS {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -3666,11 +3647,9 @@ extension ECS {
             try self.capacityProviderStrategy?.forEach {
                 try $0.validate(name: "\(name).capacityProviderStrategy[]")
             }
-            try self.capacityProviderStrategy?.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -4009,7 +3988,6 @@ extension ECS {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -4256,11 +4234,9 @@ extension ECS {
         }
 
         public func validate(name: String) throws {
-            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
             try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -4287,7 +4263,6 @@ extension ECS {
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -4754,7 +4729,6 @@ extension ECS {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
-            try self.tagKeys.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4780,7 +4754,6 @@ extension ECS {
 
         public func validate(name: String) throws {
             try self.autoScalingGroupProvider.validate(name: "\(name).autoScalingGroupProvider")
-            try self.autoScalingGroupProvider.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5011,7 +4984,6 @@ extension ECS {
             try self.capacityProviderStrategy?.forEach {
                 try $0.validate(name: "\(name).capacityProviderStrategy[]")
             }
-            try self.capacityProviderStrategy?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {

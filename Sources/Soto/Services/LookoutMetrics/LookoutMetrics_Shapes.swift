@@ -94,9 +94,7 @@ extension LookoutMetrics {
 
         public func validate(name: String) throws {
             try self.lambdaConfiguration?.validate(name: "\(name).lambdaConfiguration")
-            try self.lambdaConfiguration?.forEach {}
             try self.sNSConfiguration?.validate(name: "\(name).sNSConfiguration")
-            try self.sNSConfiguration?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -114,7 +112,6 @@ extension LookoutMetrics {
         }
 
         public func validate(name: String) throws {
-            try self.anomalyDetectorArn.forEach {}
             try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, max: 256)
             try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:.*:.+")
         }
@@ -380,10 +377,8 @@ extension LookoutMetrics {
         }
 
         public func validate(name: String) throws {
-            try self.anomalyGroupId.forEach {}
             try self.validate(self.anomalyGroupId, name: "anomalyGroupId", parent: name, max: 63)
             try self.validate(self.anomalyGroupId, name: "anomalyGroupId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
-            try self.timeSeriesId?.forEach {}
             try self.validate(self.timeSeriesId, name: "timeSeriesId", parent: name, max: 520)
             try self.validate(self.timeSeriesId, name: "timeSeriesId", parent: name, pattern: ".*\\S.*")
         }
@@ -409,10 +404,8 @@ extension LookoutMetrics {
         }
 
         public func validate(name: String) throws {
-            try self.anomalyGroupId.forEach {}
             try self.validate(self.anomalyGroupId, name: "anomalyGroupId", parent: name, max: 63)
             try self.validate(self.anomalyGroupId, name: "anomalyGroupId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
-            try self.timeSeriesId.forEach {}
             try self.validate(self.timeSeriesId, name: "timeSeriesId", parent: name, max: 520)
             try self.validate(self.timeSeriesId, name: "timeSeriesId", parent: name, pattern: ".*\\S.*")
         }
@@ -436,10 +429,8 @@ extension LookoutMetrics {
         }
 
         public func validate(name: String) throws {
-            try self.flowName.forEach {}
             try self.validate(self.flowName, name: "flowName", parent: name, max: 256)
             try self.validate(self.flowName, name: "flowName", parent: name, pattern: "[a-zA-Z0-9][\\w!@#.-]+")
-            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:.*:.+")
         }
@@ -459,7 +450,6 @@ extension LookoutMetrics {
         }
 
         public func validate(name: String) throws {
-            try self.anomalyDetectorArn.forEach {}
             try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, max: 256)
             try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:.*:.+")
         }
@@ -482,7 +472,6 @@ extension LookoutMetrics {
         }
 
         public func validate(name: String) throws {
-            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:.*:.+")
         }
@@ -530,18 +519,13 @@ extension LookoutMetrics {
 
         public func validate(name: String) throws {
             try self.action.validate(name: "\(name).action")
-            try self.action.forEach {}
-            try self.alertDescription?.forEach {}
             try self.validate(self.alertDescription, name: "alertDescription", parent: name, max: 256)
             try self.validate(self.alertDescription, name: "alertDescription", parent: name, pattern: ".*\\S.*")
-            try self.alertName.forEach {}
             try self.validate(self.alertName, name: "alertName", parent: name, max: 63)
             try self.validate(self.alertName, name: "alertName", parent: name, min: 1)
             try self.validate(self.alertName, name: "alertName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
-            try self.alertSensitivityThreshold.forEach {}
             try self.validate(self.alertSensitivityThreshold, name: "alertSensitivityThreshold", parent: name, max: 100)
             try self.validate(self.alertSensitivityThreshold, name: "alertSensitivityThreshold", parent: name, min: 0)
-            try self.anomalyDetectorArn.forEach {}
             try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, max: 256)
             try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:.*:.+")
             try self.tags?.forEach {
@@ -595,15 +579,12 @@ extension LookoutMetrics {
         }
 
         public func validate(name: String) throws {
-            try self.anomalyDetectorDescription?.forEach {}
             try self.validate(self.anomalyDetectorDescription, name: "anomalyDetectorDescription", parent: name, max: 256)
             try self.validate(self.anomalyDetectorDescription, name: "anomalyDetectorDescription", parent: name, min: 1)
             try self.validate(self.anomalyDetectorDescription, name: "anomalyDetectorDescription", parent: name, pattern: ".*\\S.*")
-            try self.anomalyDetectorName.forEach {}
             try self.validate(self.anomalyDetectorName, name: "anomalyDetectorName", parent: name, max: 63)
             try self.validate(self.anomalyDetectorName, name: "anomalyDetectorName", parent: name, min: 1)
             try self.validate(self.anomalyDetectorName, name: "anomalyDetectorName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
-            try self.kmsKeyArn?.forEach {}
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 20)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "arn:aws.*:kms:.*:[0-9]{12}:key/.*")
@@ -675,7 +656,6 @@ extension LookoutMetrics {
         }
 
         public func validate(name: String) throws {
-            try self.anomalyDetectorArn.forEach {}
             try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, max: 256)
             try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:.*:.+")
             try self.dimensionList?.forEach {
@@ -683,24 +663,18 @@ extension LookoutMetrics {
                 try validate($0, name: "dimensionList[]", parent: name, min: 1)
                 try validate($0, name: "dimensionList[]", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
             }
-            try self.dimensionList?.forEach {}
             try self.validate(self.dimensionList, name: "dimensionList", parent: name, min: 1)
             try self.metricList.forEach {
                 try $0.validate(name: "\(name).metricList[]")
             }
-            try self.metricList.forEach {}
             try self.validate(self.metricList, name: "metricList", parent: name, min: 1)
-            try self.metricSetDescription?.forEach {}
             try self.validate(self.metricSetDescription, name: "metricSetDescription", parent: name, max: 256)
             try self.validate(self.metricSetDescription, name: "metricSetDescription", parent: name, min: 1)
             try self.validate(self.metricSetDescription, name: "metricSetDescription", parent: name, pattern: ".*\\S.*")
-            try self.metricSetName.forEach {}
             try self.validate(self.metricSetName, name: "metricSetName", parent: name, max: 63)
             try self.validate(self.metricSetName, name: "metricSetName", parent: name, min: 1)
             try self.validate(self.metricSetName, name: "metricSetName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
             try self.metricSource.validate(name: "\(name).metricSource")
-            try self.metricSource.forEach {}
-            try self.offset?.forEach {}
             try self.validate(self.offset, name: "offset", parent: name, max: 432_000)
             try self.validate(self.offset, name: "offset", parent: name, min: 0)
             try self.tags?.forEach {
@@ -709,8 +683,6 @@ extension LookoutMetrics {
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.timestampColumn?.validate(name: "\(name).timestampColumn")
-            try self.timestampColumn?.forEach {}
-            try self.timezone?.forEach {}
             try self.validate(self.timezone, name: "timezone", parent: name, max: 60)
             try self.validate(self.timezone, name: "timezone", parent: name, pattern: ".*\\S.*")
         }
@@ -767,10 +739,8 @@ extension LookoutMetrics {
         }
 
         public func validate(name: String) throws {
-            try self.charset?.forEach {}
             try self.validate(self.charset, name: "charset", parent: name, max: 63)
             try self.validate(self.charset, name: "charset", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
-            try self.delimiter?.forEach {}
             try self.validate(self.delimiter, name: "delimiter", parent: name, max: 1)
             try self.validate(self.delimiter, name: "delimiter", parent: name, pattern: "[^\\r\\n]")
             try self.headerList?.forEach {
@@ -778,8 +748,6 @@ extension LookoutMetrics {
                 try validate($0, name: "headerList[]", parent: name, min: 1)
                 try validate($0, name: "headerList[]", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
             }
-            try self.headerList?.forEach {}
-            try self.quoteSymbol?.forEach {}
             try self.validate(self.quoteSymbol, name: "quoteSymbol", parent: name, max: 1)
             try self.validate(self.quoteSymbol, name: "quoteSymbol", parent: name, pattern: "[^\\r\\n]|^$")
         }
@@ -803,7 +771,6 @@ extension LookoutMetrics {
         }
 
         public func validate(name: String) throws {
-            try self.alertArn.forEach {}
             try self.validate(self.alertArn, name: "alertArn", parent: name, max: 256)
             try self.validate(self.alertArn, name: "alertArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:.*:.+")
         }
@@ -826,7 +793,6 @@ extension LookoutMetrics {
         }
 
         public func validate(name: String) throws {
-            try self.anomalyDetectorArn.forEach {}
             try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, max: 256)
             try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:.*:.+")
         }
@@ -849,7 +815,6 @@ extension LookoutMetrics {
         }
 
         public func validate(name: String) throws {
-            try self.alertArn.forEach {}
             try self.validate(self.alertArn, name: "alertArn", parent: name, max: 256)
             try self.validate(self.alertArn, name: "alertArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:.*:.+")
         }
@@ -890,17 +855,13 @@ extension LookoutMetrics {
         }
 
         public func validate(name: String) throws {
-            try self.anomalyDetectorArn.forEach {}
             try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, max: 256)
             try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:.*:.+")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*\\S.*")
-            try self.timestamp?.forEach {}
             try self.validate(self.timestamp, name: "timestamp", parent: name, max: 60)
             try self.validate(self.timestamp, name: "timestamp", parent: name, pattern: "^([12]\\d{3})-(1[0-2]|0[1-9])-(0[1-9]|[12]\\d|3[01])T([01]\\d|2[0-3]):([0-5]\\d):([0-5]\\d)(Z|(\\+|\\-)(0\\d|1[0-2]):([0-5]\\d)(\\[[[:alnum:]\\/\\_]+\\])?)$")
         }
@@ -939,7 +900,6 @@ extension LookoutMetrics {
         }
 
         public func validate(name: String) throws {
-            try self.anomalyDetectorArn.forEach {}
             try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, max: 256)
             try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:.*:.+")
         }
@@ -1003,7 +963,6 @@ extension LookoutMetrics {
         }
 
         public func validate(name: String) throws {
-            try self.metricSetArn.forEach {}
             try self.validate(self.metricSetArn, name: "metricSetArn", parent: name, max: 256)
             try self.validate(self.metricSetArn, name: "metricSetArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:.*:.+")
         }
@@ -1159,9 +1118,7 @@ extension LookoutMetrics {
 
         public func validate(name: String) throws {
             try self.csvFormatDescriptor?.validate(name: "\(name).csvFormatDescriptor")
-            try self.csvFormatDescriptor?.forEach {}
             try self.jsonFormatDescriptor?.validate(name: "\(name).jsonFormatDescriptor")
-            try self.jsonFormatDescriptor?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1182,10 +1139,8 @@ extension LookoutMetrics {
         }
 
         public func validate(name: String) throws {
-            try self.anomalyDetectorArn.forEach {}
             try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, max: 256)
             try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:.*:.+")
-            try self.anomalyGroupId.forEach {}
             try self.validate(self.anomalyGroupId, name: "anomalyGroupId", parent: name, max: 63)
             try self.validate(self.anomalyGroupId, name: "anomalyGroupId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
         }
@@ -1227,15 +1182,11 @@ extension LookoutMetrics {
         }
 
         public func validate(name: String) throws {
-            try self.anomalyDetectorArn.forEach {}
             try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, max: 256)
             try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:.*:.+")
             try self.anomalyGroupTimeSeriesFeedback.validate(name: "\(name).anomalyGroupTimeSeriesFeedback")
-            try self.anomalyGroupTimeSeriesFeedback.forEach {}
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*\\S.*")
@@ -1276,7 +1227,6 @@ extension LookoutMetrics {
 
         public func validate(name: String) throws {
             try self.s3SourceConfig?.validate(name: "\(name).s3SourceConfig")
-            try self.s3SourceConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1330,7 +1280,6 @@ extension LookoutMetrics {
         }
 
         public func validate(name: String) throws {
-            try self.charset?.forEach {}
             try self.validate(self.charset, name: "charset", parent: name, max: 63)
             try self.validate(self.charset, name: "charset", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
         }
@@ -1353,10 +1302,8 @@ extension LookoutMetrics {
         }
 
         public func validate(name: String) throws {
-            try self.lambdaArn.forEach {}
             try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, max: 256)
             try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:.*:.+")
-            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:.*:.+")
         }
@@ -1382,13 +1329,10 @@ extension LookoutMetrics {
         }
 
         public func validate(name: String) throws {
-            try self.anomalyDetectorArn?.forEach {}
             try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, max: 256)
             try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:.*:.+")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*\\S.*")
@@ -1430,10 +1374,8 @@ extension LookoutMetrics {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*\\S.*")
@@ -1480,17 +1422,13 @@ extension LookoutMetrics {
         }
 
         public func validate(name: String) throws {
-            try self.anomalyDetectorArn.forEach {}
             try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, max: 256)
             try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:.*:.+")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*\\S.*")
-            try self.sensitivityThreshold.forEach {}
             try self.validate(self.sensitivityThreshold, name: "sensitivityThreshold", parent: name, max: 100)
             try self.validate(self.sensitivityThreshold, name: "sensitivityThreshold", parent: name, min: 0)
         }
@@ -1545,19 +1483,14 @@ extension LookoutMetrics {
         }
 
         public func validate(name: String) throws {
-            try self.anomalyDetectorArn.forEach {}
             try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, max: 256)
             try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:.*:.+")
-            try self.anomalyGroupId.forEach {}
             try self.validate(self.anomalyGroupId, name: "anomalyGroupId", parent: name, max: 63)
             try self.validate(self.anomalyGroupId, name: "anomalyGroupId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.metricName.forEach {}
             try self.validate(self.metricName, name: "metricName", parent: name, max: 256)
             try self.validate(self.metricName, name: "metricName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*\\S.*")
@@ -1616,13 +1549,10 @@ extension LookoutMetrics {
         }
 
         public func validate(name: String) throws {
-            try self.anomalyDetectorArn?.forEach {}
             try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, max: 256)
             try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:.*:.+")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*\\S.*")
@@ -1665,7 +1595,6 @@ extension LookoutMetrics {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:.*:.+")
         }
@@ -1701,11 +1630,9 @@ extension LookoutMetrics {
         }
 
         public func validate(name: String) throws {
-            try self.metricName.forEach {}
             try self.validate(self.metricName, name: "metricName", parent: name, max: 63)
             try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
             try self.validate(self.metricName, name: "metricName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
-            try self.namespace?.forEach {}
             try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "[^:].*")
@@ -1797,15 +1724,10 @@ extension LookoutMetrics {
 
         public func validate(name: String) throws {
             try self.appFlowConfig?.validate(name: "\(name).appFlowConfig")
-            try self.appFlowConfig?.forEach {}
             try self.cloudWatchConfig?.validate(name: "\(name).cloudWatchConfig")
-            try self.cloudWatchConfig?.forEach {}
             try self.rDSSourceConfig?.validate(name: "\(name).rDSSourceConfig")
-            try self.rDSSourceConfig?.forEach {}
             try self.redshiftSourceConfig?.validate(name: "\(name).redshiftSourceConfig")
-            try self.redshiftSourceConfig?.forEach {}
             try self.s3SourceConfig?.validate(name: "\(name).s3SourceConfig")
-            try self.s3SourceConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1829,11 +1751,9 @@ extension LookoutMetrics {
         }
 
         public func validate(name: String) throws {
-            try self.anomalyDetectorArn.forEach {}
             try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, max: 256)
             try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:.*:.+")
             try self.anomalyGroupTimeSeriesFeedback.validate(name: "\(name).anomalyGroupTimeSeriesFeedback")
-            try self.anomalyGroupTimeSeriesFeedback.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1876,33 +1796,25 @@ extension LookoutMetrics {
         }
 
         public func validate(name: String) throws {
-            try self.databaseHost.forEach {}
             try self.validate(self.databaseHost, name: "databaseHost", parent: name, max: 253)
             try self.validate(self.databaseHost, name: "databaseHost", parent: name, min: 1)
             try self.validate(self.databaseHost, name: "databaseHost", parent: name, pattern: ".*\\S.*")
-            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 64)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[a-zA-Z0-9_]+")
-            try self.databasePort.forEach {}
             try self.validate(self.databasePort, name: "databasePort", parent: name, max: 65535)
             try self.validate(self.databasePort, name: "databasePort", parent: name, min: 1)
-            try self.dBInstanceIdentifier.forEach {}
             try self.validate(self.dBInstanceIdentifier, name: "dBInstanceIdentifier", parent: name, max: 63)
             try self.validate(self.dBInstanceIdentifier, name: "dBInstanceIdentifier", parent: name, min: 1)
             try self.validate(self.dBInstanceIdentifier, name: "dBInstanceIdentifier", parent: name, pattern: "^[a-zA-Z](?!.*--)(?!.*-$)[0-9a-zA-Z\\-]*$")
-            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:.*:.+")
-            try self.secretManagerArn.forEach {}
             try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, max: 256)
             try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:secret:AmazonLookoutMetrics-.+")
-            try self.tableName.forEach {}
             try self.validate(self.tableName, name: "tableName", parent: name, max: 100)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
             try self.vpcConfiguration.validate(name: "\(name).vpcConfiguration")
-            try self.vpcConfiguration.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1947,33 +1859,25 @@ extension LookoutMetrics {
         }
 
         public func validate(name: String) throws {
-            try self.clusterIdentifier.forEach {}
             try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 63)
             try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, min: 1)
             try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^[a-z](?!.*--)(?!.*-$)[0-9a-z\\-]*$")
-            try self.databaseHost.forEach {}
             try self.validate(self.databaseHost, name: "databaseHost", parent: name, max: 253)
             try self.validate(self.databaseHost, name: "databaseHost", parent: name, min: 1)
             try self.validate(self.databaseHost, name: "databaseHost", parent: name, pattern: ".*\\S.*")
-            try self.databaseName.forEach {}
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 100)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[a-z0-9]+")
-            try self.databasePort.forEach {}
             try self.validate(self.databasePort, name: "databasePort", parent: name, max: 65535)
             try self.validate(self.databasePort, name: "databasePort", parent: name, min: 1)
-            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:.*:.+")
-            try self.secretManagerArn.forEach {}
             try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, max: 256)
             try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:secret:AmazonLookoutMetrics-.+")
-            try self.tableName.forEach {}
             try self.validate(self.tableName, name: "tableName", parent: name, max: 100)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
             try self.vpcConfiguration.validate(name: "\(name).vpcConfiguration")
-            try self.vpcConfiguration.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2007,22 +1911,18 @@ extension LookoutMetrics {
 
         public func validate(name: String) throws {
             try self.fileFormatDescriptor?.validate(name: "\(name).fileFormatDescriptor")
-            try self.fileFormatDescriptor?.forEach {}
             try self.historicalDataPathList?.forEach {
                 try validate($0, name: "historicalDataPathList[]", parent: name, max: 1024)
                 try validate($0, name: "historicalDataPathList[]", parent: name, pattern: "^s3://[a-z0-9].+$")
             }
-            try self.historicalDataPathList?.forEach {}
             try self.validate(self.historicalDataPathList, name: "historicalDataPathList", parent: name, max: 1)
             try self.validate(self.historicalDataPathList, name: "historicalDataPathList", parent: name, min: 1)
-            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:.*:.+")
             try self.templatedPathList?.forEach {
                 try validate($0, name: "templatedPathList[]", parent: name, max: 1024)
                 try validate($0, name: "templatedPathList[]", parent: name, pattern: "^s3://[a-zA-Z0-9_\\-\\/ {}=]+$")
             }
-            try self.templatedPathList?.forEach {}
             try self.validate(self.templatedPathList, name: "templatedPathList", parent: name, max: 1)
             try self.validate(self.templatedPathList, name: "templatedPathList", parent: name, min: 1)
         }
@@ -2047,10 +1947,8 @@ extension LookoutMetrics {
         }
 
         public func validate(name: String) throws {
-            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:.*:.+")
-            try self.snsTopicArn.forEach {}
             try self.validate(self.snsTopicArn, name: "snsTopicArn", parent: name, max: 256)
             try self.validate(self.snsTopicArn, name: "snsTopicArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:.*:.+")
         }
@@ -2079,22 +1977,18 @@ extension LookoutMetrics {
 
         public func validate(name: String) throws {
             try self.fileFormatDescriptor.validate(name: "\(name).fileFormatDescriptor")
-            try self.fileFormatDescriptor.forEach {}
             try self.historicalDataPathList?.forEach {
                 try validate($0, name: "historicalDataPathList[]", parent: name, max: 1024)
                 try validate($0, name: "historicalDataPathList[]", parent: name, pattern: "^s3://[a-z0-9].+$")
             }
-            try self.historicalDataPathList?.forEach {}
             try self.validate(self.historicalDataPathList, name: "historicalDataPathList", parent: name, max: 1)
             try self.validate(self.historicalDataPathList, name: "historicalDataPathList", parent: name, min: 1)
-            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:.*:.+")
             try self.templatedPathList?.forEach {
                 try validate($0, name: "templatedPathList[]", parent: name, max: 1024)
                 try validate($0, name: "templatedPathList[]", parent: name, pattern: "^s3://[a-zA-Z0-9_\\-\\/ {}=]+$")
             }
-            try self.templatedPathList?.forEach {}
             try self.validate(self.templatedPathList, name: "templatedPathList", parent: name, max: 1)
             try self.validate(self.templatedPathList, name: "templatedPathList", parent: name, min: 1)
         }
@@ -2123,7 +2017,6 @@ extension LookoutMetrics {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:.*:.+")
             try self.tags.forEach {
@@ -2192,10 +2085,8 @@ extension LookoutMetrics {
         }
 
         public func validate(name: String) throws {
-            try self.columnFormat?.forEach {}
             try self.validate(self.columnFormat, name: "columnFormat", parent: name, max: 63)
             try self.validate(self.columnFormat, name: "columnFormat", parent: name, pattern: ".*\\S.*")
-            try self.columnName?.forEach {}
             try self.validate(self.columnName, name: "columnName", parent: name, max: 63)
             try self.validate(self.columnName, name: "columnName", parent: name, min: 1)
             try self.validate(self.columnName, name: "columnName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
@@ -2224,14 +2115,12 @@ extension LookoutMetrics {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:.*:.+")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
-            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
@@ -2261,14 +2150,11 @@ extension LookoutMetrics {
         }
 
         public func validate(name: String) throws {
-            try self.anomalyDetectorArn.forEach {}
             try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, max: 256)
             try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:.*:.+")
-            try self.anomalyDetectorDescription?.forEach {}
             try self.validate(self.anomalyDetectorDescription, name: "anomalyDetectorDescription", parent: name, max: 256)
             try self.validate(self.anomalyDetectorDescription, name: "anomalyDetectorDescription", parent: name, min: 1)
             try self.validate(self.anomalyDetectorDescription, name: "anomalyDetectorDescription", parent: name, pattern: ".*\\S.*")
-            try self.kmsKeyArn?.forEach {}
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 20)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "arn:aws.*:kms:.*:[0-9]{12}:key/.*")
@@ -2329,27 +2215,20 @@ extension LookoutMetrics {
                 try validate($0, name: "dimensionList[]", parent: name, min: 1)
                 try validate($0, name: "dimensionList[]", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
             }
-            try self.dimensionList?.forEach {}
             try self.validate(self.dimensionList, name: "dimensionList", parent: name, min: 1)
             try self.metricList?.forEach {
                 try $0.validate(name: "\(name).metricList[]")
             }
-            try self.metricList?.forEach {}
             try self.validate(self.metricList, name: "metricList", parent: name, min: 1)
-            try self.metricSetArn.forEach {}
             try self.validate(self.metricSetArn, name: "metricSetArn", parent: name, max: 256)
             try self.validate(self.metricSetArn, name: "metricSetArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:.*:.+")
-            try self.metricSetDescription?.forEach {}
             try self.validate(self.metricSetDescription, name: "metricSetDescription", parent: name, max: 256)
             try self.validate(self.metricSetDescription, name: "metricSetDescription", parent: name, min: 1)
             try self.validate(self.metricSetDescription, name: "metricSetDescription", parent: name, pattern: ".*\\S.*")
             try self.metricSource?.validate(name: "\(name).metricSource")
-            try self.metricSource?.forEach {}
-            try self.offset?.forEach {}
             try self.validate(self.offset, name: "offset", parent: name, max: 432_000)
             try self.validate(self.offset, name: "offset", parent: name, min: 0)
             try self.timestampColumn?.validate(name: "\(name).timestampColumn")
-            try self.timestampColumn?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2394,12 +2273,10 @@ extension LookoutMetrics {
                 try validate($0, name: "securityGroupIdList[]", parent: name, min: 1)
                 try validate($0, name: "securityGroupIdList[]", parent: name, pattern: "[-0-9a-zA-Z]+")
             }
-            try self.securityGroupIdList.forEach {}
             try self.subnetIdList.forEach {
                 try validate($0, name: "subnetIdList[]", parent: name, max: 255)
                 try validate($0, name: "subnetIdList[]", parent: name, pattern: "[\\-0-9a-zA-Z]+")
             }
-            try self.subnetIdList.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {

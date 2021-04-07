@@ -86,7 +86,6 @@ extension ForecastService {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 63)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
@@ -94,7 +93,6 @@ extension ForecastService {
                 try validate($0, name: "values[]", parent: name, max: 256)
                 try validate($0, name: "values[]", parent: name, pattern: "^[a-zA-Z0-9\\_\\-]+$")
             }
-            try self.values.forEach {}
             try self.validate(self.values, name: "values", parent: name, max: 20)
             try self.validate(self.values, name: "values", parent: name, min: 1)
         }
@@ -123,7 +121,6 @@ extension ForecastService {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 63)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
@@ -159,15 +156,12 @@ extension ForecastService {
                 try validate($0, name: "datasetArns[]", parent: name, max: 256)
                 try validate($0, name: "datasetArns[]", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
             }
-            try self.datasetArns?.forEach {}
-            try self.datasetGroupName.forEach {}
             try self.validate(self.datasetGroupName, name: "datasetGroupName", parent: name, max: 63)
             try self.validate(self.datasetGroupName, name: "datasetGroupName", parent: name, min: 1)
             try self.validate(self.datasetGroupName, name: "datasetGroupName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -223,28 +217,21 @@ extension ForecastService {
         }
 
         public func validate(name: String) throws {
-            try self.datasetArn.forEach {}
             try self.validate(self.datasetArn, name: "datasetArn", parent: name, max: 256)
             try self.validate(self.datasetArn, name: "datasetArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
-            try self.datasetImportJobName.forEach {}
             try self.validate(self.datasetImportJobName, name: "datasetImportJobName", parent: name, max: 63)
             try self.validate(self.datasetImportJobName, name: "datasetImportJobName", parent: name, min: 1)
             try self.validate(self.datasetImportJobName, name: "datasetImportJobName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
             try self.dataSource.validate(name: "\(name).dataSource")
-            try self.dataSource.forEach {}
-            try self.geolocationFormat?.forEach {}
             try self.validate(self.geolocationFormat, name: "geolocationFormat", parent: name, max: 256)
             try self.validate(self.geolocationFormat, name: "geolocationFormat", parent: name, pattern: "^[a-zA-Z0-9_]+$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
-            try self.timestampFormat?.forEach {}
             try self.validate(self.timestampFormat, name: "timestampFormat", parent: name, max: 256)
             try self.validate(self.timestampFormat, name: "timestampFormat", parent: name, pattern: "^[a-zA-Z0-9\\-\\:\\.\\,\\'\\s]+$")
-            try self.timeZone?.forEach {}
             try self.validate(self.timeZone, name: "timeZone", parent: name, max: 256)
             try self.validate(self.timeZone, name: "timeZone", parent: name, pattern: "^[a-zA-Z0-9\\/\\+\\-\\_]+$")
         }
@@ -301,20 +288,15 @@ extension ForecastService {
         }
 
         public func validate(name: String) throws {
-            try self.dataFrequency?.forEach {}
             try self.validate(self.dataFrequency, name: "dataFrequency", parent: name, pattern: "^Y|M|W|D|H|30min|15min|10min|5min|1min$")
-            try self.datasetName.forEach {}
             try self.validate(self.datasetName, name: "datasetName", parent: name, max: 63)
             try self.validate(self.datasetName, name: "datasetName", parent: name, min: 1)
             try self.validate(self.datasetName, name: "datasetName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
             try self.encryptionConfig?.validate(name: "\(name).encryptionConfig")
-            try self.encryptionConfig?.forEach {}
             try self.schema.validate(name: "\(name).schema")
-            try self.schema.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -362,18 +344,14 @@ extension ForecastService {
 
         public func validate(name: String) throws {
             try self.destination.validate(name: "\(name).destination")
-            try self.destination.forEach {}
-            try self.forecastArn.forEach {}
             try self.validate(self.forecastArn, name: "forecastArn", parent: name, max: 256)
             try self.validate(self.forecastArn, name: "forecastArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
-            try self.forecastExportJobName.forEach {}
             try self.validate(self.forecastExportJobName, name: "forecastExportJobName", parent: name, max: 63)
             try self.validate(self.forecastExportJobName, name: "forecastExportJobName", parent: name, min: 1)
             try self.validate(self.forecastExportJobName, name: "forecastExportJobName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -417,23 +395,19 @@ extension ForecastService {
         }
 
         public func validate(name: String) throws {
-            try self.forecastName.forEach {}
             try self.validate(self.forecastName, name: "forecastName", parent: name, max: 63)
             try self.validate(self.forecastName, name: "forecastName", parent: name, min: 1)
             try self.validate(self.forecastName, name: "forecastName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
             try self.forecastTypes?.forEach {
                 try validate($0, name: "forecastTypes[]", parent: name, pattern: "(^0?\\.\\d\\d?$|^mean$)")
             }
-            try self.forecastTypes?.forEach {}
             try self.validate(self.forecastTypes, name: "forecastTypes", parent: name, max: 20)
             try self.validate(self.forecastTypes, name: "forecastTypes", parent: name, min: 1)
-            try self.predictorArn.forEach {}
             try self.validate(self.predictorArn, name: "predictorArn", parent: name, max: 256)
             try self.validate(self.predictorArn, name: "predictorArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -477,18 +451,14 @@ extension ForecastService {
 
         public func validate(name: String) throws {
             try self.destination.validate(name: "\(name).destination")
-            try self.destination.forEach {}
-            try self.predictorArn.forEach {}
             try self.validate(self.predictorArn, name: "predictorArn", parent: name, max: 256)
             try self.validate(self.predictorArn, name: "predictorArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
-            try self.predictorBacktestExportJobName.forEach {}
             try self.validate(self.predictorBacktestExportJobName, name: "predictorBacktestExportJobName", parent: name, max: 63)
             try self.validate(self.predictorBacktestExportJobName, name: "predictorBacktestExportJobName", parent: name, min: 1)
             try self.validate(self.predictorBacktestExportJobName, name: "predictorBacktestExportJobName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -559,31 +529,23 @@ extension ForecastService {
         }
 
         public func validate(name: String) throws {
-            try self.algorithmArn?.forEach {}
             try self.validate(self.algorithmArn, name: "algorithmArn", parent: name, max: 256)
             try self.validate(self.algorithmArn, name: "algorithmArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
             try self.encryptionConfig?.validate(name: "\(name).encryptionConfig")
-            try self.encryptionConfig?.forEach {}
             try self.featurizationConfig.validate(name: "\(name).featurizationConfig")
-            try self.featurizationConfig.forEach {}
             try self.forecastTypes?.forEach {
                 try validate($0, name: "forecastTypes[]", parent: name, pattern: "(^0?\\.\\d\\d?$|^mean$)")
             }
-            try self.forecastTypes?.forEach {}
             try self.validate(self.forecastTypes, name: "forecastTypes", parent: name, max: 20)
             try self.validate(self.forecastTypes, name: "forecastTypes", parent: name, min: 1)
             try self.hPOConfig?.validate(name: "\(name).hPOConfig")
-            try self.hPOConfig?.forEach {}
             try self.inputDataConfig.validate(name: "\(name).inputDataConfig")
-            try self.inputDataConfig.forEach {}
-            try self.predictorName.forEach {}
             try self.validate(self.predictorName, name: "predictorName", parent: name, max: 63)
             try self.validate(self.predictorName, name: "predictorName", parent: name, min: 1)
             try self.validate(self.predictorName, name: "predictorName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
             try self.trainingParameters?.forEach {
@@ -634,7 +596,6 @@ extension ForecastService {
 
         public func validate(name: String) throws {
             try self.s3Config.validate(name: "\(name).s3Config")
-            try self.s3Config.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -652,7 +613,6 @@ extension ForecastService {
 
         public func validate(name: String) throws {
             try self.s3Config.validate(name: "\(name).s3Config")
-            try self.s3Config.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -764,7 +724,6 @@ extension ForecastService {
         }
 
         public func validate(name: String) throws {
-            try self.datasetGroupArn.forEach {}
             try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, max: 256)
             try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
         }
@@ -783,7 +742,6 @@ extension ForecastService {
         }
 
         public func validate(name: String) throws {
-            try self.datasetImportJobArn.forEach {}
             try self.validate(self.datasetImportJobArn, name: "datasetImportJobArn", parent: name, max: 256)
             try self.validate(self.datasetImportJobArn, name: "datasetImportJobArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
         }
@@ -802,7 +760,6 @@ extension ForecastService {
         }
 
         public func validate(name: String) throws {
-            try self.datasetArn.forEach {}
             try self.validate(self.datasetArn, name: "datasetArn", parent: name, max: 256)
             try self.validate(self.datasetArn, name: "datasetArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
         }
@@ -821,7 +778,6 @@ extension ForecastService {
         }
 
         public func validate(name: String) throws {
-            try self.forecastExportJobArn.forEach {}
             try self.validate(self.forecastExportJobArn, name: "forecastExportJobArn", parent: name, max: 256)
             try self.validate(self.forecastExportJobArn, name: "forecastExportJobArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
         }
@@ -840,7 +796,6 @@ extension ForecastService {
         }
 
         public func validate(name: String) throws {
-            try self.forecastArn.forEach {}
             try self.validate(self.forecastArn, name: "forecastArn", parent: name, max: 256)
             try self.validate(self.forecastArn, name: "forecastArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
         }
@@ -859,7 +814,6 @@ extension ForecastService {
         }
 
         public func validate(name: String) throws {
-            try self.predictorBacktestExportJobArn.forEach {}
             try self.validate(self.predictorBacktestExportJobArn, name: "predictorBacktestExportJobArn", parent: name, max: 256)
             try self.validate(self.predictorBacktestExportJobArn, name: "predictorBacktestExportJobArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
         }
@@ -878,7 +832,6 @@ extension ForecastService {
         }
 
         public func validate(name: String) throws {
-            try self.predictorArn.forEach {}
             try self.validate(self.predictorArn, name: "predictorArn", parent: name, max: 256)
             try self.validate(self.predictorArn, name: "predictorArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
         }
@@ -897,7 +850,6 @@ extension ForecastService {
         }
 
         public func validate(name: String) throws {
-            try self.datasetGroupArn.forEach {}
             try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, max: 256)
             try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
         }
@@ -953,7 +905,6 @@ extension ForecastService {
         }
 
         public func validate(name: String) throws {
-            try self.datasetImportJobArn.forEach {}
             try self.validate(self.datasetImportJobArn, name: "datasetImportJobArn", parent: name, max: 256)
             try self.validate(self.datasetImportJobArn, name: "datasetImportJobArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
         }
@@ -1037,7 +988,6 @@ extension ForecastService {
         }
 
         public func validate(name: String) throws {
-            try self.datasetArn.forEach {}
             try self.validate(self.datasetArn, name: "datasetArn", parent: name, max: 256)
             try self.validate(self.datasetArn, name: "datasetArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
         }
@@ -1105,7 +1055,6 @@ extension ForecastService {
         }
 
         public func validate(name: String) throws {
-            try self.forecastExportJobArn.forEach {}
             try self.validate(self.forecastExportJobArn, name: "forecastExportJobArn", parent: name, max: 256)
             try self.validate(self.forecastExportJobArn, name: "forecastExportJobArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
         }
@@ -1165,7 +1114,6 @@ extension ForecastService {
         }
 
         public func validate(name: String) throws {
-            try self.forecastArn.forEach {}
             try self.validate(self.forecastArn, name: "forecastArn", parent: name, max: 256)
             try self.validate(self.forecastArn, name: "forecastArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
         }
@@ -1229,7 +1177,6 @@ extension ForecastService {
         }
 
         public func validate(name: String) throws {
-            try self.predictorBacktestExportJobArn.forEach {}
             try self.validate(self.predictorBacktestExportJobArn, name: "predictorBacktestExportJobArn", parent: name, max: 256)
             try self.validate(self.predictorBacktestExportJobArn, name: "predictorBacktestExportJobArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
         }
@@ -1288,7 +1235,6 @@ extension ForecastService {
         }
 
         public func validate(name: String) throws {
-            try self.predictorArn.forEach {}
             try self.validate(self.predictorArn, name: "predictorArn", parent: name, max: 256)
             try self.validate(self.predictorArn, name: "predictorArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
         }
@@ -1399,10 +1345,8 @@ extension ForecastService {
         }
 
         public func validate(name: String) throws {
-            try self.kMSKeyArn.forEach {}
             try self.validate(self.kMSKeyArn, name: "kMSKeyArn", parent: name, max: 256)
             try self.validate(self.kMSKeyArn, name: "kMSKeyArn", parent: name, pattern: "arn:aws:kms:.*:key/.*")
-            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
         }
@@ -1480,14 +1424,12 @@ extension ForecastService {
         }
 
         public func validate(name: String) throws {
-            try self.attributeName.forEach {}
             try self.validate(self.attributeName, name: "attributeName", parent: name, max: 63)
             try self.validate(self.attributeName, name: "attributeName", parent: name, min: 1)
             try self.validate(self.attributeName, name: "attributeName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
             try self.featurizationPipeline?.forEach {
                 try $0.validate(name: "\(name).featurizationPipeline[]")
             }
-            try self.featurizationPipeline?.forEach {}
             try self.validate(self.featurizationPipeline, name: "featurizationPipeline", parent: name, max: 1)
             try self.validate(self.featurizationPipeline, name: "featurizationPipeline", parent: name, min: 1)
         }
@@ -1516,7 +1458,6 @@ extension ForecastService {
             try self.featurizations?.forEach {
                 try $0.validate(name: "\(name).featurizations[]")
             }
-            try self.featurizations?.forEach {}
             try self.validate(self.featurizations, name: "featurizations", parent: name, max: 50)
             try self.validate(self.featurizations, name: "featurizations", parent: name, min: 1)
             try self.forecastDimensions?.forEach {
@@ -1524,10 +1465,8 @@ extension ForecastService {
                 try validate($0, name: "forecastDimensions[]", parent: name, min: 1)
                 try validate($0, name: "forecastDimensions[]", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
             }
-            try self.forecastDimensions?.forEach {}
             try self.validate(self.forecastDimensions, name: "forecastDimensions", parent: name, max: 5)
             try self.validate(self.forecastDimensions, name: "forecastDimensions", parent: name, min: 1)
-            try self.forecastFrequency.forEach {}
             try self.validate(self.forecastFrequency, name: "forecastFrequency", parent: name, pattern: "^Y|M|W|D|H|30min|15min|10min|5min|1min$")
         }
 
@@ -1579,10 +1518,8 @@ extension ForecastService {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 256)
             try self.validate(self.key, name: "key", parent: name, pattern: "^[a-zA-Z0-9\\_]+$")
-            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
         }
@@ -1681,7 +1618,6 @@ extension ForecastService {
         }
 
         public func validate(name: String) throws {
-            try self.predictorArn.forEach {}
             try self.validate(self.predictorArn, name: "predictorArn", parent: name, max: 256)
             try self.validate(self.predictorArn, name: "predictorArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
         }
@@ -1714,7 +1650,6 @@ extension ForecastService {
 
         public func validate(name: String) throws {
             try self.parameterRanges?.validate(name: "\(name).parameterRanges")
-            try self.parameterRanges?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1734,13 +1669,11 @@ extension ForecastService {
         }
 
         public func validate(name: String) throws {
-            try self.datasetGroupArn.forEach {}
             try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, max: 256)
             try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
             try self.supplementaryFeatures?.forEach {
                 try $0.validate(name: "\(name).supplementaryFeatures[]")
             }
-            try self.supplementaryFeatures?.forEach {}
             try self.validate(self.supplementaryFeatures, name: "supplementaryFeatures", parent: name, max: 2)
             try self.validate(self.supplementaryFeatures, name: "supplementaryFeatures", parent: name, min: 1)
         }
@@ -1769,7 +1702,6 @@ extension ForecastService {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 63)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
@@ -1795,10 +1727,8 @@ extension ForecastService {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1844,11 +1774,8 @@ extension ForecastService {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try self.filters?.forEach {}
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1889,10 +1816,8 @@ extension ForecastService {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1938,11 +1863,8 @@ extension ForecastService {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try self.filters?.forEach {}
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -1989,11 +1911,8 @@ extension ForecastService {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try self.filters?.forEach {}
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2040,11 +1959,8 @@ extension ForecastService {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try self.filters?.forEach {}
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2091,11 +2007,8 @@ extension ForecastService {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try self.filters?.forEach {}
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -2133,7 +2046,6 @@ extension ForecastService {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
         }
@@ -2191,19 +2103,16 @@ extension ForecastService {
             try self.categoricalParameterRanges?.forEach {
                 try $0.validate(name: "\(name).categoricalParameterRanges[]")
             }
-            try self.categoricalParameterRanges?.forEach {}
             try self.validate(self.categoricalParameterRanges, name: "categoricalParameterRanges", parent: name, max: 20)
             try self.validate(self.categoricalParameterRanges, name: "categoricalParameterRanges", parent: name, min: 1)
             try self.continuousParameterRanges?.forEach {
                 try $0.validate(name: "\(name).continuousParameterRanges[]")
             }
-            try self.continuousParameterRanges?.forEach {}
             try self.validate(self.continuousParameterRanges, name: "continuousParameterRanges", parent: name, max: 20)
             try self.validate(self.continuousParameterRanges, name: "continuousParameterRanges", parent: name, min: 1)
             try self.integerParameterRanges?.forEach {
                 try $0.validate(name: "\(name).integerParameterRanges[]")
             }
-            try self.integerParameterRanges?.forEach {}
             try self.validate(self.integerParameterRanges, name: "integerParameterRanges", parent: name, max: 20)
             try self.validate(self.integerParameterRanges, name: "integerParameterRanges", parent: name, min: 1)
         }
@@ -2333,12 +2242,9 @@ extension ForecastService {
         }
 
         public func validate(name: String) throws {
-            try self.kMSKeyArn?.forEach {}
             try self.validate(self.kMSKeyArn, name: "kMSKeyArn", parent: name, max: 256)
             try self.validate(self.kMSKeyArn, name: "kMSKeyArn", parent: name, pattern: "arn:aws:kms:.*:key/.*")
-            try self.path.forEach {}
             try self.validate(self.path, name: "path", parent: name, pattern: "^s3://[a-z0-9].+$")
-            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
         }
@@ -2362,7 +2268,6 @@ extension ForecastService {
             try self.attributes?.forEach {
                 try $0.validate(name: "\(name).attributes[]")
             }
-            try self.attributes?.forEach {}
             try self.validate(self.attributes, name: "attributes", parent: name, max: 100)
             try self.validate(self.attributes, name: "attributes", parent: name, min: 1)
         }
@@ -2384,7 +2289,6 @@ extension ForecastService {
         }
 
         public func validate(name: String) throws {
-            try self.attributeName?.forEach {}
             try self.validate(self.attributeName, name: "attributeName", parent: name, max: 63)
             try self.validate(self.attributeName, name: "attributeName", parent: name, min: 1)
             try self.validate(self.attributeName, name: "attributeName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
@@ -2446,7 +2350,6 @@ extension ForecastService {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
         }
@@ -2468,11 +2371,9 @@ extension ForecastService {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 63)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*")
-            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, pattern: "^[a-zA-Z0-9\\_\\-]+$")
         }
@@ -2495,11 +2396,9 @@ extension ForecastService {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
             try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -2523,13 +2422,11 @@ extension ForecastService {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -2581,7 +2478,6 @@ extension ForecastService {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
             try self.tagKeys.forEach {
@@ -2589,7 +2485,6 @@ extension ForecastService {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
-            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
         }
@@ -2620,8 +2515,6 @@ extension ForecastService {
                 try validate($0, name: "datasetArns[]", parent: name, max: 256)
                 try validate($0, name: "datasetArns[]", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
             }
-            try self.datasetArns.forEach {}
-            try self.datasetGroupArn.forEach {}
             try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, max: 256)
             try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
         }

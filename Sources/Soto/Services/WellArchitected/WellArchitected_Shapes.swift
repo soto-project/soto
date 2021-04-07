@@ -177,9 +177,7 @@ extension WellArchitected {
                 try validate($0, name: "lensAliases[]", parent: name, max: 64)
                 try validate($0, name: "lensAliases[]", parent: name, min: 1)
             }
-            try self.lensAliases.forEach {}
             try self.validate(self.lensAliases, name: "lensAliases", parent: name, min: 1)
-            try self.workloadId.forEach {}
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "[0-9a-f]{32}")
         }
 
@@ -222,10 +220,8 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.milestoneName.forEach {}
             try self.validate(self.milestoneName, name: "milestoneName", parent: name, max: 100)
             try self.validate(self.milestoneName, name: "milestoneName", parent: name, min: 3)
-            try self.workloadId.forEach {}
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "[0-9a-f]{32}")
         }
 
@@ -290,41 +286,30 @@ extension WellArchitected {
             try self.accountIds?.forEach {
                 try validate($0, name: "accountIds[]", parent: name, pattern: "[0-9]{12}")
             }
-            try self.accountIds?.forEach {}
             try self.validate(self.accountIds, name: "accountIds", parent: name, max: 100)
-            try self.architecturalDesign?.forEach {}
             try self.validate(self.architecturalDesign, name: "architecturalDesign", parent: name, max: 2048)
             try self.awsRegions?.forEach {
                 try validate($0, name: "awsRegions[]", parent: name, max: 100)
             }
-            try self.awsRegions?.forEach {}
             try self.validate(self.awsRegions, name: "awsRegions", parent: name, max: 50)
-            try self.description.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 250)
             try self.validate(self.description, name: "description", parent: name, min: 3)
-            try self.industry?.forEach {}
             try self.validate(self.industry, name: "industry", parent: name, max: 100)
-            try self.industryType?.forEach {}
             try self.validate(self.industryType, name: "industryType", parent: name, max: 100)
             try self.lenses.forEach {
                 try validate($0, name: "lenses[]", parent: name, max: 64)
                 try validate($0, name: "lenses[]", parent: name, min: 1)
             }
-            try self.lenses.forEach {}
             try self.nonAwsRegions?.forEach {
                 try validate($0, name: "nonAwsRegions[]", parent: name, max: 25)
                 try validate($0, name: "nonAwsRegions[]", parent: name, min: 3)
             }
-            try self.nonAwsRegions?.forEach {}
             try self.validate(self.nonAwsRegions, name: "nonAwsRegions", parent: name, max: 5)
-            try self.notes?.forEach {}
             try self.validate(self.notes, name: "notes", parent: name, max: 2084)
             try self.pillarPriorities?.forEach {
                 try validate($0, name: "pillarPriorities[]", parent: name, max: 64)
                 try validate($0, name: "pillarPriorities[]", parent: name, min: 1)
             }
-            try self.pillarPriorities?.forEach {}
-            try self.reviewOwner.forEach {}
             try self.validate(self.reviewOwner, name: "reviewOwner", parent: name, max: 255)
             try self.validate(self.reviewOwner, name: "reviewOwner", parent: name, min: 3)
             try self.tags?.forEach {
@@ -333,7 +318,6 @@ extension WellArchitected {
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
             }
-            try self.workloadName.forEach {}
             try self.validate(self.workloadName, name: "workloadName", parent: name, max: 100)
             try self.validate(self.workloadName, name: "workloadName", parent: name, min: 3)
         }
@@ -390,10 +374,8 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.sharedWith.forEach {}
             try self.validate(self.sharedWith, name: "sharedWith", parent: name, max: 2048)
             try self.validate(self.sharedWith, name: "sharedWith", parent: name, min: 12)
-            try self.workloadId.forEach {}
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "[0-9a-f]{32}")
         }
 
@@ -434,7 +416,6 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.workloadId.forEach {}
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "[0-9a-f]{32}")
         }
 
@@ -459,9 +440,7 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.shareId.forEach {}
             try self.validate(self.shareId, name: "shareId", parent: name, pattern: "[0-9a-f]{32}")
-            try self.workloadId.forEach {}
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "[0-9a-f]{32}")
         }
 
@@ -486,9 +465,7 @@ extension WellArchitected {
                 try validate($0, name: "lensAliases[]", parent: name, max: 64)
                 try validate($0, name: "lensAliases[]", parent: name, min: 1)
             }
-            try self.lensAliases.forEach {}
             try self.validate(self.lensAliases, name: "lensAliases", parent: name, min: 1)
-            try self.workloadId.forEach {}
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "[0-9a-f]{32}")
         }
 
@@ -518,16 +495,12 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.lensAlias.forEach {}
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 64)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
-            try self.milestoneNumber?.forEach {}
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, max: 100)
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, min: 1)
-            try self.questionId.forEach {}
             try self.validate(self.questionId, name: "questionId", parent: name, max: 128)
             try self.validate(self.questionId, name: "questionId", parent: name, min: 1)
-            try self.workloadId.forEach {}
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "[0-9a-f]{32}")
         }
 
@@ -573,13 +546,10 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.lensAlias.forEach {}
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 64)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
-            try self.milestoneNumber?.forEach {}
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, max: 100)
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, min: 1)
-            try self.workloadId.forEach {}
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "[0-9a-f]{32}")
         }
 
@@ -622,13 +592,10 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.lensAlias.forEach {}
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 64)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
-            try self.milestoneNumber?.forEach {}
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, max: 100)
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, min: 1)
-            try self.workloadId.forEach {}
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "[0-9a-f]{32}")
         }
 
@@ -669,10 +636,8 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.baseLensVersion.forEach {}
             try self.validate(self.baseLensVersion, name: "baseLensVersion", parent: name, max: 128)
             try self.validate(self.baseLensVersion, name: "baseLensVersion", parent: name, min: 1)
-            try self.lensAlias.forEach {}
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 64)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
         }
@@ -718,10 +683,8 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.milestoneNumber.forEach {}
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, max: 100)
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, min: 1)
-            try self.workloadId.forEach {}
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "[0-9a-f]{32}")
         }
 
@@ -755,7 +718,6 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.workloadId.forEach {}
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "[0-9a-f]{32}")
         }
 
@@ -956,19 +918,14 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.lensAlias.forEach {}
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 64)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.milestoneNumber?.forEach {}
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, max: 100)
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, min: 1)
-            try self.pillarId?.forEach {}
             try self.validate(self.pillarId, name: "pillarId", parent: name, max: 64)
             try self.validate(self.pillarId, name: "pillarId", parent: name, min: 1)
-            try self.workloadId.forEach {}
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "[0-9a-f]{32}")
         }
 
@@ -1027,19 +984,14 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.lensAlias.forEach {}
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 64)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.milestoneNumber?.forEach {}
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, max: 100)
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, min: 1)
-            try self.pillarId?.forEach {}
             try self.validate(self.pillarId, name: "pillarId", parent: name, max: 64)
             try self.validate(self.pillarId, name: "pillarId", parent: name, min: 1)
-            try self.workloadId.forEach {}
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "[0-9a-f]{32}")
         }
 
@@ -1091,13 +1043,10 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.milestoneNumber?.forEach {}
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, max: 100)
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, min: 1)
-            try self.workloadId.forEach {}
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "[0-9a-f]{32}")
         }
 
@@ -1140,7 +1089,6 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1179,10 +1127,8 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.workloadId.forEach {}
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "[0-9a-f]{32}")
         }
 
@@ -1223,10 +1169,8 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.workloadId?.forEach {}
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "[0-9a-f]{32}")
         }
 
@@ -1272,10 +1216,8 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.workloadNamePrefix?.forEach {}
             try self.validate(self.workloadNamePrefix, name: "workloadNamePrefix", parent: name, max: 100)
         }
 
@@ -1348,12 +1290,9 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.sharedWithPrefix?.forEach {}
             try self.validate(self.sharedWithPrefix, name: "sharedWithPrefix", parent: name, max: 100)
-            try self.workloadId.forEach {}
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "[0-9a-f]{32}")
         }
 
@@ -1391,10 +1330,8 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.workloadNamePrefix?.forEach {}
             try self.validate(self.workloadNamePrefix, name: "workloadNamePrefix", parent: name, max: 100)
         }
 
@@ -1635,7 +1572,6 @@ extension WellArchitected {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
-            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
@@ -1671,20 +1607,15 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.lensAlias.forEach {}
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 64)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
-            try self.notes?.forEach {}
             try self.validate(self.notes, name: "notes", parent: name, max: 2084)
-            try self.questionId.forEach {}
             try self.validate(self.questionId, name: "questionId", parent: name, max: 128)
             try self.validate(self.questionId, name: "questionId", parent: name, min: 1)
             try self.selectedChoices?.forEach {
                 try validate($0, name: "selectedChoices[]", parent: name, max: 64)
                 try validate($0, name: "selectedChoices[]", parent: name, min: 1)
             }
-            try self.selectedChoices?.forEach {}
-            try self.workloadId.forEach {}
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "[0-9a-f]{32}")
         }
 
@@ -1732,17 +1663,14 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.lensAlias.forEach {}
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 64)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
-            try self.lensNotes?.forEach {}
             try self.validate(self.lensNotes, name: "lensNotes", parent: name, max: 2084)
             try self.pillarNotes?.forEach {
                 try validate($0.key, name: "pillarNotes.key", parent: name, max: 64)
                 try validate($0.key, name: "pillarNotes.key", parent: name, min: 1)
                 try validate($0.value, name: "pillarNotes[\"\($0.key)\"]", parent: name, max: 2084)
             }
-            try self.workloadId.forEach {}
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "[0-9a-f]{32}")
         }
 
@@ -1782,7 +1710,6 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.shareInvitationId.forEach {}
             try self.validate(self.shareInvitationId, name: "shareInvitationId", parent: name, pattern: "[0-9a-f]{32}")
         }
 
@@ -1848,41 +1775,29 @@ extension WellArchitected {
             try self.accountIds?.forEach {
                 try validate($0, name: "accountIds[]", parent: name, pattern: "[0-9]{12}")
             }
-            try self.accountIds?.forEach {}
             try self.validate(self.accountIds, name: "accountIds", parent: name, max: 100)
-            try self.architecturalDesign?.forEach {}
             try self.validate(self.architecturalDesign, name: "architecturalDesign", parent: name, max: 2048)
             try self.awsRegions?.forEach {
                 try validate($0, name: "awsRegions[]", parent: name, max: 100)
             }
-            try self.awsRegions?.forEach {}
             try self.validate(self.awsRegions, name: "awsRegions", parent: name, max: 50)
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 250)
             try self.validate(self.description, name: "description", parent: name, min: 3)
-            try self.industry?.forEach {}
             try self.validate(self.industry, name: "industry", parent: name, max: 100)
-            try self.industryType?.forEach {}
             try self.validate(self.industryType, name: "industryType", parent: name, max: 100)
             try self.nonAwsRegions?.forEach {
                 try validate($0, name: "nonAwsRegions[]", parent: name, max: 25)
                 try validate($0, name: "nonAwsRegions[]", parent: name, min: 3)
             }
-            try self.nonAwsRegions?.forEach {}
             try self.validate(self.nonAwsRegions, name: "nonAwsRegions", parent: name, max: 5)
-            try self.notes?.forEach {}
             try self.validate(self.notes, name: "notes", parent: name, max: 2084)
             try self.pillarPriorities?.forEach {
                 try validate($0, name: "pillarPriorities[]", parent: name, max: 64)
                 try validate($0, name: "pillarPriorities[]", parent: name, min: 1)
             }
-            try self.pillarPriorities?.forEach {}
-            try self.reviewOwner?.forEach {}
             try self.validate(self.reviewOwner, name: "reviewOwner", parent: name, max: 255)
             try self.validate(self.reviewOwner, name: "reviewOwner", parent: name, min: 3)
-            try self.workloadId.forEach {}
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "[0-9a-f]{32}")
-            try self.workloadName?.forEach {}
             try self.validate(self.workloadName, name: "workloadName", parent: name, max: 100)
             try self.validate(self.workloadName, name: "workloadName", parent: name, min: 3)
         }
@@ -1934,9 +1849,7 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.shareId.forEach {}
             try self.validate(self.shareId, name: "shareId", parent: name, pattern: "[0-9a-f]{32}")
-            try self.workloadId.forEach {}
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "[0-9a-f]{32}")
         }
 
@@ -1979,13 +1892,10 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.lensAlias.forEach {}
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 64)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
-            try self.milestoneName.forEach {}
             try self.validate(self.milestoneName, name: "milestoneName", parent: name, max: 100)
             try self.validate(self.milestoneName, name: "milestoneName", parent: name, min: 3)
-            try self.workloadId.forEach {}
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "[0-9a-f]{32}")
         }
 

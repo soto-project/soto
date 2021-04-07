@@ -74,12 +74,10 @@ extension CodeGuruReviewer {
         }
 
         public func validate(name: String) throws {
-            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[\\w-]+$")
             try self.repository.validate(name: "\(name).repository")
-            try self.repository.forEach {}
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -120,7 +118,6 @@ extension CodeGuruReviewer {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^\\S[\\w.-]*$")
@@ -259,7 +256,6 @@ extension CodeGuruReviewer {
 
         public func validate(name: String) throws {
             try self.repositoryAnalysis.validate(name: "\(name).repositoryAnalysis")
-            try self.repositoryAnalysis.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -302,20 +298,16 @@ extension CodeGuruReviewer {
         }
 
         public func validate(name: String) throws {
-            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[\\w-]+$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9-_]*")
-            try self.repositoryAssociationArn.forEach {}
             try self.validate(self.repositoryAssociationArn, name: "repositoryAssociationArn", parent: name, max: 1600)
             try self.validate(self.repositoryAssociationArn, name: "repositoryAssociationArn", parent: name, min: 1)
             try self.validate(self.repositoryAssociationArn, name: "repositoryAssociationArn", parent: name, pattern: "^arn:aws[^:\\s]*:codeguru-reviewer:[^:\\s]+:[\\d]{12}:association:[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.type.validate(name: "\(name).type")
-            try self.type.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -351,7 +343,6 @@ extension CodeGuruReviewer {
         }
 
         public func validate(name: String) throws {
-            try self.codeReviewArn.forEach {}
             try self.validate(self.codeReviewArn, name: "codeReviewArn", parent: name, max: 1600)
             try self.validate(self.codeReviewArn, name: "codeReviewArn", parent: name, min: 1)
             try self.validate(self.codeReviewArn, name: "codeReviewArn", parent: name, pattern: "^arn:aws[^:\\s]*:codeguru-reviewer:[^:\\s]+:[\\d]{12}:[a-z-]+:[\\w-]+$")
@@ -394,14 +385,11 @@ extension CodeGuruReviewer {
         }
 
         public func validate(name: String) throws {
-            try self.codeReviewArn.forEach {}
             try self.validate(self.codeReviewArn, name: "codeReviewArn", parent: name, max: 1600)
             try self.validate(self.codeReviewArn, name: "codeReviewArn", parent: name, min: 1)
             try self.validate(self.codeReviewArn, name: "codeReviewArn", parent: name, pattern: "^arn:aws[^:\\s]*:codeguru-reviewer:[^:\\s]+:[\\d]{12}:[a-z-]+:[\\w-]+$")
-            try self.recommendationId.forEach {}
             try self.validate(self.recommendationId, name: "recommendationId", parent: name, max: 64)
             try self.validate(self.recommendationId, name: "recommendationId", parent: name, min: 1)
-            try self.userId?.forEach {}
             try self.validate(self.userId, name: "userId", parent: name, max: 256)
             try self.validate(self.userId, name: "userId", parent: name, min: 1)
         }
@@ -435,7 +423,6 @@ extension CodeGuruReviewer {
         }
 
         public func validate(name: String) throws {
-            try self.associationArn.forEach {}
             try self.validate(self.associationArn, name: "associationArn", parent: name, max: 1600)
             try self.validate(self.associationArn, name: "associationArn", parent: name, min: 1)
             try self.validate(self.associationArn, name: "associationArn", parent: name, pattern: "^arn:aws[^:\\s]*:codeguru-reviewer:[^:\\s]+:[\\d]{12}:association:[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
@@ -474,7 +461,6 @@ extension CodeGuruReviewer {
         }
 
         public func validate(name: String) throws {
-            try self.associationArn.forEach {}
             try self.validate(self.associationArn, name: "associationArn", parent: name, max: 1600)
             try self.validate(self.associationArn, name: "associationArn", parent: name, min: 1)
             try self.validate(self.associationArn, name: "associationArn", parent: name, pattern: "^arn:aws[^:\\s]*:codeguru-reviewer:[^:\\s]+:[\\d]{12}:association:[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
@@ -533,13 +519,10 @@ extension CodeGuruReviewer {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.providerTypes?.forEach {}
             try self.validate(self.providerTypes, name: "providerTypes", parent: name, max: 3)
             try self.validate(self.providerTypes, name: "providerTypes", parent: name, min: 1)
             try self.repositoryNames?.forEach {
@@ -547,10 +530,8 @@ extension CodeGuruReviewer {
                 try validate($0, name: "repositoryNames[]", parent: name, min: 1)
                 try validate($0, name: "repositoryNames[]", parent: name, pattern: "^\\S[\\w.-]*$")
             }
-            try self.repositoryNames?.forEach {}
             try self.validate(self.repositoryNames, name: "repositoryNames", parent: name, max: 100)
             try self.validate(self.repositoryNames, name: "repositoryNames", parent: name, min: 1)
-            try self.states?.forEach {}
             try self.validate(self.states, name: "states", parent: name, max: 3)
             try self.validate(self.states, name: "states", parent: name, min: 1)
         }
@@ -604,28 +585,23 @@ extension CodeGuruReviewer {
         }
 
         public func validate(name: String) throws {
-            try self.codeReviewArn.forEach {}
             try self.validate(self.codeReviewArn, name: "codeReviewArn", parent: name, max: 1600)
             try self.validate(self.codeReviewArn, name: "codeReviewArn", parent: name, min: 1)
             try self.validate(self.codeReviewArn, name: "codeReviewArn", parent: name, pattern: "^arn:aws[^:\\s]*:codeguru-reviewer:[^:\\s]+:[\\d]{12}:[a-z-]+:[\\w-]+$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.recommendationIds?.forEach {
                 try validate($0, name: "recommendationIds[]", parent: name, max: 64)
                 try validate($0, name: "recommendationIds[]", parent: name, min: 1)
             }
-            try self.recommendationIds?.forEach {}
             try self.validate(self.recommendationIds, name: "recommendationIds", parent: name, max: 100)
             try self.validate(self.recommendationIds, name: "recommendationIds", parent: name, min: 1)
             try self.userIds?.forEach {
                 try validate($0, name: "userIds[]", parent: name, max: 256)
                 try validate($0, name: "userIds[]", parent: name, min: 1)
             }
-            try self.userIds?.forEach {}
             try self.validate(self.userIds, name: "userIds", parent: name, max: 100)
             try self.validate(self.userIds, name: "userIds", parent: name, min: 1)
         }
@@ -671,14 +647,11 @@ extension CodeGuruReviewer {
         }
 
         public func validate(name: String) throws {
-            try self.codeReviewArn.forEach {}
             try self.validate(self.codeReviewArn, name: "codeReviewArn", parent: name, max: 1600)
             try self.validate(self.codeReviewArn, name: "codeReviewArn", parent: name, min: 1)
             try self.validate(self.codeReviewArn, name: "codeReviewArn", parent: name, pattern: "^arn:aws[^:\\s]*:codeguru-reviewer:[^:\\s]+:[\\d]{12}:[a-z-]+:[\\w-]+$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -736,7 +709,6 @@ extension CodeGuruReviewer {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.names?.forEach {
@@ -744,10 +716,8 @@ extension CodeGuruReviewer {
                 try validate($0, name: "names[]", parent: name, min: 1)
                 try validate($0, name: "names[]", parent: name, pattern: "^\\S[\\w.-]*$")
             }
-            try self.names?.forEach {}
             try self.validate(self.names, name: "names", parent: name, max: 3)
             try self.validate(self.names, name: "names", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.owners?.forEach {
@@ -755,13 +725,10 @@ extension CodeGuruReviewer {
                 try validate($0, name: "owners[]", parent: name, min: 1)
                 try validate($0, name: "owners[]", parent: name, pattern: "^\\S(.*\\S)?$")
             }
-            try self.owners?.forEach {}
             try self.validate(self.owners, name: "owners", parent: name, max: 3)
             try self.validate(self.owners, name: "owners", parent: name, min: 1)
-            try self.providerTypes?.forEach {}
             try self.validate(self.providerTypes, name: "providerTypes", parent: name, max: 3)
             try self.validate(self.providerTypes, name: "providerTypes", parent: name, min: 1)
-            try self.states?.forEach {}
             try self.validate(self.states, name: "states", parent: name, max: 5)
             try self.validate(self.states, name: "states", parent: name, min: 1)
         }
@@ -799,7 +766,6 @@ extension CodeGuruReviewer {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1600)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[^:\\s]*:codeguru-reviewer:[^:\\s]+:[\\d]{12}:association:[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
@@ -870,14 +836,11 @@ extension CodeGuruReviewer {
         }
 
         public func validate(name: String) throws {
-            try self.codeReviewArn.forEach {}
             try self.validate(self.codeReviewArn, name: "codeReviewArn", parent: name, max: 1600)
             try self.validate(self.codeReviewArn, name: "codeReviewArn", parent: name, min: 1)
             try self.validate(self.codeReviewArn, name: "codeReviewArn", parent: name, pattern: "^arn:aws[^:\\s]*:codeguru-reviewer:[^:\\s]+:[\\d]{12}:[a-z-]+:[\\w-]+$")
-            try self.reactions.forEach {}
             try self.validate(self.reactions, name: "reactions", parent: name, max: 1)
             try self.validate(self.reactions, name: "reactions", parent: name, min: 0)
-            try self.recommendationId.forEach {}
             try self.validate(self.recommendationId, name: "recommendationId", parent: name, max: 64)
             try self.validate(self.recommendationId, name: "recommendationId", parent: name, min: 1)
         }
@@ -992,11 +955,8 @@ extension CodeGuruReviewer {
 
         public func validate(name: String) throws {
             try self.bitbucket?.validate(name: "\(name).bitbucket")
-            try self.bitbucket?.forEach {}
             try self.codeCommit?.validate(name: "\(name).codeCommit")
-            try self.codeCommit?.forEach {}
             try self.gitHubEnterpriseServer?.validate(name: "\(name).gitHubEnterpriseServer")
-            try self.gitHubEnterpriseServer?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1016,7 +976,6 @@ extension CodeGuruReviewer {
 
         public func validate(name: String) throws {
             try self.repositoryHead.validate(name: "\(name).repositoryHead")
-            try self.repositoryHead.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1123,7 +1082,6 @@ extension CodeGuruReviewer {
         }
 
         public func validate(name: String) throws {
-            try self.branchName.forEach {}
             try self.validate(self.branchName, name: "branchName", parent: name, max: 256)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
         }
@@ -1165,7 +1123,6 @@ extension CodeGuruReviewer {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1600)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[^:\\s]*:codeguru-reviewer:[^:\\s]+:[\\d]{12}:association:[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
@@ -1200,15 +1157,12 @@ extension CodeGuruReviewer {
         }
 
         public func validate(name: String) throws {
-            try self.connectionArn.forEach {}
             try self.validate(self.connectionArn, name: "connectionArn", parent: name, max: 256)
             try self.validate(self.connectionArn, name: "connectionArn", parent: name, min: 0)
             try self.validate(self.connectionArn, name: "connectionArn", parent: name, pattern: "arn:aws(-[\\w]+)*:.+:.+:[0-9]{12}:.+")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^\\S[\\w.-]*$")
-            try self.owner.forEach {}
             try self.validate(self.owner, name: "owner", parent: name, max: 100)
             try self.validate(self.owner, name: "owner", parent: name, min: 1)
             try self.validate(self.owner, name: "owner", parent: name, pattern: "^\\S(.*\\S)?$")
@@ -1238,7 +1192,6 @@ extension CodeGuruReviewer {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1600)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[^:\\s]*:codeguru-reviewer:[^:\\s]+:[\\d]{12}:association:[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
@@ -1246,7 +1199,6 @@ extension CodeGuruReviewer {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
-            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }

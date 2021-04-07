@@ -116,10 +116,8 @@ extension ManagedBlockchain {
         }
 
         public func validate(name: String) throws {
-            try self.proposalDurationInHours?.forEach {}
             try self.validate(self.proposalDurationInHours, name: "proposalDurationInHours", parent: name, max: 168)
             try self.validate(self.proposalDurationInHours, name: "proposalDurationInHours", parent: name, min: 1)
-            try self.thresholdPercentage?.forEach {}
             try self.validate(self.thresholdPercentage, name: "thresholdPercentage", parent: name, max: 100)
             try self.validate(self.thresholdPercentage, name: "thresholdPercentage", parent: name, min: 0)
         }
@@ -153,15 +151,11 @@ extension ManagedBlockchain {
         }
 
         public func validate(name: String) throws {
-            try self.clientRequestToken.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
-            try self.invitationId.forEach {}
             try self.validate(self.invitationId, name: "invitationId", parent: name, max: 32)
             try self.validate(self.invitationId, name: "invitationId", parent: name, min: 1)
             try self.memberConfiguration.validate(name: "\(name).memberConfiguration")
-            try self.memberConfiguration.forEach {}
-            try self.networkId.forEach {}
             try self.validate(self.networkId, name: "networkId", parent: name, max: 32)
             try self.validate(self.networkId, name: "networkId", parent: name, min: 1)
         }
@@ -219,17 +213,12 @@ extension ManagedBlockchain {
         }
 
         public func validate(name: String) throws {
-            try self.clientRequestToken.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 128)
-            try self.frameworkVersion.forEach {}
             try self.validate(self.frameworkVersion, name: "frameworkVersion", parent: name, max: 8)
             try self.validate(self.frameworkVersion, name: "frameworkVersion", parent: name, min: 1)
             try self.memberConfiguration.validate(name: "\(name).memberConfiguration")
-            try self.memberConfiguration.forEach {}
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
@@ -240,7 +229,6 @@ extension ManagedBlockchain {
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
             }
             try self.votingPolicy.validate(name: "\(name).votingPolicy")
-            try self.votingPolicy.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -298,13 +286,10 @@ extension ManagedBlockchain {
         }
 
         public func validate(name: String) throws {
-            try self.clientRequestToken.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
-            try self.memberId?.forEach {}
             try self.validate(self.memberId, name: "memberId", parent: name, max: 32)
             try self.validate(self.memberId, name: "memberId", parent: name, min: 1)
-            try self.networkId.forEach {}
             try self.validate(self.networkId, name: "networkId", parent: name, max: 32)
             try self.validate(self.networkId, name: "networkId", parent: name, min: 1)
             try self.tags?.forEach {
@@ -365,16 +350,11 @@ extension ManagedBlockchain {
 
         public func validate(name: String) throws {
             try self.actions.validate(name: "\(name).actions")
-            try self.actions.forEach {}
-            try self.clientRequestToken.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 128)
-            try self.memberId.forEach {}
             try self.validate(self.memberId, name: "memberId", parent: name, max: 32)
             try self.validate(self.memberId, name: "memberId", parent: name, min: 1)
-            try self.networkId.forEach {}
             try self.validate(self.networkId, name: "networkId", parent: name, max: 32)
             try self.validate(self.networkId, name: "networkId", parent: name, min: 1)
             try self.tags?.forEach {
@@ -424,10 +404,8 @@ extension ManagedBlockchain {
         }
 
         public func validate(name: String) throws {
-            try self.memberId.forEach {}
             try self.validate(self.memberId, name: "memberId", parent: name, max: 32)
             try self.validate(self.memberId, name: "memberId", parent: name, min: 1)
-            try self.networkId.forEach {}
             try self.validate(self.networkId, name: "networkId", parent: name, max: 32)
             try self.validate(self.networkId, name: "networkId", parent: name, min: 1)
         }
@@ -460,13 +438,10 @@ extension ManagedBlockchain {
         }
 
         public func validate(name: String) throws {
-            try self.memberId?.forEach {}
             try self.validate(self.memberId, name: "memberId", parent: name, max: 32)
             try self.validate(self.memberId, name: "memberId", parent: name, min: 1)
-            try self.networkId.forEach {}
             try self.validate(self.networkId, name: "networkId", parent: name, max: 32)
             try self.validate(self.networkId, name: "networkId", parent: name, min: 1)
-            try self.nodeId.forEach {}
             try self.validate(self.nodeId, name: "nodeId", parent: name, max: 32)
             try self.validate(self.nodeId, name: "nodeId", parent: name, min: 1)
         }
@@ -495,10 +470,8 @@ extension ManagedBlockchain {
         }
 
         public func validate(name: String) throws {
-            try self.memberId.forEach {}
             try self.validate(self.memberId, name: "memberId", parent: name, max: 32)
             try self.validate(self.memberId, name: "memberId", parent: name, min: 1)
-            try self.networkId.forEach {}
             try self.validate(self.networkId, name: "networkId", parent: name, max: 32)
             try self.validate(self.networkId, name: "networkId", parent: name, min: 1)
         }
@@ -532,7 +505,6 @@ extension ManagedBlockchain {
         }
 
         public func validate(name: String) throws {
-            try self.networkId.forEach {}
             try self.validate(self.networkId, name: "networkId", parent: name, max: 32)
             try self.validate(self.networkId, name: "networkId", parent: name, min: 1)
         }
@@ -574,13 +546,10 @@ extension ManagedBlockchain {
         }
 
         public func validate(name: String) throws {
-            try self.memberId?.forEach {}
             try self.validate(self.memberId, name: "memberId", parent: name, max: 32)
             try self.validate(self.memberId, name: "memberId", parent: name, min: 1)
-            try self.networkId.forEach {}
             try self.validate(self.networkId, name: "networkId", parent: name, max: 32)
             try self.validate(self.networkId, name: "networkId", parent: name, min: 1)
-            try self.nodeId.forEach {}
             try self.validate(self.nodeId, name: "nodeId", parent: name, max: 32)
             try self.validate(self.nodeId, name: "nodeId", parent: name, min: 1)
         }
@@ -618,10 +587,8 @@ extension ManagedBlockchain {
         }
 
         public func validate(name: String) throws {
-            try self.networkId.forEach {}
             try self.validate(self.networkId, name: "networkId", parent: name, max: 32)
             try self.validate(self.networkId, name: "networkId", parent: name, min: 1)
-            try self.proposalId.forEach {}
             try self.validate(self.proposalId, name: "proposalId", parent: name, max: 32)
             try self.validate(self.proposalId, name: "proposalId", parent: name, min: 1)
         }
@@ -706,10 +673,8 @@ extension ManagedBlockchain {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 128)
         }
 
@@ -766,13 +731,10 @@ extension ManagedBlockchain {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.networkId.forEach {}
             try self.validate(self.networkId, name: "networkId", parent: name, max: 32)
             try self.validate(self.networkId, name: "networkId", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 128)
         }
 
@@ -825,10 +787,8 @@ extension ManagedBlockchain {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 128)
         }
 
@@ -881,16 +841,12 @@ extension ManagedBlockchain {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.memberId?.forEach {}
             try self.validate(self.memberId, name: "memberId", parent: name, max: 32)
             try self.validate(self.memberId, name: "memberId", parent: name, min: 1)
-            try self.networkId.forEach {}
             try self.validate(self.networkId, name: "networkId", parent: name, max: 32)
             try self.validate(self.networkId, name: "networkId", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 128)
         }
 
@@ -939,15 +895,11 @@ extension ManagedBlockchain {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.networkId.forEach {}
             try self.validate(self.networkId, name: "networkId", parent: name, max: 32)
             try self.validate(self.networkId, name: "networkId", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 128)
-            try self.proposalId.forEach {}
             try self.validate(self.proposalId, name: "proposalId", parent: name, max: 32)
             try self.validate(self.proposalId, name: "proposalId", parent: name, min: 1)
         }
@@ -993,13 +945,10 @@ extension ManagedBlockchain {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.networkId.forEach {}
             try self.validate(self.networkId, name: "networkId", parent: name, max: 32)
             try self.validate(self.networkId, name: "networkId", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 128)
         }
 
@@ -1036,7 +985,6 @@ extension ManagedBlockchain {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:.+:.+:.+:.+:.+")
@@ -1155,11 +1103,8 @@ extension ManagedBlockchain {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 128)
             try self.frameworkConfiguration.validate(name: "\(name).frameworkConfiguration")
-            try self.frameworkConfiguration.forEach {}
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^(?!-|[0-9])(?!.*-$)(?!.*?--)[a-zA-Z0-9-]+$")
@@ -1209,11 +1154,9 @@ extension ManagedBlockchain {
         }
 
         public func validate(name: String) throws {
-            try self.adminPassword.forEach {}
             try self.validate(self.adminPassword, name: "adminPassword", parent: name, max: 32)
             try self.validate(self.adminPassword, name: "adminPassword", parent: name, min: 8)
             try self.validate(self.adminPassword, name: "adminPassword", parent: name, pattern: "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?!.*[@'\\\\\"/])[a-zA-Z0-9\\S]*$")
-            try self.adminUsername.forEach {}
             try self.validate(self.adminUsername, name: "adminUsername", parent: name, max: 16)
             try self.validate(self.adminUsername, name: "adminUsername", parent: name, min: 1)
             try self.validate(self.adminUsername, name: "adminUsername", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9]*$")
@@ -1261,7 +1204,6 @@ extension ManagedBlockchain {
 
         public func validate(name: String) throws {
             try self.fabric?.validate(name: "\(name).fabric")
-            try self.fabric?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1773,7 +1715,6 @@ extension ManagedBlockchain {
             try self.removals?.forEach {
                 try $0.validate(name: "\(name).removals[]")
             }
-            try self.removals?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1838,7 +1779,6 @@ extension ManagedBlockchain {
         }
 
         public func validate(name: String) throws {
-            try self.invitationId.forEach {}
             try self.validate(self.invitationId, name: "invitationId", parent: name, max: 32)
             try self.validate(self.invitationId, name: "invitationId", parent: name, min: 1)
         }
@@ -1859,7 +1799,6 @@ extension ManagedBlockchain {
         }
 
         public func validate(name: String) throws {
-            try self.memberId.forEach {}
             try self.validate(self.memberId, name: "memberId", parent: name, max: 32)
             try self.validate(self.memberId, name: "memberId", parent: name, min: 1)
         }
@@ -1885,7 +1824,6 @@ extension ManagedBlockchain {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:.+:.+:.+:.+:.+")
@@ -1923,7 +1861,6 @@ extension ManagedBlockchain {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:.+:.+:.+:.+:.+")
@@ -1931,7 +1868,6 @@ extension ManagedBlockchain {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
-            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
         }
@@ -1963,10 +1899,8 @@ extension ManagedBlockchain {
         }
 
         public func validate(name: String) throws {
-            try self.memberId.forEach {}
             try self.validate(self.memberId, name: "memberId", parent: name, max: 32)
             try self.validate(self.memberId, name: "memberId", parent: name, min: 1)
-            try self.networkId.forEach {}
             try self.validate(self.networkId, name: "networkId", parent: name, max: 32)
             try self.validate(self.networkId, name: "networkId", parent: name, min: 1)
         }
@@ -2003,13 +1937,10 @@ extension ManagedBlockchain {
         }
 
         public func validate(name: String) throws {
-            try self.memberId?.forEach {}
             try self.validate(self.memberId, name: "memberId", parent: name, max: 32)
             try self.validate(self.memberId, name: "memberId", parent: name, min: 1)
-            try self.networkId.forEach {}
             try self.validate(self.networkId, name: "networkId", parent: name, max: 32)
             try self.validate(self.networkId, name: "networkId", parent: name, min: 1)
-            try self.nodeId.forEach {}
             try self.validate(self.nodeId, name: "nodeId", parent: name, max: 32)
             try self.validate(self.nodeId, name: "nodeId", parent: name, min: 1)
         }
@@ -2047,13 +1978,10 @@ extension ManagedBlockchain {
         }
 
         public func validate(name: String) throws {
-            try self.networkId.forEach {}
             try self.validate(self.networkId, name: "networkId", parent: name, max: 32)
             try self.validate(self.networkId, name: "networkId", parent: name, min: 1)
-            try self.proposalId.forEach {}
             try self.validate(self.proposalId, name: "proposalId", parent: name, max: 32)
             try self.validate(self.proposalId, name: "proposalId", parent: name, min: 1)
-            try self.voterMemberId.forEach {}
             try self.validate(self.voterMemberId, name: "voterMemberId", parent: name, max: 32)
             try self.validate(self.voterMemberId, name: "voterMemberId", parent: name, min: 1)
         }
@@ -2099,7 +2027,6 @@ extension ManagedBlockchain {
 
         public func validate(name: String) throws {
             try self.approvalThresholdPolicy?.validate(name: "\(name).approvalThresholdPolicy")
-            try self.approvalThresholdPolicy?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {

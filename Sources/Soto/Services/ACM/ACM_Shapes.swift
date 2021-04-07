@@ -166,14 +166,12 @@ extension ACM {
         }
 
         public func validate(name: String) throws {
-            try self.certificateArn.forEach {}
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
@@ -336,7 +334,6 @@ extension ACM {
         }
 
         public func validate(name: String) throws {
-            try self.certificateArn.forEach {}
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
@@ -356,7 +353,6 @@ extension ACM {
         }
 
         public func validate(name: String) throws {
-            try self.certificateArn.forEach {}
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
@@ -425,11 +421,9 @@ extension ACM {
         }
 
         public func validate(name: String) throws {
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 253)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^(\\*\\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
-            try self.validationDomain.forEach {}
             try self.validate(self.validationDomain, name: "validationDomain", parent: name, max: 253)
             try self.validate(self.validationDomain, name: "validationDomain", parent: name, min: 1)
             try self.validate(self.validationDomain, name: "validationDomain", parent: name, pattern: "^(\\*\\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
@@ -450,7 +444,6 @@ extension ACM {
         }
 
         public func validate(name: String) throws {
-            try self.daysBeforeExpiry?.forEach {}
             try self.validate(self.daysBeforeExpiry, name: "daysBeforeExpiry", parent: name, min: 1)
         }
 
@@ -471,11 +464,9 @@ extension ACM {
         }
 
         public func validate(name: String) throws {
-            try self.certificateArn.forEach {}
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
-            try self.passphrase.forEach {}
             try self.validate(self.passphrase, name: "passphrase", parent: name, max: 128)
             try self.validate(self.passphrase, name: "passphrase", parent: name, min: 4)
         }
@@ -567,7 +558,6 @@ extension ACM {
         }
 
         public func validate(name: String) throws {
-            try self.certificateArn.forEach {}
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
@@ -616,23 +606,18 @@ extension ACM {
         }
 
         public func validate(name: String) throws {
-            try self.certificate.forEach {}
             try self.validate(self.certificate, name: "certificate", parent: name, max: 32768)
             try self.validate(self.certificate, name: "certificate", parent: name, min: 1)
-            try self.certificateArn?.forEach {}
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
-            try self.certificateChain?.forEach {}
             try self.validate(self.certificateChain, name: "certificateChain", parent: name, max: 2_097_152)
             try self.validate(self.certificateChain, name: "certificateChain", parent: name, min: 1)
-            try self.privateKey.forEach {}
             try self.validate(self.privateKey, name: "privateKey", parent: name, max: 5120)
             try self.validate(self.privateKey, name: "privateKey", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
@@ -690,10 +675,8 @@ extension ACM {
         }
 
         public func validate(name: String) throws {
-            try self.maxItems?.forEach {}
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 1000)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 10000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]*")
@@ -733,7 +716,6 @@ extension ACM {
         }
 
         public func validate(name: String) throws {
-            try self.certificateArn.forEach {}
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
@@ -770,8 +752,6 @@ extension ACM {
 
         public func validate(name: String) throws {
             try self.expiryEvents?.validate(name: "\(name).expiryEvents")
-            try self.expiryEvents?.forEach {}
-            try self.idempotencyToken.forEach {}
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 32)
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, min: 1)
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, pattern: "\\w+")
@@ -795,14 +775,12 @@ extension ACM {
         }
 
         public func validate(name: String) throws {
-            try self.certificateArn.forEach {}
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
@@ -822,7 +800,6 @@ extension ACM {
         }
 
         public func validate(name: String) throws {
-            try self.certificateArn.forEach {}
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
@@ -888,21 +865,17 @@ extension ACM {
         }
 
         public func validate(name: String) throws {
-            try self.certificateAuthorityArn?.forEach {}
             try self.validate(self.certificateAuthorityArn, name: "certificateAuthorityArn", parent: name, max: 2048)
             try self.validate(self.certificateAuthorityArn, name: "certificateAuthorityArn", parent: name, min: 20)
             try self.validate(self.certificateAuthorityArn, name: "certificateAuthorityArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
-            try self.domainName.forEach {}
             try self.validate(self.domainName, name: "domainName", parent: name, max: 253)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^(\\*\\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
             try self.domainValidationOptions?.forEach {
                 try $0.validate(name: "\(name).domainValidationOptions[]")
             }
-            try self.domainValidationOptions?.forEach {}
             try self.validate(self.domainValidationOptions, name: "domainValidationOptions", parent: name, max: 100)
             try self.validate(self.domainValidationOptions, name: "domainValidationOptions", parent: name, min: 1)
-            try self.idempotencyToken?.forEach {}
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 32)
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, min: 1)
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, pattern: "\\w+")
@@ -911,13 +884,11 @@ extension ACM {
                 try validate($0, name: "subjectAlternativeNames[]", parent: name, min: 1)
                 try validate($0, name: "subjectAlternativeNames[]", parent: name, pattern: "^(\\*\\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
             }
-            try self.subjectAlternativeNames?.forEach {}
             try self.validate(self.subjectAlternativeNames, name: "subjectAlternativeNames", parent: name, max: 100)
             try self.validate(self.subjectAlternativeNames, name: "subjectAlternativeNames", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
@@ -962,15 +933,12 @@ extension ACM {
         }
 
         public func validate(name: String) throws {
-            try self.certificateArn.forEach {}
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
-            try self.domain.forEach {}
             try self.validate(self.domain, name: "domain", parent: name, max: 253)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "^(\\*\\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
-            try self.validationDomain.forEach {}
             try self.validate(self.validationDomain, name: "validationDomain", parent: name, max: 253)
             try self.validate(self.validationDomain, name: "validationDomain", parent: name, min: 1)
             try self.validate(self.validationDomain, name: "validationDomain", parent: name, pattern: "^(\\*\\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
@@ -1016,11 +984,9 @@ extension ACM {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "[\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@]*")
-            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
             try self.validate(self.value, name: "value", parent: name, pattern: "[\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@]*")
@@ -1044,7 +1010,6 @@ extension ACM {
         }
 
         public func validate(name: String) throws {
-            try self.certificateArn.forEach {}
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")

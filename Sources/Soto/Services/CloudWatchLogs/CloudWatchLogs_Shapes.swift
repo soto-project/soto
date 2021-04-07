@@ -65,9 +65,7 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.kmsKeyId.forEach {}
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 256)
-            try self.logGroupName.forEach {}
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
@@ -88,7 +86,6 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.taskId.forEach {}
             try self.validate(self.taskId, name: "taskId", parent: name, max: 512)
             try self.validate(self.taskId, name: "taskId", parent: name, min: 1)
         }
@@ -125,23 +122,17 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.destination.forEach {}
             try self.validate(self.destination, name: "destination", parent: name, max: 512)
             try self.validate(self.destination, name: "destination", parent: name, min: 1)
-            try self.from.forEach {}
             try self.validate(self.from, name: "from", parent: name, min: 0)
-            try self.logGroupName.forEach {}
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
-            try self.logStreamNamePrefix?.forEach {}
             try self.validate(self.logStreamNamePrefix, name: "logStreamNamePrefix", parent: name, max: 512)
             try self.validate(self.logStreamNamePrefix, name: "logStreamNamePrefix", parent: name, min: 1)
             try self.validate(self.logStreamNamePrefix, name: "logStreamNamePrefix", parent: name, pattern: "[^:*]*")
-            try self.taskName?.forEach {}
             try self.validate(self.taskName, name: "taskName", parent: name, max: 512)
             try self.validate(self.taskName, name: "taskName", parent: name, min: 1)
-            try self.to.forEach {}
             try self.validate(self.to, name: "to", parent: name, min: 0)
         }
 
@@ -184,9 +175,7 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.kmsKeyId?.forEach {}
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 256)
-            try self.logGroupName.forEach {}
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
@@ -218,11 +207,9 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.logGroupName.forEach {}
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
-            try self.logStreamName.forEach {}
             try self.validate(self.logStreamName, name: "logStreamName", parent: name, max: 512)
             try self.validate(self.logStreamName, name: "logStreamName", parent: name, min: 1)
             try self.validate(self.logStreamName, name: "logStreamName", parent: name, pattern: "[^:*]*")
@@ -243,7 +230,6 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.destinationName.forEach {}
             try self.validate(self.destinationName, name: "destinationName", parent: name, max: 512)
             try self.validate(self.destinationName, name: "destinationName", parent: name, min: 1)
             try self.validate(self.destinationName, name: "destinationName", parent: name, pattern: "[^:*]*")
@@ -263,7 +249,6 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.logGroupName.forEach {}
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
@@ -286,11 +271,9 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.logGroupName.forEach {}
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
-            try self.logStreamName.forEach {}
             try self.validate(self.logStreamName, name: "logStreamName", parent: name, max: 512)
             try self.validate(self.logStreamName, name: "logStreamName", parent: name, min: 1)
             try self.validate(self.logStreamName, name: "logStreamName", parent: name, pattern: "[^:*]*")
@@ -314,11 +297,9 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.filterName.forEach {}
             try self.validate(self.filterName, name: "filterName", parent: name, max: 512)
             try self.validate(self.filterName, name: "filterName", parent: name, min: 1)
             try self.validate(self.filterName, name: "filterName", parent: name, pattern: "[^:*]*")
-            try self.logGroupName.forEach {}
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
@@ -339,7 +320,6 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.queryDefinitionId.forEach {}
             try self.validate(self.queryDefinitionId, name: "queryDefinitionId", parent: name, max: 256)
             try self.validate(self.queryDefinitionId, name: "queryDefinitionId", parent: name, min: 0)
         }
@@ -384,7 +364,6 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.logGroupName.forEach {}
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
@@ -407,11 +386,9 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.filterName.forEach {}
             try self.validate(self.filterName, name: "filterName", parent: name, max: 512)
             try self.validate(self.filterName, name: "filterName", parent: name, min: 1)
             try self.validate(self.filterName, name: "filterName", parent: name, pattern: "[^:*]*")
-            try self.logGroupName.forEach {}
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
@@ -438,14 +415,11 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.destinationNamePrefix?.forEach {}
             try self.validate(self.destinationNamePrefix, name: "destinationNamePrefix", parent: name, max: 512)
             try self.validate(self.destinationNamePrefix, name: "destinationNamePrefix", parent: name, min: 1)
             try self.validate(self.destinationNamePrefix, name: "destinationNamePrefix", parent: name, pattern: "[^:*]*")
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 50)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -490,12 +464,9 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 50)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.taskId?.forEach {}
             try self.validate(self.taskId, name: "taskId", parent: name, max: 512)
             try self.validate(self.taskId, name: "taskId", parent: name, min: 1)
         }
@@ -539,14 +510,11 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 50)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.logGroupNamePrefix?.forEach {}
             try self.validate(self.logGroupNamePrefix, name: "logGroupNamePrefix", parent: name, max: 512)
             try self.validate(self.logGroupNamePrefix, name: "logGroupNamePrefix", parent: name, min: 1)
             try self.validate(self.logGroupNamePrefix, name: "logGroupNamePrefix", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -597,18 +565,14 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 50)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.logGroupName.forEach {}
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
-            try self.logStreamNamePrefix?.forEach {}
             try self.validate(self.logStreamNamePrefix, name: "logStreamNamePrefix", parent: name, max: 512)
             try self.validate(self.logStreamNamePrefix, name: "logStreamNamePrefix", parent: name, min: 1)
             try self.validate(self.logStreamNamePrefix, name: "logStreamNamePrefix", parent: name, pattern: "[^:*]*")
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -662,24 +626,18 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.filterNamePrefix?.forEach {}
             try self.validate(self.filterNamePrefix, name: "filterNamePrefix", parent: name, max: 512)
             try self.validate(self.filterNamePrefix, name: "filterNamePrefix", parent: name, min: 1)
             try self.validate(self.filterNamePrefix, name: "filterNamePrefix", parent: name, pattern: "[^:*]*")
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 50)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.logGroupName?.forEach {}
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
-            try self.metricName?.forEach {}
             try self.validate(self.metricName, name: "metricName", parent: name, max: 255)
             try self.validate(self.metricName, name: "metricName", parent: name, pattern: "[^:*$]*")
-            try self.metricNamespace?.forEach {}
             try self.validate(self.metricNamespace, name: "metricNamespace", parent: name, max: 255)
             try self.validate(self.metricNamespace, name: "metricNamespace", parent: name, pattern: "[^:*$]*")
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -726,14 +684,11 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.logGroupName?.forEach {}
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -775,12 +730,9 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.queryDefinitionNamePrefix?.forEach {}
             try self.validate(self.queryDefinitionNamePrefix, name: "queryDefinitionNamePrefix", parent: name, max: 255)
             try self.validate(self.queryDefinitionNamePrefix, name: "queryDefinitionNamePrefix", parent: name, min: 1)
             try self.validate(self.queryDefinitionNamePrefix, name: "queryDefinitionNamePrefix", parent: name, pattern: "^([^:*\\/]+\\/?)*[^:*\\/]+$")
@@ -820,10 +772,8 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 50)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -867,18 +817,14 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.filterNamePrefix?.forEach {}
             try self.validate(self.filterNamePrefix, name: "filterNamePrefix", parent: name, max: 512)
             try self.validate(self.filterNamePrefix, name: "filterNamePrefix", parent: name, min: 1)
             try self.validate(self.filterNamePrefix, name: "filterNamePrefix", parent: name, pattern: "[^:*]*")
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 50)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.logGroupName.forEach {}
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -948,7 +894,6 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.logGroupName.forEach {}
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
@@ -1068,19 +1013,14 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.endTime?.forEach {}
             try self.validate(self.endTime, name: "endTime", parent: name, min: 0)
-            try self.filterPattern?.forEach {}
             try self.validate(self.filterPattern, name: "filterPattern", parent: name, max: 1024)
             try self.validate(self.filterPattern, name: "filterPattern", parent: name, min: 0)
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 10000)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.logGroupName.forEach {}
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
-            try self.logStreamNamePrefix?.forEach {}
             try self.validate(self.logStreamNamePrefix, name: "logStreamNamePrefix", parent: name, max: 512)
             try self.validate(self.logStreamNamePrefix, name: "logStreamNamePrefix", parent: name, min: 1)
             try self.validate(self.logStreamNamePrefix, name: "logStreamNamePrefix", parent: name, pattern: "[^:*]*")
@@ -1089,12 +1029,9 @@ extension CloudWatchLogs {
                 try validate($0, name: "logStreamNames[]", parent: name, min: 1)
                 try validate($0, name: "logStreamNames[]", parent: name, pattern: "[^:*]*")
             }
-            try self.logStreamNames?.forEach {}
             try self.validate(self.logStreamNames, name: "logStreamNames", parent: name, max: 100)
             try self.validate(self.logStreamNames, name: "logStreamNames", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.startTime?.forEach {}
             try self.validate(self.startTime, name: "startTime", parent: name, min: 0)
         }
 
@@ -1187,22 +1124,16 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.endTime?.forEach {}
             try self.validate(self.endTime, name: "endTime", parent: name, min: 0)
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 10000)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.logGroupName.forEach {}
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
-            try self.logStreamName.forEach {}
             try self.validate(self.logStreamName, name: "logStreamName", parent: name, max: 512)
             try self.validate(self.logStreamName, name: "logStreamName", parent: name, min: 1)
             try self.validate(self.logStreamName, name: "logStreamName", parent: name, pattern: "[^:*]*")
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.startTime?.forEach {}
             try self.validate(self.startTime, name: "startTime", parent: name, min: 0)
         }
 
@@ -1250,11 +1181,9 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.logGroupName.forEach {}
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
-            try self.time?.forEach {}
             try self.validate(self.time, name: "time", parent: name, min: 0)
         }
 
@@ -1312,7 +1241,6 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.queryId.forEach {}
             try self.validate(self.queryId, name: "queryId", parent: name, max: 256)
             try self.validate(self.queryId, name: "queryId", parent: name, min: 0)
         }
@@ -1355,9 +1283,7 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.message.forEach {}
             try self.validate(self.message, name: "message", parent: name, min: 1)
-            try self.timestamp.forEach {}
             try self.validate(self.timestamp, name: "timestamp", parent: name, min: 0)
         }
 
@@ -1376,7 +1302,6 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.logGroupName.forEach {}
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
@@ -1557,13 +1482,10 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.metricName.forEach {}
             try self.validate(self.metricName, name: "metricName", parent: name, max: 255)
             try self.validate(self.metricName, name: "metricName", parent: name, pattern: "[^:*$]*")
-            try self.metricNamespace.forEach {}
             try self.validate(self.metricNamespace, name: "metricNamespace", parent: name, max: 255)
             try self.validate(self.metricNamespace, name: "metricNamespace", parent: name, pattern: "[^:*$]*")
-            try self.metricValue.forEach {}
             try self.validate(self.metricValue, name: "metricValue", parent: name, max: 100)
         }
 
@@ -1608,9 +1530,7 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.accessPolicy.forEach {}
             try self.validate(self.accessPolicy, name: "accessPolicy", parent: name, min: 1)
-            try self.destinationName.forEach {}
             try self.validate(self.destinationName, name: "destinationName", parent: name, max: 512)
             try self.validate(self.destinationName, name: "destinationName", parent: name, min: 1)
             try self.validate(self.destinationName, name: "destinationName", parent: name, pattern: "[^:*]*")
@@ -1637,13 +1557,10 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.destinationName.forEach {}
             try self.validate(self.destinationName, name: "destinationName", parent: name, max: 512)
             try self.validate(self.destinationName, name: "destinationName", parent: name, min: 1)
             try self.validate(self.destinationName, name: "destinationName", parent: name, pattern: "[^:*]*")
-            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
-            try self.targetArn.forEach {}
             try self.validate(self.targetArn, name: "targetArn", parent: name, min: 1)
         }
 
@@ -1688,18 +1605,14 @@ extension CloudWatchLogs {
             try self.logEvents.forEach {
                 try $0.validate(name: "\(name).logEvents[]")
             }
-            try self.logEvents.forEach {}
             try self.validate(self.logEvents, name: "logEvents", parent: name, max: 10000)
             try self.validate(self.logEvents, name: "logEvents", parent: name, min: 1)
-            try self.logGroupName.forEach {}
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
-            try self.logStreamName.forEach {}
             try self.validate(self.logStreamName, name: "logStreamName", parent: name, max: 512)
             try self.validate(self.logStreamName, name: "logStreamName", parent: name, min: 1)
             try self.validate(self.logStreamName, name: "logStreamName", parent: name, pattern: "[^:*]*")
-            try self.sequenceToken?.forEach {}
             try self.validate(self.sequenceToken, name: "sequenceToken", parent: name, min: 1)
         }
 
@@ -1746,21 +1659,17 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.filterName.forEach {}
             try self.validate(self.filterName, name: "filterName", parent: name, max: 512)
             try self.validate(self.filterName, name: "filterName", parent: name, min: 1)
             try self.validate(self.filterName, name: "filterName", parent: name, pattern: "[^:*]*")
-            try self.filterPattern.forEach {}
             try self.validate(self.filterPattern, name: "filterPattern", parent: name, max: 1024)
             try self.validate(self.filterPattern, name: "filterPattern", parent: name, min: 0)
-            try self.logGroupName.forEach {}
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
             try self.metricTransformations.forEach {
                 try $0.validate(name: "\(name).metricTransformations[]")
             }
-            try self.metricTransformations.forEach {}
             try self.validate(self.metricTransformations, name: "metricTransformations", parent: name, max: 1)
             try self.validate(self.metricTransformations, name: "metricTransformations", parent: name, min: 1)
         }
@@ -1796,15 +1705,11 @@ extension CloudWatchLogs {
                 try validate($0, name: "logGroupNames[]", parent: name, min: 1)
                 try validate($0, name: "logGroupNames[]", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
             }
-            try self.logGroupNames?.forEach {}
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([^:*\\/]+\\/?)*[^:*\\/]+$")
-            try self.queryDefinitionId?.forEach {}
             try self.validate(self.queryDefinitionId, name: "queryDefinitionId", parent: name, max: 256)
             try self.validate(self.queryDefinitionId, name: "queryDefinitionId", parent: name, min: 0)
-            try self.queryString.forEach {}
             try self.validate(self.queryString, name: "queryString", parent: name, max: 10000)
             try self.validate(self.queryString, name: "queryString", parent: name, min: 1)
         }
@@ -1842,7 +1747,6 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.policyDocument?.forEach {}
             try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 5120)
             try self.validate(self.policyDocument, name: "policyDocument", parent: name, min: 1)
         }
@@ -1877,7 +1781,6 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.logGroupName.forEach {}
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
@@ -1913,20 +1816,15 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.destinationArn.forEach {}
             try self.validate(self.destinationArn, name: "destinationArn", parent: name, min: 1)
-            try self.filterName.forEach {}
             try self.validate(self.filterName, name: "filterName", parent: name, max: 512)
             try self.validate(self.filterName, name: "filterName", parent: name, min: 1)
             try self.validate(self.filterName, name: "filterName", parent: name, pattern: "[^:*]*")
-            try self.filterPattern.forEach {}
             try self.validate(self.filterPattern, name: "filterPattern", parent: name, max: 1024)
             try self.validate(self.filterPattern, name: "filterPattern", parent: name, min: 0)
-            try self.logGroupName.forEach {}
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
-            try self.roleArn?.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
         }
 
@@ -2119,12 +2017,9 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.endTime.forEach {}
             try self.validate(self.endTime, name: "endTime", parent: name, min: 0)
-            try self.limit?.forEach {}
             try self.validate(self.limit, name: "limit", parent: name, max: 10000)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.logGroupName?.forEach {}
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
@@ -2133,11 +2028,8 @@ extension CloudWatchLogs {
                 try validate($0, name: "logGroupNames[]", parent: name, min: 1)
                 try validate($0, name: "logGroupNames[]", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
             }
-            try self.logGroupNames?.forEach {}
-            try self.queryString.forEach {}
             try self.validate(self.queryString, name: "queryString", parent: name, max: 10000)
             try self.validate(self.queryString, name: "queryString", parent: name, min: 0)
-            try self.startTime.forEach {}
             try self.validate(self.startTime, name: "startTime", parent: name, min: 0)
         }
 
@@ -2173,7 +2065,6 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.queryId.forEach {}
             try self.validate(self.queryId, name: "queryId", parent: name, max: 256)
             try self.validate(self.queryId, name: "queryId", parent: name, min: 0)
         }
@@ -2242,7 +2133,6 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.logGroupName.forEach {}
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
@@ -2272,13 +2162,11 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.filterPattern.forEach {}
             try self.validate(self.filterPattern, name: "filterPattern", parent: name, max: 1024)
             try self.validate(self.filterPattern, name: "filterPattern", parent: name, min: 0)
             try self.logEventMessages.forEach {
                 try validate($0, name: "logEventMessages[]", parent: name, min: 1)
             }
-            try self.logEventMessages.forEach {}
             try self.validate(self.logEventMessages, name: "logEventMessages", parent: name, max: 50)
             try self.validate(self.logEventMessages, name: "logEventMessages", parent: name, min: 1)
         }
@@ -2314,7 +2202,6 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.logGroupName.forEach {}
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "[\\.\\-_/#A-Za-z0-9]+")
@@ -2323,7 +2210,6 @@ extension CloudWatchLogs {
                 try validate($0, name: "tags[]", parent: name, min: 1)
                 try validate($0, name: "tags[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
             }
-            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 

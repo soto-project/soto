@@ -150,17 +150,13 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try self.creatorRequestId?.forEach {}
             try self.validate(self.creatorRequestId, name: "creatorRequestId", parent: name, max: 64)
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[!-~]{1,1024}$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -207,20 +203,15 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try self.creatorRequestId?.forEach {}
             try self.validate(self.creatorRequestId, name: "creatorRequestId", parent: name, max: 64)
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[!-~]{1,1024}$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
-            try self.vpc.forEach {}
             try self.validate(self.vpc, name: "vpc", parent: name, max: 64)
         }
 
@@ -264,17 +255,13 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try self.creatorRequestId?.forEach {}
             try self.validate(self.creatorRequestId, name: "creatorRequestId", parent: name, max: 64)
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([a-zA-Z0-9]([a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z0-9]([a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])?$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -333,22 +320,15 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try self.creatorRequestId?.forEach {}
             try self.validate(self.creatorRequestId, name: "creatorRequestId", parent: name, max: 64)
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.dnsConfig?.validate(name: "\(name).dnsConfig")
-            try self.dnsConfig?.forEach {}
             try self.healthCheckConfig?.validate(name: "\(name).healthCheckConfig")
-            try self.healthCheckConfig?.forEach {}
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, pattern: "((?=^.{1,127}$)^([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9])(\\.([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9]))*$)|(^\\.$)")
-            try self.namespaceId?.forEach {}
             try self.validate(self.namespaceId, name: "namespaceId", parent: name, max: 64)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -388,7 +368,6 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 64)
         }
 
@@ -419,7 +398,6 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 64)
         }
 
@@ -444,9 +422,7 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 64)
-            try self.serviceId.forEach {}
             try self.validate(self.serviceId, name: "serviceId", parent: name, max: 64)
         }
 
@@ -493,10 +469,8 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.namespaceName.forEach {}
             try self.validate(self.namespaceName, name: "namespaceName", parent: name, max: 1024)
             try self.optionalParameters?.forEach {
                 try validate($0.key, name: "optionalParameters.key", parent: name, max: 255)
@@ -510,7 +484,6 @@ extension ServiceDiscovery {
                 try validate($0.value, name: "queryParameters[\"\($0.key)\"]", parent: name, max: 1024)
                 try validate($0.value, name: "queryParameters[\"\($0.key)\"]", parent: name, pattern: "^([a-zA-Z0-9!-~][ \\ta-zA-Z0-9!-~]*){0,1}[a-zA-Z0-9!-~]{0,1}$")
             }
-            try self.serviceName.forEach {}
             try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "((?=^.{1,127}$)^([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9])(\\.([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9]))*$)|(^\\.$)")
         }
 
@@ -552,7 +525,6 @@ extension ServiceDiscovery {
             try self.dnsRecords.forEach {
                 try $0.validate(name: "\(name).dnsRecords[]")
             }
-            try self.dnsRecords.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -573,7 +545,6 @@ extension ServiceDiscovery {
             try self.dnsRecords.forEach {
                 try $0.validate(name: "\(name).dnsRecords[]")
             }
-            try self.dnsRecords.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -606,7 +577,6 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try self.ttl.forEach {}
             try self.validate(self.ttl, name: "ttl", parent: name, max: 2_147_483_647)
             try self.validate(self.ttl, name: "ttl", parent: name, min: 0)
         }
@@ -629,9 +599,7 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 64)
-            try self.serviceId.forEach {}
             try self.validate(self.serviceId, name: "serviceId", parent: name, max: 64)
         }
 
@@ -675,14 +643,10 @@ extension ServiceDiscovery {
             try self.instances?.forEach {
                 try validate($0, name: "instances[]", parent: name, max: 64)
             }
-            try self.instances?.forEach {}
             try self.validate(self.instances, name: "instances", parent: name, min: 1)
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
-            try self.serviceId.forEach {}
             try self.validate(self.serviceId, name: "serviceId", parent: name, max: 64)
         }
 
@@ -720,7 +684,6 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 64)
         }
 
@@ -751,7 +714,6 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try self.operationId.forEach {}
             try self.validate(self.operationId, name: "operationId", parent: name, max: 64)
         }
 
@@ -782,7 +744,6 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 64)
         }
 
@@ -819,10 +780,8 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try self.failureThreshold?.forEach {}
             try self.validate(self.failureThreshold, name: "failureThreshold", parent: name, max: 10)
             try self.validate(self.failureThreshold, name: "failureThreshold", parent: name, min: 1)
-            try self.resourcePath?.forEach {}
             try self.validate(self.resourcePath, name: "resourcePath", parent: name, max: 255)
         }
 
@@ -932,12 +891,9 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
-            try self.serviceId.forEach {}
             try self.validate(self.serviceId, name: "serviceId", parent: name, max: 64)
         }
 
@@ -983,11 +939,8 @@ extension ServiceDiscovery {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try self.filters?.forEach {}
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
         }
 
@@ -1033,11 +986,8 @@ extension ServiceDiscovery {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try self.filters?.forEach {}
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
         }
 
@@ -1083,11 +1033,8 @@ extension ServiceDiscovery {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try self.filters?.forEach {}
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
         }
 
@@ -1124,7 +1071,6 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
         }
@@ -1211,7 +1157,6 @@ extension ServiceDiscovery {
                 try validate($0, name: "values[]", parent: name, max: 255)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
-            try self.values.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1338,7 +1283,6 @@ extension ServiceDiscovery {
                 try validate($0, name: "values[]", parent: name, max: 255)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
-            try self.values.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1389,11 +1333,8 @@ extension ServiceDiscovery {
                 try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, max: 1024)
                 try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, pattern: "^([a-zA-Z0-9!-~][ \\ta-zA-Z0-9!-~]*){0,1}[a-zA-Z0-9!-~]{0,1}$")
             }
-            try self.creatorRequestId?.forEach {}
             try self.validate(self.creatorRequestId, name: "creatorRequestId", parent: name, max: 64)
-            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 64)
-            try self.serviceId.forEach {}
             try self.validate(self.serviceId, name: "serviceId", parent: name, max: 64)
         }
 
@@ -1489,12 +1430,9 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.dnsConfig?.validate(name: "\(name).dnsConfig")
-            try self.dnsConfig?.forEach {}
             try self.healthCheckConfig?.validate(name: "\(name).healthCheckConfig")
-            try self.healthCheckConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1523,7 +1461,6 @@ extension ServiceDiscovery {
                 try validate($0, name: "values[]", parent: name, max: 255)
                 try validate($0, name: "values[]", parent: name, min: 1)
             }
-            try self.values.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1591,10 +1528,8 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
-            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
         }
@@ -1617,13 +1552,11 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -1650,14 +1583,12 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
-            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
         }
@@ -1687,9 +1618,7 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try self.instanceId.forEach {}
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 64)
-            try self.serviceId.forEach {}
             try self.validate(self.serviceId, name: "serviceId", parent: name, max: 64)
         }
 
@@ -1712,10 +1641,8 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 64)
             try self.service.validate(name: "\(name).service")
-            try self.service.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {

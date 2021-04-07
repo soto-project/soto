@@ -79,15 +79,12 @@ extension ServiceQuotas {
         }
 
         public func validate(name: String) throws {
-            try self.awsRegion.forEach {}
             try self.validate(self.awsRegion, name: "awsRegion", parent: name, max: 64)
             try self.validate(self.awsRegion, name: "awsRegion", parent: name, min: 1)
             try self.validate(self.awsRegion, name: "awsRegion", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
-            try self.quotaCode.forEach {}
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, max: 128)
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, min: 1)
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
-            try self.serviceCode.forEach {}
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, max: 63)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, min: 1)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
@@ -141,11 +138,9 @@ extension ServiceQuotas {
         }
 
         public func validate(name: String) throws {
-            try self.quotaCode.forEach {}
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, max: 128)
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, min: 1)
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
-            try self.serviceCode.forEach {}
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, max: 63)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, min: 1)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
@@ -196,7 +191,6 @@ extension ServiceQuotas {
         }
 
         public func validate(name: String) throws {
-            try self.requestId.forEach {}
             try self.validate(self.requestId, name: "requestId", parent: name, max: 128)
             try self.validate(self.requestId, name: "requestId", parent: name, min: 1)
             try self.validate(self.requestId, name: "requestId", parent: name, pattern: "[0-9a-zA-Z][a-zA-Z0-9-]{1,128}")
@@ -235,15 +229,12 @@ extension ServiceQuotas {
         }
 
         public func validate(name: String) throws {
-            try self.awsRegion.forEach {}
             try self.validate(self.awsRegion, name: "awsRegion", parent: name, max: 64)
             try self.validate(self.awsRegion, name: "awsRegion", parent: name, min: 1)
             try self.validate(self.awsRegion, name: "awsRegion", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
-            try self.quotaCode.forEach {}
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, max: 128)
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, min: 1)
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
-            try self.serviceCode.forEach {}
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, max: 63)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, min: 1)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
@@ -281,11 +272,9 @@ extension ServiceQuotas {
         }
 
         public func validate(name: String) throws {
-            try self.quotaCode.forEach {}
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, max: 128)
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, min: 1)
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
-            try self.serviceCode.forEach {}
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, max: 63)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, min: 1)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
@@ -325,13 +314,10 @@ extension ServiceQuotas {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9/+]*={0,2}$")
-            try self.serviceCode.forEach {}
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, max: 63)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, min: 1)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
@@ -382,17 +368,13 @@ extension ServiceQuotas {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9/+]*={0,2}$")
-            try self.quotaCode.forEach {}
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, max: 128)
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, min: 1)
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
-            try self.serviceCode.forEach {}
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, max: 63)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, min: 1)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
@@ -442,13 +424,10 @@ extension ServiceQuotas {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9/+]*={0,2}$")
-            try self.serviceCode?.forEach {}
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, max: 63)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, min: 1)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
@@ -497,17 +476,13 @@ extension ServiceQuotas {
         }
 
         public func validate(name: String) throws {
-            try self.awsRegion?.forEach {}
             try self.validate(self.awsRegion, name: "awsRegion", parent: name, max: 64)
             try self.validate(self.awsRegion, name: "awsRegion", parent: name, min: 1)
             try self.validate(self.awsRegion, name: "awsRegion", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9/+]*={0,2}$")
-            try self.serviceCode?.forEach {}
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, max: 63)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, min: 1)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
@@ -553,13 +528,10 @@ extension ServiceQuotas {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9/+]*={0,2}$")
-            try self.serviceCode.forEach {}
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, max: 63)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, min: 1)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
@@ -601,10 +573,8 @@ extension ServiceQuotas {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9/+]*={0,2}$")
         }
@@ -641,7 +611,6 @@ extension ServiceQuotas {
         }
 
         public func validate(name: String) throws {
-            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "arn:aws(-[\\w]+)*:*:.+:[0-9]{12}:.+")
@@ -708,18 +677,14 @@ extension ServiceQuotas {
         }
 
         public func validate(name: String) throws {
-            try self.awsRegion.forEach {}
             try self.validate(self.awsRegion, name: "awsRegion", parent: name, max: 64)
             try self.validate(self.awsRegion, name: "awsRegion", parent: name, min: 1)
             try self.validate(self.awsRegion, name: "awsRegion", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
-            try self.desiredValue.forEach {}
             try self.validate(self.desiredValue, name: "desiredValue", parent: name, max: 10_000_000_000)
             try self.validate(self.desiredValue, name: "desiredValue", parent: name, min: 0)
-            try self.quotaCode.forEach {}
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, max: 128)
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, min: 1)
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
-            try self.serviceCode.forEach {}
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, max: 63)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, min: 1)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
@@ -778,14 +743,11 @@ extension ServiceQuotas {
         }
 
         public func validate(name: String) throws {
-            try self.desiredValue.forEach {}
             try self.validate(self.desiredValue, name: "desiredValue", parent: name, max: 10_000_000_000)
             try self.validate(self.desiredValue, name: "desiredValue", parent: name, min: 0)
-            try self.quotaCode.forEach {}
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, max: 128)
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, min: 1)
             try self.validate(self.quotaCode, name: "quotaCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,128}")
-            try self.serviceCode.forEach {}
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, max: 63)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, min: 1)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9-]{1,63}")
@@ -1003,11 +965,9 @@ extension ServiceQuotas {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
             try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
@@ -1031,14 +991,12 @@ extension ServiceQuotas {
         }
 
         public func validate(name: String) throws {
-            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "arn:aws(-[\\w]+)*:*:.+:[0-9]{12}:.+")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
@@ -1064,7 +1022,6 @@ extension ServiceQuotas {
         }
 
         public func validate(name: String) throws {
-            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "arn:aws(-[\\w]+)*:*:.+:[0-9]{12}:.+")
@@ -1073,7 +1030,6 @@ extension ServiceQuotas {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
-            try self.tagKeys.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -181,8 +181,6 @@ extension TranscribeService {
 
         public func validate(name: String) throws {
             try self.inputDataConfig.validate(name: "\(name).inputDataConfig")
-            try self.inputDataConfig.forEach {}
-            try self.modelName.forEach {}
             try self.validate(self.modelName, name: "modelName", parent: name, max: 200)
             try self.validate(self.modelName, name: "modelName", parent: name, min: 1)
             try self.validate(self.modelName, name: "modelName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
@@ -240,11 +238,9 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try self.vocabularyFileUri.forEach {}
             try self.validate(self.vocabularyFileUri, name: "vocabularyFileUri", parent: name, max: 2000)
             try self.validate(self.vocabularyFileUri, name: "vocabularyFileUri", parent: name, min: 1)
             try self.validate(self.vocabularyFileUri, name: "vocabularyFileUri", parent: name, pattern: "(s3://|http(s*)://).+")
-            try self.vocabularyName.forEach {}
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, max: 200)
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, min: 1)
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
@@ -304,11 +300,9 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try self.vocabularyFilterFileUri?.forEach {}
             try self.validate(self.vocabularyFilterFileUri, name: "vocabularyFilterFileUri", parent: name, max: 2000)
             try self.validate(self.vocabularyFilterFileUri, name: "vocabularyFilterFileUri", parent: name, min: 1)
             try self.validate(self.vocabularyFilterFileUri, name: "vocabularyFilterFileUri", parent: name, pattern: "(s3://|http(s*)://).+")
-            try self.vocabularyFilterName.forEach {}
             try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, max: 200)
             try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, min: 1)
             try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
@@ -316,7 +310,6 @@ extension TranscribeService {
                 try validate($0, name: "words[]", parent: name, max: 256)
                 try validate($0, name: "words[]", parent: name, min: 1)
             }
-            try self.words?.forEach {}
             try self.validate(self.words, name: "words", parent: name, min: 1)
         }
 
@@ -372,12 +365,9 @@ extension TranscribeService {
                 try validate($0, name: "phrases[]", parent: name, min: 0)
                 try validate($0, name: "phrases[]", parent: name, pattern: ".+")
             }
-            try self.phrases?.forEach {}
-            try self.vocabularyFileUri?.forEach {}
             try self.validate(self.vocabularyFileUri, name: "vocabularyFileUri", parent: name, max: 2000)
             try self.validate(self.vocabularyFileUri, name: "vocabularyFileUri", parent: name, min: 1)
             try self.validate(self.vocabularyFileUri, name: "vocabularyFileUri", parent: name, pattern: "(s3://|http(s*)://).+")
-            try self.vocabularyName.forEach {}
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, max: 200)
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, min: 1)
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
@@ -429,7 +419,6 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try self.modelName.forEach {}
             try self.validate(self.modelName, name: "modelName", parent: name, max: 200)
             try self.validate(self.modelName, name: "modelName", parent: name, min: 1)
             try self.validate(self.modelName, name: "modelName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
@@ -449,7 +438,6 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try self.medicalTranscriptionJobName.forEach {}
             try self.validate(self.medicalTranscriptionJobName, name: "medicalTranscriptionJobName", parent: name, max: 200)
             try self.validate(self.medicalTranscriptionJobName, name: "medicalTranscriptionJobName", parent: name, min: 1)
             try self.validate(self.medicalTranscriptionJobName, name: "medicalTranscriptionJobName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
@@ -469,7 +457,6 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try self.vocabularyName.forEach {}
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, max: 200)
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, min: 1)
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
@@ -489,7 +476,6 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try self.transcriptionJobName.forEach {}
             try self.validate(self.transcriptionJobName, name: "transcriptionJobName", parent: name, max: 200)
             try self.validate(self.transcriptionJobName, name: "transcriptionJobName", parent: name, min: 1)
             try self.validate(self.transcriptionJobName, name: "transcriptionJobName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
@@ -509,7 +495,6 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try self.vocabularyFilterName.forEach {}
             try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, max: 200)
             try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, min: 1)
             try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
@@ -529,7 +514,6 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try self.vocabularyName.forEach {}
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, max: 200)
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, min: 1)
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
@@ -549,7 +533,6 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try self.modelName.forEach {}
             try self.validate(self.modelName, name: "modelName", parent: name, max: 200)
             try self.validate(self.modelName, name: "modelName", parent: name, min: 1)
             try self.validate(self.modelName, name: "modelName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
@@ -582,7 +565,6 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try self.medicalTranscriptionJobName.forEach {}
             try self.validate(self.medicalTranscriptionJobName, name: "medicalTranscriptionJobName", parent: name, max: 200)
             try self.validate(self.medicalTranscriptionJobName, name: "medicalTranscriptionJobName", parent: name, min: 1)
             try self.validate(self.medicalTranscriptionJobName, name: "medicalTranscriptionJobName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
@@ -615,7 +597,6 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try self.vocabularyName.forEach {}
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, max: 200)
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, min: 1)
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
@@ -668,7 +649,6 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try self.transcriptionJobName.forEach {}
             try self.validate(self.transcriptionJobName, name: "transcriptionJobName", parent: name, max: 200)
             try self.validate(self.transcriptionJobName, name: "transcriptionJobName", parent: name, min: 1)
             try self.validate(self.transcriptionJobName, name: "transcriptionJobName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
@@ -701,7 +681,6 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try self.vocabularyFilterName.forEach {}
             try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, max: 200)
             try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, min: 1)
             try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
@@ -746,7 +725,6 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try self.vocabularyName.forEach {}
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, max: 200)
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, min: 1)
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
@@ -805,15 +783,12 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try self.dataAccessRoleArn.forEach {}
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, max: 2048)
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, min: 20)
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):iam::[0-9]{0,63}:role/[A-Za-z0-9:_/+=,@.-]{0,1024}$")
-            try self.s3Uri.forEach {}
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 2000)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, min: 1)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "(s3://|http(s*)://).+")
-            try self.tuningDataS3Uri?.forEach {}
             try self.validate(self.tuningDataS3Uri, name: "tuningDataS3Uri", parent: name, max: 2000)
             try self.validate(self.tuningDataS3Uri, name: "tuningDataS3Uri", parent: name, min: 1)
             try self.validate(self.tuningDataS3Uri, name: "tuningDataS3Uri", parent: name, pattern: "(s3://|http(s*)://).+")
@@ -838,7 +813,6 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try self.dataAccessRoleArn?.forEach {}
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, max: 2048)
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, min: 20)
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):iam::[0-9]{0,63}:role/[A-Za-z0-9:_/+=,@.-]{0,1024}$")
@@ -913,14 +887,11 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nameContains?.forEach {}
             try self.validate(self.nameContains, name: "nameContains", parent: name, max: 200)
             try self.validate(self.nameContains, name: "nameContains", parent: name, min: 1)
             try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^[0-9a-zA-Z._-]+")
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".+")
         }
@@ -968,14 +939,11 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try self.jobNameContains?.forEach {}
             try self.validate(self.jobNameContains, name: "jobNameContains", parent: name, max: 200)
             try self.validate(self.jobNameContains, name: "jobNameContains", parent: name, min: 1)
             try self.validate(self.jobNameContains, name: "jobNameContains", parent: name, pattern: "^[0-9a-zA-Z._-]+")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".+")
         }
@@ -1027,14 +995,11 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nameContains?.forEach {}
             try self.validate(self.nameContains, name: "nameContains", parent: name, max: 200)
             try self.validate(self.nameContains, name: "nameContains", parent: name, min: 1)
             try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^[0-9a-zA-Z._-]+")
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".+")
         }
@@ -1086,14 +1051,11 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try self.jobNameContains?.forEach {}
             try self.validate(self.jobNameContains, name: "jobNameContains", parent: name, max: 200)
             try self.validate(self.jobNameContains, name: "jobNameContains", parent: name, min: 1)
             try self.validate(self.jobNameContains, name: "jobNameContains", parent: name, pattern: "^[0-9a-zA-Z._-]+")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".+")
         }
@@ -1145,14 +1107,11 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nameContains?.forEach {}
             try self.validate(self.nameContains, name: "nameContains", parent: name, max: 200)
             try self.validate(self.nameContains, name: "nameContains", parent: name, min: 1)
             try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^[0-9a-zA-Z._-]+")
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".+")
         }
@@ -1201,14 +1160,11 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nameContains?.forEach {}
             try self.validate(self.nameContains, name: "nameContains", parent: name, max: 200)
             try self.validate(self.nameContains, name: "nameContains", parent: name, min: 1)
             try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^[0-9a-zA-Z._-]+")
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".+")
         }
@@ -1246,7 +1202,6 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try self.mediaFileUri?.forEach {}
             try self.validate(self.mediaFileUri, name: "mediaFileUri", parent: name, max: 2000)
             try self.validate(self.mediaFileUri, name: "mediaFileUri", parent: name, min: 1)
             try self.validate(self.mediaFileUri, name: "mediaFileUri", parent: name, pattern: "(s3://|http(s*)://).+")
@@ -1407,13 +1362,10 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try self.maxAlternatives?.forEach {}
             try self.validate(self.maxAlternatives, name: "maxAlternatives", parent: name, max: 10)
             try self.validate(self.maxAlternatives, name: "maxAlternatives", parent: name, min: 2)
-            try self.maxSpeakerLabels?.forEach {}
             try self.validate(self.maxSpeakerLabels, name: "maxSpeakerLabels", parent: name, max: 10)
             try self.validate(self.maxSpeakerLabels, name: "maxSpeakerLabels", parent: name, min: 2)
-            try self.vocabularyName?.forEach {}
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, max: 200)
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, min: 1)
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
@@ -1438,7 +1390,6 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try self.languageModelName?.forEach {}
             try self.validate(self.languageModelName, name: "languageModelName", parent: name, max: 200)
             try self.validate(self.languageModelName, name: "languageModelName", parent: name, min: 1)
             try self.validate(self.languageModelName, name: "languageModelName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
@@ -1479,17 +1430,13 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try self.maxAlternatives?.forEach {}
             try self.validate(self.maxAlternatives, name: "maxAlternatives", parent: name, max: 10)
             try self.validate(self.maxAlternatives, name: "maxAlternatives", parent: name, min: 2)
-            try self.maxSpeakerLabels?.forEach {}
             try self.validate(self.maxSpeakerLabels, name: "maxSpeakerLabels", parent: name, max: 10)
             try self.validate(self.maxSpeakerLabels, name: "maxSpeakerLabels", parent: name, min: 2)
-            try self.vocabularyFilterName?.forEach {}
             try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, max: 200)
             try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, min: 1)
             try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
-            try self.vocabularyName?.forEach {}
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, max: 200)
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, min: 1)
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
@@ -1546,27 +1493,20 @@ extension TranscribeService {
 
         public func validate(name: String) throws {
             try self.media.validate(name: "\(name).media")
-            try self.media.forEach {}
-            try self.mediaSampleRateHertz?.forEach {}
             try self.validate(self.mediaSampleRateHertz, name: "mediaSampleRateHertz", parent: name, max: 48000)
             try self.validate(self.mediaSampleRateHertz, name: "mediaSampleRateHertz", parent: name, min: 8000)
-            try self.medicalTranscriptionJobName.forEach {}
             try self.validate(self.medicalTranscriptionJobName, name: "medicalTranscriptionJobName", parent: name, max: 200)
             try self.validate(self.medicalTranscriptionJobName, name: "medicalTranscriptionJobName", parent: name, min: 1)
             try self.validate(self.medicalTranscriptionJobName, name: "medicalTranscriptionJobName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
-            try self.outputBucketName.forEach {}
             try self.validate(self.outputBucketName, name: "outputBucketName", parent: name, max: 64)
             try self.validate(self.outputBucketName, name: "outputBucketName", parent: name, pattern: "[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]")
-            try self.outputEncryptionKMSKeyId?.forEach {}
             try self.validate(self.outputEncryptionKMSKeyId, name: "outputEncryptionKMSKeyId", parent: name, max: 2048)
             try self.validate(self.outputEncryptionKMSKeyId, name: "outputEncryptionKMSKeyId", parent: name, min: 1)
             try self.validate(self.outputEncryptionKMSKeyId, name: "outputEncryptionKMSKeyId", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$")
-            try self.outputKey?.forEach {}
             try self.validate(self.outputKey, name: "outputKey", parent: name, max: 1024)
             try self.validate(self.outputKey, name: "outputKey", parent: name, min: 1)
             try self.validate(self.outputKey, name: "outputKey", parent: name, pattern: "[a-zA-Z0-9-_.!*'()/]{1,1024}$")
             try self.settings?.validate(name: "\(name).settings")
-            try self.settings?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1646,30 +1586,20 @@ extension TranscribeService {
 
         public func validate(name: String) throws {
             try self.jobExecutionSettings?.validate(name: "\(name).jobExecutionSettings")
-            try self.jobExecutionSettings?.forEach {}
-            try self.languageOptions?.forEach {}
             try self.validate(self.languageOptions, name: "languageOptions", parent: name, min: 2)
             try self.media.validate(name: "\(name).media")
-            try self.media.forEach {}
-            try self.mediaSampleRateHertz?.forEach {}
             try self.validate(self.mediaSampleRateHertz, name: "mediaSampleRateHertz", parent: name, max: 48000)
             try self.validate(self.mediaSampleRateHertz, name: "mediaSampleRateHertz", parent: name, min: 8000)
             try self.modelSettings?.validate(name: "\(name).modelSettings")
-            try self.modelSettings?.forEach {}
-            try self.outputBucketName?.forEach {}
             try self.validate(self.outputBucketName, name: "outputBucketName", parent: name, max: 64)
             try self.validate(self.outputBucketName, name: "outputBucketName", parent: name, pattern: "[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]")
-            try self.outputEncryptionKMSKeyId?.forEach {}
             try self.validate(self.outputEncryptionKMSKeyId, name: "outputEncryptionKMSKeyId", parent: name, max: 2048)
             try self.validate(self.outputEncryptionKMSKeyId, name: "outputEncryptionKMSKeyId", parent: name, min: 1)
             try self.validate(self.outputEncryptionKMSKeyId, name: "outputEncryptionKMSKeyId", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$")
-            try self.outputKey?.forEach {}
             try self.validate(self.outputKey, name: "outputKey", parent: name, max: 1024)
             try self.validate(self.outputKey, name: "outputKey", parent: name, min: 1)
             try self.validate(self.outputKey, name: "outputKey", parent: name, pattern: "[a-zA-Z0-9-_.!*'()/]{1,1024}$")
             try self.settings?.validate(name: "\(name).settings")
-            try self.settings?.forEach {}
-            try self.transcriptionJobName.forEach {}
             try self.validate(self.transcriptionJobName, name: "transcriptionJobName", parent: name, max: 200)
             try self.validate(self.transcriptionJobName, name: "transcriptionJobName", parent: name, min: 1)
             try self.validate(self.transcriptionJobName, name: "transcriptionJobName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
@@ -1875,11 +1805,9 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try self.vocabularyFileUri?.forEach {}
             try self.validate(self.vocabularyFileUri, name: "vocabularyFileUri", parent: name, max: 2000)
             try self.validate(self.vocabularyFileUri, name: "vocabularyFileUri", parent: name, min: 1)
             try self.validate(self.vocabularyFileUri, name: "vocabularyFileUri", parent: name, pattern: "(s3://|http(s*)://).+")
-            try self.vocabularyName.forEach {}
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, max: 200)
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, min: 1)
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
@@ -1932,11 +1860,9 @@ extension TranscribeService {
         }
 
         public func validate(name: String) throws {
-            try self.vocabularyFilterFileUri?.forEach {}
             try self.validate(self.vocabularyFilterFileUri, name: "vocabularyFilterFileUri", parent: name, max: 2000)
             try self.validate(self.vocabularyFilterFileUri, name: "vocabularyFilterFileUri", parent: name, min: 1)
             try self.validate(self.vocabularyFilterFileUri, name: "vocabularyFilterFileUri", parent: name, pattern: "(s3://|http(s*)://).+")
-            try self.vocabularyFilterName.forEach {}
             try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, max: 200)
             try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, min: 1)
             try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
@@ -1944,7 +1870,6 @@ extension TranscribeService {
                 try validate($0, name: "words[]", parent: name, max: 256)
                 try validate($0, name: "words[]", parent: name, min: 1)
             }
-            try self.words?.forEach {}
             try self.validate(self.words, name: "words", parent: name, min: 1)
         }
 
@@ -1999,12 +1924,9 @@ extension TranscribeService {
                 try validate($0, name: "phrases[]", parent: name, min: 0)
                 try validate($0, name: "phrases[]", parent: name, pattern: ".+")
             }
-            try self.phrases?.forEach {}
-            try self.vocabularyFileUri?.forEach {}
             try self.validate(self.vocabularyFileUri, name: "vocabularyFileUri", parent: name, max: 2000)
             try self.validate(self.vocabularyFileUri, name: "vocabularyFileUri", parent: name, min: 1)
             try self.validate(self.vocabularyFileUri, name: "vocabularyFileUri", parent: name, pattern: "(s3://|http(s*)://).+")
-            try self.vocabularyName.forEach {}
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, max: 200)
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, min: 1)
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+")

@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/hummingbird-project/hummingbird-mustache.git",
         "state": {
           "branch": null,
-          "revision": "7ebd84a328106cce57bbc1839b2419a0bb4a71e8",
-          "version": "0.5.1"
+          "revision": "c1d3f491b56817a2097671195bb5b7a67cadd6c0",
+          "version": "0.5.2"
         }
       },
       {
@@ -15,8 +15,8 @@
         "repositoryURL": "https://github.com/apple/swift-argument-parser.git",
         "state": {
           "branch": null,
-          "revision": "9564d61b08a5335ae0a36f789a7d71493eacadfc",
-          "version": "0.3.2"
+          "revision": "831ed5e860a70e745bc1337830af4786b2576881",
+          "version": "0.4.1"
         }
       },
       {

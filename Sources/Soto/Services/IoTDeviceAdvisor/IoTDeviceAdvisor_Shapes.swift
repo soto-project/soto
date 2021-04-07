@@ -57,7 +57,6 @@ extension IoTDeviceAdvisor {
 
         public func validate(name: String) throws {
             try self.suiteDefinitionConfiguration?.validate(name: "\(name).suiteDefinitionConfiguration")
-            try self.suiteDefinitionConfiguration?.forEach {}
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -110,7 +109,6 @@ extension IoTDeviceAdvisor {
         }
 
         public func validate(name: String) throws {
-            try self.suiteDefinitionId.forEach {}
             try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, max: 36)
             try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, min: 36)
         }
@@ -134,10 +132,8 @@ extension IoTDeviceAdvisor {
         }
 
         public func validate(name: String) throws {
-            try self.certificateArn?.forEach {}
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
-            try self.thingArn?.forEach {}
             try self.validate(self.thingArn, name: "thingArn", parent: name, max: 2048)
             try self.validate(self.thingArn, name: "thingArn", parent: name, min: 20)
         }
@@ -165,10 +161,8 @@ extension IoTDeviceAdvisor {
         }
 
         public func validate(name: String) throws {
-            try self.suiteDefinitionId.forEach {}
             try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, max: 36)
             try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, min: 36)
-            try self.suiteDefinitionVersion?.forEach {}
             try self.validate(self.suiteDefinitionVersion, name: "suiteDefinitionVersion", parent: name, max: 255)
             try self.validate(self.suiteDefinitionVersion, name: "suiteDefinitionVersion", parent: name, min: 2)
         }
@@ -234,10 +228,8 @@ extension IoTDeviceAdvisor {
         }
 
         public func validate(name: String) throws {
-            try self.suiteDefinitionId.forEach {}
             try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, max: 36)
             try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, min: 36)
-            try self.suiteRunId.forEach {}
             try self.validate(self.suiteRunId, name: "suiteRunId", parent: name, max: 36)
             try self.validate(self.suiteRunId, name: "suiteRunId", parent: name, min: 36)
         }
@@ -275,10 +267,8 @@ extension IoTDeviceAdvisor {
         }
 
         public func validate(name: String) throws {
-            try self.suiteDefinitionId.forEach {}
             try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, max: 36)
             try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, min: 36)
-            try self.suiteRunId.forEach {}
             try self.validate(self.suiteRunId, name: "suiteRunId", parent: name, max: 36)
             try self.validate(self.suiteRunId, name: "suiteRunId", parent: name, min: 36)
         }
@@ -377,10 +367,8 @@ extension IoTDeviceAdvisor {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
         }
 
@@ -429,15 +417,11 @@ extension IoTDeviceAdvisor {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
-            try self.suiteDefinitionId?.forEach {}
             try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, max: 36)
             try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, min: 36)
-            try self.suiteDefinitionVersion?.forEach {}
             try self.validate(self.suiteDefinitionVersion, name: "suiteDefinitionVersion", parent: name, max: 255)
             try self.validate(self.suiteDefinitionVersion, name: "suiteDefinitionVersion", parent: name, min: 2)
         }
@@ -475,7 +459,6 @@ extension IoTDeviceAdvisor {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
         }
@@ -517,10 +500,8 @@ extension IoTDeviceAdvisor {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
         }
 
@@ -574,14 +555,11 @@ extension IoTDeviceAdvisor {
         }
 
         public func validate(name: String) throws {
-            try self.suiteDefinitionId.forEach {}
             try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, max: 36)
             try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, min: 36)
-            try self.suiteDefinitionVersion?.forEach {}
             try self.validate(self.suiteDefinitionVersion, name: "suiteDefinitionVersion", parent: name, max: 255)
             try self.validate(self.suiteDefinitionVersion, name: "suiteDefinitionVersion", parent: name, min: 2)
             try self.suiteRunConfiguration?.validate(name: "\(name).suiteRunConfiguration")
-            try self.suiteRunConfiguration?.forEach {}
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -639,19 +617,15 @@ extension IoTDeviceAdvisor {
         }
 
         public func validate(name: String) throws {
-            try self.devicePermissionRoleArn?.forEach {}
             try self.validate(self.devicePermissionRoleArn, name: "devicePermissionRoleArn", parent: name, max: 2048)
             try self.validate(self.devicePermissionRoleArn, name: "devicePermissionRoleArn", parent: name, min: 20)
             try self.devices?.forEach {
                 try $0.validate(name: "\(name).devices[]")
             }
-            try self.devices?.forEach {}
             try self.validate(self.devices, name: "devices", parent: name, max: 2)
             try self.validate(self.devices, name: "devices", parent: name, min: 0)
-            try self.rootGroup?.forEach {}
             try self.validate(self.rootGroup, name: "rootGroup", parent: name, max: 2048)
             try self.validate(self.rootGroup, name: "rootGroup", parent: name, min: 1)
-            try self.suiteDefinitionName?.forEach {}
             try self.validate(self.suiteDefinitionName, name: "suiteDefinitionName", parent: name, max: 256)
             try self.validate(self.suiteDefinitionName, name: "suiteDefinitionName", parent: name, min: 1)
         }
@@ -710,14 +684,11 @@ extension IoTDeviceAdvisor {
 
         public func validate(name: String) throws {
             try self.primaryDevice?.validate(name: "\(name).primaryDevice")
-            try self.primaryDevice?.forEach {}
             try self.secondaryDevice?.validate(name: "\(name).secondaryDevice")
-            try self.secondaryDevice?.forEach {}
             try self.selectedTestList?.forEach {
                 try validate($0, name: "selectedTestList[]", parent: name, max: 36)
                 try validate($0, name: "selectedTestList[]", parent: name, min: 36)
             }
-            try self.selectedTestList?.forEach {}
             try self.validate(self.selectedTestList, name: "selectedTestList", parent: name, max: 100)
             try self.validate(self.selectedTestList, name: "selectedTestList", parent: name, min: 0)
         }
@@ -794,7 +765,6 @@ extension IoTDeviceAdvisor {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.tags.forEach {
@@ -944,14 +914,12 @@ extension IoTDeviceAdvisor {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
-            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
         }
@@ -980,8 +948,6 @@ extension IoTDeviceAdvisor {
 
         public func validate(name: String) throws {
             try self.suiteDefinitionConfiguration?.validate(name: "\(name).suiteDefinitionConfiguration")
-            try self.suiteDefinitionConfiguration?.forEach {}
-            try self.suiteDefinitionId.forEach {}
             try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, max: 36)
             try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, min: 36)
         }

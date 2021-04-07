@@ -485,7 +485,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
 
@@ -556,7 +555,6 @@ extension S3 {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -583,7 +581,6 @@ extension S3 {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
-            try self.filter?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -622,9 +619,7 @@ extension S3 {
 
         public func validate(name: String) throws {
             try self.and?.validate(name: "\(name).and")
-            try self.and?.forEach {}
             try self.tag?.validate(name: "\(name).tag")
-            try self.tag?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -690,7 +685,6 @@ extension S3 {
             try self.rules.forEach {
                 try $0.validate(name: "\(name).rules[]")
             }
-            try self.rules.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -954,7 +948,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
 
@@ -1256,9 +1249,7 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try self.copySource.forEach {}
             try self.validate(self.copySource, name: "copySource", parent: name, pattern: ".+\\/.+")
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
 
@@ -1577,7 +1568,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
 
@@ -1622,7 +1612,6 @@ extension S3 {
             try self.objects.forEach {
                 try $0.validate(name: "\(name).objects[]")
             }
-            try self.objects.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1994,7 +1983,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
 
@@ -2043,7 +2031,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
 
@@ -2109,7 +2096,6 @@ extension S3 {
 
         public func validate(name: String) throws {
             try self.delete.validate(name: "\(name).delete")
-            try self.delete.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2270,7 +2256,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
 
@@ -3113,7 +3098,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
 
@@ -3167,7 +3151,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
 
@@ -3480,7 +3463,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
 
@@ -3534,7 +3516,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
 
@@ -3592,7 +3573,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
 
@@ -3647,7 +3627,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
 
@@ -4002,7 +3981,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
 
@@ -4079,7 +4057,6 @@ extension S3 {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4109,7 +4086,6 @@ extension S3 {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
-            try self.filter?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4135,9 +4111,7 @@ extension S3 {
 
         public func validate(name: String) throws {
             try self.and?.validate(name: "\(name).and")
-            try self.and?.forEach {}
             try self.tag?.validate(name: "\(name).tag")
-            try self.tag?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4388,7 +4362,6 @@ extension S3 {
 
         public func validate(name: String) throws {
             try self.filter.validate(name: "\(name).filter")
-            try self.filter.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4418,7 +4391,6 @@ extension S3 {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4442,9 +4414,7 @@ extension S3 {
 
         public func validate(name: String) throws {
             try self.and?.validate(name: "\(name).and")
-            try self.and?.forEach {}
             try self.tag?.validate(name: "\(name).tag")
-            try self.tag?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5170,7 +5140,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
 
@@ -5250,7 +5219,6 @@ extension S3 {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5274,7 +5242,6 @@ extension S3 {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
-            try self.filter?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5299,9 +5266,7 @@ extension S3 {
 
         public func validate(name: String) throws {
             try self.and?.validate(name: "\(name).and")
-            try self.and?.forEach {}
             try self.tag?.validate(name: "\(name).tag")
-            try self.tag?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5477,7 +5442,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
 
@@ -5605,7 +5569,6 @@ extension S3 {
 
         public func validate(name: String) throws {
             try self.s3?.validate(name: "\(name).s3")
-            try self.s3?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5887,7 +5850,6 @@ extension S3 {
 
         public func validate(name: String) throws {
             try self.analyticsConfiguration.validate(name: "\(name).analyticsConfiguration")
-            try self.analyticsConfiguration.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5980,7 +5942,6 @@ extension S3 {
 
         public func validate(name: String) throws {
             try self.intelligentTieringConfiguration.validate(name: "\(name).intelligentTieringConfiguration")
-            try self.intelligentTieringConfiguration.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6043,7 +6004,6 @@ extension S3 {
 
         public func validate(name: String) throws {
             try self.lifecycleConfiguration?.validate(name: "\(name).lifecycleConfiguration")
-            try self.lifecycleConfiguration?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6139,7 +6099,6 @@ extension S3 {
 
         public func validate(name: String) throws {
             try self.metricsConfiguration.validate(name: "\(name).metricsConfiguration")
-            try self.metricsConfiguration.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6301,7 +6260,6 @@ extension S3 {
 
         public func validate(name: String) throws {
             try self.replicationConfiguration.validate(name: "\(name).replicationConfiguration")
-            try self.replicationConfiguration.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6368,7 +6326,6 @@ extension S3 {
 
         public func validate(name: String) throws {
             try self.tagging.validate(name: "\(name).tagging")
-            try self.tagging.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6439,7 +6396,6 @@ extension S3 {
 
         public func validate(name: String) throws {
             try self.websiteConfiguration.validate(name: "\(name).websiteConfiguration")
-            try self.websiteConfiguration.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6525,7 +6481,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
 
@@ -6588,7 +6543,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
 
@@ -6853,7 +6807,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
 
@@ -6918,7 +6871,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
 
@@ -6982,10 +6934,8 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.tagging.validate(name: "\(name).tagging")
-            try self.tagging.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7156,7 +7106,6 @@ extension S3 {
             try self.rules.forEach {
                 try $0.validate(name: "\(name).rules[]")
             }
-            try self.rules.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7193,7 +7142,6 @@ extension S3 {
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
-            try self.filter?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7223,7 +7171,6 @@ extension S3 {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7248,9 +7195,7 @@ extension S3 {
 
         public func validate(name: String) throws {
             try self.and?.validate(name: "\(name).and")
-            try self.and?.forEach {}
             try self.tag?.validate(name: "\(name).tag")
-            try self.tag?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7372,10 +7317,8 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.restoreRequest?.validate(name: "\(name).restoreRequest")
-            try self.restoreRequest?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7413,7 +7356,6 @@ extension S3 {
 
         public func validate(name: String) throws {
             try self.outputLocation?.validate(name: "\(name).outputLocation")
-            try self.outputLocation?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7529,7 +7471,6 @@ extension S3 {
 
         public func validate(name: String) throws {
             try self.tagging?.validate(name: "\(name).tagging")
-            try self.tagging?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7678,7 +7619,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
 
@@ -7872,7 +7812,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
 
@@ -7898,7 +7837,6 @@ extension S3 {
             try self.tagSet.forEach {
                 try $0.validate(name: "\(name).tagSet[]")
             }
-            try self.tagSet.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8144,9 +8082,7 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try self.copySource.forEach {}
             try self.validate(self.copySource, name: "copySource", parent: name, pattern: ".+\\/.+")
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
 
@@ -8258,7 +8194,6 @@ extension S3 {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
 
@@ -8307,7 +8242,6 @@ extension S3 {
 
         public func validate(name: String) throws {
             try self.errorDocument?.validate(name: "\(name).errorDocument")
-            try self.errorDocument?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {

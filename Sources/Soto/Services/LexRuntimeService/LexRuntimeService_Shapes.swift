@@ -83,7 +83,6 @@ extension LexRuntimeService {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z]_?)+$")
@@ -94,7 +93,6 @@ extension LexRuntimeService {
                 try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, min: 1)
             }
             try self.timeToLive.validate(name: "\(name).timeToLive")
-            try self.timeToLive.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -116,10 +114,8 @@ extension LexRuntimeService {
         }
 
         public func validate(name: String) throws {
-            try self.timeToLiveInSeconds?.forEach {}
             try self.validate(self.timeToLiveInSeconds, name: "timeToLiveInSeconds", parent: name, max: 86400)
             try self.validate(self.timeToLiveInSeconds, name: "timeToLiveInSeconds", parent: name, min: 5)
-            try self.turnsToLive?.forEach {}
             try self.validate(self.turnsToLive, name: "turnsToLive", parent: name, max: 20)
             try self.validate(self.turnsToLive, name: "turnsToLive", parent: name, min: 1)
         }
@@ -168,7 +164,6 @@ extension LexRuntimeService {
         }
 
         public func validate(name: String) throws {
-            try self.userId.forEach {}
             try self.validate(self.userId, name: "userId", parent: name, max: 100)
             try self.validate(self.userId, name: "userId", parent: name, min: 2)
             try self.validate(self.userId, name: "userId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
@@ -229,7 +224,6 @@ extension LexRuntimeService {
         }
 
         public func validate(name: String) throws {
-            try self.message?.forEach {}
             try self.validate(self.message, name: "message", parent: name, max: 1024)
             try self.validate(self.message, name: "message", parent: name, min: 1)
         }
@@ -299,11 +293,9 @@ extension LexRuntimeService {
         }
 
         public func validate(name: String) throws {
-            try self.checkpointLabelFilter?.forEach {}
             try self.validate(self.checkpointLabelFilter, name: "checkpointLabelFilter", parent: name, max: 255)
             try self.validate(self.checkpointLabelFilter, name: "checkpointLabelFilter", parent: name, min: 1)
             try self.validate(self.checkpointLabelFilter, name: "checkpointLabelFilter", parent: name, pattern: "[a-zA-Z0-9-]+")
-            try self.userId.forEach {}
             try self.validate(self.userId, name: "userId", parent: name, max: 100)
             try self.validate(self.userId, name: "userId", parent: name, min: 2)
             try self.validate(self.userId, name: "userId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
@@ -381,7 +373,6 @@ extension LexRuntimeService {
         }
 
         public func validate(name: String) throws {
-            try self.checkpointLabel?.forEach {}
             try self.validate(self.checkpointLabel, name: "checkpointLabel", parent: name, max: 255)
             try self.validate(self.checkpointLabel, name: "checkpointLabel", parent: name, min: 1)
             try self.validate(self.checkpointLabel, name: "checkpointLabel", parent: name, pattern: "[a-zA-Z0-9-]+")
@@ -445,7 +436,6 @@ extension LexRuntimeService {
         }
 
         public func validate(name: String) throws {
-            try self.userId.forEach {}
             try self.validate(self.userId, name: "userId", parent: name, max: 100)
             try self.validate(self.userId, name: "userId", parent: name, min: 2)
             try self.validate(self.userId, name: "userId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
@@ -584,13 +574,10 @@ extension LexRuntimeService {
             try self.activeContexts?.forEach {
                 try $0.validate(name: "\(name).activeContexts[]")
             }
-            try self.activeContexts?.forEach {}
             try self.validate(self.activeContexts, name: "activeContexts", parent: name, max: 20)
             try self.validate(self.activeContexts, name: "activeContexts", parent: name, min: 0)
-            try self.inputText.forEach {}
             try self.validate(self.inputText, name: "inputText", parent: name, max: 1024)
             try self.validate(self.inputText, name: "inputText", parent: name, min: 1)
-            try self.userId.forEach {}
             try self.validate(self.userId, name: "userId", parent: name, max: 100)
             try self.validate(self.userId, name: "userId", parent: name, min: 2)
             try self.validate(self.userId, name: "userId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
@@ -730,18 +717,14 @@ extension LexRuntimeService {
             try self.activeContexts?.forEach {
                 try $0.validate(name: "\(name).activeContexts[]")
             }
-            try self.activeContexts?.forEach {}
             try self.validate(self.activeContexts, name: "activeContexts", parent: name, max: 20)
             try self.validate(self.activeContexts, name: "activeContexts", parent: name, min: 0)
             try self.dialogAction?.validate(name: "\(name).dialogAction")
-            try self.dialogAction?.forEach {}
             try self.recentIntentSummaryView?.forEach {
                 try $0.validate(name: "\(name).recentIntentSummaryView[]")
             }
-            try self.recentIntentSummaryView?.forEach {}
             try self.validate(self.recentIntentSummaryView, name: "recentIntentSummaryView", parent: name, max: 3)
             try self.validate(self.recentIntentSummaryView, name: "recentIntentSummaryView", parent: name, min: 0)
-            try self.userId.forEach {}
             try self.validate(self.userId, name: "userId", parent: name, max: 100)
             try self.validate(self.userId, name: "userId", parent: name, min: 2)
             try self.validate(self.userId, name: "userId", parent: name, pattern: "[0-9a-zA-Z._:-]+")

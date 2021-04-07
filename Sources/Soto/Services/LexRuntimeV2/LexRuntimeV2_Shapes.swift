@@ -116,12 +116,10 @@ extension LexRuntimeV2 {
                 try validate($0.value, name: "contextAttributes[\"\($0.key)\"]", parent: name, max: 1024)
                 try validate($0.value, name: "contextAttributes[\"\($0.key)\"]", parent: name, min: 1)
             }
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^([A-Za-z]_?)+$")
             try self.timeToLive.validate(name: "\(name).timeToLive")
-            try self.timeToLive.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -143,10 +141,8 @@ extension LexRuntimeV2 {
         }
 
         public func validate(name: String) throws {
-            try self.timeToLiveInSeconds.forEach {}
             try self.validate(self.timeToLiveInSeconds, name: "timeToLiveInSeconds", parent: name, max: 86400)
             try self.validate(self.timeToLiveInSeconds, name: "timeToLiveInSeconds", parent: name, min: 5)
-            try self.turnsToLive.forEach {}
             try self.validate(self.turnsToLive, name: "turnsToLive", parent: name, max: 20)
             try self.validate(self.turnsToLive, name: "turnsToLive", parent: name, min: 1)
         }
@@ -175,9 +171,7 @@ extension LexRuntimeV2 {
         }
 
         public func validate(name: String) throws {
-            try self.contentType.forEach {}
             try self.validate(self.contentType, name: "contentType", parent: name, min: 1)
-            try self.eventId?.forEach {}
             try self.validate(self.eventId, name: "eventId", parent: name, max: 100)
             try self.validate(self.eventId, name: "eventId", parent: name, min: 2)
             try self.validate(self.eventId, name: "eventId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
@@ -236,10 +230,8 @@ extension LexRuntimeV2 {
         }
 
         public func validate(name: String) throws {
-            try self.text.forEach {}
             try self.validate(self.text, name: "text", parent: name, max: 50)
             try self.validate(self.text, name: "text", parent: name, min: 1)
-            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 50)
             try self.validate(self.value, name: "value", parent: name, min: 1)
         }
@@ -289,21 +281,17 @@ extension LexRuntimeV2 {
         }
 
         public func validate(name: String) throws {
-            try self.eventId?.forEach {}
             try self.validate(self.eventId, name: "eventId", parent: name, max: 100)
             try self.validate(self.eventId, name: "eventId", parent: name, min: 2)
             try self.validate(self.eventId, name: "eventId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
             try self.requestAttributes?.forEach {
                 try validate($0.key, name: "requestAttributes.key", parent: name, min: 1)
             }
-            try self.responseContentType.forEach {}
             try self.validate(self.responseContentType, name: "responseContentType", parent: name, min: 1)
             try self.sessionState?.validate(name: "\(name).sessionState")
-            try self.sessionState?.forEach {}
             try self.welcomeMessages?.forEach {
                 try $0.validate(name: "\(name).welcomeMessages[]")
             }
-            try self.welcomeMessages?.forEach {}
             try self.validate(self.welcomeMessages, name: "welcomeMessages", parent: name, max: 10)
         }
 
@@ -345,11 +333,9 @@ extension LexRuntimeV2 {
         }
 
         public func validate(name: String) throws {
-            try self.eventId?.forEach {}
             try self.validate(self.eventId, name: "eventId", parent: name, max: 100)
             try self.validate(self.eventId, name: "eventId", parent: name, min: 2)
             try self.validate(self.eventId, name: "eventId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
-            try self.inputCharacter.forEach {}
             try self.validate(self.inputCharacter, name: "inputCharacter", parent: name, max: 1)
             try self.validate(self.inputCharacter, name: "inputCharacter", parent: name, min: 1)
             try self.validate(self.inputCharacter, name: "inputCharacter", parent: name, pattern: "^[A-D0-9#*]{1}$")
@@ -387,13 +373,10 @@ extension LexRuntimeV2 {
         }
 
         public func validate(name: String) throws {
-            try self.botId.forEach {}
             try self.validate(self.botId, name: "botId", parent: name, max: 10)
             try self.validate(self.botId, name: "botId", parent: name, min: 10)
             try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
-            try self.localeId.forEach {}
             try self.validate(self.localeId, name: "localeId", parent: name, min: 1)
-            try self.sessionId.forEach {}
             try self.validate(self.sessionId, name: "sessionId", parent: name, max: 100)
             try self.validate(self.sessionId, name: "sessionId", parent: name, min: 2)
             try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
@@ -451,7 +434,6 @@ extension LexRuntimeV2 {
         }
 
         public func validate(name: String) throws {
-            try self.slotToElicit?.forEach {}
             try self.validate(self.slotToElicit, name: "slotToElicit", parent: name, min: 1)
         }
 
@@ -473,7 +455,6 @@ extension LexRuntimeV2 {
         }
 
         public func validate(name: String) throws {
-            try self.eventId?.forEach {}
             try self.validate(self.eventId, name: "eventId", parent: name, max: 100)
             try self.validate(self.eventId, name: "eventId", parent: name, min: 2)
             try self.validate(self.eventId, name: "eventId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
@@ -510,13 +491,10 @@ extension LexRuntimeV2 {
         }
 
         public func validate(name: String) throws {
-            try self.botId.forEach {}
             try self.validate(self.botId, name: "botId", parent: name, max: 10)
             try self.validate(self.botId, name: "botId", parent: name, min: 10)
             try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
-            try self.localeId.forEach {}
             try self.validate(self.localeId, name: "localeId", parent: name, min: 1)
-            try self.sessionId.forEach {}
             try self.validate(self.sessionId, name: "sessionId", parent: name, max: 100)
             try self.validate(self.sessionId, name: "sessionId", parent: name, min: 2)
             try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
@@ -584,16 +562,12 @@ extension LexRuntimeV2 {
             try self.buttons?.forEach {
                 try $0.validate(name: "\(name).buttons[]")
             }
-            try self.buttons?.forEach {}
             try self.validate(self.buttons, name: "buttons", parent: name, max: 5)
             try self.validate(self.buttons, name: "buttons", parent: name, min: 0)
-            try self.imageUrl?.forEach {}
             try self.validate(self.imageUrl, name: "imageUrl", parent: name, max: 250)
             try self.validate(self.imageUrl, name: "imageUrl", parent: name, min: 1)
-            try self.subtitle?.forEach {}
             try self.validate(self.subtitle, name: "subtitle", parent: name, max: 250)
             try self.validate(self.subtitle, name: "subtitle", parent: name, min: 1)
-            try self.title.forEach {}
             try self.validate(self.title, name: "title", parent: name, max: 250)
             try self.validate(self.title, name: "title", parent: name, min: 1)
         }
@@ -624,7 +598,6 @@ extension LexRuntimeV2 {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.slots?.forEach {
                 try validate($0.key, name: "slots.key", parent: name, min: 1)
@@ -719,11 +692,9 @@ extension LexRuntimeV2 {
         }
 
         public func validate(name: String) throws {
-            try self.content?.forEach {}
             try self.validate(self.content, name: "content", parent: name, max: 1024)
             try self.validate(self.content, name: "content", parent: name, min: 1)
             try self.imageResponseCard?.validate(name: "\(name).imageResponseCard")
-            try self.imageResponseCard?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -745,7 +716,6 @@ extension LexRuntimeV2 {
         }
 
         public func validate(name: String) throws {
-            try self.eventId?.forEach {}
             try self.validate(self.eventId, name: "eventId", parent: name, max: 100)
             try self.validate(self.eventId, name: "eventId", parent: name, min: 2)
             try self.validate(self.eventId, name: "eventId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
@@ -816,28 +786,22 @@ extension LexRuntimeV2 {
         }
 
         public func validate(name: String) throws {
-            try self.botId.forEach {}
             try self.validate(self.botId, name: "botId", parent: name, max: 10)
             try self.validate(self.botId, name: "botId", parent: name, min: 10)
             try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
-            try self.localeId.forEach {}
             try self.validate(self.localeId, name: "localeId", parent: name, min: 1)
             try self.messages?.forEach {
                 try $0.validate(name: "\(name).messages[]")
             }
-            try self.messages?.forEach {}
             try self.validate(self.messages, name: "messages", parent: name, max: 10)
             try self.requestAttributes?.forEach {
                 try validate($0.key, name: "requestAttributes.key", parent: name, min: 1)
             }
-            try self.responseContentType?.forEach {}
             try self.validate(self.responseContentType, name: "responseContentType", parent: name, min: 1)
-            try self.sessionId.forEach {}
             try self.validate(self.sessionId, name: "sessionId", parent: name, max: 100)
             try self.validate(self.sessionId, name: "sessionId", parent: name, min: 2)
             try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
             try self.sessionState.validate(name: "\(name).sessionState")
-            try self.sessionState.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -925,22 +889,17 @@ extension LexRuntimeV2 {
         }
 
         public func validate(name: String) throws {
-            try self.botId.forEach {}
             try self.validate(self.botId, name: "botId", parent: name, max: 10)
             try self.validate(self.botId, name: "botId", parent: name, min: 10)
             try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
-            try self.localeId.forEach {}
             try self.validate(self.localeId, name: "localeId", parent: name, min: 1)
             try self.requestAttributes?.forEach {
                 try validate($0.key, name: "requestAttributes.key", parent: name, min: 1)
             }
-            try self.sessionId.forEach {}
             try self.validate(self.sessionId, name: "sessionId", parent: name, max: 100)
             try self.validate(self.sessionId, name: "sessionId", parent: name, min: 2)
             try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
             try self.sessionState?.validate(name: "\(name).sessionState")
-            try self.sessionState?.forEach {}
-            try self.text.forEach {}
             try self.validate(self.text, name: "text", parent: name, max: 1024)
             try self.validate(self.text, name: "text", parent: name, min: 1)
         }
@@ -1028,17 +987,12 @@ extension LexRuntimeV2 {
         }
 
         public func validate(name: String) throws {
-            try self.botId.forEach {}
             try self.validate(self.botId, name: "botId", parent: name, max: 10)
             try self.validate(self.botId, name: "botId", parent: name, min: 10)
             try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
-            try self.localeId.forEach {}
             try self.validate(self.localeId, name: "localeId", parent: name, min: 1)
-            try self.requestContentType.forEach {}
             try self.validate(self.requestContentType, name: "requestContentType", parent: name, min: 1)
-            try self.responseContentType?.forEach {}
             try self.validate(self.responseContentType, name: "responseContentType", parent: name, min: 1)
-            try self.sessionId.forEach {}
             try self.validate(self.sessionId, name: "sessionId", parent: name, max: 100)
             try self.validate(self.sessionId, name: "sessionId", parent: name, min: 2)
             try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
@@ -1182,14 +1136,10 @@ extension LexRuntimeV2 {
             try self.activeContexts?.forEach {
                 try $0.validate(name: "\(name).activeContexts[]")
             }
-            try self.activeContexts?.forEach {}
             try self.validate(self.activeContexts, name: "activeContexts", parent: name, max: 20)
             try self.validate(self.activeContexts, name: "activeContexts", parent: name, min: 0)
             try self.dialogAction?.validate(name: "\(name).dialogAction")
-            try self.dialogAction?.forEach {}
             try self.intent?.validate(name: "\(name).intent")
-            try self.intent?.forEach {}
-            try self.originatingRequestId?.forEach {}
             try self.validate(self.originatingRequestId, name: "originatingRequestId", parent: name, min: 1)
             try self.sessionAttributes?.forEach {
                 try validate($0.key, name: "sessionAttributes.key", parent: name, min: 1)
@@ -1215,7 +1165,6 @@ extension LexRuntimeV2 {
 
         public func validate(name: String) throws {
             try self.value?.validate(name: "\(name).value")
-            try self.value?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1257,15 +1206,11 @@ extension LexRuntimeV2 {
         }
 
         public func validate(name: String) throws {
-            try self.botId.forEach {}
             try self.validate(self.botId, name: "botId", parent: name, max: 10)
             try self.validate(self.botId, name: "botId", parent: name, min: 10)
             try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
-            try self.localeId.forEach {}
             try self.validate(self.localeId, name: "localeId", parent: name, min: 1)
             try self.requestEventStream.validate(name: "\(name).requestEventStream")
-            try self.requestEventStream.forEach {}
-            try self.sessionId.forEach {}
             try self.validate(self.sessionId, name: "sessionId", parent: name, max: 100)
             try self.validate(self.sessionId, name: "sessionId", parent: name, min: 2)
             try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
@@ -1301,17 +1246,11 @@ extension LexRuntimeV2 {
 
         public func validate(name: String) throws {
             try self.audioInputEvent?.validate(name: "\(name).audioInputEvent")
-            try self.audioInputEvent?.forEach {}
             try self.configurationEvent?.validate(name: "\(name).configurationEvent")
-            try self.configurationEvent?.forEach {}
             try self.disconnectionEvent?.validate(name: "\(name).disconnectionEvent")
-            try self.disconnectionEvent?.forEach {}
             try self.dTMFInputEvent?.validate(name: "\(name).dTMFInputEvent")
-            try self.dTMFInputEvent?.forEach {}
             try self.playbackCompletionEvent?.validate(name: "\(name).playbackCompletionEvent")
-            try self.playbackCompletionEvent?.forEach {}
             try self.textInputEvent?.validate(name: "\(name).textInputEvent")
-            try self.textInputEvent?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1413,11 +1352,9 @@ extension LexRuntimeV2 {
         }
 
         public func validate(name: String) throws {
-            try self.eventId?.forEach {}
             try self.validate(self.eventId, name: "eventId", parent: name, max: 100)
             try self.validate(self.eventId, name: "eventId", parent: name, min: 2)
             try self.validate(self.eventId, name: "eventId", parent: name, pattern: "[0-9a-zA-Z._:-]+")
-            try self.text.forEach {}
             try self.validate(self.text, name: "text", parent: name, max: 1024)
             try self.validate(self.text, name: "text", parent: name, min: 1)
         }
@@ -1502,14 +1439,11 @@ extension LexRuntimeV2 {
         }
 
         public func validate(name: String) throws {
-            try self.interpretedValue.forEach {}
             try self.validate(self.interpretedValue, name: "interpretedValue", parent: name, min: 1)
-            try self.originalValue?.forEach {}
             try self.validate(self.originalValue, name: "originalValue", parent: name, min: 1)
             try self.resolvedValues?.forEach {
                 try validate($0, name: "resolvedValues[]", parent: name, min: 1)
             }
-            try self.resolvedValues?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {

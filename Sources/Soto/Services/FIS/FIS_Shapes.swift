@@ -150,10 +150,8 @@ extension FIS {
         }
 
         public func validate(name: String) throws {
-            try self.actionId.forEach {}
             try self.validate(self.actionId, name: "actionId", parent: name, max: 128)
             try self.validate(self.actionId, name: "actionId", parent: name, pattern: "[\\S]+")
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\s\\S]+")
             try self.parameters?.forEach {
@@ -166,7 +164,6 @@ extension FIS {
                 try validate($0, name: "startAfter[]", parent: name, max: 64)
                 try validate($0, name: "startAfter[]", parent: name, pattern: "[\\S]+")
             }
-            try self.startAfter?.forEach {}
             try self.targets?.forEach {
                 try validate($0.key, name: "targets.key", parent: name, max: 64)
                 try validate($0.key, name: "targets.key", parent: name, pattern: "[\\S]+")
@@ -216,21 +213,17 @@ extension FIS {
                 try validate($0.key, name: "actions.key", parent: name, pattern: "[\\S]+")
                 try $0.value.validate(name: "\(name).actions[\"\($0.key)\"]")
             }
-            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 1024)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[\\S]+")
-            try self.description.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\s\\S]+")
-            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "[\\S]+")
             try self.stopConditions.forEach {
                 try $0.validate(name: "\(name).stopConditions[]")
             }
-            try self.stopConditions.forEach {}
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, pattern: "[\\s\\S]+")
@@ -280,10 +273,8 @@ extension FIS {
         }
 
         public func validate(name: String) throws {
-            try self.source.forEach {}
             try self.validate(self.source, name: "source", parent: name, max: 64)
             try self.validate(self.source, name: "source", parent: name, pattern: "[\\S]+")
-            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 2048)
             try self.validate(self.value, name: "value", parent: name, min: 20)
             try self.validate(self.value, name: "value", parent: name, pattern: "[\\s\\S]+")
@@ -319,13 +310,11 @@ extension FIS {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try self.filters?.forEach {}
             try self.resourceArns?.forEach {
                 try validate($0, name: "resourceArns[]", parent: name, max: 2048)
                 try validate($0, name: "resourceArns[]", parent: name, min: 20)
                 try validate($0, name: "resourceArns[]", parent: name, pattern: "[\\S]+")
             }
-            try self.resourceArns?.forEach {}
             try self.validate(self.resourceArns, name: "resourceArns", parent: name, max: 5)
             try self.resourceTags?.forEach {
                 try validate($0.key, name: "resourceTags.key", parent: name, max: 128)
@@ -333,10 +322,8 @@ extension FIS {
                 try validate($0.value, name: "resourceTags[\"\($0.key)\"]", parent: name, max: 256)
                 try validate($0.value, name: "resourceTags[\"\($0.key)\"]", parent: name, pattern: "[\\s\\S]*")
             }
-            try self.resourceType.forEach {}
             try self.validate(self.resourceType, name: "resourceType", parent: name, max: 64)
             try self.validate(self.resourceType, name: "resourceType", parent: name, pattern: "[\\S]+")
-            try self.selectionMode.forEach {}
             try self.validate(self.selectionMode, name: "selectionMode", parent: name, max: 64)
             try self.validate(self.selectionMode, name: "selectionMode", parent: name, pattern: "[\\S]+")
         }
@@ -363,7 +350,6 @@ extension FIS {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 64)
             try self.validate(self.id, name: "id", parent: name, pattern: "[\\S]+")
         }
@@ -774,14 +760,12 @@ extension FIS {
         }
 
         public func validate(name: String) throws {
-            try self.path.forEach {}
             try self.validate(self.path, name: "path", parent: name, max: 256)
             try self.validate(self.path, name: "path", parent: name, pattern: "[\\S]+")
             try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 128)
                 try validate($0, name: "values[]", parent: name, pattern: "[\\S]+")
             }
-            try self.values.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -803,7 +787,6 @@ extension FIS {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 128)
             try self.validate(self.id, name: "id", parent: name, pattern: "[\\S]+")
         }
@@ -837,7 +820,6 @@ extension FIS {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 64)
             try self.validate(self.id, name: "id", parent: name, pattern: "[\\S]+")
         }
@@ -871,7 +853,6 @@ extension FIS {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 64)
             try self.validate(self.id, name: "id", parent: name, pattern: "[\\S]+")
         }
@@ -909,10 +890,8 @@ extension FIS {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\S]+")
@@ -955,10 +934,8 @@ extension FIS {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\S]+")
@@ -1001,10 +978,8 @@ extension FIS {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\S]+")
@@ -1043,7 +1018,6 @@ extension FIS {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "[\\S]+")
@@ -1080,11 +1054,9 @@ extension FIS {
         }
 
         public func validate(name: String) throws {
-            try self.clientToken.forEach {}
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 1024)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[\\S]+")
-            try self.experimentTemplateId.forEach {}
             try self.validate(self.experimentTemplateId, name: "experimentTemplateId", parent: name, max: 64)
             try self.validate(self.experimentTemplateId, name: "experimentTemplateId", parent: name, pattern: "[\\S]+")
             try self.tags?.forEach {
@@ -1128,7 +1100,6 @@ extension FIS {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 64)
             try self.validate(self.id, name: "id", parent: name, pattern: "[\\S]+")
         }
@@ -1165,7 +1136,6 @@ extension FIS {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "[\\S]+")
@@ -1203,7 +1173,6 @@ extension FIS {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "[\\S]+")
@@ -1211,7 +1180,6 @@ extension FIS {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "[\\s\\S]+")
             }
-            try self.tagKeys?.forEach {}
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1242,10 +1210,8 @@ extension FIS {
         }
 
         public func validate(name: String) throws {
-            try self.actionId?.forEach {}
             try self.validate(self.actionId, name: "actionId", parent: name, max: 128)
             try self.validate(self.actionId, name: "actionId", parent: name, pattern: "[\\S]+")
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\s\\S]+")
             try self.parameters?.forEach {
@@ -1258,7 +1224,6 @@ extension FIS {
                 try validate($0, name: "startAfter[]", parent: name, max: 64)
                 try validate($0, name: "startAfter[]", parent: name, pattern: "[\\S]+")
             }
-            try self.startAfter?.forEach {}
             try self.targets?.forEach {
                 try validate($0.key, name: "targets.key", parent: name, max: 64)
                 try validate($0.key, name: "targets.key", parent: name, pattern: "[\\S]+")
@@ -1309,20 +1274,16 @@ extension FIS {
                 try validate($0.key, name: "actions.key", parent: name, pattern: "[\\S]+")
                 try $0.value.validate(name: "\(name).actions[\"\($0.key)\"]")
             }
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\s\\S]+")
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, max: 64)
             try self.validate(self.id, name: "id", parent: name, pattern: "[\\S]+")
-            try self.roleArn?.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "[\\S]+")
             try self.stopConditions?.forEach {
                 try $0.validate(name: "\(name).stopConditions[]")
             }
-            try self.stopConditions?.forEach {}
             try self.targets?.forEach {
                 try validate($0.key, name: "targets.key", parent: name, max: 64)
                 try validate($0.key, name: "targets.key", parent: name, pattern: "[\\S]+")
@@ -1364,10 +1325,8 @@ extension FIS {
         }
 
         public func validate(name: String) throws {
-            try self.source.forEach {}
             try self.validate(self.source, name: "source", parent: name, max: 64)
             try self.validate(self.source, name: "source", parent: name, pattern: "[\\S]+")
-            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 2048)
             try self.validate(self.value, name: "value", parent: name, min: 20)
             try self.validate(self.value, name: "value", parent: name, pattern: "[\\s\\S]+")
@@ -1403,13 +1362,11 @@ extension FIS {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
-            try self.filters?.forEach {}
             try self.resourceArns?.forEach {
                 try validate($0, name: "resourceArns[]", parent: name, max: 2048)
                 try validate($0, name: "resourceArns[]", parent: name, min: 20)
                 try validate($0, name: "resourceArns[]", parent: name, pattern: "[\\S]+")
             }
-            try self.resourceArns?.forEach {}
             try self.validate(self.resourceArns, name: "resourceArns", parent: name, max: 5)
             try self.resourceTags?.forEach {
                 try validate($0.key, name: "resourceTags.key", parent: name, max: 128)
@@ -1417,10 +1374,8 @@ extension FIS {
                 try validate($0.value, name: "resourceTags[\"\($0.key)\"]", parent: name, max: 256)
                 try validate($0.value, name: "resourceTags[\"\($0.key)\"]", parent: name, pattern: "[\\s\\S]*")
             }
-            try self.resourceType.forEach {}
             try self.validate(self.resourceType, name: "resourceType", parent: name, max: 64)
             try self.validate(self.resourceType, name: "resourceType", parent: name, pattern: "[\\S]+")
-            try self.selectionMode.forEach {}
             try self.validate(self.selectionMode, name: "selectionMode", parent: name, max: 64)
             try self.validate(self.selectionMode, name: "selectionMode", parent: name, pattern: "[\\S]+")
         }

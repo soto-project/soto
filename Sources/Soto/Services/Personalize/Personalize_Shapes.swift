@@ -111,13 +111,11 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.metricName?.forEach {}
             try self.validate(self.metricName, name: "metricName", parent: name, max: 256)
             try self.recipeList?.forEach {
                 try validate($0, name: "recipeList[]", parent: name, max: 256)
                 try validate($0, name: "recipeList[]", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
             }
-            try self.recipeList?.forEach {}
             try self.validate(self.recipeList, name: "recipeList", parent: name, max: 100)
         }
 
@@ -231,7 +229,6 @@ extension Personalize {
 
         public func validate(name: String) throws {
             try self.s3DataSource.validate(name: "\(name).s3DataSource")
-            try self.s3DataSource.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -249,7 +246,6 @@ extension Personalize {
 
         public func validate(name: String) throws {
             try self.s3DataDestination.validate(name: "\(name).s3DataDestination")
-            try self.s3DataDestination.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -443,12 +439,10 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.values?.forEach {
                 try validate($0, name: "values[]", parent: name, max: 1000)
             }
-            try self.values?.forEach {}
             try self.validate(self.values, name: "values", parent: name, max: 100)
         }
 
@@ -473,11 +467,8 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.maxValue?.forEach {}
             try self.validate(self.maxValue, name: "maxValue", parent: name, min: -1_000_000)
-            try self.minValue?.forEach {}
             try self.validate(self.minValue, name: "minValue", parent: name, min: -1_000_000)
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
         }
 
@@ -519,22 +510,15 @@ extension Personalize {
 
         public func validate(name: String) throws {
             try self.batchInferenceJobConfig?.validate(name: "\(name).batchInferenceJobConfig")
-            try self.batchInferenceJobConfig?.forEach {}
-            try self.filterArn?.forEach {}
             try self.validate(self.filterArn, name: "filterArn", parent: name, max: 256)
             try self.validate(self.filterArn, name: "filterArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
             try self.jobInput.validate(name: "\(name).jobInput")
-            try self.jobInput.forEach {}
-            try self.jobName.forEach {}
             try self.validate(self.jobName, name: "jobName", parent: name, max: 63)
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
             try self.jobOutput.validate(name: "\(name).jobOutput")
-            try self.jobOutput.forEach {}
-            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:([a-z\\d-]+):iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
-            try self.solutionVersionArn.forEach {}
             try self.validate(self.solutionVersionArn, name: "solutionVersionArn", parent: name, max: 256)
             try self.validate(self.solutionVersionArn, name: "solutionVersionArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
@@ -583,14 +567,10 @@ extension Personalize {
 
         public func validate(name: String) throws {
             try self.campaignConfig?.validate(name: "\(name).campaignConfig")
-            try self.campaignConfig?.forEach {}
-            try self.minProvisionedTPS.forEach {}
             try self.validate(self.minProvisionedTPS, name: "minProvisionedTPS", parent: name, min: 1)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 63)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
-            try self.solutionVersionArn.forEach {}
             try self.validate(self.solutionVersionArn, name: "solutionVersionArn", parent: name, max: 256)
             try self.validate(self.solutionVersionArn, name: "solutionVersionArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
@@ -631,11 +611,9 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 63)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
-            try self.roleArn?.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:([a-z\\d-]+):iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
         }
@@ -678,16 +656,12 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.datasetArn.forEach {}
             try self.validate(self.datasetArn, name: "datasetArn", parent: name, max: 256)
             try self.validate(self.datasetArn, name: "datasetArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
             try self.dataSource.validate(name: "\(name).dataSource")
-            try self.dataSource.forEach {}
-            try self.jobName.forEach {}
             try self.validate(self.jobName, name: "jobName", parent: name, max: 63)
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
-            try self.roleArn.forEach {}
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:([a-z\\d-]+):iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
         }
@@ -731,16 +705,12 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.datasetGroupArn.forEach {}
             try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, max: 256)
             try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
-            try self.datasetType.forEach {}
             try self.validate(self.datasetType, name: "datasetType", parent: name, max: 256)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 63)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
-            try self.schemaArn.forEach {}
             try self.validate(self.schemaArn, name: "schemaArn", parent: name, max: 256)
             try self.validate(self.schemaArn, name: "schemaArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
@@ -778,10 +748,8 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.datasetGroupArn.forEach {}
             try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, max: 256)
             try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 63)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
@@ -825,13 +793,10 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.datasetGroupArn.forEach {}
             try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, max: 256)
             try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
-            try self.filterExpression.forEach {}
             try self.validate(self.filterExpression, name: "filterExpression", parent: name, max: 2500)
             try self.validate(self.filterExpression, name: "filterExpression", parent: name, min: 1)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 63)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
@@ -869,11 +834,9 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 63)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
-            try self.schema.forEach {}
             try self.validate(self.schema, name: "schema", parent: name, max: 10000)
         }
 
@@ -923,20 +886,15 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.datasetGroupArn.forEach {}
             try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, max: 256)
             try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
-            try self.eventType?.forEach {}
             try self.validate(self.eventType, name: "eventType", parent: name, max: 256)
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 63)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
-            try self.recipeArn?.forEach {}
             try self.validate(self.recipeArn, name: "recipeArn", parent: name, max: 256)
             try self.validate(self.recipeArn, name: "recipeArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
             try self.solutionConfig?.validate(name: "\(name).solutionConfig")
-            try self.solutionConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -975,7 +933,6 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.solutionArn.forEach {}
             try self.validate(self.solutionArn, name: "solutionArn", parent: name, max: 256)
             try self.validate(self.solutionArn, name: "solutionArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
@@ -1008,7 +965,6 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.dataLocation?.forEach {}
             try self.validate(self.dataLocation, name: "dataLocation", parent: name, max: 256)
         }
 
@@ -1398,7 +1354,6 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.campaignArn.forEach {}
             try self.validate(self.campaignArn, name: "campaignArn", parent: name, max: 256)
             try self.validate(self.campaignArn, name: "campaignArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
@@ -1417,7 +1372,6 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.datasetGroupArn.forEach {}
             try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, max: 256)
             try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
@@ -1436,7 +1390,6 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.datasetArn.forEach {}
             try self.validate(self.datasetArn, name: "datasetArn", parent: name, max: 256)
             try self.validate(self.datasetArn, name: "datasetArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
@@ -1455,7 +1408,6 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.eventTrackerArn.forEach {}
             try self.validate(self.eventTrackerArn, name: "eventTrackerArn", parent: name, max: 256)
             try self.validate(self.eventTrackerArn, name: "eventTrackerArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
@@ -1474,7 +1426,6 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.filterArn.forEach {}
             try self.validate(self.filterArn, name: "filterArn", parent: name, max: 256)
             try self.validate(self.filterArn, name: "filterArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
@@ -1493,7 +1444,6 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.schemaArn.forEach {}
             try self.validate(self.schemaArn, name: "schemaArn", parent: name, max: 256)
             try self.validate(self.schemaArn, name: "schemaArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
@@ -1512,7 +1462,6 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.solutionArn.forEach {}
             try self.validate(self.solutionArn, name: "solutionArn", parent: name, max: 256)
             try self.validate(self.solutionArn, name: "solutionArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
@@ -1531,7 +1480,6 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.algorithmArn.forEach {}
             try self.validate(self.algorithmArn, name: "algorithmArn", parent: name, max: 256)
             try self.validate(self.algorithmArn, name: "algorithmArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
@@ -1563,7 +1511,6 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.batchInferenceJobArn.forEach {}
             try self.validate(self.batchInferenceJobArn, name: "batchInferenceJobArn", parent: name, max: 256)
             try self.validate(self.batchInferenceJobArn, name: "batchInferenceJobArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
@@ -1595,7 +1542,6 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.campaignArn.forEach {}
             try self.validate(self.campaignArn, name: "campaignArn", parent: name, max: 256)
             try self.validate(self.campaignArn, name: "campaignArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
@@ -1627,7 +1573,6 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.datasetGroupArn.forEach {}
             try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, max: 256)
             try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
@@ -1659,7 +1604,6 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.datasetImportJobArn.forEach {}
             try self.validate(self.datasetImportJobArn, name: "datasetImportJobArn", parent: name, max: 256)
             try self.validate(self.datasetImportJobArn, name: "datasetImportJobArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
@@ -1691,7 +1635,6 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.datasetArn.forEach {}
             try self.validate(self.datasetArn, name: "datasetArn", parent: name, max: 256)
             try self.validate(self.datasetArn, name: "datasetArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
@@ -1723,7 +1666,6 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.eventTrackerArn.forEach {}
             try self.validate(self.eventTrackerArn, name: "eventTrackerArn", parent: name, max: 256)
             try self.validate(self.eventTrackerArn, name: "eventTrackerArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
@@ -1755,7 +1697,6 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.featureTransformationArn.forEach {}
             try self.validate(self.featureTransformationArn, name: "featureTransformationArn", parent: name, max: 256)
             try self.validate(self.featureTransformationArn, name: "featureTransformationArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
@@ -1787,7 +1728,6 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.filterArn.forEach {}
             try self.validate(self.filterArn, name: "filterArn", parent: name, max: 256)
             try self.validate(self.filterArn, name: "filterArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
@@ -1819,7 +1759,6 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.recipeArn.forEach {}
             try self.validate(self.recipeArn, name: "recipeArn", parent: name, max: 256)
             try self.validate(self.recipeArn, name: "recipeArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
@@ -1851,7 +1790,6 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.schemaArn.forEach {}
             try self.validate(self.schemaArn, name: "schemaArn", parent: name, max: 256)
             try self.validate(self.schemaArn, name: "schemaArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
@@ -1883,7 +1821,6 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.solutionArn.forEach {}
             try self.validate(self.solutionArn, name: "solutionArn", parent: name, max: 256)
             try self.validate(self.solutionArn, name: "solutionArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
@@ -1915,7 +1852,6 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.solutionVersionArn.forEach {}
             try self.validate(self.solutionVersionArn, name: "solutionVersionArn", parent: name, max: 256)
             try self.validate(self.solutionVersionArn, name: "solutionVersionArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
@@ -2128,7 +2064,6 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.solutionVersionArn.forEach {}
             try self.validate(self.solutionVersionArn, name: "solutionVersionArn", parent: name, max: 256)
             try self.validate(self.solutionVersionArn, name: "solutionVersionArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
@@ -2171,11 +2106,8 @@ extension Personalize {
 
         public func validate(name: String) throws {
             try self.algorithmHyperParameterRanges?.validate(name: "\(name).algorithmHyperParameterRanges")
-            try self.algorithmHyperParameterRanges?.forEach {}
             try self.hpoObjective?.validate(name: "\(name).hpoObjective")
-            try self.hpoObjective?.forEach {}
             try self.hpoResourceConfig?.validate(name: "\(name).hpoResourceConfig")
-            try self.hpoResourceConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2200,11 +2132,8 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.metricName?.forEach {}
             try self.validate(self.metricName, name: "metricName", parent: name, max: 256)
-            try self.metricRegex?.forEach {}
             try self.validate(self.metricRegex, name: "metricRegex", parent: name, max: 256)
-            try self.type?.forEach {}
             try self.validate(self.type, name: "type", parent: name, max: 256)
         }
 
@@ -2227,9 +2156,7 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.maxNumberOfTrainingJobs?.forEach {}
             try self.validate(self.maxNumberOfTrainingJobs, name: "maxNumberOfTrainingJobs", parent: name, max: 256)
-            try self.maxParallelTrainingJobs?.forEach {}
             try self.validate(self.maxParallelTrainingJobs, name: "maxParallelTrainingJobs", parent: name, max: 256)
         }
 
@@ -2257,17 +2184,14 @@ extension Personalize {
             try self.categoricalHyperParameterRanges?.forEach {
                 try $0.validate(name: "\(name).categoricalHyperParameterRanges[]")
             }
-            try self.categoricalHyperParameterRanges?.forEach {}
             try self.validate(self.categoricalHyperParameterRanges, name: "categoricalHyperParameterRanges", parent: name, max: 100)
             try self.continuousHyperParameterRanges?.forEach {
                 try $0.validate(name: "\(name).continuousHyperParameterRanges[]")
             }
-            try self.continuousHyperParameterRanges?.forEach {}
             try self.validate(self.continuousHyperParameterRanges, name: "continuousHyperParameterRanges", parent: name, max: 100)
             try self.integerHyperParameterRanges?.forEach {
                 try $0.validate(name: "\(name).integerHyperParameterRanges[]")
             }
-            try self.integerHyperParameterRanges?.forEach {}
             try self.validate(self.integerHyperParameterRanges, name: "integerHyperParameterRanges", parent: name, max: 100)
         }
 
@@ -2293,11 +2217,8 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.maxValue?.forEach {}
             try self.validate(self.maxValue, name: "maxValue", parent: name, max: 1_000_000)
-            try self.minValue?.forEach {}
             try self.validate(self.minValue, name: "minValue", parent: name, min: -1_000_000)
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 256)
         }
 
@@ -2323,12 +2244,9 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1300)
-            try self.solutionVersionArn?.forEach {}
             try self.validate(self.solutionVersionArn, name: "solutionVersionArn", parent: name, max: 256)
             try self.validate(self.solutionVersionArn, name: "solutionVersionArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
@@ -2372,12 +2290,9 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1300)
-            try self.solutionArn?.forEach {}
             try self.validate(self.solutionArn, name: "solutionArn", parent: name, max: 256)
             try self.validate(self.solutionArn, name: "solutionArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
@@ -2418,10 +2333,8 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1300)
         }
 
@@ -2463,13 +2376,10 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.datasetArn?.forEach {}
             try self.validate(self.datasetArn, name: "datasetArn", parent: name, max: 256)
             try self.validate(self.datasetArn, name: "datasetArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1300)
         }
 
@@ -2512,13 +2422,10 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.datasetGroupArn?.forEach {}
             try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, max: 256)
             try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1300)
         }
 
@@ -2561,13 +2468,10 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.datasetGroupArn?.forEach {}
             try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, max: 256)
             try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1300)
         }
 
@@ -2610,13 +2514,10 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.datasetGroupArn?.forEach {}
             try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, max: 256)
             try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1300)
         }
 
@@ -2659,10 +2560,8 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1300)
         }
 
@@ -2702,10 +2601,8 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1300)
         }
 
@@ -2747,12 +2644,9 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1300)
-            try self.solutionArn?.forEach {}
             try self.validate(self.solutionArn, name: "solutionArn", parent: name, max: 256)
             try self.validate(self.solutionArn, name: "solutionArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }
@@ -2796,13 +2690,10 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.datasetGroupArn?.forEach {}
             try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, max: 256)
             try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1300)
         }
 
@@ -2916,7 +2807,6 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.path.forEach {}
             try self.validate(self.path, name: "path", parent: name, max: 256)
         }
 
@@ -3013,15 +2903,12 @@ extension Personalize {
                 try validate($0.value, name: "algorithmHyperParameters[\"\($0.key)\"]", parent: name, max: 1000)
             }
             try self.autoMLConfig?.validate(name: "\(name).autoMLConfig")
-            try self.autoMLConfig?.forEach {}
-            try self.eventValueThreshold?.forEach {}
             try self.validate(self.eventValueThreshold, name: "eventValueThreshold", parent: name, max: 256)
             try self.featureTransformationParameters?.forEach {
                 try validate($0.key, name: "featureTransformationParameters.key", parent: name, max: 256)
                 try validate($0.value, name: "featureTransformationParameters[\"\($0.key)\"]", parent: name, max: 1000)
             }
             try self.hpoConfig?.validate(name: "\(name).hpoConfig")
-            try self.hpoConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3191,14 +3078,10 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.campaignArn.forEach {}
             try self.validate(self.campaignArn, name: "campaignArn", parent: name, max: 256)
             try self.validate(self.campaignArn, name: "campaignArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
             try self.campaignConfig?.validate(name: "\(name).campaignConfig")
-            try self.campaignConfig?.forEach {}
-            try self.minProvisionedTPS?.forEach {}
             try self.validate(self.minProvisionedTPS, name: "minProvisionedTPS", parent: name, min: 1)
-            try self.solutionVersionArn?.forEach {}
             try self.validate(self.solutionVersionArn, name: "solutionVersionArn", parent: name, max: 256)
             try self.validate(self.solutionVersionArn, name: "solutionVersionArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
         }

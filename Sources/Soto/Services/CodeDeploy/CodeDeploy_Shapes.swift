@@ -451,7 +451,6 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
-            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
         }
@@ -496,7 +495,6 @@ extension CodeDeploy {
                 try validate($0, name: "applicationNames[]", parent: name, max: 100)
                 try validate($0, name: "applicationNames[]", parent: name, min: 1)
             }
-            try self.applicationNames.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -529,14 +527,12 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
-            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
             try self.deploymentGroupNames.forEach {
                 try validate($0, name: "deploymentGroupNames[]", parent: name, max: 100)
                 try validate($0, name: "deploymentGroupNames[]", parent: name, min: 1)
             }
-            try self.deploymentGroupNames.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -785,7 +781,6 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
-            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
         }
@@ -828,7 +823,6 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
-            try self.deploymentConfigName.forEach {}
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, max: 100)
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, min: 1)
         }
@@ -914,13 +908,10 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
-            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
-            try self.deploymentConfigName?.forEach {}
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, max: 100)
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, min: 1)
-            try self.deploymentGroupName.forEach {}
             try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, max: 100)
             try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, min: 1)
         }
@@ -996,13 +987,10 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
-            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
-            try self.deploymentConfigName?.forEach {}
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, max: 100)
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, min: 1)
-            try self.deploymentGroupName?.forEach {}
             try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, max: 100)
             try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, min: 1)
         }
@@ -1043,7 +1031,6 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
-            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
         }
@@ -1062,7 +1049,6 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
-            try self.deploymentConfigName.forEach {}
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, max: 100)
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, min: 1)
         }
@@ -1084,10 +1070,8 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
-            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
-            try self.deploymentGroupName.forEach {}
             try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, max: 100)
             try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, min: 1)
         }
@@ -1738,7 +1722,6 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
-            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
         }
@@ -1773,7 +1756,6 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
-            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
         }
@@ -1814,7 +1796,6 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
-            try self.deploymentConfigName.forEach {}
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, max: 100)
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, min: 1)
         }
@@ -1849,10 +1830,8 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
-            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
-            try self.deploymentGroupName.forEach {}
             try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, max: 100)
             try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, min: 1)
         }
@@ -2272,7 +2251,6 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
-            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
         }
@@ -2377,7 +2355,6 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
-            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
         }
@@ -2513,10 +2490,8 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
-            try self.applicationName?.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
-            try self.deploymentGroupName?.forEach {}
             try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, max: 100)
             try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, min: 1)
         }
@@ -2628,7 +2603,6 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
         }
@@ -2773,7 +2747,6 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
-            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
         }
@@ -3033,7 +3006,6 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
         }
@@ -3221,7 +3193,6 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
         }
@@ -3248,10 +3219,8 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
-            try self.applicationName?.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
-            try self.newApplicationName?.forEach {}
             try self.validate(self.newApplicationName, name: "newApplicationName", parent: name, max: 100)
             try self.validate(self.newApplicationName, name: "newApplicationName", parent: name, min: 1)
         }
@@ -3322,16 +3291,12 @@ extension CodeDeploy {
         }
 
         public func validate(name: String) throws {
-            try self.applicationName.forEach {}
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
-            try self.currentDeploymentGroupName.forEach {}
             try self.validate(self.currentDeploymentGroupName, name: "currentDeploymentGroupName", parent: name, max: 100)
             try self.validate(self.currentDeploymentGroupName, name: "currentDeploymentGroupName", parent: name, min: 1)
-            try self.deploymentConfigName?.forEach {}
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, max: 100)
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, min: 1)
-            try self.newDeploymentGroupName?.forEach {}
             try self.validate(self.newDeploymentGroupName, name: "newDeploymentGroupName", parent: name, max: 100)
             try self.validate(self.newDeploymentGroupName, name: "newDeploymentGroupName", parent: name, min: 1)
         }

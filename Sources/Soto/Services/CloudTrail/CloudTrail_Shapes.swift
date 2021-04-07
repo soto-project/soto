@@ -87,9 +87,7 @@ extension CloudTrail {
             try self.fieldSelectors.forEach {
                 try $0.validate(name: "\(name).fieldSelectors[]")
             }
-            try self.fieldSelectors.forEach {}
             try self.validate(self.fieldSelectors, name: "fieldSelectors", parent: name, min: 1)
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 1000)
             try self.validate(self.name, name: "name", parent: name, min: 0)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*")
@@ -133,16 +131,13 @@ extension CloudTrail {
                 try validate($0, name: "endsWith[]", parent: name, min: 1)
                 try validate($0, name: "endsWith[]", parent: name, pattern: ".+")
             }
-            try self.endsWith?.forEach {}
             try self.validate(self.endsWith, name: "endsWith", parent: name, min: 1)
             try self.equals?.forEach {
                 try validate($0, name: "equals[]", parent: name, max: 2048)
                 try validate($0, name: "equals[]", parent: name, min: 1)
                 try validate($0, name: "equals[]", parent: name, pattern: ".+")
             }
-            try self.equals?.forEach {}
             try self.validate(self.equals, name: "equals", parent: name, min: 1)
-            try self.field.forEach {}
             try self.validate(self.field, name: "field", parent: name, max: 1000)
             try self.validate(self.field, name: "field", parent: name, min: 1)
             try self.validate(self.field, name: "field", parent: name, pattern: "[\\w|\\d|\\.|_]+")
@@ -151,28 +146,24 @@ extension CloudTrail {
                 try validate($0, name: "notEndsWith[]", parent: name, min: 1)
                 try validate($0, name: "notEndsWith[]", parent: name, pattern: ".+")
             }
-            try self.notEndsWith?.forEach {}
             try self.validate(self.notEndsWith, name: "notEndsWith", parent: name, min: 1)
             try self.notEquals?.forEach {
                 try validate($0, name: "notEquals[]", parent: name, max: 2048)
                 try validate($0, name: "notEquals[]", parent: name, min: 1)
                 try validate($0, name: "notEquals[]", parent: name, pattern: ".+")
             }
-            try self.notEquals?.forEach {}
             try self.validate(self.notEquals, name: "notEquals", parent: name, min: 1)
             try self.notStartsWith?.forEach {
                 try validate($0, name: "notStartsWith[]", parent: name, max: 2048)
                 try validate($0, name: "notStartsWith[]", parent: name, min: 1)
                 try validate($0, name: "notStartsWith[]", parent: name, pattern: ".+")
             }
-            try self.notStartsWith?.forEach {}
             try self.validate(self.notStartsWith, name: "notStartsWith", parent: name, min: 1)
             try self.startsWith?.forEach {
                 try validate($0, name: "startsWith[]", parent: name, max: 2048)
                 try validate($0, name: "startsWith[]", parent: name, min: 1)
                 try validate($0, name: "startsWith[]", parent: name, pattern: ".+")
             }
-            try self.startsWith?.forEach {}
             try self.validate(self.startsWith, name: "startsWith", parent: name, min: 1)
         }
 
@@ -769,7 +760,6 @@ extension CloudTrail {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -844,7 +834,6 @@ extension CloudTrail {
             try self.advancedEventSelectors?.forEach {
                 try $0.validate(name: "\(name).advancedEventSelectors[]")
             }
-            try self.advancedEventSelectors?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {

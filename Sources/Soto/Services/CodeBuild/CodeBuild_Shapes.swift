@@ -301,7 +301,6 @@ extension CodeBuild {
             try self.ids.forEach {
                 try validate($0, name: "ids[]", parent: name, min: 1)
             }
-            try self.ids.forEach {}
             try self.validate(self.ids, name: "ids", parent: name, max: 100)
             try self.validate(self.ids, name: "ids", parent: name, min: 1)
         }
@@ -340,7 +339,6 @@ extension CodeBuild {
             try self.ids.forEach {
                 try validate($0, name: "ids[]", parent: name, min: 1)
             }
-            try self.ids.forEach {}
             try self.validate(self.ids, name: "ids", parent: name, max: 100)
             try self.validate(self.ids, name: "ids", parent: name, min: 0)
         }
@@ -379,7 +377,6 @@ extension CodeBuild {
             try self.ids.forEach {
                 try validate($0, name: "ids[]", parent: name, min: 1)
             }
-            try self.ids.forEach {}
             try self.validate(self.ids, name: "ids", parent: name, max: 100)
             try self.validate(self.ids, name: "ids", parent: name, min: 1)
         }
@@ -418,7 +415,6 @@ extension CodeBuild {
             try self.names.forEach {
                 try validate($0, name: "names[]", parent: name, min: 1)
             }
-            try self.names.forEach {}
             try self.validate(self.names, name: "names", parent: name, max: 100)
             try self.validate(self.names, name: "names", parent: name, min: 1)
         }
@@ -457,7 +453,6 @@ extension CodeBuild {
             try self.reportGroupArns.forEach {
                 try validate($0, name: "reportGroupArns[]", parent: name, min: 1)
             }
-            try self.reportGroupArns.forEach {}
             try self.validate(self.reportGroupArns, name: "reportGroupArns", parent: name, max: 100)
             try self.validate(self.reportGroupArns, name: "reportGroupArns", parent: name, min: 1)
         }
@@ -496,7 +491,6 @@ extension CodeBuild {
             try self.reportArns.forEach {
                 try validate($0, name: "reportArns[]", parent: name, min: 1)
             }
-            try self.reportArns.forEach {}
             try self.validate(self.reportArns, name: "reportArns", parent: name, max: 100)
             try self.validate(self.reportArns, name: "reportArns", parent: name, min: 1)
         }
@@ -538,7 +532,6 @@ extension CodeBuild {
             try self.computeTypesAllowed?.forEach {
                 try validate($0, name: "computeTypesAllowed[]", parent: name, min: 1)
             }
-            try self.computeTypesAllowed?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1184,48 +1177,34 @@ extension CodeBuild {
 
         public func validate(name: String) throws {
             try self.buildBatchConfig?.validate(name: "\(name).buildBatchConfig")
-            try self.buildBatchConfig?.forEach {}
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 255)
             try self.validate(self.description, name: "description", parent: name, min: 0)
-            try self.encryptionKey?.forEach {}
             try self.validate(self.encryptionKey, name: "encryptionKey", parent: name, min: 1)
             try self.environment.validate(name: "\(name).environment")
-            try self.environment.forEach {}
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 2)
             try self.validate(self.name, name: "name", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9\\-_]{1,254}")
-            try self.queuedTimeoutInMinutes?.forEach {}
             try self.validate(self.queuedTimeoutInMinutes, name: "queuedTimeoutInMinutes", parent: name, max: 480)
             try self.validate(self.queuedTimeoutInMinutes, name: "queuedTimeoutInMinutes", parent: name, min: 5)
-            try self.secondaryArtifacts?.forEach {}
             try self.validate(self.secondaryArtifacts, name: "secondaryArtifacts", parent: name, max: 12)
             try self.validate(self.secondaryArtifacts, name: "secondaryArtifacts", parent: name, min: 0)
             try self.secondarySources?.forEach {
                 try $0.validate(name: "\(name).secondarySources[]")
             }
-            try self.secondarySources?.forEach {}
             try self.validate(self.secondarySources, name: "secondarySources", parent: name, max: 12)
             try self.validate(self.secondarySources, name: "secondarySources", parent: name, min: 0)
-            try self.secondarySourceVersions?.forEach {}
             try self.validate(self.secondarySourceVersions, name: "secondarySourceVersions", parent: name, max: 12)
             try self.validate(self.secondarySourceVersions, name: "secondarySourceVersions", parent: name, min: 0)
-            try self.serviceRole.forEach {}
             try self.validate(self.serviceRole, name: "serviceRole", parent: name, min: 1)
             try self.source.validate(name: "\(name).source")
-            try self.source.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
-            try self.timeoutInMinutes?.forEach {}
             try self.validate(self.timeoutInMinutes, name: "timeoutInMinutes", parent: name, max: 480)
             try self.validate(self.timeoutInMinutes, name: "timeoutInMinutes", parent: name, min: 5)
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
-            try self.vpcConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1285,14 +1264,11 @@ extension CodeBuild {
 
         public func validate(name: String) throws {
             try self.exportConfig.validate(name: "\(name).exportConfig")
-            try self.exportConfig.forEach {}
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 2)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -1336,7 +1312,6 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, max: 255)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 2)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9\\-_]{1,254}")
@@ -1389,7 +1364,6 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, min: 1)
         }
 
@@ -1428,7 +1402,6 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
 
@@ -1453,7 +1426,6 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
         }
 
@@ -1476,7 +1448,6 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
         }
 
@@ -1498,7 +1469,6 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
         }
 
@@ -1520,7 +1490,6 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
         }
 
@@ -1551,7 +1520,6 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, max: 255)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 2)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9\\-_]{1,254}")
@@ -1593,16 +1561,12 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.maxLineCoveragePercentage?.forEach {}
             try self.validate(self.maxLineCoveragePercentage, name: "maxLineCoveragePercentage", parent: name, max: 100)
             try self.validate(self.maxLineCoveragePercentage, name: "maxLineCoveragePercentage", parent: name, min: 0)
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.minLineCoveragePercentage?.forEach {}
             try self.validate(self.minLineCoveragePercentage, name: "minLineCoveragePercentage", parent: name, max: 100)
             try self.validate(self.minLineCoveragePercentage, name: "minLineCoveragePercentage", parent: name, min: 0)
-            try self.reportArn.forEach {}
             try self.validate(self.reportArn, name: "reportArn", parent: name, min: 1)
         }
 
@@ -1652,7 +1616,6 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1752,7 +1715,6 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
 
@@ -1795,10 +1757,8 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.numOfReports?.forEach {}
             try self.validate(self.numOfReports, name: "numOfReports", parent: name, max: 100)
             try self.validate(self.numOfReports, name: "numOfReports", parent: name, min: 1)
-            try self.reportGroupArn.forEach {}
             try self.validate(self.reportGroupArn, name: "reportGroupArn", parent: name, min: 1)
         }
 
@@ -1835,7 +1795,6 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
         }
 
@@ -1891,9 +1850,7 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.token.forEach {}
             try self.validate(self.token, name: "token", parent: name, min: 1)
-            try self.username?.forEach {}
             try self.validate(self.username, name: "username", parent: name, min: 1)
         }
 
@@ -1928,7 +1885,6 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
         }
 
@@ -1962,10 +1918,8 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.projectName?.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
         }
 
@@ -2013,7 +1967,6 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2058,7 +2011,6 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
         }
 
@@ -2152,7 +2104,6 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -2198,7 +2149,6 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2249,7 +2199,6 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2298,7 +2247,6 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2346,10 +2294,8 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.nextToken?.forEach {}
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -2396,7 +2342,6 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2725,8 +2670,6 @@ extension CodeBuild {
 
         public func validate(name: String) throws {
             try self.restrictions?.validate(name: "\(name).restrictions")
-            try self.restrictions?.forEach {}
-            try self.serviceRole?.forEach {}
             try self.validate(self.serviceRole, name: "serviceRole", parent: name, min: 1)
         }
 
@@ -2792,11 +2735,8 @@ extension CodeBuild {
             try self.environmentVariables?.forEach {
                 try $0.validate(name: "\(name).environmentVariables[]")
             }
-            try self.environmentVariables?.forEach {}
-            try self.image.forEach {}
             try self.validate(self.image, name: "image", parent: name, min: 1)
             try self.registryCredential?.validate(name: "\(name).registryCredential")
-            try self.registryCredential?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2876,7 +2816,6 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.gitCloneDepth?.forEach {}
             try self.validate(self.gitCloneDepth, name: "gitCloneDepth", parent: name, min: 0)
         }
 
@@ -2923,9 +2862,7 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.policy.forEach {}
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
-            try self.resourceArn.forEach {}
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
         }
 
@@ -2960,7 +2897,6 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.credential.forEach {}
             try self.validate(self.credential, name: "credential", parent: name, min: 1)
         }
 
@@ -3040,7 +2976,6 @@ extension CodeBuild {
 
         public func validate(name: String) throws {
             try self.s3Destination?.validate(name: "\(name).s3Destination")
-            try self.s3Destination?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3177,7 +3112,6 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.id?.forEach {}
             try self.validate(self.id, name: "id", parent: name, min: 1)
         }
 
@@ -3212,7 +3146,6 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.id?.forEach {}
             try self.validate(self.id, name: "id", parent: name, min: 1)
         }
 
@@ -3279,9 +3212,7 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.bucket?.forEach {}
             try self.validate(self.bucket, name: "bucket", parent: name, min: 1)
-            try self.encryptionKey?.forEach {}
             try self.validate(self.encryptionKey, name: "encryptionKey", parent: name, min: 1)
         }
 
@@ -3433,40 +3364,27 @@ extension CodeBuild {
 
         public func validate(name: String) throws {
             try self.buildBatchConfigOverride?.validate(name: "\(name).buildBatchConfigOverride")
-            try self.buildBatchConfigOverride?.forEach {}
-            try self.buildTimeoutInMinutesOverride?.forEach {}
             try self.validate(self.buildTimeoutInMinutesOverride, name: "buildTimeoutInMinutesOverride", parent: name, max: 480)
             try self.validate(self.buildTimeoutInMinutesOverride, name: "buildTimeoutInMinutesOverride", parent: name, min: 5)
-            try self.encryptionKeyOverride?.forEach {}
             try self.validate(self.encryptionKeyOverride, name: "encryptionKeyOverride", parent: name, min: 1)
             try self.environmentVariablesOverride?.forEach {
                 try $0.validate(name: "\(name).environmentVariablesOverride[]")
             }
-            try self.environmentVariablesOverride?.forEach {}
-            try self.gitCloneDepthOverride?.forEach {}
             try self.validate(self.gitCloneDepthOverride, name: "gitCloneDepthOverride", parent: name, min: 0)
-            try self.imageOverride?.forEach {}
             try self.validate(self.imageOverride, name: "imageOverride", parent: name, min: 1)
-            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
-            try self.queuedTimeoutInMinutesOverride?.forEach {}
             try self.validate(self.queuedTimeoutInMinutesOverride, name: "queuedTimeoutInMinutesOverride", parent: name, max: 480)
             try self.validate(self.queuedTimeoutInMinutesOverride, name: "queuedTimeoutInMinutesOverride", parent: name, min: 5)
             try self.registryCredentialOverride?.validate(name: "\(name).registryCredentialOverride")
-            try self.registryCredentialOverride?.forEach {}
-            try self.secondaryArtifactsOverride?.forEach {}
             try self.validate(self.secondaryArtifactsOverride, name: "secondaryArtifactsOverride", parent: name, max: 12)
             try self.validate(self.secondaryArtifactsOverride, name: "secondaryArtifactsOverride", parent: name, min: 0)
             try self.secondarySourcesOverride?.forEach {
                 try $0.validate(name: "\(name).secondarySourcesOverride[]")
             }
-            try self.secondarySourcesOverride?.forEach {}
             try self.validate(self.secondarySourcesOverride, name: "secondarySourcesOverride", parent: name, max: 12)
             try self.validate(self.secondarySourcesOverride, name: "secondarySourcesOverride", parent: name, min: 0)
-            try self.secondarySourcesVersionOverride?.forEach {}
             try self.validate(self.secondarySourcesVersionOverride, name: "secondarySourcesVersionOverride", parent: name, max: 12)
             try self.validate(self.secondarySourcesVersionOverride, name: "secondarySourcesVersionOverride", parent: name, min: 0)
-            try self.serviceRoleOverride?.forEach {}
             try self.validate(self.serviceRoleOverride, name: "serviceRoleOverride", parent: name, min: 1)
         }
 
@@ -3617,38 +3535,26 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.encryptionKeyOverride?.forEach {}
             try self.validate(self.encryptionKeyOverride, name: "encryptionKeyOverride", parent: name, min: 1)
             try self.environmentVariablesOverride?.forEach {
                 try $0.validate(name: "\(name).environmentVariablesOverride[]")
             }
-            try self.environmentVariablesOverride?.forEach {}
-            try self.gitCloneDepthOverride?.forEach {}
             try self.validate(self.gitCloneDepthOverride, name: "gitCloneDepthOverride", parent: name, min: 0)
-            try self.imageOverride?.forEach {}
             try self.validate(self.imageOverride, name: "imageOverride", parent: name, min: 1)
-            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
-            try self.queuedTimeoutInMinutesOverride?.forEach {}
             try self.validate(self.queuedTimeoutInMinutesOverride, name: "queuedTimeoutInMinutesOverride", parent: name, max: 480)
             try self.validate(self.queuedTimeoutInMinutesOverride, name: "queuedTimeoutInMinutesOverride", parent: name, min: 5)
             try self.registryCredentialOverride?.validate(name: "\(name).registryCredentialOverride")
-            try self.registryCredentialOverride?.forEach {}
-            try self.secondaryArtifactsOverride?.forEach {}
             try self.validate(self.secondaryArtifactsOverride, name: "secondaryArtifactsOverride", parent: name, max: 12)
             try self.validate(self.secondaryArtifactsOverride, name: "secondaryArtifactsOverride", parent: name, min: 0)
             try self.secondarySourcesOverride?.forEach {
                 try $0.validate(name: "\(name).secondarySourcesOverride[]")
             }
-            try self.secondarySourcesOverride?.forEach {}
             try self.validate(self.secondarySourcesOverride, name: "secondarySourcesOverride", parent: name, max: 12)
             try self.validate(self.secondarySourcesOverride, name: "secondarySourcesOverride", parent: name, min: 0)
-            try self.secondarySourcesVersionOverride?.forEach {}
             try self.validate(self.secondarySourcesVersionOverride, name: "secondarySourcesVersionOverride", parent: name, max: 12)
             try self.validate(self.secondarySourcesVersionOverride, name: "secondarySourcesVersionOverride", parent: name, min: 0)
-            try self.serviceRoleOverride?.forEach {}
             try self.validate(self.serviceRoleOverride, name: "serviceRoleOverride", parent: name, min: 1)
-            try self.timeoutInMinutesOverride?.forEach {}
             try self.validate(self.timeoutInMinutesOverride, name: "timeoutInMinutesOverride", parent: name, max: 480)
             try self.validate(self.timeoutInMinutesOverride, name: "timeoutInMinutesOverride", parent: name, min: 5)
         }
@@ -3710,7 +3616,6 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, min: 1)
         }
 
@@ -3740,7 +3645,6 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.id.forEach {}
             try self.validate(self.id, name: "id", parent: name, min: 1)
         }
 
@@ -3774,11 +3678,9 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.key?.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 127)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=@+\\-]*)$")
-            try self.value?.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 255)
             try self.validate(self.value, name: "value", parent: name, min: 0)
             try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=@+\\-]*)$")
@@ -3938,46 +3840,32 @@ extension CodeBuild {
 
         public func validate(name: String) throws {
             try self.buildBatchConfig?.validate(name: "\(name).buildBatchConfig")
-            try self.buildBatchConfig?.forEach {}
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 255)
             try self.validate(self.description, name: "description", parent: name, min: 0)
-            try self.encryptionKey?.forEach {}
             try self.validate(self.encryptionKey, name: "encryptionKey", parent: name, min: 1)
             try self.environment?.validate(name: "\(name).environment")
-            try self.environment?.forEach {}
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.queuedTimeoutInMinutes?.forEach {}
             try self.validate(self.queuedTimeoutInMinutes, name: "queuedTimeoutInMinutes", parent: name, max: 480)
             try self.validate(self.queuedTimeoutInMinutes, name: "queuedTimeoutInMinutes", parent: name, min: 5)
-            try self.secondaryArtifacts?.forEach {}
             try self.validate(self.secondaryArtifacts, name: "secondaryArtifacts", parent: name, max: 12)
             try self.validate(self.secondaryArtifacts, name: "secondaryArtifacts", parent: name, min: 0)
             try self.secondarySources?.forEach {
                 try $0.validate(name: "\(name).secondarySources[]")
             }
-            try self.secondarySources?.forEach {}
             try self.validate(self.secondarySources, name: "secondarySources", parent: name, max: 12)
             try self.validate(self.secondarySources, name: "secondarySources", parent: name, min: 0)
-            try self.secondarySourceVersions?.forEach {}
             try self.validate(self.secondarySourceVersions, name: "secondarySourceVersions", parent: name, max: 12)
             try self.validate(self.secondarySourceVersions, name: "secondarySourceVersions", parent: name, min: 0)
-            try self.serviceRole?.forEach {}
             try self.validate(self.serviceRole, name: "serviceRole", parent: name, min: 1)
             try self.source?.validate(name: "\(name).source")
-            try self.source?.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
-            try self.timeoutInMinutes?.forEach {}
             try self.validate(self.timeoutInMinutes, name: "timeoutInMinutes", parent: name, max: 480)
             try self.validate(self.timeoutInMinutes, name: "timeoutInMinutes", parent: name, min: 5)
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
-            try self.vpcConfig?.forEach {}
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4033,14 +3921,11 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.arn.forEach {}
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
             try self.exportConfig?.validate(name: "\(name).exportConfig")
-            try self.exportConfig?.forEach {}
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -4086,7 +3971,6 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.projectName.forEach {}
             try self.validate(self.projectName, name: "projectName", parent: name, max: 255)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 2)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "[A-Za-z0-9][A-Za-z0-9\\-_]{1,254}")
@@ -4132,14 +4016,11 @@ extension CodeBuild {
             try self.securityGroupIds?.forEach {
                 try validate($0, name: "securityGroupIds[]", parent: name, min: 1)
             }
-            try self.securityGroupIds?.forEach {}
             try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 5)
             try self.subnets?.forEach {
                 try validate($0, name: "subnets[]", parent: name, min: 1)
             }
-            try self.subnets?.forEach {}
             try self.validate(self.subnets, name: "subnets", parent: name, max: 16)
-            try self.vpcId?.forEach {}
             try self.validate(self.vpcId, name: "vpcId", parent: name, min: 1)
         }
 

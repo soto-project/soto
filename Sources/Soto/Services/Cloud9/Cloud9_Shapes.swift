@@ -118,31 +118,22 @@ extension Cloud9 {
         }
 
         public func validate(name: String) throws {
-            try self.automaticStopTimeMinutes?.forEach {}
             try self.validate(self.automaticStopTimeMinutes, name: "automaticStopTimeMinutes", parent: name, max: 20160)
-            try self.clientRequestToken?.forEach {}
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "[\\x20-\\x7E]{10,128}")
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 200)
-            try self.imageId?.forEach {}
             try self.validate(self.imageId, name: "imageId", parent: name, max: 512)
-            try self.instanceType.forEach {}
             try self.validate(self.instanceType, name: "instanceType", parent: name, max: 20)
             try self.validate(self.instanceType, name: "instanceType", parent: name, min: 5)
             try self.validate(self.instanceType, name: "instanceType", parent: name, pattern: "^[a-z][1-9][.][a-z0-9]+$")
-            try self.name.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 60)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.ownerArn?.forEach {}
             try self.validate(self.ownerArn, name: "ownerArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):(iam|sts)::\\d+:(root|(user\\/[\\w+=/:,.@-]{1,64}|federated-user\\/[\\w+=/:,.@-]{2,32}|assumed-role\\/[\\w+=:,.@-]{1,64}\\/[\\w+=,.@-]{1,64}))$")
-            try self.subnetId?.forEach {}
             try self.validate(self.subnetId, name: "subnetId", parent: name, max: 24)
             try self.validate(self.subnetId, name: "subnetId", parent: name, min: 15)
             try self.validate(self.subnetId, name: "subnetId", parent: name, pattern: "^(subnet-[0-9a-f]{8}|subnet-[0-9a-f]{17})$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags?.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -189,9 +180,7 @@ extension Cloud9 {
         }
 
         public func validate(name: String) throws {
-            try self.environmentId.forEach {}
             try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^[a-zA-Z0-9]{8,32}$")
-            try self.userArn.forEach {}
             try self.validate(self.userArn, name: "userArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):(iam|sts)::\\d+:(root|(user\\/[\\w+=/:,.@-]{1,64}|federated-user\\/[\\w+=/:,.@-]{2,32}|assumed-role\\/[\\w+=:,.@-]{1,64}\\/[\\w+=,.@-]{1,64}))$")
         }
 
@@ -227,9 +216,7 @@ extension Cloud9 {
         }
 
         public func validate(name: String) throws {
-            try self.environmentId.forEach {}
             try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^[a-zA-Z0-9]{8,32}$")
-            try self.userArn.forEach {}
             try self.validate(self.userArn, name: "userArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):(iam|sts)::\\d+:(root|(user\\/[\\w+=/:,.@-]{1,64}|federated-user\\/[\\w+=/:,.@-]{2,32}|assumed-role\\/[\\w+=:,.@-]{1,64}\\/[\\w+=,.@-]{1,64}))$")
         }
 
@@ -252,7 +239,6 @@ extension Cloud9 {
         }
 
         public func validate(name: String) throws {
-            try self.environmentId.forEach {}
             try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^[a-zA-Z0-9]{8,32}$")
         }
 
@@ -286,12 +272,9 @@ extension Cloud9 {
         }
 
         public func validate(name: String) throws {
-            try self.environmentId?.forEach {}
             try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^[a-zA-Z0-9]{8,32}$")
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
-            try self.userArn?.forEach {}
             try self.validate(self.userArn, name: "userArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):(iam|sts)::\\d+:(root|(user\\/[\\w+=/:,.@-]{1,64}|federated-user\\/[\\w+=/:,.@-]{2,32}|assumed-role\\/[\\w+=:,.@-]{1,64}\\/[\\w+=,.@-]{1,64}))$")
         }
 
@@ -330,7 +313,6 @@ extension Cloud9 {
         }
 
         public func validate(name: String) throws {
-            try self.environmentId.forEach {}
             try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^[a-zA-Z0-9]{8,32}$")
         }
 
@@ -368,7 +350,6 @@ extension Cloud9 {
             try self.environmentIds.forEach {
                 try validate($0, name: "environmentIds[]", parent: name, pattern: "^[a-zA-Z0-9]{8,32}$")
             }
-            try self.environmentIds.forEach {}
             try self.validate(self.environmentIds, name: "environmentIds", parent: name, max: 25)
             try self.validate(self.environmentIds, name: "environmentIds", parent: name, min: 1)
         }
@@ -498,7 +479,6 @@ extension Cloud9 {
         }
 
         public func validate(name: String) throws {
-            try self.maxResults?.forEach {}
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
         }
@@ -535,7 +515,6 @@ extension Cloud9 {
         }
 
         public func validate(name: String) throws {
-            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):cloud9:([a-z]{2}-[a-z]+-\\d{1}):[0-9]{12}:environment:[a-zA-Z0-9]{8,32}")
         }
 
@@ -569,10 +548,8 @@ extension Cloud9 {
         }
 
         public func validate(name: String) throws {
-            try self.key.forEach {}
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
-            try self.value.forEach {}
             try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 0)
         }
@@ -595,12 +572,10 @@ extension Cloud9 {
         }
 
         public func validate(name: String) throws {
-            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):cloud9:([a-z]{2}-[a-z]+-\\d{1}):[0-9]{12}:environment:[a-zA-Z0-9]{8,32}")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.tags.forEach {}
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
@@ -627,13 +602,11 @@ extension Cloud9 {
         }
 
         public func validate(name: String) throws {
-            try self.resourceARN.forEach {}
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):cloud9:([a-z]{2}-[a-z]+-\\d{1}):[0-9]{12}:environment:[a-zA-Z0-9]{8,32}")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
             }
-            try self.tagKeys.forEach {}
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
         }
@@ -663,9 +636,7 @@ extension Cloud9 {
         }
 
         public func validate(name: String) throws {
-            try self.environmentId.forEach {}
             try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^[a-zA-Z0-9]{8,32}$")
-            try self.userArn.forEach {}
             try self.validate(self.userArn, name: "userArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):(iam|sts)::\\d+:(root|(user\\/[\\w+=/:,.@-]{1,64}|federated-user\\/[\\w+=/:,.@-]{2,32}|assumed-role\\/[\\w+=:,.@-]{1,64}\\/[\\w+=,.@-]{1,64}))$")
         }
 
@@ -704,11 +675,8 @@ extension Cloud9 {
         }
 
         public func validate(name: String) throws {
-            try self.description?.forEach {}
             try self.validate(self.description, name: "description", parent: name, max: 200)
-            try self.environmentId.forEach {}
             try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^[a-zA-Z0-9]{8,32}$")
-            try self.name?.forEach {}
             try self.validate(self.name, name: "name", parent: name, max: 60)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
