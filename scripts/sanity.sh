@@ -37,7 +37,13 @@ printf "\033[0;32mokay.\033[0m\n"
 
 printf "=> Checking format... "
 FIRST_OUT="$(git status --porcelain)"
-swiftformat . > /dev/null 2>&1
+if [[ -n "${CI-""}" ]]; then
+  printf "(using v$(mint run NickLockwood/SwiftFormat@0.47.13 --version)) "
+  mint run NickLockwood/SwiftFormat@0.47.13 . > /dev/null 2>&1
+else
+  printf "(using v$(swiftformat --version)) "
+  swiftformat . > /dev/null 2>&1
+fi
 SECOND_OUT="$(git status --porcelain)"
 if [[ "$FIRST_OUT" != "$SECOND_OUT" ]]; then
   printf "\033[0;31mformatting issues!\033[0m\n"
