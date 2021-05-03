@@ -38,6 +38,7 @@ extension GroundStation {
         case antennaDownlinkDemodDecode = "antenna-downlink-demod-decode"
         case antennaUplink = "antenna-uplink"
         case dataflowEndpoint = "dataflow-endpoint"
+        case s3Recording = "s3-recording"
         case tracking
         case uplinkEcho = "uplink-echo"
         public var description: String { return self.rawValue }
@@ -189,15 +190,19 @@ extension GroundStation {
         /// Details for antenna demod decode Config in a contact.
         public let antennaDemodDecodeDetails: AntennaDemodDecodeDetails?
         public let endpointDetails: EndpointDetails?
+        /// Details for an S3 recording Config in a contact.
+        public let s3RecordingDetails: S3RecordingDetails?
 
-        public init(antennaDemodDecodeDetails: AntennaDemodDecodeDetails? = nil, endpointDetails: EndpointDetails? = nil) {
+        public init(antennaDemodDecodeDetails: AntennaDemodDecodeDetails? = nil, endpointDetails: EndpointDetails? = nil, s3RecordingDetails: S3RecordingDetails? = nil) {
             self.antennaDemodDecodeDetails = antennaDemodDecodeDetails
             self.endpointDetails = endpointDetails
+            self.s3RecordingDetails = s3RecordingDetails
         }
 
         private enum CodingKeys: String, CodingKey {
             case antennaDemodDecodeDetails
             case endpointDetails
+            case s3RecordingDetails
         }
     }
 
@@ -256,22 +261,26 @@ extension GroundStation {
         public let antennaUplinkConfig: AntennaUplinkConfig?
         /// Information about the dataflow endpoint Config.
         public let dataflowEndpointConfig: DataflowEndpointConfig?
+        /// Information about an S3 recording Config.
+        public let s3RecordingConfig: S3RecordingConfig?
         /// Object that determines whether tracking should be used during a contact executed with this Config in the mission profile.
         public let trackingConfig: TrackingConfig?
         /// Information about an uplink echo Config. Parameters from the AntennaUplinkConfig, corresponding to the specified AntennaUplinkConfigArn, are used when this UplinkEchoConfig is used in a contact.
         public let uplinkEchoConfig: UplinkEchoConfig?
 
-        public init(antennaDownlinkConfig: AntennaDownlinkConfig? = nil, antennaDownlinkDemodDecodeConfig: AntennaDownlinkDemodDecodeConfig? = nil, antennaUplinkConfig: AntennaUplinkConfig? = nil, dataflowEndpointConfig: DataflowEndpointConfig? = nil, trackingConfig: TrackingConfig? = nil, uplinkEchoConfig: UplinkEchoConfig? = nil) {
+        public init(antennaDownlinkConfig: AntennaDownlinkConfig? = nil, antennaDownlinkDemodDecodeConfig: AntennaDownlinkDemodDecodeConfig? = nil, antennaUplinkConfig: AntennaUplinkConfig? = nil, dataflowEndpointConfig: DataflowEndpointConfig? = nil, s3RecordingConfig: S3RecordingConfig? = nil, trackingConfig: TrackingConfig? = nil, uplinkEchoConfig: UplinkEchoConfig? = nil) {
             self.antennaDownlinkConfig = antennaDownlinkConfig
             self.antennaDownlinkDemodDecodeConfig = antennaDownlinkDemodDecodeConfig
             self.antennaUplinkConfig = antennaUplinkConfig
             self.dataflowEndpointConfig = dataflowEndpointConfig
+            self.s3RecordingConfig = s3RecordingConfig
             self.trackingConfig = trackingConfig
             self.uplinkEchoConfig = uplinkEchoConfig
         }
 
         public func validate(name: String) throws {
             try self.antennaDownlinkDemodDecodeConfig?.validate(name: "\(name).antennaDownlinkDemodDecodeConfig")
+            try self.s3RecordingConfig?.validate(name: "\(name).s3RecordingConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -279,6 +288,7 @@ extension GroundStation {
             case antennaDownlinkDemodDecodeConfig
             case antennaUplinkConfig
             case dataflowEndpointConfig
+            case s3RecordingConfig
             case trackingConfig
             case uplinkEchoConfig
         }
@@ -1443,6 +1453,50 @@ extension GroundStation {
             case satelliteArn
             case startTime
             case tags
+        }
+    }
+
+    public struct S3RecordingConfig: AWSEncodableShape & AWSDecodableShape {
+        /// ARN of the bucket to record to.
+        public let bucketArn: String
+        /// S3 Key prefix to prefice data files.
+        public let prefix: String?
+        /// ARN of the role Ground Station assumes to write data to the bucket.
+        public let roleArn: String
+
+        public init(bucketArn: String, prefix: String? = nil, roleArn: String) {
+            self.bucketArn = bucketArn
+            self.prefix = prefix
+            self.roleArn = roleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.prefix, name: "prefix", parent: name, max: 900)
+            try self.validate(self.prefix, name: "prefix", parent: name, min: 1)
+            try self.validate(self.prefix, name: "prefix", parent: name, pattern: "^([a-zA-Z0-9_\\-=/]|\\{satellite_id\\}|\\{config\\-name}|\\{s3\\-config-id}|\\{year\\}|\\{month\\}|\\{day\\}){1,900}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketArn
+            case prefix
+            case roleArn
+        }
+    }
+
+    public struct S3RecordingDetails: AWSDecodableShape {
+        /// ARN of the bucket used.
+        public let bucketArn: String?
+        /// Template of the S3 key used.
+        public let keyTemplate: String?
+
+        public init(bucketArn: String? = nil, keyTemplate: String? = nil) {
+            self.bucketArn = bucketArn
+            self.keyTemplate = keyTemplate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketArn
+            case keyTemplate
         }
     }
 

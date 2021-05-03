@@ -258,7 +258,7 @@ public struct CognitoIdentityProvider: AWSService {
         return self.client.execute(operation: "CreateUserPoolDomain", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a group. Currently only groups with no members can be deleted. Calling this action requires developer credentials.
+    /// Deletes a group. Calling this action requires developer credentials.
     @discardableResult public func deleteGroup(_ input: DeleteGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

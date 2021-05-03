@@ -2223,6 +2223,28 @@ extension Kendra {
         }
     }
 
+    public struct DocumentRelevanceConfiguration: AWSEncodableShape {
+        /// The name of the tuning configuration to override document relevance at the index level.
+        public let name: String
+        public let relevance: Relevance
+
+        public init(name: String, relevance: Relevance) {
+            self.name = name
+            self.relevance = relevance
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 30)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.relevance.validate(name: "\(name).relevance")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case relevance = "Relevance"
+        }
+    }
+
     public struct DocumentsMetadataConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// A prefix used to filter metadata configuration files in the AWS S3 bucket. The S3 bucket might contain multiple metadata files. Use S3Prefix to include only the desired metadata files.
         public let s3Prefix: String?
@@ -2966,6 +2988,8 @@ extension Kendra {
     public struct QueryRequest: AWSEncodableShape {
         /// Enables filtered searches based on document attributes. You can only provide one attribute filter; however, the AndAllFilters, NotFilter, and OrAllFilters parameters contain a list of other filters. The AttributeFilter parameter enables you to create a set of filtering rules that a document must satisfy to be included in the query results.
         public let attributeFilter: AttributeFilter?
+        /// Overrides relevance tuning configurations of fields or attributes set at the index level. If you use this API to override the relevance tuning configured at the index level, but there is no relevance tuning configured at the index level, then Amazon Kendra does not apply any relevance tuning. If there is relevance tuning configured at the index level, but you do not use this API to override any relevance tuning in the index, then Amazon Kendra uses the relevance tuning that is configured at the index level. If there is relevance tuning configured for fields at the index level, but you use this API to override only some of these fields, then for the fields you did not override, the importance is set to 1.
+        public let documentRelevanceOverrideConfigurations: [DocumentRelevanceConfiguration]?
         /// An array of documents attributes. Amazon Kendra returns a count for each attribute key specified. You can use this information to help narrow the search for your user.
         public let facets: [Facet]?
         /// The unique identifier of the index to search. The identifier is returned in the response from the CreateIndex operation.
@@ -2987,8 +3011,9 @@ extension Kendra {
         /// Provides an identifier for a specific user. The VisitorId should be a unique identifier, such as a GUID. Don't use personally identifiable information, such as the user's email address, as the VisitorId.
         public let visitorId: String?
 
-        public init(attributeFilter: AttributeFilter? = nil, facets: [Facet]? = nil, indexId: String, pageNumber: Int? = nil, pageSize: Int? = nil, queryResultTypeFilter: QueryResultType? = nil, queryText: String, requestedDocumentAttributes: [String]? = nil, sortingConfiguration: SortingConfiguration? = nil, userContext: UserContext? = nil, visitorId: String? = nil) {
+        public init(attributeFilter: AttributeFilter? = nil, documentRelevanceOverrideConfigurations: [DocumentRelevanceConfiguration]? = nil, facets: [Facet]? = nil, indexId: String, pageNumber: Int? = nil, pageSize: Int? = nil, queryResultTypeFilter: QueryResultType? = nil, queryText: String, requestedDocumentAttributes: [String]? = nil, sortingConfiguration: SortingConfiguration? = nil, userContext: UserContext? = nil, visitorId: String? = nil) {
             self.attributeFilter = attributeFilter
+            self.documentRelevanceOverrideConfigurations = documentRelevanceOverrideConfigurations
             self.facets = facets
             self.indexId = indexId
             self.pageNumber = pageNumber
@@ -3003,6 +3028,11 @@ extension Kendra {
 
         public func validate(name: String) throws {
             try self.attributeFilter?.validate(name: "\(name).attributeFilter")
+            try self.documentRelevanceOverrideConfigurations?.forEach {
+                try $0.validate(name: "\(name).documentRelevanceOverrideConfigurations[]")
+            }
+            try self.validate(self.documentRelevanceOverrideConfigurations, name: "documentRelevanceOverrideConfigurations", parent: name, max: 500)
+            try self.validate(self.documentRelevanceOverrideConfigurations, name: "documentRelevanceOverrideConfigurations", parent: name, min: 0)
             try self.facets?.forEach {
                 try $0.validate(name: "\(name).facets[]")
             }
@@ -3028,6 +3058,7 @@ extension Kendra {
 
         private enum CodingKeys: String, CodingKey {
             case attributeFilter = "AttributeFilter"
+            case documentRelevanceOverrideConfigurations = "DocumentRelevanceOverrideConfigurations"
             case facets = "Facets"
             case indexId = "IndexId"
             case pageNumber = "PageNumber"

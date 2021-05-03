@@ -351,7 +351,7 @@ extension Organizations {
         public let accountName: String?
         /// The date and time that the account was created and the request completed.
         public let completedTimestamp: Date?
-        /// If the request failed, a description of the reason for the failure.   ACCOUNT_LIMIT_EXCEEDED: The account could not be created because you have reached the limit on the number of accounts in your organization.   CONCURRENT_ACCOUNT_MODIFICATION: You already submitted a request with the same information.   EMAIL_ALREADY_EXISTS: The account could not be created because another AWS account with that email address already exists.   FAILED_BUSINESS_VALIDATION: The AWS account that owns your organization failed to receive business license validation.   GOVCLOUD_ACCOUNT_ALREADY_EXISTS: The account in the AWS GovCloud (US) Region could not be created because this Region already includes an account with that email address.   IDENTITY_INVALID_BUSINESS_VALIDATION: The AWS account that owns your organization can't complete business license validation because it doesn't have valid identity data.   INVALID_ADDRESS: The account could not be created because the address you provided is not valid.   INVALID_EMAIL: The account could not be created because the email address you provided is not valid.   INTERNAL_FAILURE: The account could not be created because of an internal failure. Try again later. If the problem persists, contact Customer Support.   MISSING_BUSINESS_VALIDATION: The AWS account that owns your organization has not received Business Validation.    MISSING_PAYMENT_INSTRUMENT: You must configure the management account with a valid payment method, such as a credit card.   PENDING_BUSINESS_VALIDATION: The AWS account that owns your organization is still in the process of completing business license validation.   UNKNOWN_BUSINESS_VALIDATION: The AWS account that owns your organization has an unknown issue with business license validation.
+        /// If the request failed, a description of the reason for the failure.   ACCOUNT_LIMIT_EXCEEDED: The account couldn't be created because you reached the limit on the number of accounts in your organization.   CONCURRENT_ACCOUNT_MODIFICATION: You already submitted a request with the same information.   EMAIL_ALREADY_EXISTS: The account could not be created because another AWS account with that email address already exists.   FAILED_BUSINESS_VALIDATION: The AWS account that owns your organization failed to receive business license validation.   GOVCLOUD_ACCOUNT_ALREADY_EXISTS: The account in the AWS GovCloud (US) Region could not be created because this Region already includes an account with that email address.   IDENTITY_INVALID_BUSINESS_VALIDATION: The AWS account that owns your organization can't complete business license validation because it doesn't have valid identity data.   INVALID_ADDRESS: The account could not be created because the address you provided is not valid.   INVALID_EMAIL: The account could not be created because the email address you provided is not valid.   INTERNAL_FAILURE: The account could not be created because of an internal failure. Try again later. If the problem persists, contact AWS Customer Support.   MISSING_BUSINESS_VALIDATION: The AWS account that owns your organization has not received Business Validation.    MISSING_PAYMENT_INSTRUMENT: You must configure the management account with a valid payment method, such as a credit card.   PENDING_BUSINESS_VALIDATION: The AWS account that owns your organization is still in the process of completing business license validation.   UNKNOWN_BUSINESS_VALIDATION: The AWS account that owns your organization has an unknown issue with business license validation.
         public let failureReason: CreateAccountFailureReason?
         /// If the account was created successfully, the unique identifier (ID) of the new account in the AWS GovCloud (US) Region.
         public let govCloudAccountId: String?
@@ -359,7 +359,7 @@ extension Organizations {
         public let id: String?
         /// The date and time that the request was made for the account creation.
         public let requestedTimestamp: Date?
-        /// The status of the request.
+        /// The status of the asynchronous request to create an AWS account.
         public let state: CreateAccountState?
 
         public init(accountId: String? = nil, accountName: String? = nil, completedTimestamp: Date? = nil, failureReason: CreateAccountFailureReason? = nil, govCloudAccountId: String? = nil, id: String? = nil, requestedTimestamp: Date? = nil, state: CreateAccountState? = nil) {
@@ -642,7 +642,7 @@ extension Organizations {
     public struct DelegatedService: AWSDecodableShape {
         /// The date that the account became a delegated administrator for this service.
         public let delegationEnabledDate: Date?
-        /// The name of a service that can request an operation for the specified service. This is typically in the form of a URL, such as:  servicename.amazonaws.com.
+        /// The name of an AWS service that can request an operation for the specified service. This is typically in the form of a URL, such as:  servicename.amazonaws.com.
         public let servicePrincipal: String?
 
         public init(delegationEnabledDate: Date? = nil, servicePrincipal: String? = nil) {

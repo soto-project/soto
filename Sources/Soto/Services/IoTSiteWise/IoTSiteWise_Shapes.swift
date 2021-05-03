@@ -2701,7 +2701,7 @@ extension IoTSiteWise {
             try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[A-Za-z0-9+/=]+")
             try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, max: 2048)
@@ -2787,7 +2787,7 @@ extension IoTSiteWise {
             try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[A-Za-z0-9+/=]+")
             try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, max: 2048)
@@ -2865,6 +2865,110 @@ extension IoTSiteWise {
 
         private enum CodingKeys: String, CodingKey {
             case propertyValue
+        }
+    }
+
+    public struct GetInterpolatedAssetPropertyValuesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "assetId", location: .querystring(locationName: "assetId")),
+            AWSMemberEncoding(label: "endTimeInSeconds", location: .querystring(locationName: "endTimeInSeconds")),
+            AWSMemberEncoding(label: "endTimeOffsetInNanos", location: .querystring(locationName: "endTimeOffsetInNanos")),
+            AWSMemberEncoding(label: "intervalInSeconds", location: .querystring(locationName: "intervalInSeconds")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "propertyAlias", location: .querystring(locationName: "propertyAlias")),
+            AWSMemberEncoding(label: "propertyId", location: .querystring(locationName: "propertyId")),
+            AWSMemberEncoding(label: "quality", location: .querystring(locationName: "quality")),
+            AWSMemberEncoding(label: "startTimeInSeconds", location: .querystring(locationName: "startTimeInSeconds")),
+            AWSMemberEncoding(label: "startTimeOffsetInNanos", location: .querystring(locationName: "startTimeOffsetInNanos")),
+            AWSMemberEncoding(label: "type", location: .querystring(locationName: "type"))
+        ]
+
+        /// The ID of the asset.
+        public let assetId: String?
+        /// The inclusive end of the range from which to interpolate data, expressed in seconds in Unix epoch time.
+        public let endTimeInSeconds: Int64
+        /// The nanosecond offset converted from endTimeInSeconds.
+        public let endTimeOffsetInNanos: Int?
+        /// The time interval in seconds over which to interpolate data. Each interval starts when the previous one ends.
+        public let intervalInSeconds: Int64
+        /// The maximum number of results to be returned per paginated request. If not specified, the default value is 10.
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results.
+        public let nextToken: String?
+        /// The property alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping industrial data streams to asset properties in the AWS IoT SiteWise User Guide.
+        public let propertyAlias: String?
+        /// The ID of the asset property.
+        public let propertyId: String?
+        /// The quality of the asset property value. You can use this parameter as a filter to choose only the asset property values that have a specific quality.
+        public let quality: Quality
+        /// The exclusive start of the range from which to interpolate data, expressed in seconds in Unix epoch time.
+        public let startTimeInSeconds: Int64
+        /// The nanosecond offset converted from startTimeInSeconds.
+        public let startTimeOffsetInNanos: Int?
+        /// The interpolation type. Valid values: LINEAR_INTERPOLATION
+        public let type: String
+
+        public init(assetId: String? = nil, endTimeInSeconds: Int64, endTimeOffsetInNanos: Int? = nil, intervalInSeconds: Int64, maxResults: Int? = nil, nextToken: String? = nil, propertyAlias: String? = nil, propertyId: String? = nil, quality: Quality, startTimeInSeconds: Int64, startTimeOffsetInNanos: Int? = nil, type: String) {
+            self.assetId = assetId
+            self.endTimeInSeconds = endTimeInSeconds
+            self.endTimeOffsetInNanos = endTimeOffsetInNanos
+            self.intervalInSeconds = intervalInSeconds
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.propertyAlias = propertyAlias
+            self.propertyId = propertyId
+            self.quality = quality
+            self.startTimeInSeconds = startTimeInSeconds
+            self.startTimeOffsetInNanos = startTimeOffsetInNanos
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
+            try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.endTimeInSeconds, name: "endTimeInSeconds", parent: name, max: 31_556_889_864_403_199)
+            try self.validate(self.endTimeInSeconds, name: "endTimeInSeconds", parent: name, min: 1)
+            try self.validate(self.endTimeOffsetInNanos, name: "endTimeOffsetInNanos", parent: name, max: 999_999_999)
+            try self.validate(self.endTimeOffsetInNanos, name: "endTimeOffsetInNanos", parent: name, min: 0)
+            try self.validate(self.intervalInSeconds, name: "intervalInSeconds", parent: name, max: 320_000_000)
+            try self.validate(self.intervalInSeconds, name: "intervalInSeconds", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[A-Za-z0-9+/=]+")
+            try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, max: 2048)
+            try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, min: 1)
+            try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
+            try self.validate(self.propertyId, name: "propertyId", parent: name, max: 36)
+            try self.validate(self.propertyId, name: "propertyId", parent: name, min: 36)
+            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.startTimeInSeconds, name: "startTimeInSeconds", parent: name, max: 31_556_889_864_403_199)
+            try self.validate(self.startTimeInSeconds, name: "startTimeInSeconds", parent: name, min: 1)
+            try self.validate(self.startTimeOffsetInNanos, name: "startTimeOffsetInNanos", parent: name, max: 999_999_999)
+            try self.validate(self.startTimeOffsetInNanos, name: "startTimeOffsetInNanos", parent: name, min: 0)
+            try self.validate(self.type, name: "type", parent: name, max: 256)
+            try self.validate(self.type, name: "type", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetInterpolatedAssetPropertyValuesResponse: AWSDecodableShape {
+        /// The requested interpolated values.
+        public let interpolatedAssetPropertyValues: [InterpolatedAssetPropertyValue]
+        /// The token for the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+
+        public init(interpolatedAssetPropertyValues: [InterpolatedAssetPropertyValue], nextToken: String? = nil) {
+            self.interpolatedAssetPropertyValues = interpolatedAssetPropertyValues
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case interpolatedAssetPropertyValues
+            case nextToken
         }
     }
 
@@ -3038,6 +3142,21 @@ extension IoTSiteWise {
         }
     }
 
+    public struct InterpolatedAssetPropertyValue: AWSDecodableShape {
+        public let timestamp: TimeInNanos
+        public let value: Variant
+
+        public init(timestamp: TimeInNanos, value: Variant) {
+            self.timestamp = timestamp
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timestamp
+            case value
+        }
+    }
+
     public struct ListAccessPoliciesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "iamArn", location: .querystring(locationName: "iamArn")),
@@ -3083,7 +3202,7 @@ extension IoTSiteWise {
             try self.validate(self.identityId, name: "identityId", parent: name, pattern: "\\S+")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[A-Za-z0-9+/=]+")
             try self.validate(self.resourceId, name: "resourceId", parent: name, max: 36)
@@ -3130,7 +3249,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[A-Za-z0-9+/=]+")
         }
@@ -3185,7 +3304,7 @@ extension IoTSiteWise {
             try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[A-Za-z0-9+/=]+")
         }
@@ -3240,7 +3359,7 @@ extension IoTSiteWise {
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[A-Za-z0-9+/=]+")
         }
@@ -3302,7 +3421,7 @@ extension IoTSiteWise {
             try self.validate(self.hierarchyId, name: "hierarchyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[A-Za-z0-9+/=]+")
         }
@@ -3350,7 +3469,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[A-Za-z0-9+/=]+")
             try self.validate(self.projectId, name: "projectId", parent: name, max: 36)
@@ -3397,7 +3516,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[A-Za-z0-9+/=]+")
         }
@@ -3441,7 +3560,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[A-Za-z0-9+/=]+")
         }
@@ -3489,7 +3608,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[A-Za-z0-9+/=]+")
             try self.validate(self.projectId, name: "projectId", parent: name, max: 36)
@@ -3540,7 +3659,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[A-Za-z0-9+/=]+")
             try self.validate(self.portalId, name: "portalId", parent: name, max: 36)

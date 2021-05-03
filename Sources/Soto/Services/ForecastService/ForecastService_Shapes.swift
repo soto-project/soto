@@ -841,6 +841,24 @@ extension ForecastService {
         }
     }
 
+    public struct DeleteResourceTreeRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the parent resource to delete. All child resources of the parent resource will also be deleted.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.\\/\\:]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
     public struct DescribeDatasetGroupRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the dataset group.
         public let datasetGroupArn: String
@@ -927,6 +945,8 @@ extension ForecastService {
         public let dataSize: Double?
         /// The location of the training data to import and an AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the data. If encryption is used, DataSource includes an AWS Key Management Service (KMS) key.
         public let dataSource: DataSource?
+        /// The estimated time remaining in minutes for the dataset import job to complete.
+        public let estimatedTimeRemainingInMinutes: Int64?
         /// Statistical information about each field in the input data.
         public let fieldStatistics: [String: Statistics]?
         /// The format of the geolocation attribute. Valid Values:"LAT_LONG" and "CC_POSTALCODE".
@@ -944,13 +964,14 @@ extension ForecastService {
         /// Whether TimeZone is automatically derived from the geolocation attribute.
         public let useGeolocationForTimeZone: Bool?
 
-        public init(creationTime: Date? = nil, datasetArn: String? = nil, datasetImportJobArn: String? = nil, datasetImportJobName: String? = nil, dataSize: Double? = nil, dataSource: DataSource? = nil, fieldStatistics: [String: Statistics]? = nil, geolocationFormat: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil, timestampFormat: String? = nil, timeZone: String? = nil, useGeolocationForTimeZone: Bool? = nil) {
+        public init(creationTime: Date? = nil, datasetArn: String? = nil, datasetImportJobArn: String? = nil, datasetImportJobName: String? = nil, dataSize: Double? = nil, dataSource: DataSource? = nil, estimatedTimeRemainingInMinutes: Int64? = nil, fieldStatistics: [String: Statistics]? = nil, geolocationFormat: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil, timestampFormat: String? = nil, timeZone: String? = nil, useGeolocationForTimeZone: Bool? = nil) {
             self.creationTime = creationTime
             self.datasetArn = datasetArn
             self.datasetImportJobArn = datasetImportJobArn
             self.datasetImportJobName = datasetImportJobName
             self.dataSize = dataSize
             self.dataSource = dataSource
+            self.estimatedTimeRemainingInMinutes = estimatedTimeRemainingInMinutes
             self.fieldStatistics = fieldStatistics
             self.geolocationFormat = geolocationFormat
             self.lastModificationTime = lastModificationTime
@@ -968,6 +989,7 @@ extension ForecastService {
             case datasetImportJobName = "DatasetImportJobName"
             case dataSize = "DataSize"
             case dataSource = "DataSource"
+            case estimatedTimeRemainingInMinutes = "EstimatedTimeRemainingInMinutes"
             case fieldStatistics = "FieldStatistics"
             case geolocationFormat = "GeolocationFormat"
             case lastModificationTime = "LastModificationTime"
@@ -1128,6 +1150,8 @@ extension ForecastService {
         public let creationTime: Date?
         /// The ARN of the dataset group that provided the data used to train the predictor.
         public let datasetGroupArn: String?
+        /// The estimated time remaining in minutes for the forecast job to complete.
+        public let estimatedTimeRemainingInMinutes: Int64?
         /// The forecast ARN as specified in the request.
         public let forecastArn: String?
         /// The name of the forecast.
@@ -1143,9 +1167,10 @@ extension ForecastService {
         /// The status of the forecast. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     CREATE_STOPPING, CREATE_STOPPED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the forecast must be ACTIVE before you can query or export the forecast.
         public let status: String?
 
-        public init(creationTime: Date? = nil, datasetGroupArn: String? = nil, forecastArn: String? = nil, forecastName: String? = nil, forecastTypes: [String]? = nil, lastModificationTime: Date? = nil, message: String? = nil, predictorArn: String? = nil, status: String? = nil) {
+        public init(creationTime: Date? = nil, datasetGroupArn: String? = nil, estimatedTimeRemainingInMinutes: Int64? = nil, forecastArn: String? = nil, forecastName: String? = nil, forecastTypes: [String]? = nil, lastModificationTime: Date? = nil, message: String? = nil, predictorArn: String? = nil, status: String? = nil) {
             self.creationTime = creationTime
             self.datasetGroupArn = datasetGroupArn
+            self.estimatedTimeRemainingInMinutes = estimatedTimeRemainingInMinutes
             self.forecastArn = forecastArn
             self.forecastName = forecastName
             self.forecastTypes = forecastTypes
@@ -1158,6 +1183,7 @@ extension ForecastService {
         private enum CodingKeys: String, CodingKey {
             case creationTime = "CreationTime"
             case datasetGroupArn = "DatasetGroupArn"
+            case estimatedTimeRemainingInMinutes = "EstimatedTimeRemainingInMinutes"
             case forecastArn = "ForecastArn"
             case forecastName = "ForecastName"
             case forecastTypes = "ForecastTypes"
@@ -1255,6 +1281,8 @@ extension ForecastService {
         public let datasetImportJobArns: [String]?
         /// An AWS Key Management Service (KMS) key and the AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the key.
         public let encryptionConfig: EncryptionConfig?
+        /// The estimated time remaining in minutes for the predictor training job to complete.
+        public let estimatedTimeRemainingInMinutes: Int64?
         /// Used to override the default evaluation parameters of the specified algorithm. Amazon Forecast evaluates a predictor by splitting a dataset into training data and testing data. The evaluation parameters define how to perform the split and the number of iterations.
         public let evaluationParameters: EvaluationParameters?
         /// The featurization configuration.
@@ -1286,12 +1314,13 @@ extension ForecastService {
         /// The default training parameters or overrides selected during model training. When running AutoML or choosing HPO with CNN-QR or DeepAR+, the optimized values for the chosen hyperparameters are returned. For more information, see aws-forecast-choosing-recipes.
         public let trainingParameters: [String: String]?
 
-        public init(algorithmArn: String? = nil, autoMLAlgorithmArns: [String]? = nil, creationTime: Date? = nil, datasetImportJobArns: [String]? = nil, encryptionConfig: EncryptionConfig? = nil, evaluationParameters: EvaluationParameters? = nil, featurizationConfig: FeaturizationConfig? = nil, forecastHorizon: Int? = nil, forecastTypes: [String]? = nil, hPOConfig: HyperParameterTuningJobConfig? = nil, inputDataConfig: InputDataConfig? = nil, lastModificationTime: Date? = nil, message: String? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, predictorArn: String? = nil, predictorExecutionDetails: PredictorExecutionDetails? = nil, predictorName: String? = nil, status: String? = nil, trainingParameters: [String: String]? = nil) {
+        public init(algorithmArn: String? = nil, autoMLAlgorithmArns: [String]? = nil, creationTime: Date? = nil, datasetImportJobArns: [String]? = nil, encryptionConfig: EncryptionConfig? = nil, estimatedTimeRemainingInMinutes: Int64? = nil, evaluationParameters: EvaluationParameters? = nil, featurizationConfig: FeaturizationConfig? = nil, forecastHorizon: Int? = nil, forecastTypes: [String]? = nil, hPOConfig: HyperParameterTuningJobConfig? = nil, inputDataConfig: InputDataConfig? = nil, lastModificationTime: Date? = nil, message: String? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, predictorArn: String? = nil, predictorExecutionDetails: PredictorExecutionDetails? = nil, predictorName: String? = nil, status: String? = nil, trainingParameters: [String: String]? = nil) {
             self.algorithmArn = algorithmArn
             self.autoMLAlgorithmArns = autoMLAlgorithmArns
             self.creationTime = creationTime
             self.datasetImportJobArns = datasetImportJobArns
             self.encryptionConfig = encryptionConfig
+            self.estimatedTimeRemainingInMinutes = estimatedTimeRemainingInMinutes
             self.evaluationParameters = evaluationParameters
             self.featurizationConfig = featurizationConfig
             self.forecastHorizon = forecastHorizon
@@ -1315,6 +1344,7 @@ extension ForecastService {
             case creationTime = "CreationTime"
             case datasetImportJobArns = "DatasetImportJobArns"
             case encryptionConfig = "EncryptionConfig"
+            case estimatedTimeRemainingInMinutes = "EstimatedTimeRemainingInMinutes"
             case evaluationParameters = "EvaluationParameters"
             case featurizationConfig = "FeaturizationConfig"
             case forecastHorizon = "ForecastHorizon"

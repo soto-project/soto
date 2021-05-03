@@ -28,12 +28,15 @@ extension RoboMaker {
     }
 
     public enum DeploymentJobErrorCode: String, CustomStringConvertible, Codable {
+        case badlambdaassociated = "BadLambdaAssociated"
         case badpermissionerror = "BadPermissionError"
+        case deploymentfleetdoesnotexist = "DeploymentFleetDoesNotExist"
         case downloadconditionfailed = "DownloadConditionFailed"
         case environmentsetuperror = "EnvironmentSetupError"
         case etagmismatch = "EtagMismatch"
         case extractingbundlefailure = "ExtractingBundleFailure"
         case failurethresholdbreached = "FailureThresholdBreached"
+        case fleetdeploymenttimeout = "FleetDeploymentTimeout"
         case greengrassdeploymentfailed = "GreengrassDeploymentFailed"
         case greengrassgroupversiondoesnotexist = "GreengrassGroupVersionDoesNotExist"
         case internalservererror = "InternalServerError"
@@ -46,6 +49,7 @@ extension RoboMaker {
         case prelaunchfilefailure = "PreLaunchFileFailure"
         case resourcenotfound = "ResourceNotFound"
         case robotagentconnectiontimeout = "RobotAgentConnectionTimeout"
+        case robotapplicationdoesnotexist = "RobotApplicationDoesNotExist"
         case robotdeploymentaborted = "RobotDeploymentAborted"
         case robotdeploymentnoresponse = "RobotDeploymentNoResponse"
         public var description: String { return self.rawValue }
@@ -58,6 +62,12 @@ extension RoboMaker {
         case pending = "Pending"
         case preparing = "Preparing"
         case succeeded = "Succeeded"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExitBehavior: String, CustomStringConvertible, Codable {
+        case fail = "FAIL"
+        case restart = "RESTART"
         public var description: String { return self.rawValue }
     }
 
@@ -91,6 +101,7 @@ extension RoboMaker {
 
     public enum RobotSoftwareSuiteVersionType: String, CustomStringConvertible, Codable {
         case dashing = "Dashing"
+        case foxy = "Foxy"
         case kinetic = "Kinetic"
         case melodic = "Melodic"
         public var description: String { return self.rawValue }
@@ -145,10 +156,13 @@ extension RoboMaker {
         case requestthrottled = "RequestThrottled"
         case resourcenotfound = "ResourceNotFound"
         case robotapplicationcrash = "RobotApplicationCrash"
+        case robotapplicationhealthcheckfailure = "RobotApplicationHealthCheckFailure"
         case robotapplicationversionmismatchedetag = "RobotApplicationVersionMismatchedEtag"
         case simulationapplicationcrash = "SimulationApplicationCrash"
+        case simulationapplicationhealthcheckfailure = "SimulationApplicationHealthCheckFailure"
         case simulationapplicationversionmismatchedetag = "SimulationApplicationVersionMismatchedEtag"
         case subnetiplimitexceeded = "SubnetIpLimitExceeded"
+        case throttlingerror = "ThrottlingError"
         case uploadcontentmismatcherror = "UploadContentMismatchError"
         case wrongregionrobotapplication = "WrongRegionRobotApplication"
         case wrongregions3bucket = "WrongRegionS3Bucket"
@@ -3672,16 +3686,22 @@ extension RoboMaker {
         public let applicationVersion: String?
         /// The launch configuration for the robot application.
         public let launchConfig: LaunchConfig
+        /// Information about tools configured for the robot application.
+        public let tools: [Tool]?
         /// The upload configurations for the robot application.
         public let uploadConfigurations: [UploadConfiguration]?
+        /// A Boolean indicating whether to use default robot application tools. The default tools are rviz, rqt, terminal and rosbag record. The default is False.
+        public let useDefaultTools: Bool?
         /// A Boolean indicating whether to use default upload configurations. By default, .ros and .gazebo files are uploaded when the application terminates and all ROS topics will be recorded. If you set this value, you must specify an outputLocation.
         public let useDefaultUploadConfigurations: Bool?
 
-        public init(application: String, applicationVersion: String? = nil, launchConfig: LaunchConfig, uploadConfigurations: [UploadConfiguration]? = nil, useDefaultUploadConfigurations: Bool? = nil) {
+        public init(application: String, applicationVersion: String? = nil, launchConfig: LaunchConfig, tools: [Tool]? = nil, uploadConfigurations: [UploadConfiguration]? = nil, useDefaultTools: Bool? = nil, useDefaultUploadConfigurations: Bool? = nil) {
             self.application = application
             self.applicationVersion = applicationVersion
             self.launchConfig = launchConfig
+            self.tools = tools
             self.uploadConfigurations = uploadConfigurations
+            self.useDefaultTools = useDefaultTools
             self.useDefaultUploadConfigurations = useDefaultUploadConfigurations
         }
 
@@ -3693,6 +3713,11 @@ extension RoboMaker {
             try self.validate(self.applicationVersion, name: "applicationVersion", parent: name, min: 1)
             try self.validate(self.applicationVersion, name: "applicationVersion", parent: name, pattern: "(\\$LATEST)|[0-9]*")
             try self.launchConfig.validate(name: "\(name).launchConfig")
+            try self.tools?.forEach {
+                try $0.validate(name: "\(name).tools[]")
+            }
+            try self.validate(self.tools, name: "tools", parent: name, max: 10)
+            try self.validate(self.tools, name: "tools", parent: name, min: 0)
             try self.uploadConfigurations?.forEach {
                 try $0.validate(name: "\(name).uploadConfigurations[]")
             }
@@ -3704,7 +3729,9 @@ extension RoboMaker {
             case application
             case applicationVersion
             case launchConfig
+            case tools
             case uploadConfigurations
+            case useDefaultTools
             case useDefaultUploadConfigurations
         }
     }
@@ -3846,18 +3873,24 @@ extension RoboMaker {
         public let applicationVersion: String?
         /// The launch configuration for the simulation application.
         public let launchConfig: LaunchConfig
+        /// Information about tools configured for the simulation application.
+        public let tools: [Tool]?
         /// Information about upload configurations for the simulation application.
         public let uploadConfigurations: [UploadConfiguration]?
+        /// A Boolean indicating whether to use default simulation application tools. The default tools are rviz, rqt, terminal and rosbag record. The default is False.
+        public let useDefaultTools: Bool?
         /// A Boolean indicating whether to use default upload configurations. By default, .ros and .gazebo files are uploaded when the application terminates and all ROS topics will be recorded. If you set this value, you must specify an outputLocation.
         public let useDefaultUploadConfigurations: Bool?
         /// A list of world configurations.
         public let worldConfigs: [WorldConfig]?
 
-        public init(application: String, applicationVersion: String? = nil, launchConfig: LaunchConfig, uploadConfigurations: [UploadConfiguration]? = nil, useDefaultUploadConfigurations: Bool? = nil, worldConfigs: [WorldConfig]? = nil) {
+        public init(application: String, applicationVersion: String? = nil, launchConfig: LaunchConfig, tools: [Tool]? = nil, uploadConfigurations: [UploadConfiguration]? = nil, useDefaultTools: Bool? = nil, useDefaultUploadConfigurations: Bool? = nil, worldConfigs: [WorldConfig]? = nil) {
             self.application = application
             self.applicationVersion = applicationVersion
             self.launchConfig = launchConfig
+            self.tools = tools
             self.uploadConfigurations = uploadConfigurations
+            self.useDefaultTools = useDefaultTools
             self.useDefaultUploadConfigurations = useDefaultUploadConfigurations
             self.worldConfigs = worldConfigs
         }
@@ -3870,6 +3903,11 @@ extension RoboMaker {
             try self.validate(self.applicationVersion, name: "applicationVersion", parent: name, min: 1)
             try self.validate(self.applicationVersion, name: "applicationVersion", parent: name, pattern: "(\\$LATEST)|[0-9]*")
             try self.launchConfig.validate(name: "\(name).launchConfig")
+            try self.tools?.forEach {
+                try $0.validate(name: "\(name).tools[]")
+            }
+            try self.validate(self.tools, name: "tools", parent: name, max: 10)
+            try self.validate(self.tools, name: "tools", parent: name, min: 0)
             try self.uploadConfigurations?.forEach {
                 try $0.validate(name: "\(name).uploadConfigurations[]")
             }
@@ -3886,7 +3924,9 @@ extension RoboMaker {
             case application
             case applicationVersion
             case launchConfig
+            case tools
             case uploadConfigurations
+            case useDefaultTools
             case useDefaultUploadConfigurations
             case worldConfigs
         }
@@ -4192,7 +4232,7 @@ extension RoboMaker {
         public func validate(name: String) throws {
             try self.validate(self.version, name: "version", parent: name, max: 1024)
             try self.validate(self.version, name: "version", parent: name, min: 0)
-            try self.validate(self.version, name: "version", parent: name, pattern: "7|9|Kinetic|Melodic|Dashing")
+            try self.validate(self.version, name: "version", parent: name, pattern: "7|9|11|Kinetic|Melodic|Dashing|Foxy")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4509,6 +4549,44 @@ extension RoboMaker {
         }
     }
 
+    public struct Tool: AWSEncodableShape & AWSDecodableShape {
+        /// Command-line arguments for the tool. It must include the tool executable name.
+        public let command: String
+        /// Exit behavior determines what happens when your tool quits running. RESTART will cause your tool to be restarted. FAIL will cause your job to exit. The default is RESTART.
+        public let exitBehavior: ExitBehavior?
+        /// The name of the tool.
+        public let name: String
+        /// Boolean indicating whether logs will be recorded in CloudWatch for the tool. The default is False.
+        public let streamOutputToCloudWatch: Bool?
+        /// Boolean indicating whether a streaming session will be configured for the tool. If True, AWS RoboMaker will configure a connection so you can interact with the tool as it is running in the simulation. It must have a graphical user interface. The default is False.
+        public let streamUI: Bool?
+
+        public init(command: String, exitBehavior: ExitBehavior? = nil, name: String, streamOutputToCloudWatch: Bool? = nil, streamUI: Bool? = nil) {
+            self.command = command
+            self.exitBehavior = exitBehavior
+            self.name = name
+            self.streamOutputToCloudWatch = streamOutputToCloudWatch
+            self.streamUI = streamUI
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.command, name: "command", parent: name, max: 1024)
+            try self.validate(self.command, name: "command", parent: name, min: 1)
+            try self.validate(self.command, name: "command", parent: name, pattern: ".*")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9_\\-]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case command
+            case exitBehavior
+            case name
+            case streamOutputToCloudWatch
+            case streamUI
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
@@ -4777,7 +4855,7 @@ extension RoboMaker {
         public let name: String
         ///  Specifies the path of the file(s) to upload. Standard Unix glob matching rules are accepted, with the addition of ** as a super asterisk. For example, specifying /var/log/**.log causes all .log files in the /var/log directory tree to be collected. For more examples, see Glob Library.
         public let path: String
-        /// Specifies how to upload the files:  UPLOAD_ON_TERMINATE  Matching files are uploaded once the simulation enters the TERMINATING state. Matching files are not uploaded until all of your code (including tools) have stopped.  If there is a problem uploading a file, the upload is retried. If problems persist, no further upload attempts will be made.  UPLOAD_ROLLING_AUTO_REMOVE  Matching files are uploaded as they are created. They are deleted after they are uploaded. The specified path is checked every 5 seconds. A final check is made when all of your code (including tools) have stopped.
+        /// Specifies when to upload the files:  UPLOAD_ON_TERMINATE  Matching files are uploaded once the simulation enters the TERMINATING state. Matching files are not uploaded until all of your code (including tools) have stopped.  If there is a problem uploading a file, the upload is retried. If problems persist, no further upload attempts will be made.  UPLOAD_ROLLING_AUTO_REMOVE  Matching files are uploaded as they are created. They are deleted after they are uploaded. The specified path is checked every 5 seconds. A final check is made when all of your code (including tools) have stopped.
         public let uploadBehavior: UploadBehavior
 
         public init(name: String, path: String, uploadBehavior: UploadBehavior) {

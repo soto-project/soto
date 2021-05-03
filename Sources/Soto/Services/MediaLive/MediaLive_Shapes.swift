@@ -1283,6 +1283,12 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum MotionGraphicsInsertion: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Mp2CodingMode: String, CustomStringConvertible, Codable {
         case codingMode10 = "CODING_MODE_1_0"
         case codingMode20 = "CODING_MODE_2_0"
@@ -2956,9 +2962,9 @@ extension MediaLive {
         /// A collection of key-value pairs.
         public let tags: [String: String]?
         /// Settings for VPC output
-        public let vpc: VpcOutputSettings?
+        public let vpc: VpcOutputSettingsDescription?
 
-        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettings? = nil) {
+        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
             self.arn = arn
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
@@ -3043,9 +3049,9 @@ extension MediaLive {
         /// A collection of key-value pairs.
         public let tags: [String: String]?
         /// Settings for VPC output
-        public let vpc: VpcOutputSettings?
+        public let vpc: VpcOutputSettingsDescription?
 
-        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettings? = nil) {
+        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
             self.arn = arn
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
@@ -3396,9 +3402,9 @@ extension MediaLive {
         public let roleArn: String?
         public let state: ChannelState?
         public let tags: [String: String]?
-        public let vpc: VpcOutputSettings?
+        public let vpc: VpcOutputSettingsDescription?
 
-        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettings? = nil) {
+        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
             self.arn = arn
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
@@ -3712,9 +3718,9 @@ extension MediaLive {
         public let roleArn: String?
         public let state: ChannelState?
         public let tags: [String: String]?
-        public let vpc: VpcOutputSettings?
+        public let vpc: VpcOutputSettingsDescription?
 
-        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettings? = nil) {
+        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
             self.arn = arn
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
@@ -4620,6 +4626,8 @@ extension MediaLive {
         public let featureActivations: FeatureActivations?
         /// Configuration settings that apply to the event as a whole.
         public let globalConfiguration: GlobalConfiguration?
+        /// Settings for motion graphics.
+        public let motionGraphicsConfiguration: MotionGraphicsConfiguration?
         /// Nielsen configuration settings.
         public let nielsenConfiguration: NielsenConfiguration?
         public let outputGroups: [OutputGroup]
@@ -4627,7 +4635,7 @@ extension MediaLive {
         public let timecodeConfig: TimecodeConfig
         public let videoDescriptions: [VideoDescription]
 
-        public init(audioDescriptions: [AudioDescription], availBlanking: AvailBlanking? = nil, availConfiguration: AvailConfiguration? = nil, blackoutSlate: BlackoutSlate? = nil, captionDescriptions: [CaptionDescription]? = nil, featureActivations: FeatureActivations? = nil, globalConfiguration: GlobalConfiguration? = nil, nielsenConfiguration: NielsenConfiguration? = nil, outputGroups: [OutputGroup], timecodeConfig: TimecodeConfig, videoDescriptions: [VideoDescription]) {
+        public init(audioDescriptions: [AudioDescription], availBlanking: AvailBlanking? = nil, availConfiguration: AvailConfiguration? = nil, blackoutSlate: BlackoutSlate? = nil, captionDescriptions: [CaptionDescription]? = nil, featureActivations: FeatureActivations? = nil, globalConfiguration: GlobalConfiguration? = nil, motionGraphicsConfiguration: MotionGraphicsConfiguration? = nil, nielsenConfiguration: NielsenConfiguration? = nil, outputGroups: [OutputGroup], timecodeConfig: TimecodeConfig, videoDescriptions: [VideoDescription]) {
             self.audioDescriptions = audioDescriptions
             self.availBlanking = availBlanking
             self.availConfiguration = availConfiguration
@@ -4635,6 +4643,7 @@ extension MediaLive {
             self.captionDescriptions = captionDescriptions
             self.featureActivations = featureActivations
             self.globalConfiguration = globalConfiguration
+            self.motionGraphicsConfiguration = motionGraphicsConfiguration
             self.nielsenConfiguration = nielsenConfiguration
             self.outputGroups = outputGroups
             self.timecodeConfig = timecodeConfig
@@ -4668,6 +4677,7 @@ extension MediaLive {
             case captionDescriptions
             case featureActivations
             case globalConfiguration
+            case motionGraphicsConfiguration
             case nielsenConfiguration
             case outputGroups
             case timecodeConfig
@@ -5940,6 +5950,10 @@ extension MediaLive {
             case numRetries
             case restartDelay
         }
+    }
+
+    public struct HtmlMotionGraphicsSettings: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
     }
 
     public struct ImmediateModeScheduleActionStartSettings: AWSEncodableShape & AWSDecodableShape {
@@ -7495,6 +7509,68 @@ extension MediaLive {
         public init() {}
     }
 
+    public struct MotionGraphicsActivateScheduleActionSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Duration (in milliseconds) that motion graphics should render on to the video stream. Leaving out this property or setting to 0 will result in rendering continuing until a deactivate action is processed.
+        public let duration: Int64?
+        /// Key used to extract the password from EC2 Parameter store
+        public let passwordParam: String?
+        /// URI of the HTML5 content to be rendered into the live stream.
+        public let url: String?
+        /// Username if credentials are required to access a file. This must be a reference to an AWS parameter store name from which the password can be retrieved. AWS Parameter store format: \"ssm://\"
+        public let username: String?
+
+        public init(duration: Int64? = nil, passwordParam: String? = nil, url: String? = nil, username: String? = nil) {
+            self.duration = duration
+            self.passwordParam = passwordParam
+            self.url = url
+            self.username = username
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.duration, name: "duration", parent: name, max: 86_400_000)
+            try self.validate(self.duration, name: "duration", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case duration
+            case passwordParam
+            case url
+            case username
+        }
+    }
+
+    public struct MotionGraphicsConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let motionGraphicsInsertion: MotionGraphicsInsertion?
+        /// Motion Graphics Settings
+        public let motionGraphicsSettings: MotionGraphicsSettings
+
+        public init(motionGraphicsInsertion: MotionGraphicsInsertion? = nil, motionGraphicsSettings: MotionGraphicsSettings) {
+            self.motionGraphicsInsertion = motionGraphicsInsertion
+            self.motionGraphicsSettings = motionGraphicsSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case motionGraphicsInsertion
+            case motionGraphicsSettings
+        }
+    }
+
+    public struct MotionGraphicsDeactivateScheduleActionSettings: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct MotionGraphicsSettings: AWSEncodableShape & AWSDecodableShape {
+        public let htmlMotionGraphicsSettings: HtmlMotionGraphicsSettings?
+
+        public init(htmlMotionGraphicsSettings: HtmlMotionGraphicsSettings? = nil) {
+            self.htmlMotionGraphicsSettings = htmlMotionGraphicsSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case htmlMotionGraphicsSettings
+        }
+    }
+
     public struct Mp2Settings: AWSEncodableShape & AWSDecodableShape {
         /// Average bitrate in bits/second.
         public let bitrate: Double?
@@ -8499,18 +8575,26 @@ extension MediaLive {
         public let activeInputAttachmentName: String?
         /// The name of the input switch schedule action that occurred most recently and that resulted in the switch to the current input attachment for this pipeline.
         public let activeInputSwitchActionName: String?
+        /// The name of the motion graphics activate action that occurred most recently and that resulted in the current graphics URI for this pipeline.
+        public let activeMotionGraphicsActionName: String?
+        /// The current URI being used for HTML5 motion graphics for this pipeline.
+        public let activeMotionGraphicsUri: String?
         /// Pipeline ID
         public let pipelineId: String?
 
-        public init(activeInputAttachmentName: String? = nil, activeInputSwitchActionName: String? = nil, pipelineId: String? = nil) {
+        public init(activeInputAttachmentName: String? = nil, activeInputSwitchActionName: String? = nil, activeMotionGraphicsActionName: String? = nil, activeMotionGraphicsUri: String? = nil, pipelineId: String? = nil) {
             self.activeInputAttachmentName = activeInputAttachmentName
             self.activeInputSwitchActionName = activeInputSwitchActionName
+            self.activeMotionGraphicsActionName = activeMotionGraphicsActionName
+            self.activeMotionGraphicsUri = activeMotionGraphicsUri
             self.pipelineId = pipelineId
         }
 
         private enum CodingKeys: String, CodingKey {
             case activeInputAttachmentName
             case activeInputSwitchActionName
+            case activeMotionGraphicsActionName
+            case activeMotionGraphicsUri
             case pipelineId
         }
     }
@@ -8870,6 +8954,10 @@ extension MediaLive {
         public let inputPrepareSettings: InputPrepareScheduleActionSettings?
         /// Action to switch the input
         public let inputSwitchSettings: InputSwitchScheduleActionSettings?
+        /// Action to activate a motion graphics image overlay
+        public let motionGraphicsImageActivateSettings: MotionGraphicsActivateScheduleActionSettings?
+        /// Action to deactivate a motion graphics image overlay
+        public let motionGraphicsImageDeactivateSettings: MotionGraphicsDeactivateScheduleActionSettings?
         /// Action to pause or unpause one or both channel pipelines
         public let pauseStateSettings: PauseStateScheduleActionSettings?
         /// Action to insert SCTE-35 return_to_network message
@@ -8883,11 +8971,13 @@ extension MediaLive {
         /// Action to deactivate a static image overlay
         public let staticImageDeactivateSettings: StaticImageDeactivateScheduleActionSettings?
 
-        public init(hlsId3SegmentTaggingSettings: HlsId3SegmentTaggingScheduleActionSettings? = nil, hlsTimedMetadataSettings: HlsTimedMetadataScheduleActionSettings? = nil, inputPrepareSettings: InputPrepareScheduleActionSettings? = nil, inputSwitchSettings: InputSwitchScheduleActionSettings? = nil, pauseStateSettings: PauseStateScheduleActionSettings? = nil, scte35ReturnToNetworkSettings: Scte35ReturnToNetworkScheduleActionSettings? = nil, scte35SpliceInsertSettings: Scte35SpliceInsertScheduleActionSettings? = nil, scte35TimeSignalSettings: Scte35TimeSignalScheduleActionSettings? = nil, staticImageActivateSettings: StaticImageActivateScheduleActionSettings? = nil, staticImageDeactivateSettings: StaticImageDeactivateScheduleActionSettings? = nil) {
+        public init(hlsId3SegmentTaggingSettings: HlsId3SegmentTaggingScheduleActionSettings? = nil, hlsTimedMetadataSettings: HlsTimedMetadataScheduleActionSettings? = nil, inputPrepareSettings: InputPrepareScheduleActionSettings? = nil, inputSwitchSettings: InputSwitchScheduleActionSettings? = nil, motionGraphicsImageActivateSettings: MotionGraphicsActivateScheduleActionSettings? = nil, motionGraphicsImageDeactivateSettings: MotionGraphicsDeactivateScheduleActionSettings? = nil, pauseStateSettings: PauseStateScheduleActionSettings? = nil, scte35ReturnToNetworkSettings: Scte35ReturnToNetworkScheduleActionSettings? = nil, scte35SpliceInsertSettings: Scte35SpliceInsertScheduleActionSettings? = nil, scte35TimeSignalSettings: Scte35TimeSignalScheduleActionSettings? = nil, staticImageActivateSettings: StaticImageActivateScheduleActionSettings? = nil, staticImageDeactivateSettings: StaticImageDeactivateScheduleActionSettings? = nil) {
             self.hlsId3SegmentTaggingSettings = hlsId3SegmentTaggingSettings
             self.hlsTimedMetadataSettings = hlsTimedMetadataSettings
             self.inputPrepareSettings = inputPrepareSettings
             self.inputSwitchSettings = inputSwitchSettings
+            self.motionGraphicsImageActivateSettings = motionGraphicsImageActivateSettings
+            self.motionGraphicsImageDeactivateSettings = motionGraphicsImageDeactivateSettings
             self.pauseStateSettings = pauseStateSettings
             self.scte35ReturnToNetworkSettings = scte35ReturnToNetworkSettings
             self.scte35SpliceInsertSettings = scte35SpliceInsertSettings
@@ -8897,6 +8987,7 @@ extension MediaLive {
         }
 
         public func validate(name: String) throws {
+            try self.motionGraphicsImageActivateSettings?.validate(name: "\(name).motionGraphicsImageActivateSettings")
             try self.scte35ReturnToNetworkSettings?.validate(name: "\(name).scte35ReturnToNetworkSettings")
             try self.scte35SpliceInsertSettings?.validate(name: "\(name).scte35SpliceInsertSettings")
             try self.scte35TimeSignalSettings?.validate(name: "\(name).scte35TimeSignalSettings")
@@ -8909,6 +9000,8 @@ extension MediaLive {
             case hlsTimedMetadataSettings
             case inputPrepareSettings
             case inputSwitchSettings
+            case motionGraphicsImageActivateSettings
+            case motionGraphicsImageDeactivateSettings
             case pauseStateSettings
             case scte35ReturnToNetworkSettings
             case scte35SpliceInsertSettings
@@ -9289,9 +9382,9 @@ extension MediaLive {
         public let roleArn: String?
         public let state: ChannelState?
         public let tags: [String: String]?
-        public let vpc: VpcOutputSettings?
+        public let vpc: VpcOutputSettingsDescription?
 
-        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettings? = nil) {
+        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
             self.arn = arn
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
@@ -9537,9 +9630,9 @@ extension MediaLive {
         public let roleArn: String?
         public let state: ChannelState?
         public let tags: [String: String]?
-        public let vpc: VpcOutputSettings?
+        public let vpc: VpcOutputSettingsDescription?
 
-        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettings? = nil) {
+        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
             self.arn = arn
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
@@ -10407,7 +10500,7 @@ extension MediaLive {
         }
     }
 
-    public struct VpcOutputSettings: AWSEncodableShape & AWSDecodableShape {
+    public struct VpcOutputSettings: AWSEncodableShape {
         /// List of public address allocation ids to associate with ENIs that will be created in Output VPC.
         /// Must specify one for SINGLE_PIPELINE, two for STANDARD channels
         public let publicAddressAllocationIds: [String]?
@@ -10426,6 +10519,34 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case publicAddressAllocationIds
+            case securityGroupIds
+            case subnetIds
+        }
+    }
+
+    public struct VpcOutputSettingsDescription: AWSDecodableShape {
+        /// The Availability Zones where the vpc subnets are located.
+        /// The first Availability Zone applies to the first subnet in the list of subnets.
+        /// The second Availability Zone applies to the second subnet.
+        public let availabilityZones: [String]?
+        /// A list of Elastic Network Interfaces created by MediaLive in the customer's VPC
+        public let networkInterfaceIds: [String]?
+        /// A list of up EC2 VPC security group IDs attached to the Output VPC network interfaces.
+        public let securityGroupIds: [String]?
+        /// A list of VPC subnet IDs from the same VPC.
+        /// If STANDARD channel, subnet IDs must be mapped to two unique availability zones (AZ).
+        public let subnetIds: [String]?
+
+        public init(availabilityZones: [String]? = nil, networkInterfaceIds: [String]? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
+            self.availabilityZones = availabilityZones
+            self.networkInterfaceIds = networkInterfaceIds
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZones
+            case networkInterfaceIds
             case securityGroupIds
             case subnetIds
         }

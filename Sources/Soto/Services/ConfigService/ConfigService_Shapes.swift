@@ -2094,7 +2094,7 @@ extension ConfigService {
         public let configurationAggregatorName: String
         /// Filters the result by AggregateConformancePackComplianceFilters object.
         public let filters: AggregateConformancePackComplianceFilters?
-        /// The maximum number of conformance packs details returned on each page. The default is maximum. If you specify 0, AWS Config uses the default.
+        /// The maximum number of conformance packs compliance details returned on each page. The default is maximum. If you specify 0, AWS Config uses the default.
         public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?

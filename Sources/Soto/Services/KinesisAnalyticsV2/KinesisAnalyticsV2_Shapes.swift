@@ -31,6 +31,7 @@ extension KinesisAnalyticsV2 {
         case autoscaling = "AUTOSCALING"
         case deleting = "DELETING"
         case forceStopping = "FORCE_STOPPING"
+        case maintenance = "MAINTENANCE"
         case ready = "READY"
         case running = "RUNNING"
         case starting = "STARTING"
@@ -609,6 +610,8 @@ extension KinesisAnalyticsV2 {
         public let applicationConfigurationDescription: ApplicationConfigurationDescription?
         /// The description of the application.
         public let applicationDescription: String?
+        /// Describes the time window for automatic application maintenance.
+        public let applicationMaintenanceConfigurationDescription: ApplicationMaintenanceConfigurationDescription?
         /// The name of the application.
         public let applicationName: String
         /// The status of the application.
@@ -621,15 +624,16 @@ extension KinesisAnalyticsV2 {
         public let createTimestamp: Date?
         /// The current timestamp when the application was last updated.
         public let lastUpdateTimestamp: Date?
-        /// The runtime environment for the application (SQL-1.0, FLINK-1_6, or FLINK-1_8).
+        /// The runtime environment for the application (SQL-1_0, FLINK-1_6, FLINK-1_8, or FLINK-1_11).
         public let runtimeEnvironment: RuntimeEnvironment
         /// Specifies the IAM role that the application uses to access external resources.
         public let serviceExecutionRole: String?
 
-        public init(applicationARN: String, applicationConfigurationDescription: ApplicationConfigurationDescription? = nil, applicationDescription: String? = nil, applicationName: String, applicationStatus: ApplicationStatus, applicationVersionId: Int64, cloudWatchLoggingOptionDescriptions: [CloudWatchLoggingOptionDescription]? = nil, createTimestamp: Date? = nil, lastUpdateTimestamp: Date? = nil, runtimeEnvironment: RuntimeEnvironment, serviceExecutionRole: String? = nil) {
+        public init(applicationARN: String, applicationConfigurationDescription: ApplicationConfigurationDescription? = nil, applicationDescription: String? = nil, applicationMaintenanceConfigurationDescription: ApplicationMaintenanceConfigurationDescription? = nil, applicationName: String, applicationStatus: ApplicationStatus, applicationVersionId: Int64, cloudWatchLoggingOptionDescriptions: [CloudWatchLoggingOptionDescription]? = nil, createTimestamp: Date? = nil, lastUpdateTimestamp: Date? = nil, runtimeEnvironment: RuntimeEnvironment, serviceExecutionRole: String? = nil) {
             self.applicationARN = applicationARN
             self.applicationConfigurationDescription = applicationConfigurationDescription
             self.applicationDescription = applicationDescription
+            self.applicationMaintenanceConfigurationDescription = applicationMaintenanceConfigurationDescription
             self.applicationName = applicationName
             self.applicationStatus = applicationStatus
             self.applicationVersionId = applicationVersionId
@@ -644,6 +648,7 @@ extension KinesisAnalyticsV2 {
             case applicationARN = "ApplicationARN"
             case applicationConfigurationDescription = "ApplicationConfigurationDescription"
             case applicationDescription = "ApplicationDescription"
+            case applicationMaintenanceConfigurationDescription = "ApplicationMaintenanceConfigurationDescription"
             case applicationName = "ApplicationName"
             case applicationStatus = "ApplicationStatus"
             case applicationVersionId = "ApplicationVersionId"
@@ -652,6 +657,42 @@ extension KinesisAnalyticsV2 {
             case lastUpdateTimestamp = "LastUpdateTimestamp"
             case runtimeEnvironment = "RuntimeEnvironment"
             case serviceExecutionRole = "ServiceExecutionRole"
+        }
+    }
+
+    public struct ApplicationMaintenanceConfigurationDescription: AWSDecodableShape {
+        /// The end time for the automatic maintenance window.
+        public let applicationMaintenanceWindowEndTime: String
+        /// The start time for the automatic maintenance window.
+        public let applicationMaintenanceWindowStartTime: String
+
+        public init(applicationMaintenanceWindowEndTime: String, applicationMaintenanceWindowStartTime: String) {
+            self.applicationMaintenanceWindowEndTime = applicationMaintenanceWindowEndTime
+            self.applicationMaintenanceWindowStartTime = applicationMaintenanceWindowStartTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationMaintenanceWindowEndTime = "ApplicationMaintenanceWindowEndTime"
+            case applicationMaintenanceWindowStartTime = "ApplicationMaintenanceWindowStartTime"
+        }
+    }
+
+    public struct ApplicationMaintenanceConfigurationUpdate: AWSEncodableShape {
+        /// The updated start time for the automatic maintenance window.
+        public let applicationMaintenanceWindowStartTimeUpdate: String
+
+        public init(applicationMaintenanceWindowStartTimeUpdate: String) {
+            self.applicationMaintenanceWindowStartTimeUpdate = applicationMaintenanceWindowStartTimeUpdate
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationMaintenanceWindowStartTimeUpdate, name: "applicationMaintenanceWindowStartTimeUpdate", parent: name, max: 5)
+            try self.validate(self.applicationMaintenanceWindowStartTimeUpdate, name: "applicationMaintenanceWindowStartTimeUpdate", parent: name, min: 5)
+            try self.validate(self.applicationMaintenanceWindowStartTimeUpdate, name: "applicationMaintenanceWindowStartTimeUpdate", parent: name, pattern: "([01][0-9]|2[0-3]):[0-5][0-9]")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationMaintenanceWindowStartTimeUpdate = "ApplicationMaintenanceWindowStartTimeUpdate"
         }
     }
 
@@ -726,7 +767,7 @@ extension KinesisAnalyticsV2 {
         public let applicationStatus: ApplicationStatus
         /// Provides the current application version.
         public let applicationVersionId: Int64
-        /// The runtime environment for the application (SQL-1.0, FLINK-1_6, or FLINK-1_8).
+        /// The runtime environment for the application (SQL-1_0, FLINK-1_6, FLINK-1_8, or FLINK-1_11).
         public let runtimeEnvironment: RuntimeEnvironment
 
         public init(applicationARN: String, applicationName: String, applicationStatus: ApplicationStatus, applicationVersionId: Int64, runtimeEnvironment: RuntimeEnvironment) {
@@ -773,7 +814,7 @@ extension KinesisAnalyticsV2 {
     public struct CheckpointConfiguration: AWSEncodableShape {
         /// Describes whether checkpointing is enabled for a Flink-based Kinesis Data Analytics application.  If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointingEnabled value of true, even if this value is set to another value using this API or in application code.
         public let checkpointingEnabled: Bool?
-        /// Describes the interval in milliseconds between checkpoint operations.   If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointInterval vaue of 60000, even if this value is set to another value using this API or in application code.
+        /// Describes the interval in milliseconds between checkpoint operations.   If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointInterval value of 60000, even if this value is set to another value using this API or in application code.
         public let checkpointInterval: Int64?
         /// Describes whether the application uses Kinesis Data Analytics' default checkpointing behavior. You must set this property to CUSTOM in order to set the CheckpointingEnabled, CheckpointInterval, or MinPauseBetweenCheckpoints parameters.  If this value is set to DEFAULT, the application will use the following values, even if they are set to other values using APIs or application code:    CheckpointingEnabled: true    CheckpointInterval: 60000    MinPauseBetweenCheckpoints: 5000
         public let configurationType: ConfigurationType
@@ -803,7 +844,7 @@ extension KinesisAnalyticsV2 {
     public struct CheckpointConfigurationDescription: AWSDecodableShape {
         /// Describes whether checkpointing is enabled for a Flink-based Kinesis Data Analytics application.  If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointingEnabled value of true, even if this value is set to another value using this API or in application code.
         public let checkpointingEnabled: Bool?
-        /// Describes the interval in milliseconds between checkpoint operations.   If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointInterval vaue of 60000, even if this value is set to another value using this API or in application code.
+        /// Describes the interval in milliseconds between checkpoint operations.   If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointInterval value of 60000, even if this value is set to another value using this API or in application code.
         public let checkpointInterval: Int64?
         /// Describes whether the application uses the default checkpointing behavior in Kinesis Data Analytics.   If this value is set to DEFAULT, the application will use the following values, even if they are set to other values using APIs or application code:    CheckpointingEnabled: true    CheckpointInterval: 60000    MinPauseBetweenCheckpoints: 5000
         public let configurationType: ConfigurationType?
@@ -828,7 +869,7 @@ extension KinesisAnalyticsV2 {
     public struct CheckpointConfigurationUpdate: AWSEncodableShape {
         /// Describes updates to whether checkpointing is enabled for an application.  If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointingEnabled value of true, even if this value is set to another value using this API or in application code.
         public let checkpointingEnabledUpdate: Bool?
-        /// Describes updates to the interval in milliseconds between checkpoint operations.  If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointInterval vaue of 60000, even if this value is set to another value using this API or in application code.
+        /// Describes updates to the interval in milliseconds between checkpoint operations.  If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointInterval value of 60000, even if this value is set to another value using this API or in application code.
         public let checkpointIntervalUpdate: Int64?
         /// Describes updates to whether the application uses the default checkpointing behavior of Kinesis Data Analytics. You must set this property to CUSTOM in order to set the CheckpointingEnabled, CheckpointInterval, or MinPauseBetweenCheckpoints parameters.   If this value is set to DEFAULT, the application will use the following values, even if they are set to other values using APIs or application code:    CheckpointingEnabled: true    CheckpointInterval: 60000    MinPauseBetweenCheckpoints: 5000
         public let configurationTypeUpdate: ConfigurationType?
@@ -1055,7 +1096,7 @@ extension KinesisAnalyticsV2 {
         public let applicationName: String
         /// Use this parameter to configure an Amazon CloudWatch log stream to monitor application configuration errors.
         public let cloudWatchLoggingOptions: [CloudWatchLoggingOption]?
-        /// The runtime environment for the application (SQL-1.0, FLINK-1_6, or FLINK-1_8).
+        /// The runtime environment for the application (SQL-1_0, FLINK-1_6, FLINK-1_8, or FLINK-1_11).
         public let runtimeEnvironment: RuntimeEnvironment
         /// The IAM role used by the application to access Kinesis data streams, Kinesis Data Firehose delivery streams, Amazon S3 objects, and other external resources.
         public let serviceExecutionRole: String
@@ -3505,6 +3546,47 @@ extension KinesisAnalyticsV2 {
 
     public struct UntagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateApplicationMaintenanceConfigurationRequest: AWSEncodableShape {
+        /// Describes the application maintenance configuration update.
+        public let applicationMaintenanceConfigurationUpdate: ApplicationMaintenanceConfigurationUpdate
+        /// The name of the application for which you want to update the maintenance time window.
+        public let applicationName: String
+
+        public init(applicationMaintenanceConfigurationUpdate: ApplicationMaintenanceConfigurationUpdate, applicationName: String) {
+            self.applicationMaintenanceConfigurationUpdate = applicationMaintenanceConfigurationUpdate
+            self.applicationName = applicationName
+        }
+
+        public func validate(name: String) throws {
+            try self.applicationMaintenanceConfigurationUpdate.validate(name: "\(name).applicationMaintenanceConfigurationUpdate")
+            try self.validate(self.applicationName, name: "applicationName", parent: name, max: 128)
+            try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationMaintenanceConfigurationUpdate = "ApplicationMaintenanceConfigurationUpdate"
+            case applicationName = "ApplicationName"
+        }
+    }
+
+    public struct UpdateApplicationMaintenanceConfigurationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the application.
+        public let applicationARN: String?
+        /// The application maintenance configuration description after the update.
+        public let applicationMaintenanceConfigurationDescription: ApplicationMaintenanceConfigurationDescription?
+
+        public init(applicationARN: String? = nil, applicationMaintenanceConfigurationDescription: ApplicationMaintenanceConfigurationDescription? = nil) {
+            self.applicationARN = applicationARN
+            self.applicationMaintenanceConfigurationDescription = applicationMaintenanceConfigurationDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationARN = "ApplicationARN"
+            case applicationMaintenanceConfigurationDescription = "ApplicationMaintenanceConfigurationDescription"
+        }
     }
 
     public struct UpdateApplicationRequest: AWSEncodableShape {

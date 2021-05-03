@@ -46,6 +46,13 @@ extension CodeBuild {
         public var description: String { return self.rawValue }
     }
 
+    public enum BucketOwnerAccess: String, CustomStringConvertible, Codable {
+        case full = "FULL"
+        case none = "NONE"
+        case readOnly = "READ_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BuildBatchPhaseType: String, CustomStringConvertible, Codable {
         case combineArtifacts = "COMBINE_ARTIFACTS"
         case downloadBatchspec = "DOWNLOAD_BATCHSPEC"
@@ -565,7 +572,7 @@ extension CodeBuild {
         public let endTime: Date?
         /// Information about the build environment for this build.
         public let environment: ProjectEnvironment?
-        ///  A list of exported environment variables for this build.
+        /// A list of exported environment variables for this build. Exported environment variables are used in conjunction with AWS CodePipeline to export environment variables from the current build stage to subsequent stages in the pipeline. For more information, see Working with variables in the AWS CodePipeline User Guide.
         public let exportedEnvironmentVariables: [ExportedEnvironmentVariable]?
         ///  An array of ProjectFileSystemLocation objects for a CodeBuild build project. A ProjectFileSystemLocation object specifies the identifier, location, mountOptions, mountPoint, and type of a file system created using Amazon Elastic File System.
         public let fileSystemLocations: [ProjectFileSystemLocation]?
@@ -680,6 +687,7 @@ extension CodeBuild {
     public struct BuildArtifacts: AWSDecodableShape {
         ///  An identifier for this artifact definition.
         public let artifactIdentifier: String?
+        public let bucketOwnerAccess: BucketOwnerAccess?
         ///  Information that tells you if encryption for build artifacts is disabled.
         public let encryptionDisabled: Bool?
         /// Information about the location of the build artifacts.
@@ -691,8 +699,9 @@ extension CodeBuild {
         /// The SHA-256 hash of the build artifact. You can use this hash along with a checksum tool to confirm file integrity and authenticity.  This value is available only if the build project's packaging value is set to ZIP.
         public let sha256sum: String?
 
-        public init(artifactIdentifier: String? = nil, encryptionDisabled: Bool? = nil, location: String? = nil, md5sum: String? = nil, overrideArtifactName: Bool? = nil, sha256sum: String? = nil) {
+        public init(artifactIdentifier: String? = nil, bucketOwnerAccess: BucketOwnerAccess? = nil, encryptionDisabled: Bool? = nil, location: String? = nil, md5sum: String? = nil, overrideArtifactName: Bool? = nil, sha256sum: String? = nil) {
             self.artifactIdentifier = artifactIdentifier
+            self.bucketOwnerAccess = bucketOwnerAccess
             self.encryptionDisabled = encryptionDisabled
             self.location = location
             self.md5sum = md5sum
@@ -702,6 +711,7 @@ extension CodeBuild {
 
         private enum CodingKeys: String, CodingKey {
             case artifactIdentifier
+            case bucketOwnerAccess
             case encryptionDisabled
             case location
             case md5sum
@@ -729,7 +739,7 @@ extension CodeBuild {
         public let complete: Bool?
         /// The current phase of the batch build.
         public let currentPhase: String?
-        ///  Specifies if session debugging is enabled for this batch build. For more information, see Viewing a running build in Session Manager. Batch session debugging is not supported for matrix batch builds.
+        /// Specifies if session debugging is enabled for this batch build. For more information, see Viewing a running build in Session Manager. Batch session debugging is not supported for matrix batch builds.
         public let debugSessionEnabled: Bool?
         /// The AWS Key Management Service (AWS KMS) customer master key (CMK) to be used for encrypting the batch build output artifacts.  You can use a cross-account KMS key to encrypt the build output artifacts if your service role has permission to that key.   You can specify either the Amazon Resource Name (ARN) of the CMK or, if available, the CMK's alias (using the format alias/&lt;alias-name&gt;).
         public let encryptionKey: String?
@@ -1726,9 +1736,9 @@ extension CodeBuild {
     }
 
     public struct ExportedEnvironmentVariable: AWSDecodableShape {
-        ///  The name of this exported environment variable.
+        /// The name of the exported environment variable.
         public let name: String?
-        ///  The value assigned to this exported environment variable.    During a build, the value of a variable is available starting with the install phase. It can be updated between the start of the install phase and the end of the post_build phase. After the post_build phase ends, the value of exported variables cannot change.
+        /// The value assigned to the exported environment variable.
         public let value: String?
 
         public init(name: String? = nil, value: String? = nil) {
@@ -2592,6 +2602,7 @@ extension CodeBuild {
     public struct ProjectArtifacts: AWSEncodableShape & AWSDecodableShape {
         ///  An identifier for this artifact definition.
         public let artifactIdentifier: String?
+        public let bucketOwnerAccess: BucketOwnerAccess?
         ///  Set to true if you do not want your output artifacts encrypted. This option is valid only if your artifacts type is Amazon S3. If this is set with another artifacts type, an invalidInputException is thrown.
         public let encryptionDisabled: Bool?
         /// Information about the build output artifact location:   If type is set to CODEPIPELINE, AWS CodePipeline ignores this value if specified. This is because AWS CodePipeline manages its build output locations instead of AWS CodeBuild.   If type is set to NO_ARTIFACTS, this value is ignored if specified, because no build output is produced.   If type is set to S3, this is the name of the output bucket.
@@ -2609,8 +2620,9 @@ extension CodeBuild {
         /// The type of build output artifact. Valid values include:    CODEPIPELINE: The build project has build output generated through AWS CodePipeline.   The CODEPIPELINE type is not supported for secondaryArtifacts.     NO_ARTIFACTS: The build project does not produce any build output.    S3: The build project stores build output in Amazon S3.
         public let type: ArtifactsType
 
-        public init(artifactIdentifier: String? = nil, encryptionDisabled: Bool? = nil, location: String? = nil, name: String? = nil, namespaceType: ArtifactNamespace? = nil, overrideArtifactName: Bool? = nil, packaging: ArtifactPackaging? = nil, path: String? = nil, type: ArtifactsType) {
+        public init(artifactIdentifier: String? = nil, bucketOwnerAccess: BucketOwnerAccess? = nil, encryptionDisabled: Bool? = nil, location: String? = nil, name: String? = nil, namespaceType: ArtifactNamespace? = nil, overrideArtifactName: Bool? = nil, packaging: ArtifactPackaging? = nil, path: String? = nil, type: ArtifactsType) {
             self.artifactIdentifier = artifactIdentifier
+            self.bucketOwnerAccess = bucketOwnerAccess
             self.encryptionDisabled = encryptionDisabled
             self.location = location
             self.name = name
@@ -2623,6 +2635,7 @@ extension CodeBuild {
 
         private enum CodingKeys: String, CodingKey {
             case artifactIdentifier
+            case bucketOwnerAccess
             case encryptionDisabled
             case location
             case name
@@ -3168,6 +3181,7 @@ extension CodeBuild {
     }
 
     public struct S3LogsConfig: AWSEncodableShape & AWSDecodableShape {
+        public let bucketOwnerAccess: BucketOwnerAccess?
         ///  Set to true if you do not want your S3 build log output encrypted. By default S3 build logs are encrypted.
         public let encryptionDisabled: Bool?
         ///  The ARN of an S3 bucket and the path prefix for S3 logs. If your Amazon S3 bucket name is my-bucket, and your path prefix is build-log, then acceptable formats are my-bucket/build-log or arn:aws:s3:::my-bucket/build-log.
@@ -3175,13 +3189,15 @@ extension CodeBuild {
         /// The current status of the S3 build logs. Valid values are:    ENABLED: S3 build logs are enabled for this build project.    DISABLED: S3 build logs are not enabled for this build project.
         public let status: LogsConfigStatusType
 
-        public init(encryptionDisabled: Bool? = nil, location: String? = nil, status: LogsConfigStatusType) {
+        public init(bucketOwnerAccess: BucketOwnerAccess? = nil, encryptionDisabled: Bool? = nil, location: String? = nil, status: LogsConfigStatusType) {
+            self.bucketOwnerAccess = bucketOwnerAccess
             self.encryptionDisabled = encryptionDisabled
             self.location = location
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bucketOwnerAccess
             case encryptionDisabled
             case location
             case status

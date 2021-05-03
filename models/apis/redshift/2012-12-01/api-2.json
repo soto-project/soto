@@ -32,6 +32,23 @@
         {"shape":"ReservedNodeAlreadyExistsFault"}
       ]
     },
+    "AddPartner":{
+      "name":"AddPartner",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"PartnerIntegrationInputMessage"},
+      "output":{
+        "shape":"PartnerIntegrationOutputMessage",
+        "resultWrapper":"AddPartnerResult"
+      },
+      "errors":[
+        {"shape":"PartnerNotFoundFault"},
+        {"shape":"ClusterNotFoundFault"},
+        {"shape":"UnauthorizedPartnerIntegrationFault"}
+      ]
+    },
     "AuthorizeClusterSecurityGroupIngress":{
       "name":"AuthorizeClusterSecurityGroupIngress",
       "http":{
@@ -580,6 +597,23 @@
         {"shape":"HsmConfigurationNotFoundFault"}
       ]
     },
+    "DeletePartner":{
+      "name":"DeletePartner",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"PartnerIntegrationInputMessage"},
+      "output":{
+        "shape":"PartnerIntegrationOutputMessage",
+        "resultWrapper":"DeletePartnerResult"
+      },
+      "errors":[
+        {"shape":"PartnerNotFoundFault"},
+        {"shape":"ClusterNotFoundFault"},
+        {"shape":"UnauthorizedPartnerIntegrationFault"}
+      ]
+    },
     "DeleteScheduledAction":{
       "name":"DeleteScheduledAction",
       "http":{
@@ -954,6 +988,22 @@
         "resultWrapper":"DescribeOrderableClusterOptionsResult"
       }
     },
+    "DescribePartners":{
+      "name":"DescribePartners",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DescribePartnersInputMessage"},
+      "output":{
+        "shape":"DescribePartnersOutputMessage",
+        "resultWrapper":"DescribePartnersResult"
+      },
+      "errors":[
+        {"shape":"ClusterNotFoundFault"},
+        {"shape":"UnauthorizedPartnerIntegrationFault"}
+      ]
+    },
     "DescribeReservedNodeOfferings":{
       "name":"DescribeReservedNodeOfferings",
       "http":{
@@ -1218,6 +1268,22 @@
         {"shape":"ReservedNodeOfferingNotFoundFault"},
         {"shape":"UnsupportedOperationFault"},
         {"shape":"DependentServiceUnavailableFault"}
+      ]
+    },
+    "ModifyAquaConfiguration":{
+      "name":"ModifyAquaConfiguration",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"ModifyAquaInputMessage"},
+      "output":{
+        "shape":"ModifyAquaOutputMessage",
+        "resultWrapper":"ModifyAquaConfigurationResult"
+      },
+      "errors":[
+        {"shape":"ClusterNotFoundFault"},
+        {"shape":"UnsupportedOperationFault"}
       ]
     },
     "ModifyCluster":{
@@ -1720,6 +1786,23 @@
         {"shape":"InvalidClusterStateFault"},
         {"shape":"DependentServiceRequestThrottlingFault"}
       ]
+    },
+    "UpdatePartnerStatus":{
+      "name":"UpdatePartnerStatus",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"UpdatePartnerStatusInputMessage"},
+      "output":{
+        "shape":"PartnerIntegrationOutputMessage",
+        "resultWrapper":"UpdatePartnerStatusResult"
+      },
+      "errors":[
+        {"shape":"PartnerNotFoundFault"},
+        {"shape":"ClusterNotFoundFault"},
+        {"shape":"UnauthorizedPartnerIntegrationFault"}
+      ]
     }
   },
   "shapes":{
@@ -1795,6 +1878,29 @@
         "restore-cluster",
         "recommend-node-config",
         "resize-cluster"
+      ]
+    },
+    "AquaConfiguration":{
+      "type":"structure",
+      "members":{
+        "AquaStatus":{"shape":"AquaStatus"},
+        "AquaConfigurationStatus":{"shape":"AquaConfigurationStatus"}
+      }
+    },
+    "AquaConfigurationStatus":{
+      "type":"string",
+      "enum":[
+        "enabled",
+        "disabled",
+        "auto"
+      ]
+    },
+    "AquaStatus":{
+      "type":"string",
+      "enum":[
+        "enabled",
+        "disabled",
+        "applying"
       ]
     },
     "AssociatedClusterList":{
@@ -2066,7 +2172,8 @@
         "ResizeInfo":{"shape":"ResizeInfo"},
         "AvailabilityZoneRelocationStatus":{"shape":"String"},
         "ClusterNamespaceArn":{"shape":"String"},
-        "TotalStorageCapacityInMegaBytes":{"shape":"LongOptional"}
+        "TotalStorageCapacityInMegaBytes":{"shape":"LongOptional"},
+        "AquaConfiguration":{"shape":"AquaConfiguration"}
       },
       "wrapper":true
     },
@@ -2565,7 +2672,8 @@
         "IamRoles":{"shape":"IamRoleArnList"},
         "MaintenanceTrackName":{"shape":"String"},
         "SnapshotScheduleIdentifier":{"shape":"String"},
-        "AvailabilityZoneRelocation":{"shape":"BooleanOptional"}
+        "AvailabilityZoneRelocation":{"shape":"BooleanOptional"},
+        "AquaConfigurationStatus":{"shape":"AquaConfigurationStatus"}
       }
     },
     "CreateClusterParameterGroupMessage":{
@@ -3210,6 +3318,25 @@
         "NodeType":{"shape":"String"},
         "MaxRecords":{"shape":"IntegerOptional"},
         "Marker":{"shape":"String"}
+      }
+    },
+    "DescribePartnersInputMessage":{
+      "type":"structure",
+      "required":[
+        "AccountId",
+        "ClusterIdentifier"
+      ],
+      "members":{
+        "AccountId":{"shape":"PartnerIntegrationAccountId"},
+        "ClusterIdentifier":{"shape":"PartnerIntegrationClusterIdentifier"},
+        "DatabaseName":{"shape":"PartnerIntegrationDatabaseName"},
+        "PartnerName":{"shape":"PartnerIntegrationPartnerName"}
+      }
+    },
+    "DescribePartnersOutputMessage":{
+      "type":"structure",
+      "members":{
+        "PartnerIntegrationInfoList":{"shape":"PartnerIntegrationInfoList"}
       }
     },
     "DescribeReservedNodeOfferingsMessage":{
@@ -4210,6 +4337,20 @@
         "high-performance"
       ]
     },
+    "ModifyAquaInputMessage":{
+      "type":"structure",
+      "required":["ClusterIdentifier"],
+      "members":{
+        "ClusterIdentifier":{"shape":"String"},
+        "AquaConfigurationStatus":{"shape":"AquaConfigurationStatus"}
+      }
+    },
+    "ModifyAquaOutputMessage":{
+      "type":"structure",
+      "members":{
+        "AquaConfiguration":{"shape":"AquaConfiguration"}
+      }
+    },
     "ModifyClusterDbRevisionMessage":{
       "type":"structure",
       "required":[
@@ -4588,6 +4729,92 @@
         "locationName":"Parameter"
       }
     },
+    "PartnerIntegrationAccountId":{
+      "type":"string",
+      "max":12,
+      "min":12,
+      "pattern":"^[0-9]+$"
+    },
+    "PartnerIntegrationClusterIdentifier":{
+      "type":"string",
+      "max":63,
+      "pattern":"^[a-zA-Z0-9\\-]+$"
+    },
+    "PartnerIntegrationDatabaseName":{
+      "type":"string",
+      "max":127,
+      "pattern":"^[\\p{L}_][\\p{L}\\p{N}@$#_]+$"
+    },
+    "PartnerIntegrationInfo":{
+      "type":"structure",
+      "members":{
+        "DatabaseName":{"shape":"PartnerIntegrationDatabaseName"},
+        "PartnerName":{"shape":"PartnerIntegrationPartnerName"},
+        "Status":{"shape":"PartnerIntegrationStatus"},
+        "StatusMessage":{"shape":"PartnerIntegrationStatusMessage"},
+        "CreatedAt":{"shape":"TStamp"},
+        "UpdatedAt":{"shape":"TStamp"}
+      }
+    },
+    "PartnerIntegrationInfoList":{
+      "type":"list",
+      "member":{
+        "shape":"PartnerIntegrationInfo",
+        "locationName":"PartnerIntegrationInfo"
+      }
+    },
+    "PartnerIntegrationInputMessage":{
+      "type":"structure",
+      "required":[
+        "AccountId",
+        "ClusterIdentifier",
+        "DatabaseName",
+        "PartnerName"
+      ],
+      "members":{
+        "AccountId":{"shape":"PartnerIntegrationAccountId"},
+        "ClusterIdentifier":{"shape":"PartnerIntegrationClusterIdentifier"},
+        "DatabaseName":{"shape":"PartnerIntegrationDatabaseName"},
+        "PartnerName":{"shape":"PartnerIntegrationPartnerName"}
+      }
+    },
+    "PartnerIntegrationOutputMessage":{
+      "type":"structure",
+      "members":{
+        "DatabaseName":{"shape":"PartnerIntegrationDatabaseName"},
+        "PartnerName":{"shape":"PartnerIntegrationPartnerName"}
+      }
+    },
+    "PartnerIntegrationPartnerName":{
+      "type":"string",
+      "max":255,
+      "pattern":"^[a-zA-Z0-9\\-_]+$"
+    },
+    "PartnerIntegrationStatus":{
+      "type":"string",
+      "enum":[
+        "Active",
+        "Inactive",
+        "RuntimeFailure",
+        "ConnectionFailure"
+      ]
+    },
+    "PartnerIntegrationStatusMessage":{
+      "type":"string",
+      "max":262144,
+      "pattern":"^[\\x20-\\x7E]+$"
+    },
+    "PartnerNotFoundFault":{
+      "type":"structure",
+      "members":{
+      },
+      "error":{
+        "code":"PartnerNotFound",
+        "httpStatusCode":404,
+        "senderFault":true
+      },
+      "exception":true
+    },
     "PauseClusterMessage":{
       "type":"structure",
       "required":["ClusterIdentifier"],
@@ -4903,7 +5130,8 @@
         "MaintenanceTrackName":{"shape":"String"},
         "SnapshotScheduleIdentifier":{"shape":"String"},
         "NumberOfNodes":{"shape":"IntegerOptional"},
-        "AvailabilityZoneRelocation":{"shape":"BooleanOptional"}
+        "AvailabilityZoneRelocation":{"shape":"BooleanOptional"},
+        "AquaConfigurationStatus":{"shape":"AquaConfigurationStatus"}
       }
     },
     "RestoreFromClusterSnapshotResult":{
@@ -4940,7 +5168,8 @@
         "SourceTableName":{"shape":"String"},
         "TargetDatabaseName":{"shape":"String"},
         "TargetSchemaName":{"shape":"String"},
-        "NewTableName":{"shape":"String"}
+        "NewTableName":{"shape":"String"},
+        "EnableCaseSensitiveIdentifier":{"shape":"BooleanOptional"}
       }
     },
     "RestoreTableFromClusterSnapshotResult":{
@@ -5782,6 +6011,17 @@
       },
       "exception":true
     },
+    "UnauthorizedPartnerIntegrationFault":{
+      "type":"structure",
+      "members":{
+      },
+      "error":{
+        "code":"UnauthorizedPartnerIntegration",
+        "httpStatusCode":401,
+        "senderFault":true
+      },
+      "exception":true
+    },
     "UnknownSnapshotCopyRegionFault":{
       "type":"structure",
       "members":{
@@ -5814,6 +6054,24 @@
         "senderFault":true
       },
       "exception":true
+    },
+    "UpdatePartnerStatusInputMessage":{
+      "type":"structure",
+      "required":[
+        "AccountId",
+        "ClusterIdentifier",
+        "DatabaseName",
+        "PartnerName",
+        "Status"
+      ],
+      "members":{
+        "AccountId":{"shape":"PartnerIntegrationAccountId"},
+        "ClusterIdentifier":{"shape":"PartnerIntegrationClusterIdentifier"},
+        "DatabaseName":{"shape":"PartnerIntegrationDatabaseName"},
+        "PartnerName":{"shape":"PartnerIntegrationPartnerName"},
+        "Status":{"shape":"PartnerIntegrationStatus"},
+        "StatusMessage":{"shape":"PartnerIntegrationStatusMessage"}
+      }
     },
     "UpdateTarget":{
       "type":"structure",

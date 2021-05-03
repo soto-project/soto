@@ -92,6 +92,11 @@ public struct CloudFront: AWSService {
         return self.client.execute(operation: "CreateFieldLevelEncryptionProfile2020_05_31", path: "/2020-05-31/field-level-encryption-profile", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates a CloudFront function. To create a function, you provide the function code and some configuration information about the function. The response contains an Amazon Resource Name (ARN) that uniquely identifies the function. When you create a function, it’s in the DEVELOPMENT stage. In this stage, you can test the function with TestFunction, and update it with UpdateFunction. When you’re ready to use your function with a CloudFront distribution, use PublishFunction to copy the function from the DEVELOPMENT stage to LIVE. When it’s live, you can attach the function to a distribution’s cache behavior, using the function’s ARN.
+    public func createFunction(_ input: CreateFunctionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFunctionResult> {
+        return self.client.execute(operation: "CreateFunction2020_05_31", path: "/2020-05-31/function", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Create a new invalidation.
     public func createInvalidation(_ input: CreateInvalidationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateInvalidationResult> {
         return self.client.execute(operation: "CreateInvalidation2020_05_31", path: "/2020-05-31/distribution/{DistributionId}/invalidation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -157,6 +162,11 @@ public struct CloudFront: AWSService {
         return self.client.execute(operation: "DeleteFieldLevelEncryptionProfile2020_05_31", path: "/2020-05-31/field-level-encryption-profile/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes a CloudFront function. You cannot delete a function if it’s associated with a cache behavior. First, update your distributions to remove the function association from all cache behaviors, then delete the function. To delete a function, you must provide the function’s name and version (ETag value). To get these values, you can use ListFunctions and DescribeFunction.
+    @discardableResult public func deleteFunction(_ input: DeleteFunctionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteFunction2020_05_31", path: "/2020-05-31/function/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes a key group. You cannot delete a key group that is referenced in a cache behavior. First update your distributions to remove the key group from all cache behaviors, then delete the key group. To delete a key group, you must provide the key group’s identifier and version. To get these values, use ListKeyGroups followed by GetKeyGroup or GetKeyGroupConfig.
     @discardableResult public func deleteKeyGroup(_ input: DeleteKeyGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteKeyGroup2020_05_31", path: "/2020-05-31/key-group/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -185,6 +195,11 @@ public struct CloudFront: AWSService {
     /// Delete a streaming distribution. To delete an RTMP distribution using the CloudFront API, perform the following steps.  To delete an RTMP distribution using the CloudFront API:   Disable the RTMP distribution.   Submit a GET Streaming Distribution Config request to get the current configuration and the Etag header for the distribution.    Update the XML document that was returned in the response to your GET Streaming Distribution Config request to change the value of Enabled to false.   Submit a PUT Streaming Distribution Config request to update the configuration for your distribution. In the request body, include the XML document that you updated in Step 3. Then set the value of the HTTP If-Match header to the value of the ETag header that CloudFront returned when you submitted the GET Streaming Distribution Config request in Step 2.   Review the response to the PUT Streaming Distribution Config request to confirm that the distribution was successfully disabled.   Submit a GET Streaming Distribution Config request to confirm that your changes have propagated. When propagation is complete, the value of Status is Deployed.   Submit a DELETE Streaming Distribution request. Set the value of the HTTP If-Match header to the value of the ETag header that CloudFront returned when you submitted the GET Streaming Distribution Config request in Step 2.   Review the response to your DELETE Streaming Distribution request to confirm that the distribution was successfully deleted.   For information about deleting a distribution using the CloudFront console, see Deleting a Distribution in the Amazon CloudFront Developer Guide.
     @discardableResult public func deleteStreamingDistribution(_ input: DeleteStreamingDistributionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteStreamingDistribution2020_05_31", path: "/2020-05-31/streaming-distribution/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets configuration information and metadata about a CloudFront function, but not the function’s code. To get a function’s code, use GetFunction. To get configuration information and metadata about a function, you must provide the function’s name and stage. To get these values, you can use ListFunctions.
+    public func describeFunction(_ input: DescribeFunctionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeFunctionResult> {
+        return self.client.execute(operation: "DescribeFunction2020_05_31", path: "/2020-05-31/function/{Name}/describe", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets a cache policy, including the following metadata:   The policy’s identifier.   The date and time when the policy was last modified.   To get a cache policy, you must provide the policy’s identifier. If the cache policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies.
@@ -235,6 +250,11 @@ public struct CloudFront: AWSService {
     /// Get the field-level encryption profile configuration information.
     public func getFieldLevelEncryptionProfileConfig(_ input: GetFieldLevelEncryptionProfileConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFieldLevelEncryptionProfileConfigResult> {
         return self.client.execute(operation: "GetFieldLevelEncryptionProfileConfig2020_05_31", path: "/2020-05-31/field-level-encryption-profile/{Id}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets the code of a CloudFront function. To get configuration information and metadata about a function, use DescribeFunction. To get a function’s code, you must provide the function’s name and stage. To get these values, you can use ListFunctions.
+    public func getFunction(_ input: GetFunctionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFunctionResult> {
+        return self.client.execute(operation: "GetFunction2020_05_31", path: "/2020-05-31/function/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Get the information about an invalidation.
@@ -342,6 +362,11 @@ public struct CloudFront: AWSService {
         return self.client.execute(operation: "ListFieldLevelEncryptionProfiles2020_05_31", path: "/2020-05-31/field-level-encryption-profile", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets a list of all CloudFront functions in your AWS account. You can optionally apply a filter to return only the functions that are in the specified stage, either DEVELOPMENT or LIVE. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
+    public func listFunctions(_ input: ListFunctionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFunctionsResult> {
+        return self.client.execute(operation: "ListFunctions2020_05_31", path: "/2020-05-31/function", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists invalidation batches.
     public func listInvalidations(_ input: ListInvalidationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListInvalidationsResult> {
         return self.client.execute(operation: "ListInvalidations2020_05_31", path: "/2020-05-31/distribution/{DistributionId}/invalidation", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -377,9 +402,19 @@ public struct CloudFront: AWSService {
         return self.client.execute(operation: "ListTagsForResource2020_05_31", path: "/2020-05-31/tagging", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Publishes a CloudFront function by copying the function code from the DEVELOPMENT stage to LIVE. This automatically updates all cache behaviors that are using this function to use the newly published copy in the LIVE stage. When a function is published to the LIVE stage, you can attach the function to a distribution’s cache behavior, using the function’s Amazon Resource Name (ARN). To publish a function, you must provide the function’s name and version (ETag value). To get these values, you can use ListFunctions and DescribeFunction.
+    public func publishFunction(_ input: PublishFunctionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PublishFunctionResult> {
+        return self.client.execute(operation: "PublishFunction2020_05_31", path: "/2020-05-31/function/{Name}/publish", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Add tags to a CloudFront resource.
     @discardableResult public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "TagResource2020_05_31", path: "/2020-05-31/tagging?Operation=Tag", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Tests a CloudFront function. To test a function, you provide an event object that represents an HTTP request or response that your CloudFront distribution could receive in production. CloudFront runs the function, passing it the event object that you provided, and returns the function’s result (the modified event object) in the response. The response also contains function logs and error messages, if any exist. For more information about testing functions, see Testing functions in the Amazon CloudFront Developer Guide. To test a function, you provide the function’s name and version (ETag value) along with the event object. To get the function’s name and version, you can use ListFunctions and DescribeFunction.
+    public func testFunction(_ input: TestFunctionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TestFunctionResult> {
+        return self.client.execute(operation: "TestFunction2020_05_31", path: "/2020-05-31/function/{Name}/test", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Remove tags from a CloudFront resource.
@@ -410,6 +445,11 @@ public struct CloudFront: AWSService {
     /// Update a field-level encryption profile.
     public func updateFieldLevelEncryptionProfile(_ input: UpdateFieldLevelEncryptionProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateFieldLevelEncryptionProfileResult> {
         return self.client.execute(operation: "UpdateFieldLevelEncryptionProfile2020_05_31", path: "/2020-05-31/field-level-encryption-profile/{Id}/config", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates a CloudFront function. You can update a function’s code or the comment that describes the function. You cannot update a function’s name. To update a function, you provide the function’s name and version (ETag value) along with the updated function code. To get the name and version, you can use ListFunctions and DescribeFunction.
+    public func updateFunction(_ input: UpdateFunctionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateFunctionResult> {
+        return self.client.execute(operation: "UpdateFunction2020_05_31", path: "/2020-05-31/function/{Name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates a key group. When you update a key group, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update a key group:   Get the current key group with GetKeyGroup or GetKeyGroupConfig.   Locally modify the fields in the key group that you want to update. For example, add or remove public key IDs.   Call UpdateKeyGroup with the entire key group object, including the fields that you modified and those that you didn’t.

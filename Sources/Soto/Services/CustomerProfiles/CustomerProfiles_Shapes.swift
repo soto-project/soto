@@ -349,10 +349,15 @@ extension CustomerProfiles {
     }
 
     public struct ConnectorOperator: AWSEncodableShape {
+        /// The operation to be performed on the provided Marketo source fields.
         public let marketo: MarketoConnectorOperator?
+        /// The operation to be performed on the provided Amazon S3 source fields.
         public let s3: S3ConnectorOperator?
+        /// The operation to be performed on the provided Salesforce source fields.
         public let salesforce: SalesforceConnectorOperator?
+        /// The operation to be performed on the provided ServiceNow source fields.
         public let serviceNow: ServiceNowConnectorOperator?
+        /// The operation to be performed on the provided Zendesk source fields.
         public let zendesk: ZendeskConnectorOperator?
 
         public init(marketo: MarketoConnectorOperator? = nil, s3: S3ConnectorOperator? = nil, salesforce: SalesforceConnectorOperator? = nil, serviceNow: ServiceNowConnectorOperator? = nil, zendesk: ZendeskConnectorOperator? = nil) {
@@ -385,14 +390,17 @@ extension CustomerProfiles {
         public let defaultExpirationDays: Int
         /// The unique name of the domain.
         public let domainName: String
+        /// The process of matching duplicate profiles. This process runs every Saturday at 12AM.
+        public let matching: MatchingRequest?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
-        public init(deadLetterQueueUrl: String? = nil, defaultEncryptionKey: String? = nil, defaultExpirationDays: Int, domainName: String, tags: [String: String]? = nil) {
+        public init(deadLetterQueueUrl: String? = nil, defaultEncryptionKey: String? = nil, defaultExpirationDays: Int, domainName: String, matching: MatchingRequest? = nil, tags: [String: String]? = nil) {
             self.deadLetterQueueUrl = deadLetterQueueUrl
             self.defaultEncryptionKey = defaultEncryptionKey
             self.defaultExpirationDays = defaultExpirationDays
             self.domainName = domainName
+            self.matching = matching
             self.tags = tags
         }
 
@@ -418,6 +426,7 @@ extension CustomerProfiles {
             case deadLetterQueueUrl = "DeadLetterQueueUrl"
             case defaultEncryptionKey = "DefaultEncryptionKey"
             case defaultExpirationDays = "DefaultExpirationDays"
+            case matching = "Matching"
             case tags = "Tags"
         }
     }
@@ -435,16 +444,19 @@ extension CustomerProfiles {
         public let domainName: String
         /// The timestamp of when the domain was most recently edited.
         public let lastUpdatedAt: Date
+        /// The process of matching duplicate profiles. This process runs every Saturday at 12AM.
+        public let matching: MatchingResponse?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
-        public init(createdAt: Date, deadLetterQueueUrl: String? = nil, defaultEncryptionKey: String? = nil, defaultExpirationDays: Int, domainName: String, lastUpdatedAt: Date, tags: [String: String]? = nil) {
+        public init(createdAt: Date, deadLetterQueueUrl: String? = nil, defaultEncryptionKey: String? = nil, defaultExpirationDays: Int, domainName: String, lastUpdatedAt: Date, matching: MatchingResponse? = nil, tags: [String: String]? = nil) {
             self.createdAt = createdAt
             self.deadLetterQueueUrl = deadLetterQueueUrl
             self.defaultEncryptionKey = defaultEncryptionKey
             self.defaultExpirationDays = defaultExpirationDays
             self.domainName = domainName
             self.lastUpdatedAt = lastUpdatedAt
+            self.matching = matching
             self.tags = tags
         }
 
@@ -455,6 +467,7 @@ extension CustomerProfiles {
             case defaultExpirationDays = "DefaultExpirationDays"
             case domainName = "DomainName"
             case lastUpdatedAt = "LastUpdatedAt"
+            case matching = "Matching"
             case tags = "Tags"
         }
     }
@@ -466,7 +479,7 @@ extension CustomerProfiles {
 
         /// A unique account number that you have given to the customer.
         public let accountNumber: String?
-        /// Any additional information relevant to the customer's profile.
+        /// Any additional information relevant to the customer’s profile.
         public let additionalInformation: String?
         /// A generic address associated with the customer that is not mailing, shipping, or billing.
         public let address: Address?
@@ -484,7 +497,7 @@ extension CustomerProfiles {
         public let businessPhoneNumber: String?
         /// The unique name of the domain.
         public let domainName: String
-        /// The customer's email address, which has not been specified as a personal or business address.
+        /// The customer’s email address, which has not been specified as a personal or business address.
         public let emailAddress: String?
         /// The customer’s first name.
         public let firstName: String?
@@ -504,7 +517,7 @@ extension CustomerProfiles {
         public let partyType: PartyType?
         /// The customer’s personal email address.
         public let personalEmailAddress: String?
-        /// The customer's phone number, which has not been specified as a mobile, home, or business number.
+        /// The customer’s phone number, which has not been specified as a mobile, home, or business number.
         public let phoneNumber: String?
         /// The customer’s shipping address.
         public let shippingAddress: Address?
@@ -905,12 +918,139 @@ extension CustomerProfiles {
         }
     }
 
+    public struct FieldSourceProfileIds: AWSEncodableShape {
+        /// A unique identifier for the account number field to be merged.
+        public let accountNumber: String?
+        /// A unique identifier for the additional information field to be merged.
+        public let additionalInformation: String?
+        /// A unique identifier for the party type field to be merged.
+        public let address: String?
+        /// A unique identifier for the attributes field to be merged.
+        public let attributes: [String: String]?
+        /// A unique identifier for the billing type field to be merged.
+        public let billingAddress: String?
+        /// A unique identifier for the birthdate field to be merged.
+        public let birthDate: String?
+        /// A unique identifier for the party type field to be merged.
+        public let businessEmailAddress: String?
+        /// A unique identifier for the business name field to be merged.
+        public let businessName: String?
+        /// A unique identifier for the business phone number field to be merged.
+        public let businessPhoneNumber: String?
+        /// A unique identifier for the email address field to be merged.
+        public let emailAddress: String?
+        /// A unique identifier for the first name field to be merged.
+        public let firstName: String?
+        /// A unique identifier for the gender field to be merged.
+        public let gender: String?
+        /// A unique identifier for the home phone number field to be merged.
+        public let homePhoneNumber: String?
+        /// A unique identifier for the last name field to be merged.
+        public let lastName: String?
+        /// A unique identifier for the mailing address field to be merged.
+        public let mailingAddress: String?
+        /// A unique identifier for the middle name field to be merged.
+        public let middleName: String?
+        /// A unique identifier for the mobile phone number field to be merged.
+        public let mobilePhoneNumber: String?
+        /// A unique identifier for the party type field to be merged.
+        public let partyType: String?
+        /// A unique identifier for the personal email address field to be merged.
+        public let personalEmailAddress: String?
+        /// A unique identifier for the phone number field to be merged.
+        public let phoneNumber: String?
+        /// A unique identifier for the shipping address field to be merged.
+        public let shippingAddress: String?
+
+        public init(accountNumber: String? = nil, additionalInformation: String? = nil, address: String? = nil, attributes: [String: String]? = nil, billingAddress: String? = nil, birthDate: String? = nil, businessEmailAddress: String? = nil, businessName: String? = nil, businessPhoneNumber: String? = nil, emailAddress: String? = nil, firstName: String? = nil, gender: String? = nil, homePhoneNumber: String? = nil, lastName: String? = nil, mailingAddress: String? = nil, middleName: String? = nil, mobilePhoneNumber: String? = nil, partyType: String? = nil, personalEmailAddress: String? = nil, phoneNumber: String? = nil, shippingAddress: String? = nil) {
+            self.accountNumber = accountNumber
+            self.additionalInformation = additionalInformation
+            self.address = address
+            self.attributes = attributes
+            self.billingAddress = billingAddress
+            self.birthDate = birthDate
+            self.businessEmailAddress = businessEmailAddress
+            self.businessName = businessName
+            self.businessPhoneNumber = businessPhoneNumber
+            self.emailAddress = emailAddress
+            self.firstName = firstName
+            self.gender = gender
+            self.homePhoneNumber = homePhoneNumber
+            self.lastName = lastName
+            self.mailingAddress = mailingAddress
+            self.middleName = middleName
+            self.mobilePhoneNumber = mobilePhoneNumber
+            self.partyType = partyType
+            self.personalEmailAddress = personalEmailAddress
+            self.phoneNumber = phoneNumber
+            self.shippingAddress = shippingAddress
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountNumber, name: "accountNumber", parent: name, pattern: "[a-f0-9]{32}")
+            try self.validate(self.additionalInformation, name: "additionalInformation", parent: name, pattern: "[a-f0-9]{32}")
+            try self.validate(self.address, name: "address", parent: name, pattern: "[a-f0-9]{32}")
+            try self.attributes?.forEach {
+                try validate($0.key, name: "attributes.key", parent: name, max: 255)
+                try validate($0.key, name: "attributes.key", parent: name, min: 1)
+                try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, pattern: "[a-f0-9]{32}")
+            }
+            try self.validate(self.billingAddress, name: "billingAddress", parent: name, pattern: "[a-f0-9]{32}")
+            try self.validate(self.birthDate, name: "birthDate", parent: name, pattern: "[a-f0-9]{32}")
+            try self.validate(self.businessEmailAddress, name: "businessEmailAddress", parent: name, pattern: "[a-f0-9]{32}")
+            try self.validate(self.businessName, name: "businessName", parent: name, pattern: "[a-f0-9]{32}")
+            try self.validate(self.businessPhoneNumber, name: "businessPhoneNumber", parent: name, pattern: "[a-f0-9]{32}")
+            try self.validate(self.emailAddress, name: "emailAddress", parent: name, pattern: "[a-f0-9]{32}")
+            try self.validate(self.firstName, name: "firstName", parent: name, pattern: "[a-f0-9]{32}")
+            try self.validate(self.gender, name: "gender", parent: name, pattern: "[a-f0-9]{32}")
+            try self.validate(self.homePhoneNumber, name: "homePhoneNumber", parent: name, pattern: "[a-f0-9]{32}")
+            try self.validate(self.lastName, name: "lastName", parent: name, pattern: "[a-f0-9]{32}")
+            try self.validate(self.mailingAddress, name: "mailingAddress", parent: name, pattern: "[a-f0-9]{32}")
+            try self.validate(self.middleName, name: "middleName", parent: name, pattern: "[a-f0-9]{32}")
+            try self.validate(self.mobilePhoneNumber, name: "mobilePhoneNumber", parent: name, pattern: "[a-f0-9]{32}")
+            try self.validate(self.partyType, name: "partyType", parent: name, pattern: "[a-f0-9]{32}")
+            try self.validate(self.personalEmailAddress, name: "personalEmailAddress", parent: name, pattern: "[a-f0-9]{32}")
+            try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, pattern: "[a-f0-9]{32}")
+            try self.validate(self.shippingAddress, name: "shippingAddress", parent: name, pattern: "[a-f0-9]{32}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountNumber = "AccountNumber"
+            case additionalInformation = "AdditionalInformation"
+            case address = "Address"
+            case attributes = "Attributes"
+            case billingAddress = "BillingAddress"
+            case birthDate = "BirthDate"
+            case businessEmailAddress = "BusinessEmailAddress"
+            case businessName = "BusinessName"
+            case businessPhoneNumber = "BusinessPhoneNumber"
+            case emailAddress = "EmailAddress"
+            case firstName = "FirstName"
+            case gender = "Gender"
+            case homePhoneNumber = "HomePhoneNumber"
+            case lastName = "LastName"
+            case mailingAddress = "MailingAddress"
+            case middleName = "MiddleName"
+            case mobilePhoneNumber = "MobilePhoneNumber"
+            case partyType = "PartyType"
+            case personalEmailAddress = "PersonalEmailAddress"
+            case phoneNumber = "PhoneNumber"
+            case shippingAddress = "ShippingAddress"
+        }
+    }
+
     public struct FlowDefinition: AWSEncodableShape {
+        /// A description of the flow you want to create.
         public let description: String?
+        /// The specified name of the flow. Use underscores (_) or hyphens (-) only. Spaces are not allowed.
         public let flowName: String
+        /// The Amazon Resource Name of the AWS Key Management Service (KMS) key you provide for encryption.
         public let kmsArn: String
+        /// The configuration that controls how Customer Profiles retrieves data from the source.
         public let sourceFlowConfig: SourceFlowConfig
+        /// A list of tasks that Customer Profiles performs while transferring the data in the flow run.
         public let tasks: [Task]
+        /// The trigger settings that determine how and when the flow runs.
         public let triggerConfig: TriggerConfig
 
         public init(description: String? = nil, flowName: String, kmsArn: String, sourceFlowConfig: SourceFlowConfig, tasks: [Task], triggerConfig: TriggerConfig) {
@@ -952,7 +1092,7 @@ extension CustomerProfiles {
             AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
         ]
 
-        /// A unique name for the domain.
+        /// The unique name of the domain.
         public let domainName: String
 
         public init(domainName: String) {
@@ -981,18 +1121,21 @@ extension CustomerProfiles {
         public let domainName: String
         /// The timestamp of when the domain was most recently edited.
         public let lastUpdatedAt: Date
+        /// The process of matching duplicate profiles. This process runs every Saturday at 12AM.
+        public let matching: MatchingResponse?
         /// Usage-specific statistics about the domain.
         public let stats: DomainStats?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
-        public init(createdAt: Date, deadLetterQueueUrl: String? = nil, defaultEncryptionKey: String? = nil, defaultExpirationDays: Int? = nil, domainName: String, lastUpdatedAt: Date, stats: DomainStats? = nil, tags: [String: String]? = nil) {
+        public init(createdAt: Date, deadLetterQueueUrl: String? = nil, defaultEncryptionKey: String? = nil, defaultExpirationDays: Int? = nil, domainName: String, lastUpdatedAt: Date, matching: MatchingResponse? = nil, stats: DomainStats? = nil, tags: [String: String]? = nil) {
             self.createdAt = createdAt
             self.deadLetterQueueUrl = deadLetterQueueUrl
             self.defaultEncryptionKey = defaultEncryptionKey
             self.defaultExpirationDays = defaultExpirationDays
             self.domainName = domainName
             self.lastUpdatedAt = lastUpdatedAt
+            self.matching = matching
             self.stats = stats
             self.tags = tags
         }
@@ -1004,6 +1147,7 @@ extension CustomerProfiles {
             case defaultExpirationDays = "DefaultExpirationDays"
             case domainName = "DomainName"
             case lastUpdatedAt = "LastUpdatedAt"
+            case matching = "Matching"
             case stats = "Stats"
             case tags = "Tags"
         }
@@ -1067,6 +1211,64 @@ extension CustomerProfiles {
             case objectTypeName = "ObjectTypeName"
             case tags = "Tags"
             case uri = "Uri"
+        }
+    }
+
+    public struct GetMatchesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
+        ]
+
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.domainName = domainName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetMatchesResponse: AWSDecodableShape {
+        /// The list of matched profiles for this instance.
+        public let matches: [MatchItem]?
+        /// The timestamp this version of Match Result generated.
+        public let matchGenerationDate: Date?
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+        /// The number of potential matches found.
+        public let potentialMatches: Int?
+
+        public init(matches: [MatchItem]? = nil, matchGenerationDate: Date? = nil, nextToken: String? = nil, potentialMatches: Int? = nil) {
+            self.matches = matches
+            self.matchGenerationDate = matchGenerationDate
+            self.nextToken = nextToken
+            self.potentialMatches = potentialMatches
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case matches = "Matches"
+            case matchGenerationDate = "MatchGenerationDate"
+            case nextToken = "NextToken"
+            case potentialMatches = "PotentialMatches"
         }
     }
 
@@ -1206,6 +1408,7 @@ extension CustomerProfiles {
     }
 
     public struct IncrementalPullConfig: AWSEncodableShape {
+        /// A field that specifies the date time or timestamp field as the criteria to use when importing incremental records from the source.
         public let datetimeTypeFieldName: String?
 
         public init(datetimeTypeFieldName: String? = nil) {
@@ -1684,6 +1887,7 @@ extension CustomerProfiles {
     }
 
     public struct MarketoSourceProperties: AWSEncodableShape {
+        /// The object specified in the Marketo flow source.
         public let object: String
 
         public init(object: String) {
@@ -1697,6 +1901,103 @@ extension CustomerProfiles {
 
         private enum CodingKeys: String, CodingKey {
             case object = "Object"
+        }
+    }
+
+    public struct MatchItem: AWSDecodableShape {
+        /// The unique identifiers for this group of profiles that match.
+        public let matchId: String?
+        /// A list of identifiers for profiles that match.
+        public let profileIds: [String]?
+
+        public init(matchId: String? = nil, profileIds: [String]? = nil) {
+            self.matchId = matchId
+            self.profileIds = profileIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case matchId = "MatchId"
+            case profileIds = "ProfileIds"
+        }
+    }
+
+    public struct MatchingRequest: AWSEncodableShape {
+        /// The flag that enables the matching process of duplicate profiles.
+        public let enabled: Bool
+
+        public init(enabled: Bool) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+        }
+    }
+
+    public struct MatchingResponse: AWSDecodableShape {
+        /// The flag that enables the matching process of duplicate profiles.
+        public let enabled: Bool?
+
+        public init(enabled: Bool? = nil) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+        }
+    }
+
+    public struct MergeProfilesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName"))
+        ]
+
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The identifiers of the fields in the profile that has the information you want to apply to the merge. For example, say you want to merge EmailAddress from Profile1 into MainProfile. This would be the identifier of the EmailAddress field in Profile1.
+        public let fieldSourceProfileIds: FieldSourceProfileIds?
+        /// The identifier of the profile to be taken.
+        public let mainProfileId: String
+        /// The identifier of the profile to be merged into MainProfileId.
+        public let profileIdsToBeMerged: [String]
+
+        public init(domainName: String, fieldSourceProfileIds: FieldSourceProfileIds? = nil, mainProfileId: String, profileIdsToBeMerged: [String]) {
+            self.domainName = domainName
+            self.fieldSourceProfileIds = fieldSourceProfileIds
+            self.mainProfileId = mainProfileId
+            self.profileIdsToBeMerged = profileIdsToBeMerged
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.fieldSourceProfileIds?.validate(name: "\(name).fieldSourceProfileIds")
+            try self.validate(self.mainProfileId, name: "mainProfileId", parent: name, pattern: "[a-f0-9]{32}")
+            try self.profileIdsToBeMerged.forEach {
+                try validate($0, name: "profileIdsToBeMerged[]", parent: name, pattern: "[a-f0-9]{32}")
+            }
+            try self.validate(self.profileIdsToBeMerged, name: "profileIdsToBeMerged", parent: name, max: 20)
+            try self.validate(self.profileIdsToBeMerged, name: "profileIdsToBeMerged", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldSourceProfileIds = "FieldSourceProfileIds"
+            case mainProfileId = "MainProfileId"
+            case profileIdsToBeMerged = "ProfileIdsToBeMerged"
+        }
+    }
+
+    public struct MergeProfilesResponse: AWSDecodableShape {
+        /// A message that indicates the merge request is complete.
+        public let message: String?
+
+        public init(message: String? = nil) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
         }
     }
 
@@ -1756,7 +2057,7 @@ extension CustomerProfiles {
     public struct Profile: AWSDecodableShape {
         /// A unique account number that you have given to the customer.
         public let accountNumber: String?
-        /// Any additional information relevant to the customer's profile.
+        /// Any additional information relevant to the customer’s profile.
         public let additionalInformation: String?
         /// A generic address associated with the customer that is not mailing, shipping, or billing.
         public let address: Address?
@@ -1772,7 +2073,7 @@ extension CustomerProfiles {
         public let businessName: String?
         /// The customer’s home phone number.
         public let businessPhoneNumber: String?
-        /// The customer's email address, which has not been specified as a personal or business address.
+        /// The customer’s email address, which has not been specified as a personal or business address.
         public let emailAddress: String?
         /// The customer’s first name.
         public let firstName: String?
@@ -1857,6 +2158,7 @@ extension CustomerProfiles {
 
         /// The unique name of the domain.
         public let domainName: String
+        /// The configuration that controls how Customer Profiles retrieves data from the source.
         public let flowDefinition: FlowDefinition?
         /// The name of the profile object type.
         public let objectTypeName: String
@@ -2121,7 +2423,9 @@ extension CustomerProfiles {
     }
 
     public struct S3SourceProperties: AWSEncodableShape {
+        /// The Amazon S3 bucket name where the source files are stored.
         public let bucketName: String
+        /// The object key for the Amazon S3 bucket in which the source files are stored.
         public let bucketPrefix: String?
 
         public init(bucketName: String, bucketPrefix: String? = nil) {
@@ -2144,8 +2448,11 @@ extension CustomerProfiles {
     }
 
     public struct SalesforceSourceProperties: AWSEncodableShape {
+        /// The flag that enables dynamic fetching of new (recently added) fields in the Salesforce objects while running a flow.
         public let enableDynamicFieldUpdate: Bool?
+        /// Indicates whether Amazon AppFlow includes deleted files in the flow run.
         public let includeDeletedRecords: Bool?
+        /// The object specified in the Salesforce flow source.
         public let object: String
 
         public init(enableDynamicFieldUpdate: Bool? = nil, includeDeletedRecords: Bool? = nil, object: String) {
@@ -2167,12 +2474,19 @@ extension CustomerProfiles {
     }
 
     public struct ScheduledTriggerProperties: AWSEncodableShape {
+        /// Specifies whether a scheduled flow has an incremental data transfer or a complete data transfer for each flow run.
         public let dataPullMode: DataPullMode?
+        /// Specifies the date range for the records to import from the connector in the first flow run.
         public let firstExecutionFrom: Date?
+        /// Specifies the scheduled end time for a scheduled-trigger flow.
         public let scheduleEndTime: Date?
+        /// The scheduling expression that determines the rate at which the schedule will run, for example rate (5 minutes).
         public let scheduleExpression: String
+        /// Specifies the optional offset that is added to the time interval for a schedule-triggered flow.
         public let scheduleOffset: Int64?
+        /// Specifies the scheduled start time for a scheduled-trigger flow.
         public let scheduleStartTime: Date?
+        /// Specifies the time zone used when referring to the date and time of a scheduled-triggered flow, such as America/New_York.
         public let timezone: String?
 
         public init(dataPullMode: DataPullMode? = nil, firstExecutionFrom: Date? = nil, scheduleEndTime: Date? = nil, scheduleExpression: String, scheduleOffset: Int64? = nil, scheduleStartTime: Date? = nil, timezone: String? = nil) {
@@ -2272,6 +2586,7 @@ extension CustomerProfiles {
     }
 
     public struct ServiceNowSourceProperties: AWSEncodableShape {
+        /// The object specified in the ServiceNow flow source.
         public let object: String
 
         public init(object: String) {
@@ -2289,10 +2604,15 @@ extension CustomerProfiles {
     }
 
     public struct SourceConnectorProperties: AWSEncodableShape {
+        /// The properties that are applied when Marketo is being used as a source.
         public let marketo: MarketoSourceProperties?
+        /// The properties that are applied when Amazon S3 is being used as the flow source.
         public let s3: S3SourceProperties?
+        /// The properties that are applied when Salesforce is being used as a source.
         public let salesforce: SalesforceSourceProperties?
+        /// The properties that are applied when ServiceNow is being used as a source.
         public let serviceNow: ServiceNowSourceProperties?
+        /// The properties that are applied when using Zendesk as a flow source.
         public let zendesk: ZendeskSourceProperties?
 
         public init(marketo: MarketoSourceProperties? = nil, s3: S3SourceProperties? = nil, salesforce: SalesforceSourceProperties? = nil, serviceNow: ServiceNowSourceProperties? = nil, zendesk: ZendeskSourceProperties? = nil) {
@@ -2321,9 +2641,13 @@ extension CustomerProfiles {
     }
 
     public struct SourceFlowConfig: AWSEncodableShape {
+        /// The name of the AppFlow connector profile. This name must be unique for each connector profile in the AWS account.
         public let connectorProfileName: String?
+        /// The type of connector, such as Salesforce, Marketo, and so on.
         public let connectorType: SourceConnectorType
+        /// Defines the configuration for a scheduled incremental data pull. If a valid configuration is provided, the fields specified in the configuration are used when querying for the incremental data pull.
         public let incrementalPullConfig: IncrementalPullConfig?
+        /// Specifies the information that is required to query a particular source connector.
         public let sourceConnectorProperties: SourceConnectorProperties
 
         public init(connectorProfileName: String? = nil, connectorType: SourceConnectorType, incrementalPullConfig: IncrementalPullConfig? = nil, sourceConnectorProperties: SourceConnectorProperties) {
@@ -2384,10 +2708,15 @@ extension CustomerProfiles {
     }
 
     public struct Task: AWSEncodableShape {
+        /// The operation to be performed on the provided source fields.
         public let connectorOperator: ConnectorOperator?
+        /// A field in a destination connector, or a field value against which Amazon AppFlow validates a source field.
         public let destinationField: String?
+        /// The source fields to which a particular task is applied.
         public let sourceFields: [String]
+        /// A map used to store task-related information. The service looks for particular information based on the TaskType.
         public let taskProperties: [OperatorPropertiesKeys: String]?
+        /// Specifies the particular task implementation that Amazon AppFlow performs.
         public let taskType: TaskType
 
         public init(connectorOperator: ConnectorOperator? = nil, destinationField: String? = nil, sourceFields: [String], taskProperties: [OperatorPropertiesKeys: String]? = nil, taskType: TaskType) {
@@ -2421,7 +2750,9 @@ extension CustomerProfiles {
     }
 
     public struct TriggerConfig: AWSEncodableShape {
+        /// Specifies the configuration details of a schedule-triggered flow that you define. Currently, these settings only apply to the Scheduled trigger type.
         public let triggerProperties: TriggerProperties?
+        /// Specifies the type of flow trigger. It can be OnDemand, Scheduled, or Event.
         public let triggerType: TriggerType
 
         public init(triggerProperties: TriggerProperties? = nil, triggerType: TriggerType) {
@@ -2440,6 +2771,7 @@ extension CustomerProfiles {
     }
 
     public struct TriggerProperties: AWSEncodableShape {
+        /// Specifies the configuration details of a schedule-triggered flow that you define.
         public let scheduled: ScheduledTriggerProperties?
 
         public init(scheduled: ScheduledTriggerProperties? = nil) {
@@ -2573,16 +2905,19 @@ extension CustomerProfiles {
         public let defaultEncryptionKey: String?
         /// The default number of days until the data within the domain expires.
         public let defaultExpirationDays: Int?
-        /// The unique name for the domain.
+        /// The unique name of the domain.
         public let domainName: String
+        /// The process of matching duplicate profiles. This process runs every Saturday at 12AM.
+        public let matching: MatchingRequest?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
-        public init(deadLetterQueueUrl: String? = nil, defaultEncryptionKey: String? = nil, defaultExpirationDays: Int? = nil, domainName: String, tags: [String: String]? = nil) {
+        public init(deadLetterQueueUrl: String? = nil, defaultEncryptionKey: String? = nil, defaultExpirationDays: Int? = nil, domainName: String, matching: MatchingRequest? = nil, tags: [String: String]? = nil) {
             self.deadLetterQueueUrl = deadLetterQueueUrl
             self.defaultEncryptionKey = defaultEncryptionKey
             self.defaultExpirationDays = defaultExpirationDays
             self.domainName = domainName
+            self.matching = matching
             self.tags = tags
         }
 
@@ -2608,6 +2943,7 @@ extension CustomerProfiles {
             case deadLetterQueueUrl = "DeadLetterQueueUrl"
             case defaultEncryptionKey = "DefaultEncryptionKey"
             case defaultExpirationDays = "DefaultExpirationDays"
+            case matching = "Matching"
             case tags = "Tags"
         }
     }
@@ -2621,20 +2957,23 @@ extension CustomerProfiles {
         public let defaultEncryptionKey: String?
         /// The default number of days until the data within the domain expires.
         public let defaultExpirationDays: Int?
-        /// The unique name for the domain.
+        /// The unique name of the domain.
         public let domainName: String
         /// The timestamp of when the domain was most recently edited.
         public let lastUpdatedAt: Date
+        /// The process of matching duplicate profiles. This process runs every Saturday at 12AM.
+        public let matching: MatchingResponse?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
-        public init(createdAt: Date, deadLetterQueueUrl: String? = nil, defaultEncryptionKey: String? = nil, defaultExpirationDays: Int? = nil, domainName: String, lastUpdatedAt: Date, tags: [String: String]? = nil) {
+        public init(createdAt: Date, deadLetterQueueUrl: String? = nil, defaultEncryptionKey: String? = nil, defaultExpirationDays: Int? = nil, domainName: String, lastUpdatedAt: Date, matching: MatchingResponse? = nil, tags: [String: String]? = nil) {
             self.createdAt = createdAt
             self.deadLetterQueueUrl = deadLetterQueueUrl
             self.defaultEncryptionKey = defaultEncryptionKey
             self.defaultExpirationDays = defaultExpirationDays
             self.domainName = domainName
             self.lastUpdatedAt = lastUpdatedAt
+            self.matching = matching
             self.tags = tags
         }
 
@@ -2645,6 +2984,7 @@ extension CustomerProfiles {
             case defaultExpirationDays = "DefaultExpirationDays"
             case domainName = "DomainName"
             case lastUpdatedAt = "LastUpdatedAt"
+            case matching = "Matching"
             case tags = "Tags"
         }
     }
@@ -2656,7 +2996,7 @@ extension CustomerProfiles {
 
         /// A unique account number that you have given to the customer.
         public let accountNumber: String?
-        /// Any additional information relevant to the customer's profile.
+        /// Any additional information relevant to the customer’s profile.
         public let additionalInformation: String?
         /// A generic address associated with the customer that is not mailing, shipping, or billing.
         public let address: UpdateAddress?
@@ -2674,7 +3014,7 @@ extension CustomerProfiles {
         public let businessPhoneNumber: String?
         /// The unique name of the domain.
         public let domainName: String
-        /// The customer's email address, which has not been specified as a personal or business address.
+        /// The customer’s email address, which has not been specified as a personal or business address.
         public let emailAddress: String?
         /// The customer’s first name.
         public let firstName: String?
@@ -2694,7 +3034,7 @@ extension CustomerProfiles {
         public let partyType: PartyType?
         /// The customer’s personal email address.
         public let personalEmailAddress: String?
-        /// The customer's phone number, which has not been specified as a mobile, home, or business number.
+        /// The customer’s phone number, which has not been specified as a mobile, home, or business number.
         public let phoneNumber: String?
         /// The unique identifier of a customer profile.
         public let profileId: String
@@ -2812,6 +3152,7 @@ extension CustomerProfiles {
     }
 
     public struct ZendeskSourceProperties: AWSEncodableShape {
+        /// The object specified in the Zendesk flow source.
         public let object: String
 
         public init(object: String) {

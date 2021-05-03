@@ -89,6 +89,8 @@ extension MarketplaceCatalog {
     }
 
     public struct Change: AWSEncodableShape {
+        /// Optional name for the change.
+        public let changeName: String?
         /// Change types are single string values that describe your intention for the change. Each change type is unique for each EntityType provided in the change's scope.
         public let changeType: String
         /// This object contains details specific to the change type of the requested change.
@@ -96,13 +98,17 @@ extension MarketplaceCatalog {
         /// The entity to be changed.
         public let entity: Entity
 
-        public init(changeType: String, details: String, entity: Entity) {
+        public init(changeName: String? = nil, changeType: String, details: String, entity: Entity) {
+            self.changeName = changeName
             self.changeType = changeType
             self.details = details
             self.entity = entity
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.changeName, name: "changeName", parent: name, max: 72)
+            try self.validate(self.changeName, name: "changeName", parent: name, min: 1)
+            try self.validate(self.changeName, name: "changeName", parent: name, pattern: "^[a-zA-Z]$")
             try self.validate(self.changeType, name: "changeType", parent: name, max: 255)
             try self.validate(self.changeType, name: "changeType", parent: name, min: 1)
             try self.validate(self.changeType, name: "changeType", parent: name, pattern: "^[A-Z][\\w]*$")
@@ -113,6 +119,7 @@ extension MarketplaceCatalog {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case changeName = "ChangeName"
             case changeType = "ChangeType"
             case details = "Details"
             case entity = "Entity"
@@ -161,6 +168,8 @@ extension MarketplaceCatalog {
     }
 
     public struct ChangeSummary: AWSDecodableShape {
+        /// Optional name for the change.
+        public let changeName: String?
         /// The type of the change.
         public let changeType: String?
         /// This object contains details specific to the change type of the requested change.
@@ -170,7 +179,8 @@ extension MarketplaceCatalog {
         /// An array of ErrorDetail objects associated with the change.
         public let errorDetailList: [ErrorDetail]?
 
-        public init(changeType: String? = nil, details: String? = nil, entity: Entity? = nil, errorDetailList: [ErrorDetail]? = nil) {
+        public init(changeName: String? = nil, changeType: String? = nil, details: String? = nil, entity: Entity? = nil, errorDetailList: [ErrorDetail]? = nil) {
+            self.changeName = changeName
             self.changeType = changeType
             self.details = details
             self.entity = entity
@@ -178,6 +188,7 @@ extension MarketplaceCatalog {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case changeName = "ChangeName"
             case changeType = "ChangeType"
             case details = "Details"
             case entity = "Entity"
@@ -406,6 +417,11 @@ extension MarketplaceCatalog {
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z]+$")
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 255)
+                try validate($0, name: "valueList[]", parent: name, min: 1)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^(.)+$")
+            }
             try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
             try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
         }

@@ -95,6 +95,7 @@ public struct RedshiftErrorType: AWSErrorType {
         case limitExceededFault = "LimitExceededFault"
         case numberOfNodesPerClusterLimitExceededFault = "NumberOfNodesPerClusterLimitExceeded"
         case numberOfNodesQuotaExceededFault = "NumberOfNodesQuotaExceeded"
+        case partnerNotFoundFault = "PartnerNotFound"
         case reservedNodeAlreadyExistsFault = "ReservedNodeAlreadyExists"
         case reservedNodeAlreadyMigratedFault = "ReservedNodeAlreadyMigrated"
         case reservedNodeNotFoundFault = "ReservedNodeNotFound"
@@ -131,6 +132,7 @@ public struct RedshiftErrorType: AWSErrorType {
         case tableRestoreNotFoundFault = "TableRestoreNotFoundFault"
         case tagLimitExceededFault = "TagLimitExceededFault"
         case unauthorizedOperation = "UnauthorizedOperation"
+        case unauthorizedPartnerIntegrationFault = "UnauthorizedPartnerIntegration"
         case unknownSnapshotCopyRegionFault = "UnknownSnapshotCopyRegionFault"
         case unsupportedOperationFault = "UnsupportedOperation"
         case unsupportedOptionFault = "UnsupportedOptionFault"
@@ -308,6 +310,8 @@ public struct RedshiftErrorType: AWSErrorType {
     public static var numberOfNodesPerClusterLimitExceededFault: Self { .init(.numberOfNodesPerClusterLimitExceededFault) }
     /// The operation would exceed the number of nodes allotted to the account. For information about increasing your quota, go to Limits in Amazon Redshift in the Amazon Redshift Cluster Management Guide.
     public static var numberOfNodesQuotaExceededFault: Self { .init(.numberOfNodesQuotaExceededFault) }
+    /// The name of the partner was not found.
+    public static var partnerNotFoundFault: Self { .init(.partnerNotFoundFault) }
     /// User already has a reservation with the given identifier.
     public static var reservedNodeAlreadyExistsFault: Self { .init(.reservedNodeAlreadyExistsFault) }
     /// Indicates that the reserved node has already been exchanged.
@@ -380,6 +384,8 @@ public struct RedshiftErrorType: AWSErrorType {
     public static var tagLimitExceededFault: Self { .init(.tagLimitExceededFault) }
     /// Your account is not authorized to perform the requested operation.
     public static var unauthorizedOperation: Self { .init(.unauthorizedOperation) }
+    /// The partner integration is not authorized.
+    public static var unauthorizedPartnerIntegrationFault: Self { .init(.unauthorizedPartnerIntegrationFault) }
     /// The specified region is incorrect or does not exist.
     public static var unknownSnapshotCopyRegionFault: Self { .init(.unknownSnapshotCopyRegionFault) }
     /// The requested operation isn't supported.

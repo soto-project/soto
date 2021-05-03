@@ -27,6 +27,20 @@ extension Redshift {
         public var description: String { return self.rawValue }
     }
 
+    public enum AquaConfigurationStatus: String, CustomStringConvertible, Codable {
+        case auto
+        case disabled
+        case enabled
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AquaStatus: String, CustomStringConvertible, Codable {
+        case applying
+        case disabled
+        case enabled
+        public var description: String { return self.rawValue }
+    }
+
     public enum AuthorizationStatus: String, CustomStringConvertible, Codable {
         case authorized = "Authorized"
         case revoking = "Revoking"
@@ -61,6 +75,14 @@ extension Redshift {
     public enum ParameterApplyType: String, CustomStringConvertible, Codable {
         case dynamic
         case `static`
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PartnerIntegrationStatus: String, CustomStringConvertible, Codable {
+        case active = "Active"
+        case connectionfailure = "ConnectionFailure"
+        case inactive = "Inactive"
+        case runtimefailure = "RuntimeFailure"
         public var description: String { return self.rawValue }
     }
 
@@ -239,6 +261,23 @@ extension Redshift {
         private enum CodingKeys: String, CodingKey {
             case accountAlias = "AccountAlias"
             case accountId = "AccountId"
+        }
+    }
+
+    public struct AquaConfiguration: AWSDecodableShape {
+        /// The value represents how the cluster is configured to use AQUA. Possible values include the following.   enabled - Use AQUA if it is available for the current AWS Region and Amazon Redshift node type.   disabled - Don't use AQUA.    auto - Amazon Redshift determines whether to use AQUA.
+        public let aquaConfigurationStatus: AquaConfigurationStatus?
+        /// The value indicates the status of AQUA on the cluster. Possible values include the following.   enabled - AQUA is enabled.   disabled - AQUA is not enabled.    applying - AQUA status is being applied.
+        public let aquaStatus: AquaStatus?
+
+        public init(aquaConfigurationStatus: AquaConfigurationStatus? = nil, aquaStatus: AquaStatus? = nil) {
+            self.aquaConfigurationStatus = aquaConfigurationStatus
+            self.aquaStatus = aquaStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aquaConfigurationStatus = "AquaConfigurationStatus"
+            case aquaStatus = "AquaStatus"
         }
     }
 
@@ -512,6 +551,8 @@ extension Redshift {
 
         /// A boolean value that, if true, indicates that major version upgrades will be applied automatically to the cluster during the maintenance window.
         public let allowVersionUpgrade: Bool?
+        /// The AQUA (Advanced Query Accelerator) configuration of the cluster.
+        public let aquaConfiguration: AquaConfiguration?
         /// The number of days that automatic cluster snapshots are retained.
         public let automatedSnapshotRetentionPeriod: Int?
         /// The name of the Availability Zone in which the cluster is located.
@@ -616,8 +657,9 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocationStatus: String? = nil, clusterAvailabilityStatus: String? = nil, clusterCreateTime: Date? = nil, clusterIdentifier: String? = nil, clusterNamespaceArn: String? = nil, clusterNodes: [ClusterNode]? = nil, clusterParameterGroups: [ClusterParameterGroupStatus]? = nil, clusterPublicKey: String? = nil, clusterRevisionNumber: String? = nil, clusterSecurityGroups: [ClusterSecurityGroupMembership]? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, clusterStatus: String? = nil, clusterSubnetGroupName: String? = nil, clusterVersion: String? = nil, dataTransferProgress: DataTransferProgress? = nil, dBName: String? = nil, deferredMaintenanceWindows: [DeferredMaintenanceWindow]? = nil, elasticIpStatus: ElasticIpStatus? = nil, elasticResizeNumberOfNodeOptions: String? = nil, encrypted: Bool? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, expectedNextSnapshotScheduleTime: Date? = nil, expectedNextSnapshotScheduleTimeStatus: String? = nil, hsmStatus: HsmStatus? = nil, iamRoles: [ClusterIamRole]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String? = nil, modifyStatus: String? = nil, nextMaintenanceWindowStartTime: Date? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, pendingActions: [String]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, resizeInfo: ResizeInfo? = nil, restoreStatus: RestoreStatus? = nil, snapshotScheduleIdentifier: String? = nil, snapshotScheduleState: ScheduleState? = nil, tags: [Tag]? = nil, totalStorageCapacityInMegaBytes: Int64? = nil, vpcId: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(allowVersionUpgrade: Bool? = nil, aquaConfiguration: AquaConfiguration? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocationStatus: String? = nil, clusterAvailabilityStatus: String? = nil, clusterCreateTime: Date? = nil, clusterIdentifier: String? = nil, clusterNamespaceArn: String? = nil, clusterNodes: [ClusterNode]? = nil, clusterParameterGroups: [ClusterParameterGroupStatus]? = nil, clusterPublicKey: String? = nil, clusterRevisionNumber: String? = nil, clusterSecurityGroups: [ClusterSecurityGroupMembership]? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, clusterStatus: String? = nil, clusterSubnetGroupName: String? = nil, clusterVersion: String? = nil, dataTransferProgress: DataTransferProgress? = nil, dBName: String? = nil, deferredMaintenanceWindows: [DeferredMaintenanceWindow]? = nil, elasticIpStatus: ElasticIpStatus? = nil, elasticResizeNumberOfNodeOptions: String? = nil, encrypted: Bool? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, expectedNextSnapshotScheduleTime: Date? = nil, expectedNextSnapshotScheduleTimeStatus: String? = nil, hsmStatus: HsmStatus? = nil, iamRoles: [ClusterIamRole]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String? = nil, modifyStatus: String? = nil, nextMaintenanceWindowStartTime: Date? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, pendingActions: [String]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, resizeInfo: ResizeInfo? = nil, restoreStatus: RestoreStatus? = nil, snapshotScheduleIdentifier: String? = nil, snapshotScheduleState: ScheduleState? = nil, tags: [Tag]? = nil, totalStorageCapacityInMegaBytes: Int64? = nil, vpcId: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allowVersionUpgrade = allowVersionUpgrade
+            self.aquaConfiguration = aquaConfiguration
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
             self.availabilityZone = availabilityZone
             self.availabilityZoneRelocationStatus = availabilityZoneRelocationStatus
@@ -670,6 +712,7 @@ extension Redshift {
 
         private enum CodingKeys: String, CodingKey {
             case allowVersionUpgrade = "AllowVersionUpgrade"
+            case aquaConfiguration = "AquaConfiguration"
             case automatedSnapshotRetentionPeriod = "AutomatedSnapshotRetentionPeriod"
             case availabilityZone = "AvailabilityZone"
             case availabilityZoneRelocationStatus = "AvailabilityZoneRelocationStatus"
@@ -1241,6 +1284,8 @@ extension Redshift {
         public let additionalInfo: String?
         /// If true, major version upgrades can be applied during the maintenance window to the Amazon Redshift engine that is running on the cluster. When a new major version of the Amazon Redshift engine is released, you can request that the service automatically apply upgrades during the maintenance window to the Amazon Redshift engine that is running on your cluster. Default: true
         public let allowVersionUpgrade: Bool?
+        /// The value represents how the cluster is configured to use AQUA (Advanced Query Accelerator) when it is created. Possible values include the following.   enabled - Use AQUA if it is available for the current AWS Region and Amazon Redshift node type.   disabled - Don't use AQUA.    auto - Amazon Redshift determines whether to use AQUA.
+        public let aquaConfigurationStatus: AquaConfigurationStatus?
         /// The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with CreateClusterSnapshot.  You can't disable automated snapshots for RA3 node types. Set the automated retention period from 1-35 days. Default: 1  Constraints: Must be a value from 0 to 35.
         public let automatedSnapshotRetentionPeriod: Int?
         /// The EC2 Availability Zone (AZ) in which you want Amazon Redshift to provision the cluster. For example, if you have several EC2 instances running in a specific Availability Zone, then you might want the cluster to be provisioned in the same zone in order to decrease network latency. Default: A random, system-chosen Availability Zone in the region that is specified by the endpoint. Example: us-east-2d  Constraint: The specified Availability Zone must be in the same region as the current endpoint.
@@ -1304,9 +1349,10 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocation: Bool? = nil, clusterIdentifier: String, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterSubnetGroupName: String? = nil, clusterType: String? = nil, clusterVersion: String? = nil, dBName: String? = nil, elasticIp: String? = nil, encrypted: Bool? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String, masterUserPassword: String, nodeType: String, numberOfNodes: Int? = nil, port: Int? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, snapshotScheduleIdentifier: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, aquaConfigurationStatus: AquaConfigurationStatus? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocation: Bool? = nil, clusterIdentifier: String, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterSubnetGroupName: String? = nil, clusterType: String? = nil, clusterVersion: String? = nil, dBName: String? = nil, elasticIp: String? = nil, encrypted: Bool? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String, masterUserPassword: String, nodeType: String, numberOfNodes: Int? = nil, port: Int? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, snapshotScheduleIdentifier: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.additionalInfo = additionalInfo
             self.allowVersionUpgrade = allowVersionUpgrade
+            self.aquaConfigurationStatus = aquaConfigurationStatus
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
             self.availabilityZone = availabilityZone
             self.availabilityZoneRelocation = availabilityZoneRelocation
@@ -1374,6 +1420,7 @@ extension Redshift {
         private enum CodingKeys: String, CodingKey {
             case additionalInfo = "AdditionalInfo"
             case allowVersionUpgrade = "AllowVersionUpgrade"
+            case aquaConfigurationStatus = "AquaConfigurationStatus"
             case automatedSnapshotRetentionPeriod = "AutomatedSnapshotRetentionPeriod"
             case availabilityZone = "AvailabilityZone"
             case availabilityZoneRelocation = "AvailabilityZoneRelocation"
@@ -2868,9 +2915,9 @@ extension Redshift {
         public let clusterIdentifier: String?
         /// The name of the endpoint to be described.
         public let endpointName: String?
-        /// Reserved for Amazon Redshift internal use.
+        /// An optional pagination token provided by a previous DescribeEndpointAccess request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by the MaxRecords parameter.
         public let marker: String?
-        /// Reserved for Amazon Redshift internal use.
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a Marker is included in the response so that the remaining results can be retrieved.
         public let maxRecords: Int?
         /// The AWS account ID of the owner of the cluster.
         public let resourceOwner: String?
@@ -2911,9 +2958,9 @@ extension Redshift {
         public let clusterIdentifier: String?
         /// Indicates whether to check authorization from a grantor or grantee point of view. If true, Amazon Redshift returns endpoint authorizations that you've been granted. If false (default), checks authorization from a grantor point of view.
         public let grantee: Bool?
-        /// Reserved for Amazon Redshift internal use.
+        /// An optional pagination token provided by a previous DescribeEndpointAuthorization request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by the MaxRecords parameter.
         public let marker: String?
-        /// Reserved for Amazon Redshift internal use.
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a Marker is included in the response so that the remaining results can be retrieved.
         public let maxRecords: Int?
 
         public init(account: String? = nil, clusterIdentifier: String? = nil, grantee: Bool? = nil, marker: String? = nil, maxRecords: Int? = nil) {
@@ -3228,6 +3275,59 @@ extension Redshift {
             case marker = "Marker"
             case maxRecords = "MaxRecords"
             case nodeType = "NodeType"
+        }
+    }
+
+    public struct DescribePartnersInputMessage: AWSEncodableShape {
+        /// The AWS account ID that owns the cluster.
+        public let accountId: String
+        /// The cluster identifier of the cluster whose partner integration is being described.
+        public let clusterIdentifier: String
+        /// The name of the database whose partner integration is being described. If database name is not specified, then all databases in the cluster are described.
+        public let databaseName: String?
+        /// The name of the partner that is being described. If partner name is not specified, then all partner integrations are described.
+        public let partnerName: String?
+
+        public init(accountId: String, clusterIdentifier: String, databaseName: String? = nil, partnerName: String? = nil) {
+            self.accountId = accountId
+            self.clusterIdentifier = clusterIdentifier
+            self.databaseName = databaseName
+            self.partnerName = partnerName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 63)
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^[a-zA-Z0-9\\-]+$")
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 127)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\p{L}_][\\p{L}\\p{N}@$#_]+$")
+            try self.validate(self.partnerName, name: "partnerName", parent: name, max: 255)
+            try self.validate(self.partnerName, name: "partnerName", parent: name, pattern: "^[a-zA-Z0-9\\-_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case clusterIdentifier = "ClusterIdentifier"
+            case databaseName = "DatabaseName"
+            case partnerName = "PartnerName"
+        }
+    }
+
+    public struct DescribePartnersOutputMessage: AWSDecodableShape {
+        public struct _PartnerIntegrationInfoListEncoding: ArrayCoderProperties { public static let member = "PartnerIntegrationInfo" }
+
+        /// A list of partner integrations.
+        @OptionalCustomCoding<ArrayCoder<_PartnerIntegrationInfoListEncoding, PartnerIntegrationInfo>>
+        public var partnerIntegrationInfoList: [PartnerIntegrationInfo]?
+
+        public init(partnerIntegrationInfoList: [PartnerIntegrationInfo]? = nil) {
+            self.partnerIntegrationInfoList = partnerIntegrationInfoList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case partnerIntegrationInfoList = "PartnerIntegrationInfoList"
         }
     }
 
@@ -3846,7 +3946,7 @@ extension Redshift {
         /// The list of endpoints with access to the cluster.
         @OptionalCustomCoding<StandardArrayCoder>
         public var endpointAccessList: [EndpointAccess]?
-        /// Reserved for Amazon Redshift internal use.
+        /// An optional pagination token provided by a previous DescribeEndpointAccess request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by the MaxRecords parameter.
         public let marker: String?
 
         public init(endpointAccessList: [EndpointAccess]? = nil, marker: String? = nil) {
@@ -3912,7 +4012,7 @@ extension Redshift {
         /// The authorizations to an endpoint.
         @OptionalCustomCoding<StandardArrayCoder>
         public var endpointAuthorizationList: [EndpointAuthorization]?
-        /// Reserved for Amazon Redshift internal use.
+        /// An optional pagination token provided by a previous DescribeEndpointAuthorization request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by the MaxRecords parameter.
         public let marker: String?
 
         public init(endpointAuthorizationList: [EndpointAuthorization]? = nil, marker: String? = nil) {
@@ -4416,6 +4516,40 @@ extension Redshift {
             case databaseVersion = "DatabaseVersion"
             case maintenanceTrackName = "MaintenanceTrackName"
             case updateTargets = "UpdateTargets"
+        }
+    }
+
+    public struct ModifyAquaInputMessage: AWSEncodableShape {
+        /// The new value of AQUA configuration status. Possible values include the following.   enabled - Use AQUA if it is available for the current AWS Region and Amazon Redshift node type.   disabled - Don't use AQUA.    auto - Amazon Redshift determines whether to use AQUA.
+        public let aquaConfigurationStatus: AquaConfigurationStatus?
+        /// The identifier of the cluster to be modified.
+        public let clusterIdentifier: String
+
+        public init(aquaConfigurationStatus: AquaConfigurationStatus? = nil, clusterIdentifier: String) {
+            self.aquaConfigurationStatus = aquaConfigurationStatus
+            self.clusterIdentifier = clusterIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 2_147_483_647)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aquaConfigurationStatus = "AquaConfigurationStatus"
+            case clusterIdentifier = "ClusterIdentifier"
+        }
+    }
+
+    public struct ModifyAquaOutputMessage: AWSDecodableShape {
+        /// The updated AQUA configuration of the cluster.
+        public let aquaConfiguration: AquaConfiguration?
+
+        public init(aquaConfiguration: AquaConfiguration? = nil) {
+            self.aquaConfiguration = aquaConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aquaConfiguration = "AquaConfiguration"
         }
     }
 
@@ -5269,6 +5403,93 @@ extension Redshift {
         }
     }
 
+    public struct PartnerIntegrationInfo: AWSDecodableShape {
+        /// The date (UTC) that the partner integration was created.
+        public let createdAt: Date?
+        /// The name of the database that receives data from a partner.
+        public let databaseName: String?
+        /// The name of the partner.
+        public let partnerName: String?
+        /// The partner integration status.
+        public let status: PartnerIntegrationStatus?
+        /// The status message provided by the partner.
+        public let statusMessage: String?
+        /// The date (UTC) that the partner integration status was last updated by the partner.
+        public let updatedAt: Date?
+
+        public init(createdAt: Date? = nil, databaseName: String? = nil, partnerName: String? = nil, status: PartnerIntegrationStatus? = nil, statusMessage: String? = nil, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.databaseName = databaseName
+            self.partnerName = partnerName
+            self.status = status
+            self.statusMessage = statusMessage
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case databaseName = "DatabaseName"
+            case partnerName = "PartnerName"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct PartnerIntegrationInputMessage: AWSEncodableShape {
+        /// The AWS account ID that owns the cluster.
+        public let accountId: String
+        /// The cluster identifier of the cluster that receives data from the partner.
+        public let clusterIdentifier: String
+        /// The name of the database that receives data from the partner.
+        public let databaseName: String
+        /// The name of the partner that is authorized to send data.
+        public let partnerName: String
+
+        public init(accountId: String, clusterIdentifier: String, databaseName: String, partnerName: String) {
+            self.accountId = accountId
+            self.clusterIdentifier = clusterIdentifier
+            self.databaseName = databaseName
+            self.partnerName = partnerName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 63)
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^[a-zA-Z0-9\\-]+$")
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 127)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\p{L}_][\\p{L}\\p{N}@$#_]+$")
+            try self.validate(self.partnerName, name: "partnerName", parent: name, max: 255)
+            try self.validate(self.partnerName, name: "partnerName", parent: name, pattern: "^[a-zA-Z0-9\\-_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case clusterIdentifier = "ClusterIdentifier"
+            case databaseName = "DatabaseName"
+            case partnerName = "PartnerName"
+        }
+    }
+
+    public struct PartnerIntegrationOutputMessage: AWSDecodableShape {
+        /// The name of the database that receives data from the partner.
+        public let databaseName: String?
+        /// The name of the partner that is authorized to send data.
+        public let partnerName: String?
+
+        public init(databaseName: String? = nil, partnerName: String? = nil) {
+            self.databaseName = databaseName
+            self.partnerName = partnerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseName = "DatabaseName"
+            case partnerName = "PartnerName"
+        }
+    }
+
     public struct PauseClusterMessage: AWSEncodableShape & AWSDecodableShape {
         /// The identifier of the cluster to be paused.
         public let clusterIdentifier: String
@@ -5760,6 +5981,8 @@ extension Redshift {
         public let additionalInfo: String?
         /// If true, major version upgrades can be applied during the maintenance window to the Amazon Redshift engine that is running on the cluster.  Default: true
         public let allowVersionUpgrade: Bool?
+        /// The value represents how the cluster is configured to use AQUA (Advanced Query Accelerator) after the cluster is restored. Possible values include the following.   enabled - Use AQUA if it is available for the current AWS Region and Amazon Redshift node type.   disabled - Don't use AQUA.    auto - Amazon Redshift determines whether to use AQUA.
+        public let aquaConfigurationStatus: AquaConfigurationStatus?
         /// The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with CreateClusterSnapshot.  You can't disable automated snapshots for RA3 node types. Set the automated retention period from 1-35 days. Default: The value selected for the cluster from which the snapshot was taken. Constraints: Must be a value from 0 to 35.
         public let automatedSnapshotRetentionPeriod: Int?
         /// The Amazon EC2 Availability Zone in which to restore the cluster. Default: A random, system-chosen Availability Zone. Example: us-east-2a
@@ -5814,9 +6037,10 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocation: Bool? = nil, clusterIdentifier: String, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterSubnetGroupName: String? = nil, elasticIp: String? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, ownerAccount: String? = nil, port: Int? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, snapshotClusterIdentifier: String? = nil, snapshotIdentifier: String, snapshotScheduleIdentifier: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, aquaConfigurationStatus: AquaConfigurationStatus? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocation: Bool? = nil, clusterIdentifier: String, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterSubnetGroupName: String? = nil, elasticIp: String? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, ownerAccount: String? = nil, port: Int? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, snapshotClusterIdentifier: String? = nil, snapshotIdentifier: String, snapshotScheduleIdentifier: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.additionalInfo = additionalInfo
             self.allowVersionUpgrade = allowVersionUpgrade
+            self.aquaConfigurationStatus = aquaConfigurationStatus
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
             self.availabilityZone = availabilityZone
             self.availabilityZoneRelocation = availabilityZoneRelocation
@@ -5875,6 +6099,7 @@ extension Redshift {
         private enum CodingKeys: String, CodingKey {
             case additionalInfo = "AdditionalInfo"
             case allowVersionUpgrade = "AllowVersionUpgrade"
+            case aquaConfigurationStatus = "AquaConfigurationStatus"
             case automatedSnapshotRetentionPeriod = "AutomatedSnapshotRetentionPeriod"
             case availabilityZone = "AvailabilityZone"
             case availabilityZoneRelocation = "AvailabilityZoneRelocation"
@@ -5951,6 +6176,8 @@ extension Redshift {
     public struct RestoreTableFromClusterSnapshotMessage: AWSEncodableShape {
         /// The identifier of the Amazon Redshift cluster to restore the table to.
         public let clusterIdentifier: String
+        /// Indicates whether name identifiers for database, schema, and table are case sensitive. If true, the names are case sensitive. If false (default), the names are not case sensitive.
+        public let enableCaseSensitiveIdentifier: Bool?
         /// The name of the table to create as a result of the current request.
         public let newTableName: String
         /// The identifier of the snapshot to restore the table from. This snapshot must have been created from the Amazon Redshift cluster specified by the ClusterIdentifier parameter.
@@ -5966,8 +6193,9 @@ extension Redshift {
         /// The name of the schema to restore the table to.
         public let targetSchemaName: String?
 
-        public init(clusterIdentifier: String, newTableName: String, snapshotIdentifier: String, sourceDatabaseName: String, sourceSchemaName: String? = nil, sourceTableName: String, targetDatabaseName: String? = nil, targetSchemaName: String? = nil) {
+        public init(clusterIdentifier: String, enableCaseSensitiveIdentifier: Bool? = nil, newTableName: String, snapshotIdentifier: String, sourceDatabaseName: String, sourceSchemaName: String? = nil, sourceTableName: String, targetDatabaseName: String? = nil, targetSchemaName: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
+            self.enableCaseSensitiveIdentifier = enableCaseSensitiveIdentifier
             self.newTableName = newTableName
             self.snapshotIdentifier = snapshotIdentifier
             self.sourceDatabaseName = sourceDatabaseName
@@ -5990,6 +6218,7 @@ extension Redshift {
 
         private enum CodingKeys: String, CodingKey {
             case clusterIdentifier = "ClusterIdentifier"
+            case enableCaseSensitiveIdentifier = "EnableCaseSensitiveIdentifier"
             case newTableName = "NewTableName"
             case snapshotIdentifier = "SnapshotIdentifier"
             case sourceDatabaseName = "SourceDatabaseName"
@@ -6844,6 +7073,53 @@ extension Redshift {
         private enum CodingKeys: String, CodingKey {
             case maintenanceTracks = "MaintenanceTracks"
             case marker = "Marker"
+        }
+    }
+
+    public struct UpdatePartnerStatusInputMessage: AWSEncodableShape {
+        /// The AWS account ID that owns the cluster.
+        public let accountId: String
+        /// The cluster identifier of the cluster whose partner integration status is being updated.
+        public let clusterIdentifier: String
+        /// The name of the database whose partner integration status is being updated.
+        public let databaseName: String
+        /// The name of the partner whose integration status is being updated.
+        public let partnerName: String
+        /// The value of the updated status.
+        public let status: PartnerIntegrationStatus
+        /// The status message provided by the partner.
+        public let statusMessage: String?
+
+        public init(accountId: String, clusterIdentifier: String, databaseName: String, partnerName: String, status: PartnerIntegrationStatus, statusMessage: String? = nil) {
+            self.accountId = accountId
+            self.clusterIdentifier = clusterIdentifier
+            self.databaseName = databaseName
+            self.partnerName = partnerName
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 63)
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^[a-zA-Z0-9\\-]+$")
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 127)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\p{L}_][\\p{L}\\p{N}@$#_]+$")
+            try self.validate(self.partnerName, name: "partnerName", parent: name, max: 255)
+            try self.validate(self.partnerName, name: "partnerName", parent: name, pattern: "^[a-zA-Z0-9\\-_]+$")
+            try self.validate(self.statusMessage, name: "statusMessage", parent: name, max: 262_144)
+            try self.validate(self.statusMessage, name: "statusMessage", parent: name, pattern: "^[\\x20-\\x7E]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case clusterIdentifier = "ClusterIdentifier"
+            case databaseName = "DatabaseName"
+            case partnerName = "PartnerName"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
         }
     }
 

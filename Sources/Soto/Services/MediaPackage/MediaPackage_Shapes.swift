@@ -175,16 +175,20 @@ extension MediaPackage {
     }
 
     public struct CmafEncryption: AWSEncodableShape & AWSDecodableShape {
+        /// An optional 128-bit, 16-byte hex value represented by a 32-character string, used in conjunction with the key for encrypting blocks. If you don't specify a value, then MediaPackage creates the constant initialization vector (IV).
+        public let constantInitializationVector: String?
         /// Time (in seconds) between each encryption key rotation.
         public let keyRotationIntervalSeconds: Int?
         public let spekeKeyProvider: SpekeKeyProvider
 
-        public init(keyRotationIntervalSeconds: Int? = nil, spekeKeyProvider: SpekeKeyProvider) {
+        public init(constantInitializationVector: String? = nil, keyRotationIntervalSeconds: Int? = nil, spekeKeyProvider: SpekeKeyProvider) {
+            self.constantInitializationVector = constantInitializationVector
             self.keyRotationIntervalSeconds = keyRotationIntervalSeconds
             self.spekeKeyProvider = spekeKeyProvider
         }
 
         private enum CodingKeys: String, CodingKey {
+            case constantInitializationVector
             case keyRotationIntervalSeconds
             case spekeKeyProvider
         }

@@ -1366,7 +1366,7 @@ extension AuditManager {
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
             try self.validate(self.name, name: "name", parent: name, max: 300)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\\\]*$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1481,7 +1481,7 @@ extension AuditManager {
             try self.validate(self.frameworkId, name: "frameworkId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.validate(self.name, name: "name", parent: name, max: 300)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\\\]*$")
             try self.roles.forEach {
                 try $0.validate(name: "\(name).roles[]")
             }
@@ -1604,7 +1604,7 @@ extension AuditManager {
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
             try self.validate(self.name, name: "name", parent: name, max: 300)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\\\]*$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -2220,13 +2220,16 @@ extension AuditManager {
 
     public struct GetAssessmentResponse: AWSDecodableShape {
         public let assessment: Assessment?
+        public let userRole: Role?
 
-        public init(assessment: Assessment? = nil) {
+        public init(assessment: Assessment? = nil, userRole: Role? = nil) {
             self.assessment = assessment
+            self.userRole = userRole
         }
 
         private enum CodingKeys: String, CodingKey {
             case assessment
+            case userRole
         }
     }
 
@@ -3291,7 +3294,7 @@ extension AuditManager {
     public struct SourceKeyword: AWSEncodableShape & AWSDecodableShape {
         ///  The method of input for the specified keyword.
         public let keywordInputType: KeywordInputType?
-        ///  The value of the keyword used to search AWS CloudTrail logs when mapping a control data source.
+        ///  The value of the keyword used to search AWS CloudTrail logs, AWS Config rules, AWS Security Hub checks, and AWS API names when mapping a control data source.
         public let keywordValue: String?
 
         public init(keywordInputType: KeywordInputType? = nil, keywordValue: String? = nil) {
@@ -3532,9 +3535,9 @@ extension AuditManager {
                 try $0.validate(name: "\(name).controls[]")
             }
             try self.validate(self.controls, name: "controls", parent: name, min: 1)
-            try self.validate(self.id, name: "id", parent: name, max: 36)
-            try self.validate(self.id, name: "id", parent: name, min: 36)
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.id, name: "id", parent: name, max: 300)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[^\\_]*$")
             try self.validate(self.name, name: "name", parent: name, max: 300)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\_]*$")
@@ -3585,7 +3588,7 @@ extension AuditManager {
             try self.validate(self.frameworkId, name: "frameworkId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.validate(self.name, name: "name", parent: name, max: 300)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\\\]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3644,7 +3647,7 @@ extension AuditManager {
             try self.validate(self.assessmentId, name: "assessmentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.validate(self.assessmentName, name: "assessmentName", parent: name, max: 300)
             try self.validate(self.assessmentName, name: "assessmentName", parent: name, min: 1)
-            try self.validate(self.assessmentName, name: "assessmentName", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
+            try self.validate(self.assessmentName, name: "assessmentName", parent: name, pattern: "^[^\\\\]*$")
             try self.assessmentReportsDestination?.validate(name: "\(name).assessmentReportsDestination")
             try self.roles?.forEach {
                 try $0.validate(name: "\(name).roles[]")
@@ -3759,7 +3762,7 @@ extension AuditManager {
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
             try self.validate(self.name, name: "name", parent: name, max: 300)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\\\]*$")
             try self.validate(self.testingInformation, name: "testingInformation", parent: name, max: 1000)
             try self.validate(self.testingInformation, name: "testingInformation", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
         }

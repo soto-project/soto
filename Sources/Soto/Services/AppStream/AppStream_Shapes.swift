@@ -103,11 +103,13 @@ extension AppStream {
         case deleting = "DELETING"
         case failed = "FAILED"
         case pending = "PENDING"
+        case pendingQualification = "PENDING_QUALIFICATION"
         case rebooting = "REBOOTING"
         case running = "RUNNING"
         case snapshotting = "SNAPSHOTTING"
         case stopped = "STOPPED"
         case stopping = "STOPPING"
+        case updating = "UPDATING"
         case updatingAgent = "UPDATING_AGENT"
         public var description: String { return self.rawValue }
     }
@@ -954,6 +956,70 @@ extension AppStream {
         private enum CodingKeys: String, CodingKey {
             case expires = "Expires"
             case streamingURL = "StreamingURL"
+        }
+    }
+
+    public struct CreateUpdatedImageRequest: AWSEncodableShape {
+        /// Indicates whether to display the status of image update availability before AppStream 2.0 initiates the process of creating a new updated image. If this value is set to true, AppStream 2.0 displays whether image updates are available. If this value is set to false, AppStream 2.0 initiates the process of creating a new updated image without displaying whether image updates are available.
+        public let dryRun: Bool?
+        /// The name of the image to update.
+        public let existingImageName: String
+        /// The description to display for the new image.
+        public let newImageDescription: String?
+        /// The name to display for the new image.
+        public let newImageDisplayName: String?
+        /// The name of the new image. The name must be unique within the AWS account and Region.
+        public let newImageName: String
+        /// The tags to associate with the new image. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @ If you do not specify a value, the value is set to an empty string. For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
+        public let newImageTags: [String: String]?
+
+        public init(dryRun: Bool? = nil, existingImageName: String, newImageDescription: String? = nil, newImageDisplayName: String? = nil, newImageName: String, newImageTags: [String: String]? = nil) {
+            self.dryRun = dryRun
+            self.existingImageName = existingImageName
+            self.newImageDescription = newImageDescription
+            self.newImageDisplayName = newImageDisplayName
+            self.newImageName = newImageName
+            self.newImageTags = newImageTags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.existingImageName, name: "existingImageName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try self.validate(self.newImageDescription, name: "newImageDescription", parent: name, max: 256)
+            try self.validate(self.newImageDisplayName, name: "newImageDisplayName", parent: name, max: 100)
+            try self.validate(self.newImageName, name: "newImageName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try self.newImageTags?.forEach {
+                try validate($0.key, name: "newImageTags.key", parent: name, max: 128)
+                try validate($0.key, name: "newImageTags.key", parent: name, min: 1)
+                try validate($0.key, name: "newImageTags.key", parent: name, pattern: "^(^(?!aws:).[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name: "newImageTags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "newImageTags[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name: "newImageTags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun
+            case existingImageName
+            case newImageDescription
+            case newImageDisplayName
+            case newImageName
+            case newImageTags
+        }
+    }
+
+    public struct CreateUpdatedImageResult: AWSDecodableShape {
+        /// Indicates whether a new image can be created.
+        public let canUpdateImage: Bool?
+        public let image: Image?
+
+        public init(canUpdateImage: Bool? = nil, image: Image? = nil) {
+            self.canUpdateImage = canUpdateImage
+            self.image = image
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case canUpdateImage
+            case image
         }
     }
 
@@ -1952,6 +2018,8 @@ extension AppStream {
         public let imageBuilderName: String?
         /// Indicates whether an image builder can be launched from this image.
         public let imageBuilderSupported: Bool?
+        /// Describes the errors that are returned when a new image can't be created.
+        public let imageErrors: [ResourceError]?
         /// The permissions to provide to the destination AWS account for the specified image.
         public let imagePermissions: ImagePermissions?
         /// The name of the image.
@@ -1967,7 +2035,7 @@ extension AppStream {
         /// Indicates whether the image is public or private.
         public let visibility: VisibilityType?
 
-        public init(applications: [Application]? = nil, appstreamAgentVersion: String? = nil, arn: String? = nil, baseImageArn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, imageBuilderName: String? = nil, imageBuilderSupported: Bool? = nil, imagePermissions: ImagePermissions? = nil, name: String, platform: PlatformType? = nil, publicBaseImageReleasedDate: Date? = nil, state: ImageState? = nil, stateChangeReason: ImageStateChangeReason? = nil, visibility: VisibilityType? = nil) {
+        public init(applications: [Application]? = nil, appstreamAgentVersion: String? = nil, arn: String? = nil, baseImageArn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, imageBuilderName: String? = nil, imageBuilderSupported: Bool? = nil, imageErrors: [ResourceError]? = nil, imagePermissions: ImagePermissions? = nil, name: String, platform: PlatformType? = nil, publicBaseImageReleasedDate: Date? = nil, state: ImageState? = nil, stateChangeReason: ImageStateChangeReason? = nil, visibility: VisibilityType? = nil) {
             self.applications = applications
             self.appstreamAgentVersion = appstreamAgentVersion
             self.arn = arn
@@ -1977,6 +2045,7 @@ extension AppStream {
             self.displayName = displayName
             self.imageBuilderName = imageBuilderName
             self.imageBuilderSupported = imageBuilderSupported
+            self.imageErrors = imageErrors
             self.imagePermissions = imagePermissions
             self.name = name
             self.platform = platform
@@ -1996,6 +2065,7 @@ extension AppStream {
             case displayName = "DisplayName"
             case imageBuilderName = "ImageBuilderName"
             case imageBuilderSupported = "ImageBuilderSupported"
+            case imageErrors = "ImageErrors"
             case imagePermissions = "ImagePermissions"
             case name = "Name"
             case platform = "Platform"

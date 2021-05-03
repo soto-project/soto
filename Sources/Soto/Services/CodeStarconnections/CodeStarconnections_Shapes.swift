@@ -132,13 +132,15 @@ extension CodeStarconnections {
         public let providerEndpoint: String
         /// The name of the installed provider to be associated with your connection. The host resource represents the infrastructure where your provider type is installed. The valid provider type is GitHub Enterprise Server.
         public let providerType: ProviderType
+        public let tags: [Tag]?
         /// The VPC configuration to be provisioned for the host. A VPC must be configured and the infrastructure to be represented by the host must already be connected to the VPC.
         public let vpcConfiguration: VpcConfiguration?
 
-        public init(name: String, providerEndpoint: String, providerType: ProviderType, vpcConfiguration: VpcConfiguration? = nil) {
+        public init(name: String, providerEndpoint: String, providerType: ProviderType, tags: [Tag]? = nil, vpcConfiguration: VpcConfiguration? = nil) {
             self.name = name
             self.providerEndpoint = providerEndpoint
             self.providerType = providerType
+            self.tags = tags
             self.vpcConfiguration = vpcConfiguration
         }
 
@@ -149,6 +151,11 @@ extension CodeStarconnections {
             try self.validate(self.providerEndpoint, name: "providerEndpoint", parent: name, max: 512)
             try self.validate(self.providerEndpoint, name: "providerEndpoint", parent: name, min: 1)
             try self.validate(self.providerEndpoint, name: "providerEndpoint", parent: name, pattern: ".*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
             try self.vpcConfiguration?.validate(name: "\(name).vpcConfiguration")
         }
 
@@ -156,6 +163,7 @@ extension CodeStarconnections {
             case name = "Name"
             case providerEndpoint = "ProviderEndpoint"
             case providerType = "ProviderType"
+            case tags = "Tags"
             case vpcConfiguration = "VpcConfiguration"
         }
     }
@@ -163,13 +171,16 @@ extension CodeStarconnections {
     public struct CreateHostOutput: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the host to be created.
         public let hostArn: String?
+        public let tags: [Tag]?
 
-        public init(hostArn: String? = nil) {
+        public init(hostArn: String? = nil, tags: [Tag]? = nil) {
             self.hostArn = hostArn
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case hostArn = "HostArn"
+            case tags = "Tags"
         }
     }
 

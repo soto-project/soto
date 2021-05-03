@@ -3199,7 +3199,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the Spot price history. For more information, see Spot Instance pricing history in the Amazon EC2 User Guide for Linux Instances. When you specify a start and end time, this operation returns the prices of the instance types within the time range that you specified and the time when the price changed. The price is valid within the time period that you specified; the response merely indicates the last time that the price changed.
+    ///  Describes the Spot price history. For more information, see Spot Instance pricing history in the Amazon EC2 User Guide for Linux Instances. When you specify a start and end time, the operation returns the prices of the instance types within that time range. It also returns the last price change before the start time, which is the effective price as of the start time.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3300,6 +3300,59 @@ extension EC2 {
             command: describeStaleSecurityGroups,
             inputKey: \DescribeStaleSecurityGroupsRequest.nextToken,
             outputKey: \DescribeStaleSecurityGroupsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Describes the progress of the AMI store tasks. You can describe the store tasks for specified AMIs. If you don't specify the AMIs, you get a paginated list of store tasks from the last 31 days. For each AMI task, the response indicates if the task is InProgress, Completed, or Failed. For tasks InProgress, the response shows the estimated progress as a percentage. Tasks are listed in reverse chronological order. Currently, only tasks from the past 31 days can be viewed. To use this API, you must have the required permissions. For more information, see Permissions for storing and restoring AMIs using S3 in the Amazon Elastic Compute Cloud User Guide. For more information, see Store and restore an AMI using S3 in the Amazon Elastic Compute Cloud User Guide.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeStoreImageTasksPaginator<Result>(
+        _ input: DescribeStoreImageTasksRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeStoreImageTasksResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeStoreImageTasks,
+            inputKey: \DescribeStoreImageTasksRequest.nextToken,
+            outputKey: \DescribeStoreImageTasksResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeStoreImageTasksPaginator(
+        _ input: DescribeStoreImageTasksRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeStoreImageTasksResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeStoreImageTasks,
+            inputKey: \DescribeStoreImageTasksRequest.nextToken,
+            outputKey: \DescribeStoreImageTasksResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -5921,6 +5974,18 @@ extension EC2.DescribeStaleSecurityGroupsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             vpcId: self.vpcId
+        )
+    }
+}
+
+extension EC2.DescribeStoreImageTasksRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeStoreImageTasksRequest {
+        return .init(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            imageIds: self.imageIds,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

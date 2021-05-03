@@ -549,6 +549,112 @@ extension Redshift {
         )
     }
 
+    ///  Describes a Redshift-managed VPC endpoint.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeEndpointAccessPaginator<Result>(
+        _ input: DescribeEndpointAccessMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, EndpointAccessList, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeEndpointAccess,
+            inputKey: \DescribeEndpointAccessMessage.marker,
+            outputKey: \EndpointAccessList.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeEndpointAccessPaginator(
+        _ input: DescribeEndpointAccessMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (EndpointAccessList, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeEndpointAccess,
+            inputKey: \DescribeEndpointAccessMessage.marker,
+            outputKey: \EndpointAccessList.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Describes an endpoint authorization.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeEndpointAuthorizationPaginator<Result>(
+        _ input: DescribeEndpointAuthorizationMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, EndpointAuthorizationList, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeEndpointAuthorization,
+            inputKey: \DescribeEndpointAuthorizationMessage.marker,
+            outputKey: \EndpointAuthorizationList.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeEndpointAuthorizationPaginator(
+        _ input: DescribeEndpointAuthorizationMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (EndpointAuthorizationList, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeEndpointAuthorization,
+            inputKey: \DescribeEndpointAuthorizationMessage.marker,
+            outputKey: \EndpointAuthorizationList.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Lists descriptions of all the Amazon Redshift event notification subscriptions for a customer account. If you specify a subscription name, lists the description for that subscription. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all event notification subscriptions that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all subscriptions that have any combination of those values are returned. If both tag keys and values are omitted from the request, subscriptions are returned regardless of whether they have tag keys or values associated with them.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -1460,6 +1566,31 @@ extension Redshift.DescribeDefaultClusterParametersMessage: AWSPaginateToken {
             marker: token,
             maxRecords: self.maxRecords,
             parameterGroupFamily: self.parameterGroupFamily
+        )
+    }
+}
+
+extension Redshift.DescribeEndpointAccessMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Redshift.DescribeEndpointAccessMessage {
+        return .init(
+            clusterIdentifier: self.clusterIdentifier,
+            endpointName: self.endpointName,
+            marker: token,
+            maxRecords: self.maxRecords,
+            resourceOwner: self.resourceOwner,
+            vpcId: self.vpcId
+        )
+    }
+}
+
+extension Redshift.DescribeEndpointAuthorizationMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Redshift.DescribeEndpointAuthorizationMessage {
+        return .init(
+            account: self.account,
+            clusterIdentifier: self.clusterIdentifier,
+            grantee: self.grantee,
+            marker: token,
+            maxRecords: self.maxRecords
         )
     }
 }

@@ -786,7 +786,7 @@ extension SSM {
         public let resourceId: String
         /// Specifies the type of resource you are tagging.  The ManagedInstance type for this API action is for on-premises managed instances. You must specify the name of the managed instance in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
         public let resourceType: ResourceTypeForTagging
-        ///  One or more tags. The value parameter is required, but if you don't want the tag to have a value, specify the parameter with no value, and we set the value to an empty string.   Do not enter personally identifiable information in this field.
+        /// One or more tags. The value parameter is required.  Do not enter personally identifiable information in this field.
         public let tags: [Tag]
 
         public init(resourceId: String, resourceType: ResourceTypeForTagging, tags: [Tag]) {
@@ -830,7 +830,7 @@ extension SSM {
         public let name: String?
         /// Information about the association.
         public let overview: AssociationOverview?
-        /// A cron expression that specifies a schedule when the association runs.
+        /// A cron expression that specifies a schedule when the association runs. The schedule runs in Coordinated Universal Time (UTC).
         public let scheduleExpression: String?
         /// The instances targeted by the request to create an association.
         public let targets: [Target]?
@@ -3704,7 +3704,7 @@ extension SSM {
         public let maxResults: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        /// A boolean that indicates whether to list step executions in reverse order by start time. The default value is false.
+        /// A boolean that indicates whether to list step executions in reverse order by start time. The default value is 'false'.
         public let reverseOrder: Bool?
 
         public init(automationExecutionId: String, filters: [StepExecutionFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, reverseOrder: Bool? = nil) {
@@ -4896,6 +4896,8 @@ extension SSM {
     public struct DescribePatchGroupStateResult: AWSDecodableShape {
         /// The number of instances in the patch group.
         public let instances: Int?
+        /// The number of instances where patches that are specified as "Critical" for compliance reporting in the patch baseline are not installed. These patches might be missing, have failed installation, were rejected, or were installed but awaiting a required instance reboot. The status of these instances is NON_COMPLIANT.
+        public let instancesWithCriticalNonCompliantPatches: Int?
         /// The number of instances with patches from the patch baseline that failed to install.
         public let instancesWithFailedPatches: Int?
         /// The number of instances with patches installed that aren't defined in the patch baseline.
@@ -4910,11 +4912,16 @@ extension SSM {
         public let instancesWithMissingPatches: Int?
         /// The number of instances with patches that aren't applicable.
         public let instancesWithNotApplicablePatches: Int?
+        /// The number of instances with patches installed that are specified as other than "Critical" or "Security" but are not compliant with the patch baseline. The status of these instances is NON_COMPLIANT.
+        public let instancesWithOtherNonCompliantPatches: Int?
+        /// The number of instances where patches that are specified as "Security" in a patch advisory are not installed. These patches might be missing, have failed installation, were rejected, or were installed but awaiting a required instance reboot. The status of these instances is NON_COMPLIANT.
+        public let instancesWithSecurityNonCompliantPatches: Int?
         /// The number of instances with NotApplicable patches beyond the supported limit, which are not reported by name to Systems Manager Inventory.
         public let instancesWithUnreportedNotApplicablePatches: Int?
 
-        public init(instances: Int? = nil, instancesWithFailedPatches: Int? = nil, instancesWithInstalledOtherPatches: Int? = nil, instancesWithInstalledPatches: Int? = nil, instancesWithInstalledPendingRebootPatches: Int? = nil, instancesWithInstalledRejectedPatches: Int? = nil, instancesWithMissingPatches: Int? = nil, instancesWithNotApplicablePatches: Int? = nil, instancesWithUnreportedNotApplicablePatches: Int? = nil) {
+        public init(instances: Int? = nil, instancesWithCriticalNonCompliantPatches: Int? = nil, instancesWithFailedPatches: Int? = nil, instancesWithInstalledOtherPatches: Int? = nil, instancesWithInstalledPatches: Int? = nil, instancesWithInstalledPendingRebootPatches: Int? = nil, instancesWithInstalledRejectedPatches: Int? = nil, instancesWithMissingPatches: Int? = nil, instancesWithNotApplicablePatches: Int? = nil, instancesWithOtherNonCompliantPatches: Int? = nil, instancesWithSecurityNonCompliantPatches: Int? = nil, instancesWithUnreportedNotApplicablePatches: Int? = nil) {
             self.instances = instances
+            self.instancesWithCriticalNonCompliantPatches = instancesWithCriticalNonCompliantPatches
             self.instancesWithFailedPatches = instancesWithFailedPatches
             self.instancesWithInstalledOtherPatches = instancesWithInstalledOtherPatches
             self.instancesWithInstalledPatches = instancesWithInstalledPatches
@@ -4922,11 +4929,14 @@ extension SSM {
             self.instancesWithInstalledRejectedPatches = instancesWithInstalledRejectedPatches
             self.instancesWithMissingPatches = instancesWithMissingPatches
             self.instancesWithNotApplicablePatches = instancesWithNotApplicablePatches
+            self.instancesWithOtherNonCompliantPatches = instancesWithOtherNonCompliantPatches
+            self.instancesWithSecurityNonCompliantPatches = instancesWithSecurityNonCompliantPatches
             self.instancesWithUnreportedNotApplicablePatches = instancesWithUnreportedNotApplicablePatches
         }
 
         private enum CodingKeys: String, CodingKey {
             case instances = "Instances"
+            case instancesWithCriticalNonCompliantPatches = "InstancesWithCriticalNonCompliantPatches"
             case instancesWithFailedPatches = "InstancesWithFailedPatches"
             case instancesWithInstalledOtherPatches = "InstancesWithInstalledOtherPatches"
             case instancesWithInstalledPatches = "InstancesWithInstalledPatches"
@@ -4934,6 +4944,8 @@ extension SSM {
             case instancesWithInstalledRejectedPatches = "InstancesWithInstalledRejectedPatches"
             case instancesWithMissingPatches = "InstancesWithMissingPatches"
             case instancesWithNotApplicablePatches = "InstancesWithNotApplicablePatches"
+            case instancesWithOtherNonCompliantPatches = "InstancesWithOtherNonCompliantPatches"
+            case instancesWithSecurityNonCompliantPatches = "InstancesWithSecurityNonCompliantPatches"
             case instancesWithUnreportedNotApplicablePatches = "InstancesWithUnreportedNotApplicablePatches"
         }
     }
@@ -5648,9 +5660,9 @@ extension SSM {
     public struct GetCommandInvocationRequest: AWSEncodableShape {
         /// (Required) The parent command ID of the invocation plugin.
         public let commandId: String
-        /// (Required) The ID of the managed instance targeted by the command. A managed instance can be an EC2 instance or an instance in your hybrid environment that is configured for Systems Manager.
+        /// (Required) The ID of the managed instance targeted by the command. A managed instance can be an Amazon Elastic Compute Cloud (Amazon EC2) instance or an instance in your hybrid environment that is configured for AWS Systems Manager.
         public let instanceId: String
-        /// The name of the plugin for which you want detailed results. If the document contains only one plugin, you can omit the name and details for that plugin are returned. If the document contains more than one plugin, you must specify the name of the plugin for which you want to view details. Plugin names are also referred to as step names in Systems Manager documents. For example, aws:RunShellScript is a plugin.
+        /// The name of the plugin for which you want detailed results. If the document contains only one plugin, you can omit the name and details for that plugin. If the document contains more than one plugin, you must specify the name of the plugin for which you want to view details. Plugin names are also referred to as step names in Systems Manager documents. For example, aws:RunShellScript is a plugin. To find the PluginName, check the document content and find the name of the plugin. Alternatively, use ListCommandInvocations with the CommandId and Details parameters. The PluginName is the Name attribute of the CommandPlugin object in the CommandPlugins list.
         public let pluginName: String?
 
         public init(commandId: String, instanceId: String, pluginName: String? = nil) {
@@ -5686,7 +5698,7 @@ extension SSM {
         public let documentVersion: String?
         /// Duration since ExecutionStartDateTime.
         public let executionElapsedTime: String?
-        /// The date and time the plugin was finished running. Date and time are written in ISO 8601 format. For example, June 7, 2017 is represented as 2017-06-7. The following sample AWS CLI command uses the InvokedAfter filter.  aws ssm list-commands --filters key=InvokedAfter,value=2017-06-07T00:00:00Z  If the plugin has not started to run, the string is empty.
+        /// The date and time the plugin finished running. Date and time are written in ISO 8601 format. For example, June 7, 2017 is represented as 2017-06-7. The following sample AWS CLI command uses the InvokedAfter filter.  aws ssm list-commands --filters key=InvokedAfter,value=2017-06-07T00:00:00Z  If the plugin has not started to run, the string is empty.
         public let executionEndDateTime: String?
         /// The date and time the plugin started running. Date and time are written in ISO 8601 format. For example, June 7, 2017 is represented as 2017-06-7. The following sample AWS CLI command uses the InvokedBefore filter.  aws ssm list-commands --filters key=InvokedBefore,value=2017-06-07T00:00:00Z  If the plugin has not started to run, the string is empty.
         public let executionStartDateTime: String?
@@ -5702,7 +5714,7 @@ extension SSM {
         public let standardErrorUrl: String?
         /// The first 24,000 characters written by the plugin to stdout. If the command has not finished running, if ExecutionStatus is neither Succeeded nor Failed, then this string is empty.
         public let standardOutputContent: String?
-        /// The URL for the complete text written by the plugin to stdout in Amazon S3. If an S3 bucket was not specified, then this string is empty.
+        /// The URL for the complete text written by the plugin to stdout in Amazon Simple Storage Service (Amazon S3). If an S3 bucket was not specified, then this string is empty.
         public let standardOutputUrl: String?
         /// The status of this invocation plugin. This status can be different than StatusDetails.
         public let status: CommandInvocationStatus?
@@ -7249,6 +7261,8 @@ extension SSM {
     public struct InstancePatchState: AWSDecodableShape {
         /// The ID of the patch baseline used to patch the instance.
         public let baselineId: String
+        /// The number of instances where patches that are specified as "Critical" for compliance reporting in the patch baseline are not installed. These patches might be missing, have failed installation, were rejected, or were installed but awaiting a required instance reboot. The status of these instances is NON_COMPLIANT.
+        public let criticalNonCompliantCount: Int?
         /// The number of patches from the patch baseline that were attempted to be installed during the last patching operation, but failed to install.
         public let failedCount: Int?
         /// The number of patches from the patch baseline that are installed on the instance.
@@ -7275,19 +7289,24 @@ extension SSM {
         public let operationEndTime: Date
         /// The time the most recent patching operation was started on the instance.
         public let operationStartTime: Date
+        /// The number of instances with patches installed that are specified as other than "Critical" or "Security" but are not compliant with the patch baseline. The status of these instances is NON_COMPLIANT.
+        public let otherNonCompliantCount: Int?
         /// Placeholder information. This field will always be empty in the current release of the service.
         public let ownerInformation: String?
         /// The name of the patch group the managed instance belongs to.
         public let patchGroup: String
         /// Indicates the reboot option specified in the patch baseline.  Reboot options apply to Install operations only. Reboots are not attempted for Patch Manager Scan operations.     RebootIfNeeded: Patch Manager tries to reboot the instance if it installed any patches, or if any patches are detected with a status of InstalledPendingReboot.    NoReboot: Patch Manager attempts to install missing packages without trying to reboot the system. Patches installed with this option are assigned a status of InstalledPendingReboot. These patches might not be in effect until a reboot is performed.
         public let rebootOption: RebootOption?
+        /// The number of instances where patches that are specified as "Security" in a patch advisory are not installed. These patches might be missing, have failed installation, were rejected, or were installed but awaiting a required instance reboot. The status of these instances is NON_COMPLIANT.
+        public let securityNonCompliantCount: Int?
         /// The ID of the patch baseline snapshot used during the patching operation when this compliance data was collected.
         public let snapshotId: String?
         /// The number of patches beyond the supported limit of NotApplicableCount that are not reported by name to Systems Manager Inventory.
         public let unreportedNotApplicableCount: Int?
 
-        public init(baselineId: String, failedCount: Int? = nil, installedCount: Int? = nil, installedOtherCount: Int? = nil, installedPendingRebootCount: Int? = nil, installedRejectedCount: Int? = nil, installOverrideList: String? = nil, instanceId: String, lastNoRebootInstallOperationTime: Date? = nil, missingCount: Int? = nil, notApplicableCount: Int? = nil, operation: PatchOperationType, operationEndTime: Date, operationStartTime: Date, ownerInformation: String? = nil, patchGroup: String, rebootOption: RebootOption? = nil, snapshotId: String? = nil, unreportedNotApplicableCount: Int? = nil) {
+        public init(baselineId: String, criticalNonCompliantCount: Int? = nil, failedCount: Int? = nil, installedCount: Int? = nil, installedOtherCount: Int? = nil, installedPendingRebootCount: Int? = nil, installedRejectedCount: Int? = nil, installOverrideList: String? = nil, instanceId: String, lastNoRebootInstallOperationTime: Date? = nil, missingCount: Int? = nil, notApplicableCount: Int? = nil, operation: PatchOperationType, operationEndTime: Date, operationStartTime: Date, otherNonCompliantCount: Int? = nil, ownerInformation: String? = nil, patchGroup: String, rebootOption: RebootOption? = nil, securityNonCompliantCount: Int? = nil, snapshotId: String? = nil, unreportedNotApplicableCount: Int? = nil) {
             self.baselineId = baselineId
+            self.criticalNonCompliantCount = criticalNonCompliantCount
             self.failedCount = failedCount
             self.installedCount = installedCount
             self.installedOtherCount = installedOtherCount
@@ -7301,15 +7320,18 @@ extension SSM {
             self.operation = operation
             self.operationEndTime = operationEndTime
             self.operationStartTime = operationStartTime
+            self.otherNonCompliantCount = otherNonCompliantCount
             self.ownerInformation = ownerInformation
             self.patchGroup = patchGroup
             self.rebootOption = rebootOption
+            self.securityNonCompliantCount = securityNonCompliantCount
             self.snapshotId = snapshotId
             self.unreportedNotApplicableCount = unreportedNotApplicableCount
         }
 
         private enum CodingKeys: String, CodingKey {
             case baselineId = "BaselineId"
+            case criticalNonCompliantCount = "CriticalNonCompliantCount"
             case failedCount = "FailedCount"
             case installedCount = "InstalledCount"
             case installedOtherCount = "InstalledOtherCount"
@@ -7323,9 +7345,11 @@ extension SSM {
             case operation = "Operation"
             case operationEndTime = "OperationEndTime"
             case operationStartTime = "OperationStartTime"
+            case otherNonCompliantCount = "OtherNonCompliantCount"
             case ownerInformation = "OwnerInformation"
             case patchGroup = "PatchGroup"
             case rebootOption = "RebootOption"
+            case securityNonCompliantCount = "SecurityNonCompliantCount"
             case snapshotId = "SnapshotId"
             case unreportedNotApplicableCount = "UnreportedNotApplicableCount"
         }
@@ -7810,7 +7834,7 @@ extension SSM {
     public struct ListCommandInvocationsRequest: AWSEncodableShape {
         /// (Optional) The invocations for a specific command ID.
         public let commandId: String?
-        /// (Optional) If set this returns the response of the command executions and any command output. By default this is set to False.
+        /// (Optional) If set this returns the response of the command executions and any command output. The default value is 'false'.
         public let details: Bool?
         /// (Optional) One or more filters. Use a filter to return a more specific list of results.
         public let filters: [CommandFilter]?
@@ -10422,7 +10446,7 @@ extension SSM {
         public let keyId: String?
         /// The fully qualified name of the parameter that you want to add to the system. The fully qualified name includes the complete hierarchy of the parameter path and name. For parameters in a hierarchy, you must include a leading forward slash character (/) when you create or reference a parameter. For example: /Dev/DBServer/MySQL/db-string13  Naming Constraints:   Parameter names are case sensitive.   A parameter name must be unique within an AWS Region   A parameter name can't be prefixed with "aws" or "ssm" (case-insensitive).   Parameter names can include only the following symbols and letters: a-zA-Z0-9_.-  In addition, the slash character ( / ) is used to delineate hierarchies in parameter names. For example: /Dev/Production/East/Project-ABC/MyParameter    A parameter name can't include spaces.   Parameter hierarchies are limited to a maximum depth of fifteen levels.   For additional information about valid values for parameter names, see Creating Systems Manager parameters in the AWS Systems Manager User Guide.  The maximum length constraint listed below includes capacity for additional system attributes that are not part of the name. The maximum length for a parameter name, including the full length of the parameter ARN, is 1011 characters. For example, the length of the following parameter name is 65 characters, not 20 characters:  arn:aws:ssm:us-east-2:111122223333:parameter/ExampleParameterName
         public let name: String
-        /// Overwrite an existing parameter. If not specified, will default to "false".
+        /// Overwrite an existing parameter. The default value is 'false'.
         public let overwrite: Bool?
         /// One or more policies to apply to a parameter. This action takes a JSON array. Parameter Store supports the following policy types: Expiration: This policy deletes the parameter after it expires. When you create the policy, you specify the expiration date. You can update the expiration date and time by updating the policy. Updating the parameter does not affect the expiration date and time. When the expiration time is reached, Parameter Store deletes the parameter. ExpirationNotification: This policy triggers an event in Amazon CloudWatch Events that notifies you about the expiration. By using this policy, you can receive notification before or after the expiration time is reached, in units of days or hours. NoChangeNotification: This policy triggers a CloudWatch event if a parameter has not been modified for a specified period of time. This policy type is useful when, for example, a secret needs to be changed within a period of time, but it has not been changed. All existing policies are preserved until you send new policies or an empty policy. For more information about parameter policies, see Assigning parameter policies.
         public let policies: String?
@@ -11777,6 +11801,8 @@ extension SSM {
     }
 
     public struct StartChangeRequestExecutionRequest: AWSEncodableShape {
+        /// User-provided details about the change. If no details are provided, content specified in the Template information section of the associated change template is added.
+        public let changeDetails: String?
         /// The name of the change request associated with the runbook workflow to be run.
         public let changeRequestName: String?
         /// The user-provided idempotency token. The token must be unique, is case insensitive, enforces the UUID format, and can't be reused.
@@ -11789,23 +11815,29 @@ extension SSM {
         public let parameters: [String: [String]]?
         /// Information about the Automation runbooks (Automation documents) that are run during the runbook workflow.  The Automation runbooks specified for the runbook workflow can't run until all required approvals for the change request have been received.
         public let runbooks: [Runbook]
+        /// The time that the requester expects the runbook workflow related to the change request to complete. The time is an estimate only that the requester provides for reviewers.
+        public let scheduledEndTime: Date?
         /// The date and time specified in the change request to run the Automation runbooks.  The Automation runbooks specified for the runbook workflow can't run until all required approvals for the change request have been received.
         public let scheduledTime: Date?
         /// Optional metadata that you assign to a resource. You can specify a maximum of five tags for a change request. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag a change request to identify an environment or target AWS Region. In this case, you could specify the following key-value pairs:    Key=Environment,Value=Production     Key=Region,Value=us-east-2
         public let tags: [Tag]?
 
-        public init(changeRequestName: String? = nil, clientToken: String? = nil, documentName: String, documentVersion: String? = nil, parameters: [String: [String]]? = nil, runbooks: [Runbook], scheduledTime: Date? = nil, tags: [Tag]? = nil) {
+        public init(changeDetails: String? = nil, changeRequestName: String? = nil, clientToken: String? = nil, documentName: String, documentVersion: String? = nil, parameters: [String: [String]]? = nil, runbooks: [Runbook], scheduledEndTime: Date? = nil, scheduledTime: Date? = nil, tags: [Tag]? = nil) {
+            self.changeDetails = changeDetails
             self.changeRequestName = changeRequestName
             self.clientToken = clientToken
             self.documentName = documentName
             self.documentVersion = documentVersion
             self.parameters = parameters
             self.runbooks = runbooks
+            self.scheduledEndTime = scheduledEndTime
             self.scheduledTime = scheduledTime
             self.tags = tags
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.changeDetails, name: "changeDetails", parent: name, max: 32768)
+            try self.validate(self.changeDetails, name: "changeDetails", parent: name, min: 1)
             try self.validate(self.changeRequestName, name: "changeRequestName", parent: name, max: 1024)
             try self.validate(self.changeRequestName, name: "changeRequestName", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
@@ -11831,12 +11863,14 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case changeDetails = "ChangeDetails"
             case changeRequestName = "ChangeRequestName"
             case clientToken = "ClientToken"
             case documentName = "DocumentName"
             case documentVersion = "DocumentVersion"
             case parameters = "Parameters"
             case runbooks = "Runbooks"
+            case scheduledEndTime = "ScheduledEndTime"
             case scheduledTime = "ScheduledTime"
             case tags = "Tags"
         }
@@ -12183,6 +12217,55 @@ extension SSM {
         }
     }
 
+    public struct UnlabelParameterVersionRequest: AWSEncodableShape {
+        /// One or more labels to delete from the specified parameter version.
+        public let labels: [String]
+        /// The parameter name of which you want to delete one or more labels.
+        public let name: String
+        /// The specific version of the parameter which you want to delete one or more labels from. If it is not present, the call will fail.
+        public let parameterVersion: Int64
+
+        public init(labels: [String], name: String, parameterVersion: Int64) {
+            self.labels = labels
+            self.name = name
+            self.parameterVersion = parameterVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.labels.forEach {
+                try validate($0, name: "labels[]", parent: name, max: 100)
+                try validate($0, name: "labels[]", parent: name, min: 1)
+            }
+            try self.validate(self.labels, name: "labels", parent: name, max: 10)
+            try self.validate(self.labels, name: "labels", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 2048)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case labels = "Labels"
+            case name = "Name"
+            case parameterVersion = "ParameterVersion"
+        }
+    }
+
+    public struct UnlabelParameterVersionResult: AWSDecodableShape {
+        /// The labels that are not attached to the given parameter version.
+        public let invalidLabels: [String]?
+        /// A list of all labels deleted from the parameter.
+        public let removedLabels: [String]?
+
+        public init(invalidLabels: [String]? = nil, removedLabels: [String]? = nil) {
+            self.invalidLabels = invalidLabels
+            self.removedLabels = removedLabels
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invalidLabels = "InvalidLabels"
+            case removedLabels = "RemovedLabels"
+        }
+    }
+
     public struct UpdateAssociationRequest: AWSEncodableShape {
         /// By default, when you update an association, the system runs it immediately after it is updated and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you update it. This parameter is not supported for rate expressions. Also, if you specified this option when you created the association, you can reset it. To do so, specify the no-apply-only-at-cron-interval parameter when you update the association from the command line. This parameter forces the association to run immediately after updating it and according to the interval specified.
         public let applyOnlyAtCronInterval: Bool?
@@ -12411,7 +12494,7 @@ extension SSM {
         public let content: String
         /// Specify the document format for the new document version. Systems Manager supports JSON and YAML documents. JSON is the default format.
         public let documentFormat: DocumentFormat?
-        /// (Required) The latest version of the document that you want to update. The latest document version can be specified using the $LATEST variable or by the version number. Updating a previous version of a document is not supported.
+        /// The version of the document that you want to update. Currently, Systems Manager supports updating only the latest version of the document. You can specify the version number of the latest version or use the $LATEST variable.
         public let documentVersion: String?
         /// The name of the document that you want to update.
         public let name: String

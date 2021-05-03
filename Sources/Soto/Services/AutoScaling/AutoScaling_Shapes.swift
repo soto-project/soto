@@ -56,6 +56,15 @@ extension AutoScaling {
         case terminating = "Terminating"
         case terminatingProceed = "Terminating:Proceed"
         case terminatingWait = "Terminating:Wait"
+        case warmedPending = "Warmed:Pending"
+        case warmedPendingProceed = "Warmed:Pending:Proceed"
+        case warmedPendingWait = "Warmed:Pending:Wait"
+        case warmedRunning = "Warmed:Running"
+        case warmedStopped = "Warmed:Stopped"
+        case warmedTerminated = "Warmed:Terminated"
+        case warmedTerminating = "Warmed:Terminating"
+        case warmedTerminatingProceed = "Warmed:Terminating:Proceed"
+        case warmedTerminatingWait = "Warmed:Terminating:Wait"
         public var description: String { return self.rawValue }
     }
 
@@ -94,6 +103,17 @@ extension AutoScaling {
         case waitingforinstancewarmup = "WaitingForInstanceWarmup"
         case waitingforspotinstanceid = "WaitingForSpotInstanceId"
         case waitingforspotinstancerequestid = "WaitingForSpotInstanceRequestId"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WarmPoolState: String, CustomStringConvertible, Codable {
+        case running = "Running"
+        case stopped = "Stopped"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WarmPoolStatus: String, CustomStringConvertible, Codable {
+        case pendingdelete = "PendingDelete"
         public var description: String { return self.rawValue }
     }
 
@@ -375,8 +395,12 @@ extension AutoScaling {
         public var terminationPolicies: [String]?
         /// One or more subnet IDs, if applicable, separated by commas.
         public let vPCZoneIdentifier: String?
+        /// The warm pool for the group.
+        public let warmPoolConfiguration: WarmPoolConfiguration?
+        /// The current size of the warm pool.
+        public let warmPoolSize: Int?
 
-        public init(autoScalingGroupARN: String? = nil, autoScalingGroupName: String, availabilityZones: [String], capacityRebalance: Bool? = nil, createdTime: Date, defaultCooldown: Int, desiredCapacity: Int, enabledMetrics: [EnabledMetric]? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String, instances: [Instance]? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int, minSize: Int, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, status: String? = nil, suspendedProcesses: [SuspendedProcess]? = nil, tags: [TagDescription]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, vPCZoneIdentifier: String? = nil) {
+        public init(autoScalingGroupARN: String? = nil, autoScalingGroupName: String, availabilityZones: [String], capacityRebalance: Bool? = nil, createdTime: Date, defaultCooldown: Int, desiredCapacity: Int, enabledMetrics: [EnabledMetric]? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String, instances: [Instance]? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int, minSize: Int, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, status: String? = nil, suspendedProcesses: [SuspendedProcess]? = nil, tags: [TagDescription]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, vPCZoneIdentifier: String? = nil, warmPoolConfiguration: WarmPoolConfiguration? = nil, warmPoolSize: Int? = nil) {
             self.autoScalingGroupARN = autoScalingGroupARN
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZones = availabilityZones
@@ -404,6 +428,8 @@ extension AutoScaling {
             self.targetGroupARNs = targetGroupARNs
             self.terminationPolicies = terminationPolicies
             self.vPCZoneIdentifier = vPCZoneIdentifier
+            self.warmPoolConfiguration = warmPoolConfiguration
+            self.warmPoolSize = warmPoolSize
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -434,6 +460,8 @@ extension AutoScaling {
             case targetGroupARNs = "TargetGroupARNs"
             case terminationPolicies = "TerminationPolicies"
             case vPCZoneIdentifier = "VPCZoneIdentifier"
+            case warmPoolConfiguration = "WarmPoolConfiguration"
+            case warmPoolSize = "WarmPoolSize"
         }
     }
 
@@ -501,7 +529,7 @@ extension AutoScaling {
         public let launchConfigurationName: String?
         /// The launch template for the instance.
         public let launchTemplate: LaunchTemplateSpecification?
-        /// The lifecycle state for the instance. The Quarantined state is not used. For information about lifecycle states, see Instance lifecycle in the Amazon EC2 Auto Scaling User Guide.  Valid Values: Pending | Pending:Wait | Pending:Proceed | Quarantined | InService | Terminating | Terminating:Wait | Terminating:Proceed | Terminated | Detaching | Detached | EnteringStandby | Standby
+        /// The lifecycle state for the instance. The Quarantined state is not used. For information about lifecycle states, see Instance lifecycle in the Amazon EC2 Auto Scaling User Guide.  Valid Values: Pending | Pending:Wait | Pending:Proceed | Quarantined | InService | Terminating | Terminating:Wait | Terminating:Proceed | Terminated | Detaching | Detached | EnteringStandby | Standby | Warmed:Pending | Warmed:Pending:Wait | Warmed:Pending:Proceed | Warmed:Terminating | Warmed:Terminating:Wait | Warmed:Terminating:Proceed | Warmed:Terminated | Warmed:Stopped | Warmed:Running
         public let lifecycleState: String
         /// Indicates whether the instance is protected from termination by Amazon EC2 Auto Scaling when scaling in.
         public let protectedFromScaleIn: Bool
@@ -1100,7 +1128,7 @@ extension AutoScaling {
     public struct DeleteAutoScalingGroupType: AWSEncodableShape {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
-        /// Specifies that the group is to be deleted along with all instances associated with the group, without waiting for all instances to be terminated. This parameter also deletes any lifecycle actions associated with the group.
+        /// Specifies that the group is to be deleted along with all instances associated with the group, without waiting for all instances to be terminated. This parameter also deletes any outstanding lifecycle actions associated with the group.
         public let forceDelete: Bool?
 
         public init(autoScalingGroupName: String, forceDelete: Bool? = nil) {
@@ -1245,6 +1273,33 @@ extension AutoScaling {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
+        }
+    }
+
+    public struct DeleteWarmPoolAnswer: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteWarmPoolType: AWSEncodableShape {
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String
+        /// Specifies that the warm pool is to be deleted along with all instances associated with the warm pool, without waiting for all instances to be terminated. This parameter also deletes any outstanding lifecycle actions associated with the warm pool instances.
+        public let forceDelete: Bool?
+
+        public init(autoScalingGroupName: String, forceDelete: Bool? = nil) {
+            self.autoScalingGroupName = autoScalingGroupName
+            self.forceDelete = forceDelete
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case forceDelete = "ForceDelete"
         }
     }
 
@@ -1783,6 +1838,56 @@ extension AutoScaling {
         }
     }
 
+    public struct DescribeWarmPoolAnswer: AWSDecodableShape {
+        /// The instances that are currently in the warm pool.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var instances: [Instance]?
+        /// The token for the next set of items to return. (You received this token from a previous call.)
+        public let nextToken: String?
+        /// The warm pool configuration details.
+        public let warmPoolConfiguration: WarmPoolConfiguration?
+
+        public init(instances: [Instance]? = nil, nextToken: String? = nil, warmPoolConfiguration: WarmPoolConfiguration? = nil) {
+            self.instances = instances
+            self.nextToken = nextToken
+            self.warmPoolConfiguration = warmPoolConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instances = "Instances"
+            case nextToken = "NextToken"
+            case warmPoolConfiguration = "WarmPoolConfiguration"
+        }
+    }
+
+    public struct DescribeWarmPoolType: AWSEncodableShape {
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String
+        /// The maximum number of instances to return with this call. The maximum value is 50.
+        public let maxRecords: Int?
+        /// The token for the next set of instances to return. (You received this token from a previous call.)
+        public let nextToken: String?
+
+        public init(autoScalingGroupName: String, maxRecords: Int? = nil, nextToken: String? = nil) {
+            self.autoScalingGroupName = autoScalingGroupName
+            self.maxRecords = maxRecords
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case maxRecords = "MaxRecords"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct DetachInstancesAnswer: AWSDecodableShape {
         /// The activities related to detaching the instances from the Auto Scaling group.
         @OptionalCustomCoding<StandardArrayCoder>
@@ -1899,7 +2004,7 @@ extension AutoScaling {
     public struct DisableMetricsCollectionQuery: AWSEncodableShape {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
-        /// Specifies one or more of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances     GroupInServiceCapacity     GroupPendingCapacity     GroupStandbyCapacity     GroupTerminatingCapacity     GroupTotalCapacity    If you omit this parameter, all metrics are disabled.
+        /// Specifies one or more of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances     GroupInServiceCapacity     GroupPendingCapacity     GroupStandbyCapacity     GroupTerminatingCapacity     GroupTotalCapacity     WarmPoolDesiredCapacity     WarmPoolWarmedCapacity     WarmPoolPendingCapacity     WarmPoolTerminatingCapacity     WarmPoolTotalCapacity     GroupAndWarmPoolDesiredCapacity     GroupAndWarmPoolTotalCapacity    If you omit this parameter, all metrics are disabled.
         @OptionalCustomCoding<StandardArrayCoder>
         public var metrics: [String]?
 
@@ -1975,7 +2080,7 @@ extension AutoScaling {
         public let autoScalingGroupName: String
         /// The granularity to associate with the metrics to collect. The only valid value is 1Minute.
         public let granularity: String
-        /// Specifies which group-level metrics to start collecting. You can specify one or more of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances    The instance weighting feature supports the following additional metrics:     GroupInServiceCapacity     GroupPendingCapacity     GroupStandbyCapacity     GroupTerminatingCapacity     GroupTotalCapacity    If you omit this parameter, all metrics are enabled.
+        /// Specifies which group-level metrics to start collecting. You can specify one or more of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances    The instance weighting feature supports the following additional metrics:     GroupInServiceCapacity     GroupPendingCapacity     GroupStandbyCapacity     GroupTerminatingCapacity     GroupTotalCapacity    The warm pools feature supports the following additional metrics:     WarmPoolDesiredCapacity     WarmPoolWarmedCapacity     WarmPoolPendingCapacity     WarmPoolTerminatingCapacity     WarmPoolTotalCapacity     GroupAndWarmPoolDesiredCapacity     GroupAndWarmPoolTotalCapacity    If you omit this parameter, all metrics are enabled.
         @OptionalCustomCoding<StandardArrayCoder>
         public var metrics: [String]?
 
@@ -2009,7 +2114,7 @@ extension AutoScaling {
     public struct EnabledMetric: AWSDecodableShape {
         /// The granularity of the metric. The only valid value is 1Minute.
         public let granularity: String?
-        /// One of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances     GroupInServiceCapacity     GroupPendingCapacity     GroupStandbyCapacity     GroupTerminatingCapacity     GroupTotalCapacity
+        /// One of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances     GroupInServiceCapacity     GroupPendingCapacity     GroupStandbyCapacity     GroupTerminatingCapacity     GroupTotalCapacity     WarmPoolDesiredCapacity     WarmPoolWarmedCapacity     WarmPoolPendingCapacity     WarmPoolTerminatingCapacity     WarmPoolTotalCapacity     GroupAndWarmPoolDesiredCapacity     GroupAndWarmPoolTotalCapacity
         public let metric: String?
 
         public init(granularity: String? = nil, metric: String? = nil) {
@@ -2292,6 +2397,8 @@ extension AutoScaling {
         public let instancesToUpdate: Int?
         /// The percentage of the instance refresh that is complete. For each instance replacement, Amazon EC2 Auto Scaling tracks the instance's health status and warm-up time. When the instance's health status changes to healthy and the specified warm-up time passes, the instance is considered updated and added to the percentage complete.
         public let percentageComplete: Int?
+        /// Additional progress details for an Auto Scaling group that has a warm pool.
+        public let progressDetails: InstanceRefreshProgressDetails?
         /// The date and time at which the instance refresh began.
         public let startTime: Date?
         /// The current status for the instance refresh operation:    Pending - The request was created, but the operation has not started.    InProgress - The operation is in progress.    Successful - The operation completed successfully.    Failed - The operation failed to complete. You can troubleshoot using the status reason and the scaling activities.     Cancelling - An ongoing operation is being cancelled. Cancellation does not roll back any replacements that have already been completed, but it prevents new replacements from being started.     Cancelled - The operation is cancelled.
@@ -2299,12 +2406,13 @@ extension AutoScaling {
         /// Provides more details about the current status of the instance refresh.
         public let statusReason: String?
 
-        public init(autoScalingGroupName: String? = nil, endTime: Date? = nil, instanceRefreshId: String? = nil, instancesToUpdate: Int? = nil, percentageComplete: Int? = nil, startTime: Date? = nil, status: InstanceRefreshStatus? = nil, statusReason: String? = nil) {
+        public init(autoScalingGroupName: String? = nil, endTime: Date? = nil, instanceRefreshId: String? = nil, instancesToUpdate: Int? = nil, percentageComplete: Int? = nil, progressDetails: InstanceRefreshProgressDetails? = nil, startTime: Date? = nil, status: InstanceRefreshStatus? = nil, statusReason: String? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.endTime = endTime
             self.instanceRefreshId = instanceRefreshId
             self.instancesToUpdate = instancesToUpdate
             self.percentageComplete = percentageComplete
+            self.progressDetails = progressDetails
             self.startTime = startTime
             self.status = status
             self.statusReason = statusReason
@@ -2316,9 +2424,61 @@ extension AutoScaling {
             case instanceRefreshId = "InstanceRefreshId"
             case instancesToUpdate = "InstancesToUpdate"
             case percentageComplete = "PercentageComplete"
+            case progressDetails = "ProgressDetails"
             case startTime = "StartTime"
             case status = "Status"
             case statusReason = "StatusReason"
+        }
+    }
+
+    public struct InstanceRefreshLivePoolProgress: AWSDecodableShape {
+        /// The number of instances remaining to update.
+        public let instancesToUpdate: Int?
+        /// The percentage of instances in the Auto Scaling group that have been replaced. For each instance replacement, Amazon EC2 Auto Scaling tracks the instance's health status and warm-up time. When the instance's health status changes to healthy and the specified warm-up time passes, the instance is considered updated and added to the percentage complete.
+        public let percentageComplete: Int?
+
+        public init(instancesToUpdate: Int? = nil, percentageComplete: Int? = nil) {
+            self.instancesToUpdate = instancesToUpdate
+            self.percentageComplete = percentageComplete
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instancesToUpdate = "InstancesToUpdate"
+            case percentageComplete = "PercentageComplete"
+        }
+    }
+
+    public struct InstanceRefreshProgressDetails: AWSDecodableShape {
+        /// Indicates the progress of an instance fresh on instances that are in the Auto Scaling group.
+        public let livePoolProgress: InstanceRefreshLivePoolProgress?
+        /// Indicates the progress of an instance fresh on instances that are in the warm pool.
+        public let warmPoolProgress: InstanceRefreshWarmPoolProgress?
+
+        public init(livePoolProgress: InstanceRefreshLivePoolProgress? = nil, warmPoolProgress: InstanceRefreshWarmPoolProgress? = nil) {
+            self.livePoolProgress = livePoolProgress
+            self.warmPoolProgress = warmPoolProgress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case livePoolProgress = "LivePoolProgress"
+            case warmPoolProgress = "WarmPoolProgress"
+        }
+    }
+
+    public struct InstanceRefreshWarmPoolProgress: AWSDecodableShape {
+        /// The number of instances remaining to update.
+        public let instancesToUpdate: Int?
+        /// The percentage of instances in the warm pool that have been replaced. For each instance replacement, Amazon EC2 Auto Scaling tracks the instance's health status and warm-up time. When the instance's health status changes to healthy and the specified warm-up time passes, the instance is considered updated and added to the percentage complete.
+        public let percentageComplete: Int?
+
+        public init(instancesToUpdate: Int? = nil, percentageComplete: Int? = nil) {
+            self.instancesToUpdate = instancesToUpdate
+            self.percentageComplete = percentageComplete
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instancesToUpdate = "InstancesToUpdate"
+            case percentageComplete = "PercentageComplete"
         }
     }
 
@@ -2743,7 +2903,7 @@ extension AutoScaling {
     }
 
     public struct MetricCollectionType: AWSDecodableShape {
-        /// One of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances     GroupInServiceCapacity     GroupPendingCapacity     GroupStandbyCapacity     GroupTerminatingCapacity     GroupTotalCapacity
+        /// One of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances     GroupInServiceCapacity     GroupPendingCapacity     GroupStandbyCapacity     GroupTerminatingCapacity     GroupTotalCapacity     WarmPoolDesiredCapacity     WarmPoolWarmedCapacity     WarmPoolPendingCapacity     WarmPoolTerminatingCapacity     WarmPoolTotalCapacity     GroupAndWarmPoolDesiredCapacity     GroupAndWarmPoolTotalCapacity
         public let metric: String?
 
         public init(metric: String? = nil) {
@@ -3155,6 +3315,43 @@ extension AutoScaling {
             case startTime = "StartTime"
             case time = "Time"
             case timeZone = "TimeZone"
+        }
+    }
+
+    public struct PutWarmPoolAnswer: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct PutWarmPoolType: AWSEncodableShape {
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String
+        /// Specifies the total maximum number of instances that are allowed to be in the warm pool or in any state except Terminated for the Auto Scaling group. This is an optional property. Specify it only if the warm pool size should not be determined by the difference between the group's maximum capacity and its desired capacity.   Amazon EC2 Auto Scaling will launch and maintain either the difference between the group's maximum capacity and its desired capacity, if a value for MaxGroupPreparedCapacity is not specified, or the difference between the MaxGroupPreparedCapacity and the desired capacity, if a value for MaxGroupPreparedCapacity is specified.  The size of the warm pool is dynamic. Only when MaxGroupPreparedCapacity and MinSize are set to the same value does the warm pool have an absolute size.  If the desired capacity of the Auto Scaling group is higher than the MaxGroupPreparedCapacity, the capacity of the warm pool is 0. To remove a value that you previously set, include the property but specify -1 for the value.
+        public let maxGroupPreparedCapacity: Int?
+        /// Specifies the minimum number of instances to maintain in the warm pool. This helps you to ensure that there is always a certain number of warmed instances available to handle traffic spikes. Defaults to 0 if not specified.
+        public let minSize: Int?
+        /// Sets the instance state to transition to after the lifecycle hooks finish. Valid values are: Stopped (default) or Running.
+        public let poolState: WarmPoolState?
+
+        public init(autoScalingGroupName: String, maxGroupPreparedCapacity: Int? = nil, minSize: Int? = nil, poolState: WarmPoolState? = nil) {
+            self.autoScalingGroupName = autoScalingGroupName
+            self.maxGroupPreparedCapacity = maxGroupPreparedCapacity
+            self.minSize = minSize
+            self.poolState = poolState
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.maxGroupPreparedCapacity, name: "maxGroupPreparedCapacity", parent: name, min: -1)
+            try self.validate(self.minSize, name: "minSize", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case maxGroupPreparedCapacity = "MaxGroupPreparedCapacity"
+            case minSize = "MinSize"
+            case poolState = "PoolState"
         }
     }
 
@@ -3888,6 +4085,31 @@ extension AutoScaling {
             case serviceLinkedRoleARN = "ServiceLinkedRoleARN"
             case terminationPolicies = "TerminationPolicies"
             case vPCZoneIdentifier = "VPCZoneIdentifier"
+        }
+    }
+
+    public struct WarmPoolConfiguration: AWSDecodableShape {
+        /// The total maximum number of instances that are allowed to be in the warm pool or in any state except Terminated for the Auto Scaling group.
+        public let maxGroupPreparedCapacity: Int?
+        /// The minimum number of instances to maintain in the warm pool.
+        public let minSize: Int?
+        /// The instance state to transition to after the lifecycle actions are complete: Stopped or Running.
+        public let poolState: WarmPoolState?
+        /// The status of a warm pool that is marked for deletion.
+        public let status: WarmPoolStatus?
+
+        public init(maxGroupPreparedCapacity: Int? = nil, minSize: Int? = nil, poolState: WarmPoolState? = nil, status: WarmPoolStatus? = nil) {
+            self.maxGroupPreparedCapacity = maxGroupPreparedCapacity
+            self.minSize = minSize
+            self.poolState = poolState
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxGroupPreparedCapacity = "MaxGroupPreparedCapacity"
+            case minSize = "MinSize"
+            case poolState = "PoolState"
+            case status = "Status"
         }
     }
 }

@@ -227,6 +227,11 @@ public struct IoTSiteWise: AWSService {
         return self.client.execute(operation: "GetAssetPropertyValueHistory", path: "/properties/history", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Get interpolated values for an asset property for a specified time interval, during a period of time. For example, you can use the this operation to return the interpolated temperature values for a wind turbine every 24 hours over a duration of 7 days. To identify an asset property, you must specify one of the following:   The assetId and propertyId of an asset property.   A propertyAlias, which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see UpdateAssetProperty.
+    public func getInterpolatedAssetPropertyValues(_ input: GetInterpolatedAssetPropertyValuesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetInterpolatedAssetPropertyValuesResponse> {
+        return self.client.execute(operation: "GetInterpolatedAssetPropertyValues", path: "/properties/interpolated", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Retrieves a paginated list of access policies for an identity (an AWS SSO user, an AWS SSO group, or an IAM user) or an AWS IoT SiteWise Monitor resource (a portal or project).
     public func listAccessPolicies(_ input: ListAccessPoliciesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAccessPoliciesResponse> {
         return self.client.execute(operation: "ListAccessPolicies", path: "/access-policies", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

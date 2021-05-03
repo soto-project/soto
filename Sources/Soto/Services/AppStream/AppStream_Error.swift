@@ -53,7 +53,7 @@ public struct AppStreamErrorType: AWSErrorType {
 
     /// An API error occurred. Wait a few minutes and try again.
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
-    /// The image does not support storage connectors.
+    /// The image can't be updated because it's not compatible for updates.
     public static var incompatibleImageException: Self { .init(.incompatibleImageException) }
     /// The resource cannot be created because your AWS account is suspended. For assistance, contact AWS Support.
     public static var invalidAccountStatusException: Self { .init(.invalidAccountStatusException) }

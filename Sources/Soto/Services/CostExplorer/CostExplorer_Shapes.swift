@@ -231,6 +231,7 @@ extension CostExplorer {
     public enum SupportedSavingsPlansType: String, CustomStringConvertible, Codable {
         case computeSp = "COMPUTE_SP"
         case ec2InstanceSp = "EC2_INSTANCE_SP"
+        case sagemakerSp = "SAGEMAKER_SP"
         public var description: String { return self.rawValue }
     }
 
@@ -1546,7 +1547,7 @@ extension CostExplorer {
         /// Filters AWS costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see Expression.
         public let filter: Expression?
         /// Sets the AWS cost granularity to MONTHLY or DAILY, or HOURLY. If Granularity isn't set, the response object doesn't include the Granularity, either MONTHLY or DAILY, or HOURLY.
-        public let granularity: Granularity?
+        public let granularity: Granularity
         /// You can group AWS costs using up to two different groups, either dimensions, tag keys, cost categories, or any two group by types. When you group by tag key, you get all tag values, including empty strings. Valid values are AZ, INSTANCE_TYPE, LEGAL_ENTITY_NAME, LINKED_ACCOUNT, OPERATION, PLATFORM, PURCHASE_TYPE, SERVICE, TAGS, TENANCY, RECORD_TYPE, and USAGE_TYPE.
         public let groupBy: [GroupDefinition]?
         /// Which metrics are returned in the query. For more information about blended and unblended rates, see Why does the "blended" annotation appear on some line items in my bill?.  Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost, NormalizedUsageAmount, UnblendedCost, and UsageQuantity.   If you return the UsageQuantity metric, the service aggregates all usage numbers without taking into account the units. For example, if you aggregate usageQuantity across all of Amazon EC2, the results aren't meaningful because Amazon EC2 compute hours and data transfer are measured in different units (for example, hours vs. GB). To get more meaningful UsageQuantity metrics, filter by UsageType or UsageTypeGroups.    Metrics is required for GetCostAndUsage requests.
@@ -1556,7 +1557,7 @@ extension CostExplorer {
         /// Sets the start and end dates for retrieving AWS costs. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
         public let timePeriod: DateInterval
 
-        public init(filter: Expression? = nil, granularity: Granularity? = nil, groupBy: [GroupDefinition]? = nil, metrics: [String], nextPageToken: String? = nil, timePeriod: DateInterval) {
+        public init(filter: Expression? = nil, granularity: Granularity, groupBy: [GroupDefinition]? = nil, metrics: [String], nextPageToken: String? = nil, timePeriod: DateInterval) {
             self.filter = filter
             self.granularity = granularity
             self.groupBy = groupBy
@@ -1620,7 +1621,7 @@ extension CostExplorer {
         /// Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see Expression.  The GetCostAndUsageWithResources operation requires that you either group by or filter by a ResourceId. It requires the Expression "SERVICE = Amazon Elastic Compute Cloud - Compute" in the filter.
         public let filter: Expression
         /// Sets the AWS cost granularity to MONTHLY, DAILY, or HOURLY. If Granularity isn't set, the response object doesn't include the Granularity, MONTHLY, DAILY, or HOURLY.
-        public let granularity: Granularity?
+        public let granularity: Granularity
         /// You can group Amazon Web Services costs using up to two different groups: DIMENSION, TAG, COST_CATEGORY.
         public let groupBy: [GroupDefinition]?
         /// Which metrics are returned in the query. For more information about blended and unblended rates, see Why does the "blended" annotation appear on some line items in my bill?.  Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost, NormalizedUsageAmount, UnblendedCost, and UsageQuantity.   If you return the UsageQuantity metric, the service aggregates all usage numbers without taking the units into account. For example, if you aggregate usageQuantity across all of Amazon EC2, the results aren't meaningful because Amazon EC2 compute hours and data transfer are measured in different units (for example, hours vs. GB). To get more meaningful UsageQuantity metrics, filter by UsageType or UsageTypeGroups.    Metrics is required for GetCostAndUsageWithResources requests.
@@ -1630,7 +1631,7 @@ extension CostExplorer {
         /// Sets the start and end dates for retrieving Amazon Web Services costs. The range must be within the last 14 days (the start date cannot be earlier than 14 days ago). The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
         public let timePeriod: DateInterval
 
-        public init(filter: Expression, granularity: Granularity? = nil, groupBy: [GroupDefinition]? = nil, metrics: [String]? = nil, nextPageToken: String? = nil, timePeriod: DateInterval) {
+        public init(filter: Expression, granularity: Granularity, groupBy: [GroupDefinition]? = nil, metrics: [String]? = nil, nextPageToken: String? = nil, timePeriod: DateInterval) {
             self.filter = filter
             self.granularity = granularity
             self.groupBy = groupBy

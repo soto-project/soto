@@ -59,6 +59,32 @@ extension ElastiCache {
         public var description: String { return self.rawValue }
     }
 
+    public enum DestinationType: String, CustomStringConvertible, Codable {
+        case cloudwatchLogs = "cloudwatch-logs"
+        case kinesisFirehose = "kinesis-firehose"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LogDeliveryConfigurationStatus: String, CustomStringConvertible, Codable {
+        case active
+        case disabling
+        case enabling
+        case error
+        case modifying
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LogFormat: String, CustomStringConvertible, Codable {
+        case json
+        case text
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LogType: String, CustomStringConvertible, Codable {
+        case slowLog = "slow-log"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MultiAZStatus: String, CustomStringConvertible, Codable {
         case disabled
         case enabled
@@ -151,7 +177,7 @@ extension ElastiCache {
 
         /// The Amazon Resource Name (ARN) of the resource to which the tags are to be added, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. ElastiCache resources are cluster and snapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let resourceName: String
-        /// A list of cost allocation tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value.
+        /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
         @CustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]
 
@@ -307,6 +333,7 @@ extension ElastiCache {
     public struct CacheCluster: AWSDecodableShape {
         public struct _CacheNodesEncoding: ArrayCoderProperties { public static let member = "CacheNode" }
         public struct _CacheSecurityGroupsEncoding: ArrayCoderProperties { public static let member = "CacheSecurityGroup" }
+        public struct _LogDeliveryConfigurationsEncoding: ArrayCoderProperties { public static let member = "LogDeliveryConfiguration" }
 
         /// The ARN (Amazon Resource Name) of the cache cluster.
         public let arn: String?
@@ -344,9 +371,12 @@ extension ElastiCache {
         public let engine: String?
         /// The version of the cache engine that is used in this cluster.
         public let engineVersion: String?
+        /// Returns the destination, format and type of the logs.
+        @OptionalCustomCoding<ArrayCoder<_LogDeliveryConfigurationsEncoding, LogDeliveryConfiguration>>
+        public var logDeliveryConfigurations: [LogDeliveryConfiguration]?
         /// Describes a notification topic and its status. Notification topics are used for publishing ElastiCache events to subscribers using Amazon Simple Notification Service (SNS).
         public let notificationConfiguration: NotificationConfiguration?
-        /// The number of cache nodes in the cluster. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 20.
+        /// The number of cache nodes in the cluster. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 40.
         public let numCacheNodes: Int?
         public let pendingModifiedValues: PendingModifiedValues?
         /// The name of the Availability Zone in which the cluster is located or "Multiple" if the cache nodes are located in different Availability Zones.
@@ -357,6 +387,8 @@ extension ElastiCache {
         public let preferredOutpostArn: String?
         /// The replication group to which this cluster belongs. If this field is empty, the cluster is not associated with any replication group.
         public let replicationGroupId: String?
+        /// A boolean value indicating whether log delivery is enabled for the replication group.
+        public let replicationGroupLogDeliveryEnabled: Bool?
         /// A list of VPC Security Groups associated with the cluster.
         @OptionalCustomCoding<StandardArrayCoder>
         public var securityGroups: [SecurityGroupMembership]?
@@ -367,7 +399,7 @@ extension ElastiCache {
         /// A flag that enables in-transit encryption when set to true. You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true when you create a cluster.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false
         public let transitEncryptionEnabled: Bool?
 
-        public init(arn: String? = nil, atRestEncryptionEnabled: Bool? = nil, authTokenEnabled: Bool? = nil, authTokenLastModifiedDate: Date? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheClusterCreateTime: Date? = nil, cacheClusterId: String? = nil, cacheClusterStatus: String? = nil, cacheNodes: [CacheNode]? = nil, cacheNodeType: String? = nil, cacheParameterGroup: CacheParameterGroupStatus? = nil, cacheSecurityGroups: [CacheSecurityGroupMembership]? = nil, cacheSubnetGroupName: String? = nil, clientDownloadLandingPage: String? = nil, configurationEndpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, notificationConfiguration: NotificationConfiguration? = nil, numCacheNodes: Int? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredAvailabilityZone: String? = nil, preferredMaintenanceWindow: String? = nil, preferredOutpostArn: String? = nil, replicationGroupId: String? = nil, securityGroups: [SecurityGroupMembership]? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, transitEncryptionEnabled: Bool? = nil) {
+        public init(arn: String? = nil, atRestEncryptionEnabled: Bool? = nil, authTokenEnabled: Bool? = nil, authTokenLastModifiedDate: Date? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheClusterCreateTime: Date? = nil, cacheClusterId: String? = nil, cacheClusterStatus: String? = nil, cacheNodes: [CacheNode]? = nil, cacheNodeType: String? = nil, cacheParameterGroup: CacheParameterGroupStatus? = nil, cacheSecurityGroups: [CacheSecurityGroupMembership]? = nil, cacheSubnetGroupName: String? = nil, clientDownloadLandingPage: String? = nil, configurationEndpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, logDeliveryConfigurations: [LogDeliveryConfiguration]? = nil, notificationConfiguration: NotificationConfiguration? = nil, numCacheNodes: Int? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredAvailabilityZone: String? = nil, preferredMaintenanceWindow: String? = nil, preferredOutpostArn: String? = nil, replicationGroupId: String? = nil, replicationGroupLogDeliveryEnabled: Bool? = nil, securityGroups: [SecurityGroupMembership]? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, transitEncryptionEnabled: Bool? = nil) {
             self.arn = arn
             self.atRestEncryptionEnabled = atRestEncryptionEnabled
             self.authTokenEnabled = authTokenEnabled
@@ -385,6 +417,7 @@ extension ElastiCache {
             self.configurationEndpoint = configurationEndpoint
             self.engine = engine
             self.engineVersion = engineVersion
+            self.logDeliveryConfigurations = logDeliveryConfigurations
             self.notificationConfiguration = notificationConfiguration
             self.numCacheNodes = numCacheNodes
             self.pendingModifiedValues = pendingModifiedValues
@@ -392,6 +425,7 @@ extension ElastiCache {
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
             self.preferredOutpostArn = preferredOutpostArn
             self.replicationGroupId = replicationGroupId
+            self.replicationGroupLogDeliveryEnabled = replicationGroupLogDeliveryEnabled
             self.securityGroups = securityGroups
             self.snapshotRetentionLimit = snapshotRetentionLimit
             self.snapshotWindow = snapshotWindow
@@ -416,6 +450,7 @@ extension ElastiCache {
             case configurationEndpoint = "ConfigurationEndpoint"
             case engine = "Engine"
             case engineVersion = "EngineVersion"
+            case logDeliveryConfigurations = "LogDeliveryConfigurations"
             case notificationConfiguration = "NotificationConfiguration"
             case numCacheNodes = "NumCacheNodes"
             case pendingModifiedValues = "PendingModifiedValues"
@@ -423,6 +458,7 @@ extension ElastiCache {
             case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
             case preferredOutpostArn = "PreferredOutpostArn"
             case replicationGroupId = "ReplicationGroupId"
+            case replicationGroupLogDeliveryEnabled = "ReplicationGroupLogDeliveryEnabled"
             case securityGroups = "SecurityGroups"
             case snapshotRetentionLimit = "SnapshotRetentionLimit"
             case snapshotWindow = "SnapshotWindow"
@@ -655,7 +691,7 @@ extension ElastiCache {
         public let cacheParameterGroupName: String?
         /// The description for this cache parameter group.
         public let description: String?
-        /// Indicates whether the parameter group is associated with a Global Datastore
+        /// Indicates whether the parameter group is associated with a Global datastore
         public let isGlobal: Bool?
 
         public init(arn: String? = nil, cacheParameterGroupFamily: String? = nil, cacheParameterGroupName: String? = nil, description: String? = nil, isGlobal: Bool? = nil) {
@@ -879,6 +915,19 @@ extension ElastiCache {
         }
     }
 
+    public struct CloudWatchLogsDestinationDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the CloudWatch Logs log group.
+        public let logGroup: String?
+
+        public init(logGroup: String? = nil) {
+            self.logGroup = logGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroup = "LogGroup"
+        }
+    }
+
     public struct CompleteMigrationMessage: AWSEncodableShape {
         /// Forces the migration to stop without ensuring that data is in sync. It is recommended to use this option only to abort the migration and not recommended when application wants to continue migration to ElastiCache.
         public let force: Bool?
@@ -945,18 +994,24 @@ extension ElastiCache {
     }
 
     public struct CopySnapshotMessage: AWSEncodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+
         /// The ID of the KMS key used to encrypt the target snapshot.
         public let kmsKeyId: String?
         /// The name of an existing snapshot from which to make a copy.
         public let sourceSnapshotName: String
+        /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
         /// The Amazon S3 bucket to which the snapshot is exported. This parameter is used only when exporting a snapshot for external access. When using this parameter to export a snapshot, be sure Amazon ElastiCache has the needed permissions to this S3 bucket. For more information, see Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket in the Amazon ElastiCache User Guide. For more information, see Exporting a Snapshot in the Amazon ElastiCache User Guide.
         public let targetBucket: String?
         /// A name for the snapshot copy. ElastiCache does not permit overwriting a snapshot, therefore this name must be unique within its context - ElastiCache or an Amazon S3 bucket if exporting.
         public let targetSnapshotName: String
 
-        public init(kmsKeyId: String? = nil, sourceSnapshotName: String, targetBucket: String? = nil, targetSnapshotName: String) {
+        public init(kmsKeyId: String? = nil, sourceSnapshotName: String, tags: [Tag]? = nil, targetBucket: String? = nil, targetSnapshotName: String) {
             self.kmsKeyId = kmsKeyId
             self.sourceSnapshotName = sourceSnapshotName
+            self.tags = tags
             self.targetBucket = targetBucket
             self.targetSnapshotName = targetSnapshotName
         }
@@ -964,6 +1019,7 @@ extension ElastiCache {
         private enum CodingKeys: String, CodingKey {
             case kmsKeyId = "KmsKeyId"
             case sourceSnapshotName = "SourceSnapshotName"
+            case tags = "Tags"
             case targetBucket = "TargetBucket"
             case targetSnapshotName = "TargetSnapshotName"
         }
@@ -983,6 +1039,7 @@ extension ElastiCache {
 
     public struct CreateCacheClusterMessage: AWSEncodableShape {
         public struct _CacheSecurityGroupNamesEncoding: ArrayCoderProperties { public static let member = "CacheSecurityGroupName" }
+        public struct _LogDeliveryConfigurationsEncoding: ArrayCoderProperties { public static let member = "LogDeliveryConfigurationRequest" }
         public struct _PreferredAvailabilityZonesEncoding: ArrayCoderProperties { public static let member = "PreferredAvailabilityZone" }
         public struct _PreferredOutpostArnsEncoding: ArrayCoderProperties { public static let member = "PreferredOutpostArn" }
         public struct _SecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "SecurityGroupId" }
@@ -1010,9 +1067,12 @@ extension ElastiCache {
         public let engine: String?
         /// The version number of the cache engine to be used for this cluster. To view the supported cache engine versions, use the DescribeCacheEngineVersions operation.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster or replication group and create it anew with the earlier engine version.
         public let engineVersion: String?
+        /// Specifies the destination, format and type of the logs.
+        @OptionalCustomCoding<ArrayCoder<_LogDeliveryConfigurationsEncoding, LogDeliveryConfigurationRequest>>
+        public var logDeliveryConfigurations: [LogDeliveryConfigurationRequest]?
         /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic to which notifications are sent.  The Amazon SNS topic owner must be the same as the cluster owner.
         public let notificationTopicArn: String?
-        /// The initial number of cache nodes that the cluster has. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 20. If you need more than 20 nodes for your Memcached cluster, please fill out the ElastiCache Limit Increase Request form at http://aws.amazon.com/contact-us/elasticache-node-limit-request/.
+        /// The initial number of cache nodes that the cluster has. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 40. If you need more than 20 nodes for your Memcached cluster, please fill out the ElastiCache Limit Increase Request form at http://aws.amazon.com/contact-us/elasticache-node-limit-request/.
         public let numCacheNodes: Int?
         /// Specifies whether the nodes in the cluster are created in a single outpost or across multiple outposts.
         public let outpostMode: OutpostMode?
@@ -1044,11 +1104,11 @@ extension ElastiCache {
         public let snapshotRetentionLimit: Int?
         /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your node group (shard). Example: 05:00-09:00  If you do not specify this parameter, ElastiCache automatically chooses an appropriate time range.  This parameter is only valid if the Engine parameter is redis.
         public let snapshotWindow: String?
-        /// A list of cost allocation tags to be added to this resource.
+        /// A list of tags to be added to this resource.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
-        public init(authToken: String? = nil, autoMinorVersionUpgrade: Bool? = nil, aZMode: AZMode? = nil, cacheClusterId: String, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, cacheSubnetGroupName: String? = nil, engine: String? = nil, engineVersion: String? = nil, notificationTopicArn: String? = nil, numCacheNodes: Int? = nil, outpostMode: OutpostMode? = nil, port: Int? = nil, preferredAvailabilityZone: String? = nil, preferredAvailabilityZones: [String]? = nil, preferredMaintenanceWindow: String? = nil, preferredOutpostArn: String? = nil, preferredOutpostArns: [String]? = nil, replicationGroupId: String? = nil, securityGroupIds: [String]? = nil, snapshotArns: [String]? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, tags: [Tag]? = nil) {
+        public init(authToken: String? = nil, autoMinorVersionUpgrade: Bool? = nil, aZMode: AZMode? = nil, cacheClusterId: String, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, cacheSubnetGroupName: String? = nil, engine: String? = nil, engineVersion: String? = nil, logDeliveryConfigurations: [LogDeliveryConfigurationRequest]? = nil, notificationTopicArn: String? = nil, numCacheNodes: Int? = nil, outpostMode: OutpostMode? = nil, port: Int? = nil, preferredAvailabilityZone: String? = nil, preferredAvailabilityZones: [String]? = nil, preferredMaintenanceWindow: String? = nil, preferredOutpostArn: String? = nil, preferredOutpostArns: [String]? = nil, replicationGroupId: String? = nil, securityGroupIds: [String]? = nil, snapshotArns: [String]? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, tags: [Tag]? = nil) {
             self.authToken = authToken
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.aZMode = aZMode
@@ -1059,6 +1119,7 @@ extension ElastiCache {
             self.cacheSubnetGroupName = cacheSubnetGroupName
             self.engine = engine
             self.engineVersion = engineVersion
+            self.logDeliveryConfigurations = logDeliveryConfigurations
             self.notificationTopicArn = notificationTopicArn
             self.numCacheNodes = numCacheNodes
             self.outpostMode = outpostMode
@@ -1088,6 +1149,7 @@ extension ElastiCache {
             case cacheSubnetGroupName = "CacheSubnetGroupName"
             case engine = "Engine"
             case engineVersion = "EngineVersion"
+            case logDeliveryConfigurations = "LogDeliveryConfigurations"
             case notificationTopicArn = "NotificationTopicArn"
             case numCacheNodes = "NumCacheNodes"
             case outpostMode = "OutpostMode"
@@ -1120,23 +1182,30 @@ extension ElastiCache {
     }
 
     public struct CreateCacheParameterGroupMessage: AWSEncodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+
         /// The name of the cache parameter group family that the cache parameter group can be used with. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x |
         public let cacheParameterGroupFamily: String
         /// A user-specified name for the cache parameter group.
         public let cacheParameterGroupName: String
         /// A user-specified description for the cache parameter group.
         public let description: String
+        /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
-        public init(cacheParameterGroupFamily: String, cacheParameterGroupName: String, description: String) {
+        public init(cacheParameterGroupFamily: String, cacheParameterGroupName: String, description: String, tags: [Tag]? = nil) {
             self.cacheParameterGroupFamily = cacheParameterGroupFamily
             self.cacheParameterGroupName = cacheParameterGroupName
             self.description = description
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case cacheParameterGroupFamily = "CacheParameterGroupFamily"
             case cacheParameterGroupName = "CacheParameterGroupName"
             case description = "Description"
+            case tags = "Tags"
         }
     }
 
@@ -1153,19 +1222,26 @@ extension ElastiCache {
     }
 
     public struct CreateCacheSecurityGroupMessage: AWSEncodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+
         /// A name for the cache security group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters. Cannot be the word "Default". Example: mysecuritygroup
         public let cacheSecurityGroupName: String
         /// A description for the cache security group.
         public let description: String
+        /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
-        public init(cacheSecurityGroupName: String, description: String) {
+        public init(cacheSecurityGroupName: String, description: String, tags: [Tag]? = nil) {
             self.cacheSecurityGroupName = cacheSecurityGroupName
             self.description = description
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case cacheSecurityGroupName = "CacheSecurityGroupName"
             case description = "Description"
+            case tags = "Tags"
         }
     }
 
@@ -1183,6 +1259,7 @@ extension ElastiCache {
 
     public struct CreateCacheSubnetGroupMessage: AWSEncodableShape {
         public struct _SubnetIdsEncoding: ArrayCoderProperties { public static let member = "SubnetIdentifier" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// A description for the cache subnet group.
         public let cacheSubnetGroupDescription: String
@@ -1191,17 +1268,22 @@ extension ElastiCache {
         /// A list of VPC subnet IDs for the cache subnet group.
         @CustomCoding<ArrayCoder<_SubnetIdsEncoding, String>>
         public var subnetIds: [String]
+        /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
-        public init(cacheSubnetGroupDescription: String, cacheSubnetGroupName: String, subnetIds: [String]) {
+        public init(cacheSubnetGroupDescription: String, cacheSubnetGroupName: String, subnetIds: [String], tags: [Tag]? = nil) {
             self.cacheSubnetGroupDescription = cacheSubnetGroupDescription
             self.cacheSubnetGroupName = cacheSubnetGroupName
             self.subnetIds = subnetIds
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case cacheSubnetGroupDescription = "CacheSubnetGroupDescription"
             case cacheSubnetGroupName = "CacheSubnetGroupName"
             case subnetIds = "SubnetIds"
+            case tags = "Tags"
         }
     }
 
@@ -1218,9 +1300,9 @@ extension ElastiCache {
     }
 
     public struct CreateGlobalReplicationGroupMessage: AWSEncodableShape {
-        /// Provides details of the Global Datastore
+        /// Provides details of the Global datastore
         public let globalReplicationGroupDescription: String?
-        /// The suffix name of a Global Datastore. Amazon ElastiCache automatically applies a prefix to the Global Datastore ID when it is created. Each AWS Region has its own prefix. For instance, a Global Datastore ID created in the US-West-1 region will begin with "dsdfu" along with the suffix name you provide. The suffix, combined with the auto-generated prefix, guarantees uniqueness of the Global Datastore name across multiple regions.  For a full list of AWS Regions and their respective Global Datastore iD prefixes, see Using the AWS CLI with Global Datastores .
+        /// The suffix name of a Global datastore. Amazon ElastiCache automatically applies a prefix to the Global datastore ID when it is created. Each AWS Region has its own prefix. For instance, a Global datastore ID created in the US-West-1 region will begin with "dsdfu" along with the suffix name you provide. The suffix, combined with the auto-generated prefix, guarantees uniqueness of the Global datastore name across multiple regions.  For a full list of AWS Regions and their respective Global datastore iD prefixes, see Using the AWS CLI with Global datastores .
         public let globalReplicationGroupIdSuffix: String
         /// The name of the primary cluster that accepts writes and will replicate updates to the secondary cluster.
         public let primaryReplicationGroupId: String
@@ -1252,6 +1334,7 @@ extension ElastiCache {
 
     public struct CreateReplicationGroupMessage: AWSEncodableShape {
         public struct _CacheSecurityGroupNamesEncoding: ArrayCoderProperties { public static let member = "CacheSecurityGroupName" }
+        public struct _LogDeliveryConfigurationsEncoding: ArrayCoderProperties { public static let member = "LogDeliveryConfigurationRequest" }
         public struct _NodeGroupConfigurationEncoding: ArrayCoderProperties { public static let member = "NodeGroupConfiguration" }
         public struct _PreferredCacheClusterAZsEncoding: ArrayCoderProperties { public static let member = "AvailabilityZone" }
         public struct _SecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "SecurityGroupId" }
@@ -1279,10 +1362,13 @@ extension ElastiCache {
         public let engine: String?
         /// The version number of the cache engine to be used for the clusters in this replication group. To view the supported cache engine versions, use the DescribeCacheEngineVersions operation.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version) in the ElastiCache User Guide, but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster or replication group and create it anew with the earlier engine version.
         public let engineVersion: String?
-        /// The name of the Global Datastore
+        /// The name of the Global datastore
         public let globalReplicationGroupId: String?
         /// The ID of the KMS key used to encrypt the disk in the cluster.
         public let kmsKeyId: String?
+        /// Specifies the destination, format and type of the logs.
+        @OptionalCustomCoding<ArrayCoder<_LogDeliveryConfigurationsEncoding, LogDeliveryConfigurationRequest>>
+        public var logDeliveryConfigurations: [LogDeliveryConfigurationRequest]?
         /// A flag indicating if you have Multi-AZ enabled to enhance fault tolerance. For more information, see Minimizing Downtime: Multi-AZ.
         public let multiAZEnabled: Bool?
         /// A list of node group (shard) configuration options. Each node group (shard) configuration has the following members: PrimaryAvailabilityZone, ReplicaAvailabilityZones, ReplicaCount, and Slots. If you're creating a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replication group, you can use this parameter to individually configure each node group (shard), or you can omit this parameter. However, it is required when seeding a Redis (cluster mode enabled) cluster from a S3 rdb file. You must configure each node group (shard) using this parameter because you must specify the slots for each node group.
@@ -1321,7 +1407,7 @@ extension ElastiCache {
         public let snapshotRetentionLimit: Int?
         /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your node group (shard). Example: 05:00-09:00  If you do not specify this parameter, ElastiCache automatically chooses an appropriate time range.
         public let snapshotWindow: String?
-        /// A list of cost allocation tags to be added to this resource. Tags are comma-separated key,value pairs (e.g. Key=myKey, Value=myKeyValue. You can include multiple tags as shown following: Key=myKey, Value=myKeyValue Key=mySecondKey, Value=mySecondKeyValue.
+        /// A list of tags to be added to this resource. Tags are comma-separated key,value pairs (e.g. Key=myKey, Value=myKeyValue. You can include multiple tags as shown following: Key=myKey, Value=myKeyValue Key=mySecondKey, Value=mySecondKeyValue. Tags on replication groups will be replicated to all nodes.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
         /// A flag that enables in-transit encryption when set to true. You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true when you create a cluster. This parameter is valid only if the Engine parameter is redis, the EngineVersion parameter is 3.2.6, 4.x or later, and the cluster is being created in an Amazon VPC. If you enable in-transit encryption, you must also specify a value for CacheSubnetGroup.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false   For HIPAA compliance, you must specify TransitEncryptionEnabled as true, an AuthToken, and a CacheSubnetGroup.
@@ -1330,7 +1416,7 @@ extension ElastiCache {
         @OptionalCustomCoding<StandardArrayCoder>
         public var userGroupIds: [String]?
 
-        public init(atRestEncryptionEnabled: Bool? = nil, authToken: String? = nil, automaticFailoverEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, cacheSubnetGroupName: String? = nil, engine: String? = nil, engineVersion: String? = nil, globalReplicationGroupId: String? = nil, kmsKeyId: String? = nil, multiAZEnabled: Bool? = nil, nodeGroupConfiguration: [NodeGroupConfiguration]? = nil, notificationTopicArn: String? = nil, numCacheClusters: Int? = nil, numNodeGroups: Int? = nil, port: Int? = nil, preferredCacheClusterAZs: [String]? = nil, preferredMaintenanceWindow: String? = nil, primaryClusterId: String? = nil, replicasPerNodeGroup: Int? = nil, replicationGroupDescription: String, replicationGroupId: String, securityGroupIds: [String]? = nil, snapshotArns: [String]? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, tags: [Tag]? = nil, transitEncryptionEnabled: Bool? = nil, userGroupIds: [String]? = nil) {
+        public init(atRestEncryptionEnabled: Bool? = nil, authToken: String? = nil, automaticFailoverEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, cacheSubnetGroupName: String? = nil, engine: String? = nil, engineVersion: String? = nil, globalReplicationGroupId: String? = nil, kmsKeyId: String? = nil, logDeliveryConfigurations: [LogDeliveryConfigurationRequest]? = nil, multiAZEnabled: Bool? = nil, nodeGroupConfiguration: [NodeGroupConfiguration]? = nil, notificationTopicArn: String? = nil, numCacheClusters: Int? = nil, numNodeGroups: Int? = nil, port: Int? = nil, preferredCacheClusterAZs: [String]? = nil, preferredMaintenanceWindow: String? = nil, primaryClusterId: String? = nil, replicasPerNodeGroup: Int? = nil, replicationGroupDescription: String, replicationGroupId: String, securityGroupIds: [String]? = nil, snapshotArns: [String]? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, tags: [Tag]? = nil, transitEncryptionEnabled: Bool? = nil, userGroupIds: [String]? = nil) {
             self.atRestEncryptionEnabled = atRestEncryptionEnabled
             self.authToken = authToken
             self.automaticFailoverEnabled = automaticFailoverEnabled
@@ -1343,6 +1429,7 @@ extension ElastiCache {
             self.engineVersion = engineVersion
             self.globalReplicationGroupId = globalReplicationGroupId
             self.kmsKeyId = kmsKeyId
+            self.logDeliveryConfigurations = logDeliveryConfigurations
             self.multiAZEnabled = multiAZEnabled
             self.nodeGroupConfiguration = nodeGroupConfiguration
             self.notificationTopicArn = notificationTopicArn
@@ -1389,6 +1476,7 @@ extension ElastiCache {
             case engineVersion = "EngineVersion"
             case globalReplicationGroupId = "GlobalReplicationGroupId"
             case kmsKeyId = "KmsKeyId"
+            case logDeliveryConfigurations = "LogDeliveryConfigurations"
             case multiAZEnabled = "MultiAZEnabled"
             case nodeGroupConfiguration = "NodeGroupConfiguration"
             case notificationTopicArn = "NotificationTopicArn"
@@ -1425,6 +1513,8 @@ extension ElastiCache {
     }
 
     public struct CreateSnapshotMessage: AWSEncodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+
         /// The identifier of an existing cluster. The snapshot is created from this cluster.
         public let cacheClusterId: String?
         /// The ID of the KMS key used to encrypt the snapshot.
@@ -1433,12 +1523,16 @@ extension ElastiCache {
         public let replicationGroupId: String?
         /// A name for the snapshot being created.
         public let snapshotName: String
+        /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
-        public init(cacheClusterId: String? = nil, kmsKeyId: String? = nil, replicationGroupId: String? = nil, snapshotName: String) {
+        public init(cacheClusterId: String? = nil, kmsKeyId: String? = nil, replicationGroupId: String? = nil, snapshotName: String, tags: [Tag]? = nil) {
             self.cacheClusterId = cacheClusterId
             self.kmsKeyId = kmsKeyId
             self.replicationGroupId = replicationGroupId
             self.snapshotName = snapshotName
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1446,6 +1540,7 @@ extension ElastiCache {
             case kmsKeyId = "KmsKeyId"
             case replicationGroupId = "ReplicationGroupId"
             case snapshotName = "SnapshotName"
+            case tags = "Tags"
         }
     }
 
@@ -1462,16 +1557,22 @@ extension ElastiCache {
     }
 
     public struct CreateUserGroupMessage: AWSEncodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+
         /// The current supported value is Redis.
         public let engine: String
+        /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
         /// The ID of the user group.
         public let userGroupId: String
         /// The list of user IDs that belong to the user group.
         @OptionalCustomCoding<StandardArrayCoder>
         public var userIds: [String]?
 
-        public init(engine: String, userGroupId: String, userIds: [String]? = nil) {
+        public init(engine: String, tags: [Tag]? = nil, userGroupId: String, userIds: [String]? = nil) {
             self.engine = engine
+            self.tags = tags
             self.userGroupId = userGroupId
             self.userIds = userIds
         }
@@ -1487,12 +1588,15 @@ extension ElastiCache {
 
         private enum CodingKeys: String, CodingKey {
             case engine = "Engine"
+            case tags = "Tags"
             case userGroupId = "UserGroupId"
             case userIds = "UserIds"
         }
     }
 
     public struct CreateUserMessage: AWSEncodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+
         /// Access permissions string used for this user.
         public let accessString: String
         /// The current supported value is Redis.
@@ -1502,16 +1606,20 @@ extension ElastiCache {
         /// Passwords used for this user. You can create up to two passwords for each user.
         @OptionalCustomCoding<StandardArrayCoder>
         public var passwords: [String]?
+        /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
         /// The ID of the user.
         public let userId: String
         /// The username of the user.
         public let userName: String
 
-        public init(accessString: String, engine: String, noPasswordRequired: Bool? = nil, passwords: [String]? = nil, userId: String, userName: String) {
+        public init(accessString: String, engine: String, noPasswordRequired: Bool? = nil, passwords: [String]? = nil, tags: [Tag]? = nil, userId: String, userName: String) {
             self.accessString = accessString
             self.engine = engine
             self.noPasswordRequired = noPasswordRequired
             self.passwords = passwords
+            self.tags = tags
             self.userId = userId
             self.userName = userName
         }
@@ -1530,6 +1638,7 @@ extension ElastiCache {
             case engine = "Engine"
             case noPasswordRequired = "NoPasswordRequired"
             case passwords = "Passwords"
+            case tags = "Tags"
             case userId = "UserId"
             case userName = "UserName"
         }
@@ -1558,13 +1667,13 @@ extension ElastiCache {
 
         /// Indicates that the shard reconfiguration process begins immediately. At present, the only permitted value for this parameter is true.
         public let applyImmediately: Bool
-        /// If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. NodeGroupsToRemove is a list of NodeGroupIds to remove from the cluster. ElastiCache for Redis will attempt to remove all node groups listed by NodeGroupsToRemove from the cluster.
+        /// If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. GlobalNodeGroupsToRemove is a list of NodeGroupIds to remove from the cluster. ElastiCache for Redis will attempt to remove all node groups listed by GlobalNodeGroupsToRemove from the cluster.
         @OptionalCustomCoding<ArrayCoder<_GlobalNodeGroupsToRemoveEncoding, String>>
         public var globalNodeGroupsToRemove: [String]?
-        /// If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. NodeGroupsToRemove is a list of NodeGroupIds to remove from the cluster. ElastiCache for Redis will attempt to remove all node groups listed by NodeGroupsToRemove from the cluster.
+        /// If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. GlobalNodeGroupsToRetain is a list of NodeGroupIds to retain from the cluster. ElastiCache for Redis will attempt to retain all node groups listed by GlobalNodeGroupsToRetain from the cluster.
         @OptionalCustomCoding<ArrayCoder<_GlobalNodeGroupsToRetainEncoding, String>>
         public var globalNodeGroupsToRetain: [String]?
-        /// The name of the Global Datastore
+        /// The name of the Global datastore
         public let globalReplicationGroupId: String
         /// The number of node groups (shards) that results from the modification of the shard configuration
         public let nodeGroupCount: Int
@@ -1718,7 +1827,7 @@ extension ElastiCache {
     }
 
     public struct DeleteGlobalReplicationGroupMessage: AWSEncodableShape {
-        /// The name of the Global Datastore
+        /// The name of the Global datastore
         public let globalReplicationGroupId: String
         /// The primary replication group is retained as a standalone replication group.
         public let retainPrimaryReplicationGroup: Bool
@@ -2056,13 +2165,13 @@ extension ElastiCache {
     }
 
     public struct DescribeGlobalReplicationGroupsMessage: AWSEncodableShape {
-        /// The name of the Global Datastore
+        /// The name of the Global datastore
         public let globalReplicationGroupId: String?
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved.
         public let maxRecords: Int?
-        /// Returns the list of members that comprise the Global Datastore.
+        /// Returns the list of members that comprise the Global datastore.
         public let showMemberInfo: Bool?
 
         public init(globalReplicationGroupId: String? = nil, marker: String? = nil, maxRecords: Int? = nil, showMemberInfo: Bool? = nil) {
@@ -2442,12 +2551,29 @@ extension ElastiCache {
         }
     }
 
+    public struct DestinationDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration details of the CloudWatch Logs destination.
+        public let cloudWatchLogsDetails: CloudWatchLogsDestinationDetails?
+        /// The configuration details of the Kinesis Data Firehose destination.
+        public let kinesisFirehoseDetails: KinesisFirehoseDestinationDetails?
+
+        public init(cloudWatchLogsDetails: CloudWatchLogsDestinationDetails? = nil, kinesisFirehoseDetails: KinesisFirehoseDestinationDetails? = nil) {
+            self.cloudWatchLogsDetails = cloudWatchLogsDetails
+            self.kinesisFirehoseDetails = kinesisFirehoseDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchLogsDetails = "CloudWatchLogsDetails"
+            case kinesisFirehoseDetails = "KinesisFirehoseDetails"
+        }
+    }
+
     public struct DisassociateGlobalReplicationGroupMessage: AWSEncodableShape {
-        /// The name of the Global Datastore
+        /// The name of the Global datastore
         public let globalReplicationGroupId: String
-        /// The name of the secondary cluster you wish to remove from the Global Datastore
+        /// The name of the secondary cluster you wish to remove from the Global datastore
         public let replicationGroupId: String
-        /// The AWS region of secondary cluster you wish to remove from the Global Datastore
+        /// The AWS region of secondary cluster you wish to remove from the Global datastore
         public let replicationGroupRegion: String
 
         public init(globalReplicationGroupId: String, replicationGroupId: String, replicationGroupRegion: String) {
@@ -2589,9 +2715,9 @@ extension ElastiCache {
     }
 
     public struct FailoverGlobalReplicationGroupMessage: AWSEncodableShape {
-        /// The name of the Global Datastore
+        /// The name of the Global datastore
         public let globalReplicationGroupId: String
-        /// The AWS region of the primary cluster of the Global Datastore
+        /// The AWS region of the primary cluster of the Global datastore
         public let primaryRegion: String
         /// The name of the primary replication group
         public let primaryReplicationGroupId: String
@@ -2674,9 +2800,9 @@ extension ElastiCache {
         public let atRestEncryptionEnabled: Bool?
         /// A flag that enables using an AuthToken (password) when issuing Redis commands. Default: false
         public let authTokenEnabled: Bool?
-        /// The cache node type of the Global Datastore
+        /// The cache node type of the Global datastore
         public let cacheNodeType: String?
-        /// A flag that indicates whether the Global Datastore is cluster enabled.
+        /// A flag that indicates whether the Global datastore is cluster enabled.
         public let clusterEnabled: Bool?
         /// The Elasticache engine. For Redis only.
         public let engine: String?
@@ -2685,14 +2811,14 @@ extension ElastiCache {
         /// Indicates the slot configuration and global identifier for each slice group.
         @OptionalCustomCoding<ArrayCoder<_GlobalNodeGroupsEncoding, GlobalNodeGroup>>
         public var globalNodeGroups: [GlobalNodeGroup]?
-        /// The optional description of the Global Datastore
+        /// The optional description of the Global datastore
         public let globalReplicationGroupDescription: String?
-        /// The name of the Global Datastore
+        /// The name of the Global datastore
         public let globalReplicationGroupId: String?
-        /// The replication groups that comprise the Global Datastore.
+        /// The replication groups that comprise the Global datastore.
         @OptionalCustomCoding<ArrayCoder<_MembersEncoding, GlobalReplicationGroupMember>>
         public var members: [GlobalReplicationGroupMember]?
-        /// The status of the Global Datastore
+        /// The status of the Global datastore
         public let status: String?
         /// A flag that enables in-transit encryption when set to true. You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true when you create a cluster.   Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later.
         public let transitEncryptionEnabled: Bool?
@@ -2731,9 +2857,9 @@ extension ElastiCache {
     }
 
     public struct GlobalReplicationGroupInfo: AWSDecodableShape {
-        /// The name of the Global Datastore
+        /// The name of the Global datastore
         public let globalReplicationGroupId: String?
-        /// The role of the replication group in a Global Datastore. Can be primary or secondary.
+        /// The role of the replication group in a Global datastore. Can be primary or secondary.
         public let globalReplicationGroupMemberRole: String?
 
         public init(globalReplicationGroupId: String? = nil, globalReplicationGroupMemberRole: String? = nil) {
@@ -2750,9 +2876,9 @@ extension ElastiCache {
     public struct GlobalReplicationGroupMember: AWSDecodableShape {
         /// Indicates whether automatic failover is enabled for the replication group.
         public let automaticFailover: AutomaticFailoverStatus?
-        /// The replication group id of the Global Datastore member.
+        /// The replication group id of the Global datastore member.
         public let replicationGroupId: String?
-        /// The AWS region of the Global Datastore member.
+        /// The AWS region of the Global datastore member.
         public let replicationGroupRegion: String?
         /// Indicates the role of the replication group, primary or secondary.
         public let role: String?
@@ -2781,11 +2907,11 @@ extension ElastiCache {
 
         /// Indicates that the process begins immediately. At present, the only permitted value for this parameter is true.
         public let applyImmediately: Bool
-        /// The name of the Global Datastore
+        /// The name of the Global datastore
         public let globalReplicationGroupId: String
         /// The number of node groups you wish to add
         public let nodeGroupCount: Int
-        /// Describes the replication group IDs, the AWS regions where they are stored and the shard configuration for each that comprise the Global Datastore
+        /// Describes the replication group IDs, the AWS regions where they are stored and the shard configuration for each that comprise the Global datastore
         @OptionalCustomCoding<ArrayCoder<_RegionalConfigurationsEncoding, RegionalConfiguration>>
         public var regionalConfigurations: [RegionalConfiguration]?
 
@@ -2868,6 +2994,19 @@ extension ElastiCache {
         }
     }
 
+    public struct KinesisFirehoseDestinationDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the Kinesis Data Firehose delivery stream.
+        public let deliveryStream: String?
+
+        public init(deliveryStream: String? = nil) {
+            self.deliveryStream = deliveryStream
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveryStream = "DeliveryStream"
+        }
+    }
+
     public struct ListAllowedNodeTypeModificationsMessage: AWSEncodableShape {
         /// The name of the cluster you want to scale up to a larger node instanced type. ElastiCache uses the cluster id to identify the current node type of this cluster and from that to create a list of node types you can scale up to.  You must provide a value for either the CacheClusterId or the ReplicationGroupId.
         public let cacheClusterId: String?
@@ -2898,9 +3037,72 @@ extension ElastiCache {
         }
     }
 
+    public struct LogDeliveryConfiguration: AWSDecodableShape {
+        /// Configuration details of either a CloudWatch Logs destination or Kinesis Data Firehose destination.
+        public let destinationDetails: DestinationDetails?
+        /// Returns the destination type, either cloudwatch-logs or kinesis-firehose.
+        public let destinationType: DestinationType?
+        /// Returns the log format, either JSON or TEXT.
+        public let logFormat: LogFormat?
+        /// Refers to slow-log.
+        public let logType: LogType?
+        /// Returns an error message for the log delivery configuration.
+        public let message: String?
+        /// Returns the log delivery configuration status. Values are one of enabling | disabling | modifying | active | error
+        public let status: LogDeliveryConfigurationStatus?
+
+        public init(destinationDetails: DestinationDetails? = nil, destinationType: DestinationType? = nil, logFormat: LogFormat? = nil, logType: LogType? = nil, message: String? = nil, status: LogDeliveryConfigurationStatus? = nil) {
+            self.destinationDetails = destinationDetails
+            self.destinationType = destinationType
+            self.logFormat = logFormat
+            self.logType = logType
+            self.message = message
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationDetails = "DestinationDetails"
+            case destinationType = "DestinationType"
+            case logFormat = "LogFormat"
+            case logType = "LogType"
+            case message = "Message"
+            case status = "Status"
+        }
+    }
+
+    public struct LogDeliveryConfigurationRequest: AWSEncodableShape {
+        /// Configuration details of either a CloudWatch Logs destination or Kinesis Data Firehose destination.
+        public let destinationDetails: DestinationDetails?
+        /// Specify either cloudwatch-logs or kinesis-firehose as the destination type.
+        public let destinationType: DestinationType?
+        /// Specify if log delivery is enabled. Default true.
+        public let enabled: Bool?
+        /// Specifies either JSON or TEXT
+        public let logFormat: LogFormat?
+        /// Refers to slow-log.
+        public let logType: LogType?
+
+        public init(destinationDetails: DestinationDetails? = nil, destinationType: DestinationType? = nil, enabled: Bool? = nil, logFormat: LogFormat? = nil, logType: LogType? = nil) {
+            self.destinationDetails = destinationDetails
+            self.destinationType = destinationType
+            self.enabled = enabled
+            self.logFormat = logFormat
+            self.logType = logType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationDetails = "DestinationDetails"
+            case destinationType = "DestinationType"
+            case enabled = "Enabled"
+            case logFormat = "LogFormat"
+            case logType = "LogType"
+        }
+    }
+
     public struct ModifyCacheClusterMessage: AWSEncodableShape {
         public struct _CacheNodeIdsToRemoveEncoding: ArrayCoderProperties { public static let member = "CacheNodeId" }
         public struct _CacheSecurityGroupNamesEncoding: ArrayCoderProperties { public static let member = "CacheSecurityGroupName" }
+        public struct _LogDeliveryConfigurationsEncoding: ArrayCoderProperties { public static let member = "LogDeliveryConfigurationRequest" }
         public struct _NewAvailabilityZonesEncoding: ArrayCoderProperties { public static let member = "PreferredAvailabilityZone" }
         public struct _SecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "SecurityGroupId" }
 
@@ -2928,14 +3130,17 @@ extension ElastiCache {
         public var cacheSecurityGroupNames: [String]?
         /// The upgraded version of the cache engine to be run on the cache nodes.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster and create it anew with the earlier engine version.
         public let engineVersion: String?
-        /// The list of Availability Zones where the new Memcached cache nodes are created. This parameter is only valid when NumCacheNodes in the request is greater than the sum of the number of active cache nodes and the number of cache nodes pending creation (which may be zero). The number of Availability Zones supplied in this list must match the cache nodes being added in this request. This option is only supported on Memcached clusters. Scenarios:    Scenario 1: You have 3 active nodes and wish to add 2 nodes. Specify NumCacheNodes=5 (3 + 2) and optionally specify two Availability Zones for the two new nodes.    Scenario 2: You have 3 active nodes and 2 nodes pending creation (from the scenario 1 call) and want to add 1 more node. Specify NumCacheNodes=6 ((3 + 2) + 1) and optionally specify an Availability Zone for the new node.    Scenario 3: You want to cancel all pending operations. Specify NumCacheNodes=3 to cancel all pending operations.   The Availability Zone placement of nodes pending creation cannot be modified. If you wish to cancel any nodes pending creation, add 0 nodes by setting NumCacheNodes to the number of current nodes. If cross-az is specified, existing Memcached nodes remain in their current Availability Zone. Only newly created nodes can be located in different Availability Zones. For guidance on how to move existing Memcached nodes to different Availability Zones, see the Availability Zone Considerations section of Cache Node Considerations for Memcached.  Impact of new add/remove requests upon pending requests    Scenario-1   Pending Action: Delete   New Request: Delete   Result: The new delete, pending or immediate, replaces the pending delete.     Scenario-2   Pending Action: Delete   New Request: Create   Result: The new create, pending or immediate, replaces the pending delete.     Scenario-3   Pending Action: Create   New Request: Delete   Result: The new delete, pending or immediate, replaces the pending create.     Scenario-4   Pending Action: Create   New Request: Create   Result: The new create is added to the pending create.   Important: If the new create request is Apply Immediately - Yes, all creates are performed immediately. If the new create request is Apply Immediately - No, all creates are pending.
+        /// Specifies the destination, format and type of the logs.
+        @OptionalCustomCoding<ArrayCoder<_LogDeliveryConfigurationsEncoding, LogDeliveryConfigurationRequest>>
+        public var logDeliveryConfigurations: [LogDeliveryConfigurationRequest]?
+        ///  This option is only supported on Memcached clusters.  The list of Availability Zones where the new Memcached cache nodes are created. This parameter is only valid when NumCacheNodes in the request is greater than the sum of the number of active cache nodes and the number of cache nodes pending creation (which may be zero). The number of Availability Zones supplied in this list must match the cache nodes being added in this request. Scenarios:    Scenario 1: You have 3 active nodes and wish to add 2 nodes. Specify NumCacheNodes=5 (3 + 2) and optionally specify two Availability Zones for the two new nodes.    Scenario 2: You have 3 active nodes and 2 nodes pending creation (from the scenario 1 call) and want to add 1 more node. Specify NumCacheNodes=6 ((3 + 2) + 1) and optionally specify an Availability Zone for the new node.    Scenario 3: You want to cancel all pending operations. Specify NumCacheNodes=3 to cancel all pending operations.   The Availability Zone placement of nodes pending creation cannot be modified. If you wish to cancel any nodes pending creation, add 0 nodes by setting NumCacheNodes to the number of current nodes. If cross-az is specified, existing Memcached nodes remain in their current Availability Zone. Only newly created nodes can be located in different Availability Zones. For guidance on how to move existing Memcached nodes to different Availability Zones, see the Availability Zone Considerations section of Cache Node Considerations for Memcached.  Impact of new add/remove requests upon pending requests    Scenario-1   Pending Action: Delete   New Request: Delete   Result: The new delete, pending or immediate, replaces the pending delete.     Scenario-2   Pending Action: Delete   New Request: Create   Result: The new create, pending or immediate, replaces the pending delete.     Scenario-3   Pending Action: Create   New Request: Delete   Result: The new delete, pending or immediate, replaces the pending create.     Scenario-4   Pending Action: Create   New Request: Create   Result: The new create is added to the pending create.   Important: If the new create request is Apply Immediately - Yes, all creates are performed immediately. If the new create request is Apply Immediately - No, all creates are pending.
         @OptionalCustomCoding<ArrayCoder<_NewAvailabilityZonesEncoding, String>>
         public var newAvailabilityZones: [String]?
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to which notifications are sent.  The Amazon SNS topic owner must be same as the cluster owner.
         public let notificationTopicArn: String?
         /// The status of the Amazon SNS notification topic. Notifications are sent only if the status is active. Valid values: active | inactive
         public let notificationTopicStatus: String?
-        /// The number of cache nodes that the cluster should have. If the value for NumCacheNodes is greater than the sum of the number of current cache nodes and the number of cache nodes pending creation (which may be zero), more nodes are added. If the value is less than the number of existing cache nodes, nodes are removed. If the value is equal to the number of current cache nodes, any pending add or remove requests are canceled. If you are removing cache nodes, you must use the CacheNodeIdsToRemove parameter to provide the IDs of the specific cache nodes to remove. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 20.  Adding or removing Memcached cache nodes can be applied immediately or as a pending operation (see ApplyImmediately). A pending operation to modify the number of cache nodes in a cluster during its maintenance window, whether by adding or removing nodes in accordance with the scale out architecture, is not queued. The customer's latest request to add or remove nodes to the cluster overrides any previous pending operations to modify the number of cache nodes in the cluster. For example, a request to remove 2 nodes would override a previous pending operation to remove 3 nodes. Similarly, a request to add 2 nodes would override a previous pending operation to remove 3 nodes and vice versa. As Memcached cache nodes may now be provisioned in different Availability Zones with flexible cache node placement, a request to add nodes does not automatically override a previous pending operation to add nodes. The customer can modify the previous pending operation to add more nodes or explicitly cancel the pending request and retry the new request. To cancel pending operations to modify the number of cache nodes in a cluster, use the ModifyCacheCluster request and set NumCacheNodes equal to the number of cache nodes currently in the cluster.
+        /// The number of cache nodes that the cluster should have. If the value for NumCacheNodes is greater than the sum of the number of current cache nodes and the number of cache nodes pending creation (which may be zero), more nodes are added. If the value is less than the number of existing cache nodes, nodes are removed. If the value is equal to the number of current cache nodes, any pending add or remove requests are canceled. If you are removing cache nodes, you must use the CacheNodeIdsToRemove parameter to provide the IDs of the specific cache nodes to remove. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 40.  Adding or removing Memcached cache nodes can be applied immediately or as a pending operation (see ApplyImmediately). A pending operation to modify the number of cache nodes in a cluster during its maintenance window, whether by adding or removing nodes in accordance with the scale out architecture, is not queued. The customer's latest request to add or remove nodes to the cluster overrides any previous pending operations to modify the number of cache nodes in the cluster. For example, a request to remove 2 nodes would override a previous pending operation to remove 3 nodes. Similarly, a request to add 2 nodes would override a previous pending operation to remove 3 nodes and vice versa. As Memcached cache nodes may now be provisioned in different Availability Zones with flexible cache node placement, a request to add nodes does not automatically override a previous pending operation to add nodes. The customer can modify the previous pending operation to add more nodes or explicitly cancel the pending request and retry the new request. To cancel pending operations to modify the number of cache nodes in a cluster, use the ModifyCacheCluster request and set NumCacheNodes equal to the number of cache nodes currently in the cluster.
         public let numCacheNodes: Int?
         /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30
         public let preferredMaintenanceWindow: String?
@@ -2947,7 +3152,7 @@ extension ElastiCache {
         /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your cluster.
         public let snapshotWindow: String?
 
-        public init(applyImmediately: Bool? = nil, authToken: String? = nil, authTokenUpdateStrategy: AuthTokenUpdateStrategyType? = nil, autoMinorVersionUpgrade: Bool? = nil, aZMode: AZMode? = nil, cacheClusterId: String, cacheNodeIdsToRemove: [String]? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, engineVersion: String? = nil, newAvailabilityZones: [String]? = nil, notificationTopicArn: String? = nil, notificationTopicStatus: String? = nil, numCacheNodes: Int? = nil, preferredMaintenanceWindow: String? = nil, securityGroupIds: [String]? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil) {
+        public init(applyImmediately: Bool? = nil, authToken: String? = nil, authTokenUpdateStrategy: AuthTokenUpdateStrategyType? = nil, autoMinorVersionUpgrade: Bool? = nil, aZMode: AZMode? = nil, cacheClusterId: String, cacheNodeIdsToRemove: [String]? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, engineVersion: String? = nil, logDeliveryConfigurations: [LogDeliveryConfigurationRequest]? = nil, newAvailabilityZones: [String]? = nil, notificationTopicArn: String? = nil, notificationTopicStatus: String? = nil, numCacheNodes: Int? = nil, preferredMaintenanceWindow: String? = nil, securityGroupIds: [String]? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil) {
             self.applyImmediately = applyImmediately
             self.authToken = authToken
             self.authTokenUpdateStrategy = authTokenUpdateStrategy
@@ -2959,6 +3164,7 @@ extension ElastiCache {
             self.cacheParameterGroupName = cacheParameterGroupName
             self.cacheSecurityGroupNames = cacheSecurityGroupNames
             self.engineVersion = engineVersion
+            self.logDeliveryConfigurations = logDeliveryConfigurations
             self.newAvailabilityZones = newAvailabilityZones
             self.notificationTopicArn = notificationTopicArn
             self.notificationTopicStatus = notificationTopicStatus
@@ -2981,6 +3187,7 @@ extension ElastiCache {
             case cacheParameterGroupName = "CacheParameterGroupName"
             case cacheSecurityGroupNames = "CacheSecurityGroupNames"
             case engineVersion = "EngineVersion"
+            case logDeliveryConfigurations = "LogDeliveryConfigurations"
             case newAvailabilityZones = "NewAvailabilityZones"
             case notificationTopicArn = "NotificationTopicArn"
             case notificationTopicStatus = "NotificationTopicStatus"
@@ -3065,15 +3272,15 @@ extension ElastiCache {
         public let applyImmediately: Bool
         /// Determines whether a read replica is automatically promoted to read/write primary if the existing primary encounters a failure.
         public let automaticFailoverEnabled: Bool?
-        /// A valid cache node type that you want to scale this Global Datastore to.
+        /// A valid cache node type that you want to scale this Global datastore to.
         public let cacheNodeType: String?
         /// The name of the cache parameter group to use with the Global datastore. It must be compatible with the major engine version used by the Global datastore.
         public let cacheParameterGroupName: String?
-        /// The upgraded version of the cache engine to be run on the clusters in the Global Datastore.
+        /// The upgraded version of the cache engine to be run on the clusters in the Global datastore.
         public let engineVersion: String?
-        /// A description of the Global Datastore
+        /// A description of the Global datastore
         public let globalReplicationGroupDescription: String?
-        /// The name of the Global Datastore
+        /// The name of the Global datastore
         public let globalReplicationGroupId: String
 
         public init(applyImmediately: Bool, automaticFailoverEnabled: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, engineVersion: String? = nil, globalReplicationGroupDescription: String? = nil, globalReplicationGroupId: String) {
@@ -3111,6 +3318,7 @@ extension ElastiCache {
 
     public struct ModifyReplicationGroupMessage: AWSEncodableShape {
         public struct _CacheSecurityGroupNamesEncoding: ArrayCoderProperties { public static let member = "CacheSecurityGroupName" }
+        public struct _LogDeliveryConfigurationsEncoding: ArrayCoderProperties { public static let member = "LogDeliveryConfigurationRequest" }
         public struct _SecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "SecurityGroupId" }
 
         /// If true, this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow setting for the replication group. If false, changes to the nodes in the replication group are applied on the next maintenance reboot, or the next failure reboot, whichever occurs first. Valid values: true | false  Default: false
@@ -3132,7 +3340,10 @@ extension ElastiCache {
         public var cacheSecurityGroupNames: [String]?
         /// The upgraded version of the cache engine to be run on the clusters in the replication group.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing replication group and create it anew with the earlier engine version.
         public let engineVersion: String?
-        /// A flag indicating if you have Multi-AZ enabled to enhance fault tolerance. For more information, see Minimizing Downtime: Multi-AZ.
+        /// Specifies the destination, format and type of the logs.
+        @OptionalCustomCoding<ArrayCoder<_LogDeliveryConfigurationsEncoding, LogDeliveryConfigurationRequest>>
+        public var logDeliveryConfigurations: [LogDeliveryConfigurationRequest]?
+        /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
         public let multiAZEnabled: Bool?
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to which notifications are sent.  The Amazon SNS topic owner must be same as the replication group owner.
         public let notificationTopicArn: String?
@@ -3164,7 +3375,7 @@ extension ElastiCache {
         @OptionalCustomCoding<StandardArrayCoder>
         public var userGroupIdsToRemove: [String]?
 
-        public init(applyImmediately: Bool? = nil, authToken: String? = nil, authTokenUpdateStrategy: AuthTokenUpdateStrategyType? = nil, automaticFailoverEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, engineVersion: String? = nil, multiAZEnabled: Bool? = nil, notificationTopicArn: String? = nil, notificationTopicStatus: String? = nil, preferredMaintenanceWindow: String? = nil, primaryClusterId: String? = nil, removeUserGroups: Bool? = nil, replicationGroupDescription: String? = nil, replicationGroupId: String, securityGroupIds: [String]? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, userGroupIdsToAdd: [String]? = nil, userGroupIdsToRemove: [String]? = nil) {
+        public init(applyImmediately: Bool? = nil, authToken: String? = nil, authTokenUpdateStrategy: AuthTokenUpdateStrategyType? = nil, automaticFailoverEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, engineVersion: String? = nil, logDeliveryConfigurations: [LogDeliveryConfigurationRequest]? = nil, multiAZEnabled: Bool? = nil, notificationTopicArn: String? = nil, notificationTopicStatus: String? = nil, preferredMaintenanceWindow: String? = nil, primaryClusterId: String? = nil, removeUserGroups: Bool? = nil, replicationGroupDescription: String? = nil, replicationGroupId: String, securityGroupIds: [String]? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, userGroupIdsToAdd: [String]? = nil, userGroupIdsToRemove: [String]? = nil) {
             self.applyImmediately = applyImmediately
             self.authToken = authToken
             self.authTokenUpdateStrategy = authTokenUpdateStrategy
@@ -3174,6 +3385,7 @@ extension ElastiCache {
             self.cacheParameterGroupName = cacheParameterGroupName
             self.cacheSecurityGroupNames = cacheSecurityGroupNames
             self.engineVersion = engineVersion
+            self.logDeliveryConfigurations = logDeliveryConfigurations
             self.multiAZEnabled = multiAZEnabled
             self.notificationTopicArn = notificationTopicArn
             self.notificationTopicStatus = notificationTopicStatus
@@ -3211,6 +3423,7 @@ extension ElastiCache {
             case cacheParameterGroupName = "CacheParameterGroupName"
             case cacheSecurityGroupNames = "CacheSecurityGroupNames"
             case engineVersion = "EngineVersion"
+            case logDeliveryConfigurations = "LogDeliveryConfigurations"
             case multiAZEnabled = "MultiAZEnabled"
             case notificationTopicArn = "NotificationTopicArn"
             case notificationTopicStatus = "NotificationTopicStatus"
@@ -3680,6 +3893,31 @@ extension ElastiCache {
         }
     }
 
+    public struct PendingLogDeliveryConfiguration: AWSDecodableShape {
+        /// Configuration details of either a CloudWatch Logs destination or Kinesis Data Firehose destination.
+        public let destinationDetails: DestinationDetails?
+        /// Returns the destination type, either CloudWatch Logs or Kinesis Data Firehose.
+        public let destinationType: DestinationType?
+        /// Returns the log format, either JSON or TEXT
+        public let logFormat: LogFormat?
+        /// Refers to slow-log.
+        public let logType: LogType?
+
+        public init(destinationDetails: DestinationDetails? = nil, destinationType: DestinationType? = nil, logFormat: LogFormat? = nil, logType: LogType? = nil) {
+            self.destinationDetails = destinationDetails
+            self.destinationType = destinationType
+            self.logFormat = logFormat
+            self.logType = logType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationDetails = "DestinationDetails"
+            case destinationType = "DestinationType"
+            case logFormat = "LogFormat"
+            case logType = "LogType"
+        }
+    }
+
     public struct PendingModifiedValues: AWSDecodableShape {
         public struct _CacheNodeIdsToRemoveEncoding: ArrayCoderProperties { public static let member = "CacheNodeId" }
 
@@ -3692,14 +3930,18 @@ extension ElastiCache {
         public let cacheNodeType: String?
         /// The new cache engine version that the cluster runs.
         public let engineVersion: String?
-        /// The new number of cache nodes for the cluster. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 20.
+        /// The log delivery configurations being modified
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var logDeliveryConfigurations: [PendingLogDeliveryConfiguration]?
+        /// The new number of cache nodes for the cluster. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 40.
         public let numCacheNodes: Int?
 
-        public init(authTokenStatus: AuthTokenUpdateStatus? = nil, cacheNodeIdsToRemove: [String]? = nil, cacheNodeType: String? = nil, engineVersion: String? = nil, numCacheNodes: Int? = nil) {
+        public init(authTokenStatus: AuthTokenUpdateStatus? = nil, cacheNodeIdsToRemove: [String]? = nil, cacheNodeType: String? = nil, engineVersion: String? = nil, logDeliveryConfigurations: [PendingLogDeliveryConfiguration]? = nil, numCacheNodes: Int? = nil) {
             self.authTokenStatus = authTokenStatus
             self.cacheNodeIdsToRemove = cacheNodeIdsToRemove
             self.cacheNodeType = cacheNodeType
             self.engineVersion = engineVersion
+            self.logDeliveryConfigurations = logDeliveryConfigurations
             self.numCacheNodes = numCacheNodes
         }
 
@@ -3708,6 +3950,7 @@ extension ElastiCache {
             case cacheNodeIdsToRemove = "CacheNodeIdsToRemove"
             case cacheNodeType = "CacheNodeType"
             case engineVersion = "EngineVersion"
+            case logDeliveryConfigurations = "LogDeliveryConfigurations"
             case numCacheNodes = "NumCacheNodes"
         }
     }
@@ -3738,23 +3981,30 @@ extension ElastiCache {
     }
 
     public struct PurchaseReservedCacheNodesOfferingMessage: AWSEncodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+
         /// The number of cache node instances to reserve. Default: 1
         public let cacheNodeCount: Int?
         /// A customer-specified identifier to track this reservation.  The Reserved Cache Node ID is an unique customer-specified identifier to track this reservation. If this parameter is not specified, ElastiCache automatically generates an identifier for the reservation.  Example: myreservationID
         public let reservedCacheNodeId: String?
         /// The ID of the reserved cache node offering to purchase. Example: 438012d3-4052-4cc7-b2e3-8d3372e0e706
         public let reservedCacheNodesOfferingId: String
+        /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
-        public init(cacheNodeCount: Int? = nil, reservedCacheNodeId: String? = nil, reservedCacheNodesOfferingId: String) {
+        public init(cacheNodeCount: Int? = nil, reservedCacheNodeId: String? = nil, reservedCacheNodesOfferingId: String, tags: [Tag]? = nil) {
             self.cacheNodeCount = cacheNodeCount
             self.reservedCacheNodeId = reservedCacheNodeId
             self.reservedCacheNodesOfferingId = reservedCacheNodesOfferingId
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case cacheNodeCount = "CacheNodeCount"
             case reservedCacheNodeId = "ReservedCacheNodeId"
             case reservedCacheNodesOfferingId = "ReservedCacheNodesOfferingId"
+            case tags = "Tags"
         }
     }
 
@@ -3773,7 +4023,7 @@ extension ElastiCache {
     public struct RebalanceSlotsInGlobalReplicationGroupMessage: AWSEncodableShape {
         /// If True, redistribution is applied immediately.
         public let applyImmediately: Bool
-        /// The name of the Global Datastore
+        /// The name of the Global datastore
         public let globalReplicationGroupId: String
 
         public init(applyImmediately: Bool, globalReplicationGroupId: String) {
@@ -3897,6 +4147,7 @@ extension ElastiCache {
     }
 
     public struct ReplicationGroup: AWSDecodableShape {
+        public struct _LogDeliveryConfigurationsEncoding: ArrayCoderProperties { public static let member = "LogDeliveryConfiguration" }
         public struct _MemberClustersEncoding: ArrayCoderProperties { public static let member = "ClusterId" }
         public struct _MemberClustersOutpostArnsEncoding: ArrayCoderProperties { public static let member = "ReplicationGroupOutpostArn" }
         public struct _NodeGroupsEncoding: ArrayCoderProperties { public static let member = "NodeGroup" }
@@ -3919,10 +4170,13 @@ extension ElastiCache {
         public let configurationEndpoint: Endpoint?
         /// The user supplied description of the replication group.
         public let description: String?
-        /// The name of the Global Datastore and role of this replication group in the Global Datastore.
+        /// The name of the Global datastore and role of this replication group in the Global datastore.
         public let globalReplicationGroupInfo: GlobalReplicationGroupInfo?
         /// The ID of the KMS key used to encrypt the disk in the cluster.
         public let kmsKeyId: String?
+        /// Returns the destination, format and type of the logs.
+        @OptionalCustomCoding<ArrayCoder<_LogDeliveryConfigurationsEncoding, LogDeliveryConfiguration>>
+        public var logDeliveryConfigurations: [LogDeliveryConfiguration]?
         /// The names of all the cache clusters that are part of this replication group.
         @OptionalCustomCoding<ArrayCoder<_MemberClustersEncoding, String>>
         public var memberClusters: [String]?
@@ -3952,7 +4206,7 @@ extension ElastiCache {
         @OptionalCustomCoding<StandardArrayCoder>
         public var userGroupIds: [String]?
 
-        public init(arn: String? = nil, atRestEncryptionEnabled: Bool? = nil, authTokenEnabled: Bool? = nil, authTokenLastModifiedDate: Date? = nil, automaticFailover: AutomaticFailoverStatus? = nil, cacheNodeType: String? = nil, clusterEnabled: Bool? = nil, configurationEndpoint: Endpoint? = nil, description: String? = nil, globalReplicationGroupInfo: GlobalReplicationGroupInfo? = nil, kmsKeyId: String? = nil, memberClusters: [String]? = nil, memberClustersOutpostArns: [String]? = nil, multiAZ: MultiAZStatus? = nil, nodeGroups: [NodeGroup]? = nil, pendingModifiedValues: ReplicationGroupPendingModifiedValues? = nil, replicationGroupId: String? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, status: String? = nil, transitEncryptionEnabled: Bool? = nil, userGroupIds: [String]? = nil) {
+        public init(arn: String? = nil, atRestEncryptionEnabled: Bool? = nil, authTokenEnabled: Bool? = nil, authTokenLastModifiedDate: Date? = nil, automaticFailover: AutomaticFailoverStatus? = nil, cacheNodeType: String? = nil, clusterEnabled: Bool? = nil, configurationEndpoint: Endpoint? = nil, description: String? = nil, globalReplicationGroupInfo: GlobalReplicationGroupInfo? = nil, kmsKeyId: String? = nil, logDeliveryConfigurations: [LogDeliveryConfiguration]? = nil, memberClusters: [String]? = nil, memberClustersOutpostArns: [String]? = nil, multiAZ: MultiAZStatus? = nil, nodeGroups: [NodeGroup]? = nil, pendingModifiedValues: ReplicationGroupPendingModifiedValues? = nil, replicationGroupId: String? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, status: String? = nil, transitEncryptionEnabled: Bool? = nil, userGroupIds: [String]? = nil) {
             self.arn = arn
             self.atRestEncryptionEnabled = atRestEncryptionEnabled
             self.authTokenEnabled = authTokenEnabled
@@ -3964,6 +4218,7 @@ extension ElastiCache {
             self.description = description
             self.globalReplicationGroupInfo = globalReplicationGroupInfo
             self.kmsKeyId = kmsKeyId
+            self.logDeliveryConfigurations = logDeliveryConfigurations
             self.memberClusters = memberClusters
             self.memberClustersOutpostArns = memberClustersOutpostArns
             self.multiAZ = multiAZ
@@ -3990,6 +4245,7 @@ extension ElastiCache {
             case description = "Description"
             case globalReplicationGroupInfo = "GlobalReplicationGroupInfo"
             case kmsKeyId = "KmsKeyId"
+            case logDeliveryConfigurations = "LogDeliveryConfigurations"
             case memberClusters = "MemberClusters"
             case memberClustersOutpostArns = "MemberClustersOutpostArns"
             case multiAZ = "MultiAZ"
@@ -4030,6 +4286,9 @@ extension ElastiCache {
         public let authTokenStatus: AuthTokenUpdateStatus?
         /// Indicates the status of automatic failover for this Redis replication group.
         public let automaticFailoverStatus: PendingAutomaticFailoverStatus?
+        /// The log delivery configurations being modified
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var logDeliveryConfigurations: [PendingLogDeliveryConfiguration]?
         /// The primary cluster ID that is applied immediately (if --apply-immediately was specified), or during the next maintenance window.
         public let primaryClusterId: String?
         /// The status of an online resharding operation.
@@ -4037,9 +4296,10 @@ extension ElastiCache {
         /// The user groups being modified.
         public let userGroups: UserGroupsUpdateStatus?
 
-        public init(authTokenStatus: AuthTokenUpdateStatus? = nil, automaticFailoverStatus: PendingAutomaticFailoverStatus? = nil, primaryClusterId: String? = nil, resharding: ReshardingStatus? = nil, userGroups: UserGroupsUpdateStatus? = nil) {
+        public init(authTokenStatus: AuthTokenUpdateStatus? = nil, automaticFailoverStatus: PendingAutomaticFailoverStatus? = nil, logDeliveryConfigurations: [PendingLogDeliveryConfiguration]? = nil, primaryClusterId: String? = nil, resharding: ReshardingStatus? = nil, userGroups: UserGroupsUpdateStatus? = nil) {
             self.authTokenStatus = authTokenStatus
             self.automaticFailoverStatus = automaticFailoverStatus
+            self.logDeliveryConfigurations = logDeliveryConfigurations
             self.primaryClusterId = primaryClusterId
             self.resharding = resharding
             self.userGroups = userGroups
@@ -4048,6 +4308,7 @@ extension ElastiCache {
         private enum CodingKeys: String, CodingKey {
             case authTokenStatus = "AuthTokenStatus"
             case automaticFailoverStatus = "AutomaticFailoverStatus"
+            case logDeliveryConfigurations = "LogDeliveryConfigurations"
             case primaryClusterId = "PrimaryClusterId"
             case resharding = "Resharding"
             case userGroups = "UserGroups"
@@ -4433,7 +4694,7 @@ extension ElastiCache {
         /// A list of the cache nodes in the source cluster.
         @OptionalCustomCoding<ArrayCoder<_NodeSnapshotsEncoding, NodeSnapshot>>
         public var nodeSnapshots: [NodeSnapshot]?
-        /// The number of cache nodes in the source cluster. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 20.
+        /// The number of cache nodes in the source cluster. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 40.
         public let numCacheNodes: Int?
         /// The number of node groups (shards) in this snapshot. When restoring from a snapshot, the number of node groups (shards) in the snapshot and in the restored replication group must be the same.
         public let numNodeGroups: Int?
@@ -4609,7 +4870,7 @@ extension ElastiCache {
     public struct TagListMessage: AWSDecodableShape {
         public struct _TagListEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        /// A list of cost allocation tags as key-value pairs.
+        /// A list of tags as key-value pairs.
         @OptionalCustomCoding<ArrayCoder<_TagListEncoding, Tag>>
         public var tagList: [Tag]?
 

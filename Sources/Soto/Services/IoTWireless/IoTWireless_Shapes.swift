@@ -56,6 +56,14 @@ extension IoTWireless {
         public var description: String { return self.rawValue }
     }
 
+    public enum MessageType: String, CustomStringConvertible, Codable {
+        case customCommandIdGet = "CUSTOM_COMMAND_ID_GET"
+        case customCommandIdNotify = "CUSTOM_COMMAND_ID_NOTIFY"
+        case customCommandIdResp = "CUSTOM_COMMAND_ID_RESP"
+        case customCommandIdSet = "CUSTOM_COMMAND_ID_SET"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PartnerType: String, CustomStringConvertible, Codable {
         case sidewalk = "Sidewalk"
         public var description: String { return self.rawValue }
@@ -2765,10 +2773,12 @@ extension IoTWireless {
     }
 
     public struct SidewalkSendDataToDevice: AWSEncodableShape {
+        public let messageType: MessageType?
         /// The sequence number.
         public let seq: Int?
 
-        public init(seq: Int? = nil) {
+        public init(messageType: MessageType? = nil, seq: Int? = nil) {
+            self.messageType = messageType
             self.seq = seq
         }
 
@@ -2778,6 +2788,7 @@ extension IoTWireless {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case messageType = "MessageType"
             case seq = "Seq"
         }
     }
