@@ -952,6 +952,8 @@ extension MediaConnect {
         public let encryption: Encryption?
         /// The ARN of the entitlement on the originator''s flow. This value is relevant only on entitled flows.
         public let entitlementArn: String?
+        /// The IP address that the receiver requires in order to establish a connection with the flow. For public networking, the ListenerAddress is represented by the elastic IP address of the flow. For private networking, the ListenerAddress is represented by the elastic network interface IP address of the VPC. This field applies only to outputs that use the Zixi pull or SRT listener protocol.
+        public let listenerAddress: String?
         /// The input ARN of the AWS Elemental MediaLive channel. This parameter is relevant only for outputs that were added by creating a MediaLive input.
         public let mediaLiveInputArn: String?
         /// The name of the output. This value must be unique within the current flow.
@@ -965,12 +967,13 @@ extension MediaConnect {
         /// The name of the VPC interface attachment to use for this output.
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
-        public init(dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, entitlementArn: String? = nil, mediaLiveInputArn: String? = nil, name: String, outputArn: String, port: Int? = nil, transport: Transport? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
+        public init(dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, entitlementArn: String? = nil, listenerAddress: String? = nil, mediaLiveInputArn: String? = nil, name: String, outputArn: String, port: Int? = nil, transport: Transport? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
             self.description = description
             self.destination = destination
             self.encryption = encryption
             self.entitlementArn = entitlementArn
+            self.listenerAddress = listenerAddress
             self.mediaLiveInputArn = mediaLiveInputArn
             self.name = name
             self.outputArn = outputArn
@@ -985,6 +988,7 @@ extension MediaConnect {
             case destination
             case encryption
             case entitlementArn
+            case listenerAddress
             case mediaLiveInputArn
             case name
             case outputArn

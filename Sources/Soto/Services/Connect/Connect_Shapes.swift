@@ -5143,7 +5143,7 @@ extension Connect {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
             }
-            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
 
@@ -5357,11 +5357,11 @@ extension Connect {
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String
         /// The maximum number of contacts that can be in the queue before it is considered full.
-        public let maxContacts: Int
+        public let maxContacts: Int?
         /// The identifier for the queue.
         public let queueId: String
 
-        public init(instanceId: String, maxContacts: Int, queueId: String) {
+        public init(instanceId: String, maxContacts: Int? = nil, queueId: String) {
             self.instanceId = instanceId
             self.maxContacts = maxContacts
             self.queueId = queueId

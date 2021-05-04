@@ -90,6 +90,22 @@ extension DatabaseMigrationService {
         public var description: String { return self.rawValue }
     }
 
+    public enum EndpointSettingTypeValue: String, CustomStringConvertible, Codable {
+        case boolean
+        case `enum`
+        case integer
+        case string
+        public var description: String { return self.rawValue }
+    }
+
+    public enum KafkaSecurityProtocol: String, CustomStringConvertible, Codable {
+        case plaintext
+        case saslSsl = "sasl-ssl"
+        case sslAuthentication = "ssl-authentication"
+        case sslEncryption = "ssl-encryption"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MessageFormatValue: String, CustomStringConvertible, Codable {
         case json
         case jsonUnformatted = "json-unformatted"
@@ -1109,6 +1125,44 @@ extension DatabaseMigrationService {
         }
     }
 
+    public struct DescribeEndpointSettingsMessage: AWSEncodableShape {
+        /// The databse engine used for your source or target endpoint.
+        public let engineName: String
+        /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let marker: String?
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
+        public let maxRecords: Int?
+
+        public init(engineName: String, marker: String? = nil, maxRecords: Int? = nil) {
+            self.engineName = engineName
+            self.marker = marker
+            self.maxRecords = maxRecords
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case engineName = "EngineName"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+        }
+    }
+
+    public struct DescribeEndpointSettingsResponse: AWSDecodableShape {
+        /// Descriptions of the endpoint settings available for your source or target database engine.
+        public let endpointSettings: [EndpointSetting]?
+        /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let marker: String?
+
+        public init(endpointSettings: [EndpointSetting]? = nil, marker: String? = nil) {
+            self.endpointSettings = endpointSettings
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointSettings = "EndpointSettings"
+            case marker = "Marker"
+        }
+    }
+
     public struct DescribeEndpointTypesMessage: AWSEncodableShape {
         /// Filters applied to the endpoint types. Valid filter names: engine-name | endpoint-type
         public let filters: [Filter]?
@@ -2030,6 +2084,47 @@ extension DatabaseMigrationService {
         }
     }
 
+    public struct EndpointSetting: AWSDecodableShape {
+        /// The relevance or validity of an endpoint setting for an engine name and its endpoint type.
+        public let applicability: String?
+        /// Enumerated values to use for this endpoint.
+        public let enumValues: [String]?
+        /// The maximum value of an endpoint setting that is of type int.
+        public let intValueMax: Int?
+        /// The minimum value of an endpoint setting that is of type int.
+        public let intValueMin: Int?
+        /// The name that you want to give the endpoint settings.
+        public let name: String?
+        /// A value that marks this endpoint setting as sensitive.
+        public let sensitive: Bool?
+        /// The type of endpoint. Valid values are source and target.
+        public let type: EndpointSettingTypeValue?
+        /// The unit of measure for this endpoint setting.
+        public let units: String?
+
+        public init(applicability: String? = nil, enumValues: [String]? = nil, intValueMax: Int? = nil, intValueMin: Int? = nil, name: String? = nil, sensitive: Bool? = nil, type: EndpointSettingTypeValue? = nil, units: String? = nil) {
+            self.applicability = applicability
+            self.enumValues = enumValues
+            self.intValueMax = intValueMax
+            self.intValueMin = intValueMin
+            self.name = name
+            self.sensitive = sensitive
+            self.type = type
+            self.units = units
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicability = "Applicability"
+            case enumValues = "EnumValues"
+            case intValueMax = "IntValueMax"
+            case intValueMin = "IntValueMin"
+            case name = "Name"
+            case sensitive = "Sensitive"
+            case type = "Type"
+            case units = "Units"
+        }
+    }
+
     public struct Event: AWSDecodableShape {
         /// The date of the event.
         public let date: Date?
@@ -2226,7 +2321,7 @@ extension DatabaseMigrationService {
     }
 
     public struct KafkaSettings: AWSEncodableShape & AWSDecodableShape {
-        /// The broker location and port of the Kafka broker that hosts your Kafka instance. Specify the broker in the form  broker-hostname-or-ip:port . For example, "ec2-12-345-678-901.compute-1.amazonaws.com:2345".
+        /// A comma-separated list of one or more broker locations in your Kafka cluster that host your Kafka instance. Specify each broker location in the form  broker-hostname-or-ip:port . For example, "ec2-12-345-678-901.compute-1.amazonaws.com:2345". For more information and examples of specifying a list of broker locations, see Using Apache Kafka as a target for AWS Database Migration Service in the AWS Data Migration Service User Guide.
         public let broker: String?
         /// Shows detailed control information for table definition, column definition, and table and column changes in the Kafka message output. The default is false.
         public let includeControlDetails: Bool?
@@ -2244,10 +2339,24 @@ extension DatabaseMigrationService {
         public let messageMaxBytes: Int?
         /// Prefixes schema and table names to partition values, when the partition type is primary-key-type. Doing this increases data distribution among Kafka partitions. For example, suppose that a SysBench schema has thousands of tables and each table has only limited range for a primary key. In this case, the same primary key is sent from thousands of tables to the same partition, which causes throttling. The default is false.
         public let partitionIncludeSchemaTable: Bool?
+        /// The secure password you created when you first set up your MSK cluster to validate a client identity and make an encrypted connection between server and client using SASL-SSL authentication.
+        public let saslPassword: String?
+        ///  The secure username you created when you first set up your MSK cluster to validate a client identity and make an encrypted connection between server and client using SASL-SSL authentication.
+        public let saslUsername: String?
+        /// Set secure connection to a Kafka target endpoint using Transport Layer Security (TLS). Options include ssl-encryption, ssl-authentication, and sasl-ssl. sasl-ssl requires SaslUsername and SaslPassword.
+        public let securityProtocol: KafkaSecurityProtocol?
+        ///  The Amazon Resource Name (ARN) for the private Certification Authority (CA) cert that AWS DMS uses to securely connect to your Kafka target endpoint.
+        public let sslCaCertificateArn: String?
+        /// The Amazon Resource Name (ARN) of the client certificate used to securely connect to a Kafka target endpoint.
+        public let sslClientCertificateArn: String?
+        /// The Amazon Resource Name (ARN) for the client private key used to securely connect to a Kafka target endpoint.
+        public let sslClientKeyArn: String?
+        ///  The password for the client private key used to securely connect to a Kafka target endpoint.
+        public let sslClientKeyPassword: String?
         /// The topic to which you migrate the data. If you don't specify a topic, AWS DMS specifies "kafka-default-topic" as the migration topic.
         public let topic: String?
 
-        public init(broker: String? = nil, includeControlDetails: Bool? = nil, includeNullAndEmpty: Bool? = nil, includePartitionValue: Bool? = nil, includeTableAlterOperations: Bool? = nil, includeTransactionDetails: Bool? = nil, messageFormat: MessageFormatValue? = nil, messageMaxBytes: Int? = nil, partitionIncludeSchemaTable: Bool? = nil, topic: String? = nil) {
+        public init(broker: String? = nil, includeControlDetails: Bool? = nil, includeNullAndEmpty: Bool? = nil, includePartitionValue: Bool? = nil, includeTableAlterOperations: Bool? = nil, includeTransactionDetails: Bool? = nil, messageFormat: MessageFormatValue? = nil, messageMaxBytes: Int? = nil, partitionIncludeSchemaTable: Bool? = nil, saslPassword: String? = nil, saslUsername: String? = nil, securityProtocol: KafkaSecurityProtocol? = nil, sslCaCertificateArn: String? = nil, sslClientCertificateArn: String? = nil, sslClientKeyArn: String? = nil, sslClientKeyPassword: String? = nil, topic: String? = nil) {
             self.broker = broker
             self.includeControlDetails = includeControlDetails
             self.includeNullAndEmpty = includeNullAndEmpty
@@ -2257,6 +2366,13 @@ extension DatabaseMigrationService {
             self.messageFormat = messageFormat
             self.messageMaxBytes = messageMaxBytes
             self.partitionIncludeSchemaTable = partitionIncludeSchemaTable
+            self.saslPassword = saslPassword
+            self.saslUsername = saslUsername
+            self.securityProtocol = securityProtocol
+            self.sslCaCertificateArn = sslCaCertificateArn
+            self.sslClientCertificateArn = sslClientCertificateArn
+            self.sslClientKeyArn = sslClientKeyArn
+            self.sslClientKeyPassword = sslClientKeyPassword
             self.topic = topic
         }
 
@@ -2270,6 +2386,13 @@ extension DatabaseMigrationService {
             case messageFormat = "MessageFormat"
             case messageMaxBytes = "MessageMaxBytes"
             case partitionIncludeSchemaTable = "PartitionIncludeSchemaTable"
+            case saslPassword = "SaslPassword"
+            case saslUsername = "SaslUsername"
+            case securityProtocol = "SecurityProtocol"
+            case sslCaCertificateArn = "SslCaCertificateArn"
+            case sslClientCertificateArn = "SslClientCertificateArn"
+            case sslClientKeyArn = "SslClientKeyArn"
+            case sslClientKeyPassword = "SslClientKeyPassword"
             case topic = "Topic"
         }
     }
@@ -2356,6 +2479,8 @@ extension DatabaseMigrationService {
         public let password: String?
         /// Endpoint TCP port.
         public let port: Int?
+        /// Cleans and recreates table metadata information on the replication instance when a mismatch occurs. An example is a situation where running an alter DDL statement on a table might result in different information about the table cached in the replication instance.
+        public let querySingleAlwaysOnNode: Bool?
         /// When this attribute is set to Y, AWS DMS only reads changes from transaction log backups and doesn't read from the active transaction log file during ongoing replication. Setting this parameter to Y enables you to control active transaction log file growth during full load and ongoing replication tasks. However, it can add some source latency to ongoing replication.
         public let readBackupOnly: Bool?
         /// Use this attribute to minimize the need to access the backup log and enable AWS DMS to prevent truncation using one of the following two methods.  Start transactions in the database: This is the default method. When this method is used, AWS DMS prevents TLOG truncation by mimicking a transaction in the database. As long as such a transaction is open, changes that appear after the transaction started aren't truncated. If you need Microsoft Replication to be enabled in your database, then you must choose this method.  Exclusively use sp_repldone within a single task: When this method is used, AWS DMS reads the changes and then uses sp_repldone to mark the TLOG transactions as ready for truncation. Although this method doesn't involve any transactional activities, it can only be used when Microsoft Replication isn't running. Also, when using this method, only one AWS DMS task can access the database at any given time. Therefore, if you need to run parallel AWS DMS tasks against the same database, use the default method.
@@ -2370,13 +2495,16 @@ extension DatabaseMigrationService {
         public let useBcpFullLoad: Bool?
         /// Endpoint connection user name.
         public let username: String?
+        /// When this attribute is set to Y, DMS processes third-party transaction log backups if they are created in native format.
+        public let useThirdPartyBackupDevice: Bool?
 
-        public init(bcpPacketSize: Int? = nil, controlTablesFileGroup: String? = nil, databaseName: String? = nil, password: String? = nil, port: Int? = nil, readBackupOnly: Bool? = nil, safeguardPolicy: SafeguardPolicy? = nil, secretsManagerAccessRoleArn: String? = nil, secretsManagerSecretId: String? = nil, serverName: String? = nil, useBcpFullLoad: Bool? = nil, username: String? = nil) {
+        public init(bcpPacketSize: Int? = nil, controlTablesFileGroup: String? = nil, databaseName: String? = nil, password: String? = nil, port: Int? = nil, querySingleAlwaysOnNode: Bool? = nil, readBackupOnly: Bool? = nil, safeguardPolicy: SafeguardPolicy? = nil, secretsManagerAccessRoleArn: String? = nil, secretsManagerSecretId: String? = nil, serverName: String? = nil, useBcpFullLoad: Bool? = nil, username: String? = nil, useThirdPartyBackupDevice: Bool? = nil) {
             self.bcpPacketSize = bcpPacketSize
             self.controlTablesFileGroup = controlTablesFileGroup
             self.databaseName = databaseName
             self.password = password
             self.port = port
+            self.querySingleAlwaysOnNode = querySingleAlwaysOnNode
             self.readBackupOnly = readBackupOnly
             self.safeguardPolicy = safeguardPolicy
             self.secretsManagerAccessRoleArn = secretsManagerAccessRoleArn
@@ -2384,6 +2512,7 @@ extension DatabaseMigrationService {
             self.serverName = serverName
             self.useBcpFullLoad = useBcpFullLoad
             self.username = username
+            self.useThirdPartyBackupDevice = useThirdPartyBackupDevice
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2392,6 +2521,7 @@ extension DatabaseMigrationService {
             case databaseName = "DatabaseName"
             case password = "Password"
             case port = "Port"
+            case querySingleAlwaysOnNode = "QuerySingleAlwaysOnNode"
             case readBackupOnly = "ReadBackupOnly"
             case safeguardPolicy = "SafeguardPolicy"
             case secretsManagerAccessRoleArn = "SecretsManagerAccessRoleArn"
@@ -2399,6 +2529,7 @@ extension DatabaseMigrationService {
             case serverName = "ServerName"
             case useBcpFullLoad = "UseBcpFullLoad"
             case username = "Username"
+            case useThirdPartyBackupDevice = "UseThirdPartyBackupDevice"
         }
     }
 
@@ -2700,7 +2831,7 @@ extension DatabaseMigrationService {
         public let replicationTaskIdentifier: String?
         /// JSON file that contains settings for the task, such as task metadata settings.
         public let replicationTaskSettings: String?
-        /// When using the AWS CLI or boto3, provide the path of the JSON file that contains the table mappings. Precede the path with file://. When working with the DMS API, provide the JSON as the parameter value, for example: --table-mappings file://mappingfile.json
+        /// When using the AWS CLI or boto3, provide the path of the JSON file that contains the table mappings. Precede the path with file://. For example, --table-mappings file://mappingfile.json. When working with the DMS API, provide the JSON as the parameter value.
         public let tableMappings: String?
         /// Supplemental information that the task requires to migrate the data for certain source and target endpoints. For more information, see Specifying Supplemental Data for Task Settings in the AWS Database Migration Service User Guide.
         public let taskData: String?
@@ -2841,6 +2972,8 @@ extension DatabaseMigrationService {
     public struct MySQLSettings: AWSEncodableShape & AWSDecodableShape {
         /// Specifies a script to run immediately after AWS DMS connects to the endpoint. The migration task continues running regardless if the SQL statement succeeds or fails.
         public let afterConnectScript: String?
+        /// Adjusts the behavior of DMS when migrating from an SQL Server source database that is hosted as part of an Always On availability group cluster. If you need DMS to poll all the nodes in the Always On cluster for transaction backups, set this attribute to false.
+        public let cleanSourceMetadataOnMismatch: Bool?
         /// Database name for the endpoint.
         public let databaseName: String?
         /// Specifies how often to check the binary log for new changes/events when the database is idle. Example: eventsPollInterval=5;  In the example, AWS DMS checks for changes in the binary logs every five seconds.
@@ -2866,8 +2999,9 @@ extension DatabaseMigrationService {
         /// Endpoint connection user name.
         public let username: String?
 
-        public init(afterConnectScript: String? = nil, databaseName: String? = nil, eventsPollInterval: Int? = nil, maxFileSize: Int? = nil, parallelLoadThreads: Int? = nil, password: String? = nil, port: Int? = nil, secretsManagerAccessRoleArn: String? = nil, secretsManagerSecretId: String? = nil, serverName: String? = nil, serverTimezone: String? = nil, targetDbType: TargetDbType? = nil, username: String? = nil) {
+        public init(afterConnectScript: String? = nil, cleanSourceMetadataOnMismatch: Bool? = nil, databaseName: String? = nil, eventsPollInterval: Int? = nil, maxFileSize: Int? = nil, parallelLoadThreads: Int? = nil, password: String? = nil, port: Int? = nil, secretsManagerAccessRoleArn: String? = nil, secretsManagerSecretId: String? = nil, serverName: String? = nil, serverTimezone: String? = nil, targetDbType: TargetDbType? = nil, username: String? = nil) {
             self.afterConnectScript = afterConnectScript
+            self.cleanSourceMetadataOnMismatch = cleanSourceMetadataOnMismatch
             self.databaseName = databaseName
             self.eventsPollInterval = eventsPollInterval
             self.maxFileSize = maxFileSize
@@ -2884,6 +3018,7 @@ extension DatabaseMigrationService {
 
         private enum CodingKeys: String, CodingKey {
             case afterConnectScript = "AfterConnectScript"
+            case cleanSourceMetadataOnMismatch = "CleanSourceMetadataOnMismatch"
             case databaseName = "DatabaseName"
             case eventsPollInterval = "EventsPollInterval"
             case maxFileSize = "MaxFileSize"
@@ -2999,6 +3134,8 @@ extension DatabaseMigrationService {
         public let securityDbEncryptionName: String?
         /// Fully qualified domain name of the endpoint.
         public let serverName: String?
+        /// Use this attribute to convert SDO_GEOMETRY to GEOJSON format. By default, DMS calls the SDO2GEOJSON custom function if present and accessible. Or you can create your own custom function that mimics the operation of SDOGEOJSON and set SpatialDataOptionToGeoJsonFunctionName to call it instead.
+        public let spatialDataOptionToGeoJsonFunctionName: String?
         /// Set this attribute to true in order to use the Binary Reader to capture change data for an Amazon RDS for Oracle as the source. This tells the DMS instance to use any specified prefix replacement to access all online redo logs.
         public let useAlternateFolderForOnline: Bool?
         /// Set this string attribute to the required value in order to use the Binary Reader to capture change data for an Amazon RDS for Oracle as the source. This value specifies the path prefix used to replace the default Oracle root to access the redo logs.
@@ -3006,7 +3143,7 @@ extension DatabaseMigrationService {
         /// Endpoint connection user name.
         public let username: String?
 
-        public init(accessAlternateDirectly: Bool? = nil, additionalArchivedLogDestId: Int? = nil, addSupplementalLogging: Bool? = nil, allowSelectNestedTables: Bool? = nil, archivedLogDestId: Int? = nil, archivedLogsOnly: Bool? = nil, asmPassword: String? = nil, asmServer: String? = nil, asmUser: String? = nil, charLengthSemantics: CharLengthSemantics? = nil, databaseName: String? = nil, directPathNoLog: Bool? = nil, directPathParallelLoad: Bool? = nil, enableHomogenousTablespace: Bool? = nil, failTasksOnLobTruncation: Bool? = nil, numberDatatypeScale: Int? = nil, oraclePathPrefix: String? = nil, parallelAsmReadThreads: Int? = nil, password: String? = nil, port: Int? = nil, readAheadBlocks: Int? = nil, readTableSpaceName: Bool? = nil, replacePathPrefix: Bool? = nil, retryInterval: Int? = nil, secretsManagerAccessRoleArn: String? = nil, secretsManagerOracleAsmAccessRoleArn: String? = nil, secretsManagerOracleAsmSecretId: String? = nil, secretsManagerSecretId: String? = nil, securityDbEncryption: String? = nil, securityDbEncryptionName: String? = nil, serverName: String? = nil, useAlternateFolderForOnline: Bool? = nil, usePathPrefix: String? = nil, username: String? = nil) {
+        public init(accessAlternateDirectly: Bool? = nil, additionalArchivedLogDestId: Int? = nil, addSupplementalLogging: Bool? = nil, allowSelectNestedTables: Bool? = nil, archivedLogDestId: Int? = nil, archivedLogsOnly: Bool? = nil, asmPassword: String? = nil, asmServer: String? = nil, asmUser: String? = nil, charLengthSemantics: CharLengthSemantics? = nil, databaseName: String? = nil, directPathNoLog: Bool? = nil, directPathParallelLoad: Bool? = nil, enableHomogenousTablespace: Bool? = nil, failTasksOnLobTruncation: Bool? = nil, numberDatatypeScale: Int? = nil, oraclePathPrefix: String? = nil, parallelAsmReadThreads: Int? = nil, password: String? = nil, port: Int? = nil, readAheadBlocks: Int? = nil, readTableSpaceName: Bool? = nil, replacePathPrefix: Bool? = nil, retryInterval: Int? = nil, secretsManagerAccessRoleArn: String? = nil, secretsManagerOracleAsmAccessRoleArn: String? = nil, secretsManagerOracleAsmSecretId: String? = nil, secretsManagerSecretId: String? = nil, securityDbEncryption: String? = nil, securityDbEncryptionName: String? = nil, serverName: String? = nil, spatialDataOptionToGeoJsonFunctionName: String? = nil, useAlternateFolderForOnline: Bool? = nil, usePathPrefix: String? = nil, username: String? = nil) {
             self.accessAlternateDirectly = accessAlternateDirectly
             self.additionalArchivedLogDestId = additionalArchivedLogDestId
             self.addSupplementalLogging = addSupplementalLogging
@@ -3038,6 +3175,7 @@ extension DatabaseMigrationService {
             self.securityDbEncryption = securityDbEncryption
             self.securityDbEncryptionName = securityDbEncryptionName
             self.serverName = serverName
+            self.spatialDataOptionToGeoJsonFunctionName = spatialDataOptionToGeoJsonFunctionName
             self.useAlternateFolderForOnline = useAlternateFolderForOnline
             self.usePathPrefix = usePathPrefix
             self.username = username
@@ -3075,6 +3213,7 @@ extension DatabaseMigrationService {
             case securityDbEncryption = "SecurityDbEncryption"
             case securityDbEncryptionName = "SecurityDbEncryptionName"
             case serverName = "ServerName"
+            case spatialDataOptionToGeoJsonFunctionName = "SpatialDataOptionToGeoJsonFunctionName"
             case useAlternateFolderForOnline = "UseAlternateFolderForOnline"
             case usePathPrefix = "UsePathPrefix"
             case username = "Username"
@@ -4011,7 +4150,7 @@ extension DatabaseMigrationService {
         public let rowGroupLength: Int?
         /// If you are using SSE_KMS for the EncryptionMode, provide the AWS KMS key ID. The key that you use needs an attached policy that enables AWS Identity and Access Management (IAM) user permissions and allows use of the key. Here is a CLI example: aws dms create-endpoint --endpoint-identifier value --endpoint-type target --engine-name s3 --s3-settings ServiceAccessRoleArn=value,BucketFolder=value,BucketName=value,EncryptionMode=SSE_KMS,ServerSideEncryptionKmsKeyId=value
         public let serverSideEncryptionKmsKeyId: String?
-        ///  The Amazon Resource Name (ARN) used by the service access IAM role. It is a required parameter that enables DMS to write and read objects from an 3S bucket.
+        ///  The Amazon Resource Name (ARN) used by the service access IAM role. It is a required parameter that enables DMS to write and read objects from an S3 bucket.
         public let serviceAccessRoleArn: String?
         /// A value that when nonblank causes AWS DMS to add a column with timestamp information to the endpoint data for an Amazon S3 target.  AWS DMS supports the TimestampColumnName parameter in versions 3.1.4 and later.  DMS includes an additional STRING column in the .csv or .parquet object files of your migrated data when you set TimestampColumnName to a nonblank value. For a full load, each row of this timestamp column contains a timestamp for when the data was transferred from the source to the target by DMS.  For a change data capture (CDC) load, each row of the timestamp column contains the timestamp for the commit of that row in the source database. The string format for this timestamp column value is yyyy-MM-dd HH:mm:ss.SSSSSS. By default, the precision of this value is in microseconds. For a CDC load, the rounding of the precision depends on the commit timestamp supported by DMS for the source database. When the AddColumnName parameter is set to true, DMS also includes a name for the timestamp column that you set with TimestampColumnName.
         public let timestampColumnName: String?

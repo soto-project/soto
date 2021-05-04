@@ -484,28 +484,28 @@ extension Detective {
         /// The date and time that Detective sent the invitation to the member account. The value is in milliseconds since the epoch.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var invitedTime: Date?
-        /// The member account data volume as a percentage of the maximum allowed data volume. 0 indicates 0 percent, and 100 indicates 100 percent. Note that this is not the percentage of the behavior graph data volume. For example, the data volume for the behavior graph is 80 GB per day. The maximum data volume is 160 GB per day. If the data volume for the member account is 40 GB per day, then PercentOfGraphUtilization is 25. It represents 25% of the maximum allowed data volume.
-        public let percentOfGraphUtilization: Double?
-        /// The date and time when the graph utilization percentage was last updated.
-        @OptionalCustomCoding<ISO8601DateCoder>
-        public var percentOfGraphUtilizationUpdatedTime: Date?
         /// The current membership status of the member account. The status can have one of the following values:    INVITED - Indicates that the member was sent an invitation but has not yet responded.    VERIFICATION_IN_PROGRESS - Indicates that Detective is verifying that the account identifier and email address provided for the member account match. If they do match, then Detective sends the invitation. If the email address and account identifier don't match, then the member cannot be added to the behavior graph.    VERIFICATION_FAILED - Indicates that the account and email address provided for the member account do not match, and Detective did not send an invitation to the account.    ENABLED - Indicates that the member account accepted the invitation to contribute to the behavior graph.    ACCEPTED_BUT_DISABLED - Indicates that the member account accepted the invitation but is prevented from contributing data to the behavior graph. DisabledReason provides the reason why the member account is not enabled.   Member accounts that declined an invitation or that were removed from the behavior graph are not included.
         public let status: MemberStatus?
         /// The date and time that the member account was last updated. The value is in milliseconds since the epoch.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTime: Date?
+        /// The data volume in bytes per day for the member account.
+        public let volumeUsageInBytes: Int64?
+        /// The data and time when the member account data volume was last updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var volumeUsageUpdatedTime: Date?
 
-        public init(accountId: String? = nil, administratorId: String? = nil, disabledReason: MemberDisabledReason? = nil, emailAddress: String? = nil, graphArn: String? = nil, invitedTime: Date? = nil, percentOfGraphUtilization: Double? = nil, percentOfGraphUtilizationUpdatedTime: Date? = nil, status: MemberStatus? = nil, updatedTime: Date? = nil) {
+        public init(accountId: String? = nil, administratorId: String? = nil, disabledReason: MemberDisabledReason? = nil, emailAddress: String? = nil, graphArn: String? = nil, invitedTime: Date? = nil, status: MemberStatus? = nil, updatedTime: Date? = nil, volumeUsageInBytes: Int64? = nil, volumeUsageUpdatedTime: Date? = nil) {
             self.accountId = accountId
             self.administratorId = administratorId
             self.disabledReason = disabledReason
             self.emailAddress = emailAddress
             self.graphArn = graphArn
             self.invitedTime = invitedTime
-            self.percentOfGraphUtilization = percentOfGraphUtilization
-            self.percentOfGraphUtilizationUpdatedTime = percentOfGraphUtilizationUpdatedTime
             self.status = status
             self.updatedTime = updatedTime
+            self.volumeUsageInBytes = volumeUsageInBytes
+            self.volumeUsageUpdatedTime = volumeUsageUpdatedTime
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -515,10 +515,10 @@ extension Detective {
             case emailAddress = "EmailAddress"
             case graphArn = "GraphArn"
             case invitedTime = "InvitedTime"
-            case percentOfGraphUtilization = "PercentOfGraphUtilization"
-            case percentOfGraphUtilizationUpdatedTime = "PercentOfGraphUtilizationUpdatedTime"
             case status = "Status"
             case updatedTime = "UpdatedTime"
+            case volumeUsageInBytes = "VolumeUsageInBytes"
+            case volumeUsageUpdatedTime = "VolumeUsageUpdatedTime"
         }
     }
 

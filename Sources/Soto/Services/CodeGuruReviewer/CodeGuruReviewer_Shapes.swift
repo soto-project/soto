@@ -20,6 +20,12 @@ import SotoCore
 extension CodeGuruReviewer {
     // MARK: Enums
 
+    public enum EncryptionOption: String, CustomStringConvertible, Codable {
+        case awsOwnedCmk = "AWS_OWNED_CMK"
+        case customerManagedCmk = "CUSTOMER_MANAGED_CMK"
+        public var description: String { return self.rawValue }
+    }
+
     public enum JobState: String, CustomStringConvertible, Codable {
         case completed = "Completed"
         case deleting = "Deleting"
@@ -62,13 +68,16 @@ extension CodeGuruReviewer {
     public struct AssociateRepositoryRequest: AWSEncodableShape {
         /// Amazon CodeGuru Reviewer uses this value to prevent the accidental creation of duplicate repository associations if there are failures and retries.
         public let clientRequestToken: String?
+        /// A KMSKeyDetails object that contains:   The encryption option for this repository association. It is either owned by AWS Key Management Service (KMS) (AWS_OWNED_CMK) or customer managed (CUSTOMER_MANAGED_CMK).   The ID of the AWS KMS key that is associated with this respository association.
+        public let kMSKeyDetails: KMSKeyDetails?
         /// The repository to associate.
         public let repository: Repository
         ///  An array of key-value pairs used to tag an associated repository. A tag is a custom attribute label with two parts:    A tag key (for example, CostCenter, Environment, Project, or Secret). Tag keys are case sensitive.   An optional field known as a tag value (for example, 111122223333, Production, or a team name). Omitting the tag value is the same as using an empty string. Like tag keys, tag values are case sensitive.
         public let tags: [String: String]?
 
-        public init(clientRequestToken: String? = AssociateRepositoryRequest.idempotencyToken(), repository: Repository, tags: [String: String]? = nil) {
+        public init(clientRequestToken: String? = AssociateRepositoryRequest.idempotencyToken(), kMSKeyDetails: KMSKeyDetails? = nil, repository: Repository, tags: [String: String]? = nil) {
             self.clientRequestToken = clientRequestToken
+            self.kMSKeyDetails = kMSKeyDetails
             self.repository = repository
             self.tags = tags
         }
@@ -77,6 +86,7 @@ extension CodeGuruReviewer {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[\\w-]+$")
+            try self.kMSKeyDetails?.validate(name: "\(name).kMSKeyDetails")
             try self.repository.validate(name: "\(name).repository")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -87,6 +97,7 @@ extension CodeGuruReviewer {
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
+            case kMSKeyDetails = "KMSKeyDetails"
             case repository = "Repository"
             case tags = "Tags"
         }
@@ -247,7 +258,7 @@ extension CodeGuruReviewer {
     }
 
     public struct CodeReviewType: AWSEncodableShape {
-        ///  A code review that analyzes all code under a specified branch in an associated respository. The assocated repository is specified using its ARN in  CreateCodeReview .
+        ///  A code review that analyzes all code under a specified branch in an associated repository. The associated repository is specified using its ARN in  CreateCodeReview .
         public let repositoryAnalysis: RepositoryAnalysis
 
         public init(repositoryAnalysis: RepositoryAnalysis) {
@@ -483,6 +494,29 @@ extension CodeGuruReviewer {
         private enum CodingKeys: String, CodingKey {
             case repositoryAssociation = "RepositoryAssociation"
             case tags = "Tags"
+        }
+    }
+
+    public struct KMSKeyDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The encryption option for a repository association. It is either owned by AWS Key Management Service (KMS) (AWS_OWNED_CMK) or customer managed (CUSTOMER_MANAGED_CMK).
+        public let encryptionOption: EncryptionOption?
+        /// The ID of the AWS KMS key that is associated with a respository association.
+        public let kMSKeyId: String?
+
+        public init(encryptionOption: EncryptionOption? = nil, kMSKeyId: String? = nil) {
+            self.encryptionOption = encryptionOption
+            self.kMSKeyId = kMSKeyId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kMSKeyId, name: "kMSKeyId", parent: name, max: 2048)
+            try self.validate(self.kMSKeyId, name: "kMSKeyId", parent: name, min: 1)
+            try self.validate(self.kMSKeyId, name: "kMSKeyId", parent: name, pattern: "[a-zA-Z0-9-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionOption = "EncryptionOption"
+            case kMSKeyId = "KMSKeyId"
         }
     }
 
@@ -992,6 +1026,8 @@ extension CodeGuruReviewer {
         public let connectionArn: String?
         /// The time, in milliseconds since the epoch, when the repository association was created.
         public let createdTimeStamp: Date?
+        /// A KMSKeyDetails object that contains:   The encryption option for this repository association. It is either owned by AWS Key Management Service (KMS) (AWS_OWNED_CMK) or customer managed (CUSTOMER_MANAGED_CMK).   The ID of the AWS KMS key that is associated with this respository association.
+        public let kMSKeyDetails: KMSKeyDetails?
         /// The time, in milliseconds since the epoch, when the repository association was last updated.
         public let lastUpdatedTimeStamp: Date?
         /// The name of the repository.
@@ -1005,11 +1041,12 @@ extension CodeGuruReviewer {
         /// A description of why the repository association is in the current state.
         public let stateReason: String?
 
-        public init(associationArn: String? = nil, associationId: String? = nil, connectionArn: String? = nil, createdTimeStamp: Date? = nil, lastUpdatedTimeStamp: Date? = nil, name: String? = nil, owner: String? = nil, providerType: ProviderType? = nil, state: RepositoryAssociationState? = nil, stateReason: String? = nil) {
+        public init(associationArn: String? = nil, associationId: String? = nil, connectionArn: String? = nil, createdTimeStamp: Date? = nil, kMSKeyDetails: KMSKeyDetails? = nil, lastUpdatedTimeStamp: Date? = nil, name: String? = nil, owner: String? = nil, providerType: ProviderType? = nil, state: RepositoryAssociationState? = nil, stateReason: String? = nil) {
             self.associationArn = associationArn
             self.associationId = associationId
             self.connectionArn = connectionArn
             self.createdTimeStamp = createdTimeStamp
+            self.kMSKeyDetails = kMSKeyDetails
             self.lastUpdatedTimeStamp = lastUpdatedTimeStamp
             self.name = name
             self.owner = owner
@@ -1023,6 +1060,7 @@ extension CodeGuruReviewer {
             case associationId = "AssociationId"
             case connectionArn = "ConnectionArn"
             case createdTimeStamp = "CreatedTimeStamp"
+            case kMSKeyDetails = "KMSKeyDetails"
             case lastUpdatedTimeStamp = "LastUpdatedTimeStamp"
             case name = "Name"
             case owner = "Owner"

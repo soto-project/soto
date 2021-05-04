@@ -68,6 +68,11 @@ public struct Redshift: AWSService {
         return self.client.execute(operation: "AcceptReservedNodeExchange", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Adds a partner integration to a cluster. This operation authorizes a partner to push status updates for the specified database. To complete the integration, you also set up the integration on the partner website.
+    public func addPartner(_ input: PartnerIntegrationInputMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PartnerIntegrationOutputMessage> {
+        return self.client.execute(operation: "AddPartner", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Adds an inbound (ingress) rule to an Amazon Redshift security group. Depending on whether the application accessing your cluster is running on the Internet or an Amazon EC2 instance, you can authorize inbound access to either a Classless Interdomain Routing (CIDR)/Internet Protocol (IP) range or to an Amazon EC2 security group. You can add as many as 20 ingress rules to an Amazon Redshift security group. If you authorize access to an Amazon EC2 security group, specify EC2SecurityGroupName and EC2SecurityGroupOwnerId. The Amazon EC2 security group and Amazon Redshift cluster must be in the same AWS Region.  If you authorize access to a CIDR/IP address range, specify CIDRIP. For an overview of CIDR blocks, see the Wikipedia article on Classless Inter-Domain Routing.  You must also associate the security group with a cluster so that clients running on these IP addresses or the EC2 instance are authorized to connect to the cluster. For information about managing security groups, go to Working with Security Groups in the Amazon Redshift Cluster Management Guide.
     public func authorizeClusterSecurityGroupIngress(_ input: AuthorizeClusterSecurityGroupIngressMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AuthorizeClusterSecurityGroupIngressResult> {
         return self.client.execute(operation: "AuthorizeClusterSecurityGroupIngress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -218,6 +223,11 @@ public struct Redshift: AWSService {
         return self.client.execute(operation: "DeleteHsmConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes a partner integration from a cluster. Data can still flow to the cluster until the integration is deleted at the partner's website.
+    public func deletePartner(_ input: PartnerIntegrationInputMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PartnerIntegrationOutputMessage> {
+        return self.client.execute(operation: "DeletePartner", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes a scheduled action.
     @discardableResult public func deleteScheduledAction(_ input: DeleteScheduledActionMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteScheduledAction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -348,6 +358,11 @@ public struct Redshift: AWSService {
         return self.client.execute(operation: "DescribeOrderableClusterOptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns information about the partner integrations defined for a cluster.
+    public func describePartners(_ input: DescribePartnersInputMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePartnersOutputMessage> {
+        return self.client.execute(operation: "DescribePartners", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns a list of the available reserved node offerings by Amazon Redshift with their descriptions including the node type, the fixed and recurring costs of reserving the node and duration the node will be reserved for you. These descriptions help you determine which reserve node offering you want to purchase. You then use the unique offering ID in you call to PurchaseReservedNodeOffering to reserve one or more nodes for your Amazon Redshift cluster.   For more information about reserved node offerings, go to Purchasing Reserved Nodes in the Amazon Redshift Cluster Management Guide.
     public func describeReservedNodeOfferings(_ input: DescribeReservedNodeOfferingsMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ReservedNodeOfferingsMessage> {
         return self.client.execute(operation: "DescribeReservedNodeOfferings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -426,6 +441,11 @@ public struct Redshift: AWSService {
     /// Returns an array of DC2 ReservedNodeOfferings that matches the payment type, term, and usage price of the given DC1 reserved node.
     public func getReservedNodeExchangeOfferings(_ input: GetReservedNodeExchangeOfferingsInputMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetReservedNodeExchangeOfferingsOutputMessage> {
         return self.client.execute(operation: "GetReservedNodeExchangeOfferings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Modifies whether a cluster can use AQUA (Advanced Query Accelerator).
+    public func modifyAquaConfiguration(_ input: ModifyAquaInputMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyAquaOutputMessage> {
+        return self.client.execute(operation: "ModifyAquaConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Modifies the settings for a cluster. You can also change node type and the number of nodes to scale up or down the cluster. When resizing a cluster, you must specify both the number of nodes and the node type even if one of the parameters does not change. You can add another security or parameter group, or change the master user password. Resetting a cluster password or modifying the security groups associated with a cluster do not need a reboot. However, modifying a parameter group requires a reboot for parameters to take effect. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide.
@@ -556,6 +576,11 @@ public struct Redshift: AWSService {
     /// Rotates the encryption keys for a cluster.
     public func rotateEncryptionKey(_ input: RotateEncryptionKeyMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RotateEncryptionKeyResult> {
         return self.client.execute(operation: "RotateEncryptionKey", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the status of a partner integration.
+    public func updatePartnerStatus(_ input: UpdatePartnerStatusInputMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PartnerIntegrationOutputMessage> {
+        return self.client.execute(operation: "UpdatePartnerStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 

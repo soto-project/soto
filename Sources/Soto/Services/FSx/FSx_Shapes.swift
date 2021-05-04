@@ -46,6 +46,7 @@ extension FSx {
 
     public enum BackupLifecycle: String, CustomStringConvertible, Codable {
         case available = "AVAILABLE"
+        case copying = "COPYING"
         case creating = "CREATING"
         case deleted = "DELETED"
         case failed = "FAILED"
@@ -172,15 +173,18 @@ extension FSx {
         public let activeDirectoryId: String?
         /// The fully qualified domain name of the self-managed AD directory.
         public let domainName: String?
+        public let resourceARN: String?
 
-        public init(activeDirectoryId: String? = nil, domainName: String? = nil) {
+        public init(activeDirectoryId: String? = nil, domainName: String? = nil, resourceARN: String? = nil) {
             self.activeDirectoryId = activeDirectoryId
             self.domainName = domainName
+            self.resourceARN = resourceARN
         }
 
         private enum CodingKeys: String, CodingKey {
             case activeDirectoryId = "ActiveDirectoryId"
             case domainName = "DomainName"
+            case resourceARN = "ResourceARN"
         }
     }
 
@@ -231,7 +235,7 @@ extension FSx {
     public struct Alias: AWSDecodableShape {
         /// Describes the state of the DNS alias.   AVAILABLE - The DNS alias is associated with an Amazon FSx file system.   CREATING - Amazon FSx is creating the DNS alias and associating it with the file system.   CREATE_FAILED - Amazon FSx was unable to associate the DNS alias with the file system.   DELETING - Amazon FSx is disassociating the DNS alias from the file system and deleting it.   DELETE_FAILED - Amazon FSx was unable to disassocate the DNS alias from the file system.
         public let lifecycle: AliasLifecycle?
-        /// The name of the DNS alias. The alias name has to meet the following requirements:   Formatted as a fully-qualified domain name (FQDN), hostname.domain, for example, accounting.example.com.   Can contain alphanumeric characters and the hyphen (-).   Cannot start or end with a hyphen.   Can start with a numeric.   For DNS names, Amazon FSx stores alphabetic characters as lowercase letters (a-z), regardless of how you specify them: as uppercase letters, lowercase letters, or the corresponding letters in escape codes.
+        /// The name of the DNS alias. The alias name has to meet the following requirements:   Formatted as a fully-qualified domain name (FQDN), hostname.domain, for example, accounting.example.com.   Can contain alphanumeric characters, the underscore (_), and the hyphen (-).   Cannot start or end with a hyphen.   Can start with a numeric.   For DNS names, Amazon FSx stores alphabetic characters as lowercase letters (a-z), regardless of how you specify them: as uppercase letters, lowercase letters, or the corresponding letters in escape codes.
         public let name: String?
 
         public init(lifecycle: AliasLifecycle? = nil, name: String? = nil) {
@@ -306,17 +310,21 @@ extension FSx {
         public let fileSystem: FileSystem
         /// The ID of the AWS Key Management Service (AWS KMS) key used to encrypt the backup of the Amazon FSx file system's data at rest.
         public let kmsKeyId: String?
-        /// The lifecycle status of the backup.    AVAILABLE - The backup is fully available.    PENDING - For user-initiated backups on Lustre file systems only; Amazon FSx has not started creating the backup.    CREATING - Amazon FSx is creating the backup.    TRANSFERRING - For user-initiated backups on Lustre file systems only; Amazon FSx is transferring the backup to S3.    DELETED - Amazon FSx deleted the backup and it is no longer available.    FAILED - Amazon FSx could not complete the backup.
+        /// The lifecycle status of the backup.    AVAILABLE - The backup is fully available.    PENDING - For user-initiated backups on Lustre file systems only; Amazon FSx has not started creating the backup.    CREATING - Amazon FSx is creating the backup.    TRANSFERRING - For user-initiated backups on Lustre file systems only; Amazon FSx is transferring the backup to S3.    COPYING - Amazon FSx is copying the backup.    DELETED - Amazon FSx deleted the backup and it is no longer available.    FAILED - Amazon FSx could not complete the backup.
         public let lifecycle: BackupLifecycle
+        public let ownerId: String?
         public let progressPercent: Int?
         /// The Amazon Resource Name (ARN) for the backup resource.
         public let resourceARN: String?
+        public let sourceBackupId: String?
+        /// The source Region of the backup. Specifies the Region from where this backup is copied.
+        public let sourceBackupRegion: String?
         /// Tags associated with a particular file system.
         public let tags: [Tag]?
         /// The type of the file system backup.
         public let type: BackupType
 
-        public init(backupId: String, creationTime: Date, directoryInformation: ActiveDirectoryBackupAttributes? = nil, failureDetails: BackupFailureDetails? = nil, fileSystem: FileSystem, kmsKeyId: String? = nil, lifecycle: BackupLifecycle, progressPercent: Int? = nil, resourceARN: String? = nil, tags: [Tag]? = nil, type: BackupType) {
+        public init(backupId: String, creationTime: Date, directoryInformation: ActiveDirectoryBackupAttributes? = nil, failureDetails: BackupFailureDetails? = nil, fileSystem: FileSystem, kmsKeyId: String? = nil, lifecycle: BackupLifecycle, ownerId: String? = nil, progressPercent: Int? = nil, resourceARN: String? = nil, sourceBackupId: String? = nil, sourceBackupRegion: String? = nil, tags: [Tag]? = nil, type: BackupType) {
             self.backupId = backupId
             self.creationTime = creationTime
             self.directoryInformation = directoryInformation
@@ -324,8 +332,11 @@ extension FSx {
             self.fileSystem = fileSystem
             self.kmsKeyId = kmsKeyId
             self.lifecycle = lifecycle
+            self.ownerId = ownerId
             self.progressPercent = progressPercent
             self.resourceARN = resourceARN
+            self.sourceBackupId = sourceBackupId
+            self.sourceBackupRegion = sourceBackupRegion
             self.tags = tags
             self.type = type
         }
@@ -338,8 +349,11 @@ extension FSx {
             case fileSystem = "FileSystem"
             case kmsKeyId = "KmsKeyId"
             case lifecycle = "Lifecycle"
+            case ownerId = "OwnerId"
             case progressPercent = "ProgressPercent"
             case resourceARN = "ResourceARN"
+            case sourceBackupId = "SourceBackupId"
+            case sourceBackupRegion = "SourceBackupRegion"
             case tags = "Tags"
             case type = "Type"
         }
@@ -422,6 +436,68 @@ extension FSx {
             case format = "Format"
             case path = "Path"
             case scope = "Scope"
+        }
+    }
+
+    public struct CopyBackupRequest: AWSEncodableShape {
+        public let clientRequestToken: String?
+        /// A boolean flag indicating whether tags from the source backup should be copied to the backup copy. This value defaults to false. If you set CopyTags to true and the source backup has existing tags, you can use the Tags parameter to create new tags, provided that the sum of the source backup tags and the new tags doesn't exceed 50. Both sets of tags are merged. If there are tag conflicts (for example, two tags with the same key but different values), the tags created with the Tags parameter take precedence.
+        public let copyTags: Bool?
+        public let kmsKeyId: String?
+        /// The ID of the source backup. Specifies the ID of the backup that is being copied.
+        public let sourceBackupId: String
+        /// The source AWS Region of the backup. Specifies the AWS Region from which the backup is being copied. The source and destination Regions must be in the same AWS partition. If you don't specify a Region, it defaults to the Region where the request is sent from (in-Region copy).
+        public let sourceRegion: String?
+        public let tags: [Tag]?
+
+        public init(clientRequestToken: String? = CopyBackupRequest.idempotencyToken(), copyTags: Bool? = nil, kmsKeyId: String? = nil, sourceBackupId: String, sourceRegion: String? = nil, tags: [Tag]? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.copyTags = copyTags
+            self.kmsKeyId = kmsKeyId
+            self.sourceBackupId = sourceBackupId
+            self.sourceRegion = sourceRegion
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 63)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "[A-za-z0-9_.-]{0,63}$")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^.{1,2048}$")
+            try self.validate(self.sourceBackupId, name: "sourceBackupId", parent: name, max: 128)
+            try self.validate(self.sourceBackupId, name: "sourceBackupId", parent: name, min: 12)
+            try self.validate(self.sourceBackupId, name: "sourceBackupId", parent: name, pattern: "^(backup-[0-9a-f]{8,})$")
+            try self.validate(self.sourceRegion, name: "sourceRegion", parent: name, max: 20)
+            try self.validate(self.sourceRegion, name: "sourceRegion", parent: name, min: 1)
+            try self.validate(self.sourceRegion, name: "sourceRegion", parent: name, pattern: "^[a-z0-9-]{1,20}$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case copyTags = "CopyTags"
+            case kmsKeyId = "KmsKeyId"
+            case sourceBackupId = "SourceBackupId"
+            case sourceRegion = "SourceRegion"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CopyBackupResponse: AWSDecodableShape {
+        public let backup: Backup?
+
+        public init(backup: Backup? = nil) {
+            self.backup = backup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backup = "Backup"
         }
     }
 
@@ -541,6 +617,7 @@ extension FSx {
         public let backupId: String
         /// A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent creation. This string is automatically filled on your behalf when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
         public let clientRequestToken: String?
+        public let kmsKeyId: String?
         public let lustreConfiguration: CreateFileSystemLustreConfiguration?
         /// A list of IDs for the security groups that apply to the specified network interfaces created for file system access. These security groups apply to all network interfaces. This value isn't returned in later DescribeFileSystem requests.
         public let securityGroupIds: [String]?
@@ -553,9 +630,10 @@ extension FSx {
         /// The configuration for this Microsoft Windows file system.
         public let windowsConfiguration: CreateFileSystemWindowsConfiguration?
 
-        public init(backupId: String, clientRequestToken: String? = CreateFileSystemFromBackupRequest.idempotencyToken(), lustreConfiguration: CreateFileSystemLustreConfiguration? = nil, securityGroupIds: [String]? = nil, storageType: StorageType? = nil, subnetIds: [String], tags: [Tag]? = nil, windowsConfiguration: CreateFileSystemWindowsConfiguration? = nil) {
+        public init(backupId: String, clientRequestToken: String? = CreateFileSystemFromBackupRequest.idempotencyToken(), kmsKeyId: String? = nil, lustreConfiguration: CreateFileSystemLustreConfiguration? = nil, securityGroupIds: [String]? = nil, storageType: StorageType? = nil, subnetIds: [String], tags: [Tag]? = nil, windowsConfiguration: CreateFileSystemWindowsConfiguration? = nil) {
             self.backupId = backupId
             self.clientRequestToken = clientRequestToken
+            self.kmsKeyId = kmsKeyId
             self.lustreConfiguration = lustreConfiguration
             self.securityGroupIds = securityGroupIds
             self.storageType = storageType
@@ -571,6 +649,9 @@ extension FSx {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 63)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "[A-za-z0-9_.-]{0,63}$")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^.{1,2048}$")
             try self.lustreConfiguration?.validate(name: "\(name).lustreConfiguration")
             try self.securityGroupIds?.forEach {
                 try validate($0, name: "securityGroupIds[]", parent: name, max: 20)
@@ -595,6 +676,7 @@ extension FSx {
         private enum CodingKeys: String, CodingKey {
             case backupId = "BackupId"
             case clientRequestToken = "ClientRequestToken"
+            case kmsKeyId = "KmsKeyId"
             case lustreConfiguration = "LustreConfiguration"
             case securityGroupIds = "SecurityGroupIds"
             case storageType = "StorageType"
@@ -702,7 +784,7 @@ extension FSx {
         public let storageCapacity: Int
         /// Sets the storage type for the file system you're creating. Valid values are SSD and HDD.   Set to SSD to use solid state drive storage. SSD is supported on all Windows and Lustre deployment types.   Set to HDD to use hard disk drive storage. HDD is supported on SINGLE_AZ_2 and MULTI_AZ_1 Windows file system deployment types, and on PERSISTENT Lustre file system deployment types.     Default value is SSD. For more information, see  Storage Type Options in the Amazon FSx for Windows User Guide and Multiple Storage Options in the Amazon FSx for Lustre User Guide.
         public let storageType: StorageType?
-        /// Specifies the IDs of the subnets that the file system will be accessible from. For Windows MULTI_AZ_1 file system deployment types, provide exactly two subnet IDs, one for the preferred file server and one for the standby file server. You specify one of these subnets as the preferred subnet using the WindowsConfiguration &gt; PreferredSubnetID property. For Windows SINGLE_AZ_1 and SINGLE_AZ_2 file system deployment types and Lustre file systems, provide exactly one subnet ID. The file server is launched in that subnet's Availability Zone.
+        /// Specifies the IDs of the subnets that the file system will be accessible from. For Windows MULTI_AZ_1 file system deployment types, provide exactly two subnet IDs, one for the preferred file server and one for the standby file server. You specify one of these subnets as the preferred subnet using the WindowsConfiguration &gt; PreferredSubnetID property. For more information, see  Availability and durability: Single-AZ and Multi-AZ file systems. For Windows SINGLE_AZ_1 and SINGLE_AZ_2 file system deployment types and Lustre file systems, provide exactly one subnet ID. The file server is launched in that subnet's Availability Zone.
         public let subnetIds: [String]
         /// The tags to apply to the file system being created. The key value of the Name tag appears in the console as the file system name.
         public let tags: [Tag]?
@@ -782,7 +864,7 @@ extension FSx {
     public struct CreateFileSystemWindowsConfiguration: AWSEncodableShape {
         /// The ID for an existing AWS Managed Microsoft Active Directory (AD) instance that the file system should join when it's created.
         public let activeDirectoryId: String?
-        /// An array of one or more DNS alias names that you want to associate with the Amazon FSx file system. Aliases allow you to use existing DNS names to access the data in your Amazon FSx file system. You can associate up to 50 aliases with a file system at any time. You can associate additional DNS aliases after you create the file system using the AssociateFileSystemAliases operation. You can remove DNS aliases from the file system after it is created using the DisassociateFileSystemAliases operation. You only need to specify the alias name in the request payload. For more information, see Working with DNS Aliases and Walkthrough 5: Using DNS aliases to access your file system, including additional steps you must take to be able to access your file system using a DNS alias. An alias name has to meet the following requirements:   Formatted as a fully-qualified domain name (FQDN), hostname.domain, for example, accounting.example.com.   Can contain alphanumeric characters and the hyphen (-).   Cannot start or end with a hyphen.   Can start with a numeric.   For DNS alias names, Amazon FSx stores alphabetic characters as lowercase letters (a-z), regardless of how you specify them: as uppercase letters, lowercase letters, or the corresponding letters in escape codes.
+        /// An array of one or more DNS alias names that you want to associate with the Amazon FSx file system. Aliases allow you to use existing DNS names to access the data in your Amazon FSx file system. You can associate up to 50 aliases with a file system at any time. You can associate additional DNS aliases after you create the file system using the AssociateFileSystemAliases operation. You can remove DNS aliases from the file system after it is created using the DisassociateFileSystemAliases operation. You only need to specify the alias name in the request payload. For more information, see Working with DNS Aliases and Walkthrough 5: Using DNS aliases to access your file system, including additional steps you must take to be able to access your file system using a DNS alias. An alias name has to meet the following requirements:   Formatted as a fully-qualified domain name (FQDN), hostname.domain, for example, accounting.example.com.   Can contain alphanumeric characters, the underscore (_), and the hyphen (-).   Cannot start or end with a hyphen.   Can start with a numeric.   For DNS alias names, Amazon FSx stores alphabetic characters as lowercase letters (a-z), regardless of how you specify them: as uppercase letters, lowercase letters, or the corresponding letters in escape codes.
         public let aliases: [String]?
         /// The number of days to retain automatic backups. The default is to retain backups for 7 days. Setting this value to 0 disables the creation of automatic backups. The maximum retention period for backups is 90 days.
         public let automaticBackupRetentionDays: Int?
@@ -1244,7 +1326,7 @@ extension FSx {
     }
 
     public struct DescribeBackupsResponse: AWSDecodableShape {
-        /// Any array of backups.
+        /// An array of backups.
         public let backups: [Backup]?
         /// This is present if there are more backups than returned in the response (String). You can use the NextToken value in the later request to fetch the backups.
         public let nextToken: String?
@@ -1711,7 +1793,7 @@ extension FSx {
     }
 
     public struct SelfManagedActiveDirectoryConfiguration: AWSEncodableShape {
-        /// A list of up to two IP addresses of DNS servers or domain controllers in the self-managed AD directory. The IP addresses need to be either in the same VPC CIDR range as the one in which your Amazon FSx file system is being created, or in the private IP version 4 (IPv4) address ranges, as specified in RFC 1918:   10.0.0.0 - 10.255.255.255 (10/8 prefix)   172.16.0.0 - 172.31.255.255 (172.16/12 prefix)   192.168.0.0 - 192.168.255.255 (192.168/16 prefix)
+        /// A list of up to two IP addresses of DNS servers or domain controllers in the self-managed AD directory.
         public let dnsIps: [String]
         /// The fully qualified domain name of the self-managed AD directory, such as corp.example.com.
         public let domainName: String
@@ -2029,7 +2111,7 @@ extension FSx {
     }
 
     public struct WindowsFileSystemConfiguration: AWSDecodableShape {
-        /// The ID for an existing Microsoft Active Directory instance that the file system should join when it's created.
+        /// The ID for an existing AWS Managed Microsoft Active Directory instance that the file system is joined to.
         public let activeDirectoryId: String?
         public let aliases: [Alias]?
         /// The number of days to retain automatic backups. Setting this to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days.
@@ -2044,12 +2126,12 @@ extension FSx {
         public let maintenanceOperationsInProgress: [FileSystemMaintenanceOperation]?
         /// For MULTI_AZ_1 deployment types, the IP address of the primary, or preferred, file server. Use this IP address when mounting the file system on Linux SMB clients or Windows SMB clients that are not joined to a Microsoft Active Directory. Applicable for all Windows file system deployment types. This IP address is temporarily unavailable when the file system is undergoing maintenance. For Linux and Windows SMB clients that are joined to an Active Directory, use the file system's DNSName instead. For more information on mapping and mounting file shares, see Accessing File Shares.
         public let preferredFileServerIp: String?
-        /// For MULTI_AZ_1 deployment types, it specifies the ID of the subnet where the preferred file server is located. Must be one of the two subnet IDs specified in SubnetIds property. Amazon FSx serves traffic from this subnet except in the event of a failover to the secondary file server. For SINGLE_AZ_1 and SINGLE_AZ_2 deployment types, this value is the same as that for SubnetIDs. For more information, see Availability and Durability: Single-AZ and Multi-AZ File Systems
+        /// For MULTI_AZ_1 deployment types, it specifies the ID of the subnet where the preferred file server is located. Must be one of the two subnet IDs specified in SubnetIds property. Amazon FSx serves traffic from this subnet except in the event of a failover to the secondary file server. For SINGLE_AZ_1 and SINGLE_AZ_2 deployment types, this value is the same as that for SubnetIDs. For more information, see Availability and durability: Single-AZ and Multi-AZ file systems.
         public let preferredSubnetId: String?
         /// For MULTI_AZ_1 deployment types, use this endpoint when performing administrative tasks on the file system using Amazon FSx Remote PowerShell. For SINGLE_AZ_1 and SINGLE_AZ_2 deployment types, this is the DNS name of the file system. This endpoint is temporarily unavailable when the file system is undergoing maintenance.
         public let remoteAdministrationEndpoint: String?
         public let selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryAttributes?
-        /// The throughput of an Amazon FSx file system, measured in megabytes per second.
+        /// The throughput of the Amazon FSx file system, measured in megabytes per second.
         public let throughputCapacity: Int?
         /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone. d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public let weeklyMaintenanceStartTime: String?

@@ -61,6 +61,17 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
+    public enum FunctionRuntime: String, CustomStringConvertible, Codable {
+        case cloudfrontJs10 = "cloudfront-js-1.0"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FunctionStage: String, CustomStringConvertible, Codable {
+        case development = "DEVELOPMENT"
+        case live = "LIVE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum GeoRestrictionType: String, CustomStringConvertible, Codable {
         case blacklist
         case none
@@ -284,12 +295,14 @@ extension CloudFront {
 
     public struct CacheBehavior: AWSEncodableShape & AWSDecodableShape {
         public let allowedMethods: AllowedMethods?
-        /// The unique identifier of the cache policy that is attached to this cache behavior. For more information, see Creating cache policies or Using the managed cache policies in the Amazon CloudFront Developer Guide.
+        /// The unique identifier of the cache policy that is attached to this cache behavior. For more information, see Creating cache policies or Using the managed cache policies in the Amazon CloudFront Developer Guide. A CacheBehavior must include either a CachePolicyId or ForwardedValues. We recommend that you use a CachePolicyId.
         public let cachePolicyId: String?
         /// Whether you want CloudFront to automatically compress certain files for this cache behavior. If so, specify true; if not, specify false. For more information, see Serving Compressed Files in the Amazon CloudFront Developer Guide.
         public let compress: Bool?
         /// The value of ID for the field-level encryption configuration that you want CloudFront to use for encrypting specific fields of data for this cache behavior.
         public let fieldLevelEncryptionId: String?
+        /// A list of CloudFront functions that are associated with this cache behavior. CloudFront functions must be published to the LIVE stage to associate them with a cache behavior.
+        public let functionAssociations: FunctionAssociations?
         /// A complex type that contains zero or more Lambda function associations for a cache behavior.
         public let lambdaFunctionAssociations: LambdaFunctionAssociations?
         /// The unique identifier of the origin request policy that is attached to this cache behavior. For more information, see Creating origin request policies or Using the managed origin request policies in the Amazon CloudFront Developer Guide.
@@ -309,11 +322,12 @@ extension CloudFront {
         /// The protocol that viewers can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. You can specify the following options:    allow-all: Viewers can use HTTP or HTTPS.    redirect-to-https: If a viewer submits an HTTP request, CloudFront returns an HTTP status code of 301 (Moved Permanently) to the viewer along with the HTTPS URL. The viewer then resubmits the request using the new URL.     https-only: If a viewer sends an HTTP request, CloudFront returns an HTTP status code of 403 (Forbidden).    For more information about requiring the HTTPS protocol, see Requiring HTTPS Between Viewers and CloudFront in the Amazon CloudFront Developer Guide.  The only way to guarantee that viewers retrieve an object that was fetched from the origin using HTTPS is never to use any other protocol to fetch the object. If you have recently changed from HTTP to HTTPS, we recommend that you clear your objects’ cache because cached objects are protocol agnostic. That means that an edge location will return an object from the cache regardless of whether the current request protocol matches the protocol used previously. For more information, see Managing Cache Expiration in the Amazon CloudFront Developer Guide.
         public let viewerProtocolPolicy: ViewerProtocolPolicy
 
-        public init(allowedMethods: AllowedMethods? = nil, cachePolicyId: String? = nil, compress: Bool? = nil, fieldLevelEncryptionId: String? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, originRequestPolicyId: String? = nil, pathPattern: String, realtimeLogConfigArn: String? = nil, smoothStreaming: Bool? = nil, targetOriginId: String, trustedKeyGroups: TrustedKeyGroups? = nil, trustedSigners: TrustedSigners? = nil, viewerProtocolPolicy: ViewerProtocolPolicy) {
+        public init(allowedMethods: AllowedMethods? = nil, cachePolicyId: String? = nil, compress: Bool? = nil, fieldLevelEncryptionId: String? = nil, functionAssociations: FunctionAssociations? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, originRequestPolicyId: String? = nil, pathPattern: String, realtimeLogConfigArn: String? = nil, smoothStreaming: Bool? = nil, targetOriginId: String, trustedKeyGroups: TrustedKeyGroups? = nil, trustedSigners: TrustedSigners? = nil, viewerProtocolPolicy: ViewerProtocolPolicy) {
             self.allowedMethods = allowedMethods
             self.cachePolicyId = cachePolicyId
             self.compress = compress
             self.fieldLevelEncryptionId = fieldLevelEncryptionId
+            self.functionAssociations = functionAssociations
             self.lambdaFunctionAssociations = lambdaFunctionAssociations
             self.originRequestPolicyId = originRequestPolicyId
             self.pathPattern = pathPattern
@@ -325,11 +339,16 @@ extension CloudFront {
             self.viewerProtocolPolicy = viewerProtocolPolicy
         }
 
+        public func validate(name: String) throws {
+            try self.functionAssociations?.validate(name: "\(name).functionAssociations")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case allowedMethods = "AllowedMethods"
             case cachePolicyId = "CachePolicyId"
             case compress = "Compress"
             case fieldLevelEncryptionId = "FieldLevelEncryptionId"
+            case functionAssociations = "FunctionAssociations"
             case lambdaFunctionAssociations = "LambdaFunctionAssociations"
             case originRequestPolicyId = "OriginRequestPolicyId"
             case pathPattern = "PathPattern"
@@ -354,6 +373,12 @@ extension CloudFront {
         public init(items: [CacheBehavior]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
+        }
+
+        public func validate(name: String) throws {
+            try self.items?.forEach {
+                try $0.validate(name: "\(name).items[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -386,7 +411,7 @@ extension CloudFront {
     public struct CachePolicyConfig: AWSEncodableShape & AWSDecodableShape {
         public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
 
-        /// A comment to describe the cache policy.
+        /// A comment to describe the cache policy. The comment cannot be longer than 128 characters.
         public let comment: String?
         /// The default amount of time, in seconds, that you want objects to stay in the CloudFront cache before CloudFront sends another request to the origin to see if the object has been updated. CloudFront uses this value as the object’s time to live (TTL) only when the origin does not send Cache-Control or Expires headers with the object. For more information, see Managing How Long Content Stays in an Edge Cache (Expiration) in the Amazon CloudFront Developer Guide. The default value for this field is 86400 seconds (one day). If the value of MinTTL is more than 86400 seconds, then the default value for this field is the same as the value of MinTTL.
         public let defaultTTL: Int64?
@@ -558,7 +583,7 @@ extension CloudFront {
 
         /// A unique value (for example, a date-time stamp) that ensures that the request can't be replayed. If the value of CallerReference is new (regardless of the content of the CloudFrontOriginAccessIdentityConfig object), a new origin access identity is created. If the CallerReference is a value already sent in a previous identity request, and the content of the CloudFrontOriginAccessIdentityConfig is identical to the original request (ignoring white space), the response includes the same information returned to the original request.  If the CallerReference is a value you already sent in a previous request to create an identity, but the content of the CloudFrontOriginAccessIdentityConfig is different from the original request, CloudFront returns a CloudFrontOriginAccessIdentityAlreadyExists error.
         public let callerReference: String
-        /// Any comments you want to include about the origin access identity.
+        /// An optional comment to describe the origin access identity. The comment cannot be longer than 128 characters.
         public let comment: String
 
         public init(callerReference: String, comment: String) {
@@ -999,6 +1024,66 @@ extension CloudFront {
         private enum CodingKeys: String, CodingKey {
             case eTag = "ETag"
             case fieldLevelEncryptionProfile = "FieldLevelEncryptionProfile"
+            case location = "Location"
+        }
+    }
+
+    public struct CreateFunctionRequest: AWSEncodableShape {
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
+
+        /// The function code. For more information about writing a CloudFront function, see Writing function code for CloudFront Functions in the Amazon CloudFront Developer Guide.
+        public let functionCode: Data
+        /// Configuration information about the function, including an optional comment and the function’s runtime.
+        public let functionConfig: FunctionConfig
+        /// A name to identify the function.
+        public let name: String
+
+        public init(functionCode: Data, functionConfig: FunctionConfig, name: String) {
+            self.functionCode = functionCode
+            self.functionConfig = functionConfig
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.functionCode, name: "functionCode", parent: name, max: 40960)
+            try self.validate(self.functionCode, name: "functionCode", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]{1,64}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionCode = "FunctionCode"
+            case functionConfig = "FunctionConfig"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateFunctionResult: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "functionSummary"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")),
+            AWSMemberEncoding(label: "functionSummary", location: .body(locationName: "FunctionSummary")),
+            AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
+        ]
+
+        /// The version identifier for the current version of the CloudFront function.
+        public let eTag: String?
+        /// Contains configuration information and metadata about a CloudFront function.
+        public let functionSummary: FunctionSummary?
+        /// The URL of the CloudFront function. Use the URL to manage the function with the CloudFront API.
+        public let location: String?
+
+        public init(eTag: String? = nil, functionSummary: FunctionSummary? = nil, location: String? = nil) {
+            self.eTag = eTag
+            self.functionSummary = functionSummary
+            self.location = location
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case functionSummary = "FunctionSummary"
             case location = "Location"
         }
     }
@@ -1479,12 +1564,14 @@ extension CloudFront {
 
     public struct DefaultCacheBehavior: AWSEncodableShape & AWSDecodableShape {
         public let allowedMethods: AllowedMethods?
-        /// The unique identifier of the cache policy that is attached to the default cache behavior. For more information, see Creating cache policies or Using the managed cache policies in the Amazon CloudFront Developer Guide.
+        /// The unique identifier of the cache policy that is attached to the default cache behavior. For more information, see Creating cache policies or Using the managed cache policies in the Amazon CloudFront Developer Guide. A DefaultCacheBehavior must include either a CachePolicyId or ForwardedValues. We recommend that you use a CachePolicyId.
         public let cachePolicyId: String?
         /// Whether you want CloudFront to automatically compress certain files for this cache behavior. If so, specify true; if not, specify false. For more information, see Serving Compressed Files in the Amazon CloudFront Developer Guide.
         public let compress: Bool?
         /// The value of ID for the field-level encryption configuration that you want CloudFront to use for encrypting specific fields of data for the default cache behavior.
         public let fieldLevelEncryptionId: String?
+        /// A list of CloudFront functions that are associated with this cache behavior. CloudFront functions must be published to the LIVE stage to associate them with a cache behavior.
+        public let functionAssociations: FunctionAssociations?
         /// A complex type that contains zero or more Lambda function associations for a cache behavior.
         public let lambdaFunctionAssociations: LambdaFunctionAssociations?
         /// The unique identifier of the origin request policy that is attached to the default cache behavior. For more information, see Creating origin request policies or Using the managed origin request policies in the Amazon CloudFront Developer Guide.
@@ -1502,11 +1589,12 @@ extension CloudFront {
         /// The protocol that viewers can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. You can specify the following options:    allow-all: Viewers can use HTTP or HTTPS.    redirect-to-https: If a viewer submits an HTTP request, CloudFront returns an HTTP status code of 301 (Moved Permanently) to the viewer along with the HTTPS URL. The viewer then resubmits the request using the new URL.    https-only: If a viewer sends an HTTP request, CloudFront returns an HTTP status code of 403 (Forbidden).   For more information about requiring the HTTPS protocol, see Requiring HTTPS Between Viewers and CloudFront in the Amazon CloudFront Developer Guide.  The only way to guarantee that viewers retrieve an object that was fetched from the origin using HTTPS is never to use any other protocol to fetch the object. If you have recently changed from HTTP to HTTPS, we recommend that you clear your objects’ cache because cached objects are protocol agnostic. That means that an edge location will return an object from the cache regardless of whether the current request protocol matches the protocol used previously. For more information, see Managing Cache Expiration in the Amazon CloudFront Developer Guide.
         public let viewerProtocolPolicy: ViewerProtocolPolicy
 
-        public init(allowedMethods: AllowedMethods? = nil, cachePolicyId: String? = nil, compress: Bool? = nil, fieldLevelEncryptionId: String? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, originRequestPolicyId: String? = nil, realtimeLogConfigArn: String? = nil, smoothStreaming: Bool? = nil, targetOriginId: String, trustedKeyGroups: TrustedKeyGroups? = nil, trustedSigners: TrustedSigners? = nil, viewerProtocolPolicy: ViewerProtocolPolicy) {
+        public init(allowedMethods: AllowedMethods? = nil, cachePolicyId: String? = nil, compress: Bool? = nil, fieldLevelEncryptionId: String? = nil, functionAssociations: FunctionAssociations? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, originRequestPolicyId: String? = nil, realtimeLogConfigArn: String? = nil, smoothStreaming: Bool? = nil, targetOriginId: String, trustedKeyGroups: TrustedKeyGroups? = nil, trustedSigners: TrustedSigners? = nil, viewerProtocolPolicy: ViewerProtocolPolicy) {
             self.allowedMethods = allowedMethods
             self.cachePolicyId = cachePolicyId
             self.compress = compress
             self.fieldLevelEncryptionId = fieldLevelEncryptionId
+            self.functionAssociations = functionAssociations
             self.lambdaFunctionAssociations = lambdaFunctionAssociations
             self.originRequestPolicyId = originRequestPolicyId
             self.realtimeLogConfigArn = realtimeLogConfigArn
@@ -1517,11 +1605,16 @@ extension CloudFront {
             self.viewerProtocolPolicy = viewerProtocolPolicy
         }
 
+        public func validate(name: String) throws {
+            try self.functionAssociations?.validate(name: "\(name).functionAssociations")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case allowedMethods = "AllowedMethods"
             case cachePolicyId = "CachePolicyId"
             case compress = "Compress"
             case fieldLevelEncryptionId = "FieldLevelEncryptionId"
+            case functionAssociations = "FunctionAssociations"
             case lambdaFunctionAssociations = "LambdaFunctionAssociations"
             case originRequestPolicyId = "OriginRequestPolicyId"
             case realtimeLogConfigArn = "RealtimeLogConfigArn"
@@ -1623,6 +1716,25 @@ extension CloudFront {
         public init(id: String, ifMatch: String? = nil) {
             self.id = id
             self.ifMatch = ifMatch
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteFunctionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ifMatch", location: .header(locationName: "If-Match")),
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+        ]
+
+        /// The current version (ETag value) of the function that you are deleting, which you can get using DescribeFunction.
+        public let ifMatch: String
+        /// The name of the function that you are deleting.
+        public let name: String
+
+        public init(ifMatch: String, name: String) {
+            self.ifMatch = ifMatch
+            self.name = name
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1742,6 +1854,49 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DescribeFunctionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name")),
+            AWSMemberEncoding(label: "stage", location: .querystring(locationName: "Stage"))
+        ]
+
+        /// The name of the function that you are getting information about.
+        public let name: String
+        /// The function’s stage, either DEVELOPMENT or LIVE.
+        public let stage: FunctionStage?
+
+        public init(name: String, stage: FunctionStage? = nil) {
+            self.name = name
+            self.stage = stage
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeFunctionResult: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "functionSummary"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")),
+            AWSMemberEncoding(label: "functionSummary", location: .body(locationName: "FunctionSummary"))
+        ]
+
+        /// The version identifier for the current version of the CloudFront function.
+        public let eTag: String?
+        /// Contains configuration information and metadata about a CloudFront function.
+        public let functionSummary: FunctionSummary?
+
+        public init(eTag: String? = nil, functionSummary: FunctionSummary? = nil) {
+            self.eTag = eTag
+            self.functionSummary = functionSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case functionSummary = "FunctionSummary"
+        }
+    }
+
     public struct Distribution: AWSDecodableShape {
         public struct _AliasICPRecordalsEncoding: ArrayCoderProperties { public static let member = "AliasICPRecordal" }
 
@@ -1803,7 +1958,7 @@ extension CloudFront {
         public let cacheBehaviors: CacheBehaviors?
         /// A unique value (for example, a date-time stamp) that ensures that the request can't be replayed. If the value of CallerReference is new (regardless of the content of the DistributionConfig object), CloudFront creates a new distribution. If CallerReference is a value that you already sent in a previous request to create a distribution, CloudFront returns a DistributionAlreadyExists error.
         public let callerReference: String
-        /// Any comments you want to include about the distribution. If you don't want to specify a comment, include an empty Comment element. To delete an existing comment, update the distribution configuration and include an empty Comment element. To add or change a comment, update the distribution configuration and specify the new comment.
+        /// An optional comment to describe the distribution. The comment cannot be longer than 128 characters.
         public let comment: String
         /// A complex type that controls the following:   Whether CloudFront replaces HTTP status codes in the 4xx and 5xx range with custom error messages before returning the response to the viewer.   How long CloudFront caches HTTP status codes in the 4xx and 5xx range.   For more information about custom error pages, see Customizing Error Responses in the Amazon CloudFront Developer Guide.
         public let customErrorResponses: CustomErrorResponses?
@@ -1853,6 +2008,8 @@ extension CloudFront {
         }
 
         public func validate(name: String) throws {
+            try self.cacheBehaviors?.validate(name: "\(name).cacheBehaviors")
+            try self.defaultCacheBehavior.validate(name: "\(name).defaultCacheBehavior")
             try self.originGroups?.validate(name: "\(name).originGroups")
             try self.origins.validate(name: "\(name).origins")
         }
@@ -2150,7 +2307,7 @@ extension CloudFront {
 
         /// A unique number that ensures the request can't be replayed.
         public let callerReference: String
-        /// An optional comment about the configuration.
+        /// An optional comment about the configuration. The comment cannot be longer than 128 characters.
         public let comment: String?
         /// A complex data type that specifies when to forward content if a content type isn't recognized and profiles to use as by default in a request if a query argument doesn't specify a profile to use.
         public let contentTypeProfileConfig: ContentTypeProfileConfig?
@@ -2226,7 +2383,7 @@ extension CloudFront {
 
         /// A unique number that ensures that the request can't be replayed.
         public let callerReference: String
-        /// An optional comment for the field-level encryption profile.
+        /// An optional comment for the field-level encryption profile. The comment cannot be longer than 128 characters.
         public let comment: String?
         /// A complex data type of encryption entities for the field-level encryption profile that include the public key ID, provider, and field patterns for specifying which fields to encrypt with this key.
         public let encryptionEntities: EncryptionEntities
@@ -2277,7 +2434,7 @@ extension CloudFront {
     }
 
     public struct FieldLevelEncryptionProfileSummary: AWSDecodableShape {
-        /// An optional comment for the field-level encryption profile summary.
+        /// An optional comment for the field-level encryption profile summary. The comment cannot be longer than 128 characters.
         public let comment: String?
         /// A complex data type of encryption entities for the field-level encryption profile that include the public key ID, provider, and field patterns for specifying which fields to encrypt with this key.
         public let encryptionEntities: EncryptionEntities
@@ -2306,7 +2463,7 @@ extension CloudFront {
     }
 
     public struct FieldLevelEncryptionSummary: AWSDecodableShape {
-        /// An optional comment about the field-level encryption item.
+        /// An optional comment about the field-level encryption item. The comment cannot be longer than 128 characters.
         public let comment: String?
         ///  A summary of a content type-profile mapping.
         public let contentTypeProfileConfig: ContentTypeProfileConfig?
@@ -2351,6 +2508,149 @@ extension CloudFront {
         private enum CodingKeys: String, CodingKey {
             case items = "Items"
             case quantity = "Quantity"
+        }
+    }
+
+    public struct FunctionAssociation: AWSEncodableShape & AWSDecodableShape {
+        /// The event type of the function, either viewer-request or viewer-response. You cannot use origin-facing event types (origin-request and origin-response) with a CloudFront function.
+        public let eventType: EventType
+        /// The Amazon Resource Name (ARN) of the function.
+        public let functionARN: String
+
+        public init(eventType: EventType, functionARN: String) {
+            self.eventType = eventType
+            self.functionARN = functionARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.functionARN, name: "functionARN", parent: name, max: 108)
+            try self.validate(self.functionARN, name: "functionARN", parent: name, pattern: "arn:aws:cloudfront::[0-9]{12}:function\\/[a-zA-Z0-9-_]{1,64}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventType = "EventType"
+            case functionARN = "FunctionARN"
+        }
+    }
+
+    public struct FunctionAssociations: AWSEncodableShape & AWSDecodableShape {
+        public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "FunctionAssociation" }
+
+        /// The CloudFront functions that are associated with a cache behavior in a CloudFront distribution. CloudFront functions must be published to the LIVE stage to associate them with a cache behavior.
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, FunctionAssociation>>
+        public var items: [FunctionAssociation]?
+        /// The number of CloudFront functions in the list.
+        public let quantity: Int
+
+        public init(items: [FunctionAssociation]? = nil, quantity: Int) {
+            self.items = items
+            self.quantity = quantity
+        }
+
+        public func validate(name: String) throws {
+            try self.items?.forEach {
+                try $0.validate(name: "\(name).items[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case quantity = "Quantity"
+        }
+    }
+
+    public struct FunctionConfig: AWSEncodableShape & AWSDecodableShape {
+        /// A comment to describe the function.
+        public let comment: String
+        /// The function’s runtime environment. The only valid value is cloudfront-js-1.0.
+        public let runtime: FunctionRuntime
+
+        public init(comment: String, runtime: FunctionRuntime) {
+            self.comment = comment
+            self.runtime = runtime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comment = "Comment"
+            case runtime = "Runtime"
+        }
+    }
+
+    public struct FunctionList: AWSDecodableShape {
+        public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "FunctionSummary" }
+
+        /// Contains the functions in the list.
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, FunctionSummary>>
+        public var items: [FunctionSummary]?
+        /// The maximum number of functions requested.
+        public let maxItems: Int
+        /// If there are more items in the list than are in this response, this element is present. It contains the value that you should use in the Marker field of a subsequent request to continue listing functions where you left off.
+        public let nextMarker: String?
+        /// The number of functions returned in the response.
+        public let quantity: Int
+
+        public init(items: [FunctionSummary]? = nil, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
+            self.items = items
+            self.maxItems = maxItems
+            self.nextMarker = nextMarker
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case maxItems = "MaxItems"
+            case nextMarker = "NextMarker"
+            case quantity = "Quantity"
+        }
+    }
+
+    public struct FunctionMetadata: AWSDecodableShape {
+        /// The date and time when the function was created.
+        public let createdTime: Date?
+        /// The Amazon Resource Name (ARN) of the function. The ARN uniquely identifies the function.
+        public let functionARN: String
+        /// The date and time when the function was most recently updated.
+        public let lastModifiedTime: Date
+        /// The stage that the function is in, either DEVELOPMENT or LIVE. When a function is in the DEVELOPMENT stage, you can test the function with TestFunction, and update it with UpdateFunction. When a function is in the LIVE stage, you can attach the function to a distribution’s cache behavior, using the function’s ARN.
+        public let stage: FunctionStage?
+
+        public init(createdTime: Date? = nil, functionARN: String, lastModifiedTime: Date, stage: FunctionStage? = nil) {
+            self.createdTime = createdTime
+            self.functionARN = functionARN
+            self.lastModifiedTime = lastModifiedTime
+            self.stage = stage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTime = "CreatedTime"
+            case functionARN = "FunctionARN"
+            case lastModifiedTime = "LastModifiedTime"
+            case stage = "Stage"
+        }
+    }
+
+    public struct FunctionSummary: AWSDecodableShape {
+        /// Contains configuration information about a CloudFront function.
+        public let functionConfig: FunctionConfig
+        /// Contains metadata about a CloudFront function.
+        public let functionMetadata: FunctionMetadata
+        /// The name of the CloudFront function.
+        public let name: String
+        /// The status of the CloudFront function.
+        public let status: String?
+
+        public init(functionConfig: FunctionConfig, functionMetadata: FunctionMetadata, name: String, status: String? = nil) {
+            self.functionConfig = functionConfig
+            self.functionMetadata = functionMetadata
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionConfig = "FunctionConfig"
+            case functionMetadata = "FunctionMetadata"
+            case name = "Name"
+            case status = "Status"
         }
     }
 
@@ -2765,6 +3065,55 @@ extension CloudFront {
         private enum CodingKeys: String, CodingKey {
             case eTag = "ETag"
             case fieldLevelEncryption = "FieldLevelEncryption"
+        }
+    }
+
+    public struct GetFunctionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name")),
+            AWSMemberEncoding(label: "stage", location: .querystring(locationName: "Stage"))
+        ]
+
+        /// The name of the function whose code you are getting.
+        public let name: String
+        /// The function’s stage, either DEVELOPMENT or LIVE.
+        public let stage: FunctionStage?
+
+        public init(name: String, stage: FunctionStage? = nil) {
+            self.name = name
+            self.stage = stage
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetFunctionResult: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "functionCode"
+        public static let _payloadOptions: AWSShapePayloadOptions = [.raw]
+        public static var _encoding = [
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")),
+            AWSMemberEncoding(label: "functionCode", location: .body(locationName: "FunctionCode"))
+        ]
+
+        /// The content type (media type) of the response.
+        public let contentType: String?
+        /// The version identifier for the current version of the CloudFront function.
+        public let eTag: String?
+        /// The function code of a CloudFront function.
+        public let functionCode: AWSPayload?
+
+        public init(contentType: String? = nil, eTag: String? = nil, functionCode: AWSPayload? = nil) {
+            self.contentType = contentType
+            self.eTag = eTag
+            self.functionCode = functionCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentType = "Content-Type"
+            case eTag = "ETag"
+            case functionCode = "FunctionCode"
         }
     }
 
@@ -3346,7 +3695,7 @@ extension CloudFront {
         public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "PublicKey" }
 
-        /// A comment to describe the key group.
+        /// A comment to describe the key group. The comment cannot be longer than 128 characters.
         public let comment: String?
         /// A list of the identifiers of the public keys in the key group.
         @CustomCoding<ArrayCoder<_ItemsEncoding, String>>
@@ -3892,6 +4241,48 @@ extension CloudFront {
         }
     }
 
+    public struct ListFunctionsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")),
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems")),
+            AWSMemberEncoding(label: "stage", location: .querystring(locationName: "Stage"))
+        ]
+
+        /// Use this field when paginating results to indicate where to begin in your list of functions. The response includes functions in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
+        public let marker: String?
+        /// The maximum number of functions that you want in the response.
+        public let maxItems: String?
+        /// An optional filter to return only the functions that are in the specified stage, either DEVELOPMENT or LIVE.
+        public let stage: FunctionStage?
+
+        public init(marker: String? = nil, maxItems: String? = nil, stage: FunctionStage? = nil) {
+            self.marker = marker
+            self.maxItems = maxItems
+            self.stage = stage
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListFunctionsResult: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "functionList"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "functionList", location: .body(locationName: "FunctionList"))
+        ]
+
+        /// A list of CloudFront functions.
+        public let functionList: FunctionList?
+
+        public init(functionList: FunctionList? = nil) {
+            self.functionList = functionList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionList = "FunctionList"
+        }
+    }
+
     public struct ListInvalidationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "distributionId", location: .uri(locationName: "DistributionId")),
@@ -4403,7 +4794,7 @@ extension CloudFront {
     public struct OriginRequestPolicyConfig: AWSEncodableShape & AWSDecodableShape {
         public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
 
-        /// A comment to describe the origin request policy.
+        /// A comment to describe the origin request policy. The comment cannot be longer than 128 characters.
         public let comment: String?
         /// The cookies from viewer requests to include in origin requests.
         public let cookiesConfig: OriginRequestPolicyCookiesConfig
@@ -4670,7 +5061,7 @@ extension CloudFront {
 
         /// A string included in the request to help make sure that the request can’t be replayed.
         public let callerReference: String
-        /// A comment to describe the public key.
+        /// A comment to describe the public key. The comment cannot be longer than 128 characters.
         public let comment: String?
         /// The public key that you can use with signed URLs and signed cookies, or with field-level encryption.
         public let encodedKey: String
@@ -4721,7 +5112,7 @@ extension CloudFront {
     }
 
     public struct PublicKeySummary: AWSDecodableShape {
-        /// A comment to describe the public key.
+        /// A comment to describe the public key. The comment cannot be longer than 128 characters.
         public let comment: String?
         /// The date and time when the public key was uploaded.
         public let createdTime: Date
@@ -4746,6 +5137,44 @@ extension CloudFront {
             case encodedKey = "EncodedKey"
             case id = "Id"
             case name = "Name"
+        }
+    }
+
+    public struct PublishFunctionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ifMatch", location: .header(locationName: "If-Match")),
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+        ]
+
+        /// The current version (ETag value) of the function that you are publishing, which you can get using DescribeFunction.
+        public let ifMatch: String
+        /// The name of the function that you are publishing.
+        public let name: String
+
+        public init(ifMatch: String, name: String) {
+            self.ifMatch = ifMatch
+            self.name = name
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct PublishFunctionResult: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "functionSummary"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "functionSummary", location: .body(locationName: "FunctionSummary"))
+        ]
+
+        /// Contains configuration information and metadata about a CloudFront function.
+        public let functionSummary: FunctionSummary?
+
+        public init(functionSummary: FunctionSummary? = nil) {
+            self.functionSummary = functionSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionSummary = "FunctionSummary"
         }
     }
 
@@ -5298,6 +5727,88 @@ extension CloudFront {
         }
     }
 
+    public struct TestFunctionRequest: AWSEncodableShape {
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ifMatch", location: .header(locationName: "If-Match")),
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+        ]
+
+        /// The event object to test the function with. For more information about the structure of the event object, see Testing functions in the Amazon CloudFront Developer Guide.
+        public let eventObject: Data
+        /// The current version (ETag value) of the function that you are testing, which you can get using DescribeFunction.
+        public let ifMatch: String
+        /// The name of the function that you are testing.
+        public let name: String
+        /// The stage of the function that you are testing, either DEVELOPMENT or LIVE.
+        public let stage: FunctionStage?
+
+        public init(eventObject: Data, ifMatch: String, name: String, stage: FunctionStage? = nil) {
+            self.eventObject = eventObject
+            self.ifMatch = ifMatch
+            self.name = name
+            self.stage = stage
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.eventObject, name: "eventObject", parent: name, max: 40960)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventObject = "EventObject"
+            case stage = "Stage"
+        }
+    }
+
+    public struct TestFunctionResult: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "testResult"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "testResult", location: .body(locationName: "TestResult"))
+        ]
+
+        /// An object that represents the result of running the function with the provided event object.
+        public let testResult: TestResult?
+
+        public init(testResult: TestResult? = nil) {
+            self.testResult = testResult
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case testResult = "TestResult"
+        }
+    }
+
+    public struct TestResult: AWSDecodableShape {
+        /// The amount of time that the function took to run as a percentage of the maximum allowed time. For example, a compute utilization of 35 means that the function completed in 35% of the maximum allowed time.
+        public let computeUtilization: String?
+        /// If the result of testing the function was an error, this field contains the error message.
+        public let functionErrorMessage: String?
+        /// Contains the log lines that the function wrote (if any) when running the test.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var functionExecutionLogs: [String]?
+        /// The event object returned by the function. For more information about the structure of the event object, see Event object structure in the Amazon CloudFront Developer Guide.
+        public let functionOutput: String?
+        /// Contains configuration information and metadata about the CloudFront function that was tested.
+        public let functionSummary: FunctionSummary?
+
+        public init(computeUtilization: String? = nil, functionErrorMessage: String? = nil, functionExecutionLogs: [String]? = nil, functionOutput: String? = nil, functionSummary: FunctionSummary? = nil) {
+            self.computeUtilization = computeUtilization
+            self.functionErrorMessage = functionErrorMessage
+            self.functionExecutionLogs = functionExecutionLogs
+            self.functionOutput = functionOutput
+            self.functionSummary = functionSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computeUtilization = "ComputeUtilization"
+            case functionErrorMessage = "FunctionErrorMessage"
+            case functionExecutionLogs = "FunctionExecutionLogs"
+            case functionOutput = "FunctionOutput"
+            case functionSummary = "FunctionSummary"
+        }
+    }
+
     public struct TrustedKeyGroups: AWSEncodableShape & AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "KeyGroup" }
 
@@ -5630,6 +6141,64 @@ extension CloudFront {
         private enum CodingKeys: String, CodingKey {
             case eTag = "ETag"
             case fieldLevelEncryptionProfile = "FieldLevelEncryptionProfile"
+        }
+    }
+
+    public struct UpdateFunctionRequest: AWSEncodableShape {
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "ifMatch", location: .header(locationName: "If-Match")),
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
+        ]
+
+        /// The function code. For more information about writing a CloudFront function, see Writing function code for CloudFront Functions in the Amazon CloudFront Developer Guide.
+        public let functionCode: Data
+        /// Configuration information about the function.
+        public let functionConfig: FunctionConfig
+        /// The current version (ETag value) of the function that you are updating, which you can get using DescribeFunction.
+        public let ifMatch: String
+        /// The name of the function that you are updating.
+        public let name: String
+
+        public init(functionCode: Data, functionConfig: FunctionConfig, ifMatch: String, name: String) {
+            self.functionCode = functionCode
+            self.functionConfig = functionConfig
+            self.ifMatch = ifMatch
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.functionCode, name: "functionCode", parent: name, max: 40960)
+            try self.validate(self.functionCode, name: "functionCode", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionCode = "FunctionCode"
+            case functionConfig = "FunctionConfig"
+        }
+    }
+
+    public struct UpdateFunctionResult: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "functionSummary"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETtag")),
+            AWSMemberEncoding(label: "functionSummary", location: .body(locationName: "FunctionSummary"))
+        ]
+
+        /// The version identifier for the current version of the CloudFront function.
+        public let eTag: String?
+        /// Contains configuration information and metadata about a CloudFront function.
+        public let functionSummary: FunctionSummary?
+
+        public init(eTag: String? = nil, functionSummary: FunctionSummary? = nil) {
+            self.eTag = eTag
+            self.functionSummary = functionSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETtag"
+            case functionSummary = "FunctionSummary"
         }
     }
 

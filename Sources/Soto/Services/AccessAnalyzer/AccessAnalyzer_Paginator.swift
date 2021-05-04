@@ -337,6 +337,59 @@ extension AccessAnalyzer {
         )
     }
 
+    ///  Lists all of the policy generations requested in the last seven days.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listPolicyGenerationsPaginator<Result>(
+        _ input: ListPolicyGenerationsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListPolicyGenerationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listPolicyGenerations,
+            inputKey: \ListPolicyGenerationsRequest.nextToken,
+            outputKey: \ListPolicyGenerationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listPolicyGenerationsPaginator(
+        _ input: ListPolicyGenerationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListPolicyGenerationsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listPolicyGenerations,
+            inputKey: \ListPolicyGenerationsRequest.nextToken,
+            outputKey: \ListPolicyGenerationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Requests the validation of a policy and returns a list of findings. The findings help you identify issues and provide actionable recommendations to resolve the issue and enable you to author functional policies that meet security best practices.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -452,6 +505,16 @@ extension AccessAnalyzer.ListFindingsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             sort: self.sort
+        )
+    }
+}
+
+extension AccessAnalyzer.ListPolicyGenerationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> AccessAnalyzer.ListPolicyGenerationsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            principalArn: self.principalArn
         )
     }
 }

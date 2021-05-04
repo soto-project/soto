@@ -443,7 +443,7 @@ extension ElastiCache {
         )
     }
 
-    ///  Returns information about a particular global replication group. If no identifier is specified, returns information about all Global Datastores.
+    ///  Returns information about a particular global replication group. If no identifier is specified, returns information about all Global datastores.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

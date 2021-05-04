@@ -125,6 +125,59 @@ extension IoTSiteWise {
         )
     }
 
+    ///  Get interpolated values for an asset property for a specified time interval, during a period of time. For example, you can use the this operation to return the interpolated temperature values for a wind turbine every 24 hours over a duration of 7 days. To identify an asset property, you must specify one of the following:   The assetId and propertyId of an asset property.   A propertyAlias, which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see UpdateAssetProperty.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getInterpolatedAssetPropertyValuesPaginator<Result>(
+        _ input: GetInterpolatedAssetPropertyValuesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetInterpolatedAssetPropertyValuesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getInterpolatedAssetPropertyValues,
+            inputKey: \GetInterpolatedAssetPropertyValuesRequest.nextToken,
+            outputKey: \GetInterpolatedAssetPropertyValuesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getInterpolatedAssetPropertyValuesPaginator(
+        _ input: GetInterpolatedAssetPropertyValuesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetInterpolatedAssetPropertyValuesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getInterpolatedAssetPropertyValues,
+            inputKey: \GetInterpolatedAssetPropertyValuesRequest.nextToken,
+            outputKey: \GetInterpolatedAssetPropertyValuesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Retrieves a paginated list of access policies for an identity (an AWS SSO user, an AWS SSO group, or an IAM user) or an AWS IoT SiteWise Monitor resource (a portal or project).
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -686,6 +739,25 @@ extension IoTSiteWise.GetAssetPropertyValueHistoryRequest: AWSPaginateToken {
             qualities: self.qualities,
             startDate: self.startDate,
             timeOrdering: self.timeOrdering
+        )
+    }
+}
+
+extension IoTSiteWise.GetInterpolatedAssetPropertyValuesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IoTSiteWise.GetInterpolatedAssetPropertyValuesRequest {
+        return .init(
+            assetId: self.assetId,
+            endTimeInSeconds: self.endTimeInSeconds,
+            endTimeOffsetInNanos: self.endTimeOffsetInNanos,
+            intervalInSeconds: self.intervalInSeconds,
+            maxResults: self.maxResults,
+            nextToken: token,
+            propertyAlias: self.propertyAlias,
+            propertyId: self.propertyId,
+            quality: self.quality,
+            startTimeInSeconds: self.startTimeInSeconds,
+            startTimeOffsetInNanos: self.startTimeOffsetInNanos,
+            type: self.type
         )
     }
 }

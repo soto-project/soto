@@ -20,6 +20,7 @@ import SotoCore
 public struct FSxErrorType: AWSErrorType {
     enum Code: String {
         case activeDirectoryError = "ActiveDirectoryError"
+        case backupBeingCopied = "BackupBeingCopied"
         case backupInProgress = "BackupInProgress"
         case backupNotFound = "BackupNotFound"
         case backupRestoring = "BackupRestoring"
@@ -29,16 +30,21 @@ public struct FSxErrorType: AWSErrorType {
         case dataRepositoryTaskNotFound = "DataRepositoryTaskNotFound"
         case fileSystemNotFound = "FileSystemNotFound"
         case incompatibleParameterError = "IncompatibleParameterError"
+        case incompatibleRegionForMultiAZ = "IncompatibleRegionForMultiAZ"
         case internalServerError = "InternalServerError"
+        case invalidDestinationKmsKey = "InvalidDestinationKmsKey"
         case invalidExportPath = "InvalidExportPath"
         case invalidImportPath = "InvalidImportPath"
         case invalidNetworkSettings = "InvalidNetworkSettings"
         case invalidPerUnitStorageThroughput = "InvalidPerUnitStorageThroughput"
+        case invalidRegion = "InvalidRegion"
+        case invalidSourceKmsKey = "InvalidSourceKmsKey"
         case missingFileSystemConfiguration = "MissingFileSystemConfiguration"
         case notServiceResourceError = "NotServiceResourceError"
         case resourceDoesNotSupportTagging = "ResourceDoesNotSupportTagging"
         case resourceNotFound = "ResourceNotFound"
         case serviceLimitExceeded = "ServiceLimitExceeded"
+        case sourceBackupUnavailable = "SourceBackupUnavailable"
         case unsupportedOperation = "UnsupportedOperation"
     }
 
@@ -62,6 +68,8 @@ public struct FSxErrorType: AWSErrorType {
 
     /// An Active Directory error.
     public static var activeDirectoryError: Self { .init(.activeDirectoryError) }
+    /// You can't delete a backup while it's being copied.
+    public static var backupBeingCopied: Self { .init(.backupBeingCopied) }
     /// Another backup is already under way. Wait for completion before initiating additional backups of this file system.
     public static var backupInProgress: Self { .init(.backupInProgress) }
     /// No Amazon FSx backups were found based upon the supplied parameters.
@@ -80,8 +88,12 @@ public struct FSxErrorType: AWSErrorType {
     public static var fileSystemNotFound: Self { .init(.fileSystemNotFound) }
     /// The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
     public static var incompatibleParameterError: Self { .init(.incompatibleParameterError) }
+    /// Amazon FSx doesn't support Multi-AZ Windows File Server copy backup in the destination Region, so the copied backup can't be restored.
+    public static var incompatibleRegionForMultiAZ: Self { .init(.incompatibleRegionForMultiAZ) }
     /// A generic error indicating a server-side failure.
     public static var internalServerError: Self { .init(.internalServerError) }
+    /// The AWS Key Management Service (AWS KMS) key of the destination backup is invalid.
+    public static var invalidDestinationKmsKey: Self { .init(.invalidDestinationKmsKey) }
     /// The path provided for data repository export isn't valid.
     public static var invalidExportPath: Self { .init(.invalidExportPath) }
     /// The path provided for data repository import isn't valid.
@@ -90,6 +102,10 @@ public struct FSxErrorType: AWSErrorType {
     public static var invalidNetworkSettings: Self { .init(.invalidNetworkSettings) }
     /// An invalid value for PerUnitStorageThroughput was provided. Please create your file system again, using a valid value.
     public static var invalidPerUnitStorageThroughput: Self { .init(.invalidPerUnitStorageThroughput) }
+    /// The Region provided for Source Region is invalid or is in a different AWS partition.
+    public static var invalidRegion: Self { .init(.invalidRegion) }
+    /// The AWS Key Management Service (AWS KMS) key of the source backup is invalid.
+    public static var invalidSourceKmsKey: Self { .init(.invalidSourceKmsKey) }
     /// A file system configuration is required for this operation.
     public static var missingFileSystemConfiguration: Self { .init(.missingFileSystemConfiguration) }
     /// The resource specified for the tagging operation is not a resource type owned by Amazon FSx. Use the API of the relevant service to perform the operation.
@@ -100,6 +116,8 @@ public struct FSxErrorType: AWSErrorType {
     public static var resourceNotFound: Self { .init(.resourceNotFound) }
     /// An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting AWS Support.
     public static var serviceLimitExceeded: Self { .init(.serviceLimitExceeded) }
+    /// The request was rejected because the lifecycle status of the source backup is not AVAILABLE.
+    public static var sourceBackupUnavailable: Self { .init(.sourceBackupUnavailable) }
     /// The requested operation is not supported for this resource or API.
     public static var unsupportedOperation: Self { .init(.unsupportedOperation) }
 }

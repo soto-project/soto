@@ -54,6 +54,7 @@ extension SecurityHub {
     public enum IntegrationType: String, CustomStringConvertible, Codable {
         case receiveFindingsFromSecurityHub = "RECEIVE_FINDINGS_FROM_SECURITY_HUB"
         case sendFindingsToSecurityHub = "SEND_FINDINGS_TO_SECURITY_HUB"
+        case updateFindingsInSecurityHub = "UPDATE_FINDINGS_IN_SECURITY_HUB"
         public var description: String { return self.rawValue }
     }
 
@@ -200,10 +201,36 @@ extension SecurityHub {
 
     // MARK: Shapes
 
-    public struct AcceptInvitationRequest: AWSEncodableShape {
-        /// The ID of the invitation sent from the Security Hub master account.
+    public struct AcceptAdministratorInvitationRequest: AWSEncodableShape {
+        /// The account ID of the Security Hub administrator account that sent the invitation.
+        public let administratorId: String
+        /// The identifier of the invitation sent from the Security Hub administrator account.
         public let invitationId: String
-        /// The account ID of the Security Hub master account that sent the invitation.
+
+        public init(administratorId: String, invitationId: String) {
+            self.administratorId = administratorId
+            self.invitationId = invitationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.administratorId, name: "administratorId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.invitationId, name: "invitationId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case administratorId = "AdministratorId"
+            case invitationId = "InvitationId"
+        }
+    }
+
+    public struct AcceptAdministratorInvitationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct AcceptInvitationRequest: AWSEncodableShape {
+        /// The identifier of the invitation sent from the Security Hub administrator account.
+        public let invitationId: String
+        /// The account ID of the Security Hub administrator account that sent the invitation.
         public let masterId: String
 
         public init(invitationId: String, masterId: String) {
@@ -8257,7 +8284,7 @@ extension SecurityHub {
     }
 
     public struct CreateMembersRequest: AWSEncodableShape {
-        /// The list of accounts to associate with the Security Hub master account. For each account, the list includes the account ID and optionally the email address.
+        /// The list of accounts to associate with the Security Hub administrator account. For each account, the list includes the account ID and optionally the email address.
         public let accountDetails: [AccountDetails]
 
         public init(accountDetails: [AccountDetails]) {
@@ -8885,6 +8912,14 @@ extension SecurityHub {
         public init() {}
     }
 
+    public struct DisassociateFromAdministratorAccountRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct DisassociateFromAdministratorAccountResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DisassociateFromMasterAccountRequest: AWSEncodableShape {
         public init() {}
     }
@@ -8894,7 +8929,7 @@ extension SecurityHub {
     }
 
     public struct DisassociateMembersRequest: AWSEncodableShape {
-        /// The account IDs of the member accounts to disassociate from the master account.
+        /// The account IDs of the member accounts to disassociate from the administrator account.
         public let accountIds: [String]
 
         public init(accountIds: [String]) {
@@ -9104,6 +9139,22 @@ extension SecurityHub {
         }
     }
 
+    public struct GetAdministratorAccountRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetAdministratorAccountResponse: AWSDecodableShape {
+        public let administrator: Invitation?
+
+        public init(administrator: Invitation? = nil) {
+            self.administrator = administrator
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case administrator = "Administrator"
+        }
+    }
+
     public struct GetEnabledStandardsRequest: AWSEncodableShape {
         /// The maximum number of results to return in the response.
         public let maxResults: Int?
@@ -9303,7 +9354,7 @@ extension SecurityHub {
     }
 
     public struct GetMasterAccountResponse: AWSDecodableShape {
-        /// A list of details about the Security Hub master account for the current member account.
+        /// A list of details about the Security Hub administrator account for the current member account.
         public let master: Invitation?
 
         public init(master: Invitation? = nil) {
@@ -9436,14 +9487,14 @@ extension SecurityHub {
     }
 
     public struct Invitation: AWSDecodableShape {
-        /// The account ID of the Security Hub master account that the invitation was sent from.
+        /// The account ID of the Security Hub administrator account that the invitation was sent from.
         public let accountId: String?
         /// The ID of the invitation sent to the member account.
         public let invitationId: String?
         /// The timestamp of when the invitation was sent.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var invitedAt: Date?
-        /// The current status of the association between the member and master accounts.
+        /// The current status of the association between the member and administrator accounts.
         public let memberStatus: String?
 
         public init(accountId: String? = nil, invitationId: String? = nil, invitedAt: Date? = nil, memberStatus: String? = nil) {
@@ -9678,7 +9729,7 @@ extension SecurityHub {
         public let maxResults: Int?
         /// The token that is required for pagination. On your first call to the ListMembers operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
         public let nextToken: String?
-        /// Specifies which member accounts to include in the response based on their relationship status with the master account. The default value is TRUE. If OnlyAssociated is set to TRUE, the response includes member accounts whose relationship status with the master is set to ENABLED. If OnlyAssociated is set to FALSE, the response includes all existing member accounts.
+        /// Specifies which member accounts to include in the response based on their relationship status with the administrator account. The default value is TRUE. If OnlyAssociated is set to TRUE, the response includes member accounts whose relationship status with the administrator account is set to ENABLED. If OnlyAssociated is set to FALSE, the response includes all existing member accounts.
         public let onlyAssociated: Bool?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, onlyAssociated: Bool? = nil) {
@@ -9866,33 +9917,33 @@ extension SecurityHub {
     public struct Member: AWSDecodableShape {
         /// The AWS account ID of the member account.
         public let accountId: String?
+        /// The AWS account ID of the Security Hub administrator account associated with this member account.
+        public let administratorId: String?
         /// The email address of the member account.
         public let email: String?
         /// A timestamp for the date and time when the invitation was sent to the member account.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var invitedAt: Date?
-        /// The AWS account ID of the Security Hub master account associated with this member account.
-        public let masterId: String?
-        /// The status of the relationship between the member account and its master account.  The status can have one of the following values:    CREATED - Indicates that the master account added the member account, but has not yet invited the member account.    INVITED - Indicates that the master account invited the member account. The member account has not yet responded to the invitation.    ENABLED - Indicates that the member account is currently active. For manually invited member accounts, indicates that the member account accepted the invitation.    REMOVED - Indicates that the master account disassociated the member account.    RESIGNED - Indicates that the member account disassociated themselves from the master account.    DELETED - Indicates that the master account deleted the member account.
+        /// The status of the relationship between the member account and its administrator account.  The status can have one of the following values:    CREATED - Indicates that the administrator account added the member account, but has not yet invited the member account.    INVITED - Indicates that the administrator account invited the member account. The member account has not yet responded to the invitation.    ENABLED - Indicates that the member account is currently active. For manually invited member accounts, indicates that the member account accepted the invitation.    REMOVED - Indicates that the administrator account disassociated the member account.    RESIGNED - Indicates that the member account disassociated themselves from the administrator account.    DELETED - Indicates that the administrator account deleted the member account.
         public let memberStatus: String?
         /// The timestamp for the date and time when the member account was updated.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
-        public init(accountId: String? = nil, email: String? = nil, invitedAt: Date? = nil, masterId: String? = nil, memberStatus: String? = nil, updatedAt: Date? = nil) {
+        public init(accountId: String? = nil, administratorId: String? = nil, email: String? = nil, invitedAt: Date? = nil, memberStatus: String? = nil, updatedAt: Date? = nil) {
             self.accountId = accountId
+            self.administratorId = administratorId
             self.email = email
             self.invitedAt = invitedAt
-            self.masterId = masterId
             self.memberStatus = memberStatus
             self.updatedAt = updatedAt
         }
 
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
+            case administratorId = "AdministratorId"
             case email = "Email"
             case invitedAt = "InvitedAt"
-            case masterId = "MasterId"
             case memberStatus = "MemberStatus"
             case updatedAt = "UpdatedAt"
         }
@@ -10387,7 +10438,7 @@ extension SecurityHub {
     }
 
     public struct Product: AWSDecodableShape {
-        /// The URL used to activate the product.
+        /// The URL to the service or product documentation about the integration with Security Hub, including how to activate the integration.
         public let activationUrl: String?
         /// The categories assigned to the product.
         public let categories: [String]?
@@ -10395,9 +10446,9 @@ extension SecurityHub {
         public let companyName: String?
         /// A description of the product.
         public let description: String?
-        /// The types of integration that the product supports. Available values are the following.    SEND_FINDINGS_TO_SECURITY_HUB - Indicates that the integration sends findings to Security Hub.    RECEIVE_FINDINGS_FROM_SECURITY_HUB - Indicates that the integration receives findings from Security Hub.
+        /// The types of integration that the product supports. Available values are the following.    SEND_FINDINGS_TO_SECURITY_HUB - The integration sends findings to Security Hub.    RECEIVE_FINDINGS_FROM_SECURITY_HUB - The integration receives findings from Security Hub.    UPDATE_FINDINGS_IN_SECURITY_HUB - The integration does not send new findings to Security Hub, but does make updates to the findings that it receives from Security Hub.
         public let integrationTypes: [IntegrationType]?
-        /// The URL for the page that contains more information about the product.
+        /// For integrations with AWS services, the AWS Console URL from which to activate the service. For integrations with third-party products, the AWS Marketplace URL from which to subscribe to or purchase the product.
         public let marketplaceUrl: String?
         /// The ARN assigned to the product.
         public let productArn: String

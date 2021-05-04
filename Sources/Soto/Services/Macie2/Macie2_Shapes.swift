@@ -26,6 +26,13 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum AllowsUnencryptedObjectUploads: String, CustomStringConvertible, Codable {
+        case `false` = "FALSE"
+        case `true` = "TRUE"
+        case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Currency: String, CustomStringConvertible, Codable {
         case usd = "USD"
         public var description: String { return self.rawValue }
@@ -571,17 +578,20 @@ extension Macie2 {
         public let kmsManaged: Int64?
         public let s3Managed: Int64?
         public let unencrypted: Int64?
+        public let unknown: Int64?
 
-        public init(kmsManaged: Int64? = nil, s3Managed: Int64? = nil, unencrypted: Int64? = nil) {
+        public init(kmsManaged: Int64? = nil, s3Managed: Int64? = nil, unencrypted: Int64? = nil, unknown: Int64? = nil) {
             self.kmsManaged = kmsManaged
             self.s3Managed = s3Managed
             self.unencrypted = unencrypted
+            self.unknown = unknown
         }
 
         private enum CodingKeys: String, CodingKey {
             case kmsManaged
             case s3Managed
             case unencrypted
+            case unknown
         }
     }
 
@@ -602,6 +612,24 @@ extension Macie2 {
             case external
             case `internal`
             case notShared
+            case unknown
+        }
+    }
+
+    public struct BucketCountPolicyAllowsUnencryptedObjectUploads: AWSDecodableShape {
+        public let allowsUnencryptedObjectUploads: Int64?
+        public let deniesUnencryptedObjectUploads: Int64?
+        public let unknown: Int64?
+
+        public init(allowsUnencryptedObjectUploads: Int64? = nil, deniesUnencryptedObjectUploads: Int64? = nil, unknown: Int64? = nil) {
+            self.allowsUnencryptedObjectUploads = allowsUnencryptedObjectUploads
+            self.deniesUnencryptedObjectUploads = deniesUnencryptedObjectUploads
+            self.unknown = unknown
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowsUnencryptedObjectUploads
+            case deniesUnencryptedObjectUploads
             case unknown
         }
     }
@@ -656,6 +684,7 @@ extension Macie2 {
 
     public struct BucketMetadata: AWSDecodableShape {
         public let accountId: String?
+        public let allowsUnencryptedObjectUploads: AllowsUnencryptedObjectUploads?
         public let bucketArn: String?
         @OptionalCustomCoding<ISO8601DateCoder>
         public var bucketCreatedAt: Date?
@@ -679,8 +708,9 @@ extension Macie2 {
         public let unclassifiableObjectSizeInBytes: ObjectLevelStatistics?
         public let versioning: Bool?
 
-        public init(accountId: String? = nil, bucketArn: String? = nil, bucketCreatedAt: Date? = nil, bucketName: String? = nil, classifiableObjectCount: Int64? = nil, classifiableSizeInBytes: Int64? = nil, jobDetails: JobDetails? = nil, lastUpdated: Date? = nil, objectCount: Int64? = nil, objectCountByEncryptionType: ObjectCountByEncryptionType? = nil, publicAccess: BucketPublicAccess? = nil, region: String? = nil, replicationDetails: ReplicationDetails? = nil, serverSideEncryption: BucketServerSideEncryption? = nil, sharedAccess: SharedAccess? = nil, sizeInBytes: Int64? = nil, sizeInBytesCompressed: Int64? = nil, tags: [KeyValuePair]? = nil, unclassifiableObjectCount: ObjectLevelStatistics? = nil, unclassifiableObjectSizeInBytes: ObjectLevelStatistics? = nil, versioning: Bool? = nil) {
+        public init(accountId: String? = nil, allowsUnencryptedObjectUploads: AllowsUnencryptedObjectUploads? = nil, bucketArn: String? = nil, bucketCreatedAt: Date? = nil, bucketName: String? = nil, classifiableObjectCount: Int64? = nil, classifiableSizeInBytes: Int64? = nil, jobDetails: JobDetails? = nil, lastUpdated: Date? = nil, objectCount: Int64? = nil, objectCountByEncryptionType: ObjectCountByEncryptionType? = nil, publicAccess: BucketPublicAccess? = nil, region: String? = nil, replicationDetails: ReplicationDetails? = nil, serverSideEncryption: BucketServerSideEncryption? = nil, sharedAccess: SharedAccess? = nil, sizeInBytes: Int64? = nil, sizeInBytesCompressed: Int64? = nil, tags: [KeyValuePair]? = nil, unclassifiableObjectCount: ObjectLevelStatistics? = nil, unclassifiableObjectSizeInBytes: ObjectLevelStatistics? = nil, versioning: Bool? = nil) {
             self.accountId = accountId
+            self.allowsUnencryptedObjectUploads = allowsUnencryptedObjectUploads
             self.bucketArn = bucketArn
             self.bucketCreatedAt = bucketCreatedAt
             self.bucketName = bucketName
@@ -705,6 +735,7 @@ extension Macie2 {
 
         private enum CodingKeys: String, CodingKey {
             case accountId
+            case allowsUnencryptedObjectUploads
             case bucketArn
             case bucketCreatedAt
             case bucketName
@@ -1783,6 +1814,7 @@ extension Macie2 {
         public let bucketCount: Int64?
         public let bucketCountByEffectivePermission: BucketCountByEffectivePermission?
         public let bucketCountByEncryptionType: BucketCountByEncryptionType?
+        public let bucketCountByObjectEncryptionRequirement: BucketCountPolicyAllowsUnencryptedObjectUploads?
         public let bucketCountBySharedAccessType: BucketCountBySharedAccessType?
         public let classifiableObjectCount: Int64?
         public let classifiableSizeInBytes: Int64?
@@ -1794,10 +1826,11 @@ extension Macie2 {
         public let unclassifiableObjectCount: ObjectLevelStatistics?
         public let unclassifiableObjectSizeInBytes: ObjectLevelStatistics?
 
-        public init(bucketCount: Int64? = nil, bucketCountByEffectivePermission: BucketCountByEffectivePermission? = nil, bucketCountByEncryptionType: BucketCountByEncryptionType? = nil, bucketCountBySharedAccessType: BucketCountBySharedAccessType? = nil, classifiableObjectCount: Int64? = nil, classifiableSizeInBytes: Int64? = nil, lastUpdated: Date? = nil, objectCount: Int64? = nil, sizeInBytes: Int64? = nil, sizeInBytesCompressed: Int64? = nil, unclassifiableObjectCount: ObjectLevelStatistics? = nil, unclassifiableObjectSizeInBytes: ObjectLevelStatistics? = nil) {
+        public init(bucketCount: Int64? = nil, bucketCountByEffectivePermission: BucketCountByEffectivePermission? = nil, bucketCountByEncryptionType: BucketCountByEncryptionType? = nil, bucketCountByObjectEncryptionRequirement: BucketCountPolicyAllowsUnencryptedObjectUploads? = nil, bucketCountBySharedAccessType: BucketCountBySharedAccessType? = nil, classifiableObjectCount: Int64? = nil, classifiableSizeInBytes: Int64? = nil, lastUpdated: Date? = nil, objectCount: Int64? = nil, sizeInBytes: Int64? = nil, sizeInBytesCompressed: Int64? = nil, unclassifiableObjectCount: ObjectLevelStatistics? = nil, unclassifiableObjectSizeInBytes: ObjectLevelStatistics? = nil) {
             self.bucketCount = bucketCount
             self.bucketCountByEffectivePermission = bucketCountByEffectivePermission
             self.bucketCountByEncryptionType = bucketCountByEncryptionType
+            self.bucketCountByObjectEncryptionRequirement = bucketCountByObjectEncryptionRequirement
             self.bucketCountBySharedAccessType = bucketCountBySharedAccessType
             self.classifiableObjectCount = classifiableObjectCount
             self.classifiableSizeInBytes = classifiableSizeInBytes
@@ -1813,6 +1846,7 @@ extension Macie2 {
             case bucketCount
             case bucketCountByEffectivePermission
             case bucketCountByEncryptionType
+            case bucketCountByObjectEncryptionRequirement
             case bucketCountBySharedAccessType
             case classifiableObjectCount
             case classifiableSizeInBytes
@@ -2861,12 +2895,14 @@ extension Macie2 {
         public let kmsManaged: Int64?
         public let s3Managed: Int64?
         public let unencrypted: Int64?
+        public let unknown: Int64?
 
-        public init(customerManaged: Int64? = nil, kmsManaged: Int64? = nil, s3Managed: Int64? = nil, unencrypted: Int64? = nil) {
+        public init(customerManaged: Int64? = nil, kmsManaged: Int64? = nil, s3Managed: Int64? = nil, unencrypted: Int64? = nil, unknown: Int64? = nil) {
             self.customerManaged = customerManaged
             self.kmsManaged = kmsManaged
             self.s3Managed = s3Managed
             self.unencrypted = unencrypted
+            self.unknown = unknown
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2874,6 +2910,7 @@ extension Macie2 {
             case kmsManaged
             case s3Managed
             case unencrypted
+            case unknown
         }
     }
 
@@ -3062,6 +3099,7 @@ extension Macie2 {
     }
 
     public struct S3Bucket: AWSDecodableShape {
+        public let allowsUnencryptedObjectUploads: AllowsUnencryptedObjectUploads?
         public let arn: String?
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
@@ -3071,7 +3109,8 @@ extension Macie2 {
         public let publicAccess: BucketPublicAccess?
         public let tags: [KeyValuePair]?
 
-        public init(arn: String? = nil, createdAt: Date? = nil, defaultServerSideEncryption: ServerSideEncryption? = nil, name: String? = nil, owner: S3BucketOwner? = nil, publicAccess: BucketPublicAccess? = nil, tags: [KeyValuePair]? = nil) {
+        public init(allowsUnencryptedObjectUploads: AllowsUnencryptedObjectUploads? = nil, arn: String? = nil, createdAt: Date? = nil, defaultServerSideEncryption: ServerSideEncryption? = nil, name: String? = nil, owner: S3BucketOwner? = nil, publicAccess: BucketPublicAccess? = nil, tags: [KeyValuePair]? = nil) {
+            self.allowsUnencryptedObjectUploads = allowsUnencryptedObjectUploads
             self.arn = arn
             self.createdAt = createdAt
             self.defaultServerSideEncryption = defaultServerSideEncryption
@@ -3082,6 +3121,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allowsUnencryptedObjectUploads
             case arn
             case createdAt
             case defaultServerSideEncryption

@@ -363,6 +363,77 @@ extension StorageGateway {
         }
     }
 
+    public struct AssociateFileSystemInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the storage used for the audit logs.
+        public let auditDestinationARN: String?
+        public let cacheAttributes: CacheAttributes?
+        /// A unique string value that you supply that is used by the file gateway to ensure idempotent file system association creation.
+        public let clientToken: String
+        public let gatewayARN: String
+        /// The Amazon Resource Name (ARN) of the Amazon FSx file system to associate with the Amazon FSx file gateway.
+        public let locationARN: String
+        /// The password of the user credential.
+        public let password: String
+        /// A list of up to 50 tags that can be assigned to the file system association. Each tag is a key-value pair.
+        public let tags: [Tag]?
+        /// The user name of the user credential that has permission to access the root share D$ of the Amazon FSx file system. The user account must belong to the Amazon FSx delegated admin user group.
+        public let userName: String
+
+        public init(auditDestinationARN: String? = nil, cacheAttributes: CacheAttributes? = nil, clientToken: String, gatewayARN: String, locationARN: String, password: String, tags: [Tag]? = nil, userName: String) {
+            self.auditDestinationARN = auditDestinationARN
+            self.cacheAttributes = cacheAttributes
+            self.clientToken = clientToken
+            self.gatewayARN = gatewayARN
+            self.locationARN = locationARN
+            self.password = password
+            self.tags = tags
+            self.userName = userName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.auditDestinationARN, name: "auditDestinationARN", parent: name, max: 1024)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 5)
+            try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
+            try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
+            try self.validate(self.locationARN, name: "locationARN", parent: name, max: 512)
+            try self.validate(self.locationARN, name: "locationARN", parent: name, min: 8)
+            try self.validate(self.password, name: "password", parent: name, max: 1024)
+            try self.validate(self.password, name: "password", parent: name, min: 1)
+            try self.validate(self.password, name: "password", parent: name, pattern: "^[ -~]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.userName, name: "userName", parent: name, max: 1024)
+            try self.validate(self.userName, name: "userName", parent: name, min: 1)
+            try self.validate(self.userName, name: "userName", parent: name, pattern: "^\\w[\\w\\.\\- ]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case auditDestinationARN = "AuditDestinationARN"
+            case cacheAttributes = "CacheAttributes"
+            case clientToken = "ClientToken"
+            case gatewayARN = "GatewayARN"
+            case locationARN = "LocationARN"
+            case password = "Password"
+            case tags = "Tags"
+            case userName = "UserName"
+        }
+    }
+
+    public struct AssociateFileSystemOutput: AWSDecodableShape {
+        /// The ARN of the newly created file system association.
+        public let fileSystemAssociationARN: String?
+
+        public init(fileSystemAssociationARN: String? = nil) {
+            self.fileSystemAssociationARN = fileSystemAssociationARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileSystemAssociationARN = "FileSystemAssociationARN"
+        }
+    }
+
     public struct AttachVolumeInput: AWSEncodableShape {
         /// The unique device ID or other distinguishing data that identifies the local disk used to create the volume. This value is only required when you are attaching a stored volume.
         public let diskId: String?
@@ -482,7 +553,7 @@ extension StorageGateway {
         public let averageDownloadRateLimitInBitsPerSec: Int64?
         ///  The average upload rate limit component of the bandwidth rate limit interval, in bits per second. This field does not appear in the response if the upload rate limit is not set.
         public let averageUploadRateLimitInBitsPerSec: Int64?
-        ///  The days of the week component of the bandwidth rate limit interval, represented as ordinal numbers from 0 to 6, where 0 represents Sunday and 6 Saturday.
+        ///  The days of the week component of the bandwidth rate limit interval, represented as ordinal numbers from 0 to 6, where 0 represents Sunday and 6 represents Saturday.
         public let daysOfWeek: [Int]
         ///  The hour of the day to end the bandwidth rate limit interval.
         public let endHourOfDay: Int
@@ -534,7 +605,7 @@ extension StorageGateway {
     }
 
     public struct CacheAttributes: AWSEncodableShape & AWSDecodableShape {
-        /// Refreshes a file share's cache by using Time To Live (TTL). TTL is the length of time since the last refresh after which access to the directory would cause the file gateway to first refresh that directory's contents from the Amazon S3 bucket. The TTL duration is in seconds. Valid Values: 300 to 2,592,000 seconds (5 minutes to 30 days)
+        /// Refreshes a file share's cache by using Time To Live (TTL). TTL is the length of time since the last refresh after which access to the directory would cause the file gateway to first refresh that directory's contents from the Amazon S3 bucket or Amazon FSx file system. The TTL duration is in seconds. Valid Values: 300 to 2,592,000 seconds (5 minutes to 30 days)
         public let cacheStaleTimeoutInSeconds: Int?
 
         public init(cacheStaleTimeoutInSeconds: Int? = nil) {
@@ -791,7 +862,7 @@ extension StorageGateway {
     }
 
     public struct CreateNFSFileShareInput: AWSEncodableShape {
-        /// Refresh cache information.
+        /// Specifies refresh cache information for the file share.
         public let cacheAttributes: CacheAttributes?
         /// The list of clients that are allowed to access the file gateway. The list must contain either valid IP addresses or valid CIDR blocks.
         public let clientList: [String]?
@@ -813,7 +884,7 @@ extension StorageGateway {
         public let locationARN: String
         /// File share default values. Optional.
         public let nFSFileShareDefaults: NFSFileShareDefaults?
-        /// The notification policy of the file share.
+        /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period.   SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification.  The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60.  {\"Upload\": {\"SettlingTimeInSeconds\": 60}}  The following example sets NotificationPolicy off.  {}
         public let notificationPolicy: String?
         /// A value that sets the access control list (ACL) permission for objects in the S3 bucket that a file gateway puts objects into. The default value is private.
         public let objectACL: ObjectACL?
@@ -922,11 +993,11 @@ extension StorageGateway {
         public let accessBasedEnumeration: Bool?
         /// A list of users or groups in the Active Directory that will be granted administrator privileges on the file share. These users can do all file operations as the super-user. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1.  Use this option very carefully, because any user in this list can do anything they like on the file share, regardless of file permissions.
         public let adminUserList: [String]?
-        /// The Amazon Resource Name (ARN) of the storage used for the audit logs.
+        /// The Amazon Resource Name (ARN) of the storage used for audit logs.
         public let auditDestinationARN: String?
         /// The authentication method that users use to access the file share. The default is ActiveDirectory. Valid Values: ActiveDirectory | GuestAccess
         public let authentication: String?
-        /// Refresh cache information.
+        /// Specifies refresh cache information for the file share.
         public let cacheAttributes: CacheAttributes?
         /// The case of an object name in an Amazon S3 bucket. For ClientSpecified, the client determines the case sensitivity. For CaseSensitive, the gateway determines the case sensitivity. The default value is ClientSpecified.
         public let caseSensitivity: CaseSensitivity?
@@ -948,7 +1019,7 @@ extension StorageGateway {
         public let kMSKey: String?
         /// The ARN of the backend storage used for storing file data. A prefix name can be added to the S3 bucket name. It must end with a "/".
         public let locationARN: String
-        /// The notification policy of the file share.
+        /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period.   SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification.  The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60.  {\"Upload\": {\"SettlingTimeInSeconds\": 60}}  The following example sets NotificationPolicy off.  {}
         public let notificationPolicy: String?
         /// A value that sets the access control list (ACL) permission for objects in the S3 bucket that a file gateway puts objects into. The default value is private.
         public let objectACL: ObjectACL?
@@ -1187,9 +1258,9 @@ extension StorageGateway {
         public let kMSKey: String?
         /// The network interface of the gateway on which to expose the iSCSI target. Only IPv4 addresses are accepted. Use DescribeGatewayInformation to get a list of the network interfaces available on a gateway. Valid Values: A valid IP address.
         public let networkInterfaceId: String
-        /// Set to true true if you want to preserve the data on the local disk. Otherwise, set to false to create an empty volume. Valid Values: true | false
+        /// Set to true if you want to preserve the data on the local disk. Otherwise, set to false to create an empty volume. Valid Values: true | false
         public let preserveExistingData: Bool
-        /// The snapshot ID (e.g. "snap-1122aabb") of the snapshot to restore as the new stored volume. Specify this field if you want to create the iSCSI storage volume from a snapshot; otherwise, do not include this field. To list snapshots for your account use DescribeSnapshots in the Amazon Elastic Compute Cloud API Reference.
+        /// The snapshot ID (e.g., "snap-1122aabb") of the snapshot to restore as the new stored volume. Specify this field if you want to create the iSCSI storage volume from a snapshot; otherwise, do not include this field. To list snapshots for your account use DescribeSnapshots in the Amazon Elastic Compute Cloud API Reference.
         public let snapshotId: String?
         /// A list of up to 50 tags that can be assigned to a stored volume. Each tag is a key-value pair.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256.
         public let tags: [Tag]?
@@ -1398,7 +1469,7 @@ extension StorageGateway {
         public let poolId: String?
         /// A list of up to 50 tags that can be assigned to a virtual tape. Each tag is a key-value pair.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256.
         public let tags: [Tag]?
-        /// A prefix that you append to the barcode of the virtual tape you are creating. This prefix makes the barcode unique.  The prefix must be 1 to 4 characters in length and must be one of the uppercase letters from A to Z.
+        /// A prefix that you append to the barcode of the virtual tape you are creating. This prefix makes the barcode unique.  The prefix must be 1-4 characters in length and must be one of the uppercase letters from A to Z.
         public let tapeBarcodePrefix: String
         /// The size, in bytes, of the virtual tapes that you want to create.  The size must be aligned by gigabyte (1024*1024*1024 bytes).
         public let tapeSizeInBytes: Int64
@@ -1825,9 +1896,9 @@ extension StorageGateway {
 
     public struct DescribeAvailabilityMonitorTestOutput: AWSDecodableShape {
         public let gatewayARN: String?
-        /// The time the High Availability monitoring test was started. If a test hasn't been performed, the value of this field is null.
+        /// The time the high availability monitoring test was started. If a test hasn't been performed, the value of this field is null.
         public let startTime: Date?
-        /// The status of the High Availability monitoring test. If a test hasn't been performed, the value of this field is null.
+        /// The status of the high availability monitoring test. If a test hasn't been performed, the value of this field is null.
         public let status: AvailabilityMonitorTestStatus?
 
         public init(gatewayARN: String? = nil, startTime: Date? = nil, status: AvailabilityMonitorTestStatus? = nil) {
@@ -2027,6 +2098,41 @@ extension StorageGateway {
 
         private enum CodingKeys: String, CodingKey {
             case chapCredentials = "ChapCredentials"
+        }
+    }
+
+    public struct DescribeFileSystemAssociationsInput: AWSEncodableShape {
+        /// An array containing the Amazon Resource Name (ARN) of each file system association to be described.
+        public let fileSystemAssociationARNList: [String]
+
+        public init(fileSystemAssociationARNList: [String]) {
+            self.fileSystemAssociationARNList = fileSystemAssociationARNList
+        }
+
+        public func validate(name: String) throws {
+            try self.fileSystemAssociationARNList.forEach {
+                try validate($0, name: "fileSystemAssociationARNList[]", parent: name, max: 500)
+                try validate($0, name: "fileSystemAssociationARNList[]", parent: name, min: 50)
+            }
+            try self.validate(self.fileSystemAssociationARNList, name: "fileSystemAssociationARNList", parent: name, max: 10)
+            try self.validate(self.fileSystemAssociationARNList, name: "fileSystemAssociationARNList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileSystemAssociationARNList = "FileSystemAssociationARNList"
+        }
+    }
+
+    public struct DescribeFileSystemAssociationsOutput: AWSDecodableShape {
+        /// An array containing the FileSystemAssociationInfo data type of each file system association to be described.
+        public let fileSystemAssociationInfoList: [FileSystemAssociationInfo]?
+
+        public init(fileSystemAssociationInfoList: [FileSystemAssociationInfo]? = nil) {
+            self.fileSystemAssociationInfoList = fileSystemAssociationInfoList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileSystemAssociationInfoList = "FileSystemAssociationInfoList"
         }
     }
 
@@ -2514,7 +2620,7 @@ extension StorageGateway {
     }
 
     public struct DescribeTapesOutput: AWSDecodableShape {
-        /// An opaque string which can be used as part of a subsequent DescribeTapes call to retrieve the next page of results. If a response does not contain a marker, then there are no more results to be retrieved.
+        /// An opaque string that can be used as part of a subsequent DescribeTapes call to retrieve the next page of results. If a response does not contain a marker, then there are no more results to be retrieved.
         public let marker: String?
         /// An array of virtual tape descriptions.
         public let tapes: [Tape]?
@@ -2758,6 +2864,41 @@ extension StorageGateway {
         }
     }
 
+    public struct DisassociateFileSystemInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the file system association to be deleted.
+        public let fileSystemAssociationARN: String
+        /// If this value is set to true, the operation disassociates an Amazon FSx file system immediately. It ends all data uploads to the file system, and the file system association enters the FORCE_DELETING status. If this value is set to false, the Amazon FSx file system does not disassociate until all data is uploaded.
+        public let forceDelete: Bool?
+
+        public init(fileSystemAssociationARN: String, forceDelete: Bool? = nil) {
+            self.fileSystemAssociationARN = fileSystemAssociationARN
+            self.forceDelete = forceDelete
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fileSystemAssociationARN, name: "fileSystemAssociationARN", parent: name, max: 500)
+            try self.validate(self.fileSystemAssociationARN, name: "fileSystemAssociationARN", parent: name, min: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileSystemAssociationARN = "FileSystemAssociationARN"
+            case forceDelete = "ForceDelete"
+        }
+    }
+
+    public struct DisassociateFileSystemOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the deleted file system association.
+        public let fileSystemAssociationARN: String?
+
+        public init(fileSystemAssociationARN: String? = nil) {
+            self.fileSystemAssociationARN = fileSystemAssociationARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileSystemAssociationARN = "FileSystemAssociationARN"
+        }
+    }
+
     public struct Disk: AWSDecodableShape {
         /// The iSCSI qualified name (IQN) that is defined for a disk. This field is not included in the response if the local disk is not defined as an iSCSI target. The format of this field is targetIqn::LUNNumber::region-volumeId.
         public let diskAllocationResource: String?
@@ -2817,6 +2958,65 @@ extension StorageGateway {
             case fileShareId = "FileShareId"
             case fileShareStatus = "FileShareStatus"
             case fileShareType = "FileShareType"
+            case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct FileSystemAssociationInfo: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the storage used for the audit logs.
+        public let auditDestinationARN: String?
+        public let cacheAttributes: CacheAttributes?
+        /// The Amazon Resource Name (ARN) of the file system association.
+        public let fileSystemAssociationARN: String?
+        /// The status of the file system association. Valid Values: AVAILABLE | CREATING | DELETING | FORCE_DELETING | MISCONFIGURED | UPDATING | UNAVAILABLE
+        public let fileSystemAssociationStatus: String?
+        public let gatewayARN: String?
+        /// The ARN of the backend Amazon FSx file system used for storing file data. For information, see FileSystem in the Amazon FSx API Reference.
+        public let locationARN: String?
+        /// A list of up to 50 tags assigned to the SMB file share, sorted alphabetically by key name. Each tag is a key-value pair.
+        public let tags: [Tag]?
+
+        public init(auditDestinationARN: String? = nil, cacheAttributes: CacheAttributes? = nil, fileSystemAssociationARN: String? = nil, fileSystemAssociationStatus: String? = nil, gatewayARN: String? = nil, locationARN: String? = nil, tags: [Tag]? = nil) {
+            self.auditDestinationARN = auditDestinationARN
+            self.cacheAttributes = cacheAttributes
+            self.fileSystemAssociationARN = fileSystemAssociationARN
+            self.fileSystemAssociationStatus = fileSystemAssociationStatus
+            self.gatewayARN = gatewayARN
+            self.locationARN = locationARN
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case auditDestinationARN = "AuditDestinationARN"
+            case cacheAttributes = "CacheAttributes"
+            case fileSystemAssociationARN = "FileSystemAssociationARN"
+            case fileSystemAssociationStatus = "FileSystemAssociationStatus"
+            case gatewayARN = "GatewayARN"
+            case locationARN = "LocationARN"
+            case tags = "Tags"
+        }
+    }
+
+    public struct FileSystemAssociationSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the file system association.
+        public let fileSystemAssociationARN: String?
+        /// The ID of the file system association.
+        public let fileSystemAssociationId: String?
+        /// The status of the file share. Valid Values: AVAILABLE | CREATING | DELETING | FORCE_DELETING | MISCONFIGURED | UPDATING | UNAVAILABLE
+        public let fileSystemAssociationStatus: String?
+        public let gatewayARN: String?
+
+        public init(fileSystemAssociationARN: String? = nil, fileSystemAssociationId: String? = nil, fileSystemAssociationStatus: String? = nil, gatewayARN: String? = nil) {
+            self.fileSystemAssociationARN = fileSystemAssociationARN
+            self.fileSystemAssociationId = fileSystemAssociationId
+            self.fileSystemAssociationStatus = fileSystemAssociationStatus
+            self.gatewayARN = gatewayARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileSystemAssociationARN = "FileSystemAssociationARN"
+            case fileSystemAssociationId = "FileSystemAssociationId"
+            case fileSystemAssociationStatus = "FileSystemAssociationStatus"
             case gatewayARN = "GatewayARN"
         }
     }
@@ -3010,6 +3210,55 @@ extension StorageGateway {
 
         private enum CodingKeys: String, CodingKey {
             case fileShareInfoList = "FileShareInfoList"
+            case marker = "Marker"
+            case nextMarker = "NextMarker"
+        }
+    }
+
+    public struct ListFileSystemAssociationsInput: AWSEncodableShape {
+        public let gatewayARN: String?
+        /// The maximum number of file system associations to return in the response. If present, Limit must be an integer with a value greater than zero. Optional.
+        public let limit: Int?
+        /// Opaque pagination token returned from a previous ListFileSystemAssociations operation. If present, Marker specifies where to continue the list from after a previous call to ListFileSystemAssociations. Optional.
+        public let marker: String?
+
+        public init(gatewayARN: String? = nil, limit: Int? = nil, marker: String? = nil) {
+            self.gatewayARN = gatewayARN
+            self.limit = limit
+            self.marker = marker
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
+            try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.validate(self.marker, name: "marker", parent: name, max: 1000)
+            try self.validate(self.marker, name: "marker", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+            case limit = "Limit"
+            case marker = "Marker"
+        }
+    }
+
+    public struct ListFileSystemAssociationsOutput: AWSDecodableShape {
+        /// An array of information about the Amazon FSx gateway's file system associations.
+        public let fileSystemAssociationSummaryList: [FileSystemAssociationSummary]?
+        /// If the request includes Marker, the response returns that value in this field.
+        public let marker: String?
+        /// If a value is present, there are more file system associations to return. In a subsequent request, use NextMarker as the value for Marker to retrieve the next set of file system associations.
+        public let nextMarker: String?
+
+        public init(fileSystemAssociationSummaryList: [FileSystemAssociationSummary]? = nil, marker: String? = nil, nextMarker: String? = nil) {
+            self.fileSystemAssociationSummaryList = fileSystemAssociationSummaryList
+            self.marker = marker
+            self.nextMarker = nextMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileSystemAssociationSummaryList = "FileSystemAssociationSummaryList"
             case marker = "Marker"
             case nextMarker = "NextMarker"
         }
@@ -3384,7 +3633,7 @@ extension StorageGateway {
     }
 
     public struct NFSFileShareInfo: AWSDecodableShape {
-        /// Refresh cache information.
+        /// Refresh cache information for the file share.
         public let cacheAttributes: CacheAttributes?
         public let clientList: [String]?
         /// The default storage class for objects put into an Amazon S3 bucket by the file gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
@@ -3402,7 +3651,7 @@ extension StorageGateway {
         public let kMSKey: String?
         public let locationARN: String?
         public let nFSFileShareDefaults: NFSFileShareDefaults?
-        /// The notification policy of the file share.
+        /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period.   SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification.  The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60.  {\"Upload\": {\"SettlingTimeInSeconds\": 60}}  The following example sets NotificationPolicy off.  {}
         public let notificationPolicy: String?
         public let objectACL: ObjectACL?
         public let path: String?
@@ -3746,10 +3995,10 @@ extension StorageGateway {
         public let accessBasedEnumeration: Bool?
         /// A list of users or groups in the Active Directory that have administrator rights to the file share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1. Can only be set if Authentication is set to ActiveDirectory.
         public let adminUserList: [String]?
-        /// The Amazon Resource Name (ARN) of the storage used for the audit logs.
+        /// The Amazon Resource Name (ARN) of the storage used for audit logs.
         public let auditDestinationARN: String?
         public let authentication: String?
-        /// Refresh cache information.
+        /// Refresh cache information for the file share.
         public let cacheAttributes: CacheAttributes?
         /// The case of an object name in an Amazon S3 bucket. For ClientSpecified, the client determines the case sensitivity. For CaseSensitive, the gateway determines the case sensitivity. The default value is ClientSpecified.
         public let caseSensitivity: CaseSensitivity?
@@ -3769,7 +4018,7 @@ extension StorageGateway {
         public let kMSEncrypted: Bool?
         public let kMSKey: String?
         public let locationARN: String?
-        /// The notification policy of the file share.
+        /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period.   SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification.  The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60.  {\"Upload\": {\"SettlingTimeInSeconds\": 60}}  The following example sets NotificationPolicy off.  {}
         public let notificationPolicy: String?
         public let objectACL: ObjectACL?
         /// The file share path used by the SMB client to identify the mount point.
@@ -4452,6 +4701,59 @@ extension StorageGateway {
         }
     }
 
+    public struct UpdateFileSystemAssociationInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the storage used for the audit logs.
+        public let auditDestinationARN: String?
+        public let cacheAttributes: CacheAttributes?
+        /// The Amazon Resource Name (ARN) of the file system association that you want to update.
+        public let fileSystemAssociationARN: String
+        /// The password of the user credential.
+        public let password: String?
+        /// The user name of the user credential that has permission to access the root share D$ of the Amazon FSx file system. The user account must belong to the Amazon FSx delegated admin user group.
+        public let userName: String?
+
+        public init(auditDestinationARN: String? = nil, cacheAttributes: CacheAttributes? = nil, fileSystemAssociationARN: String, password: String? = nil, userName: String? = nil) {
+            self.auditDestinationARN = auditDestinationARN
+            self.cacheAttributes = cacheAttributes
+            self.fileSystemAssociationARN = fileSystemAssociationARN
+            self.password = password
+            self.userName = userName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.auditDestinationARN, name: "auditDestinationARN", parent: name, max: 1024)
+            try self.validate(self.fileSystemAssociationARN, name: "fileSystemAssociationARN", parent: name, max: 500)
+            try self.validate(self.fileSystemAssociationARN, name: "fileSystemAssociationARN", parent: name, min: 50)
+            try self.validate(self.password, name: "password", parent: name, max: 1024)
+            try self.validate(self.password, name: "password", parent: name, min: 1)
+            try self.validate(self.password, name: "password", parent: name, pattern: "^[ -~]+$")
+            try self.validate(self.userName, name: "userName", parent: name, max: 1024)
+            try self.validate(self.userName, name: "userName", parent: name, min: 1)
+            try self.validate(self.userName, name: "userName", parent: name, pattern: "^\\w[\\w\\.\\- ]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case auditDestinationARN = "AuditDestinationARN"
+            case cacheAttributes = "CacheAttributes"
+            case fileSystemAssociationARN = "FileSystemAssociationARN"
+            case password = "Password"
+            case userName = "UserName"
+        }
+    }
+
+    public struct UpdateFileSystemAssociationOutput: AWSDecodableShape {
+        /// The ARN of the updated file system association.
+        public let fileSystemAssociationARN: String?
+
+        public init(fileSystemAssociationARN: String? = nil) {
+            self.fileSystemAssociationARN = fileSystemAssociationARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileSystemAssociationARN = "FileSystemAssociationARN"
+        }
+    }
+
     public struct UpdateGatewayInformationInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that you want to use to monitor and log events in the gateway. For more information, see What is Amazon CloudWatch Logs?
         public let cloudWatchLogGroupARN: String?
@@ -4585,7 +4887,7 @@ extension StorageGateway {
     }
 
     public struct UpdateNFSFileShareInput: AWSEncodableShape {
-        /// Refresh cache information.
+        /// specifies refresh cache information for the file share.
         public let cacheAttributes: CacheAttributes?
         /// The list of clients that are allowed to access the file gateway. The list must contain either valid IP addresses or valid CIDR blocks.
         public let clientList: [String]?
@@ -4603,7 +4905,7 @@ extension StorageGateway {
         public let kMSKey: String?
         /// The default values for the file share. Optional.
         public let nFSFileShareDefaults: NFSFileShareDefaults?
-        /// The notification policy of the file share.
+        /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period.   SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification.  The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60.  {\"Upload\": {\"SettlingTimeInSeconds\": 60}}  The following example sets NotificationPolicy off.  {}
         public let notificationPolicy: String?
         /// A value that sets the access control list (ACL) permission for objects in the S3 bucket that a file gateway puts objects into. The default value is private.
         public let objectACL: ObjectACL?
@@ -4690,9 +4992,9 @@ extension StorageGateway {
         public let accessBasedEnumeration: Bool?
         /// A list of users or groups in the Active Directory that have administrator rights to the file share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1. Can only be set if Authentication is set to ActiveDirectory.
         public let adminUserList: [String]?
-        /// The Amazon Resource Name (ARN) of the storage used for the audit logs.
+        /// The Amazon Resource Name (ARN) of the storage used for audit logs.
         public let auditDestinationARN: String?
-        /// Refresh cache information.
+        /// Specifies refresh cache information for the file share.
         public let cacheAttributes: CacheAttributes?
         /// The case of an object name in an Amazon S3 bucket. For ClientSpecified, the client determines the case sensitivity. For CaseSensitive, the gateway determines the case sensitivity. The default value is ClientSpecified.
         public let caseSensitivity: CaseSensitivity?
@@ -4710,7 +5012,7 @@ extension StorageGateway {
         public let kMSEncrypted: Bool?
         /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
         public let kMSKey: String?
-        /// The notification policy of the file share.
+        /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period.   SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification.  The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60.  {\"Upload\": {\"SettlingTimeInSeconds\": 60}}  The following example sets NotificationPolicy off.  {}
         public let notificationPolicy: String?
         /// A value that sets the access control list (ACL) permission for objects in the S3 bucket that a file gateway puts objects into. The default value is private.
         public let objectACL: ObjectACL?

@@ -139,19 +139,23 @@ extension MediaPackageVod {
         public let encryption: CmafEncryption?
         /// A list of HLS manifest configurations.
         public let hlsManifests: [HlsManifest]
+        /// When includeEncoderConfigurationInSegments is set to true, MediaPackage places your encoder's Sequence Parameter Set (SPS), Picture Parameter Set (PPS), and Video Parameter Set (VPS) metadata in every video segment instead of in the init fragment. This lets you use different SPS/PPS/VPS settings for your assets during content playback.
+        public let includeEncoderConfigurationInSegments: Bool?
         /// Duration (in seconds) of each fragment. Actual fragments will be
         /// rounded to the nearest multiple of the source fragment duration.
         public let segmentDurationSeconds: Int?
 
-        public init(encryption: CmafEncryption? = nil, hlsManifests: [HlsManifest], segmentDurationSeconds: Int? = nil) {
+        public init(encryption: CmafEncryption? = nil, hlsManifests: [HlsManifest], includeEncoderConfigurationInSegments: Bool? = nil, segmentDurationSeconds: Int? = nil) {
             self.encryption = encryption
             self.hlsManifests = hlsManifests
+            self.includeEncoderConfigurationInSegments = includeEncoderConfigurationInSegments
             self.segmentDurationSeconds = segmentDurationSeconds
         }
 
         private enum CodingKeys: String, CodingKey {
             case encryption
             case hlsManifests
+            case includeEncoderConfigurationInSegments
             case segmentDurationSeconds
         }
     }
@@ -419,6 +423,8 @@ extension MediaPackageVod {
         /// A list of DASH manifest configurations.
         public let dashManifests: [DashManifest]
         public let encryption: DashEncryption?
+        /// When includeEncoderConfigurationInSegments is set to true, MediaPackage places your encoder's Sequence Parameter Set (SPS), Picture Parameter Set (PPS), and Video Parameter Set (VPS) metadata in every video segment instead of in the init fragment. This lets you use different SPS/PPS/VPS settings for your assets during content playback.
+        public let includeEncoderConfigurationInSegments: Bool?
         /// A list of triggers that controls when the outgoing Dynamic Adaptive Streaming over HTTP (DASH)
         /// Media Presentation Description (MPD) will be partitioned into multiple periods. If empty, the content will not
         /// be partitioned into more than one period. If the list contains "ADS", new periods will be created where
@@ -430,9 +436,10 @@ extension MediaPackageVod {
         /// Determines the type of SegmentTemplate included in the Media Presentation Description (MPD).  When set to NUMBER_WITH_TIMELINE, a full timeline is presented in each SegmentTemplate, with $Number$ media URLs.  When set to TIME_WITH_TIMELINE, a full timeline is presented in each SegmentTemplate, with $Time$ media URLs. When set to NUMBER_WITH_DURATION, only a duration is included in each SegmentTemplate, with $Number$ media URLs.
         public let segmentTemplateFormat: SegmentTemplateFormat?
 
-        public init(dashManifests: [DashManifest], encryption: DashEncryption? = nil, periodTriggers: [Periodtriggerselement]? = nil, segmentDurationSeconds: Int? = nil, segmentTemplateFormat: SegmentTemplateFormat? = nil) {
+        public init(dashManifests: [DashManifest], encryption: DashEncryption? = nil, includeEncoderConfigurationInSegments: Bool? = nil, periodTriggers: [Periodtriggerselement]? = nil, segmentDurationSeconds: Int? = nil, segmentTemplateFormat: SegmentTemplateFormat? = nil) {
             self.dashManifests = dashManifests
             self.encryption = encryption
+            self.includeEncoderConfigurationInSegments = includeEncoderConfigurationInSegments
             self.periodTriggers = periodTriggers
             self.segmentDurationSeconds = segmentDurationSeconds
             self.segmentTemplateFormat = segmentTemplateFormat
@@ -441,6 +448,7 @@ extension MediaPackageVod {
         private enum CodingKeys: String, CodingKey {
             case dashManifests
             case encryption
+            case includeEncoderConfigurationInSegments
             case periodTriggers
             case segmentDurationSeconds
             case segmentTemplateFormat

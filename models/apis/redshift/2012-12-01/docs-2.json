@@ -3,6 +3,7 @@
   "service": "<fullname>Amazon Redshift</fullname> <p> <b>Overview</b> </p> <p>This is an interface reference for Amazon Redshift. It contains documentation for one of the programming or command line interfaces you can use to manage Amazon Redshift clusters. Note that Amazon Redshift is asynchronous, which means that some interfaces may require techniques, such as polling or asynchronous callback handlers, to determine when a command has been applied. In this reference, the parameter descriptions indicate whether a change is applied immediately, on the next instance reboot, or during the next maintenance window. For a summary of the Amazon Redshift cluster management interfaces, go to <a href=\"https://docs.aws.amazon.com/redshift/latest/mgmt/using-aws-sdk.html\">Using the Amazon Redshift Management Interfaces</a>.</p> <p>Amazon Redshift manages all the work of setting up, operating, and scaling a data warehouse: provisioning capacity, monitoring and backing up the cluster, and applying patches and upgrades to the Amazon Redshift engine. You can focus on using your data to acquire new insights for your business and customers.</p> <p>If you are a first-time user of Amazon Redshift, we recommend that you begin by reading the <a href=\"https://docs.aws.amazon.com/redshift/latest/gsg/getting-started.html\">Amazon Redshift Getting Started Guide</a>.</p> <p>If you are a database developer, the <a href=\"https://docs.aws.amazon.com/redshift/latest/dg/welcome.html\">Amazon Redshift Database Developer Guide</a> explains how to design, build, query, and maintain the databases that make up your data warehouse. </p>",
   "operations": {
     "AcceptReservedNodeExchange": "<p>Exchanges a DC1 Reserved Node for a DC2 Reserved Node with no changes to the configuration (term, payment type, or number of nodes) and no additional costs. </p>",
+    "AddPartner": "<p>Adds a partner integration to a cluster. This operation authorizes a partner to push status updates for the specified database. To complete the integration, you also set up the integration on the partner website.</p>",
     "AuthorizeClusterSecurityGroupIngress": "<p>Adds an inbound (ingress) rule to an Amazon Redshift security group. Depending on whether the application accessing your cluster is running on the Internet or an Amazon EC2 instance, you can authorize inbound access to either a Classless Interdomain Routing (CIDR)/Internet Protocol (IP) range or to an Amazon EC2 security group. You can add as many as 20 ingress rules to an Amazon Redshift security group.</p> <p>If you authorize access to an Amazon EC2 security group, specify <i>EC2SecurityGroupName</i> and <i>EC2SecurityGroupOwnerId</i>. The Amazon EC2 security group and Amazon Redshift cluster must be in the same AWS Region. </p> <p>If you authorize access to a CIDR/IP address range, specify <i>CIDRIP</i>. For an overview of CIDR blocks, see the Wikipedia article on <a href=\"http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing\">Classless Inter-Domain Routing</a>. </p> <p>You must also associate the security group with a cluster so that clients running on these IP addresses or the EC2 instance are authorized to connect to the cluster. For information about managing security groups, go to <a href=\"https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-security-groups.html\">Working with Security Groups</a> in the <i>Amazon Redshift Cluster Management Guide</i>.</p>",
     "AuthorizeEndpointAccess": "<p>Grants access to a cluster.</p>",
     "AuthorizeSnapshotAccess": "<p>Authorizes the specified AWS customer account to restore the specified snapshot.</p> <p> For more information about working with snapshots, go to <a href=\"https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-snapshots.html\">Amazon Redshift Snapshots</a> in the <i>Amazon Redshift Cluster Management Guide</i>.</p>",
@@ -17,7 +18,7 @@
     "CreateClusterSubnetGroup": "<p>Creates a new Amazon Redshift subnet group. You must provide a list of one or more subnets in your existing Amazon Virtual Private Cloud (Amazon VPC) when creating Amazon Redshift subnet group.</p> <p> For information about subnet groups, go to <a href=\"https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-cluster-subnet-groups.html\">Amazon Redshift Cluster Subnet Groups</a> in the <i>Amazon Redshift Cluster Management Guide</i>.</p>",
     "CreateEndpointAccess": "<p>Creates a Redshift-managed VPC endpoint.</p>",
     "CreateEventSubscription": "<p>Creates an Amazon Redshift event notification subscription. This action requires an ARN (Amazon Resource Name) of an Amazon SNS topic created by either the Amazon Redshift console, the Amazon SNS console, or the Amazon SNS API. To obtain an ARN with Amazon SNS, you must create a topic in Amazon SNS and subscribe to the topic. The ARN is displayed in the SNS console.</p> <p>You can specify the source type, and lists of Amazon Redshift source IDs, event categories, and event severities. Notifications will be sent for all events you want that match those criteria. For example, you can specify source type = cluster, source ID = my-cluster-1 and mycluster2, event categories = Availability, Backup, and severity = ERROR. The subscription will only send notifications for those ERROR events in the Availability and Backup categories for the specified clusters.</p> <p>If you specify both the source type and source IDs, such as source type = cluster and source identifier = my-cluster-1, notifications will be sent for all the cluster events for my-cluster-1. If you specify a source type but do not specify a source identifier, you will receive notice of the events for the objects of that type in your AWS account. If you do not specify either the SourceType nor the SourceIdentifier, you will be notified of events generated from all Amazon Redshift sources belonging to your AWS account. You must specify a source type if you specify a source ID.</p>",
-    "CreateHsmClientCertificate": "<p>Creates an HSM client certificate that an Amazon Redshift cluster will use to connect to the client's HSM in order to store and retrieve the keys used to encrypt the cluster databases.</p> <p>The command returns a public key, which you must store in the HSM. In addition to creating the HSM certificate, you must create an Amazon Redshift HSM configuration that provides a cluster the information needed to store and use encryption keys in the HSM. For more information, go to <a href=\"https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-HSM.html\">Hardware Security Modules</a> in the Amazon Redshift Cluster Management Guide.</p>",
+    "CreateHsmClientCertificate": "<p>Creates an HSM client certificate that an Amazon Redshift cluster will use to connect to the client's HSM in order to store and retrieve the keys used to encrypt the cluster databases.</p> <p>The command returns a public key, which you must store in the HSM. In addition to creating the HSM certificate, you must create an Amazon Redshift HSM configuration that provides a cluster the information needed to store and use encryption keys in the HSM. For more information, go to <a href=\"https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-db-encryption.html#working-with-HSM\">Hardware Security Modules</a> in the <i>Amazon Redshift Cluster Management Guide</i>.</p>",
     "CreateHsmConfiguration": "<p>Creates an HSM configuration that contains the information required by an Amazon Redshift cluster to store and use database encryption keys in a Hardware Security Module (HSM). After creating the HSM configuration, you can specify it as a parameter when creating a cluster. The cluster will then store its encryption keys in the HSM.</p> <p>In addition to creating an HSM configuration, you must also create an HSM client certificate. For more information, go to <a href=\"https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-HSM.html\">Hardware Security Modules</a> in the Amazon Redshift Cluster Management Guide.</p>",
     "CreateScheduledAction": "<p>Creates a scheduled action. A scheduled action contains a schedule and an Amazon Redshift API action. For example, you can create a schedule of when to run the <code>ResizeCluster</code> API operation. </p>",
     "CreateSnapshotCopyGrant": "<p>Creates a snapshot copy grant that permits Amazon Redshift to use a customer master key (CMK) from AWS Key Management Service (AWS KMS) to encrypt copied snapshots in a destination region.</p> <p> For more information about managing snapshot copy grants, go to <a href=\"https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-db-encryption.html\">Amazon Redshift Database Encryption</a> in the <i>Amazon Redshift Cluster Management Guide</i>. </p>",
@@ -33,6 +34,7 @@
     "DeleteEventSubscription": "<p>Deletes an Amazon Redshift event notification subscription.</p>",
     "DeleteHsmClientCertificate": "<p>Deletes the specified HSM client certificate.</p>",
     "DeleteHsmConfiguration": "<p>Deletes the specified Amazon Redshift HSM configuration.</p>",
+    "DeletePartner": "<p>Deletes a partner integration from a cluster. Data can still flow to the cluster until the integration is deleted at the partner's website.</p>",
     "DeleteScheduledAction": "<p>Deletes a scheduled action. </p>",
     "DeleteSnapshotCopyGrant": "<p>Deletes the specified snapshot copy grant.</p>",
     "DeleteSnapshotSchedule": "<p>Deletes a snapshot schedule.</p>",
@@ -59,6 +61,7 @@
     "DescribeLoggingStatus": "<p>Describes whether information, such as queries and connection attempts, is being logged for the specified Amazon Redshift cluster.</p>",
     "DescribeNodeConfigurationOptions": "<p>Returns properties of possible node configurations such as node type, number of nodes, and disk usage for the specified action type.</p>",
     "DescribeOrderableClusterOptions": "<p>Returns a list of orderable cluster options. Before you create a new cluster you can use this operation to find what options are available, such as the EC2 Availability Zones (AZ) in the specific AWS Region that you can specify, and the node types you can request. The node types differ by available storage, memory, CPU and price. With the cost involved you might want to obtain a list of cluster options in the specific region and specify values when creating a cluster. For more information about managing clusters, go to <a href=\"https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html\">Amazon Redshift Clusters</a> in the <i>Amazon Redshift Cluster Management Guide</i>.</p>",
+    "DescribePartners": "<p>Returns information about the partner integrations defined for a cluster.</p>",
     "DescribeReservedNodeOfferings": "<p>Returns a list of the available reserved node offerings by Amazon Redshift with their descriptions including the node type, the fixed and recurring costs of reserving the node and duration the node will be reserved for you. These descriptions help you determine which reserve node offering you want to purchase. You then use the unique offering ID in you call to <a>PurchaseReservedNodeOffering</a> to reserve one or more nodes for your Amazon Redshift cluster. </p> <p> For more information about reserved node offerings, go to <a href=\"https://docs.aws.amazon.com/redshift/latest/mgmt/purchase-reserved-node-instance.html\">Purchasing Reserved Nodes</a> in the <i>Amazon Redshift Cluster Management Guide</i>.</p>",
     "DescribeReservedNodes": "<p>Returns the descriptions of the reserved nodes.</p>",
     "DescribeResize": "<p>Returns information about the last resize operation for the specified cluster. If no resize operation has ever been initiated for the specified cluster, a <code>HTTP 404</code> error is returned. If a resize operation was initiated and completed, the status of the resize remains as <code>SUCCEEDED</code> until the next resize. </p> <p>A resize operation can be requested using <a>ModifyCluster</a> and specifying a different number or type of nodes for the cluster. </p>",
@@ -75,6 +78,7 @@
     "EnableSnapshotCopy": "<p>Enables the automatic copy of snapshots from one region to another region for a specified cluster.</p>",
     "GetClusterCredentials": "<p>Returns a database user name and temporary password with temporary authorization to log on to an Amazon Redshift database. The action returns the database user name prefixed with <code>IAM:</code> if <code>AutoCreate</code> is <code>False</code> or <code>IAMA:</code> if <code>AutoCreate</code> is <code>True</code>. You can optionally specify one or more database user groups that the user will join at log on. By default, the temporary credentials expire in 900 seconds. You can optionally specify a duration between 900 seconds (15 minutes) and 3600 seconds (60 minutes). For more information, see <a href=\"https://docs.aws.amazon.com/redshift/latest/mgmt/generating-user-credentials.html\">Using IAM Authentication to Generate Database User Credentials</a> in the Amazon Redshift Cluster Management Guide.</p> <p>The AWS Identity and Access Management (IAM)user or role that executes GetClusterCredentials must have an IAM policy attached that allows access to all necessary actions and resources. For more information about permissions, see <a href=\"https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html#redshift-policy-resources.getclustercredentials-resources\">Resource Policies for GetClusterCredentials</a> in the Amazon Redshift Cluster Management Guide.</p> <p>If the <code>DbGroups</code> parameter is specified, the IAM policy must allow the <code>redshift:JoinGroup</code> action with access to the listed <code>dbgroups</code>. </p> <p>In addition, if the <code>AutoCreate</code> parameter is set to <code>True</code>, then the policy must include the <code>redshift:CreateClusterUser</code> privilege.</p> <p>If the <code>DbName</code> parameter is specified, the IAM policy must allow access to the resource <code>dbname</code> for the specified database name. </p>",
     "GetReservedNodeExchangeOfferings": "<p>Returns an array of DC2 ReservedNodeOfferings that matches the payment type, term, and usage price of the given DC1 reserved node.</p>",
+    "ModifyAquaConfiguration": "<p>Modifies whether a cluster can use AQUA (Advanced Query Accelerator). </p>",
     "ModifyCluster": "<p>Modifies the settings for a cluster.</p> <p>You can also change node type and the number of nodes to scale up or down the cluster. When resizing a cluster, you must specify both the number of nodes and the node type even if one of the parameters does not change.</p> <p>You can add another security or parameter group, or change the master user password. Resetting a cluster password or modifying the security groups associated with a cluster do not need a reboot. However, modifying a parameter group requires a reboot for parameters to take effect. For more information about managing clusters, go to <a href=\"https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html\">Amazon Redshift Clusters</a> in the <i>Amazon Redshift Cluster Management Guide</i>.</p>",
     "ModifyClusterDbRevision": "<p>Modifies the database revision of a cluster. The database revision is a unique revision of the database running in a cluster.</p>",
     "ModifyClusterIamRoles": "<p>Modifies the list of AWS Identity and Access Management (IAM) roles that can be used by the cluster to access other AWS services.</p> <p>A cluster can have up to 10 IAM roles associated at any time.</p>",
@@ -100,7 +104,8 @@
     "RevokeClusterSecurityGroupIngress": "<p>Revokes an ingress rule in an Amazon Redshift security group for a previously authorized IP range or Amazon EC2 security group. To add an ingress rule, see <a>AuthorizeClusterSecurityGroupIngress</a>. For information about managing security groups, go to <a href=\"https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-security-groups.html\">Amazon Redshift Cluster Security Groups</a> in the <i>Amazon Redshift Cluster Management Guide</i>. </p>",
     "RevokeEndpointAccess": "<p>Revokes access to a cluster.</p>",
     "RevokeSnapshotAccess": "<p>Removes the ability of the specified AWS customer account to restore the specified snapshot. If the account is currently restoring the snapshot, the restore will run to completion.</p> <p> For more information about working with snapshots, go to <a href=\"https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-snapshots.html\">Amazon Redshift Snapshots</a> in the <i>Amazon Redshift Cluster Management Guide</i>.</p>",
-    "RotateEncryptionKey": "<p>Rotates the encryption keys for a cluster.</p>"
+    "RotateEncryptionKey": "<p>Rotates the encryption keys for a cluster.</p>",
+    "UpdatePartnerStatus": "<p>Updates the status of a partner integration.</p>"
   },
   "shapes": {
     "AcceptReservedNodeExchangeInputMessage": {
@@ -150,6 +155,28 @@
       "base": null,
       "refs": {
         "DescribeNodeConfigurationOptionsMessage$ActionType": "<p>The action type to evaluate for possible node configurations. Specify \"restore-cluster\" to get configuration combinations based on an existing snapshot. Specify \"recommend-node-config\" to get configuration recommendations based on an existing cluster or snapshot. Specify \"resize-cluster\" to get configuration combinations for elastic resize based on an existing cluster. </p>"
+      }
+    },
+    "AquaConfiguration": {
+      "base": "<p>The AQUA (Advanced Query Accelerator) configuration of the cluster.</p>",
+      "refs": {
+        "Cluster$AquaConfiguration": "<p>The AQUA (Advanced Query Accelerator) configuration of the cluster.</p>",
+        "ModifyAquaOutputMessage$AquaConfiguration": "<p>The updated AQUA configuration of the cluster. </p>"
+      }
+    },
+    "AquaConfigurationStatus": {
+      "base": null,
+      "refs": {
+        "AquaConfiguration$AquaConfigurationStatus": "<p>The value represents how the cluster is configured to use AQUA. Possible values include the following.</p> <ul> <li> <p>enabled - Use AQUA if it is available for the current AWS Region and Amazon Redshift node type.</p> </li> <li> <p>disabled - Don't use AQUA. </p> </li> <li> <p>auto - Amazon Redshift determines whether to use AQUA.</p> </li> </ul>",
+        "CreateClusterMessage$AquaConfigurationStatus": "<p>The value represents how the cluster is configured to use AQUA (Advanced Query Accelerator) when it is created. Possible values include the following.</p> <ul> <li> <p>enabled - Use AQUA if it is available for the current AWS Region and Amazon Redshift node type.</p> </li> <li> <p>disabled - Don't use AQUA. </p> </li> <li> <p>auto - Amazon Redshift determines whether to use AQUA.</p> </li> </ul>",
+        "ModifyAquaInputMessage$AquaConfigurationStatus": "<p>The new value of AQUA configuration status. Possible values include the following.</p> <ul> <li> <p>enabled - Use AQUA if it is available for the current AWS Region and Amazon Redshift node type.</p> </li> <li> <p>disabled - Don't use AQUA. </p> </li> <li> <p>auto - Amazon Redshift determines whether to use AQUA.</p> </li> </ul>",
+        "RestoreFromClusterSnapshotMessage$AquaConfigurationStatus": "<p>The value represents how the cluster is configured to use AQUA (Advanced Query Accelerator) after the cluster is restored. Possible values include the following.</p> <ul> <li> <p>enabled - Use AQUA if it is available for the current AWS Region and Amazon Redshift node type.</p> </li> <li> <p>disabled - Don't use AQUA. </p> </li> <li> <p>auto - Amazon Redshift determines whether to use AQUA.</p> </li> </ul>"
+      }
+    },
+    "AquaStatus": {
+      "base": null,
+      "refs": {
+        "AquaConfiguration$AquaStatus": "<p>The value indicates the status of AQUA on the cluster. Possible values include the following.</p> <ul> <li> <p>enabled - AQUA is enabled.</p> </li> <li> <p>disabled - AQUA is not enabled. </p> </li> <li> <p>applying - AQUA status is being applied. </p> </li> </ul>"
       }
     },
     "AssociatedClusterList": {
@@ -336,7 +363,8 @@
         "RestoreFromClusterSnapshotMessage$AllowVersionUpgrade": "<p>If <code>true</code>, major version upgrades can be applied during the maintenance window to the Amazon Redshift engine that is running on the cluster. </p> <p>Default: <code>true</code> </p>",
         "RestoreFromClusterSnapshotMessage$PubliclyAccessible": "<p>If <code>true</code>, the cluster can be accessed from a public network. </p>",
         "RestoreFromClusterSnapshotMessage$EnhancedVpcRouting": "<p>An option that specifies whether to create the cluster with enhanced VPC routing enabled. To create a cluster that uses enhanced VPC routing, the cluster must be in a VPC. For more information, see <a href=\"https://docs.aws.amazon.com/redshift/latest/mgmt/enhanced-vpc-routing.html\">Enhanced VPC Routing</a> in the Amazon Redshift Cluster Management Guide.</p> <p>If this option is <code>true</code>, enhanced VPC routing is enabled. </p> <p>Default: false</p>",
-        "RestoreFromClusterSnapshotMessage$AvailabilityZoneRelocation": "<p>The option to enable relocation for an Amazon Redshift cluster between Availability Zones after the cluster is restored.</p>"
+        "RestoreFromClusterSnapshotMessage$AvailabilityZoneRelocation": "<p>The option to enable relocation for an Amazon Redshift cluster between Availability Zones after the cluster is restored.</p>",
+        "RestoreTableFromClusterSnapshotMessage$EnableCaseSensitiveIdentifier": "<p>Indicates whether name identifiers for database, schema, and table are case sensitive. If <code>true</code>, the names are case sensitive. If <code>false</code> (default), the names are not case sensitive.</p>"
       }
     },
     "BucketNotFoundFault": {
@@ -1018,6 +1046,16 @@
       "refs": {
       }
     },
+    "DescribePartnersInputMessage": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "DescribePartnersOutputMessage": {
+      "base": null,
+      "refs": {
+      }
+    },
     "DescribeReservedNodeOfferingsMessage": {
       "base": "<p/>",
       "refs": {
@@ -1490,8 +1528,8 @@
         "DescribeClusterVersionsMessage$MaxRecords": "<p>The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified <code>MaxRecords</code> value, a value is returned in a <code>marker</code> field of the response. You can retrieve the next set of records by retrying the command with the returned marker value. </p> <p>Default: <code>100</code> </p> <p>Constraints: minimum 20, maximum 100.</p>",
         "DescribeClustersMessage$MaxRecords": "<p>The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified <code>MaxRecords</code> value, a value is returned in a <code>marker</code> field of the response. You can retrieve the next set of records by retrying the command with the returned marker value. </p> <p>Default: <code>100</code> </p> <p>Constraints: minimum 20, maximum 100.</p>",
         "DescribeDefaultClusterParametersMessage$MaxRecords": "<p>The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified <code>MaxRecords</code> value, a value is returned in a <code>marker</code> field of the response. You can retrieve the next set of records by retrying the command with the returned marker value. </p> <p>Default: <code>100</code> </p> <p>Constraints: minimum 20, maximum 100.</p>",
-        "DescribeEndpointAccessMessage$MaxRecords": "<p>Reserved for Amazon Redshift internal use.</p>",
-        "DescribeEndpointAuthorizationMessage$MaxRecords": "<p>Reserved for Amazon Redshift internal use.</p>",
+        "DescribeEndpointAccessMessage$MaxRecords": "<p>The maximum number of records to include in the response. If more records exist than the specified <code>MaxRecords</code> value, a pagination token called a <code>Marker</code> is included in the response so that the remaining results can be retrieved.</p>",
+        "DescribeEndpointAuthorizationMessage$MaxRecords": "<p>The maximum number of records to include in the response. If more records exist than the specified <code>MaxRecords</code> value, a pagination token called a <code>Marker</code> is included in the response so that the remaining results can be retrieved.</p>",
         "DescribeEventSubscriptionsMessage$MaxRecords": "<p>The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified <code>MaxRecords</code> value, a value is returned in a <code>marker</code> field of the response. You can retrieve the next set of records by retrying the command with the returned marker value. </p> <p>Default: <code>100</code> </p> <p>Constraints: minimum 20, maximum 100.</p>",
         "DescribeEventsMessage$Duration": "<p>The number of minutes prior to the time of the request for which to retrieve events. For example, if the request is sent at 18:00 and you specify a duration of 60, then only events which have occurred after 17:00 will be returned.</p> <p>Default: <code>60</code> </p>",
         "DescribeEventsMessage$MaxRecords": "<p>The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified <code>MaxRecords</code> value, a value is returned in a <code>marker</code> field of the response. You can retrieve the next set of records by retrying the command with the returned marker value. </p> <p>Default: <code>100</code> </p> <p>Constraints: minimum 20, maximum 100.</p>",
@@ -1719,6 +1757,16 @@
         "NodeConfigurationOption$Mode": "<p>The category of the node configuration recommendation.</p>"
       }
     },
+    "ModifyAquaInputMessage": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "ModifyAquaOutputMessage": {
+      "base": null,
+      "refs": {
+      }
+    },
     "ModifyClusterDbRevisionMessage": {
       "base": null,
       "refs": {
@@ -1934,6 +1982,83 @@
         "DefaultClusterParameters$Parameters": "<p>The list of cluster default parameters.</p>",
         "ModifyClusterParameterGroupMessage$Parameters": "<p>An array of parameters to be modified. A maximum of 20 parameters can be modified in a single request.</p> <p>For each parameter to be modified, you must supply at least the parameter name and parameter value; other name-value pairs of the parameter are optional.</p> <p>For the workload management (WLM) configuration, you must supply all the name-value pairs in the wlm_json_configuration parameter.</p>",
         "ResetClusterParameterGroupMessage$Parameters": "<p>An array of names of parameters to be reset. If <i>ResetAllParameters</i> option is not used, then at least one parameter name must be supplied. </p> <p>Constraints: A maximum of 20 parameters can be reset in a single request.</p>"
+      }
+    },
+    "PartnerIntegrationAccountId": {
+      "base": null,
+      "refs": {
+        "DescribePartnersInputMessage$AccountId": "<p>The AWS account ID that owns the cluster.</p>",
+        "PartnerIntegrationInputMessage$AccountId": "<p>The AWS account ID that owns the cluster.</p>",
+        "UpdatePartnerStatusInputMessage$AccountId": "<p>The AWS account ID that owns the cluster.</p>"
+      }
+    },
+    "PartnerIntegrationClusterIdentifier": {
+      "base": null,
+      "refs": {
+        "DescribePartnersInputMessage$ClusterIdentifier": "<p>The cluster identifier of the cluster whose partner integration is being described.</p>",
+        "PartnerIntegrationInputMessage$ClusterIdentifier": "<p>The cluster identifier of the cluster that receives data from the partner.</p>",
+        "UpdatePartnerStatusInputMessage$ClusterIdentifier": "<p>The cluster identifier of the cluster whose partner integration status is being updated.</p>"
+      }
+    },
+    "PartnerIntegrationDatabaseName": {
+      "base": null,
+      "refs": {
+        "DescribePartnersInputMessage$DatabaseName": "<p>The name of the database whose partner integration is being described. If database name is not specified, then all databases in the cluster are described.</p>",
+        "PartnerIntegrationInfo$DatabaseName": "<p>The name of the database that receives data from a partner.</p>",
+        "PartnerIntegrationInputMessage$DatabaseName": "<p>The name of the database that receives data from the partner.</p>",
+        "PartnerIntegrationOutputMessage$DatabaseName": "<p>The name of the database that receives data from the partner.</p>",
+        "UpdatePartnerStatusInputMessage$DatabaseName": "<p>The name of the database whose partner integration status is being updated.</p>"
+      }
+    },
+    "PartnerIntegrationInfo": {
+      "base": "<p>Describes a partner integration.</p>",
+      "refs": {
+        "PartnerIntegrationInfoList$member": null
+      }
+    },
+    "PartnerIntegrationInfoList": {
+      "base": null,
+      "refs": {
+        "DescribePartnersOutputMessage$PartnerIntegrationInfoList": "<p>A list of partner integrations.</p>"
+      }
+    },
+    "PartnerIntegrationInputMessage": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "PartnerIntegrationOutputMessage": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "PartnerIntegrationPartnerName": {
+      "base": null,
+      "refs": {
+        "DescribePartnersInputMessage$PartnerName": "<p>The name of the partner that is being described. If partner name is not specified, then all partner integrations are described.</p>",
+        "PartnerIntegrationInfo$PartnerName": "<p>The name of the partner.</p>",
+        "PartnerIntegrationInputMessage$PartnerName": "<p>The name of the partner that is authorized to send data.</p>",
+        "PartnerIntegrationOutputMessage$PartnerName": "<p>The name of the partner that is authorized to send data.</p>",
+        "UpdatePartnerStatusInputMessage$PartnerName": "<p>The name of the partner whose integration status is being updated.</p>"
+      }
+    },
+    "PartnerIntegrationStatus": {
+      "base": null,
+      "refs": {
+        "PartnerIntegrationInfo$Status": "<p>The partner integration status.</p>",
+        "UpdatePartnerStatusInputMessage$Status": "<p>The value of the updated status.</p>"
+      }
+    },
+    "PartnerIntegrationStatusMessage": {
+      "base": null,
+      "refs": {
+        "PartnerIntegrationInfo$StatusMessage": "<p>The status message provided by the partner.</p>",
+        "UpdatePartnerStatusInputMessage$StatusMessage": "<p>The status message provided by the partner.</p>"
+      }
+    },
+    "PartnerNotFoundFault": {
+      "base": "<p>The name of the partner was not found.</p>",
+      "refs": {
       }
     },
     "PauseClusterMessage": {
@@ -2665,10 +2790,10 @@
         "DescribeEndpointAccessMessage$ResourceOwner": "<p>The AWS account ID of the owner of the cluster.</p>",
         "DescribeEndpointAccessMessage$EndpointName": "<p>The name of the endpoint to be described.</p>",
         "DescribeEndpointAccessMessage$VpcId": "<p>The virtual private cloud (VPC) identifier with access to the cluster.</p>",
-        "DescribeEndpointAccessMessage$Marker": "<p>Reserved for Amazon Redshift internal use.</p>",
+        "DescribeEndpointAccessMessage$Marker": "<p>An optional pagination token provided by a previous <code>DescribeEndpointAccess</code> request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by the <code>MaxRecords</code> parameter.</p>",
         "DescribeEndpointAuthorizationMessage$ClusterIdentifier": "<p>The cluster identifier of the cluster to access.</p>",
         "DescribeEndpointAuthorizationMessage$Account": "<p>The AWS account ID of either the cluster owner (grantor) or grantee. If <code>Grantee</code> parameter is true, then the <code>Account</code> value is of the grantor.</p>",
-        "DescribeEndpointAuthorizationMessage$Marker": "<p>Reserved for Amazon Redshift internal use.</p>",
+        "DescribeEndpointAuthorizationMessage$Marker": "<p>An optional pagination token provided by a previous <code>DescribeEndpointAuthorization</code> request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by the <code>MaxRecords</code> parameter.</p>",
         "DescribeEventCategoriesMessage$SourceType": "<p>The source type, such as cluster or parameter group, to which the described event categories apply.</p> <p>Valid values: cluster, cluster-snapshot, cluster-parameter-group, cluster-security-group, and scheduled-action.</p>",
         "DescribeEventSubscriptionsMessage$SubscriptionName": "<p>The name of the Amazon Redshift event notification subscription to be described.</p>",
         "DescribeEventSubscriptionsMessage$Marker": "<p>An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeEventSubscriptions request exceed the value specified in <code>MaxRecords</code>, AWS returns a value in the <code>Marker</code> field of the response. You can retrieve the next set of response records by providing the returned marker value in the <code>Marker</code> parameter and retrying the request. </p>",
@@ -2728,12 +2853,12 @@
         "EndpointAccess$EndpointStatus": "<p>The status of the endpoint.</p>",
         "EndpointAccess$EndpointName": "<p>The name of the endpoint.</p>",
         "EndpointAccess$Address": "<p>The DNS address of the endpoint.</p>",
-        "EndpointAccessList$Marker": "<p>Reserved for Amazon Redshift internal use.</p>",
+        "EndpointAccessList$Marker": "<p>An optional pagination token provided by a previous <code>DescribeEndpointAccess</code> request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by the <code>MaxRecords</code> parameter.</p>",
         "EndpointAuthorization$Grantor": "<p>The AWS account ID of the cluster owner.</p>",
         "EndpointAuthorization$Grantee": "<p>The AWS account ID of the grantee of the cluster.</p>",
         "EndpointAuthorization$ClusterIdentifier": "<p>The cluster identifier.</p>",
         "EndpointAuthorization$ClusterStatus": "<p>The status of the cluster.</p>",
-        "EndpointAuthorizationList$Marker": "<p>Reserved for Amazon Redshift internal use.</p>",
+        "EndpointAuthorizationList$Marker": "<p>An optional pagination token provided by a previous <code>DescribeEndpointAuthorization</code> request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by the <code>MaxRecords</code> parameter.</p>",
         "Event$SourceIdentifier": "<p>The identifier for the source of the event.</p>",
         "Event$Message": "<p>The text of this event.</p>",
         "Event$Severity": "<p>The severity of the event.</p> <p>Values: ERROR, INFO</p>",
@@ -2779,6 +2904,7 @@
         "LoggingStatus$LastFailureMessage": "<p>The message indicating that logs failed to be delivered.</p>",
         "MaintenanceTrack$MaintenanceTrackName": "<p>The name of the maintenance track. Possible values are <code>current</code> and <code>trailing</code>.</p>",
         "MaintenanceTrack$DatabaseVersion": "<p>The version number for the cluster release.</p>",
+        "ModifyAquaInputMessage$ClusterIdentifier": "<p>The identifier of the cluster to be modified.</p>",
         "ModifyClusterDbRevisionMessage$ClusterIdentifier": "<p>The unique identifier of a cluster whose database revision you want to modify. </p> <p>Example: <code>examplecluster</code> </p>",
         "ModifyClusterDbRevisionMessage$RevisionTarget": "<p>The identifier of the database revision. You can retrieve this value from the response to the <a>DescribeClusterDbRevisions</a> request.</p>",
         "ModifyClusterIamRolesMessage$ClusterIdentifier": "<p>The unique identifier of the cluster for which you want to associate or disassociate IAM roles.</p>",
@@ -3079,6 +3205,8 @@
         "ModifyClusterMaintenanceMessage$DeferMaintenanceEndTime": "<p>A timestamp indicating end time for the deferred maintenance window. If you specify an end time, you can't specify a duration.</p>",
         "ModifyScheduledActionMessage$StartTime": "<p>A modified start time of the scheduled action. For more information about this parameter, see <a>ScheduledAction</a>. </p>",
         "ModifyScheduledActionMessage$EndTime": "<p>A modified end time of the scheduled action. For more information about this parameter, see <a>ScheduledAction</a>. </p>",
+        "PartnerIntegrationInfo$CreatedAt": "<p>The date (UTC) that the partner integration was created.</p>",
+        "PartnerIntegrationInfo$UpdatedAt": "<p>The date (UTC) that the partner integration status was last updated by the partner.</p>",
         "ReservedNode$StartTime": "<p>The time the reservation started. You purchase a reserved node offering for a duration. This is the start time of that duration.</p>",
         "RevisionTarget$DatabaseRevisionReleaseDate": "<p>The date on which the database revision was released.</p>",
         "ScheduledAction$StartTime": "<p>The start time in UTC when the schedule is active. Before this time, the scheduled action does not trigger. </p>",
@@ -3235,6 +3363,11 @@
       "refs": {
       }
     },
+    "UnauthorizedPartnerIntegrationFault": {
+      "base": "<p>The partner integration is not authorized.</p>",
+      "refs": {
+      }
+    },
     "UnknownSnapshotCopyRegionFault": {
       "base": "<p>The specified region is incorrect or does not exist.</p>",
       "refs": {
@@ -3247,6 +3380,11 @@
     },
     "UnsupportedOptionFault": {
       "base": "<p>A request option was specified that is not supported.</p>",
+      "refs": {
+      }
+    },
+    "UpdatePartnerStatusInputMessage": {
+      "base": null,
       "refs": {
       }
     },

@@ -178,6 +178,59 @@ extension DatabaseMigrationService {
         )
     }
 
+    ///  Returns information about the possible endpoint settings available when you create an endpoint for a specific database engine.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeEndpointSettingsPaginator<Result>(
+        _ input: DescribeEndpointSettingsMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeEndpointSettingsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeEndpointSettings,
+            inputKey: \DescribeEndpointSettingsMessage.marker,
+            outputKey: \DescribeEndpointSettingsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeEndpointSettingsPaginator(
+        _ input: DescribeEndpointSettingsMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeEndpointSettingsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeEndpointSettings,
+            inputKey: \DescribeEndpointSettingsMessage.marker,
+            outputKey: \DescribeEndpointSettingsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Returns information about the type of endpoints available.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -1002,6 +1055,16 @@ extension DatabaseMigrationService.DescribeConnectionsMessage: AWSPaginateToken 
     public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeConnectionsMessage {
         return .init(
             filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords
+        )
+    }
+}
+
+extension DatabaseMigrationService.DescribeEndpointSettingsMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeEndpointSettingsMessage {
+        return .init(
+            engineName: self.engineName,
             marker: token,
             maxRecords: self.maxRecords
         )

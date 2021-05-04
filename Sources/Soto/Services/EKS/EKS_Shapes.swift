@@ -24,6 +24,7 @@ extension EKS {
         case al2Arm64 = "AL2_ARM_64"
         case al2X8664 = "AL2_x86_64"
         case al2X8664Gpu = "AL2_x86_64_GPU"
+        case custom = "CUSTOM"
         public var description: String { return self.rawValue }
     }
 
@@ -149,6 +150,8 @@ extension EKS {
         case identityproviderconfig = "IdentityProviderConfig"
         case labelstoadd = "LabelsToAdd"
         case labelstoremove = "LabelsToRemove"
+        case launchtemplatename = "LaunchTemplateName"
+        case launchtemplateversion = "LaunchTemplateVersion"
         case maxsize = "MaxSize"
         case minsize = "MinSize"
         case platformversion = "PlatformVersion"
@@ -1927,9 +1930,9 @@ extension EKS {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.desiredSize, name: "desiredSize", parent: name, min: 1)
+            try self.validate(self.desiredSize, name: "desiredSize", parent: name, min: 0)
             try self.validate(self.maxSize, name: "maxSize", parent: name, min: 1)
-            try self.validate(self.minSize, name: "minSize", parent: name, min: 1)
+            try self.validate(self.minSize, name: "minSize", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {

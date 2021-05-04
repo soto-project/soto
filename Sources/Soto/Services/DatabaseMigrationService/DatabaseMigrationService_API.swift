@@ -163,6 +163,11 @@ public struct DatabaseMigrationService: AWSService {
         return self.client.execute(operation: "DescribeConnections", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns information about the possible endpoint settings available when you create an endpoint for a specific database engine.
+    public func describeEndpointSettings(_ input: DescribeEndpointSettingsMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeEndpointSettingsResponse> {
+        return self.client.execute(operation: "DescribeEndpointSettings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns information about the type of endpoints available.
     public func describeEndpointTypes(_ input: DescribeEndpointTypesMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeEndpointTypesResponse> {
         return self.client.execute(operation: "DescribeEndpointTypes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

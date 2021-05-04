@@ -77,6 +77,22 @@ extension AccessAnalyzer {
         public var description: String { return self.rawValue }
     }
 
+    public enum JobErrorCode: String, CustomStringConvertible, Codable {
+        case authorizationError = "AUTHORIZATION_ERROR"
+        case resourceNotFoundError = "RESOURCE_NOT_FOUND_ERROR"
+        case serviceError = "SERVICE_ERROR"
+        case serviceQuotaExceededError = "SERVICE_QUOTA_EXCEEDED_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobStatus: String, CustomStringConvertible, Codable {
+        case canceled = "CANCELED"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum KmsGrantOperation: String, CustomStringConvertible, Codable {
         case creategrant = "CreateGrant"
         case decrypt = "Decrypt"
@@ -496,6 +512,82 @@ extension AccessAnalyzer {
             case filter
             case ruleName
             case updatedAt
+        }
+    }
+
+    public struct CancelPolicyGenerationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
+        ]
+
+        /// The JobId that is returned by the StartPolicyGeneration operation. The JobId can be used with GetGeneratedPolicy to retrieve the generated policies or used with CancelPolicyGeneration to cancel the policy generation request.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct CancelPolicyGenerationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct CloudTrailDetails: AWSEncodableShape {
+        /// The ARN of the service role that Access Analyzer uses to access your CloudTrail trail and service last accessed information.
+        public let accessRole: String
+        /// The end of the time range for which Access Analyzer reviews your CloudTrail events. Events with a timestamp after this time are not considered to generate a policy. If this is not included in the request, the default value is the current time.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endTime: Date?
+        /// The start of the time range for which Access Analyzer reviews your CloudTrail events. Events with a timestamp before this time are not considered to generate a policy.
+        @CustomCoding<ISO8601DateCoder>
+        public var startTime: Date
+        /// A Trail object that contains settings for a trail.
+        public let trails: [Trail]
+
+        public init(accessRole: String, endTime: Date? = nil, startTime: Date, trails: [Trail]) {
+            self.accessRole = accessRole
+            self.endTime = endTime
+            self.startTime = startTime
+            self.trails = trails
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessRole, name: "accessRole", parent: name, pattern: "arn:[^:]*:iam::[^:]*:role/.{1,576}$")
+            try self.trails.forEach {
+                try $0.validate(name: "\(name).trails[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessRole
+            case endTime
+            case startTime
+            case trails
+        }
+    }
+
+    public struct CloudTrailProperties: AWSDecodableShape {
+        /// The end of the time range for which Access Analyzer reviews your CloudTrail events. Events with a timestamp after this time are not considered to generate a policy. If this is not included in the request, the default value is the current time.
+        @CustomCoding<ISO8601DateCoder>
+        public var endTime: Date
+        /// The start of the time range for which Access Analyzer reviews your CloudTrail events. Events with a timestamp before this time are not considered to generate a policy.
+        @CustomCoding<ISO8601DateCoder>
+        public var startTime: Date
+        /// A TrailProperties object that contains settings for trail properties.
+        public let trailProperties: [TrailProperties]
+
+        public init(endTime: Date, startTime: Date, trailProperties: [TrailProperties]) {
+            self.endTime = endTime
+            self.startTime = startTime
+            self.trailProperties = trailProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime
+            case startTime
+            case trailProperties
         }
     }
 
@@ -921,6 +1013,57 @@ extension AccessAnalyzer {
         }
     }
 
+    public struct GeneratedPolicy: AWSDecodableShape {
+        /// The text to use as the content for the new policy. The policy is created using the CreatePolicy action.
+        public let policy: String
+
+        public init(policy: String) {
+            self.policy = policy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy
+        }
+    }
+
+    public struct GeneratedPolicyProperties: AWSDecodableShape {
+        /// Lists details about the Trail used to generated policy.
+        public let cloudTrailProperties: CloudTrailProperties?
+        /// This value is set to true if the generated policy contains all possible actions for a service that Access Analyzer identified from the CloudTrail trail that you specified, and false otherwise.
+        public let isComplete: Bool?
+        /// The ARN of the IAM entity (user or role) for which you are generating a policy.
+        public let principalArn: String
+
+        public init(cloudTrailProperties: CloudTrailProperties? = nil, isComplete: Bool? = nil, principalArn: String) {
+            self.cloudTrailProperties = cloudTrailProperties
+            self.isComplete = isComplete
+            self.principalArn = principalArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudTrailProperties
+            case isComplete
+            case principalArn
+        }
+    }
+
+    public struct GeneratedPolicyResult: AWSDecodableShape {
+        /// The text to use as the content for the new policy. The policy is created using the CreatePolicy action.
+        public let generatedPolicies: [GeneratedPolicy]?
+        /// A GeneratedPolicyProperties object that contains properties of the generated policy.
+        public let properties: GeneratedPolicyProperties
+
+        public init(generatedPolicies: [GeneratedPolicy]? = nil, properties: GeneratedPolicyProperties) {
+            self.generatedPolicies = generatedPolicies
+            self.properties = properties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case generatedPolicies
+            case properties
+        }
+    }
+
     public struct GetAccessPreviewRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accessPreviewId", location: .uri(locationName: "accessPreviewId")),
@@ -1105,6 +1248,46 @@ extension AccessAnalyzer {
         }
     }
 
+    public struct GetGeneratedPolicyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "includeResourcePlaceholders", location: .querystring(locationName: "includeResourcePlaceholders")),
+            AWSMemberEncoding(label: "includeServiceLevelTemplate", location: .querystring(locationName: "includeServiceLevelTemplate")),
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
+        ]
+
+        /// The level of detail that you want to generate. You can specify whether to generate policies with placeholders for resource ARNs for actions that support resource level granularity in policies. For example, in the resource section of a policy, you can receive a placeholder such as "Resource":"arn:aws:s3:::${BucketName}" instead of "*".
+        public let includeResourcePlaceholders: Bool?
+        /// The level of detail that you want to generate. You can specify whether to generate service-level policies.  Access Analyzer uses iam:servicelastaccessed to identify services that have been used recently to create this service-level template.
+        public let includeServiceLevelTemplate: Bool?
+        /// The JobId that is returned by the StartPolicyGeneration operation. The JobId can be used with GetGeneratedPolicy to retrieve the generated policies or used with CancelPolicyGeneration to cancel the policy generation request.
+        public let jobId: String
+
+        public init(includeResourcePlaceholders: Bool? = nil, includeServiceLevelTemplate: Bool? = nil, jobId: String) {
+            self.includeResourcePlaceholders = includeResourcePlaceholders
+            self.includeServiceLevelTemplate = includeServiceLevelTemplate
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetGeneratedPolicyResponse: AWSDecodableShape {
+        /// A GeneratedPolicyResult object that contains the generated policies and associated details.
+        public let generatedPolicyResult: GeneratedPolicyResult
+        /// A GeneratedPolicyDetails object that contains details about the generated policy.
+        public let jobDetails: JobDetails
+
+        public init(generatedPolicyResult: GeneratedPolicyResult, jobDetails: JobDetails) {
+            self.generatedPolicyResult = generatedPolicyResult
+            self.jobDetails = jobDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case generatedPolicyResult
+            case jobDetails
+        }
+    }
+
     public struct IamRoleConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The proposed trust policy for the IAM role.
         public let trustPolicy: String?
@@ -1146,6 +1329,53 @@ extension AccessAnalyzer {
 
     public struct InternetConfiguration: AWSEncodableShape & AWSDecodableShape {
         public init() {}
+    }
+
+    public struct JobDetails: AWSDecodableShape {
+        /// A timestamp of when the job was completed.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var completedOn: Date?
+        public let jobError: JobError?
+        /// The JobId that is returned by the StartPolicyGeneration operation. The JobId can be used with GetGeneratedPolicy to retrieve the generated policies or used with CancelPolicyGeneration to cancel the policy generation request.
+        public let jobId: String
+        /// A timestamp of when the job was started.
+        @CustomCoding<ISO8601DateCoder>
+        public var startedOn: Date
+        /// The status of the job request.
+        public let status: JobStatus
+
+        public init(completedOn: Date? = nil, jobError: JobError? = nil, jobId: String, startedOn: Date, status: JobStatus) {
+            self.completedOn = completedOn
+            self.jobError = jobError
+            self.jobId = jobId
+            self.startedOn = startedOn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completedOn
+            case jobError
+            case jobId
+            case startedOn
+            case status
+        }
+    }
+
+    public struct JobError: AWSDecodableShape {
+        /// The job error code.
+        public let code: JobErrorCode
+        /// Specific information about the error. For example, which service quota was exceeded or which resource was not found.
+        public let message: String
+
+        public init(code: JobErrorCode, message: String) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code
+            case message
+        }
     }
 
     public struct KmsGrantConfiguration: AWSEncodableShape & AWSDecodableShape {
@@ -1497,6 +1727,51 @@ extension AccessAnalyzer {
         }
     }
 
+    public struct ListPolicyGenerationsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "principalArn", location: .querystring(locationName: "principalArn"))
+        ]
+
+        /// The maximum number of results to return in the response.
+        public let maxResults: Int?
+        /// A token used for pagination of results returned.
+        public let nextToken: String?
+        /// The ARN of the IAM entity (user or role) for which you are generating a policy. Use this with ListGeneratedPolicies to filter the results to only include results for a specific principal.
+        public let principalArn: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, principalArn: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.principalArn = principalArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.principalArn, name: "principalArn", parent: name, pattern: "arn:[^:]*:iam::[^:]*:(role|user)/.{1,576}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListPolicyGenerationsResponse: AWSDecodableShape {
+        /// A token used for pagination of results returned.
+        public let nextToken: String?
+        /// A PolicyGeneration object that contains details about the generated policy.
+        public let policyGenerations: [PolicyGeneration]
+
+        public init(nextToken: String? = nil, policyGenerations: [PolicyGeneration]) {
+            self.nextToken = nextToken
+            self.policyGenerations = policyGenerations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case policyGenerations
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
@@ -1584,6 +1859,54 @@ extension AccessAnalyzer {
             case key
             case substring
             case value
+        }
+    }
+
+    public struct PolicyGeneration: AWSDecodableShape {
+        /// A timestamp of when the policy generation was completed.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var completedOn: Date?
+        /// The JobId that is returned by the StartPolicyGeneration operation. The JobId can be used with GetGeneratedPolicy to retrieve the generated policies or used with CancelPolicyGeneration to cancel the policy generation request.
+        public let jobId: String
+        /// The ARN of the IAM entity (user or role) for which you are generating a policy.
+        public let principalArn: String
+        /// A timestamp of when the policy generation started.
+        @CustomCoding<ISO8601DateCoder>
+        public var startedOn: Date
+        /// The status of the policy generation request.
+        public let status: JobStatus
+
+        public init(completedOn: Date? = nil, jobId: String, principalArn: String, startedOn: Date, status: JobStatus) {
+            self.completedOn = completedOn
+            self.jobId = jobId
+            self.principalArn = principalArn
+            self.startedOn = startedOn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completedOn
+            case jobId
+            case principalArn
+            case startedOn
+            case status
+        }
+    }
+
+    public struct PolicyGenerationDetails: AWSEncodableShape {
+        /// The ARN of the IAM entity (user or role) for which you are generating a policy.
+        public let principalArn: String
+
+        public init(principalArn: String) {
+            self.principalArn = principalArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.principalArn, name: "principalArn", parent: name, pattern: "arn:[^:]*:iam::[^:]*:(role|user)/.{1,576}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case principalArn
         }
     }
 
@@ -1763,6 +2086,45 @@ extension AccessAnalyzer {
         }
     }
 
+    public struct StartPolicyGenerationRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you do not specify a client token, one is automatically generated by the AWS SDK.
+        public let clientToken: String?
+        /// A CloudTrailDetails object that contains details about a Trail that you want to analyze to generate policies.
+        public let cloudTrailDetails: CloudTrailDetails?
+        /// Contains the ARN of the IAM entity (user or role) for which you are generating a policy.
+        public let policyGenerationDetails: PolicyGenerationDetails
+
+        public init(clientToken: String? = StartPolicyGenerationRequest.idempotencyToken(), cloudTrailDetails: CloudTrailDetails? = nil, policyGenerationDetails: PolicyGenerationDetails) {
+            self.clientToken = clientToken
+            self.cloudTrailDetails = cloudTrailDetails
+            self.policyGenerationDetails = policyGenerationDetails
+        }
+
+        public func validate(name: String) throws {
+            try self.cloudTrailDetails?.validate(name: "\(name).cloudTrailDetails")
+            try self.policyGenerationDetails.validate(name: "\(name).policyGenerationDetails")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken
+            case cloudTrailDetails
+            case policyGenerationDetails
+        }
+    }
+
+    public struct StartPolicyGenerationResponse: AWSDecodableShape {
+        /// The JobId that is returned by the StartPolicyGeneration operation. The JobId can be used with GetGeneratedPolicy to retrieve the generated policies or used with CancelPolicyGeneration to cancel the policy generation request.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId
+        }
+    }
+
     public struct StartResourceScanRequest: AWSEncodableShape {
         /// The ARN of the analyzer to use to scan the policies applied to the specified resource.
         public let analyzerArn: String
@@ -1837,6 +2199,52 @@ extension AccessAnalyzer {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct Trail: AWSEncodableShape {
+        /// Possible values are true or false. If set to true, Access Analyzer retrieves CloudTrail data from all regions to analyze and generate a policy.
+        public let allRegions: Bool?
+        /// Specifies the ARN of the trail. The format of a trail ARN is arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail.
+        public let cloudTrailArn: String
+        /// A list of regions to get CloudTrail data from and analyze to generate a policy.
+        public let regions: [String]?
+
+        public init(allRegions: Bool? = nil, cloudTrailArn: String, regions: [String]? = nil) {
+            self.allRegions = allRegions
+            self.cloudTrailArn = cloudTrailArn
+            self.regions = regions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cloudTrailArn, name: "cloudTrailArn", parent: name, pattern: "arn:[^:]*:cloudtrail:[^:]*:[^:]*:trail/.{1,576}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allRegions
+            case cloudTrailArn
+            case regions
+        }
+    }
+
+    public struct TrailProperties: AWSDecodableShape {
+        /// Possible values are true or false. If set to true, Access Analyzer retrieves CloudTrail data from all regions to analyze and generate a policy.
+        public let allRegions: Bool?
+        /// Specifies the ARN of the trail. The format of a trail ARN is arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail.
+        public let cloudTrailArn: String
+        /// A list of regions to get CloudTrail data from and analyze to generate a policy.
+        public let regions: [String]?
+
+        public init(allRegions: Bool? = nil, cloudTrailArn: String, regions: [String]? = nil) {
+            self.allRegions = allRegions
+            self.cloudTrailArn = cloudTrailArn
+            self.regions = regions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allRegions
+            case cloudTrailArn
+            case regions
+        }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {

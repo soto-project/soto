@@ -1597,8 +1597,9 @@ extension Appflow {
         public let snowflake: SnowflakeDestinationProperties?
         ///  The properties required to query Upsolver.
         public let upsolver: UpsolverDestinationProperties?
+        public let zendesk: ZendeskDestinationProperties?
 
-        public init(customerProfiles: CustomerProfilesDestinationProperties? = nil, eventBridge: EventBridgeDestinationProperties? = nil, honeycode: HoneycodeDestinationProperties? = nil, lookoutMetrics: LookoutMetricsDestinationProperties? = nil, redshift: RedshiftDestinationProperties? = nil, s3: S3DestinationProperties? = nil, salesforce: SalesforceDestinationProperties? = nil, snowflake: SnowflakeDestinationProperties? = nil, upsolver: UpsolverDestinationProperties? = nil) {
+        public init(customerProfiles: CustomerProfilesDestinationProperties? = nil, eventBridge: EventBridgeDestinationProperties? = nil, honeycode: HoneycodeDestinationProperties? = nil, lookoutMetrics: LookoutMetricsDestinationProperties? = nil, redshift: RedshiftDestinationProperties? = nil, s3: S3DestinationProperties? = nil, salesforce: SalesforceDestinationProperties? = nil, snowflake: SnowflakeDestinationProperties? = nil, upsolver: UpsolverDestinationProperties? = nil, zendesk: ZendeskDestinationProperties? = nil) {
             self.customerProfiles = customerProfiles
             self.eventBridge = eventBridge
             self.honeycode = honeycode
@@ -1608,6 +1609,7 @@ extension Appflow {
             self.salesforce = salesforce
             self.snowflake = snowflake
             self.upsolver = upsolver
+            self.zendesk = zendesk
         }
 
         public func validate(name: String) throws {
@@ -1619,6 +1621,7 @@ extension Appflow {
             try self.salesforce?.validate(name: "\(name).salesforce")
             try self.snowflake?.validate(name: "\(name).snowflake")
             try self.upsolver?.validate(name: "\(name).upsolver")
+            try self.zendesk?.validate(name: "\(name).zendesk")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1631,6 +1634,7 @@ extension Appflow {
             case salesforce = "Salesforce"
             case snowflake = "Snowflake"
             case upsolver = "Upsolver"
+            case zendesk = "Zendesk"
         }
     }
 
@@ -3790,6 +3794,39 @@ extension Appflow {
 
         private enum CodingKeys: String, CodingKey {
             case instanceUrl
+        }
+    }
+
+    public struct ZendeskDestinationProperties: AWSEncodableShape & AWSDecodableShape {
+        public let errorHandlingConfig: ErrorHandlingConfig?
+        public let idFieldNames: [String]?
+        public let object: String
+        public let writeOperationType: WriteOperationType?
+
+        public init(errorHandlingConfig: ErrorHandlingConfig? = nil, idFieldNames: [String]? = nil, object: String, writeOperationType: WriteOperationType? = nil) {
+            self.errorHandlingConfig = errorHandlingConfig
+            self.idFieldNames = idFieldNames
+            self.object = object
+            self.writeOperationType = writeOperationType
+        }
+
+        public func validate(name: String) throws {
+            try self.errorHandlingConfig?.validate(name: "\(name).errorHandlingConfig")
+            try self.idFieldNames?.forEach {
+                try validate($0, name: "idFieldNames[]", parent: name, max: 128)
+                try validate($0, name: "idFieldNames[]", parent: name, pattern: "\\S+")
+            }
+            try self.validate(self.idFieldNames, name: "idFieldNames", parent: name, max: 1)
+            try self.validate(self.idFieldNames, name: "idFieldNames", parent: name, min: 0)
+            try self.validate(self.object, name: "object", parent: name, max: 512)
+            try self.validate(self.object, name: "object", parent: name, pattern: "\\S+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorHandlingConfig
+            case idFieldNames
+            case object
+            case writeOperationType
         }
     }
 

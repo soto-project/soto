@@ -66,7 +66,7 @@ public struct ShieldErrorType: AWSErrorType {
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
     /// Exception that indicates that the resource is invalid. You might not have access to the resource, or the resource might not exist.
     public static var invalidResourceException: Self { .init(.invalidResourceException) }
-    /// Exception that indicates that the operation would exceed a limit.  Type is the type of limit that would be exceeded.  Limit is the threshold that would be exceeded.
+    /// Exception that indicates that the operation would exceed a limit.
     public static var limitsExceededException: Self { .init(.limitsExceededException) }
     /// You are trying to update a subscription that has not yet completed the 1-year commitment. You can change the AutoRenew parameter during the last 30 days of your subscription. This exception indicates that you are attempting to change AutoRenew prior to that period.
     public static var lockedSubscriptionException: Self { .init(.lockedSubscriptionException) }

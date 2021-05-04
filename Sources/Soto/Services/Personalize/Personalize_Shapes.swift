@@ -20,6 +20,13 @@ import SotoCore
 extension Personalize {
     // MARK: Enums
 
+    public enum IngestionMode: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case bulk = "BULK"
+        case put = "PUT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RecipeProvider: String, CustomStringConvertible, Codable {
         case service = "SERVICE"
         public var description: String { return self.rawValue }
@@ -200,7 +207,7 @@ extension Personalize {
     }
 
     public struct BatchInferenceJobConfig: AWSEncodableShape & AWSDecodableShape {
-        /// A string to string map specifying the exploration configuration hyperparameters, including explorationWeight and explorationItemAgeCutOff, you want to use to configure the amount of item exploration Amazon Personalize uses when recommending items. See native-recipe-new-item-USER_PERSONALIZATION.
+        /// A string to string map specifying the exploration configuration hyperparameters, including explorationWeight and explorationItemAgeCutOff, you want to use to configure the amount of item exploration Amazon Personalize uses when recommending items. See User-Personalization.
         public let itemExplorationConfig: [String: String]?
 
         public init(itemExplorationConfig: [String: String]? = nil) {
@@ -482,7 +489,7 @@ extension Personalize {
     public struct CreateBatchInferenceJobRequest: AWSEncodableShape {
         /// The configuration details of a batch inference job.
         public let batchInferenceJobConfig: BatchInferenceJobConfig?
-        /// The ARN of the filter to apply to the batch inference job. For more information on using filters, see Using Filters with Amazon Personalize.
+        /// The ARN of the filter to apply to the batch inference job. For more information on using filters, see Filtering Batch Recommendations..
         public let filterArn: String?
         /// The Amazon S3 path that leads to the input file to base your recommendations on. The input material must be in JSON format.
         public let jobInput: BatchInferenceJobInput
@@ -492,7 +499,7 @@ extension Personalize {
         public let jobOutput: BatchInferenceJobOutput
         /// The number of recommendations to retreive.
         public let numResults: Int?
-        /// The ARN of the Amazon Identity and Access Management role that has permissions to read and write to your input and out Amazon S3 buckets respectively.
+        /// The ARN of the Amazon Identity and Access Management role that has permissions to read and write to your input and output Amazon S3 buckets respectively.
         public let roleArn: String
         /// The Amazon Resource Name (ARN) of the solution version that will be used to generate the batch inference recommendations.
         public let solutionVersionArn: String
@@ -593,6 +600,59 @@ extension Personalize {
 
         private enum CodingKeys: String, CodingKey {
             case campaignArn
+        }
+    }
+
+    public struct CreateDatasetExportJobRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the dataset that contains the data to export.
+        public let datasetArn: String
+        /// The data to export, based on how you imported the data. You can choose to export only BULK data that you imported using a dataset import job, only PUT data that you imported incrementally (using the console, PutEvents, PutUsers and PutItems operations), or ALL for both types. The default value is PUT.
+        public let ingestionMode: IngestionMode?
+        /// The name for the dataset export job.
+        public let jobName: String
+        /// The path to the Amazon S3 bucket where the job's output is stored.
+        public let jobOutput: DatasetExportJobOutput
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management service role that has permissions to add data to your output Amazon S3 bucket.
+        public let roleArn: String
+
+        public init(datasetArn: String, ingestionMode: IngestionMode? = nil, jobName: String, jobOutput: DatasetExportJobOutput, roleArn: String) {
+            self.datasetArn = datasetArn
+            self.ingestionMode = ingestionMode
+            self.jobName = jobName
+            self.jobOutput = jobOutput
+            self.roleArn = roleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, max: 256)
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try self.validate(self.jobName, name: "jobName", parent: name, max: 63)
+            try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
+            try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try self.jobOutput.validate(name: "\(name).jobOutput")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:([a-z\\d-]+):iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetArn
+            case ingestionMode
+            case jobName
+            case jobOutput
+            case roleArn
+        }
+    }
+
+    public struct CreateDatasetExportJobResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the dataset export job.
+        public let datasetExportJobArn: String?
+
+        public init(datasetExportJobArn: String? = nil) {
+            self.datasetExportJobArn = datasetExportJobArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetExportJobArn
         }
     }
 
@@ -957,7 +1017,7 @@ extension Personalize {
     }
 
     public struct DataSource: AWSEncodableShape & AWSDecodableShape {
-        /// The path to the Amazon S3 bucket where the data that you want to upload to your dataset is stored. For example:   s3://bucket-name/training-data.csv
+        /// The path to the Amazon S3 bucket where the data that you want to upload to your dataset is stored. For example:   s3://bucket-name/folder-name/
         public let dataLocation: String?
 
         public init(dataLocation: String? = nil) {
@@ -1010,6 +1070,104 @@ extension Personalize {
             case lastUpdatedDateTime
             case name
             case schemaArn
+            case status
+        }
+    }
+
+    public struct DatasetExportJob: AWSDecodableShape {
+        /// The creation date and time (in Unix time) of the dataset export job.
+        public let creationDateTime: Date?
+        /// The Amazon Resource Name (ARN) of the dataset to export.
+        public let datasetArn: String?
+        /// The Amazon Resource Name (ARN) of the dataset export job.
+        public let datasetExportJobArn: String?
+        /// If a dataset export job fails, provides the reason why.
+        public let failureReason: String?
+        /// The data to export, based on how you imported the data. You can choose to export BULK data that you imported using a dataset import job, PUT data that you imported incrementally (using the console, PutEvents, PutUsers and PutItems operations), or ALL for both types. The default value is PUT.
+        public let ingestionMode: IngestionMode?
+        /// The name of the export job.
+        public let jobName: String?
+        /// The path to the Amazon S3 bucket where the job's output is stored. For example:  s3://bucket-name/folder-name/
+        public let jobOutput: DatasetExportJobOutput?
+        /// The date and time (in Unix time) the status of the dataset export job was last updated.
+        public let lastUpdatedDateTime: Date?
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management service role that has permissions to add data to your output Amazon S3 bucket.
+        public let roleArn: String?
+        /// The status of the dataset export job. A dataset export job can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
+        public let status: String?
+
+        public init(creationDateTime: Date? = nil, datasetArn: String? = nil, datasetExportJobArn: String? = nil, failureReason: String? = nil, ingestionMode: IngestionMode? = nil, jobName: String? = nil, jobOutput: DatasetExportJobOutput? = nil, lastUpdatedDateTime: Date? = nil, roleArn: String? = nil, status: String? = nil) {
+            self.creationDateTime = creationDateTime
+            self.datasetArn = datasetArn
+            self.datasetExportJobArn = datasetExportJobArn
+            self.failureReason = failureReason
+            self.ingestionMode = ingestionMode
+            self.jobName = jobName
+            self.jobOutput = jobOutput
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.roleArn = roleArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime
+            case datasetArn
+            case datasetExportJobArn
+            case failureReason
+            case ingestionMode
+            case jobName
+            case jobOutput
+            case lastUpdatedDateTime
+            case roleArn
+            case status
+        }
+    }
+
+    public struct DatasetExportJobOutput: AWSEncodableShape & AWSDecodableShape {
+        public let s3DataDestination: S3DataConfig
+
+        public init(s3DataDestination: S3DataConfig) {
+            self.s3DataDestination = s3DataDestination
+        }
+
+        public func validate(name: String) throws {
+            try self.s3DataDestination.validate(name: "\(name).s3DataDestination")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3DataDestination
+        }
+    }
+
+    public struct DatasetExportJobSummary: AWSDecodableShape {
+        /// The date and time (in Unix time) that the dataset export job was created.
+        public let creationDateTime: Date?
+        /// The Amazon Resource Name (ARN) of the dataset export job.
+        public let datasetExportJobArn: String?
+        /// If a dataset export job fails, the reason behind the failure.
+        public let failureReason: String?
+        /// The name of the dataset export job.
+        public let jobName: String?
+        /// The date and time (in Unix time) that the dataset export job status was last updated.
+        public let lastUpdatedDateTime: Date?
+        /// The status of the dataset export job. A dataset export job can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
+        public let status: String?
+
+        public init(creationDateTime: Date? = nil, datasetExportJobArn: String? = nil, failureReason: String? = nil, jobName: String? = nil, lastUpdatedDateTime: Date? = nil, status: String? = nil) {
+            self.creationDateTime = creationDateTime
+            self.datasetExportJobArn = datasetExportJobArn
+            self.failureReason = failureReason
+            self.jobName = jobName
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime
+            case datasetExportJobArn
+            case failureReason
+            case jobName
+            case lastUpdatedDateTime
             case status
         }
     }
@@ -1142,7 +1300,7 @@ extension Personalize {
         public let failureReason: String?
         /// The name of the dataset import job.
         public let jobName: String?
-        /// The date and time (in Unix time) that the dataset was last updated.
+        /// The date and time (in Unix time) that the dataset import job status was last updated.
         public let lastUpdatedDateTime: Date?
         /// The status of the dataset import job. A dataset import job can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
         public let status: String?
@@ -1561,6 +1719,37 @@ extension Personalize {
 
         private enum CodingKeys: String, CodingKey {
             case campaign
+        }
+    }
+
+    public struct DescribeDatasetExportJobRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the dataset export job to describe.
+        public let datasetExportJobArn: String
+
+        public init(datasetExportJobArn: String) {
+            self.datasetExportJobArn = datasetExportJobArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datasetExportJobArn, name: "datasetExportJobArn", parent: name, max: 256)
+            try self.validate(self.datasetExportJobArn, name: "datasetExportJobArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetExportJobArn
+        }
+    }
+
+    public struct DescribeDatasetExportJobResponse: AWSDecodableShape {
+        /// Information about the dataset export job, including the status. The status is one of the following values:   CREATE PENDING   CREATE IN_PROGRESS   ACTIVE   CREATE FAILED
+        public let datasetExportJob: DatasetExportJob?
+
+        public init(datasetExportJob: DatasetExportJob? = nil) {
+            self.datasetExportJob = datasetExportJob
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetExportJob
         }
     }
 
@@ -2261,7 +2450,7 @@ extension Personalize {
     public struct ListBatchInferenceJobsResponse: AWSDecodableShape {
         /// A list containing information on each job that is returned.
         public let batchInferenceJobs: [BatchInferenceJobSummary]?
-        /// The token to use to retreive the next page of results. The value is null when there are no more results to return.
+        /// The token to use to retrieve the next page of results. The value is null when there are no more results to return.
         public let nextToken: String?
 
         public init(batchInferenceJobs: [BatchInferenceJobSummary]? = nil, nextToken: String? = nil) {
@@ -2317,6 +2506,52 @@ extension Personalize {
 
         private enum CodingKeys: String, CodingKey {
             case campaigns
+            case nextToken
+        }
+    }
+
+    public struct ListDatasetExportJobsRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the dataset to list the dataset export jobs for.
+        public let datasetArn: String?
+        /// The maximum number of dataset export jobs to return.
+        public let maxResults: Int?
+        /// A token returned from the previous call to ListDatasetExportJobs for getting the next set of dataset export jobs (if they exist).
+        public let nextToken: String?
+
+        public init(datasetArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.datasetArn = datasetArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, max: 256)
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1300)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetArn
+            case maxResults
+            case nextToken
+        }
+    }
+
+    public struct ListDatasetExportJobsResponse: AWSDecodableShape {
+        /// The list of dataset export jobs.
+        public let datasetExportJobs: [DatasetExportJobSummary]?
+        /// A token for getting the next set of dataset export jobs (if they exist).
+        public let nextToken: String?
+
+        public init(datasetExportJobs: [DatasetExportJobSummary]? = nil, nextToken: String? = nil) {
+            self.datasetExportJobs = datasetExportJobs
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetExportJobs
             case nextToken
         }
     }

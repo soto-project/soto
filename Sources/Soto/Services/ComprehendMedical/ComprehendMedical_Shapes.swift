@@ -83,6 +83,8 @@ extension ComprehendMedical {
         case quality = "QUALITY"
         case quantity = "QUANTITY"
         case systemOrganSite = "SYSTEM_ORGAN_SITE"
+        case timeExpression = "TIME_EXPRESSION"
+        case timeToDxName = "TIME_TO_DX_NAME"
         public var description: String { return self.rawValue }
     }
 
@@ -93,6 +95,13 @@ extension ComprehendMedical {
 
     public enum ICD10CMEntityType: String, CustomStringConvertible, Codable {
         case dxName = "DX_NAME"
+        case timeExpression = "TIME_EXPRESSION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ICD10CMRelationshipType: String, CustomStringConvertible, Codable {
+        case overlap = "OVERLAP"
+        case systemOrganSite = "SYSTEM_ORGAN_SITE"
         public var description: String { return self.rawValue }
     }
 
@@ -617,12 +626,16 @@ extension ComprehendMedical {
     public struct ICD10CMAttribute: AWSDecodableShape {
         /// The 0-based character offset in the input text that shows where the attribute begins. The offset returns the UTF-8 code point in the string.
         public let beginOffset: Int?
+        /// The category of attribute. Can be either of DX_NAME or TIME_EXPRESSION.
+        public let category: ICD10CMEntityType?
         /// The 0-based character offset in the input text that shows where the attribute ends. The offset returns the UTF-8 code point in the string.
         public let endOffset: Int?
         /// The numeric identifier for this attribute. This is a monotonically increasing id unique within this response rather than a global unique identifier.
         public let id: Int?
         /// The level of confidence that Amazon Comprehend Medical has that this attribute is correctly related to this entity.
         public let relationshipScore: Float?
+        /// The type of relationship between the entity and attribute. Type for the relationship can be either of OVERLAP or SYSTEM_ORGAN_SITE.
+        public let relationshipType: ICD10CMRelationshipType?
         /// The level of confidence that Amazon Comprehend Medical has that the segment of text is correctly recognized as an attribute.
         public let score: Float?
         /// The segment of input text which contains the detected attribute.
@@ -632,11 +645,13 @@ extension ComprehendMedical {
         /// The type of attribute. InferICD10CM detects entities of the type DX_NAME.
         public let type: ICD10CMAttributeType?
 
-        public init(beginOffset: Int? = nil, endOffset: Int? = nil, id: Int? = nil, relationshipScore: Float? = nil, score: Float? = nil, text: String? = nil, traits: [ICD10CMTrait]? = nil, type: ICD10CMAttributeType? = nil) {
+        public init(beginOffset: Int? = nil, category: ICD10CMEntityType? = nil, endOffset: Int? = nil, id: Int? = nil, relationshipScore: Float? = nil, relationshipType: ICD10CMRelationshipType? = nil, score: Float? = nil, text: String? = nil, traits: [ICD10CMTrait]? = nil, type: ICD10CMAttributeType? = nil) {
             self.beginOffset = beginOffset
+            self.category = category
             self.endOffset = endOffset
             self.id = id
             self.relationshipScore = relationshipScore
+            self.relationshipType = relationshipType
             self.score = score
             self.text = text
             self.traits = traits
@@ -645,9 +660,11 @@ extension ComprehendMedical {
 
         private enum CodingKeys: String, CodingKey {
             case beginOffset = "BeginOffset"
+            case category = "Category"
             case endOffset = "EndOffset"
             case id = "Id"
             case relationshipScore = "RelationshipScore"
+            case relationshipType = "RelationshipType"
             case score = "Score"
             case text = "Text"
             case traits = "Traits"
@@ -695,7 +712,7 @@ extension ComprehendMedical {
         public let text: String?
         /// Provides Contextual information for the entity. The traits recognized by InferICD10CM are DIAGNOSIS, SIGN, SYMPTOM, and NEGATION.
         public let traits: [ICD10CMTrait]?
-        /// Describes the specific type of entity with category of entities. InferICD10CM detects entities of the type DX_NAME.
+        /// Describes the specific type of entity with category of entities. InferICD10CM detects entities of the type DX_NAME and TIME_EXPRESSION.
         public let type: ICD10CMEntityType?
 
         public init(attributes: [ICD10CMAttribute]? = nil, beginOffset: Int? = nil, category: ICD10CMEntityCategory? = nil, endOffset: Int? = nil, iCD10CMConcepts: [ICD10CMConcept]? = nil, id: Int? = nil, score: Float? = nil, text: String? = nil, traits: [ICD10CMTrait]? = nil, type: ICD10CMEntityType? = nil) {

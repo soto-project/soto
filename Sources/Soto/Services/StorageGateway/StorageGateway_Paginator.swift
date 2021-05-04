@@ -284,6 +284,59 @@ extension StorageGateway {
         )
     }
 
+    ///  Gets a list of FileSystemAssociationSummary objects. Each object contains a summary of a file system association. This operation is only supported for Amazon FSx file gateways.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listFileSystemAssociationsPaginator<Result>(
+        _ input: ListFileSystemAssociationsInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListFileSystemAssociationsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listFileSystemAssociations,
+            inputKey: \ListFileSystemAssociationsInput.marker,
+            outputKey: \ListFileSystemAssociationsOutput.nextMarker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listFileSystemAssociationsPaginator(
+        _ input: ListFileSystemAssociationsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListFileSystemAssociationsOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listFileSystemAssociations,
+            inputKey: \ListFileSystemAssociationsInput.marker,
+            outputKey: \ListFileSystemAssociationsOutput.nextMarker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Lists gateways owned by an AWS account in an AWS Region specified in the request. The returned list is ordered by gateway Amazon Resource Name (ARN). By default, the operation returns a maximum of 100 gateways. This operation supports pagination that allows you to optionally reduce the number of gateways returned in a response. If you have more gateways than are returned in a response (that is, the response returns only a truncated list of your gateways), the response contains a marker that you can specify in your next request to fetch the next page of gateways.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -594,6 +647,16 @@ extension StorageGateway.DescribeVTLDevicesInput: AWSPaginateToken {
 
 extension StorageGateway.ListFileSharesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> StorageGateway.ListFileSharesInput {
+        return .init(
+            gatewayARN: self.gatewayARN,
+            limit: self.limit,
+            marker: token
+        )
+    }
+}
+
+extension StorageGateway.ListFileSystemAssociationsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> StorageGateway.ListFileSystemAssociationsInput {
         return .init(
             gatewayARN: self.gatewayARN,
             limit: self.limit,

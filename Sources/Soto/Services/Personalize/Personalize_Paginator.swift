@@ -125,6 +125,59 @@ extension Personalize {
         )
     }
 
+    ///  Returns a list of dataset export jobs that use the given dataset. When a dataset is not specified, all the dataset export jobs associated with the account are listed. The response provides the properties for each dataset export job, including the Amazon Resource Name (ARN). For more information on dataset export jobs, see CreateDatasetExportJob. For more information on datasets, see CreateDataset.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listDatasetExportJobsPaginator<Result>(
+        _ input: ListDatasetExportJobsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListDatasetExportJobsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listDatasetExportJobs,
+            inputKey: \ListDatasetExportJobsRequest.nextToken,
+            outputKey: \ListDatasetExportJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listDatasetExportJobsPaginator(
+        _ input: ListDatasetExportJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListDatasetExportJobsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listDatasetExportJobs,
+            inputKey: \ListDatasetExportJobsRequest.nextToken,
+            outputKey: \ListDatasetExportJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Returns a list of dataset groups. The response provides the properties for each dataset group, including the Amazon Resource Name (ARN). For more information on dataset groups, see CreateDatasetGroup.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -332,6 +385,59 @@ extension Personalize {
             command: listEventTrackers,
             inputKey: \ListEventTrackersRequest.nextToken,
             outputKey: \ListEventTrackersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists all filters that belong to a given dataset group.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listFiltersPaginator<Result>(
+        _ input: ListFiltersRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListFiltersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listFilters,
+            inputKey: \ListFiltersRequest.nextToken,
+            outputKey: \ListFiltersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listFiltersPaginator(
+        _ input: ListFiltersRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListFiltersResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listFilters,
+            inputKey: \ListFiltersRequest.nextToken,
+            outputKey: \ListFiltersResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -570,6 +676,16 @@ extension Personalize.ListCampaignsRequest: AWSPaginateToken {
     }
 }
 
+extension Personalize.ListDatasetExportJobsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Personalize.ListDatasetExportJobsRequest {
+        return .init(
+            datasetArn: self.datasetArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension Personalize.ListDatasetGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Personalize.ListDatasetGroupsRequest {
         return .init(
@@ -601,6 +717,16 @@ extension Personalize.ListDatasetsRequest: AWSPaginateToken {
 
 extension Personalize.ListEventTrackersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Personalize.ListEventTrackersRequest {
+        return .init(
+            datasetGroupArn: self.datasetGroupArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Personalize.ListFiltersRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Personalize.ListFiltersRequest {
         return .init(
             datasetGroupArn: self.datasetGroupArn,
             maxResults: self.maxResults,

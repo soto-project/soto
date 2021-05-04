@@ -145,9 +145,9 @@ public struct ElastiCacheErrorType: AWSErrorType {
     public static var defaultUserRequired: Self { .init(.defaultUserRequired) }
     /// A user with this username already exists.
     public static var duplicateUserNameFault: Self { .init(.duplicateUserNameFault) }
-    /// The Global Datastore name already exists.
+    /// The Global datastore name already exists.
     public static var globalReplicationGroupAlreadyExistsFault: Self { .init(.globalReplicationGroupAlreadyExistsFault) }
-    /// The Global Datastore does not exist
+    /// The Global datastore does not exist
     public static var globalReplicationGroupNotFoundFault: Self { .init(.globalReplicationGroupNotFoundFault) }
     /// The requested cache node type is not available in the specified Availability Zone. For more information, see InsufficientCacheClusterCapacity in the ElastiCache User Guide.
     public static var insufficientCacheClusterCapacityFault: Self { .init(.insufficientCacheClusterCapacityFault) }
@@ -159,7 +159,7 @@ public struct ElastiCacheErrorType: AWSErrorType {
     public static var invalidCacheParameterGroupStateFault: Self { .init(.invalidCacheParameterGroupStateFault) }
     /// The current state of the cache security group does not allow deletion.
     public static var invalidCacheSecurityGroupStateFault: Self { .init(.invalidCacheSecurityGroupStateFault) }
-    /// The Global Datastore is not available or in primary-only state.
+    /// The Global datastore is not available or in primary-only state.
     public static var invalidGlobalReplicationGroupStateFault: Self { .init(.invalidGlobalReplicationGroupStateFault) }
     /// The KMS key supplied is not valid.
     public static var invalidKMSKeyFault: Self { .init(.invalidKMSKeyFault) }

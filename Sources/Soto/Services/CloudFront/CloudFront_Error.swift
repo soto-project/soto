@@ -34,6 +34,9 @@ public struct CloudFrontErrorType: AWSErrorType {
         case fieldLevelEncryptionProfileAlreadyExists = "FieldLevelEncryptionProfileAlreadyExists"
         case fieldLevelEncryptionProfileInUse = "FieldLevelEncryptionProfileInUse"
         case fieldLevelEncryptionProfileSizeExceeded = "FieldLevelEncryptionProfileSizeExceeded"
+        case functionAlreadyExists = "FunctionAlreadyExists"
+        case functionInUse = "FunctionInUse"
+        case functionSizeLimitExceeded = "FunctionSizeLimitExceeded"
         case illegalDelete = "IllegalDelete"
         case illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior = "IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior"
         case illegalUpdate = "IllegalUpdate"
@@ -42,6 +45,7 @@ public struct CloudFrontErrorType: AWSErrorType {
         case invalidDefaultRootObject = "InvalidDefaultRootObject"
         case invalidErrorCode = "InvalidErrorCode"
         case invalidForwardCookies = "InvalidForwardCookies"
+        case invalidFunctionAssociation = "InvalidFunctionAssociation"
         case invalidGeoRestrictionParameter = "InvalidGeoRestrictionParameter"
         case invalidHeadersForS3Origin = "InvalidHeadersForS3Origin"
         case invalidIfMatchVersion = "InvalidIfMatchVersion"
@@ -68,6 +72,7 @@ public struct CloudFrontErrorType: AWSErrorType {
         case noSuchDistribution = "NoSuchDistribution"
         case noSuchFieldLevelEncryptionConfig = "NoSuchFieldLevelEncryptionConfig"
         case noSuchFieldLevelEncryptionProfile = "NoSuchFieldLevelEncryptionProfile"
+        case noSuchFunctionExists = "NoSuchFunctionExists"
         case noSuchInvalidation = "NoSuchInvalidation"
         case noSuchOrigin = "NoSuchOrigin"
         case noSuchOriginRequestPolicy = "NoSuchOriginRequestPolicy"
@@ -83,9 +88,11 @@ public struct CloudFrontErrorType: AWSErrorType {
         case queryArgProfileEmpty = "QueryArgProfileEmpty"
         case realtimeLogConfigAlreadyExists = "RealtimeLogConfigAlreadyExists"
         case realtimeLogConfigInUse = "RealtimeLogConfigInUse"
+        case realtimeLogConfigOwnerMismatch = "RealtimeLogConfigOwnerMismatch"
         case resourceInUse = "ResourceInUse"
         case streamingDistributionAlreadyExists = "StreamingDistributionAlreadyExists"
         case streamingDistributionNotDisabled = "StreamingDistributionNotDisabled"
+        case testFunctionFailed = "TestFunctionFailed"
         case tooManyCacheBehaviors = "TooManyCacheBehaviors"
         case tooManyCachePolicies = "TooManyCachePolicies"
         case tooManyCertificates = "TooManyCertificates"
@@ -99,6 +106,7 @@ public struct CloudFrontErrorType: AWSErrorType {
         case tooManyDistributionsAssociatedToFieldLevelEncryptionConfig = "TooManyDistributionsAssociatedToFieldLevelEncryptionConfig"
         case tooManyDistributionsAssociatedToKeyGroup = "TooManyDistributionsAssociatedToKeyGroup"
         case tooManyDistributionsAssociatedToOriginRequestPolicy = "TooManyDistributionsAssociatedToOriginRequestPolicy"
+        case tooManyDistributionsWithFunctionAssociations = "TooManyDistributionsWithFunctionAssociations"
         case tooManyDistributionsWithLambdaAssociations = "TooManyDistributionsWithLambdaAssociations"
         case tooManyDistributionsWithSingleFunctionARN = "TooManyDistributionsWithSingleFunctionARN"
         case tooManyFieldLevelEncryptionConfigs = "TooManyFieldLevelEncryptionConfigs"
@@ -107,6 +115,8 @@ public struct CloudFrontErrorType: AWSErrorType {
         case tooManyFieldLevelEncryptionFieldPatterns = "TooManyFieldLevelEncryptionFieldPatterns"
         case tooManyFieldLevelEncryptionProfiles = "TooManyFieldLevelEncryptionProfiles"
         case tooManyFieldLevelEncryptionQueryArgProfiles = "TooManyFieldLevelEncryptionQueryArgProfiles"
+        case tooManyFunctionAssociations = "TooManyFunctionAssociations"
+        case tooManyFunctions = "TooManyFunctions"
         case tooManyHeadersInCachePolicy = "TooManyHeadersInCachePolicy"
         case tooManyHeadersInForwardedValues = "TooManyHeadersInForwardedValues"
         case tooManyHeadersInOriginRequestPolicy = "TooManyHeadersInOriginRequestPolicy"
@@ -129,6 +139,7 @@ public struct CloudFrontErrorType: AWSErrorType {
         case tooManyTrustedSigners = "TooManyTrustedSigners"
         case trustedKeyGroupDoesNotExist = "TrustedKeyGroupDoesNotExist"
         case trustedSignerDoesNotExist = "TrustedSignerDoesNotExist"
+        case unsupportedOperation = "UnsupportedOperation"
     }
 
     private let error: Code
@@ -179,6 +190,12 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var fieldLevelEncryptionProfileInUse: Self { .init(.fieldLevelEncryptionProfileInUse) }
     /// The maximum size of a profile for field-level encryption was exceeded.
     public static var fieldLevelEncryptionProfileSizeExceeded: Self { .init(.fieldLevelEncryptionProfileSizeExceeded) }
+    /// A function with the same name already exists in this AWS account. To create a function, you must provide a unique name. To update an existing function, use UpdateFunction.
+    public static var functionAlreadyExists: Self { .init(.functionAlreadyExists) }
+    /// Cannot delete the function because it’s attached to one or more cache behaviors.
+    public static var functionInUse: Self { .init(.functionInUse) }
+    /// The function is too large. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
+    public static var functionSizeLimitExceeded: Self { .init(.functionSizeLimitExceeded) }
     /// You cannot delete a managed policy.
     public static var illegalDelete: Self { .init(.illegalDelete) }
     /// The specified configuration for field-level encryption can't be associated with the specified cache behavior.
@@ -195,6 +212,8 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var invalidErrorCode: Self { .init(.invalidErrorCode) }
     /// Your request contains forward cookies option which doesn't match with the expectation for the whitelisted list of cookie names. Either list of cookie names has been specified when not allowed or list of cookie names is missing when expected.
     public static var invalidForwardCookies: Self { .init(.invalidForwardCookies) }
+    /// A CloudFront function association is invalid.
+    public static var invalidFunctionAssociation: Self { .init(.invalidFunctionAssociation) }
     /// The specified geo restriction parameter is not valid.
     public static var invalidGeoRestrictionParameter: Self { .init(.invalidGeoRestrictionParameter) }
     /// The headers specified are not valid for an Amazon S3 origin.
@@ -247,6 +266,8 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var noSuchFieldLevelEncryptionConfig: Self { .init(.noSuchFieldLevelEncryptionConfig) }
     /// The specified profile for field-level encryption doesn't exist.
     public static var noSuchFieldLevelEncryptionProfile: Self { .init(.noSuchFieldLevelEncryptionProfile) }
+    /// The function does not exist.
+    public static var noSuchFunctionExists: Self { .init(.noSuchFunctionExists) }
     /// The specified invalidation does not exist.
     public static var noSuchInvalidation: Self { .init(.noSuchInvalidation) }
     /// No origin exists with the specified Origin Id.
@@ -265,7 +286,7 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var originRequestPolicyAlreadyExists: Self { .init(.originRequestPolicyAlreadyExists) }
     /// Cannot delete the origin request policy because it is attached to one or more cache behaviors.
     public static var originRequestPolicyInUse: Self { .init(.originRequestPolicyInUse) }
-    /// The precondition given in one or more of the request header fields evaluated to false.
+    /// The precondition in one or more of the request fields evaluated to false.
     public static var preconditionFailed: Self { .init(.preconditionFailed) }
     /// The specified public key already exists.
     public static var publicKeyAlreadyExists: Self { .init(.publicKeyAlreadyExists) }
@@ -277,12 +298,16 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var realtimeLogConfigAlreadyExists: Self { .init(.realtimeLogConfigAlreadyExists) }
     /// Cannot delete the real-time log configuration because it is attached to one or more cache behaviors.
     public static var realtimeLogConfigInUse: Self { .init(.realtimeLogConfigInUse) }
+    /// The specified real-time log configuration belongs to a different AWS account.
+    public static var realtimeLogConfigOwnerMismatch: Self { .init(.realtimeLogConfigOwnerMismatch) }
     /// Cannot delete this resource because it is in use.
     public static var resourceInUse: Self { .init(.resourceInUse) }
     /// The caller reference you attempted to create the streaming distribution with is associated with another distribution
     public static var streamingDistributionAlreadyExists: Self { .init(.streamingDistributionAlreadyExists) }
     /// The specified CloudFront distribution is not disabled. You must disable the distribution before you can delete it.
     public static var streamingDistributionNotDisabled: Self { .init(.streamingDistributionNotDisabled) }
+    /// The CloudFront function failed.
+    public static var testFunctionFailed: Self { .init(.testFunctionFailed) }
     /// You cannot create more cache behaviors for the distribution.
     public static var tooManyCacheBehaviors: Self { .init(.tooManyCacheBehaviors) }
     /// You have reached the maximum number of cache policies for this AWS account. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
@@ -309,6 +334,8 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var tooManyDistributionsAssociatedToKeyGroup: Self { .init(.tooManyDistributionsAssociatedToKeyGroup) }
     /// The maximum number of distributions have been associated with the specified origin request policy. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyDistributionsAssociatedToOriginRequestPolicy: Self { .init(.tooManyDistributionsAssociatedToOriginRequestPolicy) }
+    /// You have reached the maximum number of distributions that are associated with a CloudFront function. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
+    public static var tooManyDistributionsWithFunctionAssociations: Self { .init(.tooManyDistributionsWithFunctionAssociations) }
     /// Processing your request would cause the maximum number of distributions with Lambda function associations per owner to be exceeded.
     public static var tooManyDistributionsWithLambdaAssociations: Self { .init(.tooManyDistributionsWithLambdaAssociations) }
     /// The maximum number of distributions have been associated with the specified Lambda function.
@@ -325,6 +352,10 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var tooManyFieldLevelEncryptionProfiles: Self { .init(.tooManyFieldLevelEncryptionProfiles) }
     /// The maximum number of query arg profiles for field-level encryption have been created.
     public static var tooManyFieldLevelEncryptionQueryArgProfiles: Self { .init(.tooManyFieldLevelEncryptionQueryArgProfiles) }
+    /// You have reached the maximum number of CloudFront function associations for this distribution. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
+    public static var tooManyFunctionAssociations: Self { .init(.tooManyFunctionAssociations) }
+    /// You have reached the maximum number of CloudFront functions for this AWS account. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
+    public static var tooManyFunctions: Self { .init(.tooManyFunctions) }
     /// The number of headers in the cache policy exceeds the maximum. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyHeadersInCachePolicy: Self { .init(.tooManyHeadersInCachePolicy) }
     /// Your request contains too many headers in forwarded values.
@@ -369,6 +400,8 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var trustedKeyGroupDoesNotExist: Self { .init(.trustedKeyGroupDoesNotExist) }
     /// One or more of your trusted signers don't exist.
     public static var trustedSignerDoesNotExist: Self { .init(.trustedSignerDoesNotExist) }
+    /// This operation is not supported in this region.
+    public static var unsupportedOperation: Self { .init(.unsupportedOperation) }
 }
 
 extension CloudFrontErrorType: Equatable {

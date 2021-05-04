@@ -43,7 +43,7 @@ public struct AuditManagerErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    ///  You do not have sufficient access to perform this action.
+    ///  Your account is not registered with AWS Audit Manager. Check the delegated administrator setup on the AWS Audit Manager settings page, and try again.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     ///  An internal service error occurred during the processing of your request. Try again later.
     public static var internalServerException: Self { .init(.internalServerException) }

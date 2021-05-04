@@ -221,6 +221,20 @@
       ],
       "idempotent":true
     },
+    "DeleteResourceTree":{
+      "name":"DeleteResourceTree",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DeleteResourceTreeRequest"},
+      "errors":[
+        {"shape":"InvalidInputException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ResourceInUseException"}
+      ],
+      "idempotent":true
+    },
     "DescribeDataset":{
       "name":"DescribeDataset",
       "http":{
@@ -829,6 +843,13 @@
         "PredictorArn":{"shape":"Arn"}
       }
     },
+    "DeleteResourceTreeRequest":{
+      "type":"structure",
+      "required":["ResourceArn"],
+      "members":{
+        "ResourceArn":{"shape":"Arn"}
+      }
+    },
     "DescribeDatasetGroupRequest":{
       "type":"structure",
       "required":["DatasetGroupArn"],
@@ -866,6 +887,7 @@
         "UseGeolocationForTimeZone":{"shape":"UseGeolocationForTimeZone"},
         "GeolocationFormat":{"shape":"GeolocationFormat"},
         "DataSource":{"shape":"DataSource"},
+        "EstimatedTimeRemainingInMinutes":{"shape":"Long"},
         "FieldStatistics":{"shape":"FieldStatistics"},
         "DataSize":{"shape":"Double"},
         "Status":{"shape":"Status"},
@@ -931,6 +953,7 @@
         "ForecastTypes":{"shape":"ForecastTypes"},
         "PredictorArn":{"shape":"Arn"},
         "DatasetGroupArn":{"shape":"Arn"},
+        "EstimatedTimeRemainingInMinutes":{"shape":"Long"},
         "Status":{"shape":"String"},
         "Message":{"shape":"ErrorMessage"},
         "CreationTime":{"shape":"Timestamp"},
@@ -981,6 +1004,7 @@
         "FeaturizationConfig":{"shape":"FeaturizationConfig"},
         "EncryptionConfig":{"shape":"EncryptionConfig"},
         "PredictorExecutionDetails":{"shape":"PredictorExecutionDetails"},
+        "EstimatedTimeRemainingInMinutes":{"shape":"Long"},
         "DatasetImportJobArns":{"shape":"ArnList"},
         "AutoMLAlgorithmArns":{"shape":"ArnList"},
         "Status":{"shape":"Status"},
@@ -1372,6 +1396,7 @@
         "Tags":{"shape":"Tags"}
       }
     },
+    "Long":{"type":"long"},
     "MaxResults":{
       "type":"integer",
       "max":100,

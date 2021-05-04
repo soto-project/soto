@@ -666,7 +666,7 @@ extension SNS {
     }
 
     public struct OptInPhoneNumberInput: AWSEncodableShape {
-        /// The phone number to opt in.
+        /// The phone number to opt in. Use E.164 format.
         public let phoneNumber: String
 
         public init(phoneNumber: String) {
