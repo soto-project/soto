@@ -14,10 +14,6 @@ Please ensure to include the following in your bug report
 - Version of the library you are using
 - Contextual information (Swift version, OS etc)
 
-## Security
-
-If you find a security vulnerability, please contact us on <swift-aws-maintainers@googlegroups.com>. We take these matters seriously.
-
 ## Submitting a Pull Request
 
 Please ensure to include the following in your Pull Request
