@@ -87,7 +87,7 @@ extension S3 {
             )
             getObject(getRequest, logger: logger, on: eventLoop)
                 .and(prevPartSave)
-                .map { (output, _) -> Void in
+                .map { output, _ -> Void in
                     // should never happen
                     guard let body = output.body?.asByteBuffer() else {
                         return promise.fail(S3ErrorType.multipart.downloadEmpty(message: "Body is unexpectedly nil"))
@@ -116,7 +116,7 @@ extension S3 {
             versionId: input.versionId
         )
         headObject(headRequest, logger: logger, on: eventLoop)
-            .map { (object) -> Void in
+            .map { object -> Void in
                 guard let contentLength = object.contentLength else {
                     return promise.fail(S3ErrorType.multipart.downloadEmpty(message: "Content length is unexpectedly zero"))
                 }
@@ -158,7 +158,7 @@ extension S3 {
         let fileIO = NonBlockingFileIO(threadPool: threadPool)
 
         return fileIO.openFile(path: filename, mode: .write, flags: .allowFileCreation(), eventLoop: eventLoop).flatMap {
-            (fileHandle) -> EventLoopFuture<Int64> in
+            fileHandle -> EventLoopFuture<Int64> in
             var progressValue: Int64 = 0
 
             let download = self.multipartDownload(input, partSize: partSize, logger: logger, on: eventLoop) { byteBuffer, fileSize, eventLoop in
@@ -630,7 +630,7 @@ extension S3 {
         let fileIO = NonBlockingFileIO(threadPool: threadPool)
 
         return fileIO.openFile(path: filename, eventLoop: eventLoop).flatMap {
-            (fileHandle, fileRegion) -> EventLoopFuture<CompleteMultipartUploadOutput> in
+            fileHandle, fileRegion -> EventLoopFuture<CompleteMultipartUploadOutput> in
 
             logger.debug("Open file \(filename)")
 

@@ -135,7 +135,7 @@ class APIGatewayTests: XCTestCase {
                     return Self.apiGateway.createResource(request, logger: TestEnvironment.logger)
                 }
                 // extract resource id
-                .flatMapThrowing { (response) throws -> String in
+                .flatMapThrowing { response throws -> String in
                     let resourceId = try XCTUnwrap(response.id)
                     return resourceId
                 }

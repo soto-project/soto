@@ -116,7 +116,7 @@ class S3Tests: XCTestCase {
         let filename = "testfile.txt"
         let contents = "testing S3.PutObject and S3.GetObject"
         let response = Self.createBucket(name: name, s3: Self.s3)
-            .flatMap { (_) -> EventLoopFuture<S3.PutObjectOutput> in
+            .flatMap { _ -> EventLoopFuture<S3.PutObjectOutput> in
                 let putRequest = S3.PutObjectRequest(
                     acl: .publicRead,
                     body: .string(contents),
@@ -147,7 +147,7 @@ class S3Tests: XCTestCase {
         let filename = "test $filé+!@£$%2F%^&*()_=-[]{}\\|';:\",./?><~`.txt"
         let contents = "testing S3.PutObject and S3.GetObject"
         let response = Self.createBucket(name: name, s3: Self.s3)
-            .flatMap { (_) -> EventLoopFuture<S3.PutObjectOutput> in
+            .flatMap { _ -> EventLoopFuture<S3.PutObjectOutput> in
                 let putRequest = S3.PutObjectRequest(
                     acl: .publicRead,
                     body: .string(contents),
@@ -179,7 +179,7 @@ class S3Tests: XCTestCase {
         let newKeyName = "file2"
         let contents = "testing S3.PutObject and S3.GetObject"
         let response = Self.createBucket(name: name, s3: Self.s3)
-            .flatMap { (_) -> EventLoopFuture<S3.PutObjectOutput> in
+            .flatMap { _ -> EventLoopFuture<S3.PutObjectOutput> in
                 let putRequest = S3.PutObjectRequest(body: .string(contents), bucket: name, key: keyName)
                 return Self.s3.putObject(putRequest)
             }
@@ -204,7 +204,7 @@ class S3Tests: XCTestCase {
         let name = TestEnvironment.generateResourceName()
         let contents = "testing S3.ListObjectsV2"
         let response = Self.createBucket(name: name, s3: Self.s3)
-            .flatMap { (_) -> EventLoopFuture<S3.PutObjectOutput> in
+            .flatMap { _ -> EventLoopFuture<S3.PutObjectOutput> in
                 let putRequest = S3.PutObjectRequest(body: .string(contents), bucket: name, key: name)
                 return Self.s3.putObject(putRequest)
             }
@@ -214,7 +214,7 @@ class S3Tests: XCTestCase {
             .flatMap { eTag -> EventLoopFuture<(S3.ListObjectsV2Output, String)> in
                 return Self.s3.listObjectsV2(.init(bucket: name)).map { ($0, eTag) }
             }
-            .map { (response, eTag) -> Void in
+            .map { response, eTag -> Void in
                 XCTAssertEqual(response.contents?.first?.key, name)
                 XCTAssertEqual(response.contents?.first?.size, Int64(contents.utf8.count))
                 XCTAssertEqual(response.contents?.first?.eTag, eTag)
@@ -309,7 +309,7 @@ class S3Tests: XCTestCase {
         let name = TestEnvironment.generateResourceName()
         let eventLoop = Self.s3.client.eventLoopGroup.next()
         let response = Self.createBucket(name: name, s3: Self.s3)
-            .flatMap { (_) -> EventLoopFuture<Void> in
+            .flatMap { _ -> EventLoopFuture<Void> in
                 let futureResults = (1...16).map { index -> EventLoopFuture<Void> in
                     let body = "testMultipleUpload - " + index.description
                     let filename = "file" + index.description
@@ -328,7 +328,7 @@ class S3Tests: XCTestCase {
         let name = TestEnvironment.generateResourceName()
         let contents = "testing xml attributes header"
         let response = Self.createBucket(name: name, s3: Self.s3)
-            .flatMap { (_) -> EventLoopFuture<S3.PutObjectOutput> in
+            .flatMap { _ -> EventLoopFuture<S3.PutObjectOutput> in
                 let putRequest = S3.PutObjectRequest(
                     body: .string(contents),
                     bucket: name,
@@ -352,7 +352,7 @@ class S3Tests: XCTestCase {
         var list: [S3.Object] = []
         var list2: [S3.Object] = []
         let response = Self.createBucket(name: name, s3: Self.s3)
-            .flatMap { (_) -> EventLoopFuture<Void> in
+            .flatMap { _ -> EventLoopFuture<Void> in
                 // put 16 files into bucket
                 let futureResults: [EventLoopFuture<S3.PutObjectOutput>] = (1...16).map {
                     let body = "testMultipleUpload - " + $0.description
@@ -575,7 +575,7 @@ class S3Tests: XCTestCase {
         let filename = "testfile.txt"
         let contents = "testing S3.PutObject and S3.GetObject"
         let response = Self.createBucket(name: name, s3: s3)
-            .flatMap { (_) -> EventLoopFuture<S3.PutObjectOutput> in
+            .flatMap { _ -> EventLoopFuture<S3.PutObjectOutput> in
                 let putRequest = S3.PutObjectRequest(
                     acl: .publicRead,
                     body: .string(contents),
@@ -609,7 +609,7 @@ class S3Tests: XCTestCase {
                 let request = S3.PutBucketAccelerateConfigurationRequest(accelerateConfiguration: .init(status: .enabled), bucket: name)
                 return Self.s3.putBucketAccelerateConfiguration(request)
             }
-            .flatMap { (_) -> EventLoopFuture<S3.PutObjectOutput> in
+            .flatMap { _ -> EventLoopFuture<S3.PutObjectOutput> in
                 let putRequest = S3.PutObjectRequest(
                     acl: .publicRead,
                     body: .string(contents),

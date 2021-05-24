@@ -64,7 +64,7 @@ class S3ExtensionTests: XCTestCase {
         let name = TestEnvironment.generateResourceName()
         let contents = "testing metadata header"
         let response = S3Tests.createBucket(name: name, s3: Self.s3)
-            .flatMap { (_) -> EventLoopFuture<S3.PutObjectOutput> in
+            .flatMap { _ -> EventLoopFuture<S3.PutObjectOutput> in
                 let putRequest = S3.PutObjectRequest(
                     body: .string(contents),
                     bucket: name,
@@ -93,7 +93,7 @@ class S3ExtensionTests: XCTestCase {
         let name = TestEnvironment.generateResourceName()
         let filename = "S3MultipartDownloadTest"
         let response = S3Tests.createBucket(name: name, s3: s3)
-            .flatMap { (_) -> EventLoopFuture<S3.PutObjectOutput> in
+            .flatMap { _ -> EventLoopFuture<S3.PutObjectOutput> in
                 let putRequest = S3.PutObjectRequest(body: .data(data), bucket: name, contentLength: Int64(data.count), key: filename)
                 return s3.putObject(putRequest, logger: TestEnvironment.logger)
             }
@@ -153,7 +153,7 @@ class S3ExtensionTests: XCTestCase {
         }
 
         let response = S3Tests.createBucket(name: name, s3: s3)
-            .flatMap { (_) -> EventLoopFuture<S3.CompleteMultipartUploadOutput> in
+            .flatMap { _ -> EventLoopFuture<S3.CompleteMultipartUploadOutput> in
                 let request = S3.CreateMultipartUploadRequest(
                     bucket: name,
                     key: name
@@ -185,7 +185,7 @@ class S3ExtensionTests: XCTestCase {
         }
 
         let response = S3Tests.createBucket(name: name, s3: s3)
-            .flatMap { (_) -> EventLoopFuture<S3.CompleteMultipartUploadOutput> in
+            .flatMap { _ -> EventLoopFuture<S3.CompleteMultipartUploadOutput> in
                 let request = S3.CreateMultipartUploadRequest(bucket: name, key: name)
                 return s3.multipartUpload(request, partSize: 5 * 1024 * 1024, filename: filename, abortOnFail: false, logger: TestEnvironment.logger) {
                     guard $0 < 0.95 else { throw CancelError() }
@@ -280,14 +280,14 @@ class S3ExtensionTests: XCTestCase {
         )
         let response = S3Tests.createBucket(name: name, s3: s3)
             .and(S3Tests.createBucket(name: name2, s3: s3Euwest2))
-            .flatMap { (_) -> EventLoopFuture<S3.CompleteMultipartUploadOutput> in
+            .flatMap { _ -> EventLoopFuture<S3.CompleteMultipartUploadOutput> in
                 let request = S3.CreateMultipartUploadRequest(
                     bucket: name,
                     key: filename
                 )
                 return s3.multipartUpload(request, partSize: 5 * 1024 * 1024, filename: filename) { print("Progress \($0 * 100)%") }
             }
-            .flatMap { (_) -> EventLoopFuture<S3.CompleteMultipartUploadOutput> in
+            .flatMap { _ -> EventLoopFuture<S3.CompleteMultipartUploadOutput> in
                 let request = S3.CopyObjectRequest(
                     bucket: name2,
                     copySource: "/\(name)/\(filename)",

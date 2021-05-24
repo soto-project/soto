@@ -433,12 +433,12 @@ extension AWSService {
             let tokenType = inputTokenMember.shape.swiftTypeNameWithServiceNamePrefix(self.api.serviceName)
 
             // process input tokens
-            var processedInputTokens = inputTokens.map { (token) -> String in
+            var processedInputTokens = inputTokens.map { token -> String in
                 return self.toKeyPath(token: token, type: inputStructure)
             }
 
             // process output tokens
-            let processedOutputTokens = outputTokens.map { (token) -> String in
+            let processedOutputTokens = outputTokens.map { token -> String in
                 return self.toKeyPath(token: token, type: outputStructure)
             }
             var moreResultsKey = paginator.value.moreResults.map { self.toKeyPath(token: $0, type: outputStructure) }

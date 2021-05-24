@@ -50,7 +50,7 @@ final class DynamoDBCodableTests: XCTestCase {
                     throw error
                 }
             }
-            .flatMap { (_) -> EventLoopFuture<Void> in
+            .flatMap { _ -> EventLoopFuture<Void> in
                 return self.waitForActiveTable(name: name, on: Self.dynamoDB.client.eventLoopGroup.next())
             }
     }

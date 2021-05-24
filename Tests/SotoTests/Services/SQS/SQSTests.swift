@@ -52,7 +52,7 @@ class SQSTests: XCTestCase {
                 return queueUrl!
             }
             .flatMap(body)
-            .flatAlways { (_) -> EventLoopFuture<Void> in
+            .flatAlways { _ -> EventLoopFuture<Void> in
                 if let queueUrl = queueUrl {
                     let request = SQS.DeleteQueueRequest(queueUrl: queueUrl)
                     return Self.sqs.deleteQueue(request)
@@ -66,7 +66,7 @@ class SQSTests: XCTestCase {
         return self.testQueue(name: name) { queueUrl in
             let request = SQS.SendMessageRequest(messageBody: messageBody, queueUrl: queueUrl)
             return Self.sqs.sendMessage(request)
-                .flatMapThrowing { (response) throws -> String in
+                .flatMapThrowing { response throws -> String in
                     let messageId = try XCTUnwrap(response.messageId)
                     return messageId
                 }
@@ -74,7 +74,7 @@ class SQSTests: XCTestCase {
                     let request = SQS.ReceiveMessageRequest(maxNumberOfMessages: 10, queueUrl: queueUrl)
                     return Self.sqs.receiveMessage(request).map { ($0, messageId) }
                 }
-                .flatMapThrowing { (result, messageId) -> String in
+                .flatMapThrowing { result, messageId -> String in
                     let message = try XCTUnwrap(result.messages?.first)
                     XCTAssertEqual(message.messageId, messageId)
                     XCTAssertEqual(message.body, messageBody)

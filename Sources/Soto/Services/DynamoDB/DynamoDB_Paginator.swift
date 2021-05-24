@@ -27,14 +27,14 @@ extension DynamoDB {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func batchGetItemPaginator<Result>(
         _ input: BatchGetItemInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, BatchGetItemOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -43,6 +43,7 @@ extension DynamoDB {
             initialValue: initialValue,
             command: batchGetItem,
             tokenKey: \BatchGetItemOutput.unprocessedKeys,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -52,12 +53,12 @@ extension DynamoDB {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func batchGetItemPaginator(
         _ input: BatchGetItemInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (BatchGetItemOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -65,6 +66,7 @@ extension DynamoDB {
             input: input,
             command: batchGetItem,
             tokenKey: \BatchGetItemOutput.unprocessedKeys,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -78,14 +80,14 @@ extension DynamoDB {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listContributorInsightsPaginator<Result>(
         _ input: ListContributorInsightsInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListContributorInsightsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -94,6 +96,7 @@ extension DynamoDB {
             initialValue: initialValue,
             command: listContributorInsights,
             tokenKey: \ListContributorInsightsOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -103,12 +106,12 @@ extension DynamoDB {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listContributorInsightsPaginator(
         _ input: ListContributorInsightsInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListContributorInsightsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -116,6 +119,7 @@ extension DynamoDB {
             input: input,
             command: listContributorInsights,
             tokenKey: \ListContributorInsightsOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -129,14 +133,14 @@ extension DynamoDB {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listExportsPaginator<Result>(
         _ input: ListExportsInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListExportsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -145,6 +149,7 @@ extension DynamoDB {
             initialValue: initialValue,
             command: listExports,
             tokenKey: \ListExportsOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -154,12 +159,12 @@ extension DynamoDB {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listExportsPaginator(
         _ input: ListExportsInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListExportsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -167,6 +172,7 @@ extension DynamoDB {
             input: input,
             command: listExports,
             tokenKey: \ListExportsOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -180,14 +186,14 @@ extension DynamoDB {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listTablesPaginator<Result>(
         _ input: ListTablesInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListTablesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -196,6 +202,7 @@ extension DynamoDB {
             initialValue: initialValue,
             command: listTables,
             tokenKey: \ListTablesOutput.lastEvaluatedTableName,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -205,12 +212,12 @@ extension DynamoDB {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listTablesPaginator(
         _ input: ListTablesInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListTablesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -218,6 +225,7 @@ extension DynamoDB {
             input: input,
             command: listTables,
             tokenKey: \ListTablesOutput.lastEvaluatedTableName,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -231,14 +239,14 @@ extension DynamoDB {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func queryPaginator<Result>(
         _ input: QueryInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, QueryOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -247,6 +255,7 @@ extension DynamoDB {
             initialValue: initialValue,
             command: query,
             tokenKey: \QueryOutput.lastEvaluatedKey,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -256,12 +265,12 @@ extension DynamoDB {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func queryPaginator(
         _ input: QueryInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (QueryOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -269,6 +278,7 @@ extension DynamoDB {
             input: input,
             command: query,
             tokenKey: \QueryOutput.lastEvaluatedKey,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -282,14 +292,14 @@ extension DynamoDB {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func scanPaginator<Result>(
         _ input: ScanInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ScanOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -298,6 +308,7 @@ extension DynamoDB {
             initialValue: initialValue,
             command: scan,
             tokenKey: \ScanOutput.lastEvaluatedKey,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -307,12 +318,12 @@ extension DynamoDB {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func scanPaginator(
         _ input: ScanInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ScanOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -320,6 +331,7 @@ extension DynamoDB {
             input: input,
             command: scan,
             tokenKey: \ScanOutput.lastEvaluatedKey,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )

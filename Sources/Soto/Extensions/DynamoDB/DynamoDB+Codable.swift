@@ -24,7 +24,7 @@ extension DynamoDB {
     /// Invalid Requests with empty values will be rejected with a `ValidationException` exception.</p> <note> <p>To prevent a new item from replacing an existing item, use a conditional expression that contains the `attribute_not_exists` function with the name of the attribute being used as the partition key for the table. Since every record must contain that attribute, the `attribute_not_exists` function will only succeed if no matching item exists.</p> </note> <p>For more information about `PutItem`, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithItems.html">Working with Items</a> in the <i>Amazon DynamoDB Developer Guide</i>.
     public func putItem<T: Encodable>(
         _ input: PutItemCodableInput<T>,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<PutItemOutput> {
         do {
@@ -39,7 +39,7 @@ extension DynamoDB {
                 returnValues: input.returnValues,
                 tableName: input.tableName
             )
-            return self.putItem(request, logger: logger, on: eventLoop)
+            return self.putItem(request, context: context, on: eventLoop)
         } catch {
             let eventLoop = eventLoop ?? client.eventLoopGroup.next()
             return eventLoop.makeFailedFuture(error)
@@ -52,10 +52,10 @@ extension DynamoDB {
     public func getItem<T: Decodable>(
         _ input: GetItemInput,
         type: T.Type,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<GetItemCodableOutput<T>> {
-        return self.getItem(input, logger: logger, on: eventLoop)
+        return self.getItem(input, context: context, on: eventLoop)
             .flatMapThrowing { response -> GetItemCodableOutput<T> in
                 let item = try response.item.map { try DynamoDBDecoder().decode(T.self, from: $0) }
                 return GetItemCodableOutput(
@@ -70,7 +70,7 @@ extension DynamoDB {
     /// You can also return the item's attribute values in the same `UpdateItem` operation using the `ReturnValues` parameter.
     public func updateItem<T: Encodable>(
         _ input: UpdateItemCodableInput<T>,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<UpdateItemOutput> {
         do {
@@ -109,7 +109,7 @@ extension DynamoDB {
                 tableName: input.tableName,
                 updateExpression: updateExpression
             )
-            return self.updateItem(request, logger: logger, on: eventLoop)
+            return self.updateItem(request, context: context, on: eventLoop)
         } catch {
             let eventLoop = eventLoop ?? client.eventLoopGroup.next()
             return eventLoop.makeFailedFuture(error)
@@ -128,10 +128,10 @@ extension DynamoDB {
     public func query<T: Decodable>(
         _ input: QueryInput,
         type: T.Type,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<QueryCodableOutput<T>> {
-        return self.query(input, logger: logger, on: eventLoop)
+        return self.query(input, context: context, on: eventLoop)
             .flatMapThrowing { response -> QueryCodableOutput<T> in
                 let items = try response.items.map { try $0.map { try DynamoDBDecoder().decode(T.self, from: $0) } }
                 return QueryCodableOutput(
@@ -156,10 +156,10 @@ extension DynamoDB {
     public func scan<T: Decodable>(
         _ input: ScanInput,
         type: T.Type,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<ScanCodableOutput<T>> {
-        return self.scan(input, logger: logger, on: eventLoop)
+        return self.scan(input, context: context, on: eventLoop)
             .flatMapThrowing { response -> ScanCodableOutput<T> in
                 let items = try response.items.map { try $0.map { try DynamoDBDecoder().decode(T.self, from: $0) } }
                 return ScanCodableOutput(
@@ -187,7 +187,7 @@ extension DynamoDB {
         _ input: QueryInput,
         _ initialValue: Result,
         type: T.Type,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, QueryCodableOutput<T>, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -196,9 +196,9 @@ extension DynamoDB {
             initialValue: initialValue,
             command: self.query,
             tokenKey: \QueryOutput.lastEvaluatedKey,
-            logger: logger,
+            context: context,
             on: eventLoop
-        ) { (result, response, eventLoop) -> EventLoopFuture<(Bool, Result)> in
+        ) { result, response, eventLoop -> EventLoopFuture<(Bool, Result)> in
             do {
                 let items = try response.items.map { try $0.map { try DynamoDBDecoder().decode(T.self, from: $0) } }
                 let queryOutput = QueryCodableOutput(
@@ -218,7 +218,7 @@ extension DynamoDB {
     public func queryPaginator<T: Decodable>(
         _ input: QueryInput,
         type: T.Type,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (QueryCodableOutput<T>, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -226,9 +226,9 @@ extension DynamoDB {
             input: input,
             command: self.query,
             tokenKey: \QueryOutput.lastEvaluatedKey,
-            logger: logger,
+            context: context,
             on: eventLoop
-        ) { (response, eventLoop) -> EventLoopFuture<Bool> in
+        ) { response, eventLoop -> EventLoopFuture<Bool> in
             do {
                 let items = try response.items.map { try $0.map { try DynamoDBDecoder().decode(T.self, from: $0) } }
                 let queryOutput = QueryCodableOutput(
@@ -258,7 +258,7 @@ extension DynamoDB {
         _ input: ScanInput,
         _ initialValue: Result,
         type: T.Type,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ScanCodableOutput<T>, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -267,9 +267,9 @@ extension DynamoDB {
             initialValue: initialValue,
             command: self.scan,
             tokenKey: \ScanOutput.lastEvaluatedKey,
-            logger: logger,
+            context: context,
             on: eventLoop
-        ) { (result, response, eventLoop) -> EventLoopFuture<(Bool, Result)> in
+        ) { result, response, eventLoop -> EventLoopFuture<(Bool, Result)> in
             do {
                 let items = try response.items.map { try $0.map { try DynamoDBDecoder().decode(T.self, from: $0) } }
                 let scanOutput = ScanCodableOutput(
@@ -289,7 +289,7 @@ extension DynamoDB {
     public func scanPaginator<T: Decodable>(
         _ input: ScanInput,
         type: T.Type,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ScanCodableOutput<T>, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -297,9 +297,9 @@ extension DynamoDB {
             input: input,
             command: self.scan,
             tokenKey: \ScanOutput.lastEvaluatedKey,
-            logger: logger,
+            context: context,
             on: eventLoop
-        ) { (response, eventLoop) -> EventLoopFuture<Bool> in
+        ) { response, eventLoop -> EventLoopFuture<Bool> in
             do {
                 let items = try response.items.map { try $0.map { try DynamoDBDecoder().decode(T.self, from: $0) } }
                 let scanOutput = ScanCodableOutput(

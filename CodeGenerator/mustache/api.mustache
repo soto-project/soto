@@ -94,8 +94,8 @@ public struct {{ name }}: AWSService {
 {{#deprecated}}
     @available(*, deprecated, message:"{{.}}")
 {{/deprecated}}
-    {{^outputShape}}@discardableResult {{/outputShape}}public func {{funcName}}({{#inputShape}}_ input: {{.}}, {{/inputShape}}logger: {{logger}} = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<{{#outputShape}}{{.}}{{/outputShape}}{{^outputShape}}Void{{/outputShape}}> {
-        return self.client.execute(operation: "{{name}}", path: "{{path}}", httpMethod: .{{httpMethod}}, serviceConfig: self.config{{#inputShape}}, input: input{{/inputShape}}, logger: logger, on: eventLoop)
+    {{^outputShape}}@discardableResult {{/outputShape}}public func {{funcName}}({{#inputShape}}_ input: {{.}}, {{/inputShape}}context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<{{#outputShape}}{{.}}{{/outputShape}}{{^outputShape}}Void{{/outputShape}}> {
+        return self.client.execute(operation: "{{name}}", path: "{{path}}", httpMethod: .{{httpMethod}}, serviceConfig: self.config{{#inputShape}}, input: input{{/inputShape}}, context: context, on: eventLoop)
     }
 {{/operations}}
 {{#first(streamingOperations)}}
@@ -109,8 +109,8 @@ public struct {{ name }}: AWSService {
 {{#deprecated}}
     @available(*, deprecated, message:"{{.}}")
 {{/deprecated}}
-    {{^outputShape}}@discardableResult {{/outputShape}}public func {{funcName}}Streaming({{#inputShape}}_ input: {{.}}, {{/inputShape}}logger: {{logger}} = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil{{#streaming}}, _ stream: @escaping ({{.}}, EventLoop)->EventLoopFuture<Void>{{/streaming}}) -> EventLoopFuture<{{#outputShape}}{{.}}{{/outputShape}}{{^outputShape}}Void{{/outputShape}}> {
-        return self.client.execute(operation: "{{name}}", path: "{{path}}", httpMethod: .{{httpMethod}}, serviceConfig: self.config{{#inputShape}}, input: input{{/inputShape}}, logger: logger, on: eventLoop{{#streaming}}, stream: stream{{/streaming}})
+    {{^outputShape}}@discardableResult {{/outputShape}}public func {{funcName}}Streaming({{#inputShape}}_ input: {{.}}, {{/inputShape}}context: LoggingContext, on eventLoop: EventLoop? = nil{{#streaming}}, _ stream: @escaping ({{.}}, EventLoop)->EventLoopFuture<Void>{{/streaming}}) -> EventLoopFuture<{{#outputShape}}{{.}}{{/outputShape}}{{^outputShape}}Void{{/outputShape}}> {
+        return self.client.execute(operation: "{{name}}", path: "{{path}}", httpMethod: .{{httpMethod}}, serviceConfig: self.config{{#inputShape}}, input: input{{/inputShape}}, context: context, on: eventLoop{{#streaming}}, stream: stream{{/streaming}})
     }
 {{/streamingOperations}}
 {{/first(streamingOperations)}}
