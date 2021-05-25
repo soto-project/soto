@@ -20,7 +20,7 @@ struct Waiters: Decodable {
             case failure
             case retry
         }
-        enum WaiterMatcherValue: Decodable {
+        enum MatcherValue: Decodable {
             case string(String)
             case integer(Int)
             case bool(Bool)
@@ -35,7 +35,7 @@ struct Waiters: Decodable {
                     self = .bool(boolean)
                 } else {
                     throw DecodingError.typeMismatch(
-                        WaiterMatcherValue.self,
+                        MatcherValue.self,
                         .init(codingPath: decoder.codingPath, debugDescription: "Invalid matcher expected type")
                     )
                 }
@@ -43,9 +43,9 @@ struct Waiters: Decodable {
         }
         enum Matcher {
             case status(Int)
-            case path(argument: String, expected: WaiterMatcherValue)
-            case pathAll(argument: String, expected: WaiterMatcherValue)
-            case pathAny(argument: String, expected: WaiterMatcherValue)
+            case path(argument: String, expected: MatcherValue)
+            case allPath(argument: String, expected: MatcherValue)
+            case anyPath(argument: String, expected: MatcherValue)
             case error(String)
         }
 
@@ -64,16 +64,16 @@ struct Waiters: Decodable {
                     self.matcher = .status(expected)
                 case "path":
                     let argument = try container.decode(String.self, forKey: .argument)
-                    let expected = try container.decode(WaiterMatcherValue.self, forKey: .expected)
+                    let expected = try container.decode(MatcherValue.self, forKey: .expected)
                     self.matcher = .path(argument: argument, expected: expected)
                 case "pathAll":
                     let argument = try container.decode(String.self, forKey: .argument)
-                    let expected = try container.decode(WaiterMatcherValue.self, forKey: .expected)
-                    self.matcher = .pathAll(argument: argument, expected: expected)
+                    let expected = try container.decode(MatcherValue.self, forKey: .expected)
+                    self.matcher = .allPath(argument: argument, expected: expected)
                 case "pathAny":
                     let argument = try container.decode(String.self, forKey: .argument)
-                    let expected = try container.decode(WaiterMatcherValue.self, forKey: .expected)
-                    self.matcher = .pathAny(argument: argument, expected: expected)
+                    let expected = try container.decode(MatcherValue.self, forKey: .expected)
+                    self.matcher = .anyPath(argument: argument, expected: expected)
                 case "error":
                     let expected = try container.decode(String.self, forKey: .expected)
                     self.matcher = .error(expected)

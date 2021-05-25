@@ -21,9 +21,18 @@ extension {{name}} {
 {{#matcher.path}}
                 .init(state: .{{state}}, matcher: AWSPathMatcher(path: \{{operation.outputShape}}.{{path}}, expected: {{expected}})),
 {{/matcher.path}}
+{{#matcher.anyPath}}
+                .init(state: .{{state}}, matcher: AWSAnyPathMatcher(arrayPath: \{{operation.outputShape}}.{{arrayPath}}, elementPath: \{{elementPath}}, expected: {{expected}})),
+{{/matcher.anyPath}}
+{{#matcher.allPath}}
+                .init(state: .{{state}}, matcher: AWSAllPathMatcher(arrayPath: \{{operation.outputShape}}.{{arrayPath}}, elementPath: \{{elementPath}}, expected: {{expected}})),
+{{/matcher.allPath}}
 {{#matcher.error}}
                 .init(state: .{{state}}, matcher: AWSErrorCodeMatcher("{{.}}")),
 {{/matcher.error}}
+{{#matcher.errorStatus}}
+                .init(state: .{{state}}, matcher: AWSErrorStatusMatcher({{.}})),
+{{/matcher.errorStatus}}
 {{#success}}
                 .init(state: .{{state}}, matcher: AWSSuccessMatcher()),
 {{/success}}

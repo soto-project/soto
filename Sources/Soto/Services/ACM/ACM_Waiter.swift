@@ -20,4 +20,22 @@ import SotoCore
 
 // MARK: Waiters
 
-extension ACM {}
+extension ACM {
+    public func CertificateValidatedWaiter(
+        _ input: DescribeCertificateRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeCertificateResponse.certificate?.domainValidationOptions, elementPath: \DomainValidation.validationStatus, expected: .success)),
+                .init(state: .retry, matcher: AWSAnyPathMatcher(arrayPath: \DescribeCertificateResponse.certificate?.domainValidationOptions, elementPath: \DomainValidation.validationStatus, expected: .pendingValidation)),
+                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeCertificateResponse.certificate?.status, expected: .failed)),
+                .init(state: .failure, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
+            ],
+            command: describeCertificate
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+}

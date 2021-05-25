@@ -20,4 +20,194 @@ import SotoCore
 
 // MARK: Waiters
 
-extension MediaLive {}
+extension MediaLive {
+    public func ChannelCreatedWaiter(
+        _ input: DescribeChannelRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeChannelResponse.state, expected: .idle)),
+                .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeChannelResponse.state, expected: .creating)),
+                .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
+                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeChannelResponse.state, expected: .createFailed)),
+            ],
+            command: describeChannel
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func ChannelDeletedWaiter(
+        _ input: DescribeChannelRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeChannelResponse.state, expected: .deleted)),
+                .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeChannelResponse.state, expected: .deleting)),
+                .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
+            ],
+            command: describeChannel
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func ChannelRunningWaiter(
+        _ input: DescribeChannelRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeChannelResponse.state, expected: .running)),
+                .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeChannelResponse.state, expected: .starting)),
+                .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
+            ],
+            command: describeChannel
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func ChannelStoppedWaiter(
+        _ input: DescribeChannelRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeChannelResponse.state, expected: .idle)),
+                .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeChannelResponse.state, expected: .stopping)),
+                .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
+            ],
+            command: describeChannel
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func InputAttachedWaiter(
+        _ input: DescribeInputRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeInputResponse.state, expected: .attached)),
+                .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeInputResponse.state, expected: .detached)),
+                .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
+            ],
+            command: describeInput
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func InputDeletedWaiter(
+        _ input: DescribeInputRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeInputResponse.state, expected: .deleted)),
+                .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeInputResponse.state, expected: .deleting)),
+                .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
+            ],
+            command: describeInput
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func InputDetachedWaiter(
+        _ input: DescribeInputRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeInputResponse.state, expected: .detached)),
+                .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeInputResponse.state, expected: .creating)),
+                .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeInputResponse.state, expected: .attached)),
+                .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
+            ],
+            command: describeInput
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func MultiplexCreatedWaiter(
+        _ input: DescribeMultiplexRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeMultiplexResponse.state, expected: .idle)),
+                .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeMultiplexResponse.state, expected: .creating)),
+                .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
+                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeMultiplexResponse.state, expected: .createFailed)),
+            ],
+            command: describeMultiplex
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func MultiplexDeletedWaiter(
+        _ input: DescribeMultiplexRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeMultiplexResponse.state, expected: .deleted)),
+                .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeMultiplexResponse.state, expected: .deleting)),
+                .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
+            ],
+            command: describeMultiplex
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func MultiplexRunningWaiter(
+        _ input: DescribeMultiplexRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeMultiplexResponse.state, expected: .running)),
+                .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeMultiplexResponse.state, expected: .starting)),
+                .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
+            ],
+            command: describeMultiplex
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func MultiplexStoppedWaiter(
+        _ input: DescribeMultiplexRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeMultiplexResponse.state, expected: .idle)),
+                .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeMultiplexResponse.state, expected: .stopping)),
+                .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
+            ],
+            command: describeMultiplex
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+}

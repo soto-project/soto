@@ -54,11 +54,10 @@ extension AWSService {
             }
             
             shape = member.shape
-            if case .list(let listType) = shape.type {
-                shape = listType.member.shape
-            }
-
             if i < split.count - 1 {
+                if case .list(let listType) = shape.type {
+                    shape = listType.member.shape
+                }
                 if case .structure(let newType) = shape.type {
                     type = newType
                 } else {

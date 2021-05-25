@@ -20,4 +20,36 @@ import SotoCore
 
 // MARK: Waiters
 
-extension Rekognition {}
+extension Rekognition {
+    public func ProjectVersionRunningWaiter(
+        _ input: DescribeProjectVersionsRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeProjectVersionsResponse.projectVersionDescriptions, elementPath: \ProjectVersionDescription.status, expected: .running)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeProjectVersionsResponse.projectVersionDescriptions, elementPath: \ProjectVersionDescription.status, expected: .failed)),
+            ],
+            command: describeProjectVersions
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func ProjectVersionTrainingCompletedWaiter(
+        _ input: DescribeProjectVersionsRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeProjectVersionsResponse.projectVersionDescriptions, elementPath: \ProjectVersionDescription.status, expected: .trainingCompleted)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeProjectVersionsResponse.projectVersionDescriptions, elementPath: \ProjectVersionDescription.status, expected: .trainingFailed)),
+            ],
+            command: describeProjectVersions
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+}

@@ -20,4 +20,78 @@ import SotoCore
 
 // MARK: Waiters
 
-extension ElastiCache {}
+extension ElastiCache {
+    public func CacheClusterAvailableWaiter(
+        _ input: DescribeCacheClustersMessage,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \CacheClusterMessage.cacheClusters, elementPath: \CacheCluster.cacheClusterStatus, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \CacheClusterMessage.cacheClusters, elementPath: \CacheCluster.cacheClusterStatus, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \CacheClusterMessage.cacheClusters, elementPath: \CacheCluster.cacheClusterStatus, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \CacheClusterMessage.cacheClusters, elementPath: \CacheCluster.cacheClusterStatus, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \CacheClusterMessage.cacheClusters, elementPath: \CacheCluster.cacheClusterStatus, expected: "string")),
+            ],
+            command: describeCacheClusters
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func CacheClusterDeletedWaiter(
+        _ input: DescribeCacheClustersMessage,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \CacheClusterMessage.cacheClusters, elementPath: \CacheCluster.cacheClusterStatus, expected: "string")),
+                .init(state: .success, matcher: AWSErrorCodeMatcher("CacheClusterNotFound")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \CacheClusterMessage.cacheClusters, elementPath: \CacheCluster.cacheClusterStatus, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \CacheClusterMessage.cacheClusters, elementPath: \CacheCluster.cacheClusterStatus, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \CacheClusterMessage.cacheClusters, elementPath: \CacheCluster.cacheClusterStatus, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \CacheClusterMessage.cacheClusters, elementPath: \CacheCluster.cacheClusterStatus, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \CacheClusterMessage.cacheClusters, elementPath: \CacheCluster.cacheClusterStatus, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \CacheClusterMessage.cacheClusters, elementPath: \CacheCluster.cacheClusterStatus, expected: "string")),
+            ],
+            command: describeCacheClusters
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func ReplicationGroupAvailableWaiter(
+        _ input: DescribeReplicationGroupsMessage,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \ReplicationGroupMessage.replicationGroups, elementPath: \ReplicationGroup.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \ReplicationGroupMessage.replicationGroups, elementPath: \ReplicationGroup.status, expected: "string")),
+            ],
+            command: describeReplicationGroups
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func ReplicationGroupDeletedWaiter(
+        _ input: DescribeReplicationGroupsMessage,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \ReplicationGroupMessage.replicationGroups, elementPath: \ReplicationGroup.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \ReplicationGroupMessage.replicationGroups, elementPath: \ReplicationGroup.status, expected: "string")),
+                .init(state: .success, matcher: AWSErrorCodeMatcher("ReplicationGroupNotFoundFault")),
+            ],
+            command: describeReplicationGroups
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+}

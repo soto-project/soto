@@ -20,4 +20,127 @@ import SotoCore
 
 // MARK: Waiters
 
-extension OpsWorks {}
+extension OpsWorks {
+    public func AppExistsWaiter(
+        _ input: DescribeAppsRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .failure, matcher: AWSErrorStatusMatcher(400)),
+            ],
+            command: describeApps
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func DeploymentSuccessfulWaiter(
+        _ input: DescribeDeploymentsRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeDeploymentsResult.deployments, elementPath: \Deployment.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeDeploymentsResult.deployments, elementPath: \Deployment.status, expected: "string")),
+            ],
+            command: describeDeployments
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func InstanceOnlineWaiter(
+        _ input: DescribeInstancesRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+            ],
+            command: describeInstances
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func InstanceRegisteredWaiter(
+        _ input: DescribeInstancesRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+            ],
+            command: describeInstances
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func InstanceStoppedWaiter(
+        _ input: DescribeInstancesRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+            ],
+            command: describeInstances
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func InstanceTerminatedWaiter(
+        _ input: DescribeInstancesRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+                .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+            ],
+            command: describeInstances
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+}

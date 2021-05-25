@@ -20,4 +20,71 @@ import SotoCore
 
 // MARK: Waiters
 
-extension Redshift {}
+extension Redshift {
+    public func ClusterAvailableWaiter(
+        _ input: DescribeClustersMessage,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \ClustersMessage.clusters, elementPath: \Cluster.clusterStatus, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \ClustersMessage.clusters, elementPath: \Cluster.clusterStatus, expected: "string")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("ClusterNotFound")),
+            ],
+            command: describeClusters
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func ClusterDeletedWaiter(
+        _ input: DescribeClustersMessage,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSErrorCodeMatcher("ClusterNotFound")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \ClustersMessage.clusters, elementPath: \Cluster.clusterStatus, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \ClustersMessage.clusters, elementPath: \Cluster.clusterStatus, expected: "string")),
+            ],
+            command: describeClusters
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func ClusterRestoredWaiter(
+        _ input: DescribeClustersMessage,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \ClustersMessage.clusters, elementPath: \Cluster.restoreStatus?.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \ClustersMessage.clusters, elementPath: \Cluster.clusterStatus, expected: "string")),
+            ],
+            command: describeClusters
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func SnapshotAvailableWaiter(
+        _ input: DescribeClusterSnapshotsMessage,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \SnapshotMessage.snapshots, elementPath: \Snapshot.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \SnapshotMessage.snapshots, elementPath: \Snapshot.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \SnapshotMessage.snapshots, elementPath: \Snapshot.status, expected: "string")),
+            ],
+            command: describeClusterSnapshots
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+}

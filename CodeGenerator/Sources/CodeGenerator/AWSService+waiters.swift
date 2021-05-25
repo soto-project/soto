@@ -29,7 +29,10 @@ extension AWSService {
 
     enum MatcherContext {
         case path(path: String, expected: String)
+        case anyPath(arrayPath: String, elementPath: String, expected: String)
+        case allPath(arrayPath: String, elementPath: String, expected: String)
         case error(String)
+        case errorStatus(Int)
         case success
     }
 
@@ -83,12 +86,12 @@ extension AWSService {
             if (200..<300).contains(value) {
                 return .init(state: acceptor.state.rawValue, matcher: .success)
             } else {
-                return nil
+                return .init(state: acceptor.state.rawValue, matcher: .errorStatus(value))
             }
 
         case .path(let argument, let expected):
             if argument.firstIndex(of: "(") == nil {
-                guard case .structure(let structure) = shape.type else { return nil }
+                guard case .structure(let structure) = shape.type else { throw Error.matcherInvalidType }
                 let keyPath = try toKeyPath(token: argument, shape: shape, type: structure)
                 let value: String
                 switch expected {
@@ -108,12 +111,70 @@ extension AWSService {
                     value = String(describing: boolean)
                 }
                 return .init(state: acceptor.state.rawValue, matcher: .path(path: keyPath.keyPath, expected: value))
-            } else {
-                return nil
             }
-        default:
-            break
+
+        case .anyPath(let argument, let expected):
+            if argument.firstIndex(of: "(") == nil, argument.firstIndex(of: "*") == nil {
+                let args = try generateAnyAllPathContext(shape, argument: argument, expected: expected)
+                return .init(
+                    state: acceptor.state.rawValue,
+                    matcher: .anyPath(
+                        arrayPath: args.arrayPath,
+                        elementPath: args.elementPath,
+                        expected: args.expected
+                    )
+                )
+            }
+
+        case .allPath(let argument, let expected):
+            if argument.firstIndex(of: "(") == nil, argument.firstIndex(of: "*") == nil {
+                let args = try generateAnyAllPathContext(shape, argument: argument, expected: expected)
+                return .init(
+                    state: acceptor.state.rawValue,
+                    matcher: .allPath(
+                        arrayPath: args.arrayPath,
+                        elementPath: args.elementPath,
+                        expected: args.expected
+                    )
+                )
+            }
         }
         return nil
+    }
+
+    func generateAnyAllPathContext(
+        _ shape: Shape,
+        argument: String,
+        expected: Waiters.Waiter.MatcherValue
+    ) throws -> (arrayPath: String, elementPath: String, expected: String) {
+        guard case .structure(let structure) = shape.type else { throw Error.matcherInvalidType }
+        // split path by "[].". We should get two components
+        let components = argument.components(separatedBy: "[].")
+        guard components.count == 2 else { throw Error.matcherInvalidType }
+        // get array keypath and shape
+        let arrayPath = try toKeyPath(token: components[0], shape: shape, type: structure)
+        // shape should be a list, element should be structure
+        guard case .list(let listType) = arrayPath.shape.type else { throw Error.matcherInvalidType }
+        let elementShape: Shape = listType.member.shape
+        guard case .structure(let elementType) = elementShape.type else { throw Error.matcherInvalidType }
+        let elementPath = try toKeyPath(token: components[1], shape: elementShape, type: elementType)
+        let value: String
+        switch expected {
+        case .string(let string):
+            // assume is enum
+            if case .enum = elementPath.shape.type {
+                let enumContext = generateEnumMemberContext(string, shapeName: "")
+                value = ".\(enumContext.case)"
+            } else if case .string = elementPath.shape.type {
+                value = "\"string\""
+            } else {
+                throw Error.matcherInvalidType
+            }
+        case .integer(let integer):
+            value = String(describing: integer)
+        case .bool(let boolean):
+            value = String(describing: boolean)
+        }
+        return (arrayPath: arrayPath.keyPath, elementPath: "\(elementShape.name!).\(elementPath.keyPath)", expected: value)
     }
 }

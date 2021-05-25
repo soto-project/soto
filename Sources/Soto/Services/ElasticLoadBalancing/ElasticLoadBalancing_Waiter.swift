@@ -20,4 +20,51 @@ import SotoCore
 
 // MARK: Waiters
 
-extension ElasticLoadBalancing {}
+extension ElasticLoadBalancing {
+    public func AnyInstanceInServiceWaiter(
+        _ input: DescribeEndPointStateInput,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAnyPathMatcher(arrayPath: \DescribeEndPointStateOutput.instanceStates, elementPath: \InstanceState.state, expected: "string")),
+            ],
+            command: describeInstanceHealth
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func InstanceDeregisteredWaiter(
+        _ input: DescribeEndPointStateInput,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeEndPointStateOutput.instanceStates, elementPath: \InstanceState.state, expected: "string")),
+                .init(state: .success, matcher: AWSErrorCodeMatcher("InvalidInstance")),
+            ],
+            command: describeInstanceHealth
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func InstanceInServiceWaiter(
+        _ input: DescribeEndPointStateInput,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeEndPointStateOutput.instanceStates, elementPath: \InstanceState.state, expected: "string")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("InvalidInstance")),
+            ],
+            command: describeInstanceHealth
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+}
