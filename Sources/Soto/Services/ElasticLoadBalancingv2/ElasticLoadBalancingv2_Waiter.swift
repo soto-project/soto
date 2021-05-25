@@ -21,6 +21,23 @@ import SotoCore
 // MARK: Waiters
 
 extension ElasticLoadBalancingv2 {
+    public func LoadBalancerAvailableWaiter(
+        _ input: DescribeLoadBalancersInput,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeLoadBalancersOutput.loadBalancers, elementPath: \LoadBalancer.state?.code, expected: .active)),
+                .init(state: .retry, matcher: AWSAnyPathMatcher(arrayPath: \DescribeLoadBalancersOutput.loadBalancers, elementPath: \LoadBalancer.state?.code, expected: .provisioning)),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("LoadBalancerNotFound")),
+            ],
+            command: describeLoadBalancers
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
     public func LoadBalancerExistsWaiter(
         _ input: DescribeLoadBalancersInput,
         maxWaitTime: TimeAmount,
@@ -32,6 +49,54 @@ extension ElasticLoadBalancingv2 {
                 .init(state: .retry, matcher: AWSErrorCodeMatcher("LoadBalancerNotFound")),
             ],
             command: describeLoadBalancers
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func LoadBalancersDeletedWaiter(
+        _ input: DescribeLoadBalancersInput,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .retry, matcher: AWSAllPathMatcher(arrayPath: \DescribeLoadBalancersOutput.loadBalancers, elementPath: \LoadBalancer.state?.code, expected: .active)),
+                .init(state: .success, matcher: AWSErrorCodeMatcher("LoadBalancerNotFound")),
+            ],
+            command: describeLoadBalancers
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func TargetDeregisteredWaiter(
+        _ input: DescribeTargetHealthInput,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSErrorCodeMatcher("InvalidTarget")),
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeTargetHealthOutput.targetHealthDescriptions, elementPath: \TargetHealthDescription.targetHealth?.state, expected: .unused)),
+            ],
+            command: describeTargetHealth
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func TargetInServiceWaiter(
+        _ input: DescribeTargetHealthInput,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeTargetHealthOutput.targetHealthDescriptions, elementPath: \TargetHealthDescription.targetHealth?.state, expected: .healthy)),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("InvalidInstance")),
+            ],
+            command: describeTargetHealth
         )
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }

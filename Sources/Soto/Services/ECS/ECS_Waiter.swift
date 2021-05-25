@@ -20,4 +20,52 @@ import SotoCore
 
 // MARK: Waiters
 
-extension ECS {}
+extension ECS {
+    public func ServicesInactiveWaiter(
+        _ input: DescribeServicesRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeServicesResponse.failures, elementPath: \Failure.reason, expected: "string")),
+                .init(state: .success, matcher: AWSAnyPathMatcher(arrayPath: \DescribeServicesResponse.services, elementPath: \Service.status, expected: "string")),
+            ],
+            command: describeServices
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func TasksRunningWaiter(
+        _ input: DescribeTasksRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeTasksResponse.tasks, elementPath: \Task.lastStatus, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeTasksResponse.failures, elementPath: \Failure.reason, expected: "string")),
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeTasksResponse.tasks, elementPath: \Task.lastStatus, expected: "string")),
+            ],
+            command: describeTasks
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func TasksStoppedWaiter(
+        _ input: DescribeTasksRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeTasksResponse.tasks, elementPath: \Task.lastStatus, expected: "string")),
+            ],
+            command: describeTasks
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+}

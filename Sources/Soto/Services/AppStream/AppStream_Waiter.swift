@@ -20,4 +20,38 @@ import SotoCore
 
 // MARK: Waiters
 
-extension AppStream {}
+extension AppStream {
+    public func FleetStartedWaiter(
+        _ input: DescribeFleetsRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeFleetsResult.fleets, elementPath: \Fleet.state, expected: .active)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeFleetsResult.fleets, elementPath: \Fleet.state, expected: .pendingDeactivate)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeFleetsResult.fleets, elementPath: \Fleet.state, expected: .inactive)),
+            ],
+            command: describeFleets
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func FleetStoppedWaiter(
+        _ input: DescribeFleetsRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeFleetsResult.fleets, elementPath: \Fleet.state, expected: .inactive)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeFleetsResult.fleets, elementPath: \Fleet.state, expected: .pendingActivate)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeFleetsResult.fleets, elementPath: \Fleet.state, expected: .active)),
+            ],
+            command: describeFleets
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+}

@@ -20,4 +20,62 @@ import SotoCore
 
 // MARK: Waiters
 
-extension MediaConnect {}
+extension MediaConnect {
+    public func FlowActiveWaiter(
+        _ input: DescribeFlowRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeFlowResponse.flow?.status, expected: .active)),
+                .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeFlowResponse.flow?.status, expected: .starting)),
+                .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeFlowResponse.flow?.status, expected: .updating)),
+                .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
+                .init(state: .retry, matcher: AWSErrorStatusMatcher(503)),
+                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeFlowResponse.flow?.status, expected: .error)),
+            ],
+            command: describeFlow
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func FlowDeletedWaiter(
+        _ input: DescribeFlowRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSErrorStatusMatcher(404)),
+                .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeFlowResponse.flow?.status, expected: .deleting)),
+                .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
+                .init(state: .retry, matcher: AWSErrorStatusMatcher(503)),
+                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeFlowResponse.flow?.status, expected: .error)),
+            ],
+            command: describeFlow
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func FlowStandbyWaiter(
+        _ input: DescribeFlowRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeFlowResponse.flow?.status, expected: .standby)),
+                .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeFlowResponse.flow?.status, expected: .stopping)),
+                .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
+                .init(state: .retry, matcher: AWSErrorStatusMatcher(503)),
+                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeFlowResponse.flow?.status, expected: .error)),
+            ],
+            command: describeFlow
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+}

@@ -38,6 +38,49 @@ extension CloudFormation {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    public func StackCreateCompleteWaiter(
+        _ input: DescribeStacksInput,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .createComplete)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .createFailed)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .deleteComplete)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .deleteFailed)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .rollbackFailed)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .rollbackComplete)),
+                .init(state: .failure, matcher: AWSErrorCodeMatcher("ValidationError")),
+            ],
+            command: describeStacks
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func StackDeleteCompleteWaiter(
+        _ input: DescribeStacksInput,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .deleteComplete)),
+                .init(state: .success, matcher: AWSErrorCodeMatcher("ValidationError")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .deleteFailed)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .createFailed)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .rollbackFailed)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .updateRollbackInProgress)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .updateRollbackFailed)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .updateRollbackComplete)),
+            ],
+            command: describeStacks
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
     public func StackExistsWaiter(
         _ input: DescribeStacksInput,
         maxWaitTime: TimeAmount,
@@ -47,6 +90,65 @@ extension CloudFormation {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .retry, matcher: AWSErrorCodeMatcher("ValidationError")),
+            ],
+            command: describeStacks
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func StackImportCompleteWaiter(
+        _ input: DescribeStacksInput,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .importComplete)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .rollbackComplete)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .rollbackFailed)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .importRollbackInProgress)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .importRollbackFailed)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .importRollbackComplete)),
+                .init(state: .failure, matcher: AWSErrorCodeMatcher("ValidationError")),
+            ],
+            command: describeStacks
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func StackRollbackCompleteWaiter(
+        _ input: DescribeStacksInput,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .updateRollbackComplete)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .updateFailed)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .updateRollbackFailed)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .deleteFailed)),
+                .init(state: .failure, matcher: AWSErrorCodeMatcher("ValidationError")),
+            ],
+            command: describeStacks
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func StackUpdateCompleteWaiter(
+        _ input: DescribeStacksInput,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .updateComplete)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .updateFailed)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .updateRollbackFailed)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .updateRollbackComplete)),
+                .init(state: .failure, matcher: AWSErrorCodeMatcher("ValidationError")),
             ],
             command: describeStacks
         )

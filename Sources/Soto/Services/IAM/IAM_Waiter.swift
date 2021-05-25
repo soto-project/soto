@@ -21,6 +21,21 @@ import SotoCore
 // MARK: Waiters
 
 extension IAM {
+    public func InstanceProfileExistsWaiter(
+        _ input: GetInstanceProfileRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .retry, matcher: AWSErrorStatusMatcher(404)),
+            ],
+            command: getInstanceProfile
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
     public func PolicyExistsWaiter(
         _ input: GetPolicyRequest,
         maxWaitTime: TimeAmount,

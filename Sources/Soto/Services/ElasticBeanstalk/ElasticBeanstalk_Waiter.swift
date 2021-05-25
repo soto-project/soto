@@ -20,4 +20,52 @@ import SotoCore
 
 // MARK: Waiters
 
-extension ElasticBeanstalk {}
+extension ElasticBeanstalk {
+    public func EnvironmentExistsWaiter(
+        _ input: DescribeEnvironmentsMessage,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \EnvironmentDescriptionsMessage.environments, elementPath: \EnvironmentDescription.status, expected: .ready)),
+                .init(state: .retry, matcher: AWSAllPathMatcher(arrayPath: \EnvironmentDescriptionsMessage.environments, elementPath: \EnvironmentDescription.status, expected: .launching)),
+            ],
+            command: describeEnvironments
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func EnvironmentTerminatedWaiter(
+        _ input: DescribeEnvironmentsMessage,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \EnvironmentDescriptionsMessage.environments, elementPath: \EnvironmentDescription.status, expected: .terminated)),
+                .init(state: .retry, matcher: AWSAllPathMatcher(arrayPath: \EnvironmentDescriptionsMessage.environments, elementPath: \EnvironmentDescription.status, expected: .terminating)),
+            ],
+            command: describeEnvironments
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func EnvironmentUpdatedWaiter(
+        _ input: DescribeEnvironmentsMessage,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \EnvironmentDescriptionsMessage.environments, elementPath: \EnvironmentDescription.status, expected: .ready)),
+                .init(state: .retry, matcher: AWSAllPathMatcher(arrayPath: \EnvironmentDescriptionsMessage.environments, elementPath: \EnvironmentDescription.status, expected: .updating)),
+            ],
+            command: describeEnvironments
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+}

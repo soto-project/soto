@@ -20,4 +20,160 @@ import SotoCore
 
 // MARK: Waiters
 
-extension DatabaseMigrationService {}
+extension DatabaseMigrationService {
+    public func EndpointDeletedWaiter(
+        _ input: DescribeEndpointsMessage,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundFault")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeEndpointsResponse.endpoints, elementPath: \Endpoint.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeEndpointsResponse.endpoints, elementPath: \Endpoint.status, expected: "string")),
+            ],
+            command: describeEndpoints
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func ReplicationInstanceAvailableWaiter(
+        _ input: DescribeReplicationInstancesMessage,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeReplicationInstancesResponse.replicationInstances, elementPath: \ReplicationInstance.replicationInstanceStatus, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationInstancesResponse.replicationInstances, elementPath: \ReplicationInstance.replicationInstanceStatus, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationInstancesResponse.replicationInstances, elementPath: \ReplicationInstance.replicationInstanceStatus, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationInstancesResponse.replicationInstances, elementPath: \ReplicationInstance.replicationInstanceStatus, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationInstancesResponse.replicationInstances, elementPath: \ReplicationInstance.replicationInstanceStatus, expected: "string")),
+            ],
+            command: describeReplicationInstances
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func ReplicationInstanceDeletedWaiter(
+        _ input: DescribeReplicationInstancesMessage,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationInstancesResponse.replicationInstances, elementPath: \ReplicationInstance.replicationInstanceStatus, expected: "string")),
+                .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundFault")),
+            ],
+            command: describeReplicationInstances
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func ReplicationTaskDeletedWaiter(
+        _ input: DescribeReplicationTasksMessage,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
+                .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundFault")),
+            ],
+            command: describeReplicationTasks
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func ReplicationTaskReadyWaiter(
+        _ input: DescribeReplicationTasksMessage,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
+            ],
+            command: describeReplicationTasks
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func ReplicationTaskRunningWaiter(
+        _ input: DescribeReplicationTasksMessage,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
+            ],
+            command: describeReplicationTasks
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func ReplicationTaskStoppedWaiter(
+        _ input: DescribeReplicationTasksMessage,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
+            ],
+            command: describeReplicationTasks
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func TestConnectionSucceedsWaiter(
+        _ input: DescribeConnectionsMessage,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeConnectionsResponse.connections, elementPath: \Connection.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeConnectionsResponse.connections, elementPath: \Connection.status, expected: "string")),
+            ],
+            command: describeConnections
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+}

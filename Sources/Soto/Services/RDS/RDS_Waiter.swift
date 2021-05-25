@@ -20,4 +20,64 @@ import SotoCore
 
 // MARK: Waiters
 
-extension RDS {}
+extension RDS {
+    public func DBClusterSnapshotAvailableWaiter(
+        _ input: DescribeDBClusterSnapshotsMessage,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DBClusterSnapshotMessage.dBClusterSnapshots, elementPath: \DBClusterSnapshot.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DBClusterSnapshotMessage.dBClusterSnapshots, elementPath: \DBClusterSnapshot.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DBClusterSnapshotMessage.dBClusterSnapshots, elementPath: \DBClusterSnapshot.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DBClusterSnapshotMessage.dBClusterSnapshots, elementPath: \DBClusterSnapshot.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DBClusterSnapshotMessage.dBClusterSnapshots, elementPath: \DBClusterSnapshot.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DBClusterSnapshotMessage.dBClusterSnapshots, elementPath: \DBClusterSnapshot.status, expected: "string")),
+            ],
+            command: describeDBClusterSnapshots
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func DBInstanceAvailableWaiter(
+        _ input: DescribeDBInstancesMessage,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DBInstanceMessage.dBInstances, elementPath: \DBInstance.dBInstanceStatus, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DBInstanceMessage.dBInstances, elementPath: \DBInstance.dBInstanceStatus, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DBInstanceMessage.dBInstances, elementPath: \DBInstance.dBInstanceStatus, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DBInstanceMessage.dBInstances, elementPath: \DBInstance.dBInstanceStatus, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DBInstanceMessage.dBInstances, elementPath: \DBInstance.dBInstanceStatus, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DBInstanceMessage.dBInstances, elementPath: \DBInstance.dBInstanceStatus, expected: "string")),
+            ],
+            command: describeDBInstances
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func DBSnapshotAvailableWaiter(
+        _ input: DescribeDBSnapshotsMessage,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DBSnapshotMessage.dBSnapshots, elementPath: \DBSnapshot.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DBSnapshotMessage.dBSnapshots, elementPath: \DBSnapshot.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DBSnapshotMessage.dBSnapshots, elementPath: \DBSnapshot.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DBSnapshotMessage.dBSnapshots, elementPath: \DBSnapshot.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DBSnapshotMessage.dBSnapshots, elementPath: \DBSnapshot.status, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DBSnapshotMessage.dBSnapshots, elementPath: \DBSnapshot.status, expected: "string")),
+            ],
+            command: describeDBSnapshots
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+}

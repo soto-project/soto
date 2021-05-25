@@ -20,4 +20,34 @@ import SotoCore
 
 // MARK: Waiters
 
-extension S3 {}
+extension S3 {
+    public func ObjectExistsWaiter(
+        _ input: HeadObjectRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .retry, matcher: AWSErrorStatusMatcher(404)),
+            ],
+            command: headObject
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func ObjectNotExistsWaiter(
+        _ input: HeadObjectRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSErrorStatusMatcher(404)),
+            ],
+            command: headObject
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+}
