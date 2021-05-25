@@ -12,6 +12,7 @@
 //
 //===----------------------------------------------------------------------===//
 
+import Baggage
 import CSotoZlib
 import Foundation
 import NIO
@@ -150,7 +151,7 @@ extension S3 {
     /// - Returns: Response structure
     public func selectObjectContentEventStream(
         _ input: SelectObjectContentRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         _ stream: @escaping (SelectObjectContentEventStream, EventLoop) -> EventLoopFuture<Void>
     ) -> EventLoopFuture<SelectObjectContentOutput> {
@@ -162,7 +163,7 @@ extension S3 {
             httpMethod: .POST,
             serviceConfig: config,
             input: input,
-            logger: logger,
+            context: context,
             on: eventLoop
         ) { (byteBuffer: ByteBuffer, eventLoop: EventLoop) in
             var byteBuffer = byteBuffer

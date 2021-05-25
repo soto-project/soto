@@ -27,14 +27,14 @@ extension S3 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listMultipartUploadsPaginator<Result>(
         _ input: ListMultipartUploadsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListMultipartUploadsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -44,6 +44,7 @@ extension S3 {
             command: listMultipartUploads,
             tokenKey: \ListMultipartUploadsOutput.nextKeyMarker,
             moreResultsKey: \ListMultipartUploadsOutput.isTruncated,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -53,12 +54,12 @@ extension S3 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listMultipartUploadsPaginator(
         _ input: ListMultipartUploadsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListMultipartUploadsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -67,6 +68,7 @@ extension S3 {
             command: listMultipartUploads,
             tokenKey: \ListMultipartUploadsOutput.nextKeyMarker,
             moreResultsKey: \ListMultipartUploadsOutput.isTruncated,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -80,14 +82,14 @@ extension S3 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listObjectVersionsPaginator<Result>(
         _ input: ListObjectVersionsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListObjectVersionsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -97,6 +99,7 @@ extension S3 {
             command: listObjectVersions,
             tokenKey: \ListObjectVersionsOutput.nextKeyMarker,
             moreResultsKey: \ListObjectVersionsOutput.isTruncated,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -106,12 +109,12 @@ extension S3 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listObjectVersionsPaginator(
         _ input: ListObjectVersionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListObjectVersionsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -120,6 +123,7 @@ extension S3 {
             command: listObjectVersions,
             tokenKey: \ListObjectVersionsOutput.nextKeyMarker,
             moreResultsKey: \ListObjectVersionsOutput.isTruncated,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -133,14 +137,14 @@ extension S3 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listObjectsPaginator<Result>(
         _ input: ListObjectsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListObjectsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -150,6 +154,7 @@ extension S3 {
             command: listObjects,
             tokenKey: \ListObjectsOutput.nextMarker,
             moreResultsKey: \ListObjectsOutput.isTruncated,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -159,12 +164,12 @@ extension S3 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listObjectsPaginator(
         _ input: ListObjectsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListObjectsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -173,6 +178,7 @@ extension S3 {
             command: listObjects,
             tokenKey: \ListObjectsOutput.nextMarker,
             moreResultsKey: \ListObjectsOutput.isTruncated,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -186,14 +192,14 @@ extension S3 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listObjectsV2Paginator<Result>(
         _ input: ListObjectsV2Request,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListObjectsV2Output, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -203,6 +209,7 @@ extension S3 {
             command: listObjectsV2,
             inputKey: \ListObjectsV2Request.continuationToken,
             outputKey: \ListObjectsV2Output.nextContinuationToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -212,12 +219,12 @@ extension S3 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listObjectsV2Paginator(
         _ input: ListObjectsV2Request,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListObjectsV2Output, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -226,6 +233,7 @@ extension S3 {
             command: listObjectsV2,
             inputKey: \ListObjectsV2Request.continuationToken,
             outputKey: \ListObjectsV2Output.nextContinuationToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -239,14 +247,14 @@ extension S3 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listPartsPaginator<Result>(
         _ input: ListPartsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListPartsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -256,6 +264,7 @@ extension S3 {
             command: listParts,
             tokenKey: \ListPartsOutput.nextPartNumberMarker,
             moreResultsKey: \ListPartsOutput.isTruncated,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -265,12 +274,12 @@ extension S3 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listPartsPaginator(
         _ input: ListPartsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListPartsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -279,6 +288,7 @@ extension S3 {
             command: listParts,
             tokenKey: \ListPartsOutput.nextPartNumberMarker,
             moreResultsKey: \ListPartsOutput.isTruncated,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )

@@ -27,14 +27,14 @@ extension ElasticsearchService {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeDomainAutoTunesPaginator<Result>(
         _ input: DescribeDomainAutoTunesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeDomainAutoTunesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -44,6 +44,7 @@ extension ElasticsearchService {
             command: describeDomainAutoTunes,
             inputKey: \DescribeDomainAutoTunesRequest.nextToken,
             outputKey: \DescribeDomainAutoTunesResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -53,12 +54,12 @@ extension ElasticsearchService {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeDomainAutoTunesPaginator(
         _ input: DescribeDomainAutoTunesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeDomainAutoTunesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -67,6 +68,7 @@ extension ElasticsearchService {
             command: describeDomainAutoTunes,
             inputKey: \DescribeDomainAutoTunesRequest.nextToken,
             outputKey: \DescribeDomainAutoTunesResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -80,14 +82,14 @@ extension ElasticsearchService {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeInboundCrossClusterSearchConnectionsPaginator<Result>(
         _ input: DescribeInboundCrossClusterSearchConnectionsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeInboundCrossClusterSearchConnectionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -97,6 +99,7 @@ extension ElasticsearchService {
             command: describeInboundCrossClusterSearchConnections,
             inputKey: \DescribeInboundCrossClusterSearchConnectionsRequest.nextToken,
             outputKey: \DescribeInboundCrossClusterSearchConnectionsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -106,12 +109,12 @@ extension ElasticsearchService {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeInboundCrossClusterSearchConnectionsPaginator(
         _ input: DescribeInboundCrossClusterSearchConnectionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeInboundCrossClusterSearchConnectionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -120,6 +123,7 @@ extension ElasticsearchService {
             command: describeInboundCrossClusterSearchConnections,
             inputKey: \DescribeInboundCrossClusterSearchConnectionsRequest.nextToken,
             outputKey: \DescribeInboundCrossClusterSearchConnectionsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -133,14 +137,14 @@ extension ElasticsearchService {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeOutboundCrossClusterSearchConnectionsPaginator<Result>(
         _ input: DescribeOutboundCrossClusterSearchConnectionsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeOutboundCrossClusterSearchConnectionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -150,6 +154,7 @@ extension ElasticsearchService {
             command: describeOutboundCrossClusterSearchConnections,
             inputKey: \DescribeOutboundCrossClusterSearchConnectionsRequest.nextToken,
             outputKey: \DescribeOutboundCrossClusterSearchConnectionsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -159,12 +164,12 @@ extension ElasticsearchService {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeOutboundCrossClusterSearchConnectionsPaginator(
         _ input: DescribeOutboundCrossClusterSearchConnectionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeOutboundCrossClusterSearchConnectionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -173,6 +178,7 @@ extension ElasticsearchService {
             command: describeOutboundCrossClusterSearchConnections,
             inputKey: \DescribeOutboundCrossClusterSearchConnectionsRequest.nextToken,
             outputKey: \DescribeOutboundCrossClusterSearchConnectionsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -186,14 +192,14 @@ extension ElasticsearchService {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describePackagesPaginator<Result>(
         _ input: DescribePackagesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribePackagesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -203,6 +209,7 @@ extension ElasticsearchService {
             command: describePackages,
             inputKey: \DescribePackagesRequest.nextToken,
             outputKey: \DescribePackagesResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -212,12 +219,12 @@ extension ElasticsearchService {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describePackagesPaginator(
         _ input: DescribePackagesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribePackagesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -226,6 +233,7 @@ extension ElasticsearchService {
             command: describePackages,
             inputKey: \DescribePackagesRequest.nextToken,
             outputKey: \DescribePackagesResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -239,14 +247,14 @@ extension ElasticsearchService {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeReservedElasticsearchInstanceOfferingsPaginator<Result>(
         _ input: DescribeReservedElasticsearchInstanceOfferingsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeReservedElasticsearchInstanceOfferingsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -256,6 +264,7 @@ extension ElasticsearchService {
             command: describeReservedElasticsearchInstanceOfferings,
             inputKey: \DescribeReservedElasticsearchInstanceOfferingsRequest.nextToken,
             outputKey: \DescribeReservedElasticsearchInstanceOfferingsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -265,12 +274,12 @@ extension ElasticsearchService {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeReservedElasticsearchInstanceOfferingsPaginator(
         _ input: DescribeReservedElasticsearchInstanceOfferingsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeReservedElasticsearchInstanceOfferingsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -279,6 +288,7 @@ extension ElasticsearchService {
             command: describeReservedElasticsearchInstanceOfferings,
             inputKey: \DescribeReservedElasticsearchInstanceOfferingsRequest.nextToken,
             outputKey: \DescribeReservedElasticsearchInstanceOfferingsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -292,14 +302,14 @@ extension ElasticsearchService {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeReservedElasticsearchInstancesPaginator<Result>(
         _ input: DescribeReservedElasticsearchInstancesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeReservedElasticsearchInstancesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -309,6 +319,7 @@ extension ElasticsearchService {
             command: describeReservedElasticsearchInstances,
             inputKey: \DescribeReservedElasticsearchInstancesRequest.nextToken,
             outputKey: \DescribeReservedElasticsearchInstancesResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -318,12 +329,12 @@ extension ElasticsearchService {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeReservedElasticsearchInstancesPaginator(
         _ input: DescribeReservedElasticsearchInstancesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeReservedElasticsearchInstancesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -332,6 +343,7 @@ extension ElasticsearchService {
             command: describeReservedElasticsearchInstances,
             inputKey: \DescribeReservedElasticsearchInstancesRequest.nextToken,
             outputKey: \DescribeReservedElasticsearchInstancesResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -345,14 +357,14 @@ extension ElasticsearchService {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getPackageVersionHistoryPaginator<Result>(
         _ input: GetPackageVersionHistoryRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetPackageVersionHistoryResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -362,6 +374,7 @@ extension ElasticsearchService {
             command: getPackageVersionHistory,
             inputKey: \GetPackageVersionHistoryRequest.nextToken,
             outputKey: \GetPackageVersionHistoryResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -371,12 +384,12 @@ extension ElasticsearchService {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getPackageVersionHistoryPaginator(
         _ input: GetPackageVersionHistoryRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetPackageVersionHistoryResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -385,6 +398,7 @@ extension ElasticsearchService {
             command: getPackageVersionHistory,
             inputKey: \GetPackageVersionHistoryRequest.nextToken,
             outputKey: \GetPackageVersionHistoryResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -398,14 +412,14 @@ extension ElasticsearchService {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getUpgradeHistoryPaginator<Result>(
         _ input: GetUpgradeHistoryRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetUpgradeHistoryResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -415,6 +429,7 @@ extension ElasticsearchService {
             command: getUpgradeHistory,
             inputKey: \GetUpgradeHistoryRequest.nextToken,
             outputKey: \GetUpgradeHistoryResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -424,12 +439,12 @@ extension ElasticsearchService {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getUpgradeHistoryPaginator(
         _ input: GetUpgradeHistoryRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetUpgradeHistoryResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -438,6 +453,7 @@ extension ElasticsearchService {
             command: getUpgradeHistory,
             inputKey: \GetUpgradeHistoryRequest.nextToken,
             outputKey: \GetUpgradeHistoryResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -451,14 +467,14 @@ extension ElasticsearchService {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listDomainsForPackagePaginator<Result>(
         _ input: ListDomainsForPackageRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListDomainsForPackageResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -468,6 +484,7 @@ extension ElasticsearchService {
             command: listDomainsForPackage,
             inputKey: \ListDomainsForPackageRequest.nextToken,
             outputKey: \ListDomainsForPackageResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -477,12 +494,12 @@ extension ElasticsearchService {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDomainsForPackagePaginator(
         _ input: ListDomainsForPackageRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListDomainsForPackageResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -491,6 +508,7 @@ extension ElasticsearchService {
             command: listDomainsForPackage,
             inputKey: \ListDomainsForPackageRequest.nextToken,
             outputKey: \ListDomainsForPackageResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -504,14 +522,14 @@ extension ElasticsearchService {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listElasticsearchInstanceTypesPaginator<Result>(
         _ input: ListElasticsearchInstanceTypesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListElasticsearchInstanceTypesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -521,6 +539,7 @@ extension ElasticsearchService {
             command: listElasticsearchInstanceTypes,
             inputKey: \ListElasticsearchInstanceTypesRequest.nextToken,
             outputKey: \ListElasticsearchInstanceTypesResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -530,12 +549,12 @@ extension ElasticsearchService {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listElasticsearchInstanceTypesPaginator(
         _ input: ListElasticsearchInstanceTypesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListElasticsearchInstanceTypesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -544,6 +563,7 @@ extension ElasticsearchService {
             command: listElasticsearchInstanceTypes,
             inputKey: \ListElasticsearchInstanceTypesRequest.nextToken,
             outputKey: \ListElasticsearchInstanceTypesResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -557,14 +577,14 @@ extension ElasticsearchService {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listElasticsearchVersionsPaginator<Result>(
         _ input: ListElasticsearchVersionsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListElasticsearchVersionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -574,6 +594,7 @@ extension ElasticsearchService {
             command: listElasticsearchVersions,
             inputKey: \ListElasticsearchVersionsRequest.nextToken,
             outputKey: \ListElasticsearchVersionsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -583,12 +604,12 @@ extension ElasticsearchService {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listElasticsearchVersionsPaginator(
         _ input: ListElasticsearchVersionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListElasticsearchVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -597,6 +618,7 @@ extension ElasticsearchService {
             command: listElasticsearchVersions,
             inputKey: \ListElasticsearchVersionsRequest.nextToken,
             outputKey: \ListElasticsearchVersionsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -610,14 +632,14 @@ extension ElasticsearchService {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listPackagesForDomainPaginator<Result>(
         _ input: ListPackagesForDomainRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListPackagesForDomainResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -627,6 +649,7 @@ extension ElasticsearchService {
             command: listPackagesForDomain,
             inputKey: \ListPackagesForDomainRequest.nextToken,
             outputKey: \ListPackagesForDomainResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -636,12 +659,12 @@ extension ElasticsearchService {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listPackagesForDomainPaginator(
         _ input: ListPackagesForDomainRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListPackagesForDomainResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -650,6 +673,7 @@ extension ElasticsearchService {
             command: listPackagesForDomain,
             inputKey: \ListPackagesForDomainRequest.nextToken,
             outputKey: \ListPackagesForDomainResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )

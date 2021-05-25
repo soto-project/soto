@@ -41,11 +41,11 @@ extension {{name}} {
 {{/inputKey}}
 {{^inputKey}}
             tokenKey: \{{operation.outputShape}}.{{outputKey}},
-            context: context,
 {{#moreResultsKey}}
             moreResultsKey: \{{operation.outputShape}}.{{.}},
 {{/moreResultsKey}}
 {{/inputKey}}
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -76,11 +76,11 @@ extension {{name}} {
 {{/inputKey}}
 {{^inputKey}}
             tokenKey: \{{operation.outputShape}}.{{outputKey}},
-            context: context,
 {{#moreResultsKey}}
             moreResultsKey: \{{operation.outputShape}}.{{.}},
 {{/moreResultsKey}}
 {{/inputKey}}
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
