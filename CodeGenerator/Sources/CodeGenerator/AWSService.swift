@@ -19,14 +19,22 @@ struct AWSService {
     var api: API
     var docs: Docs
     var paginators: Paginators?
+    var waiters: Waiters?
     var endpoints: Endpoints
     var errors: [Shape]
     var stripHTMLTagsFromComments: Bool
 
-    init(api: API, docs: Docs, paginators: Paginators?, endpoints: Endpoints, stripHTMLTags: Bool) throws {
+    enum Error: Swift.Error {
+        /// JMES path can either not be processed or it does not represent a member of an object
+        case illegalJMESPath
+        case matcherInvalidType
+    }
+
+    init(api: API, docs: Docs, paginators: Paginators?, waiters: Waiters?, endpoints: Endpoints, stripHTMLTags: Bool) throws {
         self.api = api
         self.docs = docs
         self.paginators = paginators
+        self.waiters = waiters
         self.endpoints = endpoints
         self.errors = try Self.getErrors(from: api)
         self.stripHTMLTagsFromComments = stripHTMLTags
@@ -372,31 +380,6 @@ extension AWSService {
         return context
     }
 
-    /// convert paginator token to KeyPath
-    func toKeyPath(token: String, type: Shape.ShapeType.StructureType) -> String {
-        var split = token.split(separator: ".")
-        for i in 0..<split.count {
-            // if string contains [-1] replace with '.last'.
-            if let negativeIndexRange = split[i].range(of: "[-1]") {
-                split[i].removeSubrange(negativeIndexRange)
-
-                var replacement = "last"
-                // if a member is mentioned after the '[-1]' then you need to add a ? to the keyPath
-                if split.count > i + 1 {
-                    replacement += "?"
-                }
-                split.insert(Substring(replacement), at: i + 1)
-            }
-        }
-        // if output token is member of an optional struct add ? suffix
-        if type.required.first(where: { $0 == String(split[0]) }) == nil,
-           split.count > 1
-        {
-            split[0] += "?"
-        }
-        return split.map { String($0).toSwiftVariableCase() }.joined(separator: ".")
-    }
-
     /// Generate paginator context
     func generatePaginatorContext() throws -> [String: Any] {
         guard let pagination = paginators?.pagination else { return [:] }
@@ -433,15 +416,17 @@ extension AWSService {
             let tokenType = inputTokenMember.shape.swiftTypeNameWithServiceNamePrefix(self.api.serviceName)
 
             // process input tokens
-            var processedInputTokens = inputTokens.map { (token) -> String in
-                return self.toKeyPath(token: token, type: inputStructure)
+            var processedInputTokens = try inputTokens.map { (token) -> String in
+                return try self.toKeyPath(token: token, shape: inputShape, type: inputStructure).keyPath
             }
 
             // process output tokens
-            let processedOutputTokens = outputTokens.map { (token) -> String in
-                return self.toKeyPath(token: token, type: outputStructure)
+            let processedOutputTokens = try outputTokens.map { (token) -> String in
+                return try self.toKeyPath(token: token, shape: outputShape, type: outputStructure).keyPath
             }
-            var moreResultsKey = paginator.value.moreResults.map { self.toKeyPath(token: $0, type: outputStructure) }
+            var moreResultsKey = try paginator.value.moreResults.map {
+                try self.toKeyPath(token: $0, shape: outputShape, type: outputStructure).keyPath
+            }
 
             // S3 uses moreResultKey, everything else uses inputToken
             if self.api.serviceName == "S3" {
@@ -480,28 +465,33 @@ extension AWSService {
         return context
     }
 
+    func generateEnumMemberContext(_ value: String, shapeName: String) -> EnumMemberContext {
+        var key = value.lowercased()
+            .replacingOccurrences(of: ".", with: "_")
+            .replacingOccurrences(of: ":", with: "_")
+            .replacingOccurrences(of: "-", with: "_")
+            .replacingOccurrences(of: " ", with: "_")
+            .replacingOccurrences(of: "/", with: "_")
+            .replacingOccurrences(of: "(", with: "_")
+            .replacingOccurrences(of: ")", with: "_")
+            .replacingOccurrences(of: "*", with: "all")
+
+        if Int(String(key[key.startIndex])) != nil { key = "_" + key }
+
+        var caseName = key.camelCased()
+        if caseName.allLetterIsNumeric() {
+            caseName = "\(shapeName.toSwiftVariableCase())\(caseName)"
+        }
+        return EnumMemberContext(case: caseName, string: value)
+    }
+
     /// Generate the context information for outputting an enum
     func generateEnumContext(_ shape: Shape, enumType: Shape.ShapeType.EnumType) -> EnumContext {
         // Operations
         var valueContexts: [EnumMemberContext] = []
         for value in enumType.cases {
-            var key = value.lowercased()
-                .replacingOccurrences(of: ".", with: "_")
-                .replacingOccurrences(of: ":", with: "_")
-                .replacingOccurrences(of: "-", with: "_")
-                .replacingOccurrences(of: " ", with: "_")
-                .replacingOccurrences(of: "/", with: "_")
-                .replacingOccurrences(of: "(", with: "_")
-                .replacingOccurrences(of: ")", with: "_")
-                .replacingOccurrences(of: "*", with: "all")
-
-            if Int(String(key[key.startIndex])) != nil { key = "_" + key }
-
-            var caseName = key.camelCased()
-            if caseName.allLetterIsNumeric() {
-                caseName = "\(shape.name.toSwiftVariableCase())\(caseName)"
-            }
-            valueContexts.append(EnumMemberContext(case: caseName, string: value))
+            let enumMemberContext = generateEnumMemberContext(value, shapeName: shape.name)
+            valueContexts.append(enumMemberContext)
         }
         // sort value contexts alphabetically and then reserve word escape
         valueContexts = valueContexts.sorted { $0.case < $1.case }.map { .init(case: $0.case.reservedwordEscaped(), string: $0.string) }
