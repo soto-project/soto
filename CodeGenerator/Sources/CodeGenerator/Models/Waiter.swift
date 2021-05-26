@@ -20,6 +20,7 @@ struct Waiters: Decodable {
             case failure
             case retry
         }
+
         enum MatcherValue: Decodable, Equatable {
             case string(String)
             case integer(Int)
@@ -41,6 +42,7 @@ struct Waiters: Decodable {
                 }
             }
         }
+
         enum Matcher: Equatable {
             case status(Int)
             case path(argument: String, expected: MatcherValue)
@@ -56,7 +58,7 @@ struct Waiters: Decodable {
             required init(from decoder: Decoder) throws {
                 let container = try decoder.container(keyedBy: CodingKeys.self)
                 self.state = try container.decode(State.self, forKey: .state)
-                
+
                 let type = try container.decode(String.self, forKey: .matcher)
                 switch type {
                 case "status":
@@ -92,6 +94,7 @@ struct Waiters: Decodable {
                 case expected
             }
         }
+
         var delay: Int
         var maxAttempts: Int
         var operation: String

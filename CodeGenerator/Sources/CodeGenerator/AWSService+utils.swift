@@ -52,7 +52,7 @@ extension AWSService {
             guard let member = type.members[String(resultWithoutBrackets)] else {
                 throw Error.illegalJMESPath
             }
-            
+
             shape = member.shape
             if i < split.count - 1 {
                 if case .list(let listType) = shape.type {
@@ -69,5 +69,4 @@ extension AWSService {
         let keyPath = keyPathSplit.map { String($0).toSwiftVariableCase() }.joined(separator: ".")
         return (keyPath: keyPath, shape: shape)
     }
-
 }

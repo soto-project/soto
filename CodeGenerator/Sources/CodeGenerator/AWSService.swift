@@ -490,7 +490,7 @@ extension AWSService {
         // Operations
         var valueContexts: [EnumMemberContext] = []
         for value in enumType.cases {
-            let enumMemberContext = generateEnumMemberContext(value, shapeName: shape.name)
+            let enumMemberContext = self.generateEnumMemberContext(value, shapeName: shape.name)
             valueContexts.append(enumMemberContext)
         }
         // sort value contexts alphabetically and then reserve word escape
