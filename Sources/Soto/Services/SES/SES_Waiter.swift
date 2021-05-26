@@ -20,4 +20,19 @@ import SotoCore
 
 // MARK: Waiters
 
-extension SES {}
+extension SES {
+    public func IdentityExistsWaiter(
+        _ input: GetIdentityVerificationAttributesRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \GetIdentityVerificationAttributesResponse.verificationAttributes.values, elementPath: \IdentityVerificationAttributes.verificationStatus, expected: .success)),
+            ],
+            command: getIdentityVerificationAttributes
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+}
