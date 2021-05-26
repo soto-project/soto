@@ -20,7 +20,7 @@ struct Waiters: Decodable {
             case failure
             case retry
         }
-        enum MatcherValue: Decodable {
+        enum MatcherValue: Decodable, Equatable {
             case string(String)
             case integer(Int)
             case bool(Bool)
@@ -41,7 +41,7 @@ struct Waiters: Decodable {
                 }
             }
         }
-        enum Matcher {
+        enum Matcher: Equatable {
             case status(Int)
             case path(argument: String, expected: MatcherValue)
             case allPath(argument: String, expected: MatcherValue)
@@ -49,11 +49,11 @@ struct Waiters: Decodable {
             case error(String)
         }
 
-        struct Acceptor: Decodable {
-            let state: State
-            let matcher: Matcher
+        class Acceptor: Decodable {
+            var state: State
+            var matcher: Matcher
 
-            init(from decoder: Decoder) throws {
+            required init(from decoder: Decoder) throws {
                 let container = try decoder.container(keyedBy: CodingKeys.self)
                 self.state = try container.decode(State.self, forKey: .state)
                 
@@ -92,12 +92,12 @@ struct Waiters: Decodable {
                 case expected
             }
         }
-        let delay: Int
-        let maxAttempts: Int
-        let operation: String
-        let acceptors: [Acceptor]
+        var delay: Int
+        var maxAttempts: Int
+        var operation: String
+        var acceptors: [Acceptor]
     }
 
-    let version: Int
-    let waiters: [String: Waiter]
+    var version: Int
+    var waiters: [String: Waiter]
 }
