@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension Glacier {
-    public func VaultExistsWaiter(
+    public func waitUntilVaultExists(
         _ input: DescribeVaultInput,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -36,7 +36,7 @@ extension Glacier {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func VaultNotExistsWaiter(
+    public func waitUntilVaultNotExists(
         _ input: DescribeVaultInput,
         maxWaitTime: TimeAmount,
         logger: Logger,

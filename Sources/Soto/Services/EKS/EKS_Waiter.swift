@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension EKS {
-    public func AddonActiveWaiter(
+    public func waitUntilAddonActive(
         _ input: DescribeAddonRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -37,7 +37,7 @@ extension EKS {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func AddonDeletedWaiter(
+    public func waitUntilAddonDeleted(
         _ input: DescribeAddonRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -53,7 +53,7 @@ extension EKS {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func ClusterActiveWaiter(
+    public func waitUntilClusterActive(
         _ input: DescribeClusterRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -70,7 +70,7 @@ extension EKS {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func ClusterDeletedWaiter(
+    public func waitUntilClusterDeleted(
         _ input: DescribeClusterRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -87,7 +87,7 @@ extension EKS {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func NodegroupActiveWaiter(
+    public func waitUntilNodegroupActive(
         _ input: DescribeNodegroupRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -103,7 +103,7 @@ extension EKS {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func NodegroupDeletedWaiter(
+    public func waitUntilNodegroupDeleted(
         _ input: DescribeNodegroupRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,

@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension Lambda {
-    public func FunctionActiveWaiter(
+    public func waitUntilFunctionActive(
         _ input: GetFunctionConfigurationRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -38,7 +38,7 @@ extension Lambda {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func FunctionExistsWaiter(
+    public func waitUntilFunctionExists(
         _ input: GetFunctionRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -53,7 +53,7 @@ extension Lambda {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func FunctionUpdatedWaiter(
+    public func waitUntilFunctionUpdated(
         _ input: GetFunctionConfigurationRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,

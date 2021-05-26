@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension ECR {
-    public func ImageScanCompleteWaiter(
+    public func waitUntilImageScanComplete(
         _ input: DescribeImageScanFindingsRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -37,7 +37,7 @@ extension ECR {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func LifecyclePolicyPreviewCompleteWaiter(
+    public func waitUntilLifecyclePolicyPreviewComplete(
         _ input: GetLifecyclePolicyPreviewRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,

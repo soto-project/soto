@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension IAM {
-    public func InstanceProfileExistsWaiter(
+    public func waitUntilInstanceProfileExists(
         _ input: GetInstanceProfileRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -36,7 +36,7 @@ extension IAM {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func PolicyExistsWaiter(
+    public func waitUntilPolicyExists(
         _ input: GetPolicyRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -51,7 +51,7 @@ extension IAM {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func RoleExistsWaiter(
+    public func waitUntilRoleExists(
         _ input: GetRoleRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -66,7 +66,7 @@ extension IAM {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func UserExistsWaiter(
+    public func waitUntilUserExists(
         _ input: GetUserRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,

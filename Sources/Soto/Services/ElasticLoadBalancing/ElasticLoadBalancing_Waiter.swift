@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension ElasticLoadBalancing {
-    public func AnyInstanceInServiceWaiter(
+    public func waitUntilAnyInstanceInService(
         _ input: DescribeEndPointStateInput,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -36,7 +36,7 @@ extension ElasticLoadBalancing {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func InstanceDeregisteredWaiter(
+    public func waitUntilInstanceDeregistered(
         _ input: DescribeEndPointStateInput,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -52,7 +52,7 @@ extension ElasticLoadBalancing {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func InstanceInServiceWaiter(
+    public func waitUntilInstanceInService(
         _ input: DescribeEndPointStateInput,
         maxWaitTime: TimeAmount,
         logger: Logger,

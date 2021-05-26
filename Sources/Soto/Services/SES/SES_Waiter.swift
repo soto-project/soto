@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension SES {
-    public func IdentityExistsWaiter(
+    public func waitUntilIdentityExists(
         _ input: GetIdentityVerificationAttributesRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,

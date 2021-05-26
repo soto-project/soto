@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension EC2 {
-    public func BundleTaskCompleteWaiter(
+    public func waitUntilBundleTaskComplete(
         _ input: DescribeBundleTasksRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -37,7 +37,7 @@ extension EC2 {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func ConversionTaskCancelledWaiter(
+    public func waitUntilConversionTaskCancelled(
         _ input: DescribeConversionTasksRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -52,7 +52,7 @@ extension EC2 {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func ConversionTaskCompletedWaiter(
+    public func waitUntilConversionTaskCompleted(
         _ input: DescribeConversionTasksRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -69,7 +69,7 @@ extension EC2 {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func ConversionTaskDeletedWaiter(
+    public func waitUntilConversionTaskDeleted(
         _ input: DescribeConversionTasksRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -84,7 +84,7 @@ extension EC2 {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func CustomerGatewayAvailableWaiter(
+    public func waitUntilCustomerGatewayAvailable(
         _ input: DescribeCustomerGatewaysRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -101,7 +101,7 @@ extension EC2 {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func ExportTaskCancelledWaiter(
+    public func waitUntilExportTaskCancelled(
         _ input: DescribeExportTasksRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -116,7 +116,7 @@ extension EC2 {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func ExportTaskCompletedWaiter(
+    public func waitUntilExportTaskCompleted(
         _ input: DescribeExportTasksRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -131,7 +131,7 @@ extension EC2 {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func ImageAvailableWaiter(
+    public func waitUntilImageAvailable(
         _ input: DescribeImagesRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -147,7 +147,7 @@ extension EC2 {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func InstanceStatusOkWaiter(
+    public func waitUntilInstanceStatusOk(
         _ input: DescribeInstanceStatusRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -163,7 +163,7 @@ extension EC2 {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func NatGatewayAvailableWaiter(
+    public func waitUntilNatGatewayAvailable(
         _ input: DescribeNatGatewaysRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -182,7 +182,7 @@ extension EC2 {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func NetworkInterfaceAvailableWaiter(
+    public func waitUntilNetworkInterfaceAvailable(
         _ input: DescribeNetworkInterfacesRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -198,7 +198,7 @@ extension EC2 {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func SnapshotCompletedWaiter(
+    public func waitUntilSnapshotCompleted(
         _ input: DescribeSnapshotsRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -213,7 +213,7 @@ extension EC2 {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func SpotInstanceRequestFulfilledWaiter(
+    public func waitUntilSpotInstanceRequestFulfilled(
         _ input: DescribeSpotInstanceRequestsRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -234,7 +234,7 @@ extension EC2 {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func SubnetAvailableWaiter(
+    public func waitUntilSubnetAvailable(
         _ input: DescribeSubnetsRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -249,7 +249,7 @@ extension EC2 {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func SystemStatusOkWaiter(
+    public func waitUntilSystemStatusOk(
         _ input: DescribeInstanceStatusRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -264,7 +264,7 @@ extension EC2 {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func VolumeAvailableWaiter(
+    public func waitUntilVolumeAvailable(
         _ input: DescribeVolumesRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -280,7 +280,7 @@ extension EC2 {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func VolumeDeletedWaiter(
+    public func waitUntilVolumeDeleted(
         _ input: DescribeVolumesRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -296,7 +296,7 @@ extension EC2 {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func VolumeInUseWaiter(
+    public func waitUntilVolumeInUse(
         _ input: DescribeVolumesRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -312,7 +312,7 @@ extension EC2 {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func VpcAvailableWaiter(
+    public func waitUntilVpcAvailable(
         _ input: DescribeVpcsRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -327,7 +327,7 @@ extension EC2 {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func VpcExistsWaiter(
+    public func waitUntilVpcExists(
         _ input: DescribeVpcsRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -342,7 +342,7 @@ extension EC2 {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func VpcPeeringConnectionDeletedWaiter(
+    public func waitUntilVpcPeeringConnectionDeleted(
         _ input: DescribeVpcPeeringConnectionsRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -358,7 +358,7 @@ extension EC2 {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func VpcPeeringConnectionExistsWaiter(
+    public func waitUntilVpcPeeringConnectionExists(
         _ input: DescribeVpcPeeringConnectionsRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -373,7 +373,7 @@ extension EC2 {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func VpnConnectionAvailableWaiter(
+    public func waitUntilVpnConnectionAvailable(
         _ input: DescribeVpnConnectionsRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -390,7 +390,7 @@ extension EC2 {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func VpnConnectionDeletedWaiter(
+    public func waitUntilVpnConnectionDeleted(
         _ input: DescribeVpnConnectionsRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,

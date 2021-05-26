@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension ElasticBeanstalk {
-    public func EnvironmentExistsWaiter(
+    public func waitUntilEnvironmentExists(
         _ input: DescribeEnvironmentsMessage,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -37,7 +37,7 @@ extension ElasticBeanstalk {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func EnvironmentTerminatedWaiter(
+    public func waitUntilEnvironmentTerminated(
         _ input: DescribeEnvironmentsMessage,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -53,7 +53,7 @@ extension ElasticBeanstalk {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func EnvironmentUpdatedWaiter(
+    public func waitUntilEnvironmentUpdated(
         _ input: DescribeEnvironmentsMessage,
         maxWaitTime: TimeAmount,
         logger: Logger,

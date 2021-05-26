@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension ElasticTranscoder {
-    public func JobCompleteWaiter(
+    public func waitUntilJobComplete(
         _ input: ReadJobRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,

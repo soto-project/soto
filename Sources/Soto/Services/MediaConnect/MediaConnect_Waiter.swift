@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension MediaConnect {
-    public func FlowActiveWaiter(
+    public func waitUntilFlowActive(
         _ input: DescribeFlowRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -41,7 +41,7 @@ extension MediaConnect {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func FlowDeletedWaiter(
+    public func waitUntilFlowDeleted(
         _ input: DescribeFlowRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -60,7 +60,7 @@ extension MediaConnect {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func FlowStandbyWaiter(
+    public func waitUntilFlowStandby(
         _ input: DescribeFlowRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,

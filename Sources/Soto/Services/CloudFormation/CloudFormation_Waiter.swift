@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension CloudFormation {
-    public func ChangeSetCreateCompleteWaiter(
+    public func waitUntilChangeSetCreateComplete(
         _ input: DescribeChangeSetInput,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -38,7 +38,7 @@ extension CloudFormation {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func StackCreateCompleteWaiter(
+    public func waitUntilStackCreateComplete(
         _ input: DescribeStacksInput,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -59,7 +59,7 @@ extension CloudFormation {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func StackDeleteCompleteWaiter(
+    public func waitUntilStackDeleteComplete(
         _ input: DescribeStacksInput,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -81,7 +81,7 @@ extension CloudFormation {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func StackExistsWaiter(
+    public func waitUntilStackExists(
         _ input: DescribeStacksInput,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -96,7 +96,7 @@ extension CloudFormation {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func StackImportCompleteWaiter(
+    public func waitUntilStackImportComplete(
         _ input: DescribeStacksInput,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -117,7 +117,7 @@ extension CloudFormation {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func StackRollbackCompleteWaiter(
+    public func waitUntilStackRollbackComplete(
         _ input: DescribeStacksInput,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -136,7 +136,7 @@ extension CloudFormation {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func StackUpdateCompleteWaiter(
+    public func waitUntilStackUpdateComplete(
         _ input: DescribeStacksInput,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -155,7 +155,7 @@ extension CloudFormation {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func TypeRegistrationCompleteWaiter(
+    public func waitUntilTypeRegistrationComplete(
         _ input: DescribeTypeRegistrationInput,
         maxWaitTime: TimeAmount,
         logger: Logger,

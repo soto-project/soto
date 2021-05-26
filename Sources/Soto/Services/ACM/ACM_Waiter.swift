@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension ACM {
-    public func CertificateValidatedWaiter(
+    public func waitUntilCertificateValidated(
         _ input: DescribeCertificateRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,

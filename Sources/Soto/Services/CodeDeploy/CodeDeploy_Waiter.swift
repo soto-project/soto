@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension CodeDeploy {
-    public func DeploymentSuccessfulWaiter(
+    public func waitUntilDeploymentSuccessful(
         _ input: GetDeploymentInput,
         maxWaitTime: TimeAmount,
         logger: Logger,

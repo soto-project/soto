@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension MachineLearning {
-    public func BatchPredictionAvailableWaiter(
+    public func waitUntilBatchPredictionAvailable(
         _ input: DescribeBatchPredictionsInput,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -37,7 +37,7 @@ extension MachineLearning {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func DataSourceAvailableWaiter(
+    public func waitUntilDataSourceAvailable(
         _ input: DescribeDataSourcesInput,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -53,7 +53,7 @@ extension MachineLearning {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func EvaluationAvailableWaiter(
+    public func waitUntilEvaluationAvailable(
         _ input: DescribeEvaluationsInput,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -69,7 +69,7 @@ extension MachineLearning {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func MLModelAvailableWaiter(
+    public func waitUntilMLModelAvailable(
         _ input: DescribeMLModelsInput,
         maxWaitTime: TimeAmount,
         logger: Logger,

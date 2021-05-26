@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension CloudFront {
-    public func DistributionDeployedWaiter(
+    public func waitUntilDistributionDeployed(
         _ input: GetDistributionRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -36,7 +36,7 @@ extension CloudFront {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func InvalidationCompletedWaiter(
+    public func waitUntilInvalidationCompleted(
         _ input: GetInvalidationRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -51,7 +51,7 @@ extension CloudFront {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func StreamingDistributionDeployedWaiter(
+    public func waitUntilStreamingDistributionDeployed(
         _ input: GetStreamingDistributionRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,

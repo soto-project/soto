@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension Route53 {
-    public func ResourceRecordSetsChangedWaiter(
+    public func waitUntilResourceRecordSetsChanged(
         _ input: GetChangeRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,

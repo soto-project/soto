@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension OpsWorks {
-    public func AppExistsWaiter(
+    public func waitUntilAppExists(
         _ input: DescribeAppsRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -36,7 +36,7 @@ extension OpsWorks {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func DeploymentSuccessfulWaiter(
+    public func waitUntilDeploymentSuccessful(
         _ input: DescribeDeploymentsRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -52,7 +52,7 @@ extension OpsWorks {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func InstanceOnlineWaiter(
+    public func waitUntilInstanceOnline(
         _ input: DescribeInstancesRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -75,7 +75,7 @@ extension OpsWorks {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func InstanceRegisteredWaiter(
+    public func waitUntilInstanceRegistered(
         _ input: DescribeInstancesRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -97,7 +97,7 @@ extension OpsWorks {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func InstanceStoppedWaiter(
+    public func waitUntilInstanceStopped(
         _ input: DescribeInstancesRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -120,7 +120,7 @@ extension OpsWorks {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func InstanceTerminatedWaiter(
+    public func waitUntilInstanceTerminated(
         _ input: DescribeInstancesRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,

@@ -9,7 +9,7 @@ import SotoCore
 
 extension {{name}} {
 {{#waiters}}
-    public func {{waiterName}}Waiter(
+    public func waitUntil{{waiterName}}(
         _ input: {{operation.inputShape}},
         maxWaitTime: TimeAmount,
         logger: Logger,

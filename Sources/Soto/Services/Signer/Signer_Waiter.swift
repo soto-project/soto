@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension Signer {
-    public func SuccessfulSigningJobWaiter(
+    public func waitUntilSuccessfulSigningJob(
         _ input: DescribeSigningJobRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
