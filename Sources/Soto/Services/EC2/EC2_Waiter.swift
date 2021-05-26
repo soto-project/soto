@@ -21,6 +21,312 @@ import SotoCore
 // MARK: Waiters
 
 extension EC2 {
+    public func BundleTaskCompleteWaiter(
+        _ input: DescribeBundleTasksRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeBundleTasksResult.bundleTasks, elementPath: \BundleTask.state, expected: .complete)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeBundleTasksResult.bundleTasks, elementPath: \BundleTask.state, expected: .failed)),
+            ],
+            command: describeBundleTasks
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func ConversionTaskCancelledWaiter(
+        _ input: DescribeConversionTasksRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeConversionTasksResult.conversionTasks, elementPath: \ConversionTask.state, expected: .cancelled)),
+            ],
+            command: describeConversionTasks
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func ConversionTaskCompletedWaiter(
+        _ input: DescribeConversionTasksRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeConversionTasksResult.conversionTasks, elementPath: \ConversionTask.state, expected: .completed)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeConversionTasksResult.conversionTasks, elementPath: \ConversionTask.state, expected: .cancelled)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeConversionTasksResult.conversionTasks, elementPath: \ConversionTask.state, expected: .cancelling)),
+            ],
+            command: describeConversionTasks
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func ConversionTaskDeletedWaiter(
+        _ input: DescribeConversionTasksRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeConversionTasksResult.conversionTasks, elementPath: \ConversionTask.state, expected: .deleted)),
+            ],
+            command: describeConversionTasks
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func CustomerGatewayAvailableWaiter(
+        _ input: DescribeCustomerGatewaysRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeCustomerGatewaysResult.customerGateways, elementPath: \CustomerGateway.state, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeCustomerGatewaysResult.customerGateways, elementPath: \CustomerGateway.state, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeCustomerGatewaysResult.customerGateways, elementPath: \CustomerGateway.state, expected: "string")),
+            ],
+            command: describeCustomerGateways
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func ExportTaskCancelledWaiter(
+        _ input: DescribeExportTasksRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeExportTasksResult.exportTasks, elementPath: \ExportTask.state, expected: .cancelled)),
+            ],
+            command: describeExportTasks
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func ExportTaskCompletedWaiter(
+        _ input: DescribeExportTasksRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeExportTasksResult.exportTasks, elementPath: \ExportTask.state, expected: .completed)),
+            ],
+            command: describeExportTasks
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func ImageAvailableWaiter(
+        _ input: DescribeImagesRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeImagesResult.images, elementPath: \Image.state, expected: .available)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeImagesResult.images, elementPath: \Image.state, expected: .failed)),
+            ],
+            command: describeImages
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func InstanceStatusOkWaiter(
+        _ input: DescribeInstanceStatusRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeInstanceStatusResult.instanceStatuses, elementPath: \InstanceStatus.instanceStatus?.status, expected: .ok)),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("InvalidInstanceID.NotFound")),
+            ],
+            command: describeInstanceStatus
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func NatGatewayAvailableWaiter(
+        _ input: DescribeNatGatewaysRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeNatGatewaysResult.natGateways, elementPath: \NatGateway.state, expected: .available)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeNatGatewaysResult.natGateways, elementPath: \NatGateway.state, expected: .failed)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeNatGatewaysResult.natGateways, elementPath: \NatGateway.state, expected: .deleting)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeNatGatewaysResult.natGateways, elementPath: \NatGateway.state, expected: .deleted)),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("NatGatewayNotFound")),
+            ],
+            command: describeNatGateways
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func NetworkInterfaceAvailableWaiter(
+        _ input: DescribeNetworkInterfacesRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeNetworkInterfacesResult.networkInterfaces, elementPath: \NetworkInterface.status, expected: .available)),
+                .init(state: .failure, matcher: AWSErrorCodeMatcher("InvalidNetworkInterfaceID.NotFound")),
+            ],
+            command: describeNetworkInterfaces
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func SnapshotCompletedWaiter(
+        _ input: DescribeSnapshotsRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeSnapshotsResult.snapshots, elementPath: \Snapshot.state, expected: .completed)),
+            ],
+            command: describeSnapshots
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func SpotInstanceRequestFulfilledWaiter(
+        _ input: DescribeSpotInstanceRequestsRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeSpotInstanceRequestsResult.spotInstanceRequests, elementPath: \SpotInstanceRequest.status?.code, expected: "string")),
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeSpotInstanceRequestsResult.spotInstanceRequests, elementPath: \SpotInstanceRequest.status?.code, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeSpotInstanceRequestsResult.spotInstanceRequests, elementPath: \SpotInstanceRequest.status?.code, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeSpotInstanceRequestsResult.spotInstanceRequests, elementPath: \SpotInstanceRequest.status?.code, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeSpotInstanceRequestsResult.spotInstanceRequests, elementPath: \SpotInstanceRequest.status?.code, expected: "string")),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeSpotInstanceRequestsResult.spotInstanceRequests, elementPath: \SpotInstanceRequest.status?.code, expected: "string")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("InvalidSpotInstanceRequestID.NotFound")),
+            ],
+            command: describeSpotInstanceRequests
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func SubnetAvailableWaiter(
+        _ input: DescribeSubnetsRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeSubnetsResult.subnets, elementPath: \Subnet.state, expected: .available)),
+            ],
+            command: describeSubnets
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func SystemStatusOkWaiter(
+        _ input: DescribeInstanceStatusRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeInstanceStatusResult.instanceStatuses, elementPath: \InstanceStatus.systemStatus?.status, expected: .ok)),
+            ],
+            command: describeInstanceStatus
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func VolumeAvailableWaiter(
+        _ input: DescribeVolumesRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeVolumesResult.volumes, elementPath: \Volume.state, expected: .available)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeVolumesResult.volumes, elementPath: \Volume.state, expected: .deleted)),
+            ],
+            command: describeVolumes
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func VolumeDeletedWaiter(
+        _ input: DescribeVolumesRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeVolumesResult.volumes, elementPath: \Volume.state, expected: .deleted)),
+                .init(state: .success, matcher: AWSErrorCodeMatcher("InvalidVolume.NotFound")),
+            ],
+            command: describeVolumes
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func VolumeInUseWaiter(
+        _ input: DescribeVolumesRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeVolumesResult.volumes, elementPath: \Volume.state, expected: .inUse)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeVolumesResult.volumes, elementPath: \Volume.state, expected: .deleted)),
+            ],
+            command: describeVolumes
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func VpcAvailableWaiter(
+        _ input: DescribeVpcsRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeVpcsResult.vpcs, elementPath: \Vpc.state, expected: .available)),
+            ],
+            command: describeVpcs
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
     public func VpcExistsWaiter(
         _ input: DescribeVpcsRequest,
         maxWaitTime: TimeAmount,
@@ -36,6 +342,22 @@ extension EC2 {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    public func VpcPeeringConnectionDeletedWaiter(
+        _ input: DescribeVpcPeeringConnectionsRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeVpcPeeringConnectionsResult.vpcPeeringConnections, elementPath: \VpcPeeringConnection.status?.code, expected: .deleted)),
+                .init(state: .success, matcher: AWSErrorCodeMatcher("InvalidVpcPeeringConnectionID.NotFound")),
+            ],
+            command: describeVpcPeeringConnections
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
     public func VpcPeeringConnectionExistsWaiter(
         _ input: DescribeVpcPeeringConnectionsRequest,
         maxWaitTime: TimeAmount,
@@ -47,6 +369,39 @@ extension EC2 {
                 .init(state: .retry, matcher: AWSErrorCodeMatcher("InvalidVpcPeeringConnectionID.NotFound")),
             ],
             command: describeVpcPeeringConnections
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func VpnConnectionAvailableWaiter(
+        _ input: DescribeVpnConnectionsRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeVpnConnectionsResult.vpnConnections, elementPath: \VpnConnection.state, expected: .available)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeVpnConnectionsResult.vpnConnections, elementPath: \VpnConnection.state, expected: .deleting)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeVpnConnectionsResult.vpnConnections, elementPath: \VpnConnection.state, expected: .deleted)),
+            ],
+            command: describeVpnConnections
+        )
+        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func VpnConnectionDeletedWaiter(
+        _ input: DescribeVpnConnectionsRequest,
+        maxWaitTime: TimeAmount,
+        logger: Logger,
+        on eventLoop: EventLoop
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeVpnConnectionsResult.vpnConnections, elementPath: \VpnConnection.state, expected: .deleted)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeVpnConnectionsResult.vpnConnections, elementPath: \VpnConnection.state, expected: .pending)),
+            ],
+            command: describeVpnConnections
         )
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
