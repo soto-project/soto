@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension IoTSiteWise {
-    public func AssetActiveWaiter(
+    public func waitUntilAssetActive(
         _ input: DescribeAssetRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -37,7 +37,7 @@ extension IoTSiteWise {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func AssetModelActiveWaiter(
+    public func waitUntilAssetModelActive(
         _ input: DescribeAssetModelRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -53,7 +53,7 @@ extension IoTSiteWise {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func AssetModelNotExistsWaiter(
+    public func waitUntilAssetModelNotExists(
         _ input: DescribeAssetModelRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -68,7 +68,7 @@ extension IoTSiteWise {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func AssetNotExistsWaiter(
+    public func waitUntilAssetNotExists(
         _ input: DescribeAssetRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -83,7 +83,7 @@ extension IoTSiteWise {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func PortalActiveWaiter(
+    public func waitUntilPortalActive(
         _ input: DescribePortalRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -98,7 +98,7 @@ extension IoTSiteWise {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func PortalNotExistsWaiter(
+    public func waitUntilPortalNotExists(
         _ input: DescribePortalRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,

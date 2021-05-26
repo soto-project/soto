@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension SSM {
-    public func CommandExecutedWaiter(
+    public func waitUntilCommandExecuted(
         _ input: GetCommandInvocationRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,

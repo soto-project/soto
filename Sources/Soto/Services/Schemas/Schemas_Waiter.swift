@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension Schemas {
-    public func CodeBindingExistsWaiter(
+    public func waitUntilCodeBindingExists(
         _ input: DescribeCodeBindingRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,

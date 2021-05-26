@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension DatabaseMigrationService {
-    public func EndpointDeletedWaiter(
+    public func waitUntilEndpointDeleted(
         _ input: DescribeEndpointsMessage,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -38,7 +38,7 @@ extension DatabaseMigrationService {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func ReplicationInstanceAvailableWaiter(
+    public func waitUntilReplicationInstanceAvailable(
         _ input: DescribeReplicationInstancesMessage,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -57,7 +57,7 @@ extension DatabaseMigrationService {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func ReplicationInstanceDeletedWaiter(
+    public func waitUntilReplicationInstanceDeleted(
         _ input: DescribeReplicationInstancesMessage,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -73,7 +73,7 @@ extension DatabaseMigrationService {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func ReplicationTaskDeletedWaiter(
+    public func waitUntilReplicationTaskDeleted(
         _ input: DescribeReplicationTasksMessage,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -93,7 +93,7 @@ extension DatabaseMigrationService {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func ReplicationTaskReadyWaiter(
+    public func waitUntilReplicationTaskReady(
         _ input: DescribeReplicationTasksMessage,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -116,7 +116,7 @@ extension DatabaseMigrationService {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func ReplicationTaskRunningWaiter(
+    public func waitUntilReplicationTaskRunning(
         _ input: DescribeReplicationTasksMessage,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -139,7 +139,7 @@ extension DatabaseMigrationService {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func ReplicationTaskStoppedWaiter(
+    public func waitUntilReplicationTaskStopped(
         _ input: DescribeReplicationTasksMessage,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -161,7 +161,7 @@ extension DatabaseMigrationService {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func TestConnectionSucceedsWaiter(
+    public func waitUntilTestConnectionSucceeds(
         _ input: DescribeConnectionsMessage,
         maxWaitTime: TimeAmount,
         logger: Logger,

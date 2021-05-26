@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension ACMPCA {
-    public func AuditReportCreatedWaiter(
+    public func waitUntilAuditReportCreated(
         _ input: DescribeCertificateAuthorityAuditReportRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -37,7 +37,7 @@ extension ACMPCA {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func CertificateAuthorityCSRCreatedWaiter(
+    public func waitUntilCertificateAuthorityCSRCreated(
         _ input: GetCertificateAuthorityCsrRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -52,7 +52,7 @@ extension ACMPCA {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func CertificateIssuedWaiter(
+    public func waitUntilCertificateIssued(
         _ input: GetCertificateRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,

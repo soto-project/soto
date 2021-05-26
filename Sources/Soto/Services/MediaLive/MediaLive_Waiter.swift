@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension MediaLive {
-    public func ChannelCreatedWaiter(
+    public func waitUntilChannelCreated(
         _ input: DescribeChannelRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -39,7 +39,7 @@ extension MediaLive {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func ChannelDeletedWaiter(
+    public func waitUntilChannelDeleted(
         _ input: DescribeChannelRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -56,7 +56,7 @@ extension MediaLive {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func ChannelRunningWaiter(
+    public func waitUntilChannelRunning(
         _ input: DescribeChannelRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -73,7 +73,7 @@ extension MediaLive {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func ChannelStoppedWaiter(
+    public func waitUntilChannelStopped(
         _ input: DescribeChannelRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -90,7 +90,7 @@ extension MediaLive {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func InputAttachedWaiter(
+    public func waitUntilInputAttached(
         _ input: DescribeInputRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -107,7 +107,7 @@ extension MediaLive {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func InputDeletedWaiter(
+    public func waitUntilInputDeleted(
         _ input: DescribeInputRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -124,7 +124,7 @@ extension MediaLive {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func InputDetachedWaiter(
+    public func waitUntilInputDetached(
         _ input: DescribeInputRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -142,7 +142,7 @@ extension MediaLive {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func MultiplexCreatedWaiter(
+    public func waitUntilMultiplexCreated(
         _ input: DescribeMultiplexRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -160,7 +160,7 @@ extension MediaLive {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func MultiplexDeletedWaiter(
+    public func waitUntilMultiplexDeleted(
         _ input: DescribeMultiplexRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -177,7 +177,7 @@ extension MediaLive {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func MultiplexRunningWaiter(
+    public func waitUntilMultiplexRunning(
         _ input: DescribeMultiplexRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -194,7 +194,7 @@ extension MediaLive {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func MultiplexStoppedWaiter(
+    public func waitUntilMultiplexStopped(
         _ input: DescribeMultiplexRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,

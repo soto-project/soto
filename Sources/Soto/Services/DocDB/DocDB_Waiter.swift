@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension DocDB {
-    public func DBInstanceAvailableWaiter(
+    public func waitUntilDBInstanceAvailable(
         _ input: DescribeDBInstancesMessage,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -41,7 +41,7 @@ extension DocDB {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func DBInstanceDeletedWaiter(
+    public func waitUntilDBInstanceDeleted(
         _ input: DescribeDBInstancesMessage,
         maxWaitTime: TimeAmount,
         logger: Logger,

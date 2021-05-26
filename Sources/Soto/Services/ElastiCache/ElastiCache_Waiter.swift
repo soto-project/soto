@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension ElastiCache {
-    public func CacheClusterAvailableWaiter(
+    public func waitUntilCacheClusterAvailable(
         _ input: DescribeCacheClustersMessage,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -40,7 +40,7 @@ extension ElastiCache {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func CacheClusterDeletedWaiter(
+    public func waitUntilCacheClusterDeleted(
         _ input: DescribeCacheClustersMessage,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -62,7 +62,7 @@ extension ElastiCache {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func ReplicationGroupAvailableWaiter(
+    public func waitUntilReplicationGroupAvailable(
         _ input: DescribeReplicationGroupsMessage,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -78,7 +78,7 @@ extension ElastiCache {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func ReplicationGroupDeletedWaiter(
+    public func waitUntilReplicationGroupDeleted(
         _ input: DescribeReplicationGroupsMessage,
         maxWaitTime: TimeAmount,
         logger: Logger,

@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension DynamoDB {
-    public func TableExistsWaiter(
+    public func waitUntilTableExists(
         _ input: DescribeTableInput,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -37,7 +37,7 @@ extension DynamoDB {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func TableNotExistsWaiter(
+    public func waitUntilTableNotExists(
         _ input: DescribeTableInput,
         maxWaitTime: TimeAmount,
         logger: Logger,

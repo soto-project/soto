@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension S3 {
-    public func ObjectExistsWaiter(
+    public func waitUntilObjectExists(
         _ input: HeadObjectRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -36,7 +36,7 @@ extension S3 {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func ObjectNotExistsWaiter(
+    public func waitUntilObjectNotExists(
         _ input: HeadObjectRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,

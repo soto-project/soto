@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension Redshift {
-    public func ClusterAvailableWaiter(
+    public func waitUntilClusterAvailable(
         _ input: DescribeClustersMessage,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -38,7 +38,7 @@ extension Redshift {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func ClusterDeletedWaiter(
+    public func waitUntilClusterDeleted(
         _ input: DescribeClustersMessage,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -55,7 +55,7 @@ extension Redshift {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func ClusterRestoredWaiter(
+    public func waitUntilClusterRestored(
         _ input: DescribeClustersMessage,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -71,7 +71,7 @@ extension Redshift {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func SnapshotAvailableWaiter(
+    public func waitUntilSnapshotAvailable(
         _ input: DescribeClusterSnapshotsMessage,
         maxWaitTime: TimeAmount,
         logger: Logger,

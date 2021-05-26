@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension AppStream {
-    public func FleetStartedWaiter(
+    public func waitUntilFleetStarted(
         _ input: DescribeFleetsRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -38,7 +38,7 @@ extension AppStream {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func FleetStoppedWaiter(
+    public func waitUntilFleetStopped(
         _ input: DescribeFleetsRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,

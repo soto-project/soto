@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension OpsWorksCM {
-    public func NodeAssociatedWaiter(
+    public func waitUntilNodeAssociated(
         _ input: DescribeNodeAssociationStatusRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,

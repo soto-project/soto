@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension SageMaker {
-    public func EndpointDeletedWaiter(
+    public func waitUntilEndpointDeleted(
         _ input: DescribeEndpointInput,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -37,7 +37,7 @@ extension SageMaker {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func EndpointInServiceWaiter(
+    public func waitUntilEndpointInService(
         _ input: DescribeEndpointInput,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -54,7 +54,7 @@ extension SageMaker {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func NotebookInstanceDeletedWaiter(
+    public func waitUntilNotebookInstanceDeleted(
         _ input: DescribeNotebookInstanceInput,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -70,7 +70,7 @@ extension SageMaker {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func NotebookInstanceInServiceWaiter(
+    public func waitUntilNotebookInstanceInService(
         _ input: DescribeNotebookInstanceInput,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -86,7 +86,7 @@ extension SageMaker {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func NotebookInstanceStoppedWaiter(
+    public func waitUntilNotebookInstanceStopped(
         _ input: DescribeNotebookInstanceInput,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -102,7 +102,7 @@ extension SageMaker {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func ProcessingJobCompletedOrStoppedWaiter(
+    public func waitUntilProcessingJobCompletedOrStopped(
         _ input: DescribeProcessingJobRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -120,7 +120,7 @@ extension SageMaker {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func TrainingJobCompletedOrStoppedWaiter(
+    public func waitUntilTrainingJobCompletedOrStopped(
         _ input: DescribeTrainingJobRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -138,7 +138,7 @@ extension SageMaker {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func TransformJobCompletedOrStoppedWaiter(
+    public func waitUntilTransformJobCompletedOrStopped(
         _ input: DescribeTransformJobRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,

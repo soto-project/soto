@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension ECS {
-    public func ServicesInactiveWaiter(
+    public func waitUntilServicesInactive(
         _ input: DescribeServicesRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -37,7 +37,7 @@ extension ECS {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func TasksRunningWaiter(
+    public func waitUntilTasksRunning(
         _ input: DescribeTasksRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -54,7 +54,7 @@ extension ECS {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func TasksStoppedWaiter(
+    public func waitUntilTasksStopped(
         _ input: DescribeTasksRequest,
         maxWaitTime: TimeAmount,
         logger: Logger,

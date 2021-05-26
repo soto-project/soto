@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension ElasticLoadBalancingv2 {
-    public func LoadBalancerAvailableWaiter(
+    public func waitUntilLoadBalancerAvailable(
         _ input: DescribeLoadBalancersInput,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -38,7 +38,7 @@ extension ElasticLoadBalancingv2 {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func LoadBalancerExistsWaiter(
+    public func waitUntilLoadBalancerExists(
         _ input: DescribeLoadBalancersInput,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -53,7 +53,7 @@ extension ElasticLoadBalancingv2 {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func LoadBalancersDeletedWaiter(
+    public func waitUntilLoadBalancersDeleted(
         _ input: DescribeLoadBalancersInput,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -69,7 +69,7 @@ extension ElasticLoadBalancingv2 {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func TargetDeregisteredWaiter(
+    public func waitUntilTargetDeregistered(
         _ input: DescribeTargetHealthInput,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -85,7 +85,7 @@ extension ElasticLoadBalancingv2 {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func TargetInServiceWaiter(
+    public func waitUntilTargetInService(
         _ input: DescribeTargetHealthInput,
         maxWaitTime: TimeAmount,
         logger: Logger,

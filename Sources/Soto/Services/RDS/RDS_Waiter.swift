@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension RDS {
-    public func DBClusterSnapshotAvailableWaiter(
+    public func waitUntilDBClusterSnapshotAvailable(
         _ input: DescribeDBClusterSnapshotsMessage,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -41,7 +41,7 @@ extension RDS {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func DBInstanceAvailableWaiter(
+    public func waitUntilDBInstanceAvailable(
         _ input: DescribeDBInstancesMessage,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -61,7 +61,7 @@ extension RDS {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func DBSnapshotAvailableWaiter(
+    public func waitUntilDBSnapshotAvailable(
         _ input: DescribeDBSnapshotsMessage,
         maxWaitTime: TimeAmount,
         logger: Logger,

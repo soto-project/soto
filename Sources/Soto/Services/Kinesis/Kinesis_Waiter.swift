@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension Kinesis {
-    public func StreamExistsWaiter(
+    public func waitUntilStreamExists(
         _ input: DescribeStreamInput,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -36,7 +36,7 @@ extension Kinesis {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func StreamNotExistsWaiter(
+    public func waitUntilStreamNotExists(
         _ input: DescribeStreamInput,
         maxWaitTime: TimeAmount,
         logger: Logger,

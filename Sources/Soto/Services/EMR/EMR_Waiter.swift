@@ -21,7 +21,7 @@ import SotoCore
 // MARK: Waiters
 
 extension EMR {
-    public func ClusterRunningWaiter(
+    public func waitUntilClusterRunning(
         _ input: DescribeClusterInput,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -40,7 +40,7 @@ extension EMR {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func ClusterTerminatedWaiter(
+    public func waitUntilClusterTerminated(
         _ input: DescribeClusterInput,
         maxWaitTime: TimeAmount,
         logger: Logger,
@@ -56,7 +56,7 @@ extension EMR {
         return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    public func StepCompleteWaiter(
+    public func waitUntilStepComplete(
         _ input: DescribeStepInput,
         maxWaitTime: TimeAmount,
         logger: Logger,
