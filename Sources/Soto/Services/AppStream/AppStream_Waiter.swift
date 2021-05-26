@@ -29,9 +29,9 @@ extension AppStream {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeFleetsResult.fleets, elementPath: \Fleet.state, expected: .active)),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeFleetsResult.fleets, elementPath: \Fleet.state, expected: .pendingDeactivate)),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeFleetsResult.fleets, elementPath: \Fleet.state, expected: .inactive)),
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeFleetsResult.fleets, elementPath: \Fleet.state, expected: .running)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeFleetsResult.fleets, elementPath: \Fleet.state, expected: .stopping)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeFleetsResult.fleets, elementPath: \Fleet.state, expected: .stopped)),
             ],
             command: describeFleets
         )
@@ -46,9 +46,9 @@ extension AppStream {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeFleetsResult.fleets, elementPath: \Fleet.state, expected: .inactive)),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeFleetsResult.fleets, elementPath: \Fleet.state, expected: .pendingActivate)),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeFleetsResult.fleets, elementPath: \Fleet.state, expected: .active)),
+                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeFleetsResult.fleets, elementPath: \Fleet.state, expected: .stopped)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeFleetsResult.fleets, elementPath: \Fleet.state, expected: .starting)),
+                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeFleetsResult.fleets, elementPath: \Fleet.state, expected: .running)),
             ],
             command: describeFleets
         )
