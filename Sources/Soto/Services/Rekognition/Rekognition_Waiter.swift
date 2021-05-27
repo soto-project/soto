@@ -32,6 +32,7 @@ extension Rekognition {
                 .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeProjectVersionsResponse.projectVersionDescriptions, elementPath: \ProjectVersionDescription.status, expected: .running)),
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeProjectVersionsResponse.projectVersionDescriptions, elementPath: \ProjectVersionDescription.status, expected: .failed)),
             ],
+            minDelayTime: .seconds(30),
             command: describeProjectVersions
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -48,6 +49,7 @@ extension Rekognition {
                 .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeProjectVersionsResponse.projectVersionDescriptions, elementPath: \ProjectVersionDescription.status, expected: .trainingCompleted)),
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeProjectVersionsResponse.projectVersionDescriptions, elementPath: \ProjectVersionDescription.status, expected: .trainingFailed)),
             ],
+            minDelayTime: .seconds(120),
             command: describeProjectVersions
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

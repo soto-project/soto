@@ -32,6 +32,7 @@ extension EKS {
                 .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeAddonResponse.addon?.status, expected: .createFailed)),
                 .init(state: .success, matcher: AWSPathMatcher(path: \DescribeAddonResponse.addon?.status, expected: .active)),
             ],
+            minDelayTime: .seconds(10),
             command: describeAddon
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -48,6 +49,7 @@ extension EKS {
                 .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeAddonResponse.addon?.status, expected: .deleteFailed)),
                 .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
             ],
+            minDelayTime: .seconds(10),
             command: describeAddon
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -65,6 +67,7 @@ extension EKS {
                 .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeClusterResponse.cluster?.status, expected: .failed)),
                 .init(state: .success, matcher: AWSPathMatcher(path: \DescribeClusterResponse.cluster?.status, expected: .active)),
             ],
+            minDelayTime: .seconds(30),
             command: describeCluster
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -82,6 +85,7 @@ extension EKS {
                 .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeClusterResponse.cluster?.status, expected: .creating)),
                 .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
             ],
+            minDelayTime: .seconds(30),
             command: describeCluster
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -98,6 +102,7 @@ extension EKS {
                 .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeNodegroupResponse.nodegroup?.status, expected: .createFailed)),
                 .init(state: .success, matcher: AWSPathMatcher(path: \DescribeNodegroupResponse.nodegroup?.status, expected: .active)),
             ],
+            minDelayTime: .seconds(30),
             command: describeNodegroup
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -114,6 +119,7 @@ extension EKS {
                 .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeNodegroupResponse.nodegroup?.status, expected: .deleteFailed)),
                 .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
             ],
+            minDelayTime: .seconds(30),
             command: describeNodegroup
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

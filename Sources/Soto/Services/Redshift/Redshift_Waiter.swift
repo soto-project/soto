@@ -33,6 +33,7 @@ extension Redshift {
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \ClustersMessage.clusters, elementPath: \Cluster.clusterStatus, expected: "string")),
                 .init(state: .retry, matcher: AWSErrorCodeMatcher("ClusterNotFound")),
             ],
+            minDelayTime: .seconds(60),
             command: describeClusters
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -50,6 +51,7 @@ extension Redshift {
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \ClustersMessage.clusters, elementPath: \Cluster.clusterStatus, expected: "string")),
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \ClustersMessage.clusters, elementPath: \Cluster.clusterStatus, expected: "string")),
             ],
+            minDelayTime: .seconds(60),
             command: describeClusters
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -66,6 +68,7 @@ extension Redshift {
                 .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \ClustersMessage.clusters, elementPath: \Cluster.restoreStatus?.status, expected: "string")),
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \ClustersMessage.clusters, elementPath: \Cluster.clusterStatus, expected: "string")),
             ],
+            minDelayTime: .seconds(60),
             command: describeClusters
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -83,6 +86,7 @@ extension Redshift {
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \SnapshotMessage.snapshots, elementPath: \Snapshot.status, expected: "string")),
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \SnapshotMessage.snapshots, elementPath: \Snapshot.status, expected: "string")),
             ],
+            minDelayTime: .seconds(15),
             command: describeClusterSnapshots
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

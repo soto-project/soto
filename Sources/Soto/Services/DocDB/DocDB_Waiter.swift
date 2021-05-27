@@ -36,6 +36,7 @@ extension DocDB {
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DBInstanceMessage.dBInstances, elementPath: \DBInstance.dBInstanceStatus, expected: "string")),
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DBInstanceMessage.dBInstances, elementPath: \DBInstance.dBInstanceStatus, expected: "string")),
             ],
+            minDelayTime: .seconds(30),
             command: describeDBInstances
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -56,6 +57,7 @@ extension DocDB {
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DBInstanceMessage.dBInstances, elementPath: \DBInstance.dBInstanceStatus, expected: "string")),
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DBInstanceMessage.dBInstances, elementPath: \DBInstance.dBInstanceStatus, expected: "string")),
             ],
+            minDelayTime: .seconds(30),
             command: describeDBInstances
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

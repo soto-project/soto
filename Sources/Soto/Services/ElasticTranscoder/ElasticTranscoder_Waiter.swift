@@ -33,6 +33,7 @@ extension ElasticTranscoder {
                 .init(state: .failure, matcher: AWSPathMatcher(path: \ReadJobResponse.job?.status, expected: "string")),
                 .init(state: .failure, matcher: AWSPathMatcher(path: \ReadJobResponse.job?.status, expected: "string")),
             ],
+            minDelayTime: .seconds(30),
             command: readJob
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

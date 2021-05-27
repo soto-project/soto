@@ -31,6 +31,7 @@ extension SES {
             acceptors: [
                 .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \GetIdentityVerificationAttributesResponse.verificationAttributes.values, elementPath: \IdentityVerificationAttributes.verificationStatus, expected: .success)),
             ],
+            minDelayTime: .seconds(3),
             command: getIdentityVerificationAttributes
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

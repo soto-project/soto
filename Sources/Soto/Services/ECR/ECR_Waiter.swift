@@ -32,6 +32,7 @@ extension ECR {
                 .init(state: .success, matcher: AWSPathMatcher(path: \DescribeImageScanFindingsResponse.imageScanStatus?.status, expected: .complete)),
                 .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeImageScanFindingsResponse.imageScanStatus?.status, expected: .failed)),
             ],
+            minDelayTime: .seconds(5),
             command: describeImageScanFindings
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -48,6 +49,7 @@ extension ECR {
                 .init(state: .success, matcher: AWSPathMatcher(path: \GetLifecyclePolicyPreviewResponse.status, expected: .complete)),
                 .init(state: .failure, matcher: AWSPathMatcher(path: \GetLifecyclePolicyPreviewResponse.status, expected: .failed)),
             ],
+            minDelayTime: .seconds(5),
             command: getLifecyclePolicyPreview
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

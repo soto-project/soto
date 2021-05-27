@@ -33,6 +33,7 @@ extension CodeDeploy {
                 .init(state: .failure, matcher: AWSPathMatcher(path: \GetDeploymentOutput.deploymentInfo?.status, expected: .failed)),
                 .init(state: .failure, matcher: AWSPathMatcher(path: \GetDeploymentOutput.deploymentInfo?.status, expected: .stopped)),
             ],
+            minDelayTime: .seconds(15),
             command: getDeployment
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

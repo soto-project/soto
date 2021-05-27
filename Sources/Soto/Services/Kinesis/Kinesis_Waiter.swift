@@ -31,6 +31,7 @@ extension Kinesis {
             acceptors: [
                 .init(state: .success, matcher: AWSPathMatcher(path: \DescribeStreamOutput.streamDescription.streamStatus, expected: .active)),
             ],
+            minDelayTime: .seconds(10),
             command: describeStream
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -46,6 +47,7 @@ extension Kinesis {
             acceptors: [
                 .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
             ],
+            minDelayTime: .seconds(10),
             command: describeStream
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

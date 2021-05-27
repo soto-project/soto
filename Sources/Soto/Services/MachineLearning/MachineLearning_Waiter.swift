@@ -32,6 +32,7 @@ extension MachineLearning {
                 .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeBatchPredictionsOutput.results, elementPath: \BatchPrediction.status, expected: .completed)),
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeBatchPredictionsOutput.results, elementPath: \BatchPrediction.status, expected: .failed)),
             ],
+            minDelayTime: .seconds(30),
             command: describeBatchPredictions
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -48,6 +49,7 @@ extension MachineLearning {
                 .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeDataSourcesOutput.results, elementPath: \DataSource.status, expected: .completed)),
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeDataSourcesOutput.results, elementPath: \DataSource.status, expected: .failed)),
             ],
+            minDelayTime: .seconds(30),
             command: describeDataSources
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -64,6 +66,7 @@ extension MachineLearning {
                 .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeEvaluationsOutput.results, elementPath: \Evaluation.status, expected: .completed)),
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeEvaluationsOutput.results, elementPath: \Evaluation.status, expected: .failed)),
             ],
+            minDelayTime: .seconds(30),
             command: describeEvaluations
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -80,6 +83,7 @@ extension MachineLearning {
                 .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeMLModelsOutput.results, elementPath: \MLModel.status, expected: .completed)),
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeMLModelsOutput.results, elementPath: \MLModel.status, expected: .failed)),
             ],
+            minDelayTime: .seconds(30),
             command: describeMLModels
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

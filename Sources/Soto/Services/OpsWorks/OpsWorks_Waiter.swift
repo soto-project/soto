@@ -32,6 +32,7 @@ extension OpsWorks {
                 .init(state: .success, matcher: AWSSuccessMatcher()),
                 .init(state: .failure, matcher: AWSErrorStatusMatcher(400)),
             ],
+            minDelayTime: .seconds(1),
             command: describeApps
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -48,6 +49,7 @@ extension OpsWorks {
                 .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeDeploymentsResult.deployments, elementPath: \Deployment.status, expected: "string")),
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeDeploymentsResult.deployments, elementPath: \Deployment.status, expected: "string")),
             ],
+            minDelayTime: .seconds(15),
             command: describeDeployments
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -71,6 +73,7 @@ extension OpsWorks {
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
             ],
+            minDelayTime: .seconds(15),
             command: describeInstances
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -93,6 +96,7 @@ extension OpsWorks {
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
             ],
+            minDelayTime: .seconds(15),
             command: describeInstances
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -116,6 +120,7 @@ extension OpsWorks {
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
             ],
+            minDelayTime: .seconds(15),
             command: describeInstances
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -140,6 +145,7 @@ extension OpsWorks {
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
             ],
+            minDelayTime: .seconds(15),
             command: describeInstances
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

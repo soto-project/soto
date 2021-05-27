@@ -36,6 +36,7 @@ extension RDS {
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DBClusterSnapshotMessage.dBClusterSnapshots, elementPath: \DBClusterSnapshot.status, expected: "string")),
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DBClusterSnapshotMessage.dBClusterSnapshots, elementPath: \DBClusterSnapshot.status, expected: "string")),
             ],
+            minDelayTime: .seconds(30),
             command: describeDBClusterSnapshots
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -56,6 +57,7 @@ extension RDS {
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DBInstanceMessage.dBInstances, elementPath: \DBInstance.dBInstanceStatus, expected: "string")),
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DBInstanceMessage.dBInstances, elementPath: \DBInstance.dBInstanceStatus, expected: "string")),
             ],
+            minDelayTime: .seconds(30),
             command: describeDBInstances
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -76,6 +78,7 @@ extension RDS {
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DBSnapshotMessage.dBSnapshots, elementPath: \DBSnapshot.status, expected: "string")),
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DBSnapshotMessage.dBSnapshots, elementPath: \DBSnapshot.status, expected: "string")),
             ],
+            minDelayTime: .seconds(30),
             command: describeDBSnapshots
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

@@ -38,6 +38,7 @@ extension SSM {
                 .init(state: .failure, matcher: AWSPathMatcher(path: \GetCommandInvocationResult.status, expected: .failed)),
                 .init(state: .failure, matcher: AWSPathMatcher(path: \GetCommandInvocationResult.status, expected: .cancelling)),
             ],
+            minDelayTime: .seconds(5),
             command: getCommandInvocation
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

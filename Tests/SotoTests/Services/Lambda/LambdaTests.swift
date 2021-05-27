@@ -126,17 +126,17 @@ class LambdaTests: XCTestCase {
         // create an IAM role
         let response = Self.createIAMRole()
             .flatMap { response -> EventLoopFuture<Void> in
-                  let eventLoop = Self.client.eventLoopGroup.next()
+                let eventLoop = Self.client.eventLoopGroup.next()
 
-                  // IAM needs some time after Role creation,
-                  // before the role can be attached to a Lambda function
-                  // https://stackoverflow.com/a/37438525/663360
-                  print("Sleeping 10 secs, waiting for IAM Role to be ready")
-                  let scheduled = eventLoop.flatScheduleTask(in: .seconds(10)) {
-                      // create a Lambda function
-                      Self.createLambdaFunction(roleArn: response.role.arn)
-                  }
-                  return scheduled.futureResult
+                // IAM needs some time after Role creation,
+                // before the role can be attached to a Lambda function
+                // https://stackoverflow.com/a/37438525/663360
+                print("Sleeping 10 secs, waiting for IAM Role to be ready")
+                let scheduled = eventLoop.flatScheduleTask(in: .seconds(10)) {
+                    // create a Lambda function
+                    Self.createLambdaFunction(roleArn: response.role.arn)
+                }
+                return scheduled.futureResult
             }
         XCTAssertNoThrow(try response.wait())
     }

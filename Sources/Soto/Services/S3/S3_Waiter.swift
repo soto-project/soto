@@ -32,6 +32,7 @@ extension S3 {
                 .init(state: .success, matcher: AWSSuccessMatcher()),
                 .init(state: .retry, matcher: AWSErrorStatusMatcher(404)),
             ],
+            minDelayTime: .seconds(5),
             command: headObject
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -47,6 +48,7 @@ extension S3 {
             acceptors: [
                 .init(state: .success, matcher: AWSErrorStatusMatcher(404)),
             ],
+            minDelayTime: .seconds(5),
             command: headObject
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

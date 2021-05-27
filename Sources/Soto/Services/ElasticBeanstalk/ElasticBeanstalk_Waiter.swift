@@ -32,6 +32,7 @@ extension ElasticBeanstalk {
                 .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \EnvironmentDescriptionsMessage.environments, elementPath: \EnvironmentDescription.status, expected: .ready)),
                 .init(state: .retry, matcher: AWSAllPathMatcher(arrayPath: \EnvironmentDescriptionsMessage.environments, elementPath: \EnvironmentDescription.status, expected: .launching)),
             ],
+            minDelayTime: .seconds(20),
             command: describeEnvironments
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -48,6 +49,7 @@ extension ElasticBeanstalk {
                 .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \EnvironmentDescriptionsMessage.environments, elementPath: \EnvironmentDescription.status, expected: .terminated)),
                 .init(state: .retry, matcher: AWSAllPathMatcher(arrayPath: \EnvironmentDescriptionsMessage.environments, elementPath: \EnvironmentDescription.status, expected: .terminating)),
             ],
+            minDelayTime: .seconds(20),
             command: describeEnvironments
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -64,6 +66,7 @@ extension ElasticBeanstalk {
                 .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \EnvironmentDescriptionsMessage.environments, elementPath: \EnvironmentDescription.status, expected: .ready)),
                 .init(state: .retry, matcher: AWSAllPathMatcher(arrayPath: \EnvironmentDescriptionsMessage.environments, elementPath: \EnvironmentDescription.status, expected: .updating)),
             ],
+            minDelayTime: .seconds(20),
             command: describeEnvironments
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

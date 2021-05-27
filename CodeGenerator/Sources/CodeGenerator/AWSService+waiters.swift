@@ -20,6 +20,8 @@ extension AWSService {
         let operation: OperationContext
         let inputKey: String?
         let acceptors: [AcceptorContext]
+        let minDelayTime: Int?
+        let maxDelayTime: Int?
     }
 
     struct AcceptorContext {
@@ -68,7 +70,9 @@ extension AWSService {
                     waiterName: waiter.key,
                     operation: self.generateOperationContext(operation, name: waiter.value.operation, streaming: false),
                     inputKey: inputShape.name,
-                    acceptors: acceptorContexts
+                    acceptors: acceptorContexts,
+                    minDelayTime: waiter.value.delay,
+                    maxDelayTime: nil
                 )
             )
         }

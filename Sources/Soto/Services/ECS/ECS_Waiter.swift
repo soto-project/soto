@@ -32,6 +32,7 @@ extension ECS {
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeServicesResponse.failures, elementPath: \Failure.reason, expected: "string")),
                 .init(state: .success, matcher: AWSAnyPathMatcher(arrayPath: \DescribeServicesResponse.services, elementPath: \Service.status, expected: "string")),
             ],
+            minDelayTime: .seconds(15),
             command: describeServices
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -49,6 +50,7 @@ extension ECS {
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeTasksResponse.failures, elementPath: \Failure.reason, expected: "string")),
                 .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeTasksResponse.tasks, elementPath: \Task.lastStatus, expected: "string")),
             ],
+            minDelayTime: .seconds(6),
             command: describeTasks
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -64,6 +66,7 @@ extension ECS {
             acceptors: [
                 .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeTasksResponse.tasks, elementPath: \Task.lastStatus, expected: "string")),
             ],
+            minDelayTime: .seconds(6),
             command: describeTasks
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
