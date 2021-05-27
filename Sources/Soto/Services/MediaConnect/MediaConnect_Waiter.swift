@@ -23,9 +23,9 @@ import SotoCore
 extension MediaConnect {
     public func waitUntilFlowActive(
         _ input: DescribeFlowRequest,
-        maxWaitTime: TimeAmount,
-        logger: Logger,
-        on eventLoop: EventLoop
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
@@ -38,14 +38,14 @@ extension MediaConnect {
             ],
             command: describeFlow
         )
-        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
     public func waitUntilFlowDeleted(
         _ input: DescribeFlowRequest,
-        maxWaitTime: TimeAmount,
-        logger: Logger,
-        on eventLoop: EventLoop
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
@@ -57,14 +57,14 @@ extension MediaConnect {
             ],
             command: describeFlow
         )
-        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
     public func waitUntilFlowStandby(
         _ input: DescribeFlowRequest,
-        maxWaitTime: TimeAmount,
-        logger: Logger,
-        on eventLoop: EventLoop
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
@@ -76,6 +76,6 @@ extension MediaConnect {
             ],
             command: describeFlow
         )
-        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 }

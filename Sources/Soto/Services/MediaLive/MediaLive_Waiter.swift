@@ -23,9 +23,9 @@ import SotoCore
 extension MediaLive {
     public func waitUntilChannelCreated(
         _ input: DescribeChannelRequest,
-        maxWaitTime: TimeAmount,
-        logger: Logger,
-        on eventLoop: EventLoop
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
@@ -36,14 +36,14 @@ extension MediaLive {
             ],
             command: describeChannel
         )
-        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
     public func waitUntilChannelDeleted(
         _ input: DescribeChannelRequest,
-        maxWaitTime: TimeAmount,
-        logger: Logger,
-        on eventLoop: EventLoop
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
@@ -53,14 +53,14 @@ extension MediaLive {
             ],
             command: describeChannel
         )
-        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
     public func waitUntilChannelRunning(
         _ input: DescribeChannelRequest,
-        maxWaitTime: TimeAmount,
-        logger: Logger,
-        on eventLoop: EventLoop
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
@@ -70,14 +70,14 @@ extension MediaLive {
             ],
             command: describeChannel
         )
-        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
     public func waitUntilChannelStopped(
         _ input: DescribeChannelRequest,
-        maxWaitTime: TimeAmount,
-        logger: Logger,
-        on eventLoop: EventLoop
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
@@ -87,14 +87,14 @@ extension MediaLive {
             ],
             command: describeChannel
         )
-        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
     public func waitUntilInputAttached(
         _ input: DescribeInputRequest,
-        maxWaitTime: TimeAmount,
-        logger: Logger,
-        on eventLoop: EventLoop
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
@@ -104,14 +104,14 @@ extension MediaLive {
             ],
             command: describeInput
         )
-        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
     public func waitUntilInputDeleted(
         _ input: DescribeInputRequest,
-        maxWaitTime: TimeAmount,
-        logger: Logger,
-        on eventLoop: EventLoop
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
@@ -121,14 +121,14 @@ extension MediaLive {
             ],
             command: describeInput
         )
-        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
     public func waitUntilInputDetached(
         _ input: DescribeInputRequest,
-        maxWaitTime: TimeAmount,
-        logger: Logger,
-        on eventLoop: EventLoop
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
@@ -139,14 +139,14 @@ extension MediaLive {
             ],
             command: describeInput
         )
-        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
     public func waitUntilMultiplexCreated(
         _ input: DescribeMultiplexRequest,
-        maxWaitTime: TimeAmount,
-        logger: Logger,
-        on eventLoop: EventLoop
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
@@ -157,14 +157,14 @@ extension MediaLive {
             ],
             command: describeMultiplex
         )
-        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
     public func waitUntilMultiplexDeleted(
         _ input: DescribeMultiplexRequest,
-        maxWaitTime: TimeAmount,
-        logger: Logger,
-        on eventLoop: EventLoop
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
@@ -174,14 +174,14 @@ extension MediaLive {
             ],
             command: describeMultiplex
         )
-        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
     public func waitUntilMultiplexRunning(
         _ input: DescribeMultiplexRequest,
-        maxWaitTime: TimeAmount,
-        logger: Logger,
-        on eventLoop: EventLoop
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
@@ -191,14 +191,14 @@ extension MediaLive {
             ],
             command: describeMultiplex
         )
-        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
     public func waitUntilMultiplexStopped(
         _ input: DescribeMultiplexRequest,
-        maxWaitTime: TimeAmount,
-        logger: Logger,
-        on eventLoop: EventLoop
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
@@ -208,6 +208,6 @@ extension MediaLive {
             ],
             command: describeMultiplex
         )
-        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 }

@@ -23,9 +23,9 @@ import SotoCore
 extension MachineLearning {
     public func waitUntilBatchPredictionAvailable(
         _ input: DescribeBatchPredictionsInput,
-        maxWaitTime: TimeAmount,
-        logger: Logger,
-        on eventLoop: EventLoop
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
@@ -34,14 +34,14 @@ extension MachineLearning {
             ],
             command: describeBatchPredictions
         )
-        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
     public func waitUntilDataSourceAvailable(
         _ input: DescribeDataSourcesInput,
-        maxWaitTime: TimeAmount,
-        logger: Logger,
-        on eventLoop: EventLoop
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
@@ -50,14 +50,14 @@ extension MachineLearning {
             ],
             command: describeDataSources
         )
-        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
     public func waitUntilEvaluationAvailable(
         _ input: DescribeEvaluationsInput,
-        maxWaitTime: TimeAmount,
-        logger: Logger,
-        on eventLoop: EventLoop
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
@@ -66,14 +66,14 @@ extension MachineLearning {
             ],
             command: describeEvaluations
         )
-        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
     public func waitUntilMLModelAvailable(
         _ input: DescribeMLModelsInput,
-        maxWaitTime: TimeAmount,
-        logger: Logger,
-        on eventLoop: EventLoop
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
@@ -82,6 +82,6 @@ extension MachineLearning {
             ],
             command: describeMLModels
         )
-        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 }

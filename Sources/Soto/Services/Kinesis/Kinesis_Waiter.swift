@@ -23,9 +23,9 @@ import SotoCore
 extension Kinesis {
     public func waitUntilStreamExists(
         _ input: DescribeStreamInput,
-        maxWaitTime: TimeAmount,
-        logger: Logger,
-        on eventLoop: EventLoop
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
@@ -33,14 +33,14 @@ extension Kinesis {
             ],
             command: describeStream
         )
-        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
     public func waitUntilStreamNotExists(
         _ input: DescribeStreamInput,
-        maxWaitTime: TimeAmount,
-        logger: Logger,
-        on eventLoop: EventLoop
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
@@ -48,6 +48,6 @@ extension Kinesis {
             ],
             command: describeStream
         )
-        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 }

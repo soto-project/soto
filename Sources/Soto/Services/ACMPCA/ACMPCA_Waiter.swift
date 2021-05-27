@@ -23,9 +23,9 @@ import SotoCore
 extension ACMPCA {
     public func waitUntilAuditReportCreated(
         _ input: DescribeCertificateAuthorityAuditReportRequest,
-        maxWaitTime: TimeAmount,
-        logger: Logger,
-        on eventLoop: EventLoop
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
@@ -34,36 +34,38 @@ extension ACMPCA {
             ],
             command: describeCertificateAuthorityAuditReport
         )
-        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
     public func waitUntilCertificateAuthorityCSRCreated(
         _ input: GetCertificateAuthorityCsrRequest,
-        maxWaitTime: TimeAmount,
-        logger: Logger,
-        on eventLoop: EventLoop
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
+                .init(state: .success, matcher: AWSSuccessMatcher()),
                 .init(state: .retry, matcher: AWSErrorCodeMatcher("RequestInProgressException")),
             ],
             command: getCertificateAuthorityCsr
         )
-        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
     public func waitUntilCertificateIssued(
         _ input: GetCertificateRequest,
-        maxWaitTime: TimeAmount,
-        logger: Logger,
-        on eventLoop: EventLoop
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
+                .init(state: .success, matcher: AWSSuccessMatcher()),
                 .init(state: .retry, matcher: AWSErrorCodeMatcher("RequestInProgressException")),
             ],
             command: getCertificate
         )
-        return self.client.wait(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 }

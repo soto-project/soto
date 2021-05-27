@@ -33,7 +33,7 @@ extension AWSService {
         case allPath(arrayPath: String, elementPath: String, expected: String)
         case error(String)
         case errorStatus(Int)
-        case success
+        case success(Int) // success requires a associated value, so a mustache context is created for the value
     }
 
     func generateWaiterContext() throws -> [String: Any] {
@@ -84,7 +84,7 @@ extension AWSService {
 
         case .status(let value):
             if (200..<300).contains(value) {
-                return .init(state: acceptor.state.rawValue, matcher: .success)
+                return .init(state: acceptor.state.rawValue, matcher: .success(value))
             } else {
                 return .init(state: acceptor.state.rawValue, matcher: .errorStatus(value))
             }
