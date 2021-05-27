@@ -32,6 +32,7 @@ extension Glacier {
                 .init(state: .success, matcher: AWSSuccessMatcher()),
                 .init(state: .retry, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
             ],
+            minDelayTime: .seconds(3),
             command: describeVault
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -48,6 +49,7 @@ extension Glacier {
                 .init(state: .retry, matcher: AWSSuccessMatcher()),
                 .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
             ],
+            minDelayTime: .seconds(3),
             command: describeVault
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

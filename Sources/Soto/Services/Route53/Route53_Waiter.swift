@@ -31,6 +31,7 @@ extension Route53 {
             acceptors: [
                 .init(state: .success, matcher: AWSPathMatcher(path: \GetChangeResponse.changeInfo.status, expected: .insync)),
             ],
+            minDelayTime: .seconds(30),
             command: getChange
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

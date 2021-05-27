@@ -33,6 +33,7 @@ extension AppStream {
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeFleetsResult.fleets, elementPath: \Fleet.state, expected: .stopping)),
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeFleetsResult.fleets, elementPath: \Fleet.state, expected: .stopped)),
             ],
+            minDelayTime: .seconds(30),
             command: describeFleets
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -50,6 +51,7 @@ extension AppStream {
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeFleetsResult.fleets, elementPath: \Fleet.state, expected: .starting)),
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeFleetsResult.fleets, elementPath: \Fleet.state, expected: .running)),
             ],
+            minDelayTime: .seconds(30),
             command: describeFleets
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

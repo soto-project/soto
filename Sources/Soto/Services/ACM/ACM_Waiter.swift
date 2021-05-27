@@ -34,6 +34,7 @@ extension ACM {
                 .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeCertificateResponse.certificate?.status, expected: .failed)),
                 .init(state: .failure, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
             ],
+            minDelayTime: .seconds(60),
             command: describeCertificate
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

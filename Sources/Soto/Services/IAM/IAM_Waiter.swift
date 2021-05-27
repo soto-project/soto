@@ -32,6 +32,7 @@ extension IAM {
                 .init(state: .success, matcher: AWSSuccessMatcher()),
                 .init(state: .retry, matcher: AWSErrorStatusMatcher(404)),
             ],
+            minDelayTime: .seconds(1),
             command: getInstanceProfile
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -48,6 +49,7 @@ extension IAM {
                 .init(state: .success, matcher: AWSSuccessMatcher()),
                 .init(state: .retry, matcher: AWSErrorCodeMatcher("NoSuchEntity")),
             ],
+            minDelayTime: .seconds(1),
             command: getPolicy
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -64,6 +66,7 @@ extension IAM {
                 .init(state: .success, matcher: AWSSuccessMatcher()),
                 .init(state: .retry, matcher: AWSErrorCodeMatcher("NoSuchEntity")),
             ],
+            minDelayTime: .seconds(1),
             command: getRole
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -80,6 +83,7 @@ extension IAM {
                 .init(state: .success, matcher: AWSSuccessMatcher()),
                 .init(state: .retry, matcher: AWSErrorCodeMatcher("NoSuchEntity")),
             ],
+            minDelayTime: .seconds(1),
             command: getUser
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

@@ -32,6 +32,7 @@ extension SageMaker {
                 .init(state: .success, matcher: AWSErrorCodeMatcher("ValidationException")),
                 .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeEndpointOutput.endpointStatus, expected: .failed)),
             ],
+            minDelayTime: .seconds(30),
             command: describeEndpoint
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -49,6 +50,7 @@ extension SageMaker {
                 .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeEndpointOutput.endpointStatus, expected: .failed)),
                 .init(state: .failure, matcher: AWSErrorCodeMatcher("ValidationException")),
             ],
+            minDelayTime: .seconds(30),
             command: describeEndpoint
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -65,6 +67,7 @@ extension SageMaker {
                 .init(state: .success, matcher: AWSErrorCodeMatcher("ValidationException")),
                 .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeNotebookInstanceOutput.notebookInstanceStatus, expected: .failed)),
             ],
+            minDelayTime: .seconds(30),
             command: describeNotebookInstance
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -81,6 +84,7 @@ extension SageMaker {
                 .init(state: .success, matcher: AWSPathMatcher(path: \DescribeNotebookInstanceOutput.notebookInstanceStatus, expected: .inservice)),
                 .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeNotebookInstanceOutput.notebookInstanceStatus, expected: .failed)),
             ],
+            minDelayTime: .seconds(30),
             command: describeNotebookInstance
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -97,6 +101,7 @@ extension SageMaker {
                 .init(state: .success, matcher: AWSPathMatcher(path: \DescribeNotebookInstanceOutput.notebookInstanceStatus, expected: .stopped)),
                 .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeNotebookInstanceOutput.notebookInstanceStatus, expected: .failed)),
             ],
+            minDelayTime: .seconds(30),
             command: describeNotebookInstance
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -115,6 +120,7 @@ extension SageMaker {
                 .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeProcessingJobResponse.processingJobStatus, expected: .failed)),
                 .init(state: .failure, matcher: AWSErrorCodeMatcher("ValidationException")),
             ],
+            minDelayTime: .seconds(60),
             command: describeProcessingJob
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -133,6 +139,7 @@ extension SageMaker {
                 .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeTrainingJobResponse.trainingJobStatus, expected: .failed)),
                 .init(state: .failure, matcher: AWSErrorCodeMatcher("ValidationException")),
             ],
+            minDelayTime: .seconds(120),
             command: describeTrainingJob
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -151,6 +158,7 @@ extension SageMaker {
                 .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeTransformJobResponse.transformJobStatus, expected: .failed)),
                 .init(state: .failure, matcher: AWSErrorCodeMatcher("ValidationException")),
             ],
+            minDelayTime: .seconds(60),
             command: describeTransformJob
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

@@ -33,6 +33,7 @@ extension Signer {
                 .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeSigningJobResponse.status, expected: .failed)),
                 .init(state: .failure, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
             ],
+            minDelayTime: .seconds(20),
             command: describeSigningJob
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

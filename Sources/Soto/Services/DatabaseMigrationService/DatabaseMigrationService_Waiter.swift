@@ -33,6 +33,7 @@ extension DatabaseMigrationService {
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeEndpointsResponse.endpoints, elementPath: \Endpoint.status, expected: "string")),
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeEndpointsResponse.endpoints, elementPath: \Endpoint.status, expected: "string")),
             ],
+            minDelayTime: .seconds(5),
             command: describeEndpoints
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -52,6 +53,7 @@ extension DatabaseMigrationService {
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationInstancesResponse.replicationInstances, elementPath: \ReplicationInstance.replicationInstanceStatus, expected: "string")),
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationInstancesResponse.replicationInstances, elementPath: \ReplicationInstance.replicationInstanceStatus, expected: "string")),
             ],
+            minDelayTime: .seconds(60),
             command: describeReplicationInstances
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -68,6 +70,7 @@ extension DatabaseMigrationService {
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationInstancesResponse.replicationInstances, elementPath: \ReplicationInstance.replicationInstanceStatus, expected: "string")),
                 .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundFault")),
             ],
+            minDelayTime: .seconds(15),
             command: describeReplicationInstances
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -88,6 +91,7 @@ extension DatabaseMigrationService {
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
                 .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundFault")),
             ],
+            minDelayTime: .seconds(15),
             command: describeReplicationTasks
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -111,6 +115,7 @@ extension DatabaseMigrationService {
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
             ],
+            minDelayTime: .seconds(15),
             command: describeReplicationTasks
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -134,6 +139,7 @@ extension DatabaseMigrationService {
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
             ],
+            minDelayTime: .seconds(15),
             command: describeReplicationTasks
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -156,6 +162,7 @@ extension DatabaseMigrationService {
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
             ],
+            minDelayTime: .seconds(15),
             command: describeReplicationTasks
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -172,6 +179,7 @@ extension DatabaseMigrationService {
                 .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeConnectionsResponse.connections, elementPath: \Connection.status, expected: "string")),
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeConnectionsResponse.connections, elementPath: \Connection.status, expected: "string")),
             ],
+            minDelayTime: .seconds(5),
             command: describeConnections
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

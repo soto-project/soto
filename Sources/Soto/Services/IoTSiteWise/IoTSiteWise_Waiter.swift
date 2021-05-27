@@ -32,6 +32,7 @@ extension IoTSiteWise {
                 .init(state: .success, matcher: AWSPathMatcher(path: \DescribeAssetResponse.assetStatus.state, expected: .active)),
                 .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeAssetResponse.assetStatus.state, expected: .failed)),
             ],
+            minDelayTime: .seconds(3),
             command: describeAsset
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -48,6 +49,7 @@ extension IoTSiteWise {
                 .init(state: .success, matcher: AWSPathMatcher(path: \DescribeAssetModelResponse.assetModelStatus.state, expected: .active)),
                 .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeAssetModelResponse.assetModelStatus.state, expected: .failed)),
             ],
+            minDelayTime: .seconds(3),
             command: describeAssetModel
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -63,6 +65,7 @@ extension IoTSiteWise {
             acceptors: [
                 .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
             ],
+            minDelayTime: .seconds(3),
             command: describeAssetModel
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -78,6 +81,7 @@ extension IoTSiteWise {
             acceptors: [
                 .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
             ],
+            minDelayTime: .seconds(3),
             command: describeAsset
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -93,6 +97,7 @@ extension IoTSiteWise {
             acceptors: [
                 .init(state: .success, matcher: AWSPathMatcher(path: \DescribePortalResponse.portalStatus.state, expected: .active)),
             ],
+            minDelayTime: .seconds(3),
             command: describePortal
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -108,6 +113,7 @@ extension IoTSiteWise {
             acceptors: [
                 .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
             ],
+            minDelayTime: .seconds(3),
             command: describePortal
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

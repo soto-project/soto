@@ -35,6 +35,7 @@ extension EMR {
                 .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeClusterOutput.cluster?.status?.state, expected: .terminated)),
                 .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeClusterOutput.cluster?.status?.state, expected: .terminatedWithErrors)),
             ],
+            minDelayTime: .seconds(30),
             command: describeCluster
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -51,6 +52,7 @@ extension EMR {
                 .init(state: .success, matcher: AWSPathMatcher(path: \DescribeClusterOutput.cluster?.status?.state, expected: .terminated)),
                 .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeClusterOutput.cluster?.status?.state, expected: .terminatedWithErrors)),
             ],
+            minDelayTime: .seconds(30),
             command: describeCluster
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -68,6 +70,7 @@ extension EMR {
                 .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeStepOutput.step?.status?.state, expected: .failed)),
                 .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeStepOutput.step?.status?.state, expected: .cancelled)),
             ],
+            minDelayTime: .seconds(30),
             command: describeStep
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

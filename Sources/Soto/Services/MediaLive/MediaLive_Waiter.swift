@@ -34,6 +34,7 @@ extension MediaLive {
                 .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
                 .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeChannelResponse.state, expected: .createFailed)),
             ],
+            minDelayTime: .seconds(3),
             command: describeChannel
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -51,6 +52,7 @@ extension MediaLive {
                 .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeChannelResponse.state, expected: .deleting)),
                 .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
             ],
+            minDelayTime: .seconds(5),
             command: describeChannel
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -68,6 +70,7 @@ extension MediaLive {
                 .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeChannelResponse.state, expected: .starting)),
                 .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
             ],
+            minDelayTime: .seconds(5),
             command: describeChannel
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -85,6 +88,7 @@ extension MediaLive {
                 .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeChannelResponse.state, expected: .stopping)),
                 .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
             ],
+            minDelayTime: .seconds(5),
             command: describeChannel
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -102,6 +106,7 @@ extension MediaLive {
                 .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeInputResponse.state, expected: .detached)),
                 .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
             ],
+            minDelayTime: .seconds(5),
             command: describeInput
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -119,6 +124,7 @@ extension MediaLive {
                 .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeInputResponse.state, expected: .deleting)),
                 .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
             ],
+            minDelayTime: .seconds(5),
             command: describeInput
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -137,6 +143,7 @@ extension MediaLive {
                 .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeInputResponse.state, expected: .attached)),
                 .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
             ],
+            minDelayTime: .seconds(5),
             command: describeInput
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -155,6 +162,7 @@ extension MediaLive {
                 .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
                 .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeMultiplexResponse.state, expected: .createFailed)),
             ],
+            minDelayTime: .seconds(3),
             command: describeMultiplex
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -172,6 +180,7 @@ extension MediaLive {
                 .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeMultiplexResponse.state, expected: .deleting)),
                 .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
             ],
+            minDelayTime: .seconds(5),
             command: describeMultiplex
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -189,6 +198,7 @@ extension MediaLive {
                 .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeMultiplexResponse.state, expected: .starting)),
                 .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
             ],
+            minDelayTime: .seconds(5),
             command: describeMultiplex
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -206,6 +216,7 @@ extension MediaLive {
                 .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeMultiplexResponse.state, expected: .stopping)),
                 .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
             ],
+            minDelayTime: .seconds(5),
             command: describeMultiplex
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

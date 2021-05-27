@@ -38,6 +38,12 @@ extension {{name}} {
 {{/matcher.success}}
 {{/acceptors}}
             ],
+{{#minDelayTime}}
+            minDelayTime: .seconds({{.}}),
+{{/minDelayTime}}
+{{#maxDelayTime}}
+            maxDelayTime: .seconds({{.}}),
+{{/maxDelayTime}}
             command: {{operation.funcName}}
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

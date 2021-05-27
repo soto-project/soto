@@ -33,6 +33,7 @@ extension Lambda {
                 .init(state: .failure, matcher: AWSPathMatcher(path: \FunctionConfiguration.state, expected: .failed)),
                 .init(state: .retry, matcher: AWSPathMatcher(path: \FunctionConfiguration.state, expected: .pending)),
             ],
+            minDelayTime: .seconds(5),
             command: getFunctionConfiguration
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -49,6 +50,7 @@ extension Lambda {
                 .init(state: .success, matcher: AWSSuccessMatcher()),
                 .init(state: .retry, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
             ],
+            minDelayTime: .seconds(1),
             command: getFunction
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -66,6 +68,7 @@ extension Lambda {
                 .init(state: .failure, matcher: AWSPathMatcher(path: \FunctionConfiguration.lastUpdateStatus, expected: .failed)),
                 .init(state: .retry, matcher: AWSPathMatcher(path: \FunctionConfiguration.lastUpdateStatus, expected: .inprogress)),
             ],
+            minDelayTime: .seconds(5),
             command: getFunctionConfiguration
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

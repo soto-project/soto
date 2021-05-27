@@ -34,6 +34,7 @@ extension Schemas {
                 .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeCodeBindingResponse.status, expected: .createFailed)),
                 .init(state: .failure, matcher: AWSErrorCodeMatcher("NotFoundException")),
             ],
+            minDelayTime: .seconds(2),
             command: describeCodeBinding
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

@@ -32,6 +32,7 @@ extension DynamoDB {
                 .init(state: .success, matcher: AWSPathMatcher(path: \DescribeTableOutput.table?.tableStatus, expected: .active)),
                 .init(state: .retry, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
             ],
+            minDelayTime: .seconds(20),
             command: describeTable
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -47,6 +48,7 @@ extension DynamoDB {
             acceptors: [
                 .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
             ],
+            minDelayTime: .seconds(20),
             command: describeTable
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

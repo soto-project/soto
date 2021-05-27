@@ -32,6 +32,7 @@ extension OpsWorksCM {
                 .init(state: .success, matcher: AWSPathMatcher(path: \DescribeNodeAssociationStatusResponse.nodeAssociationStatus, expected: .success)),
                 .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeNodeAssociationStatusResponse.nodeAssociationStatus, expected: .failed)),
             ],
+            minDelayTime: .seconds(15),
             command: describeNodeAssociationStatus
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

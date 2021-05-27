@@ -35,6 +35,7 @@ extension ElastiCache {
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \CacheClusterMessage.cacheClusters, elementPath: \CacheCluster.cacheClusterStatus, expected: "string")),
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \CacheClusterMessage.cacheClusters, elementPath: \CacheCluster.cacheClusterStatus, expected: "string")),
             ],
+            minDelayTime: .seconds(15),
             command: describeCacheClusters
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -57,6 +58,7 @@ extension ElastiCache {
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \CacheClusterMessage.cacheClusters, elementPath: \CacheCluster.cacheClusterStatus, expected: "string")),
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \CacheClusterMessage.cacheClusters, elementPath: \CacheCluster.cacheClusterStatus, expected: "string")),
             ],
+            minDelayTime: .seconds(15),
             command: describeCacheClusters
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -73,6 +75,7 @@ extension ElastiCache {
                 .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \ReplicationGroupMessage.replicationGroups, elementPath: \ReplicationGroup.status, expected: "string")),
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \ReplicationGroupMessage.replicationGroups, elementPath: \ReplicationGroup.status, expected: "string")),
             ],
+            minDelayTime: .seconds(15),
             command: describeReplicationGroups
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -90,6 +93,7 @@ extension ElastiCache {
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \ReplicationGroupMessage.replicationGroups, elementPath: \ReplicationGroup.status, expected: "string")),
                 .init(state: .success, matcher: AWSErrorCodeMatcher("ReplicationGroupNotFoundFault")),
             ],
+            minDelayTime: .seconds(15),
             command: describeReplicationGroups
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

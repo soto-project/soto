@@ -31,6 +31,7 @@ extension CloudFront {
             acceptors: [
                 .init(state: .success, matcher: AWSPathMatcher(path: \GetDistributionResult.distribution?.status, expected: "string")),
             ],
+            minDelayTime: .seconds(60),
             command: getDistribution
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -46,6 +47,7 @@ extension CloudFront {
             acceptors: [
                 .init(state: .success, matcher: AWSPathMatcher(path: \GetInvalidationResult.invalidation?.status, expected: "string")),
             ],
+            minDelayTime: .seconds(20),
             command: getInvalidation
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -61,6 +63,7 @@ extension CloudFront {
             acceptors: [
                 .init(state: .success, matcher: AWSPathMatcher(path: \GetStreamingDistributionResult.streamingDistribution?.status, expected: "string")),
             ],
+            minDelayTime: .seconds(60),
             command: getStreamingDistribution
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

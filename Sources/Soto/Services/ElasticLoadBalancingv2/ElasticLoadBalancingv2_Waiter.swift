@@ -33,6 +33,7 @@ extension ElasticLoadBalancingv2 {
                 .init(state: .retry, matcher: AWSAnyPathMatcher(arrayPath: \DescribeLoadBalancersOutput.loadBalancers, elementPath: \LoadBalancer.state?.code, expected: .provisioning)),
                 .init(state: .retry, matcher: AWSErrorCodeMatcher("LoadBalancerNotFound")),
             ],
+            minDelayTime: .seconds(15),
             command: describeLoadBalancers
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -49,6 +50,7 @@ extension ElasticLoadBalancingv2 {
                 .init(state: .success, matcher: AWSSuccessMatcher()),
                 .init(state: .retry, matcher: AWSErrorCodeMatcher("LoadBalancerNotFound")),
             ],
+            minDelayTime: .seconds(15),
             command: describeLoadBalancers
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -65,6 +67,7 @@ extension ElasticLoadBalancingv2 {
                 .init(state: .retry, matcher: AWSAllPathMatcher(arrayPath: \DescribeLoadBalancersOutput.loadBalancers, elementPath: \LoadBalancer.state?.code, expected: .active)),
                 .init(state: .success, matcher: AWSErrorCodeMatcher("LoadBalancerNotFound")),
             ],
+            minDelayTime: .seconds(15),
             command: describeLoadBalancers
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -81,6 +84,7 @@ extension ElasticLoadBalancingv2 {
                 .init(state: .success, matcher: AWSErrorCodeMatcher("InvalidTarget")),
                 .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeTargetHealthOutput.targetHealthDescriptions, elementPath: \TargetHealthDescription.targetHealth?.state, expected: .unused)),
             ],
+            minDelayTime: .seconds(15),
             command: describeTargetHealth
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -97,6 +101,7 @@ extension ElasticLoadBalancingv2 {
                 .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeTargetHealthOutput.targetHealthDescriptions, elementPath: \TargetHealthDescription.targetHealth?.state, expected: .healthy)),
                 .init(state: .retry, matcher: AWSErrorCodeMatcher("InvalidInstance")),
             ],
+            minDelayTime: .seconds(15),
             command: describeTargetHealth
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

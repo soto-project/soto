@@ -32,6 +32,7 @@ extension ACMPCA {
                 .init(state: .success, matcher: AWSPathMatcher(path: \DescribeCertificateAuthorityAuditReportResponse.auditReportStatus, expected: .success)),
                 .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeCertificateAuthorityAuditReportResponse.auditReportStatus, expected: .failed)),
             ],
+            minDelayTime: .seconds(3),
             command: describeCertificateAuthorityAuditReport
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -48,6 +49,7 @@ extension ACMPCA {
                 .init(state: .success, matcher: AWSSuccessMatcher()),
                 .init(state: .retry, matcher: AWSErrorCodeMatcher("RequestInProgressException")),
             ],
+            minDelayTime: .seconds(3),
             command: getCertificateAuthorityCsr
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -64,6 +66,7 @@ extension ACMPCA {
                 .init(state: .success, matcher: AWSSuccessMatcher()),
                 .init(state: .retry, matcher: AWSErrorCodeMatcher("RequestInProgressException")),
             ],
+            minDelayTime: .seconds(3),
             command: getCertificate
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

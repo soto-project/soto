@@ -31,6 +31,7 @@ extension ElasticLoadBalancing {
             acceptors: [
                 .init(state: .success, matcher: AWSAnyPathMatcher(arrayPath: \DescribeEndPointStateOutput.instanceStates, elementPath: \InstanceState.state, expected: "string")),
             ],
+            minDelayTime: .seconds(15),
             command: describeInstanceHealth
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -47,6 +48,7 @@ extension ElasticLoadBalancing {
                 .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeEndPointStateOutput.instanceStates, elementPath: \InstanceState.state, expected: "string")),
                 .init(state: .success, matcher: AWSErrorCodeMatcher("InvalidInstance")),
             ],
+            minDelayTime: .seconds(15),
             command: describeInstanceHealth
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -63,6 +65,7 @@ extension ElasticLoadBalancing {
                 .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeEndPointStateOutput.instanceStates, elementPath: \InstanceState.state, expected: "string")),
                 .init(state: .retry, matcher: AWSErrorCodeMatcher("InvalidInstance")),
             ],
+            minDelayTime: .seconds(15),
             command: describeInstanceHealth
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

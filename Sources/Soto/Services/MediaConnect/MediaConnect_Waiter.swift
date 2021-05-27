@@ -36,6 +36,7 @@ extension MediaConnect {
                 .init(state: .retry, matcher: AWSErrorStatusMatcher(503)),
                 .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeFlowResponse.flow?.status, expected: .error)),
             ],
+            minDelayTime: .seconds(3),
             command: describeFlow
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -55,6 +56,7 @@ extension MediaConnect {
                 .init(state: .retry, matcher: AWSErrorStatusMatcher(503)),
                 .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeFlowResponse.flow?.status, expected: .error)),
             ],
+            minDelayTime: .seconds(3),
             command: describeFlow
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -74,6 +76,7 @@ extension MediaConnect {
                 .init(state: .retry, matcher: AWSErrorStatusMatcher(503)),
                 .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeFlowResponse.flow?.status, expected: .error)),
             ],
+            minDelayTime: .seconds(3),
             command: describeFlow
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)

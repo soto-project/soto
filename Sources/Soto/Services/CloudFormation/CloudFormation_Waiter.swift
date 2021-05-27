@@ -33,6 +33,7 @@ extension CloudFormation {
                 .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeChangeSetOutput.status, expected: .failed)),
                 .init(state: .failure, matcher: AWSErrorCodeMatcher("ValidationError")),
             ],
+            minDelayTime: .seconds(30),
             command: describeChangeSet
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -54,6 +55,7 @@ extension CloudFormation {
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .rollbackComplete)),
                 .init(state: .failure, matcher: AWSErrorCodeMatcher("ValidationError")),
             ],
+            minDelayTime: .seconds(30),
             command: describeStacks
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -76,6 +78,7 @@ extension CloudFormation {
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .updateRollbackFailed)),
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .updateRollbackComplete)),
             ],
+            minDelayTime: .seconds(30),
             command: describeStacks
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -92,6 +95,7 @@ extension CloudFormation {
                 .init(state: .success, matcher: AWSSuccessMatcher()),
                 .init(state: .retry, matcher: AWSErrorCodeMatcher("ValidationError")),
             ],
+            minDelayTime: .seconds(5),
             command: describeStacks
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -113,6 +117,7 @@ extension CloudFormation {
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .importRollbackComplete)),
                 .init(state: .failure, matcher: AWSErrorCodeMatcher("ValidationError")),
             ],
+            minDelayTime: .seconds(30),
             command: describeStacks
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -132,6 +137,7 @@ extension CloudFormation {
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .deleteFailed)),
                 .init(state: .failure, matcher: AWSErrorCodeMatcher("ValidationError")),
             ],
+            minDelayTime: .seconds(30),
             command: describeStacks
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -151,6 +157,7 @@ extension CloudFormation {
                 .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .updateRollbackComplete)),
                 .init(state: .failure, matcher: AWSErrorCodeMatcher("ValidationError")),
             ],
+            minDelayTime: .seconds(30),
             command: describeStacks
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
@@ -167,6 +174,7 @@ extension CloudFormation {
                 .init(state: .success, matcher: AWSPathMatcher(path: \DescribeTypeRegistrationOutput.progressStatus, expected: .complete)),
                 .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeTypeRegistrationOutput.progressStatus, expected: .failed)),
             ],
+            minDelayTime: .seconds(30),
             command: describeTypeRegistration
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
