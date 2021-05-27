@@ -131,8 +131,8 @@ class LambdaTests: XCTestCase {
                 // IAM needs some time after Role creation,
                 // before the role can be attached to a Lambda function
                 // https://stackoverflow.com/a/37438525/663360
-                print("Sleeping 10 secs, waiting for IAM Role to be ready")
-                let scheduled = eventLoop.flatScheduleTask(in: .seconds(10)) {
+                print("Sleeping 20 secs, waiting for IAM Role to be ready")
+                let scheduled = eventLoop.flatScheduleTask(in: .seconds(20)) {
                     // create a Lambda function
                     Self.createLambdaFunction(roleArn: response.role.arn)
                 }
