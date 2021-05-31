@@ -25,8 +25,8 @@ class LambdaTests: XCTestCase {
     static var lambda: Lambda!
     static var iam: IAM!
 
-    static var functionName: String!
-    static var functionExecutionRoleName: String!
+    static let functionName: String = TestEnvironment.generateResourceName("UnitTestSotoLambda")
+    static let functionExecutionRoleName: String = TestEnvironment.generateResourceName("UnitTestSotoLambdaRole")
 
     /*
 
@@ -40,10 +40,8 @@ class LambdaTests: XCTestCase {
 
      */
     class func createLambdaFunction(roleArn: String) -> EventLoopFuture<Lambda.FunctionConfiguration> {
-        // use pseudo random name to avoid name conflicts
-        self.functionName = TestEnvironment.generateResourceName("UnitTestSotoLambda")
 
-        // ZIPped version of "exports.handler = async (event) => { return \"hello world\" };"
+        // Zipped version of "exports.handler = async (event) => { return \"hello world\" };"
         let code = "UEsDBAoAAAAAAPFWXFGfGXl5PQAAAD0AAAAJABwAbGFtYmRhLmpzVVQJAAMVQJlfuD+ZX3V4CwABBC8Om1YEzHsDcWV4cG9ydHMuaGFuZGxlciA9IGFzeW5jIChldmVudCkgPT4geyByZXR1cm4gImhlbGxvIHdvcmxkIiB9OwpQSwECHgMKAAAAAADxVlxRnxl5eT0AAAA9AAAACQAYAAAAAAABAAAApIEAAAAAbGFtYmRhLmpzVVQFAAMVQJlfdXgLAAEELw6bVgTMewNxUEsFBgAAAAABAAEATwAAAIAAAAAAAA=="
         let functionCode = Lambda.FunctionCode(zipFile: Data(base64Encoded: code))
         let functionRuntime = Lambda.Runtime.nodejs12X
@@ -55,18 +53,17 @@ class LambdaTests: XCTestCase {
             role: roleArn,
             runtime: functionRuntime
         )
-        print("Creating Lambda Function : \(self.functionName!)")
+        print("Creating Lambda Function : \(self.functionName)")
         return Self.lambda.createFunction(cfr)
     }
 
     class func deleteLambdaFunction() -> EventLoopFuture<Void> {
         let dfr = Lambda.DeleteFunctionRequest(functionName: self.functionName)
-        print("Deleting Lambda function \(self.functionName!)")
+        print("Deleting Lambda function \(self.functionName)")
         return Self.lambda.deleteFunction(dfr)
     }
 
     class func createIAMRole() -> EventLoopFuture<IAM.CreateRoleResponse> {
-        self.functionExecutionRoleName = TestEnvironment.generateResourceName("UnitTestSotoLambdaRole")
 
         // as documented at https://docs.aws.amazon.com/lambda/latest/dg/lambda-intro-execution-role.html
         let assumeRolePolicyDocument = """
@@ -89,13 +86,13 @@ class LambdaTests: XCTestCase {
         )
         // no policies are required, create an empty role
 
-        print("Creating IAM Role : \(self.functionExecutionRoleName!)")
+        print("Creating IAM Role : \(self.functionExecutionRoleName)")
         return Self.iam.createRole(crr)
     }
 
     class func deleteIAMRole() -> EventLoopFuture<Void> {
         let drr = IAM.DeleteRoleRequest(roleName: self.functionExecutionRoleName)
-        print("Deleting IAM Role : \(self.functionExecutionRoleName!)")
+        print("Deleting IAM Role : \(self.functionExecutionRoleName)")
         return Self.iam.deleteRole(drr)
     }
 

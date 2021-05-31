@@ -179,6 +179,11 @@ class DynamoDBTests: XCTestCase {
         XCTAssertNoThrow(try response.wait())
     }
 
+    func testDescribeEndpoints() {
+        let response = Self.dynamoDB.describeEndpoints(.init())
+        XCTAssertNoThrow(try response.wait())
+    }
+
     func testError() {
         let response = Self.dynamoDB.describeTable(.init(tableName: "non-existent-table"))
         XCTAssertThrowsError(try response.wait()) { error in
